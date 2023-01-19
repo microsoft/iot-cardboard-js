@@ -106,6 +106,11 @@ const TimeSeriesTwinCallout: React.FC<ITimeSeriesTwinCalloutProps> = (
                             newPropertyExpression.property.localPath
                         ); // auto populate the label with selected twin and its property name if it is empty
                         isLabelAutoPopulated.current = true;
+                    } else if (isLabelAutoPopulated.current) {
+                        draft.label = getDefaultSeriesLabel(
+                            draft.twinId,
+                            newPropertyExpression.property.localPath
+                        );
                     }
                 })
             );

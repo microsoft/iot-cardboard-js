@@ -1317,6 +1317,7 @@
                 "timestamp": "TimeStamp",
                 "property": "Property",
                 "value": "Value",
+                "type": "Type",
                 "loadingMessage": "Loading historized data...",
                 "noSeriesMessage": "No twin selected to query, please add twin properties to view historized data."
             },

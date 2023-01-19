@@ -25,7 +25,8 @@ import {
     IColumn,
     Spinner,
     SpinnerSize,
-    ConstrainMode
+    ConstrainMode,
+    Icon
 } from '@fluentui/react';
 import {
     ADXTimeSeries,
@@ -41,6 +42,7 @@ import { DataHistoryExplorerContext } from '../../../../DataHistoryExplorer';
 import { useTimeSeriesData } from '../../../../../../Models/Hooks/useTimeSeriesData';
 import IllustrationMessage from '../../../../../IllustrationMessage/IllustrationMessage';
 import GenericErrorImg from '../../../../../../Resources/Static/noResults.svg';
+import { DTDLPropertyIconographyMap } from '../../../../../../Models/Constants/Constants';
 
 const getClassNames = classNamesFunction<
     ITimeSeriesTableStyleProps,
@@ -58,6 +60,7 @@ const TimeSeriesTable: React.FC<ITimeSeriesTableProps> = (props) => {
     // contexts
     const { adapter } = useContext(DataHistoryExplorerContext);
     const { timeSeriesTwinList } = useContext(TimeSeriesViewerContext);
+    debugger;
 
     // state
     const [adxTimeSeries, setAdxTimeSeries] = useState<Array<ADXTimeSeries>>(
@@ -93,8 +96,7 @@ const TimeSeriesTable: React.FC<ITimeSeriesTableProps> = (props) => {
                 ? transformADXTimeSeriesToTableData(
                       adxTimeSeries.find(
                           (series) =>
-                              series.id === selectedTimeSeries?.id &&
-                              series.key === selectedTimeSeries?.key
+                              series.seriesId === selectedTimeSeries.seriesId
                       )
                   )
                 : [],
@@ -108,7 +110,7 @@ const TimeSeriesTable: React.FC<ITimeSeriesTableProps> = (props) => {
                 minWidth: 40,
                 maxWidth: 60,
                 isResizable: false,
-                onRender: (_item: ADXTimeSeriesTableRow) => {
+                onRender: () => {
                     const timeSeriesTwin = timeSeriesTwinList.find(
                         (seriesTwin) =>
                             seriesTwin.seriesId === selectedTimeSeries?.seriesId
@@ -142,7 +144,7 @@ const TimeSeriesTable: React.FC<ITimeSeriesTableProps> = (props) => {
             {
                 key: 'twinId',
                 name: t('twinId'),
-                minWidth: 200,
+                minWidth: 100,
                 isResizable: true,
                 onRender: (item: ADXTimeSeriesTableRow) => item.id
             },
@@ -156,12 +158,36 @@ const TimeSeriesTable: React.FC<ITimeSeriesTableProps> = (props) => {
             {
                 key: 'value',
                 name: t('dataHistoryExplorer.viewer.table.value'),
-                minWidth: 100,
+                minWidth: 40,
                 isResizable: true,
                 onRender: (item: ADXTimeSeriesTableRow) => item.value
+            },
+            {
+                key: 'type',
+                name: t('dataHistoryExplorer.viewer.table.type'),
+                minWidth: 40,
+                maxWidth: 60,
+                isResizable: true,
+                onRender: () => {
+                    const timeSeriesTwin = timeSeriesTwinList.find(
+                        (seriesTwin) =>
+                            seriesTwin.seriesId === selectedTimeSeries?.seriesId
+                    );
+                    const propertyIcon =
+                        DTDLPropertyIconographyMap[
+                            timeSeriesTwin.twinPropertyType
+                        ];
+                    return (
+                        <Icon
+                            iconName={propertyIcon.icon}
+                            aria-hidden="true"
+                            title={propertyIcon.text}
+                        />
+                    );
+                }
             }
         ],
-        [adxTimeSeries]
+        [adxTimeSeries, selectedTimeSeries]
     );
 
     // callbacks
@@ -180,15 +206,15 @@ const TimeSeriesTable: React.FC<ITimeSeriesTableProps> = (props) => {
     );
 
     useEffect(() => {
-        if (adxTimeSeries?.length === 0 && query) {
+        if (timeSeriesTwinList.length > 0 && query) {
             fetchTimeSeriesData();
         }
-    }, [adxTimeSeries, query]);
+    }, [timeSeriesTwinList, query]);
     useEffect(() => {
         if (data) {
-            setAdxTimeSeries(data);
             setSelectedTimeSeries(data[0]);
         }
+        setAdxTimeSeries(data);
     }, [data]);
 
     return (
