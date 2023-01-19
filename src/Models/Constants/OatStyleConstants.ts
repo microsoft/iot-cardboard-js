@@ -1,3 +1,4 @@
+import { IStyle } from '@fluentui/react';
 import { IExtendedTheme } from '../../Theming/Theme.types';
 
 export const OAT_HEADER_HEIGHT = 76;
@@ -16,3 +17,10 @@ export const PANEL_VERTICAL_SPACING =
 
 export const getControlBackgroundColor = (theme: IExtendedTheme): string =>
     theme.semanticColors.bodyBackgroundChecked;
+
+export const ELLIPSE_START: IStyle = {
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    direction: 'RTL',
+    textAlign: 'left'
+};

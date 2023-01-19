@@ -8,7 +8,7 @@ import {
     ILabelStyles,
     IButtonProps,
     IIconStyles,
-    ITextFieldStyles
+    FontWeights
 } from '@fluentui/react';
 import { CardboardClassNamePrefix } from '../../Models/Constants';
 import {
@@ -122,6 +122,7 @@ const classNames = {
     selectedInheritancePath: `${classPrefix}-selected-inheritance-path`,
     inheritanceShape: `${classPrefix}-inheritance-shape`,
     nodeContainer: `${classPrefix}-node-container`,
+    nodeRow: `${classPrefix}-node-row`,
     untargetedNodeContainer: `${classPrefix}-untargeted-node-container`,
     graphViewerControls: `${classPrefix}-graph-viewer-controls`,
     extendCancel: `${classPrefix}-extend-cancel`,
@@ -139,6 +140,15 @@ const classNames = {
 
 export const getGraphViewerStyles = () => {
     const theme = useExtendedTheme();
+    const ellipseText: IStyle = {
+        overflow: 'hidden',
+        textOverflow: 'ellipsis'
+    };
+    const ellipseStart: IStyle = {
+        ...ellipseText,
+        direction: 'RTL',
+        textAlign: 'left'
+    };
     return mergeStyleSets({
         container: [
             classNames.container,
@@ -160,7 +170,7 @@ export const getGraphViewerStyles = () => {
                     alignItems: 'center',
                     minWidth: '14px',
                     minHeight: '14px',
-                    top: '50px',
+                    top: '54px',
                     ':hover': {
                         minWidth: '18px',
                         minHeight: '18px',
@@ -184,7 +194,7 @@ export const getGraphViewerStyles = () => {
                     alignItems: 'center',
                     minWidth: '14px',
                     minHeight: '14px',
-                    top: '50px',
+                    top: '54px',
                     ':hover': {
                         minWidth: '18px',
                         minHeight: '18px',
@@ -208,7 +218,7 @@ export const getGraphViewerStyles = () => {
                     alignItems: 'center',
                     minWidth: '14px',
                     minHeight: '14px',
-                    top: '50px',
+                    top: '54px',
                     ':hover': {
                         minWidth: '18px',
                         minHeight: '18px',
@@ -232,7 +242,7 @@ export const getGraphViewerStyles = () => {
                     alignItems: 'center',
                     minWidth: '14px',
                     minHeight: '14px',
-                    top: '50px',
+                    top: '54px',
                     ':hover': {
                         minWidth: '18px',
                         minHeight: '18px',
@@ -452,18 +462,26 @@ export const getGraphViewerStyles = () => {
                 fill: 'none'
             } as IStyle
         ],
-        nodeContainer: [
-            classNames.nodeContainer,
+        nodeContainer: [classNames.nodeContainer, { padding: 4 }],
+        nodeRow: [
+            classNames.nodeRow,
             {
                 alignItems: 'center',
                 display: 'grid',
                 gridTemplateColumns: '50px auto',
-                span: {
-                    padding: '5px 0px'
-                },
-                padding: '0 5px'
+                overflow: 'hidden',
+                padding: 4
             } as IStyle
         ],
+        nodeLabel: { fontWeight: FontWeights.regular, padding: 0 },
+        nodeNameValue: {
+            fontWeight: FontWeights.semibold,
+            ...ellipseText
+        },
+        nodeIdValue: {
+            fontWeight: FontWeights.semibold,
+            ...ellipseStart
+        },
         relationshipCTASection: [
             classNames.relationshipCTASection,
             {
@@ -475,6 +493,7 @@ export const getGraphViewerStyles = () => {
         untargetedNodeContainer: [
             classNames.untargetedNodeContainer,
             {
+                paddingLeft: 4,
                 label: {
                     overflowWrap: 'normal'
                 }
@@ -507,7 +526,7 @@ export const getGraphViewerActionButtonStyles = () => {
             float: 'right',
             position: 'absolute',
             top: '8px',
-            right: '0'
+            right: 4
         }
     } as IButtonProps;
 };

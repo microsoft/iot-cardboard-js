@@ -105,8 +105,8 @@ const getClassNames = classNamesFunction<
     IOATGraphViewerStyles
 >();
 
-const nodeWidth = 300;
-const nodeHeight = 100;
+export const GRAPH_NODE_WIDTH = 300;
+const GRAPH_NODE_HEIGHT = 100;
 const newNodeTopOffset = 20;
 const newNodeLeft = 100;
 const newNodeLeftWithPanelOpen = 450;
@@ -463,8 +463,8 @@ const OATGraphViewerContent: React.FC<IOATGraphViewerProps> = (props) => {
                     if (!element.source) {
                         collection.push({
                             id: element.id,
-                            x: element.position.x + nodeWidth / 2,
-                            y: element.position.y + nodeHeight / 2
+                            x: element.position.x + GRAPH_NODE_WIDTH / 2,
+                            y: element.position.y + GRAPH_NODE_HEIGHT / 2
                         });
                     }
                     return collection;
@@ -492,13 +492,13 @@ const OATGraphViewerContent: React.FC<IOATGraphViewerProps> = (props) => {
                     'link',
                     forceLink(links)
                         .id((d) => (d as any).id)
-                        .distance(nodeWidth)
+                        .distance(GRAPH_NODE_WIDTH)
                         .strength(1)
                 )
                 .force(
                     'collide',
                     forceCollide()
-                        .radius(nodeWidth / 2)
+                        .radius(GRAPH_NODE_WIDTH / 2)
                         .strength(1)
                 )
                 .force('x', forceX())
@@ -518,9 +518,9 @@ const OATGraphViewerContent: React.FC<IOATGraphViewerProps> = (props) => {
                                 position: {
                                     x:
                                         node.x -
-                                        nodeWidth / 2 +
+                                        GRAPH_NODE_WIDTH / 2 +
                                         Math.random() / 1000,
-                                    y: node.y - nodeHeight / 2
+                                    y: node.y - GRAPH_NODE_HEIGHT / 2
                                 }
                             });
                         }
