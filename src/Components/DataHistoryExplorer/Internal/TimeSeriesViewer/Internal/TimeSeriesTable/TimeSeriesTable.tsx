@@ -43,6 +43,7 @@ import { useTimeSeriesData } from '../../../../../../Models/Hooks/useTimeSeriesD
 import IllustrationMessage from '../../../../../IllustrationMessage/IllustrationMessage';
 import GenericErrorImg from '../../../../../../Resources/Static/noResults.svg';
 import { DTDLPropertyIconographyMap } from '../../../../../../Models/Constants/Constants';
+import TableCommandBar from './Internal/TableCommandBar/TableCommandBar';
 
 const getClassNames = classNamesFunction<
     ITimeSeriesTableStyleProps,
@@ -60,7 +61,6 @@ const TimeSeriesTable: React.FC<ITimeSeriesTableProps> = (props) => {
     // contexts
     const { adapter } = useContext(DataHistoryExplorerContext);
     const { timeSeriesTwinList } = useContext(TimeSeriesViewerContext);
-    debugger;
 
     // state
     const [adxTimeSeries, setAdxTimeSeries] = useState<Array<ADXTimeSeries>>(
@@ -242,6 +242,7 @@ const TimeSeriesTable: React.FC<ITimeSeriesTableProps> = (props) => {
                 />
             ) : (
                 <>
+                    <TableCommandBar data={items} />
                     <Dropdown
                         options={dropdownOptions}
                         defaultSelectedKey={

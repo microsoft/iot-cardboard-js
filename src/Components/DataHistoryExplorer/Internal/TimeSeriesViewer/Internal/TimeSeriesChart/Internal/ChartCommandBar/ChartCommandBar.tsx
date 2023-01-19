@@ -128,7 +128,7 @@ const ChartCommandBar: React.FC<IChartCommandBarProps> = (props) => {
     const farItems: ICommandBarItemProps[] = deeplink
         ? [
               {
-                  key: 'download',
+                  key: 'share',
                   text: t('widgets.dataHistory.openQuery'),
                   iconOnly: true,
                   iconProps: { iconName: 'OpenInNewWindow' },
