@@ -5,6 +5,7 @@ import {
     ITheme
 } from '@fluentui/react';
 import { IDataHistoryTimeSeriesTwin } from '../../../../Models/Constants/Interfaces';
+import { ITimeSeriesTableStyles } from './Internal/TimeSeriesTable/TimeSeriesTable.types';
 
 export interface ITimeSeriesViewerProps {
     timeSeriesTwinList: Array<IDataHistoryTimeSeriesTwin>;
@@ -32,6 +33,7 @@ export interface ITimeSeriesViewerStyles {
 
 export interface ITimeSeriesViewerSubComponentStyles {
     pivot?: Partial<IPivotStyles>;
+    table?: Partial<ITimeSeriesTableStyles>;
 }
 
 export enum ViewerPivot {

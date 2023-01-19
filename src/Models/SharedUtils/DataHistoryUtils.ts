@@ -135,3 +135,11 @@ export const getSeriesName = (
               ' ' +
               (seriesTwin as ADXTimeSeries).key
         : null;
+
+/** The default formatter for a time series label */
+export const getDefaultSeriesLabel = (
+    twinId: string,
+    propertyName: string // can be nested
+): string => {
+    return `${twinId} ${propertyName}`;
+};

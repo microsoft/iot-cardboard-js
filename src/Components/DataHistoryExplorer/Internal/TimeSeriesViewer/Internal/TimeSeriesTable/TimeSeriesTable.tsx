@@ -24,7 +24,8 @@ import {
     ResponsiveMode,
     IColumn,
     Spinner,
-    SpinnerSize
+    SpinnerSize,
+    ConstrainMode
 } from '@fluentui/react';
 import {
     ADXTimeSeries,
@@ -228,18 +229,21 @@ const TimeSeriesTable: React.FC<ITimeSeriesTableProps> = (props) => {
                         responsiveMode={ResponsiveMode.large}
                         styles={classNames.subComponentStyles.seriesDropdown}
                     />
-                    <DetailsList
-                        key={
-                            selectedTimeSeries
-                                ? `series-data-${selectedTimeSeries.seriesId}`
-                                : undefined
-                        }
-                        selectionMode={SelectionMode.none}
-                        items={items}
-                        columns={getColumns}
-                        layoutMode={DetailsListLayoutMode.justified}
-                        styles={classNames.subComponentStyles.detailsList}
-                    />
+                    <div className={classNames.listWrapper}>
+                        <DetailsList
+                            key={
+                                selectedTimeSeries
+                                    ? `series-data-${selectedTimeSeries.seriesId}`
+                                    : undefined
+                            }
+                            styles={classNames.subComponentStyles.detailsList}
+                            selectionMode={SelectionMode.none}
+                            items={items}
+                            columns={getColumns}
+                            layoutMode={DetailsListLayoutMode.justified}
+                            constrainMode={ConstrainMode.horizontalConstrained}
+                        />
+                    </div>
                 </>
             )}
         </div>

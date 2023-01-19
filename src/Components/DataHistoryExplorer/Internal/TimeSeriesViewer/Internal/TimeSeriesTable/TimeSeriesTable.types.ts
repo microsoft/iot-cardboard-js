@@ -27,6 +27,7 @@ export interface ITimeSeriesTableStyleProps {
 }
 export interface ITimeSeriesTableStyles {
     root: IStyle;
+    listWrapper: IStyle;
     notSetCell: IStyle;
 
     /**
@@ -37,8 +38,8 @@ export interface ITimeSeriesTableStyles {
 
 export interface ITimeSeriesTableSubComponentStyles {
     loadingSpinner?: Partial<ISpinnerStyles>;
-    detailsList?: Partial<IDetailsListStyles>;
     seriesDropdown?: Partial<IDropdownStyles>;
+    detailsList?: Partial<IDetailsListStyles>;
     colorCellStyles?: IColorCellSubComponentStyles;
 }
 

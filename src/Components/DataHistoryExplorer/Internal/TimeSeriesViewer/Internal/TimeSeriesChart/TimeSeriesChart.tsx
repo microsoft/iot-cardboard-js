@@ -24,6 +24,7 @@ import { IDataHistoryChartOptions } from '../../../../../../Models/Types/Generat
 import { QuickTimeSpanKey } from '../../../../../../Models/Constants/Enums';
 import { QuickTimeSpans } from '../../../../../../Models/Constants/Constants';
 import { TimeSeriesViewerContext } from '../../TimeSeriesViewer';
+import { deepCopy } from '../../../../../../Models/Services/Utils';
 
 const getClassNames = classNamesFunction<
     ITimeSeriesChartStyleProps,
@@ -31,15 +32,17 @@ const getClassNames = classNamesFunction<
 >();
 
 const TimeSeriesChart: React.FC<ITimeSeriesChartProps> = (props) => {
-    const { onChartOptionsChange, styles } = props;
+    const { defaultOptions, onChartOptionsChange, styles } = props;
 
     // state
-    const [chartOptions, setChartOptions] = useState<IDataHistoryChartOptions>({
-        yAxisType: 'independent',
-        defaultQuickTimeSpanInMillis:
-            QuickTimeSpans[QuickTimeSpanKey.Last15Mins],
-        aggregationType: 'avg'
-    });
+    const [chartOptions, setChartOptions] = useState<IDataHistoryChartOptions>(
+        deepCopy(defaultOptions) || {
+            yAxisType: 'independent',
+            defaultQuickTimeSpanInMillis:
+                QuickTimeSpans[QuickTimeSpanKey.Last15Mins],
+            aggregationType: 'avg'
+        }
+    );
 
     // contexts
     const { adapter } = useContext(DataHistoryExplorerContext);

@@ -77,6 +77,7 @@ const TimeSeriesViewer: React.FC<ITimeSeriesViewerProps> = (props) => {
                             itemKey={ViewerPivot.Chart}
                         >
                             <TimeSeriesChart
+                                defaultOptions={chartOptions}
                                 onChartOptionsChange={setChartOptions}
                             />
                         </PivotItem>
@@ -87,6 +88,7 @@ const TimeSeriesViewer: React.FC<ITimeSeriesViewerProps> = (props) => {
                             itemKey={ViewerPivot.Table}
                         >
                             <TimeSeriesTable
+                                styles={classNames.subComponentStyles.table}
                                 adxTimeSeries={[]}
                                 quickTimeSpanInMillis={
                                     chartOptions?.defaultQuickTimeSpanInMillis

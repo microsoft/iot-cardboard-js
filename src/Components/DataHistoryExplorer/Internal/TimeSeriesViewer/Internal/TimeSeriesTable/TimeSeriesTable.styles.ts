@@ -7,24 +7,38 @@ import {
 export const classPrefix = 'cb-time-series-table';
 const classNames = {
     root: `${classPrefix}-root`,
+    listWrapper: `${classPrefix}-list-wrapper`,
     notSetCell: `${classPrefix}-not-set-cell`
 };
 export const getStyles = (
     _props: ITimeSeriesTableStyleProps
 ): ITimeSeriesTableStyles => {
     return {
-        root: [classNames.root, { width: '100%', height: '100%' }],
+        root: [
+            classNames.root,
+            {
+                width: '100%',
+                height: '100%',
+                display: 'flex',
+                flexDirection: 'column'
+            }
+        ],
+        listWrapper: [
+            classNames.listWrapper,
+            { overflow: 'auto', marginTop: 20 }
+        ],
         notSetCell: [classNames.notSetCell, { fontStyle: 'italic' }],
         subComponentStyles: {
             loadingSpinner: { root: { height: '100%' } },
-            detailsList: {
-                root: {
-                    overflowY: 'auto'
-                }
-            },
             seriesDropdown: {
                 root: {
-                    width: 280
+                    width: 280,
+                    paddingLeft: 12
+                }
+            },
+            detailsList: {
+                headerWrapper: {
+                    paddingTop: 0
                 }
             },
             colorCellStyles: {

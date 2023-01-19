@@ -25,7 +25,10 @@ import {
     getQuickTimeSpanOptions,
     getYAxisTypeOptions
 } from '../../../../../../../../Models/SharedUtils/DataHistoryUtils';
-import { capitalizeFirstLetter } from '../../../../../../../../Models/Services/Utils';
+import {
+    capitalizeFirstLetter,
+    deepCopy
+} from '../../../../../../../../Models/Services/Utils';
 
 const getClassNames = classNamesFunction<
     IChartCommandBarStyleProps,
@@ -37,7 +40,7 @@ const ChartCommandBar: React.FC<IChartCommandBarProps> = (props) => {
 
     // state
     const [chartOptions, setChartOptions] = useState<IDataHistoryChartOptions>(
-        defaultOptions || {
+        deepCopy(defaultOptions) || {
             yAxisType: 'independent',
             defaultQuickTimeSpanInMillis:
                 QuickTimeSpans[QuickTimeSpanKey.Last15Mins],

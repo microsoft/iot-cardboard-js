@@ -39,6 +39,11 @@ export const getStyles = (
                         flexDirection: 'column'
                     }
                 }
+            },
+            table: {
+                root: {
+                    paddingTop: 20
+                }
             }
         }
     };
