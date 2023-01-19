@@ -245,7 +245,7 @@ export const FormUpdateProperty: React.FC<FormUpdatePropertyProps> = (
             ) {
                 prop.displayName = name;
                 prop.name = name;
-                prop.enumValue = enumValue;
+                // prop.enumValue = enumValue;
             }
 
             const modelsCopy = deepCopy(oatPageState.currentOntologyModels);
