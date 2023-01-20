@@ -18,18 +18,20 @@ export const getHighChartColorByIdx = (idx: number): ColorString =>
         : (Highcharts.getOptions().colors[idx] as ColorString);
 
 /**
- * Picking color from an array containing the 10 default colors for the chart's series in HighCharts. When all colors are used, new colors are pulled from the start again.
+ * Picking the next available color from an array containing the 10 default colors for the chart's series in HighCharts.
+ * When all colors are used, new colors are pulled from the start again in a loop fashion.
  * @param usedColors set of already used colors to keep track of
  * @returns a new color which has not been used before if not in first 10 different colors
  */
-export const getRandomHighChartColor = (
+export const getHighChartColor = (
     usedColors: Array<ColorString> = []
 ): ColorString => {
     const PALETTE_SIZE = 10; // HighCharts has 10 different colors
     let nextColorIdx = usedColors.length % PALETTE_SIZE;
     if (usedColors.includes(getHighChartColorByIdx(nextColorIdx))) {
         Highcharts.getOptions().colors.forEach((_c: ColorString, idx) => {
-            // first try to use an available one between 0 and PALETTE_SIZE
+            // first try to use an available one between 0 and PALETTE_SIZE based on the passed usedColor list,
+            // considering a series in between might have been removed and an available color might exist to use first before continuing from the current index
             if (!usedColors.includes(getHighChartColorByIdx(idx))) {
                 nextColorIdx = idx;
             }

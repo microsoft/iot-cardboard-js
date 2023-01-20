@@ -59,7 +59,19 @@ const ChartCommandBar: React.FC<IChartCommandBarProps> = (props) => {
         ) => {
             setChartOptions(
                 produce((draft) => {
-                    draft[chartOption as string] = value;
+                    switch (chartOption) {
+                        case 'aggregationType':
+                            draft.aggregationType = value;
+                            break;
+                        case 'yAxisType':
+                            draft.yAxisType = value;
+                            break;
+                        case 'defaultQuickTimeSpanInMillis':
+                            draft.defaultQuickTimeSpanInMillis = value;
+                            break;
+                        default:
+                            break;
+                    }
                 })
             );
         },

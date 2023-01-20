@@ -4,6 +4,7 @@ import { getDefaultStoryDecorator } from '../../Models/Services/StoryUtilities';
 import DataHistoryExplorer from './DataHistoryExplorer';
 import { IDataHistoryExplorerProps } from './DataHistoryExplorer.types';
 import MockAdapter from '../../Adapters/MockAdapter';
+import { createGUID } from '../../Models/Services/Utils';
 
 const wrapperStyle = { width: '100%', height: '500px' };
 
@@ -35,6 +36,7 @@ export const WithSeries = Template.bind({}) as DataHistoryExplorerStory;
 WithSeries.args = {
     timeSeriesTwins: [
         {
+            seriesId: createGUID(),
             twinId: 'SaltMachine_C0',
             twinPropertyName: 'Temperature',
             twinPropertyType: 'double',

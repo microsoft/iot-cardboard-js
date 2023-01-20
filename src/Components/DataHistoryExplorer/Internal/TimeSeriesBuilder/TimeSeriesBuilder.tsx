@@ -28,10 +28,10 @@ import { ICardboardListItem } from '../../../CardboardList/CardboardList.types';
 import { IDataHistoryTimeSeriesTwin } from '../../../../Models/Constants/Interfaces';
 import TimeSeriesTwinCallout from '../TimeSeriesTwinCallout/TimeSeriesTwinCallout';
 import produce from 'immer';
-import { getRandomHighChartColor } from '../../../../Models/SharedUtils/DataHistoryUtils';
+import { getHighChartColor } from '../../../../Models/SharedUtils/DataHistoryUtils';
 import { DTDLPropertyIconographyMap } from '../../../../Models/Constants/Constants';
 import { ColorString } from 'highcharts';
-import { createGUID } from '../../../../Models/Services/Utils';
+import { deepCopy, isDefined } from '../../../../Models/Services/Utils';
 
 const getClassNames = classNamesFunction<
     ITimeSeriesBuilderStyleProps,
@@ -57,7 +57,7 @@ const TimeSeriesBuilder: React.FC<ITimeSeriesBuilderProps> = (props) => {
     // state
     const [timeSeriesTwins, setTimeSeriesTwins] = useState<
         Array<IDataHistoryTimeSeriesTwin>
-    >(timeSeriesTwinsProp.map((t) => ({ seriesId: createGUID(), ...t })));
+    >(deepCopy(timeSeriesTwinsProp));
     const [
         isTimeSeriesTwinCalloutVisible,
         setIsTimeSeriesTwinCalloutVisible
@@ -84,7 +84,7 @@ const TimeSeriesBuilder: React.FC<ITimeSeriesBuilderProps> = (props) => {
         (timeSeriesTwin: IDataHistoryTimeSeriesTwin) => {
             setTimeSeriesTwins(
                 produce(timeSeriesTwins, (draft) => {
-                    if (selectedTimeSeriesTwinSeriesId !== null) {
+                    if (isDefined(selectedTimeSeriesTwinSeriesId)) {
                         const selectedIdx = timeSeriesTwins.findIndex(
                             (tsTwin) =>
                                 tsTwin.seriesId ===
@@ -92,7 +92,7 @@ const TimeSeriesBuilder: React.FC<ITimeSeriesBuilderProps> = (props) => {
                         );
                         draft[selectedIdx] = timeSeriesTwin;
                     } else {
-                        timeSeriesTwin.chartProps.color = getRandomHighChartColor(
+                        timeSeriesTwin.chartProps.color = getHighChartColor(
                             usedSeriesColorsRef.current
                         );
                         draft.push(timeSeriesTwin);
@@ -119,6 +119,12 @@ const TimeSeriesBuilder: React.FC<ITimeSeriesBuilderProps> = (props) => {
                     draft.splice(selectedIdx, 1);
                 })
             );
+
+            /**
+             * when a series is removed, also remove if from usedColors reference
+             * so that whenever adding a new series we can use these available colors first
+             * before picking the next color in Highcharts palette
+             */
             usedSeriesColorsRef.current.splice(
                 usedSeriesColorsRef.current.findIndex(
                     (c) =>
@@ -164,13 +170,13 @@ const TimeSeriesBuilder: React.FC<ITimeSeriesBuilderProps> = (props) => {
                 </span>
             </Stack>
             <Separator />
-            <CardboardList
+            <CardboardList<IDataHistoryTimeSeriesTwin>
                 listKey={'twin-property-list'}
                 items={timeSeriesTwinList}
                 focusZoneProps={{ style: { overflow: 'auto' } }}
             />
             <ActionButton
-                className={classNames.addNewButton}
+                styles={classNames.subComponentStyles.addNewButton()}
                 id={addTimeSeriesTwinCalloutId}
                 iconProps={{ iconName: 'Add' }}
                 onClick={handleAddNew}

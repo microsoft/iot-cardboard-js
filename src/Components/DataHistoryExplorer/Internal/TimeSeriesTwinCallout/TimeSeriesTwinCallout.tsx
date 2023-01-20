@@ -63,9 +63,10 @@ const TimeSeriesTwinCallout: React.FC<ITimeSeriesTwinCalloutProps> = (
         setTimeSeriesTwinToEdit
     ] = useState<IDataHistoryTimeSeriesTwin>(
         deepCopy(
-            timeSeriesTwin
-                ? { seriesId: createGUID(), ...timeSeriesTwin }
-                : { ...defaultTimeSeriesTwin, seriesId: createGUID() }
+            timeSeriesTwin || {
+                ...defaultTimeSeriesTwin,
+                seriesId: createGUID()
+            }
         )
     );
     const isLabelAutoPopulated = useRef(false);

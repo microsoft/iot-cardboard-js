@@ -8,6 +8,7 @@ import {
     getQuickTimeSpanKeyByValue,
     transformADXTimeSeriesToHighChartsSeries
 } from '../../SharedUtils/DataHistoryUtils';
+import { createGUID } from '../Utils';
 
 afterEach(cleanup);
 
@@ -56,7 +57,7 @@ describe('DataHistoryUtils', () => {
             ];
             const timeSeries: Array<IDataHistoryTimeSeriesTwin> = [
                 {
-                    seriesId: '',
+                    seriesId: createGUID(),
                     twinId: 'SaltMachine_C0',
                     twinPropertyName: 'InFlow',
                     twinPropertyType: 'double',

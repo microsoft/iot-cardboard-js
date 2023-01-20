@@ -14,7 +14,7 @@ export const getStyles = (
         root: [classNames.root, { width: '100%' }],
         subComponentStyles: {
             commandBar: {
-                root: { padding: '8px 0', height: 36 },
+                root: { padding: '8px 0' },
                 primarySet: { paddingLeft: 8 }
             }
         }

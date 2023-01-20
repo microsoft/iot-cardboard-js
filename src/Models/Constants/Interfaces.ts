@@ -955,5 +955,5 @@ export interface IDataHistoryTimeSeriesTwin {
 export interface IChartOption {
     key: string;
     text: string;
-    data?: any;
+    data?: number | string;
 }

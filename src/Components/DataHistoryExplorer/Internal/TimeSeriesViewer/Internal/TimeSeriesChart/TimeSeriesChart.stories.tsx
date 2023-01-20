@@ -5,6 +5,7 @@ import { ITimeSeriesChartProps } from './TimeSeriesChart.types';
 import { getDefaultStoryDecorator } from '../../../../../../Models/Services/StoryUtilities';
 import { DataHistoryExplorerContext } from '../../../../DataHistoryExplorer';
 import MockAdapter from '../../../../../../Adapters/MockAdapter';
+import { createGUID } from '../../../../../../Models/Services/Utils';
 
 const wrapperStyle = { width: '100%', height: '400px' };
 
@@ -31,6 +32,7 @@ export const Mock = Template.bind({}) as TimeSeriesChartStory;
 Mock.args = {
     timeSeriesTwinList: [
         {
+            seriesId: createGUID(),
             twinId: 'PasteurizationMachine_A01',
             twinPropertyName: 'Inflow',
             label: 'PasteurizationMachine_A01 Inflow'
