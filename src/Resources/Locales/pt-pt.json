@@ -1317,8 +1317,19 @@
     },
     "viewer": {
       "chart": "Gráfico",
-      "table": "Tabela",
-      "noSeriesDescription": "Para ver o histórico de dados deste twin, selecione uma propriedade para visualizar."
+      "noSeriesDescription": "Para ver o histórico de dados deste twin, selecione uma propriedade para visualizar.",
+      "tabl": {
+        "title": "Tabela",
+        "color": "Cor",
+        "noColor": "Não definido",
+        "timestamp": "Carimbo de data/hora",
+        "property": "Propriedade",
+        "value": "Valor",
+        "type": "Tipo",
+        "loadingMessage": "A carregar dados historizados...",
+        "noDataMessage": "Não são encontrados dados historizados no tempo selecionado.",
+        "noSeriesMessage": "Nenhum gémeo selecionado para consulta, por favor adicione propriedades gémeas para visualizar dados historizados."
+      }
     },
     "loadingConnectionLabel": "Informação de ligação de séries de tempo..."
   }
