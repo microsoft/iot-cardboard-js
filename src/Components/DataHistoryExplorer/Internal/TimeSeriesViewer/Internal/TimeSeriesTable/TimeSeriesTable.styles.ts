@@ -30,17 +30,6 @@ export const getStyles = (
         notSetCell: [classNames.notSetCell, { fontStyle: 'italic' }],
         subComponentStyles: {
             loadingSpinner: { root: { height: '100%' } },
-            seriesDropdown: {
-                root: {
-                    width: 280,
-                    paddingLeft: 12
-                }
-            },
-            detailsList: {
-                headerWrapper: {
-                    paddingTop: 0
-                }
-            },
             colorCellStyles: {
                 pillStyles: (props) => {
                     return mergeStyleSets({

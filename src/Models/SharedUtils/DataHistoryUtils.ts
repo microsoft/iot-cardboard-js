@@ -65,7 +65,7 @@ export const transformADXTimeSeriesToHighChartsSeries = (
 /**
  * Gets a single ADX time series and transform it into a shape to view in raw data table
  */
-export const transformADXTimeSeriesToTableData = (
+export const transformADXTimeSeriesToADXTableData = (
     adxTimeSeries: ADXTimeSeries
 ): Array<ADXTimeSeriesTableRow> =>
     adxTimeSeries?.data?.map(

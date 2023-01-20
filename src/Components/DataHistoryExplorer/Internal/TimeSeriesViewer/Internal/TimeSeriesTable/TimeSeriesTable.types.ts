@@ -1,6 +1,4 @@
 import {
-    IDetailsListStyles,
-    IDropdownStyles,
     IProcessedStyleSet,
     ISpinnerStyles,
     IStyle,
@@ -41,8 +39,6 @@ export interface ITimeSeriesTableStyles {
 
 export interface ITimeSeriesTableSubComponentStyles {
     loadingSpinner?: Partial<ISpinnerStyles>;
-    seriesDropdown?: Partial<IDropdownStyles>;
-    detailsList?: Partial<IDetailsListStyles>;
     colorCellStyles?: IColorCellSubComponentStyles;
 }
 
@@ -51,9 +47,10 @@ export enum TimeStampFormat {
     'iso'
 }
 
-export type TimeSeriesTableRow = Omit<ADXTimeSeriesTableRow, 'key'> & {
+export interface TimeSeriesTableRow extends ADXTimeSeriesTableRow {
     property: string;
-};
+    seriesId: string;
+}
 
 interface ColorPillStyles {
     root: IStyle;

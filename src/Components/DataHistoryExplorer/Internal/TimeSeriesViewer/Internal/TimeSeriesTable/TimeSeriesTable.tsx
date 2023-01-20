@@ -20,9 +20,6 @@ import {
     DetailsList,
     DetailsListLayoutMode,
     SelectionMode,
-    IDropdownOption,
-    Dropdown,
-    ResponsiveMode,
     IColumn,
     Spinner,
     SpinnerSize,
@@ -35,10 +32,7 @@ import {
 } from '@fluentui/react';
 import { ADXTimeSeries } from '../../../../../../Models/Constants/Types';
 import { useTranslation } from 'react-i18next';
-import {
-    getSeriesName,
-    transformADXTimeSeriesToTableData
-} from '../../../../../../Models/SharedUtils/DataHistoryUtils';
+import { transformADXTimeSeriesToADXTableData } from '../../../../../../Models/SharedUtils/DataHistoryUtils';
 import { TimeSeriesViewerContext } from '../../TimeSeriesViewer';
 import { DataHistoryExplorerContext } from '../../../../DataHistoryExplorer';
 import { useTimeSeriesData } from '../../../../../../Models/Hooks/useTimeSeriesData';
@@ -68,9 +62,6 @@ const TimeSeriesTable: React.FC<ITimeSeriesTableProps> = (props) => {
     const [adxTimeSeries, setAdxTimeSeries] = useState<Array<ADXTimeSeries>>(
         adxTimeSeriesProp
     );
-    const [selectedTimeSeries, setSelectedTimeSeries] = useState<ADXTimeSeries>(
-        adxTimeSeries ? adxTimeSeries[0] : undefined
-    );
 
     // styles
     const classNames = getClassNames(styles, {
@@ -79,15 +70,7 @@ const TimeSeriesTable: React.FC<ITimeSeriesTableProps> = (props) => {
 
     // hooks
     const { t } = useTranslation();
-    const dropdownOptions: IDropdownOption[] = useMemo(
-        () =>
-            adxTimeSeries?.map((series) => ({
-                key: `series-${series.seriesId}`,
-                text: getSeriesName(series),
-                data: series
-            })) || [],
-        [adxTimeSeries]
-    );
+
     const {
         query,
         data,
@@ -101,23 +84,24 @@ const TimeSeriesTable: React.FC<ITimeSeriesTableProps> = (props) => {
         queryOptions: { isNullIncluded: true, shouldCastToDouble: false }
     });
     const items: Array<TimeSeriesTableRow> = useMemo(() => {
-        const adxTimeSeriesToShow = adxTimeSeries
-            ? transformADXTimeSeriesToTableData(
-                  adxTimeSeries.find(
-                      (series) =>
-                          series.seriesId === selectedTimeSeries.seriesId
-                  )
-              )
-            : [];
-        return adxTimeSeriesToShow.map(
-            (a, idx) =>
-                ({
-                    ...a,
-                    property: a.key,
-                    key: a.key + idx
-                } as TimeSeriesTableRow) // cannot use the ADXTimeSeriesTableRow type since key cannot be used a unique DOM key for rendering
-        );
-    }, [adxTimeSeries, selectedTimeSeries]);
+        const adxTimeSeriesTableRows =
+            adxTimeSeries?.reduce((acc, adxTs) => {
+                const transformedADXRow = transformADXTimeSeriesToADXTableData(
+                    adxTs
+                ); // flatten the adxTimeSeries to individual rows
+                transformedADXRow.map(
+                    (adxRow, idxR) =>
+                        acc.push({
+                            ...adxRow,
+                            seriesId: adxTs.seriesId,
+                            property: adxRow.key,
+                            key: adxTs.seriesId + idxR
+                        } as TimeSeriesTableRow) // cannot use the ADXTimeSeriesTableRow type since key cannot be used as a unique DOM key for rendering))
+                );
+                return acc;
+            }, []) || [];
+        return adxTimeSeriesTableRows;
+    }, [adxTimeSeries]);
     const getColumns: Array<IColumn> = useMemo(
         () => [
             {
@@ -126,10 +110,9 @@ const TimeSeriesTable: React.FC<ITimeSeriesTableProps> = (props) => {
                 minWidth: 40,
                 maxWidth: 60,
                 isResizable: false,
-                onRender: () => {
+                onRender: (item: TimeSeriesTableRow) => {
                     const timeSeriesTwin = timeSeriesTwinList.find(
-                        (seriesTwin) =>
-                            seriesTwin.seriesId === selectedTimeSeries?.seriesId
+                        (seriesTwin) => seriesTwin.seriesId === item?.seriesId
                     );
                     return timeSeriesTwin.chartProps?.color ? (
                         <span
@@ -184,10 +167,9 @@ const TimeSeriesTable: React.FC<ITimeSeriesTableProps> = (props) => {
                 minWidth: 40,
                 maxWidth: 60,
                 isResizable: true,
-                onRender: () => {
+                onRender: (item: TimeSeriesTableRow) => {
                     const timeSeriesTwin = timeSeriesTwinList.find(
-                        (seriesTwin) =>
-                            seriesTwin.seriesId === selectedTimeSeries?.seriesId
+                        (seriesTwin) => seriesTwin.seriesId === item?.seriesId
                     );
                     const propertyIcon =
                         DTDLPropertyIconographyMap[
@@ -203,7 +185,7 @@ const TimeSeriesTable: React.FC<ITimeSeriesTableProps> = (props) => {
                 }
             }
         ],
-        [adxTimeSeries, selectedTimeSeries]
+        [adxTimeSeries]
     );
 
     // callbacks
@@ -223,7 +205,14 @@ const TimeSeriesTable: React.FC<ITimeSeriesTableProps> = (props) => {
     const onRenderDetailsHeader = (
         detailsHeaderProps: IDetailsHeaderProps,
         defaultRender: IRenderFunction<IDetailsHeaderProps>
-    ) => <Sticky>{defaultRender(detailsHeaderProps)}</Sticky>;
+    ) => (
+        <Sticky>
+            {defaultRender({
+                ...detailsHeaderProps,
+                styles: { root: { paddingTop: 0 } }
+            })}
+        </Sticky>
+    );
 
     useEffect(() => {
         if (timeSeriesTwinList.length > 0 && query) {
@@ -231,9 +220,6 @@ const TimeSeriesTable: React.FC<ITimeSeriesTableProps> = (props) => {
         }
     }, [timeSeriesTwinList, query]);
     useEffect(() => {
-        if (data) {
-            setSelectedTimeSeries(data[0]);
-        }
         setAdxTimeSeries(data);
     }, [data]);
 
@@ -267,30 +253,10 @@ const TimeSeriesTable: React.FC<ITimeSeriesTableProps> = (props) => {
             ) : (
                 <>
                     <TableCommandBar data={items} />
-                    <Dropdown
-                        options={dropdownOptions}
-                        defaultSelectedKey={
-                            selectedTimeSeries
-                                ? `series-${selectedTimeSeries.seriesId}`
-                                : undefined
-                        }
-                        onChange={(_e, option) =>
-                            setSelectedTimeSeries(option.data)
-                        }
-                        responsiveMode={ResponsiveMode.large}
-                        styles={classNames.subComponentStyles.seriesDropdown}
-                    />
                     <div className={classNames.listWrapper}>
                         <ScrollablePane>
                             <DetailsList
-                                key={
-                                    selectedTimeSeries
-                                        ? `series-data-${selectedTimeSeries.seriesId}`
-                                        : undefined
-                                }
-                                styles={
-                                    classNames.subComponentStyles.detailsList
-                                }
+                                key={'adx-series-data'}
                                 selectionMode={SelectionMode.none}
                                 items={items}
                                 columns={getColumns}
