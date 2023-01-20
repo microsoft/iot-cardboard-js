@@ -6,6 +6,7 @@ import { ITimeSeriesTwinCalloutProps } from './TimeSeriesTwinCallout.types';
 import MockAdapter from '../../../../Adapters/MockAdapter';
 import { DefaultButton } from '@fluentui/react';
 import { DataHistoryExplorerContext } from '../../DataHistoryExplorer';
+import { createGUID } from '../../../../Models/Services/Utils';
 
 const wrapperStyle = { width: '200px', height: '600px', padding: 8 };
 
@@ -46,6 +47,7 @@ New.args = {
 export const Edit = Template.bind({}) as TimeSeriesTwinCalloutStory;
 Edit.args = {
     timeSeriesTwin: {
+        seriesId: createGUID(),
         twinId: 'PasteurizationMachine_A01',
         twinPropertyName: 'InFlow',
         twinPropertyType: 'double',

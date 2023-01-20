@@ -6,6 +6,7 @@ import { getDefaultStoryDecorator } from '../../../../../../Models/Services/Stor
 import { DataHistoryExplorerContext } from '../../../../DataHistoryExplorer';
 import MockAdapter from '../../../../../../Adapters/MockAdapter';
 import { TimeSeriesViewerContext } from '../../TimeSeriesViewer';
+import { createGUID } from '../../../../../../Models/Services/Utils';
 
 const wrapperStyle = { width: '100%', height: '400px' };
 
@@ -27,7 +28,7 @@ const Template: TimeSeriesChartStory = (args) => {
                 value={{
                     timeSeriesTwinList: [
                         {
-                            seriesId: '',
+                            seriesId: createGUID(),
                             twinId: 'PasteurizationMachine_A01',
                             twinPropertyName: 'Inflow',
                             twinPropertyType: 'double',

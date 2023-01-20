@@ -9,8 +9,7 @@ const classNames = {
     root: `${classPrefix}-root`,
     header: `${classPrefix}-header`,
     description: `${classPrefix}-description`,
-    twinPropertyList: `${classPrefix}-twin-property-list`,
-    addNewButton: `${classPrefix}-add-new`
+    twinPropertyList: `${classPrefix}-twin-property-list`
 };
 export const getStyles = (
     props: ITimeSeriesBuilderStyleProps
@@ -42,8 +41,8 @@ export const getStyles = (
             }
         ],
         twinPropertyList: [classNames.twinPropertyList, { flexGrow: 1 }],
-        addNewButton: [classNames.addNewButton, { padding: '8px 0px' }],
         subComponentStyles: {
+            addNewButton: { root: { padding: '8px 0px' } },
             timeSeriesTwinCallout: {
                 subComponentStyles: {
                     callout: { calloutMain: { width: 300 } }
