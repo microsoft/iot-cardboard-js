@@ -88,7 +88,7 @@ const TimeSeriesTable: React.FC<ITimeSeriesTableProps> = (props) => {
         connection: adapter.getADXConnectionInformation(),
         quickTimeSpanInMillis: quickTimeSpanInMillis,
         twins: timeSeriesTwinList,
-        queryOptions: { isNullIncluded: true }
+        queryOptions: { isNullIncluded: true, shouldCastToDouble: false }
     });
     const items = useMemo(
         () =>

@@ -17,6 +17,7 @@ const logDebugConsole = getDebugLogger('useTimeSeriesData', debugLogging);
 
 type ADXQueryOptions = {
     isNullIncluded?: boolean;
+    shouldCastToDouble?: boolean;
 };
 
 interface IProp {
@@ -34,7 +35,7 @@ export const useTimeSeriesData = ({
     quickTimeSpanInMillis,
     twins,
     pollingInterval,
-    queryOptions = { isNullIncluded: false }
+    queryOptions = { isNullIncluded: false, shouldCastToDouble: true }
 }: IProp): {
     query: string;
     deeplink: string;
@@ -163,7 +164,9 @@ const getBulkADXQueryFromTimeSeriesTwins = (
         twins?.forEach((twin, idx) => {
             query += `${connection.kustoTableName} | where TimeStamp > ago(${agoTimeInMillis}ms)`;
             query += ` | where Id == '${twin.twinId}' and Key == '${twin.twinPropertyName}'`;
-            query += ` | extend  ${ADXTableColumns.Value} = todouble(${ADXTableColumns.Value})`;
+            query += queryOptions?.shouldCastToDouble
+                ? ` | extend  ${ADXTableColumns.Value} = todouble(${ADXTableColumns.Value})`
+                : '';
             query += queryOptions?.isNullIncluded
                 ? ''
                 : ` | where isnotnull(${ADXTableColumns.Value})`;
