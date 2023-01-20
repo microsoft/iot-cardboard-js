@@ -1317,8 +1317,19 @@
     },
     "viewer": {
       "chart": "Diagram",
-      "table": "Asztal",
-      "noSeriesDescription": "Az ikereszköz adatelőzményeinek megtekintéséhez válassza ki a megtekinteni kívánt tulajdonságot."
+      "noSeriesDescription": "Az ikereszköz adatelőzményeinek megtekintéséhez válassza ki a megtekinteni kívánt tulajdonságot.",
+      "tabl": {
+        "title": "Asztal",
+        "color": "Szín",
+        "noColor": "Nincs beállítva",
+        "timestamp": "Időbélyeg",
+        "property": "Ingatlan",
+        "value": "Érték",
+        "type": "Típus",
+        "loadingMessage": "Előzményadatok betöltése...",
+        "noDataMessage": "A kiválasztott időkeretben nem találhatók historizált adatok.",
+        "noSeriesMessage": "Nincs kiválasztva iker a lekérdezéshez, kérjük, adjon hozzá ikertulajdonságokat a historizált adatok megtekintéséhez."
+      }
     },
     "loadingConnectionLabel": "Idősoros kapcsolati információk betöltése..."
   }

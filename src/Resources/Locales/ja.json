@@ -1317,8 +1317,19 @@
     },
     "viewer": {
       "chart": "チャート",
-      "table": "テーブル",
-      "noSeriesDescription": "このツインのデータ履歴を表示するには、表示するプロパティを選択します。"
+      "noSeriesDescription": "このツインのデータ履歴を表示するには、表示するプロパティを選択します。",
+      "tabl": {
+        "title": "テーブル",
+        "color": "色",
+        "noColor": "未設定",
+        "timestamp": "タイムスタンプ",
+        "property": "財産",
+        "value": "価値",
+        "type": "種類",
+        "loadingMessage": "履歴化されたデータを読み込んでいます...",
+        "noDataMessage": "選択した時間枠内に履歴データが見つかりません。",
+        "noSeriesMessage": "クエリするツインが選択されていません。履歴データを表示するためにツイン プロパティを追加してください。"
+      }
     },
     "loadingConnectionLabel": "時系列接続情報を読み込んでいます..."
   }

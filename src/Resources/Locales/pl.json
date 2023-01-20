@@ -1317,8 +1317,19 @@
     },
     "viewer": {
       "chart": "Wykres",
-      "table": "Stół",
-      "noSeriesDescription": "Aby wyświetlić historię danych dla tej bliźniaczej płaszczyzny, wybierz właściwość do wyświetlenia."
+      "noSeriesDescription": "Aby wyświetlić historię danych dla tej bliźniaczej płaszczyzny, wybierz właściwość do wyświetlenia.",
+      "tabl": {
+        "title": "Stół",
+        "color": "Kolor",
+        "noColor": "Nie ustawiono",
+        "timestamp": "Sygnatury czasowej",
+        "property": "Własność",
+        "value": "Wartość",
+        "type": "Typ",
+        "loadingMessage": "Ładowanie danych historycznych...",
+        "noDataMessage": "Nie znaleziono historycznych danych w wybranych przedziałach czasowych.",
+        "noSeriesMessage": "Nie wybrano bliźniaka do zapytania, dodaj właściwości bliźniacze, aby wyświetlić dane historyczne."
+      }
     },
     "loadingConnectionLabel": "Czas ładowania szeregów informacji o połączeniu..."
   }
