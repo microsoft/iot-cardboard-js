@@ -7,7 +7,10 @@ import {
     IStyleFunctionOrObject,
     ITheme
 } from '@fluentui/react';
-import { ADXTimeSeries } from '../../../../../../Models/Constants/Types';
+import {
+    ADXTimeSeries,
+    ADXTimeSeriesTableRow
+} from '../../../../../../Models/Constants/Types';
 
 export interface ITimeSeriesTableProps {
     quickTimeSpanInMillis: number;
@@ -47,6 +50,10 @@ export enum TimeStampFormat {
     'date',
     'iso'
 }
+
+export type TimeSeriesTableRow = Omit<ADXTimeSeriesTableRow, 'key'> & {
+    property: string;
+};
 
 interface ColorPillStyles {
     root: IStyle;

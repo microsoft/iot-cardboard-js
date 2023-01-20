@@ -232,7 +232,7 @@ const TimeSeriesTwinCallout: React.FC<ITimeSeriesTwinCalloutProps> = (
                     >
                         <DefaultButton text={t('cancel')} onClick={onDismiss} />
                         <PrimaryButton
-                            text={timeSeriesTwin ? t('update') : t('create')}
+                            text={timeSeriesTwin ? t('update') : t('add')}
                             onClick={() =>
                                 onPrimaryActionClick(timeSeriesTwinToEdit)
                             }

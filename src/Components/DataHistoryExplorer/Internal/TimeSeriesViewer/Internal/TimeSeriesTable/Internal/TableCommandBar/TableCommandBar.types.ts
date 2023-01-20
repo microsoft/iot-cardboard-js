@@ -4,10 +4,10 @@ import {
     IStyleFunctionOrObject,
     ITheme
 } from '@fluentui/react';
-import { ADXTimeSeriesTableRow } from '../../../../../../../../Models/Constants/Types';
+import { TimeSeriesTableRow } from '../../TimeSeriesTable.types';
 
 export interface ITableCommandBarProps {
-    data: Array<ADXTimeSeriesTableRow>;
+    data: Array<TimeSeriesTableRow>;
     /**
      * Call to provide customized styling that will layer on top of the variant rules.
      */

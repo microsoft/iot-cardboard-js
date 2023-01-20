@@ -5,6 +5,7 @@ import { ITableCommandBarProps } from './TableCommandBar.types';
 import { getDefaultStoryDecorator } from '../../../../../../../../Models/Services/StoryUtilities';
 import mockAdxTimeSeriesData from '../../../../../../../../Adapters/__mockData__/MockAdapterData/MockADXTimeSeriesData.json';
 import { ADXTimeSeriesTableRow } from '../../../../../../../../Models/Constants';
+import { TimeSeriesTableRow } from '../../TimeSeriesTable.types';
 
 const wrapperStyle = { width: '100%', height: '100px' };
 
@@ -23,5 +24,11 @@ const Template: TableCommandBarStory = (args) => {
 
 export const Base = Template.bind({}) as TableCommandBarStory;
 Base.args = {
-    data: mockAdxTimeSeriesData as Array<ADXTimeSeriesTableRow>
+    data: (mockAdxTimeSeriesData as Array<ADXTimeSeriesTableRow>).map(
+        (adxTimeSeries) =>
+            ({
+                ...adxTimeSeries,
+                property: adxTimeSeries.key
+            } as TimeSeriesTableRow)
+    )
 } as ITableCommandBarProps;

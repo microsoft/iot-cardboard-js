@@ -25,7 +25,7 @@ export const getStyles = (
         ],
         listWrapper: [
             classNames.listWrapper,
-            { overflow: 'auto', marginTop: 20 }
+            { overflow: 'auto', position: 'relative', flexGrow: 1 }
         ],
         notSetCell: [classNames.notSetCell, { fontStyle: 'italic' }],
         subComponentStyles: {

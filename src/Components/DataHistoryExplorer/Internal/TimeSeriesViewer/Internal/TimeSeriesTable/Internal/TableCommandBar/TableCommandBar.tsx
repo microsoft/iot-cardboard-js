@@ -14,6 +14,7 @@ import {
 } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { downloadText } from '../../../../../../../../Models/Services/Utils';
+import { ADXTimeSeriesTableRow } from '../../../../../../../../Models/Constants';
 
 const getClassNames = classNamesFunction<
     ITableCommandBarStyleProps,
@@ -28,7 +29,20 @@ const TableCommandBar: React.FC<ITableCommandBarProps> = (props) => {
 
     // callbacks
     const onDownloadClick = useCallback(() => {
-        downloadText(JSON.stringify(data, null, 2), 'ADXTable.json');
+        downloadText(
+            JSON.stringify(
+                data.map((d) => {
+                    const { property, ...rest } = d;
+                    return {
+                        ...rest,
+                        key: property
+                    } as ADXTimeSeriesTableRow; // move the key field back to property name
+                }),
+                null,
+                2
+            ),
+            'ADXTable.json'
+        );
     }, [data]);
 
     // styles
