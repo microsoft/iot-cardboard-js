@@ -1318,7 +1318,7 @@
     "viewer": {
       "chart": "Gráfico",
       "noSeriesDescription": "Para exibir o histórico de dados desse gêmeo, selecione uma propriedade a ser exibida.",
-      "tabl": {
+      "table": {
         "title": "Mesa",
         "color": "Cor",
         "noColor": "Não definido",

@@ -1318,7 +1318,7 @@
     "viewer": {
       "chart": "Zeekaart",
       "noSeriesDescription": "Als u de gegevensgeschiedenis voor deze tweeling wilt weergeven, selecteert u een eigenschap die u wilt weergeven.",
-      "tabl": {
+      "table": {
         "title": "Tafel",
         "color": "Kleur",
         "noColor": "Niet ingesteld",

@@ -1318,7 +1318,7 @@
     "viewer": {
       "chart": "Diagram",
       "noSeriesDescription": "Om du vill visa datahistorik för den här tvillingen väljer du en egenskap som ska visas.",
-      "tabl": {
+      "table": {
         "title": "Bord",
         "color": "Färg",
         "noColor": "Inte inställt",

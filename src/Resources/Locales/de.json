@@ -1318,7 +1318,7 @@
     "viewer": {
       "chart": "Diagramm",
       "noSeriesDescription": "Um den Datenverlauf für diesen Zwilling anzuzeigen, wählen Sie eine anzuzeigende Eigenschaft aus.",
-      "tabl": {
+      "table": {
         "title": "Tisch",
         "color": "Farbe",
         "noColor": "Nicht festgelegt",

@@ -1318,7 +1318,7 @@
     "viewer": {
       "chart": "Grafik",
       "noSeriesDescription": "Bu ikizin veri geçmişini görüntülemek için görüntülenecek bir özellik seçin.",
-      "tabl": {
+      "table": {
         "title": "Masa",
         "color": "Renk",
         "noColor": "Ayarlanmadı",

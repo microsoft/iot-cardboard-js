@@ -1318,7 +1318,7 @@
     "viewer": {
       "chart": "Gráfico",
       "noSeriesDescription": "Para ver o histórico de dados deste twin, selecione uma propriedade para visualizar.",
-      "tabl": {
+      "table": {
         "title": "Tabela",
         "color": "Cor",
         "noColor": "Não definido",

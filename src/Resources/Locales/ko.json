@@ -1318,7 +1318,7 @@
     "viewer": {
       "chart": "차트",
       "noSeriesDescription": "이 쌍에 대한 데이터 기록을 보려면 보려는 속성을 선택합니다.",
-      "tabl": {
+      "table": {
         "title": "테이블",
         "color": "색",
         "noColor": "설정되지 않음",

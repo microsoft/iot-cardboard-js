@@ -1318,7 +1318,7 @@
     "viewer": {
       "chart": "Diagram",
       "noSeriesDescription": "Az ikereszköz adatelőzményeinek megtekintéséhez válassza ki a megtekinteni kívánt tulajdonságot.",
-      "tabl": {
+      "table": {
         "title": "Asztal",
         "color": "Szín",
         "noColor": "Nincs beállítva",

@@ -1318,7 +1318,7 @@
     "viewer": {
       "chart": "Wykres",
       "noSeriesDescription": "Aby wyświetlić historię danych dla tej bliźniaczej płaszczyzny, wybierz właściwość do wyświetlenia.",
-      "tabl": {
+      "table": {
         "title": "Stół",
         "color": "Kolor",
         "noColor": "Nie ustawiono",

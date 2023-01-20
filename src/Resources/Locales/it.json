@@ -1318,7 +1318,7 @@
     "viewer": {
       "chart": "Tabella",
       "noSeriesDescription": "Per visualizzare la cronologia dei dati per questo gemello, selezionare una proprietà da visualizzare.",
-      "tabl": {
+      "table": {
         "title": "Tavolo",
         "color": "Colore",
         "noColor": "Non impostato",

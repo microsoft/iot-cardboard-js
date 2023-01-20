@@ -1318,7 +1318,7 @@
     "viewer": {
       "chart": "Gráfico",
       "noSeriesDescription": "Para ver el historial de datos de este gemelo, seleccione una propiedad para ver.",
-      "tabl": {
+      "table": {
         "title": "Mesa",
         "color": "Color",
         "noColor": "No establecido",

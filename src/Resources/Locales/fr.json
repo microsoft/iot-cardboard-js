@@ -1318,7 +1318,7 @@
     "viewer": {
       "chart": "Graphique",
       "noSeriesDescription": "Pour afficher l’historique des données de ce jumeau, sélectionnez une propriété à afficher.",
-      "tabl": {
+      "table": {
         "title": "Table",
         "color": "Couleur",
         "noColor": "Non défini",

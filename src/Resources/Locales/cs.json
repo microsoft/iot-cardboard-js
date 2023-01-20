@@ -1318,7 +1318,7 @@
     "viewer": {
       "chart": "Graf",
       "noSeriesDescription": "Chcete-li zobrazit historii dat pro toto dvojče, vyberte vlastnost, kterou chcete zobrazit.",
-      "tabl": {
+      "table": {
         "title": "Stůl",
         "color": "Barva",
         "noColor": "Není nastaveno",
