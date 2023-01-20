@@ -164,9 +164,11 @@ const getBulkADXQueryFromTimeSeriesTwins = (
         twins?.forEach((twin, idx) => {
             query += `${connection.kustoTableName} | where TimeStamp > ago(${agoTimeInMillis}ms)`;
             query += ` | where Id == '${twin.twinId}' and Key == '${twin.twinPropertyName}'`;
-            query += queryOptions?.shouldCastToDouble
-                ? ` | extend  ${ADXTableColumns.Value} = todouble(${ADXTableColumns.Value})`
-                : '';
+            query +=
+                queryOptions?.shouldCastToDouble ||
+                twin.chartProps.isTwinPropertyTypeCastedToNumber
+                    ? ` | extend  ${ADXTableColumns.Value} = todouble(${ADXTableColumns.Value})`
+                    : '';
             query += queryOptions?.isNullIncluded
                 ? ''
                 : ` | where isnotnull(${ADXTableColumns.Value})`;
