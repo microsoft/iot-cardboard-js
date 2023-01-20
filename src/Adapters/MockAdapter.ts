@@ -69,6 +69,7 @@ import {
     AzureResourcesData
 } from '../Models/Classes/AdapterDataClasses/AzureManagementData';
 import {
+    createGUID,
     getMockTimeSeriesDataArrayInLocalTime,
     getModelContentType,
     parseDTDLModelsAsync,
@@ -1139,6 +1140,7 @@ export default class MockAdapter
                 console.log(error);
                 mockData = [
                     {
+                        seriesId: createGUID(),
                         id: 'PasteurizationMachine_A01',
                         key: 'InFlow',
                         data: getMockTimeSeriesDataArrayInLocalTime(1)[0]
