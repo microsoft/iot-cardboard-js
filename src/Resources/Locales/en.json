@@ -1310,7 +1310,7 @@
         },
         "viewer": {
             "chart": "Chart",
-            "table": {
+            "tabl": {
                 "title": "Table",
                 "color": "Color",
                 "noColor": "Not set",
