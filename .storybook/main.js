@@ -80,6 +80,11 @@ module.exports = {
             })
         );
 
+        config.module.rules.push({
+            test: /\.wasm$/,
+            loader: 'wasm-loader'
+        });
+
         return config;
     }
 };
