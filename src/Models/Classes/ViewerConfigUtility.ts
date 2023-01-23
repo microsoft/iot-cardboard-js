@@ -1031,7 +1031,7 @@ abstract class ViewerConfigUtility {
         //if it's just a single range value [-inf, inf], [0, inf], [-inf, 0]
         if (numericValues.length <= 1) {
             return {
-                percent: 0,
+                percent: currentValue != numericValues[0] ? 0.5 : 0,
                 colors: arcColors.map((gr) => gr.color),
                 arcsLength: [1]
             };
@@ -1127,7 +1127,7 @@ abstract class ViewerConfigUtility {
                 filledGaugeRanges.push([gaugeRanges[i][1], gaugeRanges[j][0]]);
                 updatedColors.splice(j + offset, 0, {
                     color: 'var(--cb-color-bg-canvas-inset)',
-                    id: 'OUT_OF_RANGE_ID'
+                    id: `OUT_OF_RANGE_ID${j}`
                 });
                 offset++;
             }

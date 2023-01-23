@@ -1,111 +1,194 @@
 [
   {
-    "type": "Gauge",
-    "id": "3dbbbde93325c334c93e47d077b93995",
-    "groupID": "8bf489e804884596afe8abb7e803d5c5",
-    "valueExpression": "PrimaryTwin.Outflow",
-    "widgetConfiguration": {
-      "units": "PSI",
-      "label": "Outflow",
-      "valueRanges": [
-        {
-          "id": "0278cd377adbc30253b0fdb6b5fcf160",
-          "values": [
-            "-Infinity",
-            9
-          ],
-          "visual": {
-            "color": "#33A1FD"
-          }
-        },
-        {
-          "id": "0278cd377adbc30253b0fdb6b5fcf161",
-          "values": [
-            10,
-            100
-          ],
-          "visual": {
-            "color": "#26C485"
-          }
-        },
-        {
-          "id": "0278cd377adbc30253b0fdb6b5fcf162",
-          "values": [
-            100,
-            "Infinity"
-          ],
-          "visual": {
-            "color": "#F79824"
-          }
-        }
+    "name": "RangesNoGaps",
+    "range": [
+      [
+        "-Infinity",
+        1000
+      ],
+      [
+        1000,
+        10000
+      ],
+      [
+        10000,
+        "Infinity"
       ]
-    },
-    "extensionProperties": {}
+    ],
+    "colors": [
+      {
+        "color": "#33A1FD"
+      },
+      {
+        "color": "#26C485"
+      },
+      {
+        "color": "#F79824"
+      }
+    ]
   },
   {
-    "type": "Gauge",
-    "id": "3dbbbde93325c334c93e47d077b93995",
-    "groupID": "8bf489e804884596afe8abb7e803d5c5",
-    "valueExpression": "PrimaryTwin.Outflow",
-    "widgetConfiguration": {
-      "units": "PSI",
-      "label": "Outflow",
-      "valueRanges": [
-        {
-          "id": "0278cd377adbc30253b0fdb6b5fcf160",
-          "values": [
-            "-Infinity",
-            9
-          ],
-          "visual": {
-            "color": "#33A1FD"
-          }
-        },
-        {
-          "id": "0278cd377adbc30253b0fdb6b5fcf161",
-          "values": [
-            20,
-            60
-          ],
-          "visual": {
-            "color": "#26C485"
-          }
-        },
-        {
-          "id": "0278cd377adbc30253b0fdb6b5fcf162",
-          "values": [
-            100,
-            "Infinity"
-          ],
-          "visual": {
-            "color": "#F79824"
-          }
-        }
+    "name": "RangesInfinityUpperBound",
+    "range": [
+      [
+        -5000,
+        100
+      ],
+      [
+        15000,
+        90000
+      ],
+      [
+        90000,
+        "Infinity"
       ]
-    },
-    "extensionProperties": {}
+    ],
+    "colors": [
+      {
+        "color": "#33A1FD"
+      },
+      {
+        "color": "#26C485"
+      },
+      {
+        "color": "#F79824"
+      }
+    ]
   },
   {
-    "type": "Gauge",
-    "id": "3dbbbde93325c334c93e47d077b93995",
-    "groupID": "8bf489e804884596afe8abb7e803d5c5",
-    "valueExpression": "PrimaryTwin.Outflow",
-    "widgetConfiguration": {
-      "units": "PSI",
-      "label": "Outflow",
-      "valueRanges": [
-        {
-          "id": "0278cd377adbc30253b0fdb6b5fcf160",
-          "values": [
-            "-Infinity",
-            "Infinity"
-          ],
-          "visual": {
-            "color": "#33A1FD"
-          }
-        }
+    "name": "RangesInfinityLowerBound",
+    "range": [
+      [
+        "-Infinity",
+        -5000
+      ],
+      [
+        -5000,
+        1
+      ],
+      [
+        10000,
+        100000
       ]
-    },
-    "extensionProperties": {}
+    ],
+    "colors": [
+      {
+        "color": "#33A1FD"
+      },
+      {
+        "color": "#26C485"
+      },
+      {
+        "color": "#F79824"
+      }
+    ]
+  },
+  {
+    "name": "RangesNoInfinities",
+    "range": [
+      [
+        -99,
+        5000
+      ],
+      [
+        5000,
+        10000
+      ],
+      [
+        10000,
+        90000
+      ]
+    ],
+    "colors": [
+      {
+        "color": "#33A1FD"
+      },
+      {
+        "color": "#26C485"
+      },
+      {
+        "color": "#F79824"
+      }
+    ]
+  },
+  {
+    "name": "RangesDecimals",
+    "range": [
+      [
+        -55.5,
+        9.67
+      ],
+      [
+        15.5,
+        55.5
+      ],
+      [
+        65.7,
+        101.5
+      ]
+    ],
+    "colors": [
+      {
+        "color": "#33A1FD"
+      },
+      {
+        "color": "#26C485"
+      },
+      {
+        "color": "#F79824"
+      }
+    ]
+  },
+  {
+    "name": "Only2Ranges",
+    "range": [
+      [
+        "-Infinity",
+        -1000
+      ],
+      [
+        1000,
+        60000
+      ]
+    ],
+    "colors": [
+      {
+        "color": "#33A1FD"
+      },
+      {
+        "color": "#26C485"
+      }
+    ]
+  },
+  {
+    "name": "SingleNumericRange",
+    "range": [
+      [
+        1000,
+        60000
+      ]
+    ],
+    "colors": [
+      {
+        "color": "#33A1FD"
+      },
+      {
+        "color": "#26C485"
+      }
+    ]
+  },
+  {
+    "name": "InfinityOnlyRange",
+    "range": [
+      [
+        "-Infinity",
+        "Infinity"
+      ]
+    ],
+    "colors": [
+      {
+        "color": "#33A1FD"
+      }
+    ]
   }
 ]
