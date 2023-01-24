@@ -941,6 +941,7 @@ export interface IBlobServiceCorsRule {
 }
 
 export interface IDataHistoryTimeSeriesTwin {
+    seriesId: string;
     label?: string;
     twinId: string;
     twinPropertyName: string;
@@ -949,4 +950,10 @@ export interface IDataHistoryTimeSeriesTwin {
         color?: string;
         isTwinPropertyTypeCastedToNumber?: boolean;
     };
+}
+
+export interface IChartOption {
+    key: string;
+    text: string;
+    data?: number | string;
 }

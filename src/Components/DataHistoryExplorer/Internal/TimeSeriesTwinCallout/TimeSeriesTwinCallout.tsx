@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useContext, useRef, useState } from 'react';
 import {
     ITimeSeriesTwinCalloutProps,
     ITimeSeriesTwinCalloutStyleProps,
@@ -29,10 +29,11 @@ import {
 } from '../../../ModelledPropertyBuilder/ModelledPropertyBuilder.types';
 import { PRIMARY_TWIN_NAME } from '../../../../Models/Constants/Constants';
 import { DataHistoryExplorerContext } from '../../DataHistoryExplorer';
-import { deepCopy } from '../../../../Models/Services/Utils';
+import { createGUID, deepCopy } from '../../../../Models/Services/Utils';
 import { isNumericType } from '../../../../Models/Classes/3DVConfig';
 
 const defaultTimeSeriesTwin: IDataHistoryTimeSeriesTwin = {
+    seriesId: '',
     twinId: '',
     twinPropertyName: '',
     twinPropertyType: null,
@@ -61,7 +62,12 @@ const TimeSeriesTwinCallout: React.FC<ITimeSeriesTwinCalloutProps> = (
         timeSeriesTwinToEdit,
         setTimeSeriesTwinToEdit
     ] = useState<IDataHistoryTimeSeriesTwin>(
-        deepCopy(timeSeriesTwin || defaultTimeSeriesTwin)
+        deepCopy(
+            timeSeriesTwin || {
+                ...defaultTimeSeriesTwin,
+                seriesId: createGUID()
+            }
+        )
     );
     const isLabelAutoPopulated = useRef(false);
     const isAddDisabled = !(
@@ -70,6 +76,7 @@ const TimeSeriesTwinCallout: React.FC<ITimeSeriesTwinCalloutProps> = (
 
     // hooks
     const { t } = useTranslation();
+    const { adapter } = useContext(DataHistoryExplorerContext);
 
     // callbacks
     const handleTwinIdChange = useCallback((selectedTwinId: string) => {
@@ -127,124 +134,107 @@ const TimeSeriesTwinCallout: React.FC<ITimeSeriesTwinCalloutProps> = (
     });
 
     return (
-        <DataHistoryExplorerContext.Consumer>
-            {({ adapter }) => (
-                <div className={classNames.root}>
-                    <Callout
-                        target={`#${target}`}
-                        styles={classNames.subComponentStyles.callout}
-                        onDismiss={onDismiss}
-                        directionalHint={DirectionalHint.rightCenter}
-                    >
-                        <Stack tokens={{ childrenGap: 12 }}>
-                            <Stack tokens={{ childrenGap: 8 }}>
-                                <StackItem>
-                                    <TwinSearch
-                                        adapter={adapter}
-                                        onSelectTwinId={handleTwinIdChange}
-                                        isInspectorDisabled={
-                                            !timeSeriesTwinToEdit.twinId
-                                        }
-                                        twinId={timeSeriesTwinToEdit.twinId}
-                                        initialSelectedValue={
-                                            timeSeriesTwinToEdit.twinId
-                                        }
-                                        disableDropdownDescription
-                                        dropdownLabel={t('twinId')}
-                                    />
-                                </StackItem>
-                                <StackItem>
-                                    <ModelledPropertyBuilder
-                                        customLabel={t(
-                                            'dataHistoryExplorer.builder.timeSeriesTwin.property'
-                                        )}
-                                        adapter={adapter}
-                                        twinIdParams={{
-                                            primaryTwinIds: [
-                                                timeSeriesTwinToEdit.twinId
-                                            ]
-                                        }}
-                                        mode={
-                                            ModelledPropertyBuilderMode.PROPERTY_SELECT
-                                        }
-                                        propertyExpression={{
-                                            expression: timeSeriesTwinToEdit.twinPropertyName
-                                                ? `${PRIMARY_TWIN_NAME}.${timeSeriesTwinToEdit.twinPropertyName}`
-                                                : ''
-                                        }}
-                                        onChange={handleTwinPropertyChange}
-                                        isDisabled={
-                                            !timeSeriesTwinToEdit.twinId
-                                        }
-                                        required
-                                    />
+        <div className={classNames.root}>
+            <Callout
+                target={`#${target}`}
+                styles={classNames.subComponentStyles.callout}
+                onDismiss={onDismiss}
+                directionalHint={DirectionalHint.rightCenter}
+            >
+                <Stack tokens={{ childrenGap: 12 }}>
+                    <Stack tokens={{ childrenGap: 8 }}>
+                        <StackItem>
+                            <TwinSearch
+                                adapter={adapter}
+                                onSelectTwinId={handleTwinIdChange}
+                                isInspectorDisabled={
+                                    !timeSeriesTwinToEdit.twinId
+                                }
+                                twinId={timeSeriesTwinToEdit.twinId}
+                                initialSelectedValue={
+                                    timeSeriesTwinToEdit.twinId
+                                }
+                                disableDropdownDescription
+                                dropdownLabel={t('twinId')}
+                            />
+                        </StackItem>
+                        <StackItem>
+                            <ModelledPropertyBuilder
+                                customLabel={t(
+                                    'dataHistoryExplorer.builder.timeSeriesTwin.property'
+                                )}
+                                adapter={adapter}
+                                twinIdParams={{
+                                    primaryTwinIds: [
+                                        timeSeriesTwinToEdit.twinId
+                                    ]
+                                }}
+                                mode={
+                                    ModelledPropertyBuilderMode.PROPERTY_SELECT
+                                }
+                                propertyExpression={{
+                                    expression: timeSeriesTwinToEdit.twinPropertyName
+                                        ? `${PRIMARY_TWIN_NAME}.${timeSeriesTwinToEdit.twinPropertyName}`
+                                        : ''
+                                }}
+                                onChange={handleTwinPropertyChange}
+                                isDisabled={!timeSeriesTwinToEdit.twinId}
+                                required
+                            />
 
-                                    {timeSeriesTwinToEdit.twinPropertyType &&
-                                        !isNumericType(
-                                            timeSeriesTwinToEdit.twinPropertyType
-                                        ) && (
-                                            <Toggle
-                                                styles={
-                                                    classNames
-                                                        .subComponentStyles
-                                                        .typeCastToggle
-                                                }
-                                                defaultChecked={
-                                                    timeSeriesTwinToEdit
-                                                        .chartProps
-                                                        ?.isTwinPropertyTypeCastedToNumber
-                                                }
-                                                label={t(
-                                                    'dataHistoryExplorer.builder.timeSeriesTwin.propertyTypeCastLabel'
-                                                )}
-                                                onChange={
-                                                    handleTwinPropertyCastingChange
-                                                }
-                                            />
-                                        )}
-                                </StackItem>
-                                <StackItem>
-                                    <TextField
-                                        placeholder={t(
-                                            'widgets.dataHistory.form.timeSeries.labelPlaceholder'
-                                        )}
+                            {timeSeriesTwinToEdit.twinPropertyType &&
+                                !isNumericType(
+                                    timeSeriesTwinToEdit.twinPropertyType
+                                ) && (
+                                    <Toggle
+                                        styles={
+                                            classNames.subComponentStyles
+                                                .typeCastToggle
+                                        }
+                                        defaultChecked={
+                                            timeSeriesTwinToEdit.chartProps
+                                                ?.isTwinPropertyTypeCastedToNumber
+                                        }
                                         label={t(
-                                            'widgets.dataHistory.form.timeSeries.label'
+                                            'dataHistoryExplorer.builder.timeSeriesTwin.propertyTypeCastLabel'
                                         )}
-                                        value={timeSeriesTwinToEdit?.label}
-                                        onChange={handleLabelChange}
+                                        onChange={
+                                            handleTwinPropertyCastingChange
+                                        }
                                     />
-                                </StackItem>
-                            </Stack>
-                            <Stack
-                                horizontal
-                                horizontalAlign={'end'}
-                                tokens={{ childrenGap: 8 }}
-                            >
-                                <DefaultButton
-                                    text={t('cancel')}
-                                    onClick={onDismiss}
-                                />
-                                <PrimaryButton
-                                    text={
-                                        timeSeriesTwin
-                                            ? t('update')
-                                            : t('create')
-                                    }
-                                    onClick={() =>
-                                        onPrimaryActionClick(
-                                            timeSeriesTwinToEdit
-                                        )
-                                    }
-                                    disabled={isAddDisabled}
-                                    styles={classNames.subComponentStyles.addButton?.()}
-                                />
-                            </Stack>
-                        </Stack>
-                    </Callout>
-                </div>
-            )}
-        </DataHistoryExplorerContext.Consumer>
+                                )}
+                        </StackItem>
+                        <StackItem>
+                            <TextField
+                                placeholder={t(
+                                    'widgets.dataHistory.form.timeSeries.labelPlaceholder'
+                                )}
+                                label={t(
+                                    'widgets.dataHistory.form.timeSeries.label'
+                                )}
+                                value={timeSeriesTwinToEdit?.label}
+                                onChange={handleLabelChange}
+                            />
+                        </StackItem>
+                    </Stack>
+                    <Stack
+                        horizontal
+                        horizontalAlign={'end'}
+                        tokens={{ childrenGap: 8 }}
+                    >
+                        <DefaultButton text={t('cancel')} onClick={onDismiss} />
+                        <PrimaryButton
+                            text={timeSeriesTwin ? t('update') : t('create')}
+                            onClick={() =>
+                                onPrimaryActionClick(timeSeriesTwinToEdit)
+                            }
+                            disabled={isAddDisabled}
+                            styles={classNames.subComponentStyles.addButton?.()}
+                        />
+                    </Stack>
+                </Stack>
+            </Callout>
+        </div>
     );
 };
 

@@ -955,3 +955,18 @@ export function formatNumber(val: number) {
         return format('.3s')(val).slice(0, -1) + 'B'; // suffix of B for billions
     return format('.1n')(val); // scientific for everything else
 }
+
+/**
+ * Takes a word string and capitalize only the first letter
+ * @param str, the string to be formatted
+ * @returns capitalized first letter formatted string
+ */
+export function capitalizeFirstLetter(str: string) {
+    try {
+        str = str.toLowerCase();
+        return str.charAt(0).toUpperCase() + str.slice(1);
+    } catch (error) {
+        console.error('Failed to capitalize string', error.message);
+        return str;
+    }
+}
