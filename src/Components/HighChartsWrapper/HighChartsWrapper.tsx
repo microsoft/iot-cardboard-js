@@ -101,9 +101,13 @@ const HighChartsWrapper: React.FC<IHighChartsWrapperProps> = (props) => {
     useEffect(() => {
         if (!isLoading) {
             chartComponentRef.current?.chart?.hideLoading();
-            chartComponentRef.current?.chart?.reflow();
         }
     }, [isLoading]);
+    useEffect(() => {
+        setTimeout(() => {
+            chartComponentRef.current?.chart?.reflow();
+        }, 500);
+    }, []);
 
     const defaultYAxisProps: Highcharts.YAxisOptions = {
         title: undefined, // by default, do not show any labels in y axis, only numeric range
@@ -243,7 +247,9 @@ const HighChartsWrapper: React.FC<IHighChartsWrapperProps> = (props) => {
                 ref={chartComponentRef}
                 highcharts={Highcharts}
                 options={options}
-                containerProps={{ style: { width: '100%', height: '100%' } }}
+                containerProps={{
+                    style: { width: '100%', height: '100%', overflow: 'hidden' }
+                }}
             />
         </div>
     );
