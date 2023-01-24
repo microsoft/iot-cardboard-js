@@ -106,7 +106,7 @@ const HighChartsWrapper: React.FC<IHighChartsWrapperProps> = (props) => {
     useEffect(() => {
         setTimeout(() => {
             chartComponentRef.current?.chart?.reflow();
-        }, 500);
+        });
     }, []);
 
     const defaultYAxisProps: Highcharts.YAxisOptions = {
