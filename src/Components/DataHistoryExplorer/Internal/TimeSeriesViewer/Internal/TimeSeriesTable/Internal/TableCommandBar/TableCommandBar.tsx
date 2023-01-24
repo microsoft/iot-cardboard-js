@@ -38,8 +38,8 @@ const TableCommandBar: React.FC<ITableCommandBarProps> = (props) => {
                     const { property, seriesId, ...rest } = d;
                     return {
                         ...rest,
-                        key: property
-                    } as ADXTimeSeriesTableRow; // move the key field back to property name
+                        key: property // move the key field back to property name
+                    } as ADXTimeSeriesTableRow;
                 }),
                 null,
                 2

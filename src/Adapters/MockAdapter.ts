@@ -70,7 +70,6 @@ import {
 } from '../Models/Classes/AdapterDataClasses/AzureManagementData';
 import {
     createGUID,
-    getMockTimeSeriesDataArrayInLocalTime,
     getModelContentType,
     parseDTDLModelsAsync,
     validate3DConfigWithSchema
@@ -93,6 +92,7 @@ import ViewerConfigUtility from '../Models/Classes/ViewerConfigUtility';
 import ADTInstanceTimeSeriesConnectionData from '../Models/Classes/AdapterDataClasses/ADTInstanceTimeSeriesConnectionData';
 import { handleMigrations } from './BlobAdapterUtility';
 import ADXTimeSeriesData from '../Models/Classes/AdapterDataClasses/ADXTimeSeriesData';
+import { getMockTimeSeriesDataArrayInLocalTime } from '../Models/SharedUtils/DataHistoryUtils';
 
 export default class MockAdapter
     implements

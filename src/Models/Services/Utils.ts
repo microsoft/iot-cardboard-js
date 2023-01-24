@@ -33,8 +33,7 @@ import { DTwin, IADTTwin, IAzureResource } from '../Constants/Interfaces';
 import {
     AzureAccessPermissionRoleGroups,
     DurationUnits,
-    IConsoleLogFunction,
-    TimeSeriesData
+    IConsoleLogFunction
 } from '../Constants/Types';
 import { format } from 'd3-format';
 
@@ -897,25 +896,6 @@ export const isValidADXClusterUrl = (clusterUrl: string): boolean => {
         }
     }
     return false;
-};
-
-/** Creates mock time series data array with data points between now and a certain milliseconds ago */
-export const getMockTimeSeriesDataArrayInLocalTime = (
-    lengthOfSeries = 1,
-    numberOfDataPoints = 5,
-    agoInMillis = 1 * 60 * 60 * 1000
-): Array<Array<TimeSeriesData>> => {
-    const toInMillis = Date.now();
-    const fromInMillis = toInMillis - agoInMillis;
-    return Array.from({ length: lengthOfSeries }).map(() => {
-        const maxLimitVariance = Math.floor(Math.random() * 500); // pick a max value between 0-500 as this timeseries value range to add more variance for values of different timeseries in independent y axes
-        return Array.from({ length: numberOfDataPoints }, () => ({
-            timestamp: Math.floor(
-                Math.random() * (toInMillis - fromInMillis + 1) + fromInMillis
-            ),
-            value: Math.floor(Math.random() * maxLimitVariance)
-        })).sort((a, b) => (a.timestamp as number) - (b.timestamp as number));
-    });
 };
 
 /**

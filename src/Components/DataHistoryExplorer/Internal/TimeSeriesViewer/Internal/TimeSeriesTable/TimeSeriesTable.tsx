@@ -114,7 +114,7 @@ const TimeSeriesTable: React.FC<ITimeSeriesTableProps> = (props) => {
                                 <>
                                     <span>{timeSeriesTwin.twinId}</span>
                                     <span>
-                                        {timeSeriesTwin.twinPropertyName}
+                                        ({timeSeriesTwin.twinPropertyName})
                                     </span>
                                 </>
                             )}
