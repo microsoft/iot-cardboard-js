@@ -32,10 +32,7 @@ import {
 } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { usePrevious } from '@fluentui/react-hooks';
-import {
-    getSeriesName,
-    transformADXTimeSeriesToADXTableData
-} from '../../../../../../Models/SharedUtils/DataHistoryUtils';
+import { transformADXTimeSeriesToADXTableData } from '../../../../../../Models/SharedUtils/DataHistoryUtils';
 import { TimeSeriesViewerContext } from '../../TimeSeriesViewer';
 import { DataHistoryExplorerContext } from '../../../../DataHistoryExplorer';
 import { useTimeSeriesData } from '../../../../../../Models/Hooks/useTimeSeriesData';
@@ -104,11 +101,24 @@ const TimeSeriesTable: React.FC<ITimeSeriesTableProps> = (props) => {
                         (seriesTwin) => seriesTwin.seriesId === item?.seriesId
                     );
                     return (
-                        <span
-                            style={{ color: timeSeriesTwin?.chartProps?.color }}
+                        <div
+                            className={
+                                classNames.subComponentStyles.seriesColumn({
+                                    color: timeSeriesTwin?.chartProps?.color
+                                }).root
+                            }
                         >
-                            {getSeriesName(timeSeriesTwin)}
-                        </span>
+                            {timeSeriesTwin.label ? (
+                                <span>{timeSeriesTwin.label}</span>
+                            ) : (
+                                <>
+                                    <span>{timeSeriesTwin.twinId}</span>
+                                    <span>
+                                        {timeSeriesTwin.twinPropertyName}
+                                    </span>
+                                </>
+                            )}
+                        </div>
                     );
                 }
             },

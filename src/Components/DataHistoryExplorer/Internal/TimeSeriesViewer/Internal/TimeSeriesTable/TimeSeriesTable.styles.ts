@@ -1,3 +1,4 @@
+import { FontWeights, mergeStyleSets } from '@fluentui/react';
 import {
     ITimeSeriesTableStyleProps,
     ITimeSeriesTableStyles
@@ -31,6 +32,17 @@ export const getStyles = (
             loadingSpinner: { root: { height: '100%' } },
             detailsList: {
                 root: { overflow: 'hidden', '.ms-DetailsRow': { fontSize: 13 } }
+            },
+            seriesColumn: (props) => {
+                return mergeStyleSets({
+                    root: {
+                        color: props.color,
+                        'span:first-child': {
+                            fontWeight: FontWeights.semibold,
+                            paddingRight: 6
+                        }
+                    }
+                });
             }
         }
     };

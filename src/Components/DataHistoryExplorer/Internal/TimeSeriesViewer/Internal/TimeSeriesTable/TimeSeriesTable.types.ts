@@ -1,5 +1,6 @@
 import {
     IDetailsListStyles,
+    IProcessedStyleSet,
     ISpinnerStyles,
     IStyle,
     IStyleFunctionOrObject,
@@ -26,16 +27,23 @@ export interface ITimeSeriesTableStyles {
     root: IStyle;
     listWrapper: IStyle;
     notSetCell: IStyle;
-
     /**
      * SubComponent styles.
      */
     subComponentStyles?: ITimeSeriesTableSubComponentStyles;
 }
 
+interface SeriesColumnStyles {
+    root: IStyle;
+}
+
 export interface ITimeSeriesTableSubComponentStyles {
     loadingSpinner?: Partial<ISpinnerStyles>;
     detailsList?: Partial<IDetailsListStyles>;
+    seriesColumn?: IStyleFunctionOrObject<
+        { color: string },
+        IProcessedStyleSet<SeriesColumnStyles>
+    >;
 }
 
 export enum TimeStampFormat {
