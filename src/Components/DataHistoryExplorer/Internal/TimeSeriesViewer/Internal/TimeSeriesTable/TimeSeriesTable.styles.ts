@@ -39,7 +39,7 @@ export const getStyles = (
                         color: props.color,
                         'span:first-child': {
                             fontWeight: FontWeights.semibold,
-                            paddingRight: 6
+                            paddingRight: 4
                         }
                     }
                 });
