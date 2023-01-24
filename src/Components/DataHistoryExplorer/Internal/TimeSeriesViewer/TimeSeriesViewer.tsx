@@ -88,7 +88,6 @@ const TimeSeriesViewer: React.FC<ITimeSeriesViewerProps> = (props) => {
                             itemKey={ViewerPivot.Table}
                         >
                             <TimeSeriesTable
-                                adxTimeSeries={[]}
                                 quickTimeSpanInMillis={
                                     chartOptions?.defaultQuickTimeSpanInMillis
                                 }
