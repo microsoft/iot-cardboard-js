@@ -29,13 +29,18 @@ export const getHighChartColor = (
     const PALETTE_SIZE = 10; // HighCharts has 10 different colors
     let nextColorIdx = usedColors.length % PALETTE_SIZE;
     if (usedColors.includes(getHighChartColorByIdx(nextColorIdx))) {
-        Highcharts.getOptions().colors.forEach((_c: ColorString, idx) => {
+        for (
+            let index = 0;
+            index < Highcharts.getOptions().colors.length;
+            index++
+        ) {
             // first try to use an available one between 0 and PALETTE_SIZE based on the passed usedColor list,
             // considering a series in between might have been removed and an available color might exist to use first before continuing from the current index
-            if (!usedColors.includes(getHighChartColorByIdx(idx))) {
-                nextColorIdx = idx;
+            if (!usedColors.includes(getHighChartColorByIdx(index))) {
+                nextColorIdx = index;
+                break;
             }
-        });
+        }
     }
     const newColor: ColorString = getHighChartColorByIdx(nextColorIdx);
     usedColors.push(newColor);

@@ -16,6 +16,8 @@ import { useTranslation } from 'react-i18next';
 import { downloadText } from '../../../../../../../../Models/Services/Utils';
 import { ADXTimeSeriesTableRow } from '../../../../../../../../Models/Constants';
 
+const DOWNLOAD_FILE_NAME = 'ADX Table (UTC)';
+
 const getClassNames = classNamesFunction<
     ITableCommandBarStyleProps,
     ITableCommandBarStyles
@@ -42,7 +44,7 @@ const TableCommandBar: React.FC<ITableCommandBarProps> = (props) => {
                 null,
                 2
             ),
-            'ADXTable.json'
+            `${DOWNLOAD_FILE_NAME}.json`
         );
     }, [data]);
 

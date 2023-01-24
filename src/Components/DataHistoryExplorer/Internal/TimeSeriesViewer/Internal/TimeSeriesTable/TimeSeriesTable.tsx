@@ -30,9 +30,12 @@ import {
     IRenderFunction,
     Sticky
 } from '@fluentui/react';
-import { ADXTimeSeries } from '../../../../../../Models/Constants/Types';
 import { useTranslation } from 'react-i18next';
-import { transformADXTimeSeriesToADXTableData } from '../../../../../../Models/SharedUtils/DataHistoryUtils';
+import { usePrevious } from '@fluentui/react-hooks';
+import {
+    getSeriesName,
+    transformADXTimeSeriesToADXTableData
+} from '../../../../../../Models/SharedUtils/DataHistoryUtils';
 import { TimeSeriesViewerContext } from '../../TimeSeriesViewer';
 import { DataHistoryExplorerContext } from '../../../../DataHistoryExplorer';
 import { useTimeSeriesData } from '../../../../../../Models/Hooks/useTimeSeriesData';
@@ -40,6 +43,7 @@ import IllustrationMessage from '../../../../../IllustrationMessage/Illustration
 import GenericErrorImg from '../../../../../../Resources/Static/noResults.svg';
 import { DTDLPropertyIconographyMap } from '../../../../../../Models/Constants/Constants';
 import TableCommandBar from './Internal/TableCommandBar/TableCommandBar';
+import { sortAscendingOrDescending } from '../../../../../../Models/Services/Utils';
 
 const getClassNames = classNamesFunction<
     ITimeSeriesTableStyleProps,
@@ -49,7 +53,6 @@ const getClassNames = classNamesFunction<
 const TimeSeriesTable: React.FC<ITimeSeriesTableProps> = (props) => {
     const {
         quickTimeSpanInMillis,
-        adxTimeSeries: adxTimeSeriesProp = [],
         timeStampFormat = TimeStampFormat.iso,
         styles
     } = props;
@@ -59,9 +62,7 @@ const TimeSeriesTable: React.FC<ITimeSeriesTableProps> = (props) => {
     const { timeSeriesTwinList } = useContext(TimeSeriesViewerContext);
 
     // state
-    const [adxTimeSeries, setAdxTimeSeries] = useState<Array<ADXTimeSeries>>(
-        adxTimeSeriesProp
-    );
+    const [items, setItems] = useState<Array<TimeSeriesTableRow>>([]);
 
     // styles
     const classNames = getClassNames(styles, {
@@ -70,7 +71,6 @@ const TimeSeriesTable: React.FC<ITimeSeriesTableProps> = (props) => {
 
     // hooks
     const { t } = useTranslation();
-
     const {
         query,
         data,
@@ -83,87 +83,45 @@ const TimeSeriesTable: React.FC<ITimeSeriesTableProps> = (props) => {
         twins: timeSeriesTwinList,
         queryOptions: { isNullIncluded: true, shouldCastToDouble: false }
     });
-    const items: Array<TimeSeriesTableRow> = useMemo(() => {
-        const adxTimeSeriesTableRows =
-            adxTimeSeries?.reduce((acc, adxTs) => {
-                const transformedADXRow = transformADXTimeSeriesToADXTableData(
-                    adxTs
-                ); // flatten the adxTimeSeries to individual rows
-                transformedADXRow.map(
-                    (adxRow, idxR) =>
-                        acc.push({
-                            ...adxRow,
-                            seriesId: adxTs.seriesId,
-                            property: adxRow.key,
-                            key: adxTs.seriesId + idxR
-                        } as TimeSeriesTableRow) // cannot use the ADXTimeSeriesTableRow type since key cannot be used as a unique DOM key for rendering))
-                );
-                return acc;
-            }, []) || [];
-        return adxTimeSeriesTableRows;
-    }, [adxTimeSeries]);
     const getColumns: Array<IColumn> = useMemo(
         () => [
             {
-                key: 'color',
-                name: t('dataHistoryExplorer.viewer.table.color'),
-                minWidth: 40,
-                maxWidth: 60,
-                isResizable: false,
-                onRender: (item: TimeSeriesTableRow) => {
-                    const timeSeriesTwin = timeSeriesTwinList.find(
-                        (seriesTwin) => seriesTwin.seriesId === item?.seriesId
-                    );
-                    return timeSeriesTwin.chartProps?.color ? (
-                        <span
-                            style={{
-                                width: 24,
-                                height: 24,
-                                backgroundColor:
-                                    timeSeriesTwin.chartProps?.color,
-                                borderRadius: '50%',
-                                display: 'inline-block'
-                            }}
-                        />
-                    ) : (
-                        <span className={classNames.notSetCell}>
-                            {t('dataHistoryExplorer.viewer.table.noColor')}
-                        </span>
-                    );
-                }
-            },
-            {
                 key: 'timestamp',
-                name: t('dataHistoryExplorer.viewer.table.timestamp'),
+                name: t('dataHistoryExplorer.viewer.table.columns.timestamp'),
                 minWidth: 100,
+                maxWidth: 180,
                 isResizable: true,
                 onRender: (item: TimeSeriesTableRow) =>
                     getFormattedTimeStamp(item.timestamp)
             },
             {
-                key: 'twinId',
-                name: t('twinId'),
+                key: 'seriesLabel',
+                name: t('dataHistoryExplorer.viewer.table.columns.series'),
                 minWidth: 100,
                 isResizable: true,
-                onRender: (item: TimeSeriesTableRow) => item.id
-            },
-            {
-                key: 'twinProperty',
-                name: t('dataHistoryExplorer.viewer.table.property'),
-                minWidth: 100,
-                isResizable: true,
-                onRender: (item: TimeSeriesTableRow) => item.property
+                onRender: (item: TimeSeriesTableRow) => {
+                    const timeSeriesTwin = timeSeriesTwinList.find(
+                        (seriesTwin) => seriesTwin.seriesId === item?.seriesId
+                    );
+                    return (
+                        <span
+                            style={{ color: timeSeriesTwin?.chartProps?.color }}
+                        >
+                            {getSeriesName(timeSeriesTwin)}
+                        </span>
+                    );
+                }
             },
             {
                 key: 'value',
-                name: t('dataHistoryExplorer.viewer.table.value'),
-                minWidth: 40,
+                name: t('dataHistoryExplorer.viewer.table.columns.value'),
+                minWidth: 60,
                 isResizable: true,
                 onRender: (item: TimeSeriesTableRow) => item.value
             },
             {
                 key: 'type',
-                name: t('dataHistoryExplorer.viewer.table.type'),
+                name: t('dataHistoryExplorer.viewer.table.columns.type'),
                 minWidth: 40,
                 maxWidth: 60,
                 isResizable: true,
@@ -171,21 +129,23 @@ const TimeSeriesTable: React.FC<ITimeSeriesTableProps> = (props) => {
                     const timeSeriesTwin = timeSeriesTwinList.find(
                         (seriesTwin) => seriesTwin.seriesId === item?.seriesId
                     );
-                    const propertyIcon =
-                        DTDLPropertyIconographyMap[
-                            timeSeriesTwin.twinPropertyType
-                        ];
-                    return (
-                        <Icon
-                            iconName={propertyIcon.icon}
-                            aria-hidden="true"
-                            title={propertyIcon.text}
-                        />
-                    );
+                    if (timeSeriesTwin) {
+                        const propertyIcon =
+                            DTDLPropertyIconographyMap[
+                                timeSeriesTwin.twinPropertyType
+                            ];
+                        return (
+                            <Icon
+                                iconName={propertyIcon.icon}
+                                aria-hidden="true"
+                                title={propertyIcon.text}
+                            />
+                        );
+                    }
                 }
             }
         ],
-        [adxTimeSeries]
+        [timeSeriesTwinList]
     );
 
     // callbacks
@@ -214,13 +174,32 @@ const TimeSeriesTable: React.FC<ITimeSeriesTableProps> = (props) => {
         </Sticky>
     );
 
+    // side-effects
+    const prevQuery = usePrevious(query);
     useEffect(() => {
-        if (timeSeriesTwinList.length > 0 && query) {
+        if (query !== prevQuery) {
             fetchTimeSeriesData();
         }
-    }, [timeSeriesTwinList, query]);
+    }, [query]);
     useEffect(() => {
-        setAdxTimeSeries(data);
+        const adxTimeSeriesTableRows: Array<TimeSeriesTableRow> =
+            data?.reduce((acc, adxTs) => {
+                const transformedADXRow = transformADXTimeSeriesToADXTableData(
+                    adxTs
+                ); // flatten the adxTimeSeries to individual rows
+                transformedADXRow.map(
+                    (adxRow, idxR) =>
+                        acc.push({
+                            ...adxRow,
+                            seriesId: adxTs.seriesId,
+                            property: adxRow.key,
+                            key: adxTs.seriesId + idxR
+                        } as TimeSeriesTableRow) // cannot use the ADXTimeSeriesTableRow type since key cannot be used as a unique DOM key for rendering))
+                );
+                return acc;
+            }, []) || [];
+        adxTimeSeriesTableRows.sort(sortAscendingOrDescending('timestamp'));
+        setItems(adxTimeSeriesTableRows);
     }, [data]);
 
     return (
@@ -229,17 +208,19 @@ const TimeSeriesTable: React.FC<ITimeSeriesTableProps> = (props) => {
                 <Spinner
                     styles={classNames.subComponentStyles.loadingSpinner}
                     size={SpinnerSize.large}
-                    label={t('dataHistoryExplorer.viewer.table.loadingMessage')}
+                    label={t(
+                        'dataHistoryExplorer.viewer.table.messages.loading'
+                    )}
                     ariaLive="assertive"
                     labelPosition="top"
                 />
-            ) : adxTimeSeries === null || adxTimeSeries?.length === 0 ? (
+            ) : data === null || data?.length === 0 ? (
                 <IllustrationMessage
                     descriptionText={t(
-                        `dataHistoryExplorer.viewer.table.${
+                        `dataHistoryExplorer.viewer.table.messages.${
                             timeSeriesTwinList.length === 0
-                                ? 'noSeriesMessage'
-                                : 'noDataMessage'
+                                ? 'noSeries'
+                                : 'noData'
                         }`
                     )}
                     type={'info'}
@@ -256,6 +237,9 @@ const TimeSeriesTable: React.FC<ITimeSeriesTableProps> = (props) => {
                     <div className={classNames.listWrapper}>
                         <ScrollablePane>
                             <DetailsList
+                                styles={
+                                    classNames.subComponentStyles.detailsList
+                                }
                                 key={'adx-series-data'}
                                 selectionMode={SelectionMode.none}
                                 items={items}
