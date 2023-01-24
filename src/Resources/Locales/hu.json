@@ -1320,15 +1320,18 @@
       "noSeriesDescription": "Az ikereszköz adatelőzményeinek megtekintéséhez válassza ki a megtekinteni kívánt tulajdonságot.",
       "table": {
         "title": "Asztal",
-        "color": "Szín",
-        "noColor": "Nincs beállítva",
-        "timestamp": "Időbélyeg",
-        "property": "Ingatlan",
-        "value": "Érték",
-        "type": "Típus",
-        "loadingMessage": "Előzményadatok betöltése...",
-        "noDataMessage": "A kiválasztott időkeretben nem találhatók historizált adatok.",
-        "noSeriesMessage": "Nincs kiválasztva iker a lekérdezéshez, kérjük, adjon hozzá ikertulajdonságokat a historizált adatok megtekintéséhez."
+        "columns": {
+          "timestamp": "Időbélyeg",
+          "series": "Sorozat",
+          "value": "Érték",
+          "type": "Típus"
+        },
+        "messages": {
+          "noColor": "Nincs beállítva",
+          "loading": "Előzményadatok betöltése...",
+          "noData": "A kiválasztott időkeretben nem találhatók historizált adatok.",
+          "noSeries": "Nincs kiválasztva iker a lekérdezéshez, kérjük, adjon hozzá ikertulajdonságokat a historizált adatok megtekintéséhez."
+        }
       }
     },
     "loadingConnectionLabel": "Idősoros kapcsolati információk betöltése..."

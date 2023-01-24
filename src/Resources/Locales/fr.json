@@ -1320,15 +1320,18 @@
       "noSeriesDescription": "Pour afficher l’historique des données de ce jumeau, sélectionnez une propriété à afficher.",
       "table": {
         "title": "Table",
-        "color": "Couleur",
-        "noColor": "Non défini",
-        "timestamp": "Horodatage",
-        "property": "Propriété",
-        "value": "Valeur",
-        "type": "Type",
-        "loadingMessage": "Chargement de données historiques...",
-        "noDataMessage": "Aucune donnée historique n’a été trouvée au cours de la période sélectionnée.",
-        "noSeriesMessage": "Aucun jumeau sélectionné pour interroger, veuillez ajouter des propriétés jumelles pour afficher les données historiques."
+        "columns": {
+          "timestamp": "Horodatage",
+          "series": "Série",
+          "value": "Valeur",
+          "type": "Type"
+        },
+        "messages": {
+          "noColor": "Non défini",
+          "loading": "Chargement de données historiques...",
+          "noData": "Aucune donnée historique n’a été trouvée au cours de la période sélectionnée.",
+          "noSeries": "Aucun jumeau sélectionné pour interroger, veuillez ajouter des propriétés jumelles pour afficher les données historiques."
+        }
       }
     },
     "loadingConnectionLabel": "Chargement des informations de connexion de séries chronologiques..."

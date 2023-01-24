@@ -1320,15 +1320,18 @@
       "noSeriesDescription": "Bu ikizin veri geçmişini görüntülemek için görüntülenecek bir özellik seçin.",
       "table": {
         "title": "Masa",
-        "color": "Renk",
-        "noColor": "Ayarlanmadı",
-        "timestamp": "Zaman damgası",
-        "property": "Mülk",
-        "value": "Değer",
-        "type": "Tür",
-        "loadingMessage": "Geçmiş veriler yükleniyor...",
-        "noDataMessage": "Seçilen zaman diliminde geçmiş veri bulunamadı.",
-        "noSeriesMessage": "Sorgulamak için ikiz seçilmemiş, geçmiş verileri görüntülemek için lütfen ikiz özellikleri ekleyin."
+        "columns": {
+          "timestamp": "Zaman damgası",
+          "series": "Silsile",
+          "value": "Değer",
+          "type": "Tür"
+        },
+        "messages": {
+          "noColor": "Ayarlanmadı",
+          "loading": "Geçmiş veriler yükleniyor...",
+          "noData": "Seçilen zaman diliminde geçmiş veri bulunamadı.",
+          "noSeries": "Sorgulamak için ikiz seçilmemiş, geçmiş verileri görüntülemek için lütfen ikiz özellikleri ekleyin."
+        }
       }
     },
     "loadingConnectionLabel": "Zaman serisi bağlantı bilgileri yükleniyor..."

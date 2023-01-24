@@ -1320,15 +1320,18 @@
       "noSeriesDescription": "Um den Datenverlauf für diesen Zwilling anzuzeigen, wählen Sie eine anzuzeigende Eigenschaft aus.",
       "table": {
         "title": "Tisch",
-        "color": "Farbe",
-        "noColor": "Nicht festgelegt",
-        "timestamp": "Zeitstempel",
-        "property": "Eigentum",
-        "value": "Wert",
-        "type": "Art",
-        "loadingMessage": "Historisierte Daten werden geladen...",
-        "noDataMessage": "Im ausgewählten Zeitraum wurden keine historisierten Daten gefunden.",
-        "noSeriesMessage": "Kein Zwilling zur Abfrage ausgewählt, fügen Sie Zwillingseigenschaften hinzu, um historisierte Daten anzuzeigen."
+        "columns": {
+          "timestamp": "Zeitstempel",
+          "series": "Reihe",
+          "value": "Wert",
+          "type": "Art"
+        },
+        "messages": {
+          "noColor": "Nicht festgelegt",
+          "loading": "Historisierte Daten werden geladen...",
+          "noData": "Im ausgewählten Zeitraum wurden keine historisierten Daten gefunden.",
+          "noSeries": "Kein Zwilling zur Abfrage ausgewählt, fügen Sie Zwillingseigenschaften hinzu, um historisierte Daten anzuzeigen."
+        }
       }
     },
     "loadingConnectionLabel": "Zeitreihen-Verbindungsinformationen werden geladen..."

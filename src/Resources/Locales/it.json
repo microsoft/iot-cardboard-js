@@ -1320,15 +1320,18 @@
       "noSeriesDescription": "Per visualizzare la cronologia dei dati per questo gemello, selezionare una proprietà da visualizzare.",
       "table": {
         "title": "Tavolo",
-        "color": "Colore",
-        "noColor": "Non impostato",
-        "timestamp": "Timestamp",
-        "property": "Proprietà",
-        "value": "Valore",
-        "type": "Digitare",
-        "loadingMessage": "Caricamento dei dati storici...",
-        "noDataMessage": "Nessun dato storicizzato trovato nell'intervallo di tempo selezionato.",
-        "noSeriesMessage": "Nessun gemello selezionato per la query, aggiungere proprietà gemelle per visualizzare i dati cronologizzati."
+        "columns": {
+          "timestamp": "Timestamp",
+          "series": "Serie",
+          "value": "Valore",
+          "type": "Digitare"
+        },
+        "messages": {
+          "noColor": "Non impostato",
+          "loading": "Caricamento dei dati storici...",
+          "noData": "Nessun dato storicizzato trovato nell'intervallo di tempo selezionato.",
+          "noSeries": "Nessun gemello selezionato per la query, aggiungere proprietà gemelle per visualizzare i dati cronologizzati."
+        }
       }
     },
     "loadingConnectionLabel": "Caricamento delle informazioni di connessione delle serie temporali..."

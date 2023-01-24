@@ -1320,15 +1320,18 @@
       "noSeriesDescription": "Chcete-li zobrazit historii dat pro toto dvojče, vyberte vlastnost, kterou chcete zobrazit.",
       "table": {
         "title": "Stůl",
-        "color": "Barva",
-        "noColor": "Není nastaveno",
-        "timestamp": "Časová značka",
-        "property": "Vlastnost",
-        "value": "Hodnota",
-        "type": "Typ",
-        "loadingMessage": "Načítání historizovaných dat...",
-        "noDataMessage": "Ve vybraném časovém rámci nebyla nalezena žádná historizovaná data.",
-        "noSeriesMessage": "K dotazu nebylo vybráno žádné dvojče, přidejte prosím vlastnosti dvojčat pro zobrazení historizovaných dat."
+        "columns": {
+          "timestamp": "Časová značka",
+          "series": "Řada",
+          "value": "Hodnota",
+          "type": "Typ"
+        },
+        "messages": {
+          "noColor": "Není nastaveno",
+          "loading": "Načítání historizovaných dat...",
+          "noData": "Ve vybraném časovém rámci nebyla nalezena žádná historizovaná data.",
+          "noSeries": "K dotazu nebylo vybráno žádné dvojče, přidejte prosím vlastnosti dvojčat pro zobrazení historizovaných dat."
+        }
       }
     },
     "loadingConnectionLabel": "Informace o připojení časové řady načítání..."
