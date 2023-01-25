@@ -74,7 +74,7 @@ module.exports = {
             }
         });
 
-        config.resolve.extensions.push('.ts', '.tsx', 'js');
+        config.resolve.extensions.push('.ts', '.tsx');
 
         config.plugins.push(
             new ESLintPlugin({

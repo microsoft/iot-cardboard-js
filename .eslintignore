@@ -8,5 +8,3 @@ coverage
 **/*.scss
 # don't lint SVG
 **/*.svg
-# don't lint internal packages
-src/InternalPackages
