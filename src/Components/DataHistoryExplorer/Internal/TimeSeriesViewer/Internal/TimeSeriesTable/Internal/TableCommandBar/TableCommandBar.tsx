@@ -34,8 +34,8 @@ const TableCommandBar: React.FC<ITableCommandBarProps> = (props) => {
         downloadText(
             JSON.stringify(
                 data.map((d) => {
-                    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-                    const { property, seriesId, ...rest } = d;
+                    const { property, ...rest } = d;
+                    delete rest.seriesId;
                     return {
                         ...rest,
                         key: property // move the key field back to property name
