@@ -1,9 +1,0 @@
-{
-    "name": "DTDLParserInterop",
-    "version": "1.0.1",
-    "private": true,
-    "type": "module",
-    "main": "index.js",
-    "description": "Basic DTDL parsing functionality using .NET JSInterop",
-    "types": "index.d.ts"
-}

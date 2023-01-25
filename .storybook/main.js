@@ -1,7 +1,9 @@
 const path = require('path');
 const ESLintPlugin = require('eslint-webpack-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 const postcssUrl = require('postcss-url');
 const AppSourceDir = path.join(__dirname, '..', 'src');
+const AppDistDir = path.join(__dirname, '..', 'storybook-static');
 
 module.exports = {
     stories:
@@ -31,6 +33,7 @@ module.exports = {
         check: false,
         reactDocgen: false
     },
+    staticDirs: [AppDistDir],
     webpackFinal: async (config) => {
         // Disable the Storybook internal-`.svg`-rule for components loaded from our app.
         const svgRule = config.module.rules.find((rule) =>
@@ -71,19 +74,22 @@ module.exports = {
             }
         });
 
-        config.resolve.extensions.push('.ts', '.tsx');
+        config.resolve.extensions.push('.ts', '.tsx', 'js');
 
         config.plugins.push(
             new ESLintPlugin({
                 extensions: ['js', 'ts', 'tsx'],
                 files: 'src/**'
+            }),
+            new CopyPlugin({
+                patterns: [
+                    {
+                        from: './node_modules/dtdl-parser-interop',
+                        to: path.join(AppDistDir, 'dtdl-parser')
+                    }
+                ]
             })
         );
-
-        config.module.rules.push({
-            test: /\.wasm$/,
-            loader: 'wasm-loader'
-        });
 
         return config;
     }

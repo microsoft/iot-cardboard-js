@@ -42,7 +42,10 @@ let ajv: Ajv = null;
 
 /** Parse DTDL models via model parser */
 export const parseDTDLModelsAsync = async (dtdlInterfaces: DtdlInterface[]) => {
-    const { parseAsync } = await import('../../InternalPackages/DTDLParser/index.js') as any;
+    const DTDLParserPath = './dtdl-parser/index.js';
+    const { parseAsync } = await import(
+        /* webpackIgnore: true */ DTDLParserPath
+    );
     let modelDict = null;
 
     /* We loop over this function to attempt to parse models, and remove models that fail */
