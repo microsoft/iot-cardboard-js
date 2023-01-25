@@ -1317,8 +1317,22 @@
     },
     "viewer": {
       "chart": "图表",
-      "table": "桌子",
-      "noSeriesDescription": "若要查看此孪生体的数据历史记录，请选择要查看的属性。"
+      "noSeriesDescription": "若要查看此孪生体的数据历史记录，请选择要查看的属性。",
+      "table": {
+        "title": "桌子",
+        "columns": {
+          "timestamp": "时间戳",
+          "series": "系列",
+          "value": "价值",
+          "type": "类型"
+        },
+        "messages": {
+          "noColor": "未设置",
+          "loading": "正在加载历史数据...",
+          "noData": "在选定的时间范围内找不到历史数据。",
+          "noSeries": "没有选择孪生体进行查询，请添加孪生体属性以查看历史数据。"
+        }
+      }
     },
     "loadingConnectionLabel": "正在加载时间序列连接信息..."
   }

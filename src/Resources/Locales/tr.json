@@ -1317,8 +1317,22 @@
     },
     "viewer": {
       "chart": "Grafik",
-      "table": "Masa",
-      "noSeriesDescription": "Bu ikizin veri geçmişini görüntülemek için görüntülenecek bir özellik seçin."
+      "noSeriesDescription": "Bu ikizin veri geçmişini görüntülemek için görüntülenecek bir özellik seçin.",
+      "table": {
+        "title": "Masa",
+        "columns": {
+          "timestamp": "Zaman damgası",
+          "series": "Silsile",
+          "value": "Değer",
+          "type": "Tür"
+        },
+        "messages": {
+          "noColor": "Ayarlanmadı",
+          "loading": "Geçmiş veriler yükleniyor...",
+          "noData": "Seçilen zaman diliminde geçmiş veri bulunamadı.",
+          "noSeries": "Sorgulamak için ikiz seçilmemiş, geçmiş verileri görüntülemek için lütfen ikiz özellikleri ekleyin."
+        }
+      }
     },
     "loadingConnectionLabel": "Zaman serisi bağlantı bilgileri yükleniyor..."
   }

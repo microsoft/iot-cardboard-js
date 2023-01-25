@@ -1317,8 +1317,22 @@
     },
     "viewer": {
       "chart": "Diagram",
-      "table": "Bord",
-      "noSeriesDescription": "Om du vill visa datahistorik för den här tvillingen väljer du en egenskap som ska visas."
+      "noSeriesDescription": "Om du vill visa datahistorik för den här tvillingen väljer du en egenskap som ska visas.",
+      "table": {
+        "title": "Bord",
+        "columns": {
+          "timestamp": "Tidsstämpel",
+          "series": "Serie",
+          "value": "Värde",
+          "type": "Typ"
+        },
+        "messages": {
+          "noColor": "Inte inställt",
+          "loading": "Laddar historiserade data...",
+          "noData": "Inga historiserade data hittades i vald tidsram.",
+          "noSeries": "Ingen tvilling har valts för att fråga, lägg till tvillingegenskaper för att visa historiserade data."
+        }
+      }
     },
     "loadingConnectionLabel": "Laddar anslutningsinformation för tidsserier..."
   }

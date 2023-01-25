@@ -576,6 +576,7 @@ export interface IADXAdapter {
     ) => void;
     getADXConnectionInformation: () => IADXConnection | null;
     getTimeSeriesData: (
+        seriesIds: Array<string>,
         query: string,
         connection?: IADXConnection
     ) => AdapterReturnType<ADXTimeSeriesData>;

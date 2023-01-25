@@ -1,0 +1,92 @@
+[
+    {
+        "timestamp": "2023-01-09T18:02:49.712Z",
+        "id": "PasteurizationMachine_A01",
+        "key": "InFlow",
+        "value": 115
+    },
+    {
+        "timestamp": "2023-01-09T18:03:09.216Z",
+        "id": "PasteurizationMachine_A01",
+        "key": "InFlow",
+        "value": 23
+    },
+    {
+        "timestamp": "2023-01-09T18:04:16.698Z",
+        "id": "PasteurizationMachine_A01",
+        "key": "InFlow",
+        "value": 188
+    },
+    {
+        "timestamp": "2023-01-09T18:04:51.597Z",
+        "id": "PasteurizationMachine_A01",
+        "key": "InFlow",
+        "value": 213
+    },
+    {
+        "timestamp": "2023-01-09T18:05:49.414Z",
+        "id": "PasteurizationMachine_A01",
+        "key": "InFlow",
+        "value": 245
+    },
+    {
+        "timestamp": "2023-01-09T18:03:28.683Z",
+        "id": "PasteurizationMachine_A02",
+        "key": "OutFlow",
+        "value": 272
+    },
+    {
+        "timestamp": "2023-01-09T18:03:47.933Z",
+        "id": "PasteurizationMachine_A02",
+        "key": "OutFlow",
+        "value": 169
+    },
+    {
+        "timestamp": "2023-01-09T18:04:29.398Z",
+        "id": "PasteurizationMachine_A02",
+        "key": "OutFlow",
+        "value": 238
+    },
+    {
+        "timestamp": "2023-01-09T18:06:10.981Z",
+        "id": "PasteurizationMachine_A02",
+        "key": "OutFlow",
+        "value": 395
+    },
+    {
+        "timestamp": "2023-01-09T18:08:22.632Z",
+        "id": "PasteurizationMachine_A02",
+        "key": "OutFlow",
+        "value": 109
+    },
+    {
+        "timestamp": "2023-01-09T18:04:00.276Z",
+        "id": "SaltMachine_C0",
+        "key": "Temperature",
+        "value": 279
+    },
+    {
+        "timestamp": "2023-01-09T18:05:02.149Z",
+        "id": "SaltMachine_C0",
+        "key": "Temperature",
+        "value": 154
+    },
+    {
+        "timestamp": "2023-01-09T18:05:33.132Z",
+        "id": "SaltMachine_C0",
+        "key": "Temperature",
+        "value": 157
+    },
+    {
+        "timestamp": "2023-01-09T18:08:39.083Z",
+        "id": "SaltMachine_C0",
+        "key": "Temperature",
+        "value": 227
+    },
+    {
+        "timestamp": "2023-01-09T18:08:49.333Z",
+        "id": "SaltMachine_C0",
+        "key": "Temperature",
+        "value": 107
+    }
+]

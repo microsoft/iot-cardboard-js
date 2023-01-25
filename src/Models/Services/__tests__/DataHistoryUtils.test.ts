@@ -42,8 +42,10 @@ describe('DataHistoryUtils', () => {
     describe('transformADXTimeSeriesToHighChartsSeries', () => {
         test('merge ADX data with authored time series object for chart to render', () => {
             // ARRANGE
+            const seriesId = createGUID();
             const adxData: Array<ADXTimeSeries> = [
                 {
+                    seriesId,
                     id: 'SaltMachine_C0',
                     key: 'InFlow',
                     data: [
@@ -57,7 +59,7 @@ describe('DataHistoryUtils', () => {
             ];
             const timeSeries: Array<IDataHistoryTimeSeriesTwin> = [
                 {
-                    seriesId: createGUID(),
+                    seriesId,
                     twinId: 'SaltMachine_C0',
                     twinPropertyName: 'InFlow',
                     twinPropertyType: 'double',

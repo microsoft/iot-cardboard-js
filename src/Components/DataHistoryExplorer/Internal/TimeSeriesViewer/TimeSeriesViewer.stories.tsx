@@ -34,12 +34,14 @@ Mock.args = {
             seriesId: createGUID(),
             twinId: 'PasteurizationMachine_A01',
             twinPropertyName: 'Inflow',
+            twinPropertyType: 'double',
             label: 'PasteurizationMachine_A01 Inflow'
         },
         {
             seriesId: createGUID(),
             twinId: 'PasteurizationMachine_A02',
-            twinPropertyName: 'Inflow'
+            twinPropertyName: 'Inflow',
+            twinPropertyType: 'double'
         }
     ]
 } as ITimeSeriesViewerProps;

@@ -8,9 +8,32 @@ import {
     IDataHistoryTimeSeriesTwin
 } from '../Constants/Interfaces';
 import { CUSTOM_HIGHCHARTS_COLOR_IDX_1 } from '../Constants/StyleConstants';
-import { ADXTimeSeries } from '../Constants/Types';
+import {
+    ADXTimeSeries,
+    ADXTimeSeriesTableRow,
+    TimeSeriesData
+} from '../Constants/Types';
 import { objectHasOwnProperty } from '../Services/Utils';
 import { IDataHistoryChartYAxisType } from '../Types/Generated/3DScenesConfiguration-v1.0.0';
+
+/** Creates mock time series data array with data points between now and a certain milliseconds ago */
+export const getMockTimeSeriesDataArrayInLocalTime = (
+    lengthOfSeries = 1,
+    numberOfDataPoints = 5,
+    agoInMillis = 1 * 60 * 60 * 1000
+): Array<Array<TimeSeriesData>> => {
+    const toInMillis = Date.now();
+    const fromInMillis = toInMillis - agoInMillis;
+    return Array.from({ length: lengthOfSeries }).map(() => {
+        const maxLimitVariance = Math.floor(Math.random() * 500); // pick a max value between 0-500 as this timeseries value range to add more variance for values of different timeseries in independent y axes
+        return Array.from({ length: numberOfDataPoints }, () => ({
+            timestamp: Math.floor(
+                Math.random() * (toInMillis - fromInMillis + 1) + fromInMillis
+            ),
+            value: Math.floor(Math.random() * maxLimitVariance)
+        })).sort((a, b) => (a.timestamp as number) - (b.timestamp as number));
+    });
+};
 
 export const getHighChartColorByIdx = (idx: number): ColorString =>
     idx === 1 // that particular color of Highcharts is not visible in our dark themes, override it
@@ -29,13 +52,18 @@ export const getHighChartColor = (
     const PALETTE_SIZE = 10; // HighCharts has 10 different colors
     let nextColorIdx = usedColors.length % PALETTE_SIZE;
     if (usedColors.includes(getHighChartColorByIdx(nextColorIdx))) {
-        Highcharts.getOptions().colors.forEach((_c: ColorString, idx) => {
+        for (
+            let index = 0;
+            index < Highcharts.getOptions().colors.length;
+            index++
+        ) {
             // first try to use an available one between 0 and PALETTE_SIZE based on the passed usedColor list,
             // considering a series in between might have been removed and an available color might exist to use first before continuing from the current index
-            if (!usedColors.includes(getHighChartColorByIdx(idx))) {
-                nextColorIdx = idx;
+            if (!usedColors.includes(getHighChartColorByIdx(index))) {
+                nextColorIdx = index;
+                break;
             }
-        });
+        }
     }
     const newColor: ColorString = getHighChartColorByIdx(nextColorIdx);
     usedColors.push(newColor);
@@ -44,26 +72,18 @@ export const getHighChartColor = (
 
 /** Gets fetched adx time series data and data history widget time series to twin mapping information
  * to get the labels if defined for each series, and converts it into high chart series data to render in chart.
- * Make sure there is one-to-one relationship between the parameters and are in order
+ * Make sure there is one-to-one relationship between the parameters
  */
 export const transformADXTimeSeriesToHighChartsSeries = (
     adxTimeSeries: Array<ADXTimeSeries>,
     twinIdPropertyMap: Array<IDataHistoryTimeSeriesTwin>
 ): Array<IHighChartSeriesData> =>
     adxTimeSeries && twinIdPropertyMap
-        ? adxTimeSeries.map((series, idx) => {
-              let timeSeriesTwin = twinIdPropertyMap[idx];
-              if (
-                  timeSeriesTwin?.twinId !== series.id ||
-                  timeSeriesTwin?.twinPropertyName !== series.key
-              ) {
-                  // make sure if the twin mapping is in correct order by checking id and key
-                  timeSeriesTwin = twinIdPropertyMap.find(
-                      (map) =>
-                          map.twinId === series.id &&
-                          map.twinPropertyName === series.key
-                  );
-              }
+        ? adxTimeSeries.map((series) => {
+              const timeSeriesTwin = twinIdPropertyMap.find(
+                  (map) => map.seriesId === series.seriesId
+              );
+
               return {
                   name: getSeriesName(timeSeriesTwin) || getSeriesName(series), // this is the label for series to show in chart
                   data: series.data,
@@ -71,6 +91,25 @@ export const transformADXTimeSeriesToHighChartsSeries = (
               } as IHighChartSeriesData;
           })
         : [];
+
+/**
+ * Gets a single ADX time series and transform it into a shape to view in raw data table
+ */
+export const transformADXTimeSeriesToADXTableData = (
+    adxTimeSeries: ADXTimeSeries
+): Array<ADXTimeSeriesTableRow> =>
+    adxTimeSeries?.data?.map(
+        (tsData) =>
+            ({
+                timestamp:
+                    typeof tsData.timestamp === 'number'
+                        ? new Date(tsData.timestamp).toISOString()
+                        : tsData.timestamp,
+                id: adxTimeSeries.id,
+                key: adxTimeSeries.key,
+                value: tsData.value
+            } as ADXTimeSeriesTableRow)
+    ) || [];
 
 /** Returns y-axis options as chart options */
 export const getYAxisTypeOptions = (t: TFunction): Array<IChartOption> => {
@@ -122,10 +161,18 @@ export const getSeriesName = (
     seriesTwin
         ? objectHasOwnProperty(seriesTwin, 'twinId')
             ? (seriesTwin as IDataHistoryTimeSeriesTwin).label ||
-              (seriesTwin as IDataHistoryTimeSeriesTwin).twinId +
-                  ' ' +
+              `${(seriesTwin as IDataHistoryTimeSeriesTwin).twinId} (${
                   (seriesTwin as IDataHistoryTimeSeriesTwin).twinPropertyName
-            : (seriesTwin as ADXTimeSeries).id +
-              ' ' +
-              (seriesTwin as ADXTimeSeries).key
+              })`
+            : `${(seriesTwin as ADXTimeSeries).id} (${
+                  (seriesTwin as ADXTimeSeries).key
+              })`
         : null;
+
+/** The default formatter for a time series label */
+export const getDefaultSeriesLabel = (
+    twinId: string,
+    propertyName: string // can be nested
+): string => {
+    return `${twinId} (${propertyName})`;
+};

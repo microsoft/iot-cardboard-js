@@ -69,7 +69,7 @@ import {
     AzureResourcesData
 } from '../Models/Classes/AdapterDataClasses/AzureManagementData';
 import {
-    getMockTimeSeriesDataArrayInLocalTime,
+    createGUID,
     getModelContentType,
     parseDTDLModelsAsync,
     validate3DConfigWithSchema
@@ -92,6 +92,7 @@ import ViewerConfigUtility from '../Models/Classes/ViewerConfigUtility';
 import ADTInstanceTimeSeriesConnectionData from '../Models/Classes/AdapterDataClasses/ADTInstanceTimeSeriesConnectionData';
 import { handleMigrations } from './BlobAdapterUtility';
 import ADXTimeSeriesData from '../Models/Classes/AdapterDataClasses/ADXTimeSeriesData';
+import { getMockTimeSeriesDataArrayInLocalTime } from '../Models/SharedUtils/DataHistoryUtils';
 
 export default class MockAdapter
     implements
@@ -1105,13 +1106,13 @@ export default class MockAdapter
     /** Returns a mock data based on the passed query by parsing it
      * to get quick time, twin id and twin property to reflect
      * on the generated mock data */
-    async getTimeSeriesData(query: string) {
+    async getTimeSeriesData(seriesIds: Array<string>, query: string) {
         let mockData: Array<ADXTimeSeries> = [];
         try {
             await this.mockNetwork();
             try {
                 const listOfTimeSeries = query.split(';'); // split the query by statements for each time series
-                listOfTimeSeries.forEach((ts) => {
+                listOfTimeSeries.forEach((ts, idx) => {
                     const split = ts.split('ago(')[1].split(')'); // split the query by timestamp 'ago' operation
                     const quickTimeSpanInMillis = Number(
                         split[0].replace('ms', '') // get the quick time in milliseconds and cast it to number
@@ -1125,6 +1126,7 @@ export default class MockAdapter
                         .replace(/'/g, ''); // get the twin property and replace the single quote characters around the string
 
                     mockData.push({
+                        seriesId: seriesIds[idx],
                         id: twinId,
                         key: twinProperty,
                         data: getMockTimeSeriesDataArrayInLocalTime(
@@ -1138,6 +1140,7 @@ export default class MockAdapter
                 console.log(error);
                 mockData = [
                     {
+                        seriesId: createGUID(),
                         id: 'PasteurizationMachine_A01',
                         key: 'InFlow',
                         data: getMockTimeSeriesDataArrayInLocalTime(1)[0]

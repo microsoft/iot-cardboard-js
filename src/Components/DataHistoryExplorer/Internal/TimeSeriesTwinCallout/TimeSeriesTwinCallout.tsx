@@ -31,6 +31,7 @@ import { PRIMARY_TWIN_NAME } from '../../../../Models/Constants/Constants';
 import { DataHistoryExplorerContext } from '../../DataHistoryExplorer';
 import { createGUID, deepCopy } from '../../../../Models/Services/Utils';
 import { isNumericType } from '../../../../Models/Classes/3DVConfig';
+import { getDefaultSeriesLabel } from '../../../../Models/SharedUtils/DataHistoryUtils';
 
 const defaultTimeSeriesTwin: IDataHistoryTimeSeriesTwin = {
     seriesId: '',
@@ -101,8 +102,16 @@ const TimeSeriesTwinCallout: React.FC<ITimeSeriesTwinCalloutProps> = (
                         newPropertyExpression.property.propertyType;
 
                     if (!draft.label) {
-                        draft.label = `${draft.twinId} ${newPropertyExpression.property.localPath}`; // auto populate the label with selected twin and its property name if it is empty
+                        draft.label = getDefaultSeriesLabel(
+                            draft.twinId,
+                            newPropertyExpression.property.localPath
+                        ); // auto populate the label with selected twin and its property name if it is empty
                         isLabelAutoPopulated.current = true;
+                    } else if (isLabelAutoPopulated.current) {
+                        draft.label = getDefaultSeriesLabel(
+                            draft.twinId,
+                            newPropertyExpression.property.localPath
+                        );
                     }
                 })
             );
@@ -224,7 +233,7 @@ const TimeSeriesTwinCallout: React.FC<ITimeSeriesTwinCalloutProps> = (
                     >
                         <DefaultButton text={t('cancel')} onClick={onDismiss} />
                         <PrimaryButton
-                            text={timeSeriesTwin ? t('update') : t('create')}
+                            text={timeSeriesTwin ? t('update') : t('add')}
                             onClick={() =>
                                 onPrimaryActionClick(timeSeriesTwinToEdit)
                             }

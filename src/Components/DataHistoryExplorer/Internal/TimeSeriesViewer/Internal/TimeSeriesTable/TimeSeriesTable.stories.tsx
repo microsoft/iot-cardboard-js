@@ -1,25 +1,26 @@
 import React from 'react';
 import { ComponentStory } from '@storybook/react';
-import TimeSeriesChart from './TimeSeriesChart';
-import { ITimeSeriesChartProps } from './TimeSeriesChart.types';
+import TimeSeriesTable from './TimeSeriesTable';
+import { ITimeSeriesTableProps } from './TimeSeriesTable.types';
 import { getDefaultStoryDecorator } from '../../../../../../Models/Services/StoryUtilities';
 import { DataHistoryExplorerContext } from '../../../../DataHistoryExplorer';
-import MockAdapter from '../../../../../../Adapters/MockAdapter';
 import { TimeSeriesViewerContext } from '../../TimeSeriesViewer';
-import { createGUID } from '../../../../../../Models/Services/Utils';
+import MockAdapter from '../../../../../../Adapters/MockAdapter';
+import { QuickTimeSpans } from '../../../../../../Models/Constants/Constants';
+import { QuickTimeSpanKey } from '../../../../../../Models/Constants/Enums';
 
-const wrapperStyle = { width: '100%', height: '400px' };
+const wrapperStyle = { width: '800px', height: '600px', padding: 8 };
 
 export default {
     title:
-        'Components/DataHistoryExplorer/Internal/TimeSeriesViewer/Internal/TimeSeriesChart',
-    component: TimeSeriesChart,
-    decorators: [getDefaultStoryDecorator<ITimeSeriesChartProps>(wrapperStyle)]
+        'Components/DataHistoryExplorer/Internal/TimeSeriesViewer/Internal/TimeSeriesTable',
+    component: TimeSeriesTable,
+    decorators: [getDefaultStoryDecorator<ITimeSeriesTableProps>(wrapperStyle)]
 };
 
-type TimeSeriesChartStory = ComponentStory<typeof TimeSeriesChart>;
+type TableStory = ComponentStory<typeof TimeSeriesTable>;
 
-const Template: TimeSeriesChartStory = (args) => {
+const Template: TableStory = (args) => {
     return (
         <DataHistoryExplorerContext.Provider
             value={{ adapter: new MockAdapter() }}
@@ -28,7 +29,7 @@ const Template: TimeSeriesChartStory = (args) => {
                 value={{
                     timeSeriesTwinList: [
                         {
-                            seriesId: createGUID(),
+                            seriesId: '',
                             twinId: 'PasteurizationMachine_A01',
                             twinPropertyName: 'Inflow',
                             twinPropertyType: 'double',
@@ -37,11 +38,13 @@ const Template: TimeSeriesChartStory = (args) => {
                     ]
                 }}
             >
-                <TimeSeriesChart {...args} />
+                <TimeSeriesTable {...args} />
             </TimeSeriesViewerContext.Provider>
         </DataHistoryExplorerContext.Provider>
     );
 };
 
-export const Mock = Template.bind({}) as TimeSeriesChartStory;
-Mock.args = {} as ITimeSeriesChartProps;
+export const Base = Template.bind({}) as TableStory;
+Base.args = {
+    quickTimeSpanInMillis: QuickTimeSpans[QuickTimeSpanKey.Last15Mins]
+} as ITimeSeriesTableProps;
