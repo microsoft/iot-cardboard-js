@@ -40,7 +40,13 @@ import IllustrationMessage from '../../../../../IllustrationMessage/Illustration
 import GenericErrorImg from '../../../../../../Resources/Static/noResults.svg';
 import { DTDLPropertyIconographyMap } from '../../../../../../Models/Constants/Constants';
 import TableCommandBar from './Internal/TableCommandBar/TableCommandBar';
-import { sortAscendingOrDescending } from '../../../../../../Models/Services/Utils';
+import {
+    getDebugLogger,
+    sortAscendingOrDescending
+} from '../../../../../../Models/Services/Utils';
+
+const debugLogging = false;
+const logDebugConsole = getDebugLogger('TimeSeriesTable', debugLogging);
 
 const getClassNames = classNamesFunction<
     ITimeSeriesTableStyleProps,
@@ -187,7 +193,8 @@ const TimeSeriesTable: React.FC<ITimeSeriesTableProps> = (props) => {
     // side-effects
     const prevQuery = usePrevious(query);
     useEffect(() => {
-        if (query !== prevQuery) {
+        if (query && query !== prevQuery) {
+            logDebugConsole('debug', `Query to send for Table: ${query}`);
             fetchTimeSeriesData();
         }
     }, [query]);
@@ -209,6 +216,10 @@ const TimeSeriesTable: React.FC<ITimeSeriesTableProps> = (props) => {
                 return acc;
             }, []) || [];
         adxTimeSeriesTableRows.sort(sortAscendingOrDescending('timestamp'));
+        logDebugConsole(
+            'debug',
+            `Number of rows: ${adxTimeSeriesTableRows.length}`
+        );
         setItems(adxTimeSeriesTableRows);
     }, [data]);
 

@@ -17,7 +17,10 @@ import {
     ADXTimeSeriesTableRow,
     TimeSeriesData
 } from '../Models/Constants/Types';
-import { isValidADXClusterUrl } from '../Models/Services/Utils';
+import { getDebugLogger, isValidADXClusterUrl } from '../Models/Services/Utils';
+
+const debugLogging = false;
+const logDebugConsole = getDebugLogger('ADXAdapter', debugLogging);
 
 export default class ADXAdapter
     implements ITsiClientChartDataAdapter, IADXAdapter {
@@ -52,6 +55,10 @@ export default class ADXAdapter
                     type: ComponentErrorType.DataFetchFailed,
                     isCatastrophic: true
                 });
+                logDebugConsole(
+                    'error',
+                    'Error(s) thrown: Cluster url is not valid!'
+                );
                 return new ADXTimeSeriesData(null);
             }
 
@@ -74,6 +81,11 @@ export default class ADXAdapter
             };
 
             try {
+                logDebugConsole(
+                    'debug',
+                    '[START] Fetching data history from cluster for query: ',
+                    query
+                );
                 // fetch data history of the properties using ADX api
                 const adxDataHistoryResults = await getDataHistoryFromADX();
                 const resultTimeSeriesData: Array<ADXTimeSeries> = []; // considering there is going to be multiple series to fetch data for
@@ -82,7 +94,16 @@ export default class ADXAdapter
                     const primaryResultTables: Array<ADXTable> = adxDataHistoryResults.data.filter(
                         (frame) => frame.TableKind === 'PrimaryResult'
                     );
+                    logDebugConsole(
+                        'debug',
+                        '[END] Number of tables fetched: ',
+                        primaryResultTables.length
+                    );
                     primaryResultTables.forEach((table, idx) => {
+                        logDebugConsole(
+                            'debug',
+                            `Table-${idx} has ${table.Rows.length} rows.`
+                        );
                         const timeStampColumnIndex = table.Columns.findIndex(
                             (c) => c.ColumnName === ADXTableColumns.TimeStamp
                         );
@@ -158,6 +179,11 @@ export default class ADXAdapter
                             });
                     }
                 }
+                logDebugConsole(
+                    'error',
+                    'Error(s) thrown time series data. {err}',
+                    err
+                );
                 return new ADXTimeSeriesData(null);
             }
         }, 'adx');

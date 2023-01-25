@@ -21,6 +21,7 @@ import { useTranslation } from 'react-i18next';
 import TimeSeriesViewer from './Internal/TimeSeriesViewer/TimeSeriesViewer';
 import useAdapter from '../../Models/Hooks/useAdapter';
 import { deepCopy } from '../../Models/Services/Utils';
+import { sendDataHistoryExplorerSystemTelemetry } from '../../Models/SharedUtils/DataHistoryUtils';
 
 export const DataHistoryExplorerContext = React.createContext<IDataHistoryExplorerContext>(
     null
@@ -102,9 +103,10 @@ const DataHistoryExplorer: React.FC<IDataHistoryExplorerProps> = (props) => {
                     className={classNames.contentStack}
                 >
                     <TimeSeriesBuilder
-                        onTimeSeriesTwinListChange={(twins) =>
-                            setTimeSeriesTwins(twins)
-                        }
+                        onTimeSeriesTwinListChange={(twins) => {
+                            setTimeSeriesTwins(twins);
+                            sendDataHistoryExplorerSystemTelemetry(twins);
+                        }}
                         styles={classNames.subComponentStyles.builder}
                         timeSeriesTwins={timeSeriesTwinsProp}
                     />

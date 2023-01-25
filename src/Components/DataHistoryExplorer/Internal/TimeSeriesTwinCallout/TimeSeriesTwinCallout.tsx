@@ -31,7 +31,11 @@ import { PRIMARY_TWIN_NAME } from '../../../../Models/Constants/Constants';
 import { DataHistoryExplorerContext } from '../../DataHistoryExplorer';
 import { createGUID, deepCopy } from '../../../../Models/Services/Utils';
 import { isNumericType } from '../../../../Models/Classes/3DVConfig';
-import { getDefaultSeriesLabel } from '../../../../Models/SharedUtils/DataHistoryUtils';
+import {
+    getDefaultSeriesLabel,
+    sendDataHistoryExplorerUserTelemetry
+} from '../../../../Models/SharedUtils/DataHistoryUtils';
+import { TelemetryEvents } from '../../../../Models/Constants/TelemetryConstants';
 
 const defaultTimeSeriesTwin: IDataHistoryTimeSeriesTwin = {
     seriesId: '',
@@ -125,6 +129,15 @@ const TimeSeriesTwinCallout: React.FC<ITimeSeriesTwinCalloutProps> = (
                     draft.chartProps.isTwinPropertyTypeCastedToNumber = checked;
                 })
             );
+            const telemetry =
+                TelemetryEvents.Tools.DataHistoryExplorer.UserAction
+                    .ToggleNumericCasting;
+            sendDataHistoryExplorerUserTelemetry(telemetry.eventName, [
+                {
+                    property: telemetry.properties.toggleValue,
+                    value: checked
+                }
+            ]);
         },
         []
     );

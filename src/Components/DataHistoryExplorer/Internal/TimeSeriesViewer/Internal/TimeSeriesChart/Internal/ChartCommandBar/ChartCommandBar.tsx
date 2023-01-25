@@ -23,12 +23,14 @@ import { useTranslation } from 'react-i18next';
 import {
     getQuickTimeSpanKeyByValue,
     getQuickTimeSpanOptions,
-    getYAxisTypeOptions
+    getYAxisTypeOptions,
+    sendDataHistoryExplorerUserTelemetry
 } from '../../../../../../../../Models/SharedUtils/DataHistoryUtils';
 import {
     capitalizeFirstLetter,
     deepCopy
 } from '../../../../../../../../Models/Services/Utils';
+import { TelemetryEvents } from '../../../../../../../../Models/Constants/TelemetryConstants';
 
 const getClassNames = classNamesFunction<
     IChartCommandBarStyleProps,
@@ -75,6 +77,16 @@ const ChartCommandBar: React.FC<IChartCommandBarProps> = (props) => {
                         default:
                             break;
                     }
+
+                    const telemetry =
+                        TelemetryEvents.Tools.DataHistoryExplorer.UserAction
+                            .ChangeChartOption;
+                    sendDataHistoryExplorerUserTelemetry(telemetry.eventName, [
+                        {
+                            property: telemetry.properties.chartOptions,
+                            value: JSON.stringify(draft)
+                        }
+                    ]);
                 })
             );
         },
@@ -146,6 +158,10 @@ const ChartCommandBar: React.FC<IChartCommandBarProps> = (props) => {
                   iconProps: { iconName: 'OpenInNewWindow' },
                   onClick: () => {
                       window.open(deeplink, '_blank');
+                      const telemetry =
+                          TelemetryEvents.Tools.DataHistoryExplorer.UserAction
+                              .OpenSeriesInAdx;
+                      sendDataHistoryExplorerUserTelemetry(telemetry.eventName);
                   }
               }
           ]

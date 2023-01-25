@@ -4,7 +4,7 @@ import {
     ITimeSeriesViewerProps,
     ITimeSeriesViewerStyleProps,
     ITimeSeriesViewerStyles,
-    ViewerPivot
+    TimeSeriesViewerPivot
 } from './TimeSeriesViewer.types';
 import { getStyles } from './TimeSeriesViewer.styles';
 import {
@@ -21,6 +21,8 @@ import TimeSeriesChart from './Internal/TimeSeriesChart/TimeSeriesChart';
 import TimeSeriesTable from './Internal/TimeSeriesTable/TimeSeriesTable';
 import { TimeStampFormat } from './Internal/TimeSeriesTable/TimeSeriesTable.types';
 import { IDataHistoryChartOptions } from '../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
+import { sendDataHistoryExplorerUserTelemetry } from '../../../../Models/SharedUtils/DataHistoryUtils';
+import { TelemetryEvents } from '../../../../Models/Constants/TelemetryConstants';
 
 export const TimeSeriesViewerContext = createContext<ITimeSeriesViewerContext>(
     null
@@ -47,6 +49,17 @@ const TimeSeriesViewer: React.FC<ITimeSeriesViewerProps> = (props) => {
         theme: useTheme()
     });
 
+    const handleOnChangePivot = (item: PivotItem) => {
+        const telemetry =
+            TelemetryEvents.Tools.DataHistoryExplorer.UserAction.ChangeView;
+        sendDataHistoryExplorerUserTelemetry(telemetry.eventName, [
+            {
+                property: telemetry.properties.view,
+                value: item.props.itemKey
+            }
+        ]);
+    };
+
     return (
         <div className={classNames.root}>
             {!timeSeriesTwinList || timeSeriesTwinList.length === 0 ? (
@@ -71,10 +84,11 @@ const TimeSeriesViewer: React.FC<ITimeSeriesViewerProps> = (props) => {
                     <Pivot
                         overflowBehavior={'menu'}
                         styles={classNames.subComponentStyles.pivot}
+                        onLinkClick={handleOnChangePivot}
                     >
                         <PivotItem
                             headerText={t('dataHistoryExplorer.viewer.chart')}
-                            itemKey={ViewerPivot.Chart}
+                            itemKey={TimeSeriesViewerPivot.Chart}
                         >
                             <TimeSeriesChart
                                 defaultOptions={chartOptions}
@@ -85,7 +99,7 @@ const TimeSeriesViewer: React.FC<ITimeSeriesViewerProps> = (props) => {
                             headerText={t(
                                 'dataHistoryExplorer.viewer.table.title'
                             )}
-                            itemKey={ViewerPivot.Table}
+                            itemKey={TimeSeriesViewerPivot.Table}
                         >
                             <TimeSeriesTable
                                 quickTimeSpanInMillis={

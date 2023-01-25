@@ -24,7 +24,13 @@ import { IDataHistoryChartOptions } from '../../../../../../Models/Types/Generat
 import { QuickTimeSpanKey } from '../../../../../../Models/Constants/Enums';
 import { QuickTimeSpans } from '../../../../../../Models/Constants/Constants';
 import { TimeSeriesViewerContext } from '../../TimeSeriesViewer';
-import { deepCopy } from '../../../../../../Models/Services/Utils';
+import {
+    deepCopy,
+    getDebugLogger
+} from '../../../../../../Models/Services/Utils';
+
+const debugLogging = false;
+const logDebugConsole = getDebugLogger('TimeSeriesChart', debugLogging);
 
 const getClassNames = classNamesFunction<
     ITimeSeriesChartStyleProps,
@@ -86,12 +92,14 @@ const TimeSeriesChart: React.FC<ITimeSeriesChartProps> = (props) => {
     const prevQuery = usePrevious(query);
     useEffect(() => {
         if (query && query !== prevQuery) {
+            logDebugConsole('debug', `Query to send for Chart: ${query}`);
             fetchTimeSeriesData();
             updateXMinAndMax();
         }
     }, [query]);
     useEffect(() => {
         if (onChartOptionsChange) {
+            logDebugConsole('debug', `Chart options changed: ${chartOptions}`);
             onChartOptionsChange(chartOptions);
         }
     }, [chartOptions]);
