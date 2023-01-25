@@ -535,11 +535,12 @@ export function rgbToHex(r, g, b) {
 }
 
 export async function parseModels(models: DtdlInterface[]) {
-    const modelParser = createParser(
-        ModelParsingOption.PermitAnyTopLevelElement
+    const DTDLParserPath = './dtdl-parser/index.js';
+    const { parseAsync } = await import(
+        /* webpackIgnore: true */ DTDLParserPath
     );
     try {
-        await modelParser.parse([JSON.stringify(models)]);
+        await parseAsync([JSON.stringify(models)]);
     } catch (err) {
         if (err.name === 'ParsingException') {
             return err._parsingErrors

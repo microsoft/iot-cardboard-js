@@ -2,7 +2,8 @@ import {
     AzureAccessPermissionRoleGroups,
     AzureAccessPermissionRoles,
     IADTBackgroundColor,
-    IADTObjectColor
+    IADTObjectColor,
+    QuickTimeSpanKey
 } from '../Constants';
 import {
     defaultDataHistoryWidget,
@@ -32,7 +33,8 @@ import IconPoint from '../../Resources/Static/point.svg';
 import IconPolygon from '../../Resources/Static/polygon.svg';
 import IconString from '../../Resources/Static/string.svg';
 import IconTime from '../../Resources/Static/time.svg';
-import { FontSizes } from '@fluentui/react';
+import { FontSizes, IDropdownOption } from '@fluentui/react';
+import { IDataHistoryAggregationType } from '../Types/Generated/3DScenesConfiguration-v1.0.0';
 
 // make sure models in the ADT instance have these definitions and twins have these properties for process graphics card
 export const ADTModel_ImgSrc_PropertyName = 'processGraphicImageSrc';
@@ -554,3 +556,36 @@ export const RequiredAccessRoleGroupForADTInstance: AzureAccessPermissionRoleGro
 };
 
 export const CONNECTION_STRING_SUFFIX = '.kusto.windows.net';
+
+/** Quick time span key to value in millisecond mapping */
+export const QuickTimeSpans = {
+    [QuickTimeSpanKey.Last15Mins]: 15 * 60 * 1000,
+    [QuickTimeSpanKey.Last30Mins]: 30 * 60 * 1000,
+    [QuickTimeSpanKey.LastHour]: 1 * 60 * 60 * 1000,
+    [QuickTimeSpanKey.Last3Hours]: 3 * 60 * 60 * 1000,
+    [QuickTimeSpanKey.Last6Hours]: 6 * 60 * 60 * 1000,
+    [QuickTimeSpanKey.Last12Hours]: 12 * 60 * 60 * 1000,
+    [QuickTimeSpanKey.Last24Hours]: 24 * 60 * 60 * 1000,
+    [QuickTimeSpanKey.Last7Days]: 7 * 24 * 60 * 60 * 1000,
+    [QuickTimeSpanKey.Last30Days]: 30 * 24 * 60 * 60 * 1000,
+    [QuickTimeSpanKey.Last60Days]: 60 * 24 * 60 * 60 * 1000,
+    [QuickTimeSpanKey.Last90Days]: 90 * 24 * 60 * 60 * 1000,
+    [QuickTimeSpanKey.Last180Days]: 180 * 24 * 60 * 60 * 1000,
+    [QuickTimeSpanKey.LastYear]: 365 * 24 * 60 * 60 * 1000
+};
+
+/** No translation needed for these options */
+export const AggregationTypeDropdownOptions: Array<IDropdownOption> = [
+    {
+        key: 'avg' as IDataHistoryAggregationType,
+        text: 'avg'
+    },
+    {
+        key: 'min' as IDataHistoryAggregationType,
+        text: 'min'
+    },
+    {
+        key: 'max' as IDataHistoryAggregationType,
+        text: 'max'
+    }
+];

@@ -141,7 +141,6 @@ export const DataHistoryWidgetErrorHandling: React.FC<IDataHistoryWidgetErrorHan
     return (
         <div style={classNames.errorContainer.root}>
             <IllustrationMessage
-                headerText=""
                 descriptionText={errorObj.description}
                 type={'info'}
                 width={'compact'}

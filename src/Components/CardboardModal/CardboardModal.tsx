@@ -34,6 +34,7 @@ const CardboardModal: React.FC<ICardboardModalProps> = (props) => {
         footerDangerButtonProps,
         footerLinkProps,
         footerPrimaryButtonProps,
+        footerDefaultButtonProps,
         isOpen,
         modalProps,
         onDismiss,
@@ -126,6 +127,7 @@ const CardboardModal: React.FC<ICardboardModalProps> = (props) => {
                             <DefaultButton
                                 text={t('cancel')}
                                 onClick={onDismiss}
+                                {...footerDefaultButtonProps}
                                 styles={classNames.subComponentStyles.cancelButton?.()}
                             />
                             {footerPrimaryButtonProps && (

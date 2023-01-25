@@ -1306,18 +1306,20 @@
     "title": "Průzkumník historie dat",
     "builder": {
       "title": "Vlastnosti dvojčat",
-      "description": "Chcete-li porovnat historizované vlastnosti v rámci tohoto dvojčete nebo s jinými dvojčaty, přidejte je níže.",
       "timeSeriesTwin": {
-        "edit": "Úprava dvojčete časové řady",
-        "remove": "Odebrání dvojčete časové řady",
         "property": "Vlastnost",
         "propertyTypeCastLabel": "Přetypování typu vlastnosti na číslo",
-        "add": "Přidání dvojčete časové řady"
-      }
+        "add": "Přidat časovou řadu",
+        "remove": "Odebrání časové řady",
+        "edit": "Úprava časové řady"
+      },
+      "description": "Chcete-li porovnat minulé hodnoty pro historizované vlastnosti, přidejte níže časovou řadu."
     },
     "viewer": {
       "chart": "Graf",
-      "table": "Stůl"
-    }
+      "table": "Stůl",
+      "noSeriesDescription": "Chcete-li zobrazit historii dat pro toto dvojče, vyberte vlastnost, kterou chcete zobrazit."
+    },
+    "loadingConnectionLabel": "Informace o připojení časové řady načítání..."
   }
 }

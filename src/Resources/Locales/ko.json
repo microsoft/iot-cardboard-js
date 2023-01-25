@@ -1306,18 +1306,20 @@
     "title": "데이터 기록 탐색기",
     "builder": {
       "title": "트윈 속성",
-      "description": "이 쌍둥이 또는 다른 쌍둥이 내에서 역사화된 속성을 비교하려면 아래에 추가하십시오.",
       "timeSeriesTwin": {
-        "edit": "시계열 쌍둥이 편집",
-        "remove": "시계열 쌍 제거",
         "property": "재산",
         "propertyTypeCastLabel": "속성 유형을 번호로 캐스트",
-        "add": "시계열 쌍 추가"
-      }
+        "add": "시계열 추가",
+        "remove": "시계열 제거",
+        "edit": "시계열 편집"
+      },
+      "description": "히스토라이즈된 속성의 과거 값을 비교하려면 아래에 시계열을 추가합니다."
     },
     "viewer": {
       "chart": "차트",
-      "table": "테이블"
-    }
+      "table": "테이블",
+      "noSeriesDescription": "이 쌍에 대한 데이터 기록을 보려면 보려는 속성을 선택합니다."
+    },
+    "loadingConnectionLabel": "시계열 연결 정보 로드 중..."
   }
 }

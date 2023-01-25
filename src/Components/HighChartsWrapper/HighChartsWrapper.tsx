@@ -60,7 +60,7 @@ const HighChartsWrapper: React.FC<IHighChartsWrapperProps> = (props) => {
                                 ])
                                 .sort((a, b) => a[0] - b[0]), // sort in case the timestamps are not in ascending order
                             type: 'line', // by default, show series in line chart type
-                            color: getHighChartColor(idx), // by default, set color to use it for labels in legend to match series color
+                            color: sD.color || getHighChartColor(idx), // by default, set color to use it for labels in legend to match series color
                             marker: {
                                 enabled: sD.data.length === 1 // by default, do not mark data points if there is more than 1, only show on hover
                             },
@@ -83,7 +83,7 @@ const HighChartsWrapper: React.FC<IHighChartsWrapperProps> = (props) => {
                             }
                         } as SeriesOptionsType)
                 ) || [],
-        [seriesData]
+        [seriesData, chartOptions]
     );
 
     // styles
@@ -106,7 +106,7 @@ const HighChartsWrapper: React.FC<IHighChartsWrapperProps> = (props) => {
     };
 
     const multipleYAxisProps: Array<Highcharts.YAxisOptions> = highChartSeries.map(
-        (_hcS, idx) => {
+        (hcS, idx) => {
             const isOnOppositeSide =
                 idx > 0 && idx >= Math.floor(highChartSeries.length / 2)
                     ? true
@@ -117,7 +117,9 @@ const HighChartsWrapper: React.FC<IHighChartsWrapperProps> = (props) => {
                 title: undefined, // by default, do not show any labels in y axis, only numeric range
                 labels: {
                     x: isOnOppositeSide ? 8 : -8, // to make label space less to make up more space for plot
-                    style: { color: getHighChartColor(idx) }
+                    style: {
+                        color: (hcS.color as string) || getHighChartColor(idx)
+                    }
                 }
             };
         }

@@ -1306,18 +1306,20 @@
     "title": "Adatelőzmény-kezelő",
     "builder": {
       "title": "Iker tulajdonságok",
-      "description": "Ha össze szeretné hasonlítani a historizált tulajdonságokat ezen az ikeren belül vagy más ikrekkel, adja hozzá őket alább.",
       "timeSeriesTwin": {
-        "edit": "Iker idősor szerkesztése",
-        "remove": "Iker idősor eltávolítása",
         "property": "Ingatlan",
         "propertyTypeCastLabel": "Öntött tulajdonság típusa számra",
-        "add": "Iker idősor hozzáadása"
-      }
+        "add": "Idősorok hozzáadása",
+        "remove": "Idősorok eltávolítása",
+        "edit": "Idősorok szerkesztése"
+      },
+      "description": "A historizált tulajdonságok múltbeli értékeinek összehasonlításához adja hozzá az alábbi idősorokat."
     },
     "viewer": {
       "chart": "Diagram",
-      "table": "Asztal"
-    }
+      "table": "Asztal",
+      "noSeriesDescription": "Az ikereszköz adatelőzményeinek megtekintéséhez válassza ki a megtekinteni kívánt tulajdonságot."
+    },
+    "loadingConnectionLabel": "Idősoros kapcsolati információk betöltése..."
   }
 }

@@ -1306,18 +1306,20 @@
     "title": "Datenverlaufs-Explorer",
     "builder": {
       "title": "Twin-Immobilien",
-      "description": "Um historisierte Eigenschaften innerhalb dieses Zwillings oder mit anderen Zwillingen zu vergleichen, fügen Sie sie unten hinzu.",
       "timeSeriesTwin": {
-        "edit": "Zeitreihen-Zwilling bearbeiten",
-        "remove": "Zeitreihen-Zwilling entfernen",
         "property": "Eigentum",
         "propertyTypeCastLabel": "Eigenschaftstyp in Zahl umwandeln",
-        "add": "Zeitreihen-Zwilling hinzufügen"
-      }
+        "add": "Zeitreihen hinzufügen",
+        "remove": "Zeitreihen entfernen",
+        "edit": "Zeitreihen bearbeiten"
+      },
+      "description": "Um vergangene Werte für historisierte Eigenschaften zu vergleichen, fügen Sie unten Zeitreihen hinzu."
     },
     "viewer": {
       "chart": "Diagramm",
-      "table": "Tisch"
-    }
+      "table": "Tisch",
+      "noSeriesDescription": "Um den Datenverlauf für diesen Zwilling anzuzeigen, wählen Sie eine anzuzeigende Eigenschaft aus."
+    },
+    "loadingConnectionLabel": "Zeitreihen-Verbindungsinformationen werden geladen..."
   }
 }

@@ -1075,7 +1075,7 @@ export default class ADTAdapter implements IADTAdapter {
                         );
                         if (
                             !behavior ||
-                            (visibleLayerIds &&
+                            (visibleLayerIds?.length > 0 &&
                                 behaviorIdsInSelectedLayers &&
                                 !behaviorIdsInSelectedLayers.includes(
                                     behaviorId
