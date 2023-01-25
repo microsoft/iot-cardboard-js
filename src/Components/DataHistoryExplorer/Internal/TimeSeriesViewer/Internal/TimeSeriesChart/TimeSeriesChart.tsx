@@ -99,7 +99,10 @@ const TimeSeriesChart: React.FC<ITimeSeriesChartProps> = (props) => {
     }, [query]);
     useEffect(() => {
         if (onChartOptionsChange) {
-            logDebugConsole('debug', `Chart options changed: ${chartOptions}`);
+            logDebugConsole(
+                'debug',
+                `Chart options changed: ${JSON.stringify(chartOptions)}`
+            );
             onChartOptionsChange(chartOptions);
         }
     }, [chartOptions]);
