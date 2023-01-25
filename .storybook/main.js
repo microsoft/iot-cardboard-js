@@ -1,9 +1,7 @@
 const path = require('path');
 const ESLintPlugin = require('eslint-webpack-plugin');
-const CopyPlugin = require('copy-webpack-plugin');
 const postcssUrl = require('postcss-url');
 const AppSourceDir = path.join(__dirname, '..', 'src');
-const AppDistDir = path.join(__dirname, '..', 'storybook-static');
 
 module.exports = {
     stories:
@@ -33,7 +31,9 @@ module.exports = {
         check: false,
         reactDocgen: false
     },
-    staticDirs: [AppDistDir],
+    staticDirs: [
+        { from: '../node_modules/dtdl-parser-interop', to: '/dtdl-parser' }
+    ],
     webpackFinal: async (config) => {
         // Disable the Storybook internal-`.svg`-rule for components loaded from our app.
         const svgRule = config.module.rules.find((rule) =>
@@ -80,14 +80,6 @@ module.exports = {
             new ESLintPlugin({
                 extensions: ['js', 'ts', 'tsx'],
                 files: 'src/**'
-            }),
-            new CopyPlugin({
-                patterns: [
-                    {
-                        from: './node_modules/dtdl-parser-interop',
-                        to: path.join(AppDistDir, 'dtdl-parser')
-                    }
-                ]
             })
         );
 
