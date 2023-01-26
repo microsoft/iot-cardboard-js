@@ -42,3 +42,5 @@ export enum TimeSeriesViewerPivot {
 export interface ITimeSeriesViewerContext {
     timeSeriesTwinList: Array<IDataHistoryTimeSeriesTwin>;
 }
+
+export const ERROR_IMAGE_HEIGHT = 120;

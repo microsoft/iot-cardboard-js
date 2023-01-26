@@ -105,28 +105,6 @@ export const getStyles = ({
                     fontSize: FontSizes.size16,
                     lineHeight: '16px'
                 }
-            },
-            errorContainer: {
-                root: {
-                    flexGrow: 1,
-                    overflow: 'hidden',
-                    display: 'flex'
-                },
-                image: {
-                    root: { flexShrink: 0 }
-                },
-                textContainer: { flexGrow: 1, paddingTop: 0 },
-                descriptionContainer: {
-                    whiteSpace: 'normal',
-                    maxWidth: 220,
-                    overflow: 'hidden',
-                    span: {
-                        width: '100%',
-                        maxHeight: 40,
-                        display: 'block',
-                        overflowY: 'auto'
-                    }
-                }
             }
         }
     };

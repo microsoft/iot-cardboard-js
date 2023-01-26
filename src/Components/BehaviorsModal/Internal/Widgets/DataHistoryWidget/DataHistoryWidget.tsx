@@ -35,6 +35,7 @@ import {
     IDataHistoryTimeSeries,
     IDataHistoryWidgetConfiguration
 } from '../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
+import DataHistoryErrorHandlingWrapper from '../../../../DataHistoryErrorHandlingWrapper/DataHistoryErrorHandlingWrapper';
 import HighChartsWrapper from '../../../../HighChartsWrapper/HighChartsWrapper';
 import { IHighChartSeriesData } from '../../../../HighChartsWrapper/HighChartsWrapper.types';
 import {
@@ -45,11 +46,11 @@ import QuickTimesDropdown from '../../../../QuickTimesDropdown/QuickTimesDropdow
 import { BehaviorsModalContext } from '../../../BehaviorsModal';
 import { getStyles } from './DataHistoryWidget.styles';
 import {
+    ERROR_IMAGE_HEIGHT,
     IDataHistoryWidgetProps,
     IDataHistoryWidgetStyleProps,
     IDataHistoryWidgetStyles
 } from './DataHistoryWidget.types';
-import { DataHistoryWidgetErrorHandling } from './Internal/DataHistoryWidgetErrorHandling';
 
 export const getDataHistoryWidgetClassNames = classNamesFunction<
     IDataHistoryWidgetStyleProps,
@@ -219,7 +220,10 @@ const DataHistoryWidget: React.FC<IDataHistoryWidgetProps> = ({
                     <div className={classNames.header}>
                         <span className={classNames.title}>{displayName}</span>
                     </div>
-                    <DataHistoryWidgetErrorHandling errors={errors} />
+                    <DataHistoryErrorHandlingWrapper
+                        error={errors[0]}
+                        imgHeight={ERROR_IMAGE_HEIGHT}
+                    />
                 </>
             ) : (
                 <>

@@ -59,7 +59,8 @@ export enum ComponentErrorType {
     NoContainerUrl = 'NoContainerUrl',
     NoADTInstanceUrl = 'NoADTInstanceUrl',
     ConnectionError = 'ConnectionError',
-    BadRequestException = 'BadRequestException'
+    BadRequestException = 'BadRequestException',
+    TimeSeriesDatabaseConnectionFetchFailed = 'TimeSeriesDatabaseConnectionFetchFailed'
 }
 
 export enum ErrorImages {

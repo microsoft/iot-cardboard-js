@@ -110,6 +110,10 @@
         "schemaValidationFailed": {
             "type": "JSON schema validation failed",
             "message": "JSON is invalid. Check syntax matches required schema."
+        },
+        "timeSeriesDatabaseConnectionFetchFailed": {
+            "type": "Time series database connection validation failed",
+            "message": "Data history is not enabled for selected instance or time series database connection could not be verified."
         }
     },
     "valueRangeBuilder": {
@@ -654,13 +658,6 @@
                         "information": "When there are too many datapoints to display, values will be grouped in the chart. Choose the aggregation method for these groupings."
                     }
                 }
-            },
-            "errors": {
-                "genericNetwork": "Cluster url is invalid or a network error occured.",
-                "genericBadRequest": "Bad request exception occured.",
-                "generalBadRequestMessage": "Request is invalid and cannot be executed.",
-                "entityNotFound": "Database not found, failed to execute the query.",
-                "forbidden": "Access was denied, you do not have query permissions."
             }
         },
         "notSupported": "This widget type is not currently supported"
@@ -1326,6 +1323,15 @@
                 }
             },
             "noSeriesDescription": "To view data history for this twin, select a property to view."
+        }
+    },
+    "dataHistoryErrorHandlingWrapper": {
+        "errors": {
+            "genericNetwork": "Cluster cannot be connected which may be due to invalid url, stopped service or a network error.",
+            "genericBadRequest": "Bad request exception occured.",
+            "generalBadRequestMessage": "Request is invalid and cannot be executed.",
+            "entityNotFound": "Database not found, failed to execute the query.",
+            "forbidden": "Access was denied, you do not have query permissions."
         }
     }
 }

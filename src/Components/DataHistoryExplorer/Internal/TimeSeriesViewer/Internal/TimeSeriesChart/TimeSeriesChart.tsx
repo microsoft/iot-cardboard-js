@@ -28,6 +28,8 @@ import {
     deepCopy,
     getDebugLogger
 } from '../../../../../../Models/Services/Utils';
+import DataHistoryErrorHandlingWrapper from '../../../../../DataHistoryErrorHandlingWrapper/DataHistoryErrorHandlingWrapper';
+import { ERROR_IMAGE_HEIGHT } from '../../TimeSeriesViewer.types';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('TimeSeriesChart', debugLogging);
@@ -61,6 +63,7 @@ const TimeSeriesChart: React.FC<ITimeSeriesChartProps> = (props) => {
         query,
         deeplink,
         data,
+        errors,
         fetchTimeSeriesData,
         isLoading
     } = useTimeSeriesData({
@@ -114,28 +117,38 @@ const TimeSeriesChart: React.FC<ITimeSeriesChartProps> = (props) => {
 
     return (
         <div className={classNames.root}>
-            <ChartCommandBar
-                defaultOptions={chartOptions}
-                onChange={setChartOptions}
-                deeplink={deeplink}
-            />
-            <div className={classNames.chartContainer}>
-                <HighChartsWrapper
-                    seriesData={highChartSeriesData}
-                    isLoading={isLoading}
-                    chartOptions={{
-                        titleAlign: 'left',
-                        legendLayout: 'horizontal',
-                        legendPadding: 0,
-                        hasMultipleAxes:
-                            chartOptions.yAxisType === 'independent',
-                        dataGrouping: chartOptions.aggregationType,
-                        xMinInMillis: xMinDateInMillisRef.current,
-                        xMaxInMillis: xMaxDateInMillisRef.current,
-                        maxLegendHeight: 160
-                    }}
+            {errors.length > 0 ? (
+                <DataHistoryErrorHandlingWrapper
+                    error={errors[0]}
+                    imgHeight={ERROR_IMAGE_HEIGHT}
+                    styles={classNames.subComponentStyles.errorWrapper}
                 />
-            </div>
+            ) : (
+                <>
+                    <ChartCommandBar
+                        defaultOptions={chartOptions}
+                        onChange={setChartOptions}
+                        deeplink={deeplink}
+                    />
+                    <div className={classNames.chartContainer}>
+                        <HighChartsWrapper
+                            seriesData={highChartSeriesData}
+                            isLoading={isLoading}
+                            chartOptions={{
+                                titleAlign: 'left',
+                                legendLayout: 'horizontal',
+                                legendPadding: 0,
+                                hasMultipleAxes:
+                                    chartOptions.yAxisType === 'independent',
+                                dataGrouping: chartOptions.aggregationType,
+                                xMinInMillis: xMinDateInMillisRef.current,
+                                xMaxInMillis: xMaxDateInMillisRef.current,
+                                maxLegendHeight: 160
+                            }}
+                        />
+                    </div>
+                </>
+            )}
         </div>
     );
 };

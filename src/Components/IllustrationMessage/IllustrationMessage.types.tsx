@@ -6,6 +6,7 @@ import {
     ILinkProps,
     ILinkStyles,
     IStyle,
+    IStyleFunctionOrObject,
     ITextStyles,
     Theme
 } from '@fluentui/react';
@@ -33,7 +34,10 @@ export interface IllustrationMessageProps {
     /** Styles prop for the component, use this prop for styles
      * of header, description, link, image, and button
      */
-    styles?: IllustrationMessageStyles;
+    styles?: IStyleFunctionOrObject<
+        IllustrationMessageStyleProps,
+        IllustrationMessageStyles
+    >;
 }
 
 export interface IllustrationMessageStyleProps {

@@ -1,9 +1,4 @@
-import {
-    IImageStyles,
-    IStyle,
-    IStyleFunctionOrObject,
-    ITheme
-} from '@fluentui/react';
+import { IStyle, IStyleFunctionOrObject, ITheme } from '@fluentui/react';
 import { CSSProperties } from 'react';
 import { IDataHistoryWidget } from '../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 
@@ -37,16 +32,6 @@ export interface IDataHistoryWidgetSubComponentStyles {
         dropdown?: IStyle;
         menuItemIcon?: CSSProperties;
     };
-    errorContainer: {
-        root: CSSProperties;
-        image: Partial<IImageStyles>;
-        textContainer: IStyle;
-        descriptionContainer: IStyle;
-    };
 }
 
-export enum DataHistoryServiceErrorCodes {
-    General_BadRequest = 'General_BadRequest',
-    BadRequest_EntityNotFound = 'BadRequest_EntityNotFound',
-    Forbidden = 'Forbidden'
-}
+export const ERROR_IMAGE_HEIGHT = 72;

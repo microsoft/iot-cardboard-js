@@ -7,6 +7,7 @@ import {
     ITheme
 } from '@fluentui/react';
 import { ADXTimeSeriesTableRow } from '../../../../../../Models/Constants/Types';
+import { IDataHistoryErrorHandlingWrapperStyles } from '../../../../../DataHistoryErrorHandlingWrapper/DataHistoryErrorHandlingWrapper.types';
 
 export interface ITimeSeriesTableProps {
     quickTimeSpanInMillis: number;
@@ -44,6 +45,7 @@ export interface ITimeSeriesTableSubComponentStyles {
         { color: string },
         IProcessedStyleSet<SeriesColumnStyles>
     >;
+    errorWrapper?: Partial<IDataHistoryErrorHandlingWrapperStyles>;
 }
 
 export enum TimeStampFormat {

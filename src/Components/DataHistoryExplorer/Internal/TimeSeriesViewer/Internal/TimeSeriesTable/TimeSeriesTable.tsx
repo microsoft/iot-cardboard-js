@@ -44,6 +44,8 @@ import {
     getDebugLogger,
     sortAscendingOrDescending
 } from '../../../../../../Models/Services/Utils';
+import DataHistoryErrorHandlingWrapper from '../../../../../DataHistoryErrorHandlingWrapper/DataHistoryErrorHandlingWrapper';
+import { ERROR_IMAGE_HEIGHT } from '../../TimeSeriesViewer.types';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('TimeSeriesTable', debugLogging);
@@ -77,6 +79,7 @@ const TimeSeriesTable: React.FC<ITimeSeriesTableProps> = (props) => {
     const {
         query,
         data,
+        errors,
         fetchTimeSeriesData,
         isLoading = true
     } = useTimeSeriesData({
@@ -234,6 +237,12 @@ const TimeSeriesTable: React.FC<ITimeSeriesTableProps> = (props) => {
                     )}
                     ariaLive="assertive"
                     labelPosition="top"
+                />
+            ) : errors.length > 0 ? (
+                <DataHistoryErrorHandlingWrapper
+                    error={errors[0]}
+                    imgHeight={ERROR_IMAGE_HEIGHT}
+                    styles={classNames.subComponentStyles.errorWrapper}
                 />
             ) : data === null || data?.length === 0 ? (
                 <IllustrationMessage
