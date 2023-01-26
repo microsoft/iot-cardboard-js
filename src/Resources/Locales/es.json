@@ -100,6 +100,10 @@
     "schemaValidationFailed": {
       "type": "Error en la validación del esquema JSON",
       "message": "JSON no es válido. Compruebe que la sintaxis coincide con el esquema requerido."
+    },
+    "timeSeriesDatabaseConnectionFetchFailed": {
+      "type": "Error en la validación de la conexión de la base de datos de series temporales",
+      "message": "El historial de datos no está habilitado para la instancia seleccionada o no se pudo comprobar la conexión de base de datos de serie temporal."
     }
   },
   "valueRangeBuilder": {
@@ -650,14 +654,7 @@
         }
       },
       "headerMenu": "Menú del widget Historial de datos",
-      "openQuery": "Abrir consulta en el Explorador de datos de Azure",
-      "errors": {
-        "genericNetwork": "La dirección URL del clúster no es válida o se ha producido un error de red.",
-        "genericBadRequest": "Se ha producido una excepción de solicitud incorrecta.",
-        "generalBadRequestMessage": "La solicitud no es válida y no se puede ejecutar.",
-        "entityNotFound": "No se encontró la base de datos, no se pudo ejecutar la consulta.",
-        "forbidden": "Se ha denegado el acceso, no tiene permisos de consulta."
-      }
+      "openQuery": "Abrir consulta en el Explorador de datos de Azure"
     }
   },
   "sdkStrings": {
@@ -1335,5 +1332,14 @@
       }
     },
     "loadingConnectionLabel": "Cargando información de conexión de series temporales..."
+  },
+  "dataHistoryErrorHandlingWrapper": {
+    "errors": {
+      "genericNetwork": "El clúster no se puede conectar, lo que puede deberse a una URL no válida, un servicio detenido o un error de red.",
+      "genericBadRequest": "Se ha producido una excepción de solicitud incorrecta.",
+      "generalBadRequestMessage": "La solicitud no es válida y no se puede ejecutar.",
+      "entityNotFound": "Base de datos no encontrada, no se pudo ejecutar la consulta.",
+      "forbidden": "Se ha denegado el acceso, no tiene permisos de consulta."
+    }
   }
 }

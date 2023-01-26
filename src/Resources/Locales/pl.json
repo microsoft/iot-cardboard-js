@@ -100,6 +100,10 @@
     "schemaValidationFailed": {
       "type": "Sprawdzanie poprawności schematu JSON nie powiodło się",
       "message": "Kod JSON jest nieprawidłowy. Sprawdź zgodność składni z wymaganym schematem."
+    },
+    "timeSeriesDatabaseConnectionFetchFailed": {
+      "type": "Sprawdzanie poprawności połączenia z bazą danych szeregów czasowych nie powiodło się",
+      "message": "Historia danych nie jest włączona dla wybranego wystąpienia lub nie można zweryfikować połączenia z bazą danych szeregów czasowych."
     }
   },
   "valueRangeBuilder": {
@@ -650,14 +654,7 @@
         }
       },
       "headerMenu": "Menu widżetu Historia danych",
-      "openQuery": "Otwieranie zapytania w usłudze Azure Data Explorer",
-      "errors": {
-        "genericNetwork": "Adres URL klastra jest nieprawidłowy lub wystąpił błąd sieci.",
-        "genericBadRequest": "Wystąpił wyjątek nieprawidłowego żądania.",
-        "generalBadRequestMessage": "Żądanie jest nieprawidłowe i nie można go wykonać.",
-        "entityNotFound": "Nie znaleziono bazy danych, nie można wykonać zapytania.",
-        "forbidden": "Odmowa dostępu, nie masz uprawnień do wykonywania zapytań."
-      }
+      "openQuery": "Otwieranie zapytania w usłudze Azure Data Explorer"
     }
   },
   "sdkStrings": {
@@ -1335,5 +1332,14 @@
       }
     },
     "loadingConnectionLabel": "Czas ładowania szeregów informacji o połączeniu..."
+  },
+  "dataHistoryErrorHandlingWrapper": {
+    "errors": {
+      "genericNetwork": "Nie można połączyć się z klastrem, co może być spowodowane nieprawidłowym adresem URL, zatrzymaniem usługi lub błędem sieci.",
+      "genericBadRequest": "Wystąpił wyjątek nieprawidłowego żądania.",
+      "generalBadRequestMessage": "Żądanie jest nieprawidłowe i nie można go wykonać.",
+      "entityNotFound": "Nie znaleziono bazy danych, nie można wykonać zapytania.",
+      "forbidden": "Odmowa dostępu, nie masz uprawnień do wykonywania zapytań."
+    }
   }
 }

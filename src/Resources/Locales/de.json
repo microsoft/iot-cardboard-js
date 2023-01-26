@@ -100,6 +100,10 @@
     "schemaValidationFailed": {
       "type": "JSON-Schemavalidierung fehlgeschlagen",
       "message": "JSON ist ungültig. Überprüfen Sie, ob die Syntax mit dem erforderlichen Schema übereinstimmt."
+    },
+    "timeSeriesDatabaseConnectionFetchFailed": {
+      "type": "Fehler bei der Überprüfung der Zeitreihendatenbankverbindung",
+      "message": "Der Datenverlauf ist für die ausgewählte Instanz nicht aktiviert, oder die Zeitreihendatenbankverbindung konnte nicht überprüft werden."
     }
   },
   "valueRangeBuilder": {
@@ -650,14 +654,7 @@
         }
       },
       "headerMenu": "Menü des Widgets \"Datenverlauf\"",
-      "openQuery": "Abfrage im Azure-Daten-Explorer öffnen",
-      "errors": {
-        "genericNetwork": "Die Cluster-URL ist ungültig, oder es ist ein Netzwerkfehler aufgetreten.",
-        "genericBadRequest": "Eine ungültige Anforderungsausnahme ist aufgetreten.",
-        "generalBadRequestMessage": "Die Anforderung ist ungültig und kann nicht ausgeführt werden.",
-        "entityNotFound": "Datenbank nicht gefunden, Abfrage konnte nicht ausgeführt werden.",
-        "forbidden": "Der Zugriff wurde verweigert, Sie verfügen nicht über Abfrageberechtigungen."
-      }
+      "openQuery": "Abfrage im Azure-Daten-Explorer öffnen"
     }
   },
   "sdkStrings": {
@@ -1335,5 +1332,14 @@
       }
     },
     "loadingConnectionLabel": "Zeitreihen-Verbindungsinformationen werden geladen..."
+  },
+  "dataHistoryErrorHandlingWrapper": {
+    "errors": {
+      "genericNetwork": "Der Cluster kann nicht verbunden werden, was auf eine ungültige URL, einen gestoppten Dienst oder einen Netzwerkfehler zurückzuführen sein kann.",
+      "genericBadRequest": "Eine ungültige Anforderungsausnahme ist aufgetreten.",
+      "generalBadRequestMessage": "Die Anforderung ist ungültig und kann nicht ausgeführt werden.",
+      "entityNotFound": "Datenbank nicht gefunden, konnte die Abfrage nicht ausgeführt werden.",
+      "forbidden": "Der Zugriff wurde verweigert, Sie verfügen nicht über Abfrageberechtigungen."
+    }
   }
 }

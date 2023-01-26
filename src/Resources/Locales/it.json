@@ -100,6 +100,10 @@
     "schemaValidationFailed": {
       "type": "Convalida dello schema JSON non riuscita",
       "message": "JSON non è valido. Verificare che la sintassi corrisponda allo schema richiesto."
+    },
+    "timeSeriesDatabaseConnectionFetchFailed": {
+      "type": "Convalida della connessione al database Time Series non riuscita",
+      "message": "Impossibile verificare la cronologia dei dati per l'istanza selezionata o Impossibile verificare la connessione al database delle serie temporali."
     }
   },
   "valueRangeBuilder": {
@@ -650,14 +654,7 @@
         }
       },
       "headerMenu": "Menu widget Cronologia dati",
-      "openQuery": "Aprire query in Esplora dati di Azure",
-      "errors": {
-        "genericNetwork": "L'URL del cluster non è valido o si è verificato un errore di rete.",
-        "genericBadRequest": "Si è verificata un'eccezione per richiesta non valida.",
-        "generalBadRequestMessage": "La richiesta non è valida e non può essere eseguita.",
-        "entityNotFound": "Database non trovato, impossibile eseguire la query.",
-        "forbidden": "L'accesso è stato negato, non si dispone delle autorizzazioni di query."
-      }
+      "openQuery": "Aprire query in Esplora dati di Azure"
     }
   },
   "sdkStrings": {
@@ -1335,5 +1332,14 @@
       }
     },
     "loadingConnectionLabel": "Caricamento delle informazioni di connessione delle serie temporali..."
+  },
+  "dataHistoryErrorHandlingWrapper": {
+    "errors": {
+      "genericNetwork": "Impossibile connettere il cluster, il che potrebbe essere dovuto a URL non valido, servizio arrestato o un errore di rete.",
+      "genericBadRequest": "Si è verificata un'eccezione per richiesta non valida.",
+      "generalBadRequestMessage": "La richiesta non è valida e non può essere eseguita.",
+      "entityNotFound": "Database non trovato, impossibile eseguire la query.",
+      "forbidden": "L'accesso è stato negato, non si dispone delle autorizzazioni di query."
+    }
   }
 }

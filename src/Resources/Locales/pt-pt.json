@@ -100,6 +100,10 @@
     "schemaValidationFailed": {
       "type": "A validação do esquema JSON falhou",
       "message": "JSON é inválido. Verifique os jogos de sintaxe necessários."
+    },
+    "timeSeriesDatabaseConnectionFetchFailed": {
+      "type": "A validação da ligação da base de dados de séries de tempo falhou",
+      "message": "O histórico de dados não está ativado para a ligação de dados de séries de tempo selecionadas ou não foi possível verificar."
     }
   },
   "valueRangeBuilder": {
@@ -650,14 +654,7 @@
         }
       },
       "headerMenu": "Menu widget de histórico de dados",
-      "openQuery": "Consulta aberta no Azure Data Explorer",
-      "errors": {
-        "genericNetwork": "O url de cluster é inválido ou ocorreu um erro de rede.",
-        "genericBadRequest": "A exceção de mau pedido ocorreu.",
-        "generalBadRequestMessage": "O pedido é inválido e não pode ser executado.",
-        "entityNotFound": "A base de dados não foi encontrada, não executou a consulta.",
-        "forbidden": "O acesso foi negado, não tem permissões de consulta."
-      }
+      "openQuery": "Consulta aberta no Azure Data Explorer"
     }
   },
   "sdkStrings": {
@@ -1335,5 +1332,14 @@
       }
     },
     "loadingConnectionLabel": "Informação de ligação de séries de tempo..."
+  },
+  "dataHistoryErrorHandlingWrapper": {
+    "errors": {
+      "genericNetwork": "O cluster não pode ser ligado que pode ser devido a url inválido, serviço interrompido ou um erro de rede.",
+      "genericBadRequest": "A exceção de mau pedido ocorreu.",
+      "generalBadRequestMessage": "O pedido é inválido e não pode ser executado.",
+      "entityNotFound": "A base de dados não foi encontrada, não executou a consulta.",
+      "forbidden": "O acesso foi negado, não tem permissões de consulta."
+    }
   }
 }

@@ -100,6 +100,10 @@
     "schemaValidationFailed": {
       "type": "Échec de la validation du schéma JSON",
       "message": "JSON n’est pas valide. Vérifiez que la syntaxe correspond au schéma requis."
+    },
+    "timeSeriesDatabaseConnectionFetchFailed": {
+      "type": "Échec de la validation de la connexion à une base de données de séries chronologiques",
+      "message": "L’historique des données n’est pas activé pour l’instance sélectionnée ou la connexion à la base de données de séries chronologiques n’a pas pu être vérifiée."
     }
   },
   "valueRangeBuilder": {
@@ -650,14 +654,7 @@
         }
       },
       "headerMenu": "Menu du widget Historique des données",
-      "openQuery": "Ouvrir une requête dans l’Explorateur de données Azure",
-      "errors": {
-        "genericNetwork": "L’URL du cluster n’est pas valide ou une erreur réseau s’est produite.",
-        "genericBadRequest": "Une exception de demande incorrecte s’est produite.",
-        "generalBadRequestMessage": "La demande n’est pas valide et ne peut pas être exécutée.",
-        "entityNotFound": "Base de données introuvable, échec de l’exécution de la requête.",
-        "forbidden": "L’accès a été refusé, vous n’avez pas d’autorisations de requête."
-      }
+      "openQuery": "Ouvrir une requête dans l’Explorateur de données Azure"
     }
   },
   "sdkStrings": {
@@ -1335,5 +1332,14 @@
       }
     },
     "loadingConnectionLabel": "Chargement des informations de connexion de séries chronologiques..."
+  },
+  "dataHistoryErrorHandlingWrapper": {
+    "errors": {
+      "genericNetwork": "Le cluster ne peut pas être connecté, ce qui peut être dû à une URL non valide, à un service arrêté ou à une erreur réseau.",
+      "genericBadRequest": "Une exception de demande incorrecte s’est produite.",
+      "generalBadRequestMessage": "La demande n’est pas valide et ne peut pas être exécutée.",
+      "entityNotFound": "Base de données introuvable, échec de l’exécution de la requête.",
+      "forbidden": "L’accès a été refusé, vous n’avez pas d’autorisations de requête."
+    }
   }
 }

@@ -100,6 +100,10 @@
     "schemaValidationFailed": {
       "type": "JSON 架构验证失败",
       "message": "JSON 无效。检查语法是否与所需的架构匹配。"
+    },
+    "timeSeriesDatabaseConnectionFetchFailed": {
+      "type": "时序数据库连接验证失败",
+      "message": "未为所选实例启用数据历史记录，或者无法验证时序数据库连接。"
     }
   },
   "valueRangeBuilder": {
@@ -650,14 +654,7 @@
         }
       },
       "headerMenu": "“数据历史记录”小组件菜单",
-      "openQuery": "在 Azure 数据资源管理器中打开查询",
-      "errors": {
-        "genericNetwork": "群集 URL 无效或发生网络错误。",
-        "genericBadRequest": "发生错误请求异常。",
-        "generalBadRequestMessage": "请求无效，无法执行。",
-        "entityNotFound": "找不到数据库，无法执行查询。",
-        "forbidden": "访问被拒绝，您没有查询权限。"
-      }
+      "openQuery": "在 Azure 数据资源管理器中打开查询"
     }
   },
   "sdkStrings": {
@@ -1335,5 +1332,14 @@
       }
     },
     "loadingConnectionLabel": "正在加载时间序列连接信息..."
+  },
+  "dataHistoryErrorHandlingWrapper": {
+    "errors": {
+      "genericNetwork": "无法连接群集，这可能是由于无效的 url、停止的服务或网络错误造成的。",
+      "genericBadRequest": "发生错误请求异常。",
+      "generalBadRequestMessage": "请求无效，无法执行。",
+      "entityNotFound": "找不到数据库，无法执行查询。",
+      "forbidden": "访问被拒绝，您没有查询权限。"
+    }
   }
 }
