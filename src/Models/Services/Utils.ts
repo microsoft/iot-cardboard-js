@@ -55,8 +55,9 @@ export const parseDTDLModelsAsync = async (dtdlInterfaces: DtdlInterface[]) => {
                 interfaces.map((dtdlInterface) => JSON.stringify(dtdlInterface))
             );
         } catch (e) {
-            logDtdlParserError(e);
-            return e;
+            const parsedErrorMessage = JSON.parse(e?.message);
+            logDtdlParserError(parsedErrorMessage);
+            return parsedErrorMessage;
         }
     };
 
@@ -66,13 +67,10 @@ export const parseDTDLModelsAsync = async (dtdlInterfaces: DtdlInterface[]) => {
     let previousInterfaces = dtdlInterfaces;
     let failedModelCount = 0;
     const maxFailedModelCount = 20;
-    while (
-        modelDict?._parsingErrors &&
-        failedModelCount < maxFailedModelCount
-    ) {
+    while (modelDict?.Errors && failedModelCount < maxFailedModelCount) {
         try {
-            const parsingErrorCauses = modelDict?._parsingErrors?.map(
-                (pe) => pe?.cause
+            const parsingErrorCauses = modelDict?.Errors?.map(
+                (pe) => pe?.Cause
             ) as Array<string>;
 
             /* The parsing error cause is not a model ID, but it contains a model ID 
@@ -111,6 +109,8 @@ export const parseDTDLModelsAsync = async (dtdlInterfaces: DtdlInterface[]) => {
         }
     }
 
+    // eslint-disable-next-line no-debugger
+    debugger;
     return modelDict;
 };
 
@@ -119,14 +119,14 @@ export const logDtdlParserError = (parserErrors) => {
     try {
         console.group('DTDL Parser Errors');
         console.group('Raw Errors');
-        console.table(JSON.stringify(parserErrors?._parsingErrors));
+        console.table(JSON.stringify(parserErrors?.Errors));
         console.group('Specific Errors');
         const consoleStyle = 'background: #0274bf; color: #fff; padding: 2px;';
-        parserErrors?._parsingErrors?.forEach((pe) => {
-            console.group(pe?.primaryId);
-            console.log(`%cModelID: ${pe?.primaryId}`, consoleStyle);
-            console.log(`%cValidationId: ${pe?.validationId}`, consoleStyle);
-            console.log(`%cCause: ${pe?.cause}`, consoleStyle);
+        parserErrors?.Errors?.forEach((pe) => {
+            console.group(pe?.PrimaryID);
+            console.log(`%cModelID: ${pe?.PrimaryID}`, consoleStyle);
+            console.log(`%cValidationId: ${pe?.ValidationID}`, consoleStyle);
+            console.log(`%cCause: ${pe?.Cause}`, consoleStyle);
             console.groupEnd();
         });
         console.groupEnd();
