@@ -50,7 +50,7 @@ const GaugeWidget: React.FC<IProp> = ({ widget }) => {
     const {
         percent,
         colors,
-        nrOfLevels
+        arcsLength
     } = ViewerConfigUtility.getGaugeWidgetConfiguration(valueRanges, value);
 
     const styles = getStyles(activeColor);
@@ -68,14 +68,14 @@ const GaugeWidget: React.FC<IProp> = ({ widget }) => {
             </div>
             <GaugeChart
                 id={widget.id}
-                nrOfLevels={nrOfLevels}
-                cornerRadius={1}
                 colors={colors}
-                arcWidth={0.15}
+                cornerRadius={1}
+                arcsLength={arcsLength}
                 percent={percent}
                 animate={false}
                 needleColor={'var(--cb-color-text-primary)'}
                 hideText={true}
+                arcPadding={0.02}
             />
         </div>
     );
