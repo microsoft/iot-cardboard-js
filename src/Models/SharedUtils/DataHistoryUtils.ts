@@ -191,7 +191,7 @@ export const sendDataHistoryExplorerSystemTelemetry = (
 ) => {
     // capture the Data History Explorer Modal level metrics
     const event =
-        TelemetryEvents.Tools.DataHistoryExplorer.SystemAction.ParseModal;
+        TelemetryEvents.Tools.DataHistoryExplorer.SystemAction.ParseDataHistory;
     TelemetryService.sendEvent(
         new TelemetryEvent({
             name: event.eventName,

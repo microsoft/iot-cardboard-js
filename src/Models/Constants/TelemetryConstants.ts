@@ -185,7 +185,7 @@ export const TelemetryEvents = {
         /** data history explorer component */
         DataHistoryExplorer: {
             SystemAction: {
-                ParseModal: {
+                ParseDataHistory: {
                     eventName: 'ParseConfig.DataHistoryExplorerKpis',
                     properties: {
                         countSeries: 'countSeries'
