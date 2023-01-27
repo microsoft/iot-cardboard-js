@@ -64,7 +64,9 @@ const TimeSeriesTable: React.FC<ITimeSeriesTableProps> = (props) => {
 
     // contexts
     const { adapter } = useContext(DataHistoryExplorerContext);
-    const { timeSeriesTwinList } = useContext(TimeSeriesViewerContext);
+    const { timeSeriesTwinList, onMissingSeriesData } = useContext(
+        TimeSeriesViewerContext
+    );
 
     // state
     const [items, setItems] = useState<Array<TimeSeriesTableRow>>([]);
@@ -225,6 +227,16 @@ const TimeSeriesTable: React.FC<ITimeSeriesTableProps> = (props) => {
         );
         setItems(adxTimeSeriesTableRows);
     }, [data]);
+    useEffect(() => {
+        if (data && !isLoading) {
+            const seriesWithNoData = timeSeriesTwinList
+                ?.filter((ts) => !data?.find((d) => d.seriesId === ts.seriesId))
+                .map((ts) => ts.seriesId);
+            if (onMissingSeriesData) {
+                onMissingSeriesData(seriesWithNoData);
+            }
+        }
+    }, [data, timeSeriesTwinList, isLoading]);
 
     return (
         <div className={classNames.root}>

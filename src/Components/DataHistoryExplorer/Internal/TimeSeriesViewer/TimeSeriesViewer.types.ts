@@ -8,6 +8,7 @@ import { IDataHistoryTimeSeriesTwin } from '../../../../Models/Constants/Interfa
 
 export interface ITimeSeriesViewerProps {
     timeSeriesTwinList: Array<IDataHistoryTimeSeriesTwin>;
+    onMissingSeriesData?: (seriesIds: Array<string>) => void;
     /**
      * Call to provide customized styling that will layer on top of the variant rules.
      */
@@ -41,6 +42,7 @@ export enum TimeSeriesViewerPivot {
 
 export interface ITimeSeriesViewerContext {
     timeSeriesTwinList: Array<IDataHistoryTimeSeriesTwin>;
+    onMissingSeriesData?: (seriesIds: Array<string>) => void;
 }
 
 export const ERROR_IMAGE_HEIGHT = 120;

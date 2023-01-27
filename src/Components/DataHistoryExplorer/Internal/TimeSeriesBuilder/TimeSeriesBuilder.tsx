@@ -19,7 +19,8 @@ import {
     Stack,
     Separator,
     ActionButton,
-    IContextualMenuItem
+    IContextualMenuItem,
+    Theme
 } from '@fluentui/react';
 import { useId } from '@fluentui/react-hooks';
 import { TFunction, useTranslation } from 'react-i18next';
@@ -56,13 +57,15 @@ const LOC_KEYS = {
     description: `${ROOT_LOC}.description`,
     addTwin: `${ROOT_LOC}.timeSeriesTwin.add`,
     editTwin: `${ROOT_LOC}.timeSeriesTwin.edit`,
-    removeTwin: `${ROOT_LOC}.timeSeriesTwin.remove`
+    removeTwin: `${ROOT_LOC}.timeSeriesTwin.remove`,
+    noDataMessage: `${ROOT_LOC}.timeSeriesTwin.noData`
 };
 
 const TimeSeriesBuilder: React.FC<ITimeSeriesBuilderProps> = (props) => {
     const {
         onTimeSeriesTwinListChange,
         timeSeriesTwins: timeSeriesTwinsProp = [],
+        missingDataSeriesIds,
         styles
     } = props;
 
@@ -200,6 +203,10 @@ const TimeSeriesBuilder: React.FC<ITimeSeriesBuilderProps> = (props) => {
         [timeSeriesTwins]
     );
 
+    // styles
+    const theme = useTheme();
+    const classNames = getClassNames(styles, { theme });
+
     // side effects
     useEffect(() => {
         onTimeSeriesTwinListChange?.(timeSeriesTwins);
@@ -215,13 +222,19 @@ const TimeSeriesBuilder: React.FC<ITimeSeriesBuilderProps> = (props) => {
                 timeSeriesTwins,
                 onTimeSeriesTwinEdit,
                 onTimeSeriesTwinRemove,
-                t
+                t,
+                theme,
+                missingDataSeriesIds
             ),
-        [timeSeriesTwins, onTimeSeriesTwinEdit, onTimeSeriesTwinRemove, t]
+        [
+            timeSeriesTwins,
+            onTimeSeriesTwinEdit,
+            onTimeSeriesTwinRemove,
+            t,
+            theme,
+            missingDataSeriesIds
+        ]
     );
-
-    // styles
-    const classNames = getClassNames(styles, { theme: useTheme() });
 
     const calloutTarget = selectedTimeSeriesTwinSeriesId
         ? TIME_SERIES_TWIN_LIST_ITEM_ID_PREFIX + selectedTimeSeriesTwinSeriesId
@@ -279,7 +292,9 @@ const getTimeSeriesTwinListItems = (
     timeSeriesTwins: Array<IDataHistoryTimeSeriesTwin>,
     onEditClick: (id: string) => void,
     onRemoveClick: (id: string) => void,
-    t: TFunction<string>
+    t: TFunction<string>,
+    theme: Theme,
+    missingDataSeriesIds?: Array<string>
 ): ICardboardListItem<IDataHistoryTimeSeriesTwin>[] => {
     const getMenuItems = (id: string): IContextualMenuItem[] => [
         {
@@ -315,6 +330,13 @@ const getTimeSeriesTwinListItems = (
                     ]?.icon,
                 color: timeSeriesTwin.chartProps?.color
             },
+            iconEnd: missingDataSeriesIds?.includes(timeSeriesTwin.seriesId)
+                ? {
+                      name: 'Warning',
+                      color: theme.semanticColors.warningIcon,
+                      title: t(LOC_KEYS.noDataMessage)
+                  }
+                : undefined,
             id: TIME_SERIES_TWIN_LIST_ITEM_ID_PREFIX + timeSeriesTwin.seriesId,
             item: timeSeriesTwin,
             onClick: () => {

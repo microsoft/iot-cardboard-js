@@ -1302,11 +1302,17 @@
                 "edit": "Edit time series",
                 "remove": "Remove time series",
                 "property": "Property",
-                "propertyTypeCastLabel": "Cast property type to number"
+                "propertyTypeCastLabel": "Cast property type to number",
+                "noData": "This time series contains no data to display"
             }
         },
         "viewer": {
-            "chart": "Chart",
+            "chart": {
+                "title": "Chart",
+                "messages": {
+                    "noData": "No numeric historized data to display, try selecting a different time range."
+                }
+            },
             "table": {
                 "title": "Table",
                 "columns": {
@@ -1318,7 +1324,7 @@
                 "messages": {
                     "noColor": "Not set",
                     "loading": "Loading historized data...",
-                    "noData": "No historized data found in selected time frame.",
+                    "noData": "No historized data found in the selected time range.",
                     "noSeries": "No twin selected to query, please add twin properties to view historized data."
                 }
             },

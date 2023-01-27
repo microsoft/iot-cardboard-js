@@ -34,7 +34,7 @@ const getClassNames = classNamesFunction<
 >();
 
 const TimeSeriesViewer: React.FC<ITimeSeriesViewerProps> = (props) => {
-    const { timeSeriesTwinList, styles } = props;
+    const { timeSeriesTwinList, onMissingSeriesData, styles } = props;
 
     //state
     const [chartOptions, setChartOptions] = useState<IDataHistoryChartOptions>(
@@ -78,7 +78,8 @@ const TimeSeriesViewer: React.FC<ITimeSeriesViewerProps> = (props) => {
             ) : (
                 <TimeSeriesViewerContext.Provider
                     value={{
-                        timeSeriesTwinList
+                        timeSeriesTwinList,
+                        onMissingSeriesData
                     }}
                 >
                     <Pivot
@@ -87,7 +88,9 @@ const TimeSeriesViewer: React.FC<ITimeSeriesViewerProps> = (props) => {
                         onLinkClick={handleOnChangePivot}
                     >
                         <PivotItem
-                            headerText={t('dataHistoryExplorer.viewer.chart')}
+                            headerText={t(
+                                'dataHistoryExplorer.viewer.chart.title'
+                            )}
                             itemKey={TimeSeriesViewerPivot.Chart}
                         >
                             <TimeSeriesChart

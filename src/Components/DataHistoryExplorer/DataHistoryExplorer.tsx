@@ -47,6 +47,7 @@ const DataHistoryExplorer: React.FC<IDataHistoryExplorerProps> = (props) => {
         Array<IDataHistoryTimeSeriesTwin>
     >(deepCopy(timeSeriesTwinsProp));
     const [, setConnection] = useState(adapter.getADXConnectionInformation());
+    const [missingDataSeriesIds, setMissingDataSeriesIds] = useState([]);
 
     // hooks
     const { t } = useTranslation();
@@ -128,10 +129,12 @@ const DataHistoryExplorer: React.FC<IDataHistoryExplorerProps> = (props) => {
                             }}
                             styles={classNames.subComponentStyles.builder}
                             timeSeriesTwins={timeSeriesTwinsProp}
+                            missingDataSeriesIds={missingDataSeriesIds}
                         />
                         <TimeSeriesViewer
                             timeSeriesTwinList={timeSeriesTwins}
                             styles={classNames.subComponentStyles.viewer}
+                            onMissingSeriesData={setMissingDataSeriesIds}
                         />
                     </Stack>
                 )}
