@@ -1308,7 +1308,8 @@
         "propertyTypeCastLabel": "Typ właściwości rzutowania na numer",
         "add": "Dodawanie szeregów czasowych",
         "remove": "Usuwanie szeregów czasowych",
-        "edit": "Edytowanie szeregów czasowych"
+        "edit": "Edytowanie szeregów czasowych",
+        "noData": "Ta seria czasowa nie zawiera żadnych danych do wyświetlenia"
       },
       "description": "Aby porównać wcześniejsze wartości historycznych właściwości, dodaj poniżej szereg czasowy."
     },
