@@ -1308,7 +1308,8 @@
         "propertyTypeCastLabel": "Eigenschapstype casten naar nummer",
         "add": "Tijdreeksen toevoegen",
         "remove": "Tijdreeksen verwijderen",
-        "edit": "Tijdreeksen bewerken"
+        "edit": "Tijdreeksen bewerken",
+        "noData": "Deze tijdreeks bevat geen gegevens om weer te geven"
       },
       "description": "Als u eerdere waarden voor geïrtoriseerde eigenschappen wilt vergelijken, voegt u hieronder tijdreeksen toe."
     },

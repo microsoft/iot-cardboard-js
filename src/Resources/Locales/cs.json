@@ -1308,7 +1308,8 @@
         "propertyTypeCastLabel": "Přetypování typu vlastnosti na číslo",
         "add": "Přidat časovou řadu",
         "remove": "Odebrání časové řady",
-        "edit": "Úprava časové řady"
+        "edit": "Úprava časové řady",
+        "noData": "Tato časová řada neobsahuje žádná data k zobrazení"
       },
       "description": "Chcete-li porovnat minulé hodnoty pro historizované vlastnosti, přidejte níže časovou řadu."
     },

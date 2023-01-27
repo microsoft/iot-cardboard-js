@@ -1308,7 +1308,8 @@
         "propertyTypeCastLabel": "Convertir le type de propriété en nombre",
         "add": "Ajouter des séries chronologiques",
         "remove": "Supprimer des séries chronologiques",
-        "edit": "Modifier des séries chronologiques"
+        "edit": "Modifier des séries chronologiques",
+        "noData": "Cette série chronologique ne contient aucune donnée à afficher"
       },
       "description": "Pour comparer les valeurs antérieures des propriétés historisées, ajoutez des séries chronologiques ci-dessous."
     },

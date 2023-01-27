@@ -1308,7 +1308,8 @@
         "propertyTypeCastLabel": "Eigenschaftstyp in Zahl umwandeln",
         "add": "Zeitreihen hinzufügen",
         "remove": "Zeitreihen entfernen",
-        "edit": "Zeitreihen bearbeiten"
+        "edit": "Zeitreihen bearbeiten",
+        "noData": "Diese Zeitreihe enthält keine anzuzeigenden Daten"
       },
       "description": "Um vergangene Werte für historisierte Eigenschaften zu vergleichen, fügen Sie unten Zeitreihen hinzu."
     },

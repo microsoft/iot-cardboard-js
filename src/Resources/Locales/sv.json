@@ -1308,7 +1308,8 @@
         "propertyTypeCastLabel": "Gjuten egenskapstyp till nummer",
         "add": "Lägg till tidsserier",
         "remove": "Ta bort tidsserier",
-        "edit": "Redigera tidsserier"
+        "edit": "Redigera tidsserier",
+        "noData": "Den här tidsserien innehåller inga data att visa"
       },
       "description": "Om du vill jämföra tidigare värden för historiserade egenskaper lägger du till tidsserier nedan."
     },

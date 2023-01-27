@@ -1308,7 +1308,8 @@
         "propertyTypeCastLabel": "Özellik türünü sayıya yayınla",
         "add": "Zaman serisi ekleme",
         "remove": "Zaman serilerini kaldırma",
-        "edit": "Zaman serilerini düzenleme"
+        "edit": "Zaman serilerini düzenleme",
+        "noData": "Bu zaman serisi görüntülenecek veri içermiyor"
       },
       "description": "Geçmişi geçmiş özelliklerin geçmiş değerlerini karşılaştırmak için aşağıya zaman serileri ekleyin."
     },

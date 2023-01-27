@@ -1308,7 +1308,8 @@
         "propertyTypeCastLabel": "Tipo de propriedade de elenco para número",
         "add": "Adicionar séries de tempo",
         "remove": "Remover séries de tempo",
-        "edit": "Editar séries tempor feiras"
+        "edit": "Editar séries tempor feiras",
+        "noData": "Esta série de tempo não contém dados para exibir"
       },
       "description": "Para comparar valores passados para propriedades historizadas, adicione séries de tempo abaixo."
     },

@@ -1308,7 +1308,8 @@
         "propertyTypeCastLabel": "Eseguire il cast della proprietà dal tipo al numero",
         "add": "Aggiungere serie temporali",
         "remove": "Rimuovere serie temporali",
-        "edit": "Modificare le serie temporali"
+        "edit": "Modificare le serie temporali",
+        "noData": "Questa serie temporale non contiene dati da visualizzare"
       },
       "description": "Per confrontare i valori passati per le proprietà cronologizzate, aggiungere le serie temporali riportate di seguito."
     },
