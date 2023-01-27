@@ -100,6 +100,10 @@
     "schemaValidationFailed": {
       "type": "Ověření schématu JSON se nezdařilo",
       "message": "JSON je neplatný. Zkontrolujte, zda syntaxe odpovídá požadovanému schématu."
+    },
+    "timeSeriesDatabaseConnectionFetchFailed": {
+      "type": "Ověření připojení k databázi časové řady se nezdařilo",
+      "message": "Historie dat není povolena pro vybranou instanci nebo připojení k databázi časové řady nelze ověřit."
     }
   },
   "valueRangeBuilder": {
@@ -650,14 +654,7 @@
         }
       },
       "headerMenu": "Nabídka widgetu Historie dat",
-      "openQuery": "Otevřený dotaz v Azure Průzkumník dat",
-      "errors": {
-        "genericNetwork": "Adresa URL clusteru je neplatná nebo došlo k chybě sítě.",
-        "genericBadRequest": "Došlo k výjimce chybného požadavku.",
-        "generalBadRequestMessage": "Požadavek je neplatný a nelze jej provést.",
-        "entityNotFound": "Databáze nebyla nalezena, nepodařilo se spustit dotaz.",
-        "forbidden": "Přístup byl odepřen, nemáte oprávnění k dotazu."
-      }
+      "openQuery": "Otevřený dotaz v Azure Průzkumník dat"
     }
   },
   "sdkStrings": {
@@ -1335,5 +1332,14 @@
       }
     },
     "loadingConnectionLabel": "Informace o připojení časové řady načítání..."
+  },
+  "dataHistoryErrorHandlingWrapper": {
+    "errors": {
+      "genericNetwork": "Cluster nelze připojit, což může být způsobeno neplatnou adresou URL, zastavenou službou nebo chybou sítě.",
+      "genericBadRequest": "Došlo k výjimce chybného požadavku.",
+      "generalBadRequestMessage": "Požadavek je neplatný a nelze jej provést.",
+      "entityNotFound": "Databáze nebyla nalezena, nepodařilo se spustit dotaz.",
+      "forbidden": "Přístup byl odepřen, nemáte oprávnění k dotazu."
+    }
   }
 }

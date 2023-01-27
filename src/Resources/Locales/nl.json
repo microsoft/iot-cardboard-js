@@ -100,6 +100,10 @@
     "schemaValidationFailed": {
       "type": "Validatie van JSON-schema mislukt",
       "message": "JSON is ongeldig. Controleer of de syntaxis overeenkomt met het vereiste schema."
+    },
+    "timeSeriesDatabaseConnectionFetchFailed": {
+      "type": "Validatie van de databaseverbinding met tijdreeksen is mislukt",
+      "message": "Gegevensgeschiedenis is niet ingeschakeld voor geselecteerde exemplaren of tijdreeksdatabaseverbindingen kunnen niet worden geverifieerd."
     }
   },
   "valueRangeBuilder": {
@@ -650,14 +654,7 @@
         }
       },
       "headerMenu": "Widgetmenu gegevensgeschiedenis",
-      "openQuery": "Query openen in Azure Data Explorer",
-      "errors": {
-        "genericNetwork": "Cluster-URL is ongeldig of er is een netwerkfout opgetreden.",
-        "genericBadRequest": "Er is een uitzondering voor een ongeldige aanvraag opgetreden.",
-        "generalBadRequestMessage": "Aanvraag is ongeldig en kan niet worden uitgevoerd.",
-        "entityNotFound": "Database niet gevonden, kan query niet uitvoeren.",
-        "forbidden": "Toegang is geweigerd, u hebt geen querymachtigingen."
-      }
+      "openQuery": "Query openen in Azure Data Explorer"
     }
   },
   "sdkStrings": {
@@ -1335,5 +1332,14 @@
       }
     },
     "loadingConnectionLabel": "Tijdreeksverbindingsinformatie laden..."
+  },
+  "dataHistoryErrorHandlingWrapper": {
+    "errors": {
+      "genericNetwork": "Cluster kan niet worden verbonden, wat te wijten kan zijn aan een ongeldige URL, gestopte service of een netwerkfout.",
+      "genericBadRequest": "Er is een uitzondering voor een ongeldige aanvraag opgetreden.",
+      "generalBadRequestMessage": "Aanvraag is ongeldig en kan niet worden uitgevoerd.",
+      "entityNotFound": "Database niet gevonden, kan de query niet uitvoeren.",
+      "forbidden": "Toegang is geweigerd, u hebt geen querymachtigingen."
+    }
   }
 }

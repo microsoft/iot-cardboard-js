@@ -100,6 +100,10 @@
     "schemaValidationFailed": {
       "type": "JSON-schemaverifieringen misslyckades",
       "message": "JSON är ogiltigt. Kontrollera att syntaxen matchar det schema som krävs."
+    },
+    "timeSeriesDatabaseConnectionFetchFailed": {
+      "type": "Validering av databasanslutning till tidsserier misslyckades",
+      "message": "Datahistoriken är inte aktiverad för den valda instansen eller så kunde databasanslutningen för tidsserier inte verifieras."
     }
   },
   "valueRangeBuilder": {
@@ -650,14 +654,7 @@
         }
       },
       "headerMenu": "Widgetmenyn Datahistorik",
-      "openQuery": "Öppna frågan i Azure Data Explorer",
-      "errors": {
-        "genericNetwork": "Kluster-URL:en är ogiltig eller nätverksfel har inträffat.",
-        "genericBadRequest": "Undantag för felaktig begäran inträffade.",
-        "generalBadRequestMessage": "Begäran är ogiltig och kan inte utföras.",
-        "entityNotFound": "Databasen hittades inte, det gick inte att köra frågan.",
-        "forbidden": "Åtkomst nekades, du har inte frågebehörighet."
-      }
+      "openQuery": "Öppna frågan i Azure Data Explorer"
     }
   },
   "sdkStrings": {
@@ -1335,5 +1332,14 @@
       }
     },
     "loadingConnectionLabel": "Laddar anslutningsinformation för tidsserier..."
+  },
+  "dataHistoryErrorHandlingWrapper": {
+    "errors": {
+      "genericNetwork": "Kluster kan inte anslutas vilket kan bero på ogiltig URL, stoppad tjänst eller ett nätverksfel.",
+      "genericBadRequest": "Undantag för felaktig begäran inträffade.",
+      "generalBadRequestMessage": "Begäran är ogiltig och kan inte utföras.",
+      "entityNotFound": "Databasen hittades inte, det gick inte att köra frågan.",
+      "forbidden": "Åtkomst nekades, du har inte frågebehörighet."
+    }
   }
 }
