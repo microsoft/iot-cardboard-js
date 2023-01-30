@@ -24,10 +24,6 @@ export const getStyles = (
             propertyListStack: {
                 root: {
                     overflowY: 'auto'
-                    // '::-webkit-scrollbar': {
-                    //     width: '0px',
-                    //     opacity: '0'
-                    // }
                 }
             }
         }

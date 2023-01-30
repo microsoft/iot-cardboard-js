@@ -1100,6 +1100,7 @@
         "polygon": "polygon",
         "primitive": "Primitive",
         "properties": "Properties",
+        "propertiesNotSupported": "The selected item does not support properties",
         "property": "Property",
         "remove": "Remove",
         "region": "Region",

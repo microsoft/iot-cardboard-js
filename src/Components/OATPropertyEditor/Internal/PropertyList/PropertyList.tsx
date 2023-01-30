@@ -33,6 +33,7 @@ import {
     getPropertyIndexOnModelByName,
     getPropertyIndexOnRelationshipByName
 } from '../../../../Models/Context/OatPageContext/OatPageContextUtils';
+import { useTranslation } from 'react-i18next';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('PropertyList', debugLogging);
@@ -52,6 +53,7 @@ const PropertyList: React.FC<IPropertyListProps> = (props) => {
     // state
 
     // hooks
+    const { t } = useTranslation();
 
     // callbacks
 
@@ -313,7 +315,7 @@ const PropertyList: React.FC<IPropertyListProps> = (props) => {
                     />
                 </FocusZone>
             ) : (
-                'Properties not supported'
+                t('OATPropertyEditor.propertiesNotSupported')
             )}
         </div>
     );

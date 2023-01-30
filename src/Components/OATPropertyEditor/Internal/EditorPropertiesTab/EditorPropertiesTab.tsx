@@ -191,14 +191,13 @@ const EditorPropertiesTab: React.FC<IEditorPropertiesTabProps> = (props) => {
                 grow
                 styles={classNames.subComponentStyles.propertyListStack}
             >
-                {isDTDLReference(selectedItem) || isDTDLModel(selectedItem) ? (
+                {(isDTDLReference(selectedItem) ||
+                    isDTDLModel(selectedItem)) && (
                     <PropertyList
                         selectedItem={selectedItem}
                         properties={propertyList}
                         parentModelId={parentModelId}
                     />
-                ) : (
-                    'Property list not supported'
                 )}
             </Stack.Item>
         </Stack>
