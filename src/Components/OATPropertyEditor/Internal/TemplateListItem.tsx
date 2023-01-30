@@ -1,58 +1,47 @@
-import React, { useState } from 'react';
-import { Text, IconButton } from '@fluentui/react';
-import { getPropertyListItemIconWrapMoreStyles } from '../OATPropertyEditor.styles';
-import { useTranslation } from 'react-i18next';
+import React from 'react';
 import { TemplateListItemListProps } from './TemplateListItem.types';
 
 export const TemplateListItem: React.FC<TemplateListItemListProps> = (
-    props
+    _props
 ) => {
-    const {
-        draggingTemplate,
-        item,
-        index,
-        deleteItem,
-        getDragItemClassName,
-        onDragEnter,
-        onDragEnterExternalItem,
-        onDragStart,
-        onMove,
-        onPropertyListAddition,
-        getSchemaText,
-        templatesLength
-    } = props;
+    // const {
+    //     draggingTemplate,
+    //     item,
+    //     index,
+    //     getDragItemClassName,
+    //     onDragEnter,
+    //     onDragEnterExternalItem,
+    //     onDragStart,
+    //     getSchemaText,
+    // } = props;
 
     // hooks
-    const { t } = useTranslation();
+    // const { t } = useTranslation();
 
     // state
-    const [subMenuActive, setSubMenuActive] = useState(false);
+    // const [subMenuActive, setSubMenuActive] = useState(false);
 
     // callbacks
-    const addTopPropertyList = () => {
-        onPropertyListAddition(item);
-        setSubMenuActive(false);
-    };
 
     // styles
-    const iconWrapMoreStyles = getPropertyListItemIconWrapMoreStyles();
+    // const iconWrapMoreStyles = getPropertyListItemIconWrapMoreStyles();
 
     return (
         <div
-            id={`${item.name}_template_item`}
-            className={getDragItemClassName(index)}
-            key={index}
-            draggable
-            onDragStart={(e) => {
-                onDragStart(e, index);
-            }}
-            onDragEnter={
-                draggingTemplate
-                    ? (e) => onDragEnter(e, index)
-                    : () => onDragEnterExternalItem(index)
-            }
+        // id={`${item.name}_template_item`}
+        // className={getDragItemClassName(index)}
+        // key={index}
+        // draggable
+        // onDragStart={(e) => {
+        //     onDragStart(e, index);
+        // }}
+        // onDragEnter={
+        //     draggingTemplate
+        //         ? (e) => onDragEnter(e, index)
+        //         : () => onDragEnterExternalItem(index)
+        // }
         >
-            <Text>{item.displayName ? item.displayName : item.name}</Text>
+            {/* <Text>{item.displayName ? item.displayName : item.name}</Text>
             <Text>{getSchemaText(item.schema)}</Text>
 
             <IconButton
@@ -85,7 +74,7 @@ export const TemplateListItem: React.FC<TemplateListItemListProps> = (
                     //     }
                     // />
                 )}
-            </IconButton>
+            </IconButton> */}
         </div>
     );
 };

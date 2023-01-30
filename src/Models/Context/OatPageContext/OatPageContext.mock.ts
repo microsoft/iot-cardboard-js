@@ -1,7 +1,10 @@
 /** File for exporting common testing utilities for the context */
 
 import i18n from '../../../i18n';
-import { IOATFile } from '../../../Pages/OATEditorPage/Internal/Classes/OatTypes';
+import {
+    IOATFile,
+    IOatPropertyEditorTabKey
+} from '../../../Pages/OATEditorPage/Internal/Classes/OatTypes';
 import { ProjectData } from '../../../Pages/OATEditorPage/Internal/Classes/ProjectData';
 import {
     IOATModelPosition,
@@ -127,6 +130,7 @@ export const GET_MOCK_OAT_CONTEXT_STATE = (): IOatPageContextState => {
         modified: false,
         ontologyFiles: files,
         selection: undefined,
+        selectedPropertyEditorTab: IOatPropertyEditorTabKey.Properties,
         templatesActive: false
     };
 };
