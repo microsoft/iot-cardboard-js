@@ -1367,8 +1367,22 @@
     },
     "viewer": {
       "chart": "Wykres",
-      "table": "Stół",
-      "noSeriesDescription": "Aby wyświetlić historię danych dla tej bliźniaczej płaszczyzny, wybierz właściwość do wyświetlenia."
+      "noSeriesDescription": "Aby wyświetlić historię danych dla tej bliźniaczej płaszczyzny, wybierz właściwość do wyświetlenia.",
+      "table": {
+        "title": "Stół",
+        "columns": {
+          "timestamp": "Sygnatury czasowej",
+          "series": "Seria",
+          "value": "Wartość",
+          "type": "Typ"
+        },
+        "messages": {
+          "noColor": "Nie ustawiono",
+          "loading": "Ładowanie danych historycznych...",
+          "noData": "Nie znaleziono historycznych danych w wybranych przedziałach czasowych.",
+          "noSeries": "Nie wybrano bliźniaka do zapytania, dodaj właściwości bliźniacze, aby wyświetlić dane historyczne."
+        }
+      }
     },
     "loadingConnectionLabel": "Czas ładowania szeregów informacji o połączeniu..."
   },

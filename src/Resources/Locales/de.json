@@ -1367,8 +1367,22 @@
     },
     "viewer": {
       "chart": "Diagramm",
-      "table": "Tisch",
-      "noSeriesDescription": "Um den Datenverlauf für diesen Zwilling anzuzeigen, wählen Sie eine anzuzeigende Eigenschaft aus."
+      "noSeriesDescription": "Um den Datenverlauf für diesen Zwilling anzuzeigen, wählen Sie eine anzuzeigende Eigenschaft aus.",
+      "table": {
+        "title": "Tisch",
+        "columns": {
+          "timestamp": "Zeitstempel",
+          "series": "Reihe",
+          "value": "Wert",
+          "type": "Art"
+        },
+        "messages": {
+          "noColor": "Nicht festgelegt",
+          "loading": "Historisierte Daten werden geladen...",
+          "noData": "Im ausgewählten Zeitraum wurden keine historisierten Daten gefunden.",
+          "noSeries": "Kein Zwilling zur Abfrage ausgewählt, fügen Sie Zwillingseigenschaften hinzu, um historisierte Daten anzuzeigen."
+        }
+      }
     },
     "loadingConnectionLabel": "Zeitreihen-Verbindungsinformationen werden geladen..."
   },

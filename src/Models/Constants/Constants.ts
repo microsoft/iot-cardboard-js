@@ -3,6 +3,7 @@ import {
     AzureAccessPermissionRoles,
     IADTBackgroundColor,
     IADTObjectColor,
+    IChartOption,
     QuickTimeSpanKey
 } from '../Constants';
 import {
@@ -24,7 +25,7 @@ import IconMultiLineString from '../../Resources/Static/multilinestring.svg';
 import IconMultiPolygon from '../../Resources/Static/multipolygon.svg';
 import IconPoint from '../../Resources/Static/point.svg';
 import IconPolygon from '../../Resources/Static/polygon.svg';
-import { FontSizes, IDropdownOption } from '@fluentui/react';
+import { FontSizes } from '@fluentui/react';
 import { IDataHistoryAggregationType } from '../Types/Generated/3DScenesConfiguration-v1.0.0';
 
 // make sure models in the ADT instance have these definitions and twins have these properties for process graphics card
@@ -577,7 +578,7 @@ export const QuickTimeSpans = {
 };
 
 /** No translation needed for these options */
-export const AggregationTypeDropdownOptions: Array<IDropdownOption> = [
+export const AggregationTypeDropdownOptions: Array<IChartOption> = [
     {
         key: 'avg' as IDataHistoryAggregationType,
         text: 'avg'

@@ -1367,8 +1367,22 @@
     },
     "viewer": {
       "chart": "Gráfico",
-      "table": "Mesa",
-      "noSeriesDescription": "Para exibir o histórico de dados desse gêmeo, selecione uma propriedade a ser exibida."
+      "noSeriesDescription": "Para exibir o histórico de dados desse gêmeo, selecione uma propriedade a ser exibida.",
+      "table": {
+        "title": "Mesa",
+        "columns": {
+          "timestamp": "Timestamp",
+          "series": "Série",
+          "value": "Valor",
+          "type": "Tipo"
+        },
+        "messages": {
+          "noColor": "Não definido",
+          "loading": "Carregando dados historizados...",
+          "noData": "Nenhum dado historizado encontrado no período de tempo selecionado.",
+          "noSeries": "Nenhum gêmeo selecionado para consultar, adicione propriedades gêmeas para exibir dados historiados."
+        }
+      }
     },
     "loadingConnectionLabel": "Carregando informações de conexão de série temporal..."
   },

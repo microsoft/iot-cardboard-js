@@ -5,6 +5,7 @@ import TimeSeriesViewer from './TimeSeriesViewer';
 import { ITimeSeriesViewerProps } from './TimeSeriesViewer.types';
 import MockAdapter from '../../../../Adapters/MockAdapter';
 import { DataHistoryExplorerContext } from '../../DataHistoryExplorer';
+import { createGUID } from '../../../../Models/Services/Utils';
 
 const wrapperStyle = { width: '600px', height: '400px' };
 
@@ -30,13 +31,17 @@ export const Mock = Template.bind({}) as TimeSeriesViewerStory;
 Mock.args = {
     timeSeriesTwinList: [
         {
+            seriesId: createGUID(),
             twinId: 'PasteurizationMachine_A01',
             twinPropertyName: 'Inflow',
+            twinPropertyType: 'double',
             label: 'PasteurizationMachine_A01 Inflow'
         },
         {
+            seriesId: createGUID(),
             twinId: 'PasteurizationMachine_A02',
-            twinPropertyName: 'Inflow'
+            twinPropertyName: 'Inflow',
+            twinPropertyType: 'double'
         }
     ]
 } as ITimeSeriesViewerProps;

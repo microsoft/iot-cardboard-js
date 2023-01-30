@@ -1367,8 +1367,22 @@
     },
     "viewer": {
       "chart": "Tabella",
-      "table": "Tavolo",
-      "noSeriesDescription": "Per visualizzare la cronologia dei dati per questo gemello, selezionare una proprietà da visualizzare."
+      "noSeriesDescription": "Per visualizzare la cronologia dei dati per questo gemello, selezionare una proprietà da visualizzare.",
+      "table": {
+        "title": "Tavolo",
+        "columns": {
+          "timestamp": "Timestamp",
+          "series": "Serie",
+          "value": "Valore",
+          "type": "Digitare"
+        },
+        "messages": {
+          "noColor": "Non impostato",
+          "loading": "Caricamento dei dati storici...",
+          "noData": "Nessun dato storicizzato trovato nell'intervallo di tempo selezionato.",
+          "noSeries": "Nessun gemello selezionato per la query, aggiungere proprietà gemelle per visualizzare i dati cronologizzati."
+        }
+      }
     },
     "loadingConnectionLabel": "Caricamento delle informazioni di connessione delle serie temporali..."
   },

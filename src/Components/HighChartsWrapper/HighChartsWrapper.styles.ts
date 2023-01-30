@@ -26,7 +26,8 @@ export const getStyles = ({
             classNames.root,
             {
                 width: '100%',
-                height: '100%'
+                height: '100%',
+                overflow: 'hidden'
             }
         ],
         subComponentStyles: {
@@ -60,6 +61,9 @@ export const getStyles = ({
                 hover: {
                     fontWeight: FontWeights.bold as string,
                     color: '#cccccc'
+                },
+                navigation: {
+                    color: theme.palette.black
                 }
             },
             loadingText: {

@@ -186,7 +186,7 @@ export const useRuntimeSceneData = (
                 twinCount: number,
                 pollingConfig: IPollingConfiguration
             ) => {
-                const fastestPossibleRefreshRateSeconds = twinCount * 100; // 10 twin/second
+                const fastestPossibleRefreshRateSeconds = twinCount * 500; // 2 twin/second
                 const actualRefreshRateSeconds = pollingConfig.minimumPollingFrequency
                     ? Math.max(
                           fastestPossibleRefreshRateSeconds,

@@ -110,7 +110,9 @@
                         ]
                     }
                 ],
-                "behaviorIDs": ["084ca93b5809ae23ee47f83d77a53b08"],
+                "behaviorIDs": [
+                    "084ca93b5809ae23ee47f83d77a53b08"
+                ],
                 "latitude": 45.917899,
                 "longitude": 6.729412
             },
@@ -157,21 +159,28 @@
                         "id": "099cf01bb750c41ecb4204f45779ff5d",
                         "displayName": "Exchanger4",
                         "primaryTwinID": "Exchanger4",
-                        "objectIDs": ["polySurface2339"]
+                        "objectIDs": [
+                            "polySurface2339"
+                        ]
                     },
                     {
                         "type": "TwinToObjectMapping",
                         "id": "36a91edbfef3b5be8e180babd35d0c31",
                         "displayName": "TransferPipe",
                         "primaryTwinID": "TransferPipe",
-                        "objectIDs": ["Pipe01", "PipeCCIX"]
+                        "objectIDs": [
+                            "Pipe01",
+                            "PipeCCIX"
+                        ]
                     },
                     {
                         "type": "TwinToObjectMapping",
                         "id": "72236bcd699e69ff49d591f9cf04404d",
                         "displayName": "StorageTanks1",
                         "primaryTwinID": "StorageTanks1",
-                        "objectIDs": ["polySurface1240"]
+                        "objectIDs": [
+                            "polySurface1240"
+                        ]
                     },
                     {
                         "type": "TwinToObjectMapping",
@@ -190,7 +199,10 @@
                         "id": "a98e4deb284437171ed102665fe25b43",
                         "displayName": "StorageTanks3",
                         "primaryTwinID": "StorageTanks3",
-                        "objectIDs": ["polySurface1914", "polySurface92"]
+                        "objectIDs": [
+                            "polySurface1914",
+                            "polySurface92"
+                        ]
                     }
                 ],
                 "behaviorIDs": [
@@ -217,52 +229,68 @@
                         "id": "9cd0254a000cf3ae531828f1bf1bdc7c",
                         "displayName": "Distillation1",
                         "primaryTwinID": "Distillation1",
-                        "objectIDs": ["MODULE_FACTORY_LOD1_001"]
+                        "objectIDs": [
+                            "MODULE_FACTORY_LOD1_001"
+                        ]
                     },
                     {
                         "type": "TwinToObjectMapping",
                         "id": "6085775e705f33b80a4d3c6841d201e4",
                         "displayName": "Distillation2",
                         "primaryTwinID": "Distillation2",
-                        "objectIDs": ["MODULE_TOWER_770_LOD1_001"]
+                        "objectIDs": [
+                            "MODULE_TOWER_770_LOD1_001"
+                        ]
                     },
                     {
                         "type": "TwinToObjectMapping",
                         "id": "5791116f3466d14ea9280bcc81b8e5b3",
                         "displayName": "Distillation3",
                         "primaryTwinID": "Distillation3",
-                        "objectIDs": ["MODULE_TOWER_514_LOD1_001"]
+                        "objectIDs": [
+                            "MODULE_TOWER_514_LOD1_001"
+                        ]
                     },
                     {
                         "type": "TwinToObjectMapping",
                         "id": "da83113c831ea7dd49f1a69d99b051b8",
                         "displayName": "Tank1",
                         "primaryTwinID": "Tank1",
-                        "objectIDs": ["MODULE_SILOS_530_LOD1"]
+                        "objectIDs": [
+                            "MODULE_SILOS_530_LOD1"
+                        ]
                     },
                     {
                         "type": "TwinToObjectMapping",
                         "id": "bb75f4f82d56c1ac7b5450fb02d64d99",
                         "displayName": "Tank2",
                         "primaryTwinID": "Tank2",
-                        "objectIDs": ["MODULE_SILOS_354_LOD1"]
+                        "objectIDs": [
+                            "MODULE_SILOS_354_LOD1"
+                        ]
                     },
                     {
                         "type": "TwinToObjectMapping",
                         "id": "06d7aa2bb004d776ec21ad2df948962f",
                         "displayName": "Tank3",
                         "primaryTwinID": "Tank3",
-                        "objectIDs": ["MODULE_SILOS_02_LOD1"]
+                        "objectIDs": [
+                            "MODULE_SILOS_02_LOD1"
+                        ]
                     },
                     {
                         "type": "TwinToObjectMapping",
                         "id": "ed79fb94d9559f58feef3738f980cceb",
                         "displayName": "Tank4",
                         "primaryTwinID": "Tank4",
-                        "objectIDs": ["MODULE_SILOS_178_LOD1"]
+                        "objectIDs": [
+                            "MODULE_SILOS_178_LOD1"
+                        ]
                     }
                 ],
-                "behaviorIDs": ["83f16294b7959c4e362aa4c1c3264f85"],
+                "behaviorIDs": [
+                    "83f16294b7959c4e362aa4c1c3264f85"
+                ],
                 "latitude": 37.8044,
                 "longitude": -122.2712
             },
@@ -350,7 +378,9 @@
                         ]
                     }
                 ],
-                "behaviorIDs": ["587e9e665017750a7ea9a2efe9840119"],
+                "behaviorIDs": [
+                    "587e9e665017750a7ea9a2efe9840119"
+                ],
                 "latitude": 29.7604,
                 "longitude": -95.3698
             },
@@ -370,56 +400,72 @@
                         "id": "e52d771d430964c98f9cb9fd53a60254",
                         "displayName": "MainPanel1",
                         "primaryTwinID": "MainPanel1",
-                        "objectIDs": ["32 S6 Truss_02_primitive1"]
+                        "objectIDs": [
+                            "32 S6 Truss_02_primitive1"
+                        ]
                     },
                     {
                         "type": "TwinToObjectMapping",
                         "id": "9ef8e9ed475d129a649369f69186b9be",
                         "displayName": "MainPanel2",
                         "primaryTwinID": "MainPanel2",
-                        "objectIDs": ["23 S4 Truss_02_primitive1"]
+                        "objectIDs": [
+                            "23 S4 Truss_02_primitive1"
+                        ]
                     },
                     {
                         "type": "TwinToObjectMapping",
                         "id": "307a60be743528ba904e0494ba9571cd",
                         "displayName": "MainPanel3",
                         "primaryTwinID": "MainPanel3",
-                        "objectIDs": ["32 S6 Truss_01_primitive1"]
+                        "objectIDs": [
+                            "32 S6 Truss_01_primitive1"
+                        ]
                     },
                     {
                         "type": "TwinToObjectMapping",
                         "id": "622bb42bb3c7686c660b09b645cb3a9d",
                         "displayName": "MainPanel4",
                         "primaryTwinID": "MainPanel4",
-                        "objectIDs": ["23 S4 Truss_01_primitive1"]
+                        "objectIDs": [
+                            "23 S4 Truss_01_primitive1"
+                        ]
                     },
                     {
                         "type": "TwinToObjectMapping",
                         "id": "d0944ed6f71b4863be474dceef2baf08",
                         "displayName": "MainPanel5",
                         "primaryTwinID": "MainPanel5",
-                        "objectIDs": ["20 P4 Truss_02_primitive1"]
+                        "objectIDs": [
+                            "20 P4 Truss_02_primitive1"
+                        ]
                     },
                     {
                         "type": "TwinToObjectMapping",
                         "id": "a1b62c20f2743840a168b070a6c3fbc6",
                         "displayName": "MainPanel6",
                         "primaryTwinID": "MainPanel6",
-                        "objectIDs": ["08 P6 Truss_02_primitive1"]
+                        "objectIDs": [
+                            "08 P6 Truss_02_primitive1"
+                        ]
                     },
                     {
                         "type": "TwinToObjectMapping",
                         "id": "0897348fda18de0a1996de444e366d20",
                         "displayName": "MainPanel7",
                         "primaryTwinID": "MainPanel7",
-                        "objectIDs": ["20 P4 Truss_01_primitive1"]
+                        "objectIDs": [
+                            "20 P4 Truss_01_primitive1"
+                        ]
                     },
                     {
                         "type": "TwinToObjectMapping",
                         "id": "8f068c42f187cc54d3dc61c57e09e9f7",
                         "displayName": "MainPanel8",
                         "primaryTwinID": "MainPanel8",
-                        "objectIDs": ["08 P6 Truss_01_primitive1"]
+                        "objectIDs": [
+                            "08 P6 Truss_01_primitive1"
+                        ]
                     },
                     {
                         "type": "TwinToObjectMapping",
@@ -460,21 +506,27 @@
                         "id": "29ac7cca3a22a06784fd2c9d1e45ef1a",
                         "displayName": "ColumbusLab",
                         "primaryTwinID": "ColumbusLab",
-                        "objectIDs": ["27 Columbus Space Laboratory_primitive3"]
+                        "objectIDs": [
+                            "27 Columbus Space Laboratory_primitive3"
+                        ]
                     },
                     {
                         "type": "TwinToObjectMapping",
                         "id": "9fead963403f6d16f1b95068e18fb5da",
                         "displayName": "DestinyLab",
                         "primaryTwinID": "DestinyLab",
-                        "objectIDs": ["09 Destiny Space Laboratory_primitive5"]
+                        "objectIDs": [
+                            "09 Destiny Space Laboratory_primitive5"
+                        ]
                     },
                     {
                         "type": "TwinToObjectMapping",
                         "id": "3a9ad613f55a4dc952b5da9e3e3ed545",
                         "displayName": "HarmonyModule",
                         "primaryTwinID": "HarmonyModule",
-                        "objectIDs": ["26 Harmony Node 2_primitive1"]
+                        "objectIDs": [
+                            "26 Harmony Node 2_primitive1"
+                        ]
                     },
                     {
                         "type": "TwinToObjectMapping",
@@ -490,7 +542,9 @@
                         "id": "f87e265e8772992c941c2155195c33fc",
                         "displayName": "TranquilityModule",
                         "primaryTwinID": "TranquilityModule",
-                        "objectIDs": ["37 Tranquility Node 3_primitive1"]
+                        "objectIDs": [
+                            "37 Tranquility Node 3_primitive1"
+                        ]
                     },
                     {
                         "type": "TwinToObjectMapping",
@@ -543,7 +597,10 @@
                         "displayName": "Failed pickups",
                         "valueRanges": [
                             {
-                                "values": [1, 3],
+                                "values": [
+                                    1,
+                                    3
+                                ],
                                 "visual": {
                                     "labelExpression": "Pickups missed warning",
                                     "color": "#F79824"
@@ -551,7 +608,10 @@
                                 "id": "73490c2ed90b4f4444cf20e7196c7727"
                             },
                             {
-                                "values": [3, "Infinity"],
+                                "values": [
+                                    3,
+                                    "Infinity"
+                                ],
                                 "visual": {
                                     "labelExpression": "Pickups missed critical",
                                     "color": "#C32F27"
@@ -571,7 +631,9 @@
                         "valueRanges": [
                             {
                                 "id": "8454f4dd37b20f6789dc39c57db7f3fe",
-                                "values": [true],
+                                "values": [
+                                    true
+                                ],
                                 "visual": {
                                     "color": "#C32F27",
                                     "iconName": "Stopwatch",
@@ -595,21 +657,30 @@
                                     "label": "Hydraulic Pressure",
                                     "valueRanges": [
                                         {
-                                            "values": [0, 40],
+                                            "values": [
+                                                "-Infinity",
+                                                10
+                                            ],
                                             "visual": {
                                                 "color": "#33A1FD"
                                             },
                                             "id": "fe907c924388592d9272ddf1b2f72dea"
                                         },
                                         {
-                                            "values": [40, 80],
+                                            "values": [
+                                                10,
+                                                80
+                                            ],
                                             "visual": {
                                                 "color": "#26C485"
                                             },
                                             "id": "08f9fe942bdf86652bb18eaf6ab18940"
                                         },
                                         {
-                                            "values": [80, "Infinity"],
+                                            "values": [
+                                                100,
+                                                "Infinity"
+                                            ],
                                             "visual": {
                                                 "color": "#F79824"
                                             },
@@ -686,7 +757,10 @@
                         "valueExpression": "PrimaryTwin.HealthScore",
                         "valueRanges": [
                             {
-                                "values": [0, 5],
+                                "values": [
+                                    0,
+                                    5
+                                ],
                                 "visual": {
                                     "color": "#33A1FD",
                                     "labelExpression": "Healthy"
@@ -694,7 +768,10 @@
                                 "id": "5e055c7d991fa5456f66e5aa2dac25a4"
                             },
                             {
-                                "values": [5, 10],
+                                "values": [
+                                    5,
+                                    10
+                                ],
                                 "visual": {
                                     "color": "#FEE440",
                                     "labelExpression": "Health Ok"
@@ -702,7 +779,10 @@
                                 "id": "87ce16c212ed366fcaa5ad49868264d5"
                             },
                             {
-                                "values": [10, "Infinity"],
+                                "values": [
+                                    10,
+                                    "Infinity"
+                                ],
                                 "visual": {
                                     "color": "#C32F27",
                                     "labelExpression": "Unhealthy"
@@ -722,7 +802,9 @@
                         "valueRanges": [
                             {
                                 "id": "7a56ff5593ca49ebe438ab89ec5b21c4",
-                                "values": [true],
+                                "values": [
+                                    true
+                                ],
                                 "visual": {
                                     "color": "#33A1FD",
                                     "iconName": "Asterisk",
@@ -746,14 +828,20 @@
                                     "label": "Health",
                                     "valueRanges": [
                                         {
-                                            "values": [0, 5],
+                                            "values": [
+                                                0,
+                                                5
+                                            ],
                                             "visual": {
                                                 "color": "#26C485"
                                             },
                                             "id": "9e602dfe5a5128918dfd53b0af74416b"
                                         },
                                         {
-                                            "values": [5, 20],
+                                            "values": [
+                                                5,
+                                                20
+                                            ],
                                             "visual": {
                                                 "color": "#C32F27"
                                             },
@@ -846,7 +934,10 @@
                         "valueExpression": "PrimaryTwin.CO2Level",
                         "valueRanges": [
                             {
-                                "values": [0, 10],
+                                "values": [
+                                    0,
+                                    10
+                                ],
                                 "visual": {
                                     "labelExpression": "CO2 Low",
                                     "color": "#33A1FD"
@@ -854,7 +945,10 @@
                                 "id": "df9e1c9a8f11438edec43615155aed37"
                             },
                             {
-                                "values": [10, 25],
+                                "values": [
+                                    10,
+                                    25
+                                ],
                                 "visual": {
                                     "labelExpression": "CO2 Ok",
                                     "color": "#FEE440"
@@ -862,7 +956,10 @@
                                 "id": "8a87bd7f149669d37e5aa5e0e751cf42"
                             },
                             {
-                                "values": [25, 40],
+                                "values": [
+                                    25,
+                                    40
+                                ],
                                 "visual": {
                                     "labelExpression": "CO2 High",
                                     "color": "#F79824"
@@ -870,7 +967,10 @@
                                 "id": "48b4b5bd48bdbd8f2a295789ae86bf0b"
                             },
                             {
-                                "values": [40, "Infinity"],
+                                "values": [
+                                    40,
+                                    "Infinity"
+                                ],
                                 "visual": {
                                     "labelExpression": "CO2 dangerously High",
                                     "color": "#C32F27"
@@ -890,7 +990,9 @@
                         "valueRanges": [
                             {
                                 "id": "01525277c517c8062b164bd6447be49a",
-                                "values": [true],
+                                "values": [
+                                    true
+                                ],
                                 "visual": {
                                     "color": "#EE92C2",
                                     "iconName": "Shield",
@@ -981,7 +1083,10 @@
                         "valueExpression": "PrimaryTwin.Humidity",
                         "valueRanges": [
                             {
-                                "values": [0, 60],
+                                "values": [
+                                    0,
+                                    60
+                                ],
                                 "visual": {
                                     "color": "#33A1FD",
                                     "labelExpression": "Low humidity"
@@ -989,7 +1094,10 @@
                                 "id": "0601d74edbdca2fb3f14f154c96876a0"
                             },
                             {
-                                "values": [60, "Infinity"],
+                                "values": [
+                                    60,
+                                    "Infinity"
+                                ],
                                 "visual": {
                                     "color": "#26C485",
                                     "labelExpression": "High humidity"
@@ -1009,7 +1117,9 @@
                         "valueRanges": [
                             {
                                 "id": "43519b37020d6df7d457e312b3d71413",
-                                "values": [true],
+                                "values": [
+                                    true
+                                ],
                                 "visual": {
                                     "color": "#C32F27",
                                     "iconName": "Frigid",
@@ -1051,7 +1161,10 @@
                         "displayName": "Wattage levels",
                         "valueRanges": [
                             {
-                                "values": [240, 280],
+                                "values": [
+                                    240,
+                                    280
+                                ],
                                 "visual": {
                                     "labelExpression": "Dangerously low wattage",
                                     "color": "#C32F27"
@@ -1059,7 +1172,10 @@
                                 "id": "464f93347c71059f308d82e6825b32fb"
                             },
                             {
-                                "values": [280, 320],
+                                "values": [
+                                    280,
+                                    320
+                                ],
                                 "visual": {
                                     "labelExpression": "Low wattage",
                                     "color": "#F79824"
@@ -1067,7 +1183,10 @@
                                 "id": "e817fc189fa09e4a97fc23e9af67cb2f"
                             },
                             {
-                                "values": [320, 360],
+                                "values": [
+                                    320,
+                                    360
+                                ],
                                 "visual": {
                                     "labelExpression": "Regular wattage",
                                     "color": "#FEE440"
@@ -1075,7 +1194,10 @@
                                 "id": "44ed2d729caa29322d92924e6a5c2d62"
                             },
                             {
-                                "values": [360, "Infinity"],
+                                "values": [
+                                    360,
+                                    "Infinity"
+                                ],
                                 "visual": {
                                     "labelExpression": "High wattage",
                                     "color": "#26C485"
@@ -1095,7 +1217,9 @@
                         "valueRanges": [
                             {
                                 "id": "ef2f55dd17acf276f4903ca266f13353",
-                                "values": [true],
+                                "values": [
+                                    true
+                                ],
                                 "visual": {
                                     "color": "#F79824",
                                     "iconName": "Ringer",
@@ -1119,21 +1243,30 @@
                                     "label": "Power output",
                                     "valueRanges": [
                                         {
-                                            "values": [240, 300],
+                                            "values": [
+                                                240,
+                                                300
+                                            ],
                                             "visual": {
                                                 "color": "#C32F27"
                                             },
                                             "id": "b81e25607cfc766692e621646b3b0242"
                                         },
                                         {
-                                            "values": [300, 350],
+                                            "values": [
+                                                300,
+                                                350
+                                            ],
                                             "visual": {
                                                 "color": "#F79824"
                                             },
                                             "id": "4292b3c74680b68467de1d638cf8041d"
                                         },
                                         {
-                                            "values": [350, "Infinity"],
+                                            "values": [
+                                                350,
+                                                "Infinity"
+                                            ],
                                             "visual": {
                                                 "color": "#26C485"
                                             },
@@ -1172,7 +1305,10 @@
                         "valueExpression": "PrimaryTwin.CopperCorrosion",
                         "valueRanges": [
                             {
-                                "values": [0, 85],
+                                "values": [
+                                    0,
+                                    85
+                                ],
                                 "visual": {
                                     "labelExpression": "Water quality bad - copper corrosion",
                                     "color": "#F79824"
@@ -1180,7 +1316,10 @@
                                 "id": "b3948c1c48a09e7d4182ba8441495640"
                             },
                             {
-                                "values": [85, "Infinity"],
+                                "values": [
+                                    85,
+                                    "Infinity"
+                                ],
                                 "visual": {
                                     "labelExpression": "Water quality Ok",
                                     "color": "#26C485"
@@ -1200,7 +1339,9 @@
                         "valueRanges": [
                             {
                                 "id": "5c419bcf354de39ebcf7fef50e8adf6a",
-                                "values": [true],
+                                "values": [
+                                    true
+                                ],
                                 "visual": {
                                     "color": "#F79824",
                                     "iconName": "Ringer",
@@ -1224,14 +1365,20 @@
                                     "label": "Copper Corrosion",
                                     "valueRanges": [
                                         {
-                                            "values": [0, 85],
+                                            "values": [
+                                                0,
+                                                85
+                                            ],
                                             "visual": {
                                                 "color": "#F79824"
                                             },
                                             "id": "e4ba193e14a7f68e08a266de1a142cba"
                                         },
                                         {
-                                            "values": [85, "Infinity"],
+                                            "values": [
+                                                85,
+                                                "Infinity"
+                                            ],
                                             "visual": {
                                                 "color": "#26C485"
                                             },
@@ -1249,14 +1396,20 @@
                                     "label": "Steel Corrosion",
                                     "valueRanges": [
                                         {
-                                            "values": [0, 85],
+                                            "values": [
+                                                0,
+                                                85
+                                            ],
                                             "visual": {
                                                 "color": "#FEE440"
                                             },
                                             "id": "b61c17b98689e5c41755d36b4385598d"
                                         },
                                         {
-                                            "values": [85, "Infinity"],
+                                            "values": [
+                                                85,
+                                                "Infinity"
+                                            ],
                                             "visual": {
                                                 "color": "#26C485"
                                             },
@@ -1313,7 +1466,9 @@
                         "valueRanges": [
                             {
                                 "id": "9949e94c8a41edd403882258cb34bda6",
-                                "values": [true],
+                                "values": [
+                                    true
+                                ],
                                 "visual": {
                                     "color": "#C32F27",
                                     "iconName": "SpeedHigh",
@@ -1332,7 +1487,10 @@
                         "valueExpression": "PrimaryTwin.TankLevel",
                         "valueRanges": [
                             {
-                                "values": [70, 90],
+                                "values": [
+                                    70,
+                                    90
+                                ],
                                 "visual": {
                                     "labelExpression": "Tank full",
                                     "color": "#FEE440"
@@ -1340,7 +1498,10 @@
                                 "id": "8f22d949459194380e892f0f78a2d9e9"
                             },
                             {
-                                "values": [90, "Infinity"],
+                                "values": [
+                                    90,
+                                    "Infinity"
+                                ],
                                 "visual": {
                                     "labelExpression": "Tank dangerously full",
                                     "color": "#C32F27"
@@ -1430,7 +1591,9 @@
                 "datasources": [
                     {
                         "type": "ElementTwinToObjectMappingDataSource",
-                        "elementIDs": ["36a91edbfef3b5be8e180babd35d0c31"]
+                        "elementIDs": [
+                            "36a91edbfef3b5be8e180babd35d0c31"
+                        ]
                     }
                 ],
                 "visuals": [
@@ -1441,7 +1604,10 @@
                         "valueExpression": "PrimaryTwin.FlowRate",
                         "valueRanges": [
                             {
-                                "values": [0, "Infinity"],
+                                "values": [
+                                    0,
+                                    "Infinity"
+                                ],
                                 "visual": {
                                     "labelExpression": "Flow rate normal",
                                     "color": "#33A1FD"
@@ -1480,7 +1646,10 @@
                         "valueExpression": "PrimaryTwin.SpecificFuelConsumption",
                         "valueRanges": [
                             {
-                                "values": [0, 7000],
+                                "values": [
+                                    0,
+                                    7000
+                                ],
                                 "visual": {
                                     "labelExpression": "Low fuel consumption",
                                     "color": "#26C485"
@@ -1488,7 +1657,10 @@
                                 "id": "7c5bd46ca3d98fc4de4aef7d0942bff0"
                             },
                             {
-                                "values": [7000, 7100],
+                                "values": [
+                                    7000,
+                                    7100
+                                ],
                                 "visual": {
                                     "labelExpression": "Regular fuel consumption",
                                     "color": "#F79824"
@@ -1496,7 +1668,10 @@
                                 "id": "acf1678d7d6f06aef279930903ad922f"
                             },
                             {
-                                "values": [7100, "Infinity"],
+                                "values": [
+                                    7100,
+                                    "Infinity"
+                                ],
                                 "visual": {
                                     "labelExpression": "High fuel consumption",
                                     "color": "#C32F27"
@@ -1516,7 +1691,9 @@
                         "valueRanges": [
                             {
                                 "id": "0c8d6c37ddce2e3451a279dfea1f992d",
-                                "values": [true],
+                                "values": [
+                                    true
+                                ],
                                 "visual": {
                                     "color": "#C32F27",
                                     "iconName": "Ringer",
@@ -1540,21 +1717,30 @@
                                     "label": "Fuel Consumption",
                                     "valueRanges": [
                                         {
-                                            "values": [0, 7000],
+                                            "values": [
+                                                0,
+                                                7000
+                                            ],
                                             "visual": {
                                                 "color": "#26C485"
                                             },
                                             "id": "892e7c40460983c42dbd0091f190bbfb"
                                         },
                                         {
-                                            "values": [7000, 7100],
+                                            "values": [
+                                                7000,
+                                                7100
+                                            ],
                                             "visual": {
                                                 "color": "#F79824"
                                             },
                                             "id": "ff88bdbd5a69d45be6bd0fe1623a83f6"
                                         },
                                         {
-                                            "values": [7100, "Infinity"],
+                                            "values": [
+                                                7100,
+                                                "Infinity"
+                                            ],
                                             "visual": {
                                                 "color": "#C32F27"
                                             },
@@ -1609,27 +1795,37 @@
         "layers": [
             {
                 "id": "5f9f3dcead0aeb9ee69e19567b1b4b77",
-                "behaviorIDs": ["1bec3465be9f20b0dbf5c17818da2050"],
+                "behaviorIDs": [
+                    "1bec3465be9f20b0dbf5c17818da2050"
+                ],
                 "displayName": "CO2"
             },
             {
                 "id": "bf42b52b638f32603ac530e0b8918159",
-                "behaviorIDs": ["d0fdbfdde9a5c6f1bfb2c16738722885"],
+                "behaviorIDs": [
+                    "d0fdbfdde9a5c6f1bfb2c16738722885"
+                ],
                 "displayName": "Humidity"
             },
             {
                 "id": "7333d0b3718f5cd01e73902565219314",
-                "behaviorIDs": ["65f63c22166430d2c3417da7f7541d49"],
+                "behaviorIDs": [
+                    "65f63c22166430d2c3417da7f7541d49"
+                ],
                 "displayName": "Power"
             },
             {
                 "id": "9c8cc61c9c0ba9b6e531d083a7f9efe1",
-                "behaviorIDs": ["25b5a6bbaeeed2e86a9b7cad242c9b33"],
+                "behaviorIDs": [
+                    "25b5a6bbaeeed2e86a9b7cad242c9b33"
+                ],
                 "displayName": "Sustainability"
             },
             {
                 "id": "19825d4cf57e57c02b5250c73e923090",
-                "behaviorIDs": ["11b51a4a193447d88bb8fe7b1df5be15"],
+                "behaviorIDs": [
+                    "11b51a4a193447d88bb8fe7b1df5be15"
+                ],
                 "displayName": "TankLevels"
             }
         ]
