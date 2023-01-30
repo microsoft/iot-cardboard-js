@@ -339,21 +339,6 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
             const fileName = getFileNameFromDTMI(currentModelId);
             const directoryPath = getDirectoryPathFromDTMI(currentModelId);
 
-            // Disabling, not sure why we need this logic. It seems to only cause issues. Do we need to retain those paths from the last import for some reason?
-            // Check if current elements exists within modelsMetadata array, if so, use the metadata
-            // to determine the file name and directory path
-            // const modelMetadata = oatPageState.currentOntologyModelMetadata.find(
-            //     (model) => model['@id'] === currentModelId
-            // );
-            // if (modelMetadata) {
-            //     fileName = modelMetadata.fileName
-            //         ? modelMetadata.fileName
-            //         : null;
-            //     directoryPath = modelMetadata.directoryPath
-            //         ? modelMetadata.directoryPath
-            //         : null;
-            // }
-
             // Split every part of the directory path
             const directoryPathParts = directoryPath.split('\\');
             // Create a folder for evert directory path part and nest them
@@ -585,17 +570,14 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
                     items={commandBarItems}
                     styles={classNames.subComponentStyles.commandBar}
                 />
-                {/* Create ontology */}
                 <ManageOntologyModal
-                    isOpen={openModal === HeaderModal.CreateOntology}
+                    isOpen={openModal !== HeaderModal.None}
                     onClose={() => setOpenModal(HeaderModal.None)}
-                    ontologyId={''}
-                />
-                {/* Edit ontology */}
-                <ManageOntologyModal
-                    isOpen={openModal === HeaderModal.EditOntology}
-                    onClose={() => setOpenModal(HeaderModal.None)}
-                    ontologyId={oatPageState.currentOntologyId}
+                    ontologyId={
+                        openModal === HeaderModal.CreateOntology
+                            ? ''
+                            : oatPageState.currentOntologyId
+                    }
                 />
                 {/* Confirmation dialog for deletes */}
                 <OATConfirmDialog />
