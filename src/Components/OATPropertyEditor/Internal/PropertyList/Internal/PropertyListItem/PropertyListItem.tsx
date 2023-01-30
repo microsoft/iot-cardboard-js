@@ -302,15 +302,6 @@ const PropertyListItem: React.FC<IPropertyListItemProps> = (props) => {
         t
     ]);
 
-    // logDebugConsole(
-    //     'debug',
-    //     'Render. {property, level, isNested, canAddChildren}',
-    //     item,
-    //     level,
-    //     isNestedType,
-    //     supportsAddingChildren
-    // );
-
     return (
         <Stack>
             <Stack

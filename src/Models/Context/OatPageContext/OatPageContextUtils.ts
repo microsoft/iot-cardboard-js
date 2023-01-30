@@ -181,11 +181,6 @@ export const deleteReferenceFromState = (args: DeleteReferenceArgs) => {
     const { state, modelId } = args;
 
     const model = getModelById(state.currentOntologyModels, modelId);
-    // console.log(
-    //     '[START] Remove reference. {args, model}',
-    //     args,
-    //     current(model)
-    // );
     if (!model) {
         console.error('Could not find model to delete');
         return false;
@@ -215,11 +210,6 @@ export const deleteReferenceFromState = (args: DeleteReferenceArgs) => {
             );
             break;
     }
-
-    // if(args.referenceType === 'Relationship' || args.referenceType === 'Component'){
-    //     const newContents =
-    // }else if(args.referenceType)
-    // console.log('[END] Remove reference. {model}', current(model));
 
     return true;
 };

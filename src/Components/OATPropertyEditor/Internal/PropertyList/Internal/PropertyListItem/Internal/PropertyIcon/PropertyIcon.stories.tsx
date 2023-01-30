@@ -22,7 +22,6 @@ type PropertyIconStory = ComponentStory<typeof PropertyIcon>;
 const Template: PropertyIconStory = () => {
     const { t } = useTranslation();
     const items: JSX.Element[] = [];
-    // ignore this warning since it's just a test
     PROPERTY_ICON_DATA.forEach((property) => {
         items.push(
             <Stack

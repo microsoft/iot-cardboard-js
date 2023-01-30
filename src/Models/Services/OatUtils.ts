@@ -127,7 +127,6 @@ export function convertModelToDtdl(model: DtdlInterface): DtdlInterface {
             delete x['@id'];
         }
     });
-    // console.log(`***Converted ${model['@id']}. {model}`, newModel);
     return newModel;
 }
 

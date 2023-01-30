@@ -188,7 +188,6 @@ export const OatPageContextReducer: (
                 break;
             }
             case OatPageContextActionType.SET_CURRENT_PROJECT: {
-                // TODO: Deprecate in favor of setting via id
                 draft.currentOntologyModelPositions =
                     action.payload.modelPositions;
                 draft.currentOntologyModels = action.payload.models;

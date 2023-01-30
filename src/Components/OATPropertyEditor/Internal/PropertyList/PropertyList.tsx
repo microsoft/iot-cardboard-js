@@ -48,7 +48,6 @@ const PropertyList: React.FC<IPropertyListProps> = (props) => {
 
     // contexts
     const { oatPageDispatch } = useOatPageContext();
-    // const { execute } = useCommandHistoryContext();
 
     // state
 

@@ -58,11 +58,10 @@ const getClassNames = classNamesFunction<
     IPropertyDetailsEditorModalContentStyles
 >();
 
-export const PropertyDetailsEditorModalContent: React.FC<IModalFormRootModelContentProps> = (
+const PropertyDetailsEditorModalContent: React.FC<IModalFormRootModelContentProps> = (
     props
 ) => {
     const { onUpdateItem, selectedItem, styles } = props;
-    // const isModelSelected = isDTDLModel(selectedItem);
     const isReferenceSelected = isDTDLReference(selectedItem);
     const isRelationshipReference =
         selectedItem?.['@type'] === OAT_RELATIONSHIP_HANDLE_NAME;
@@ -110,7 +109,6 @@ export const PropertyDetailsEditorModalContent: React.FC<IModalFormRootModelCont
     const [displayNameError, setHasDisplayNameError] = useState(null);
 
     // callbacks
-
     const onValidateNumber = useCallback(
         (currentValue: string, newValue: string) => {
             if (!isDefined(newValue) || newValue.trim() === '') {
