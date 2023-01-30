@@ -1233,7 +1233,8 @@
         "editMetadataLabel": "메타데이터 편집"
       }
     },
-    "noSelectionMessage": "세부 정보를 볼 모델 또는 관계 선택"
+    "noSelectionMessage": "세부 정보를 볼 모델 또는 관계 선택",
+    "propertiesNotSupported": "선택한 항목이 속성을 지원하지 않습니다."
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "오류 메시지",

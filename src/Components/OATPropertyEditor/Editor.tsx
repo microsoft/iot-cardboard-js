@@ -1,7 +1,7 @@
 import React, { useCallback, useRef } from 'react';
 import { classNamesFunction, Pivot, PivotItem, styled } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
-import NoResultImg from '../../Resources/Static/noResults.svg';
+import NoResultImg from '../../Resources/Static/emptyClipboard.svg';
 import TemplateColumn from './Internal/TemplateColumn';
 import {
     SET_OAT_PROPERTY_MODAL_BODY,
@@ -103,19 +103,7 @@ const Editor: React.FC<IEditorProps> = (props) => {
                         height: 100,
                         src: NoResultImg
                     }}
-                    styles={{
-                        container: {
-                            alignItems: 'unset'
-                        },
-                        subComponentStyles: {
-                            image: {
-                                root: {
-                                    display: 'flex',
-                                    justifyContent: 'center'
-                                }
-                            }
-                        }
-                    }}
+                    styles={classNames.subComponentStyles?.illustrationMessage?.()}
                 />
             </div>
         );

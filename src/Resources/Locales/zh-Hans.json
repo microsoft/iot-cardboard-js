@@ -1233,7 +1233,8 @@
         "editMetadataLabel": "编辑元数据"
       }
     },
-    "noSelectionMessage": "选择模型或关系以查看详细信息"
+    "noSelectionMessage": "选择模型或关系以查看详细信息",
+    "propertiesNotSupported": "所选项目不支持属性"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "错误信息",

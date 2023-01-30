@@ -44,7 +44,7 @@ export interface IllustrationMessageStyleProps {
 
 export interface IllustrationMessageStyles {
     /** Container around all component */
-    container: IStyle;
+    container?: IStyle;
     /** Styles for description text container */
     descriptionContainer?: IStyle;
     /** Styles for Text and Image child components */

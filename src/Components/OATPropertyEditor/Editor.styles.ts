@@ -61,6 +61,20 @@ export const getStyles = (props: IEditorStyleProps): IEditorStyles => {
                 backgroundColor: 'transparent'
             }
         ],
-        subComponentStyles: {}
+        subComponentStyles: {
+            illustrationMessage: {
+                container: {
+                    alignItems: 'unset'
+                },
+                subComponentStyles: {
+                    image: {
+                        root: {
+                            display: 'flex',
+                            justifyContent: 'center'
+                        }
+                    }
+                }
+            }
+        }
     };
 };

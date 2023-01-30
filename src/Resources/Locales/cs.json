@@ -1113,7 +1113,8 @@
         "editMetadataLabel": "Upravit metadata"
       }
     },
-    "noSelectionMessage": "Výběr modelu nebo vztahu pro zobrazení podrobností"
+    "noSelectionMessage": "Výběr modelu nebo vztahu pro zobrazení podrobností",
+    "propertiesNotSupported": "Vybraná položka nepodporuje vlastnosti"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Zpráva o chybě",

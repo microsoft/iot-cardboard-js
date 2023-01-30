@@ -17,7 +17,7 @@ export const getStyles = (
             {
                 backgroundColor: theme.semanticColors.buttonBackground,
                 border: `1px solid ${theme.palette.neutralLight}`,
-                borderRadius: 4
+                borderRadius: theme.effects.roundedCorner4
             }
         ],
         subComponentStyles: {

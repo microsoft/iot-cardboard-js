@@ -1233,7 +1233,8 @@
         "editMetadataLabel": "Redigera metadata"
       }
     },
-    "noSelectionMessage": "Välj en modell eller relation för att visa information"
+    "noSelectionMessage": "Välj en modell eller relation för att visa information",
+    "propertiesNotSupported": "Det markerade objektet stöder inte egenskaper"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Felmeddelande",

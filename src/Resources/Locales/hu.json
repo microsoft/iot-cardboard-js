@@ -1233,7 +1233,8 @@
         "editMetadataLabel": "Metaadatok szerkesztése"
       }
     },
-    "noSelectionMessage": "Válasszon ki egy modellt vagy kapcsolatot a részletek megtekintéséhez"
+    "noSelectionMessage": "Válasszon ki egy modellt vagy kapcsolatot a részletek megtekintéséhez",
+    "propertiesNotSupported": "A kijelölt elem nem támogatja a tulajdonságokat"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Hibaüzenet",

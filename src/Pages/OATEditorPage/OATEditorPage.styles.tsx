@@ -5,8 +5,7 @@ import {
     CONTROLS_CALLOUT_OFFSET,
     CONTROLS_SIDE_OFFSET,
     CONTROLS_Z_INDEX,
-    OAT_HEADER_HEIGHT,
-    PROPERTY_EDITOR_WIDTH
+    OAT_HEADER_HEIGHT
 } from '../../Models/Constants/OatStyleConstants';
 import { HEADER_BUTTON_HEIGHT } from '../../Models/Constants/StyleConstants';
 

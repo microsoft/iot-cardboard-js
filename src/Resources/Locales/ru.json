@@ -1233,7 +1233,8 @@
         "editMetadataLabel": "Редактирование метаданных"
       }
     },
-    "noSelectionMessage": "Выбор модели или связи для просмотра сведений"
+    "noSelectionMessage": "Выбор модели или связи для просмотра сведений",
+    "propertiesNotSupported": "Выбранный элемент не поддерживает свойства"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Сообщение об ошибке",

@@ -12,7 +12,6 @@ import {
 import {
     DtdlComponent,
     DtdlInterface,
-    DtdlInterfaceContent,
     DtdlRelationship
 } from '../../../Models/Constants/dtdlInterfaces';
 import { getUntargetedRelationshipNodeId } from '../../../Models/Services/OatUtils';

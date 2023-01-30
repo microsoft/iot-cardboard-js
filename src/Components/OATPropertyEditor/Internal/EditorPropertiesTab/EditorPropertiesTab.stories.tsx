@@ -10,7 +10,7 @@ import {
     getMockModelItem,
     getMockReference
 } from '../../../../Models/Context/OatPageContext/OatPageContext.mock';
-import { DTDLProperty, DTDLType } from '../../../../Models/Classes/DTDL';
+import { DTDLType } from '../../../../Models/Classes/DTDL';
 import { getMockProperty } from '../../../../Models/Services/OatTestUtils';
 import { DtdlComponent, DtdlRelationship } from '../../../../Models/Constants';
 
