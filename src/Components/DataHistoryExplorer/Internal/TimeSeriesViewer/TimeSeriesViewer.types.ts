@@ -5,7 +5,6 @@ import {
     ITheme
 } from '@fluentui/react';
 import { IDataHistoryTimeSeriesTwin } from '../../../../Models/Constants/Interfaces';
-import { IHighChartsWrapperStyles } from '../../../HighChartsWrapper/HighChartsWrapper.types';
 
 export interface ITimeSeriesViewerProps {
     timeSeriesTwinList: Array<IDataHistoryTimeSeriesTwin>;
@@ -33,5 +32,13 @@ export interface ITimeSeriesViewerStyles {
 
 export interface ITimeSeriesViewerSubComponentStyles {
     pivot?: Partial<IPivotStyles>;
-    chartWrapper?: Partial<IHighChartsWrapperStyles>;
+}
+
+export enum ViewerPivot {
+    Chart = 'Chart',
+    Table = 'Table'
+}
+
+export interface ITimeSeriesViewerContext {
+    timeSeriesTwinList: Array<IDataHistoryTimeSeriesTwin>;
 }

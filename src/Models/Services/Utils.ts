@@ -33,8 +33,7 @@ import { DTwin, IADTTwin, IAzureResource } from '../Constants/Interfaces';
 import {
     AzureAccessPermissionRoleGroups,
     DurationUnits,
-    IConsoleLogFunction,
-    TimeSeriesData
+    IConsoleLogFunction
 } from '../Constants/Types';
 import { format } from 'd3-format';
 
@@ -43,10 +42,95 @@ const parser = createParser(ModelParsingOption.PermitAnyTopLevelElement);
 
 /** Parse DTDL models via model parser */
 export const parseDTDLModelsAsync = async (dtdlInterfaces: DtdlInterface[]) => {
-    const modelDict = await parser.parse(
-        dtdlInterfaces.map((dtdlInterface) => JSON.stringify(dtdlInterface))
-    );
+    let modelDict = null;
+
+    /* We loop over this function to attempt to parse models, and remove models that fail */
+    const tryParseWorkerFunction = async (interfaces: DtdlInterface[]) => {
+        try {
+            return await parser.parse(
+                interfaces.map((dtdlInterface) => JSON.stringify(dtdlInterface))
+            );
+        } catch (e) {
+            logDtdlParserError(e);
+            return e;
+        }
+    };
+
+    modelDict = await tryParseWorkerFunction(dtdlInterfaces);
+
+    /* If some models failed to parse, we will try to remove them and parse the rest of the models */
+    let previousInterfaces = dtdlInterfaces;
+    let failedModelCount = 0;
+    const maxFailedModelCount = 20;
+    while (
+        modelDict?._parsingErrors &&
+        failedModelCount < maxFailedModelCount
+    ) {
+        try {
+            const parsingErrorCauses = modelDict?._parsingErrors?.map(
+                (pe) => pe?.cause
+            ) as Array<string>;
+
+            /* The parsing error cause is not a model ID, but it contains a model ID 
+            so we remove the a model if its ID is contained in the cause */
+            const interfacesWithoutParserErrors = previousInterfaces.filter(
+                (intf) => {
+                    const modelId = intf['@id'];
+                    return !parsingErrorCauses?.filter((parseError) =>
+                        parseError.includes(modelId)
+                    ).length;
+                }
+            );
+
+            /* Iteratively parse models if we successfully removed some models, and there are still some left */
+            if (
+                interfacesWithoutParserErrors.length <
+                    previousInterfaces.length &&
+                interfacesWithoutParserErrors.length > 0
+            ) {
+                console.log(
+                    'Removing models that failed to parse and retrying'
+                );
+                modelDict = await tryParseWorkerFunction(
+                    interfacesWithoutParserErrors
+                );
+                previousInterfaces = interfacesWithoutParserErrors;
+                failedModelCount++;
+            } else {
+                console.warn('Could not remove models with parser errors');
+                return null;
+            }
+        } catch (e) {
+            console.warn('Could not remove models with parser errors');
+            console.log(e);
+            return null;
+        }
+    }
+
     return modelDict;
+};
+
+/* Pretty prints parser errors to the console to aid customer debugging */
+export const logDtdlParserError = (parserErrors) => {
+    try {
+        console.group('DTDL Parser Errors');
+        console.group('Raw Errors');
+        console.table(JSON.stringify(parserErrors?._parsingErrors));
+        console.group('Specific Errors');
+        const consoleStyle = 'background: #0274bf; color: #fff; padding: 2px;';
+        parserErrors?._parsingErrors?.forEach((pe) => {
+            console.group(pe?.primaryId);
+            console.log(`%cModelID: ${pe?.primaryId}`, consoleStyle);
+            console.log(`%cValidationId: ${pe?.validationId}`, consoleStyle);
+            console.log(`%cCause: ${pe?.cause}`, consoleStyle);
+            console.groupEnd();
+        });
+        console.groupEnd();
+        console.groupEnd();
+        console.groupEnd();
+    } catch (e) {
+        return;
+    }
 };
 
 /** Validates input data with JSON schema */
@@ -888,25 +972,6 @@ export const isValidADXClusterUrl = (clusterUrl: string): boolean => {
     return false;
 };
 
-/** Creates mock time series data array with data points between now and a certain milliseconds ago */
-export const getMockTimeSeriesDataArrayInLocalTime = (
-    lengthOfSeries = 1,
-    numberOfDataPoints = 5,
-    agoInMillis = 1 * 60 * 60 * 1000
-): Array<Array<TimeSeriesData>> => {
-    const toInMillis = Date.now();
-    const fromInMillis = toInMillis - agoInMillis;
-    return Array.from({ length: lengthOfSeries }).map(() => {
-        const maxLimitVariance = Math.floor(Math.random() * 500); // pick a max value between 0-500 as this timeseries value range to add more variance for values of different timeseries in independent y axes
-        return Array.from({ length: numberOfDataPoints }, () => ({
-            timestamp: Math.floor(
-                Math.random() * (toInMillis - fromInMillis + 1) + fromInMillis
-            ),
-            value: Math.floor(Math.random() * maxLimitVariance)
-        })).sort((a, b) => (a.timestamp as number) - (b.timestamp as number));
-    });
-};
-
 /**
  * Takes a number and returns a string representing the formatted number
  * @param val, number that is to be formatted
@@ -943,4 +1008,19 @@ export function formatNumber(val: number) {
     else if (Math.abs(val) >= 1000000000 && Math.abs(val) < 1000000000000)
         return format('.3s')(val).slice(0, -1) + 'B'; // suffix of B for billions
     return format('.1n')(val); // scientific for everything else
+}
+
+/**
+ * Takes a word string and capitalize only the first letter
+ * @param str, the string to be formatted
+ * @returns capitalized first letter formatted string
+ */
+export function capitalizeFirstLetter(str: string) {
+    try {
+        str = str.toLowerCase();
+        return str.charAt(0).toUpperCase() + str.slice(1);
+    } catch (error) {
+        console.error('Failed to capitalize string', error.message);
+        return str;
+    }
 }

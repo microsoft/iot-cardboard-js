@@ -1368,8 +1368,22 @@
     },
     "viewer": {
       "chart": "Zeekaart",
-      "table": "Tafel",
-      "noSeriesDescription": "Als u de gegevensgeschiedenis voor deze tweeling wilt weergeven, selecteert u een eigenschap die u wilt weergeven."
+      "noSeriesDescription": "Als u de gegevensgeschiedenis voor deze tweeling wilt weergeven, selecteert u een eigenschap die u wilt weergeven.",
+      "table": {
+        "title": "Tafel",
+        "columns": {
+          "timestamp": "Tijdstempel",
+          "series": "Reeks",
+          "value": "Waarde",
+          "type": "Type"
+        },
+        "messages": {
+          "noColor": "Niet ingesteld",
+          "loading": "Historized data laden...",
+          "noData": "Geen gehitoriseerde gegevens gevonden in het geselecteerde tijdsbestek.",
+          "noSeries": "Geen tweeling geselecteerd om op te vragen, voeg dubbele eigenschappen toe om geïrtoriseerde gegevens te bekijken."
+        }
+      }
     },
     "loadingConnectionLabel": "Tijdreeksverbindingsinformatie laden..."
   },

@@ -39,8 +39,7 @@ export const getStyles = (
                         flexDirection: 'column'
                     }
                 }
-            },
-            chartWrapper: { root: { overflow: 'hidden', padding: '12px 0' } }
+            }
         }
     };
 };

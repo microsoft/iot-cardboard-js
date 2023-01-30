@@ -1380,7 +1380,21 @@
         },
         "viewer": {
             "chart": "Chart",
-            "table": "Table",
+            "table": {
+                "title": "Table",
+                "columns": {
+                    "timestamp": "TimeStamp",
+                    "series": "Series",
+                    "value": "Value",
+                    "type": "Type"
+                },
+                "messages": {
+                    "noColor": "Not set",
+                    "loading": "Loading historized data...",
+                    "noData": "No historized data found in selected time frame.",
+                    "noSeries": "No twin selected to query, please add twin properties to view historized data."
+                }
+            },
             "noSeriesDescription": "To view data history for this twin, select a property to view."
         }
     }

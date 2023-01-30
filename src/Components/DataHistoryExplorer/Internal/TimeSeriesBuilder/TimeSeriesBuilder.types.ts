@@ -1,4 +1,9 @@
-import { IStyle, IStyleFunctionOrObject, ITheme } from '@fluentui/react';
+import {
+    IButtonStyles,
+    IStyle,
+    IStyleFunctionOrObject,
+    ITheme
+} from '@fluentui/react';
 import { IDataHistoryTimeSeriesTwin } from '../../../../Models/Constants';
 import { ITimeSeriesTwinCalloutStyles } from '../TimeSeriesTwinCallout/TimeSeriesTwinCallout.types';
 
@@ -35,5 +40,6 @@ export interface ITimeSeriesBuilderStyles {
 }
 
 export interface ITimeSeriesBuilderSubComponentStyles {
+    addNewButton?: Partial<IButtonStyles>;
     timeSeriesTwinCallout?: Partial<ITimeSeriesTwinCalloutStyles>;
 }
