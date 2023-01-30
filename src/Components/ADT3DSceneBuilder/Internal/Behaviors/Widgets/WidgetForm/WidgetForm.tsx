@@ -6,7 +6,8 @@ import {
     defaultGaugeWidget,
     defaultLinkWidget,
     defaultValueWidget,
-    defaultDataHistoryWidget
+    defaultDataHistoryWidget,
+    defaultPowerBIWidget
 } from '../../../../../../Models/Classes/3DVConfig';
 import { WidgetFormMode } from '../../../../../../Models/Constants/Enums';
 import {
@@ -14,6 +15,7 @@ import {
     IDataHistoryWidget,
     IGaugeWidget,
     ILinkWidget,
+    IPowerBIWidget,
     IValueWidget,
     IWidget
 } from '../../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
@@ -30,6 +32,7 @@ import { getDebugLogger } from '../../../../../../Models/Services/Utils';
 import { useBehaviorFormContext } from '../../../../../../Models/Context/BehaviorFormContext/BehaviorFormContext';
 import { BehaviorFormContextActionType } from '../../../../../../Models/Context/BehaviorFormContext/BehaviorFormContext.types';
 import DataHistoryWidgetBuilder from '../WidgetBuilders/DataHistoryWidgetBuilder/DataHistoryWidgetBuilder';
+import PowerBIWidgetBuilder from '../../../../../PowerBIWidget/Internal/PowerBIWidgetBuilder/PowerBIWidgetBuilder';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('WidgetForm', debugLogging);
@@ -44,6 +47,8 @@ const getDefaultFormData = (widgetFormInfo: WidgetFormInfo) => {
             return defaultValueWidget;
         case WidgetType.DataHistory:
             return defaultDataHistoryWidget;
+        case WidgetType.PowerBI:
+            return defaultPowerBIWidget;
         default:
             return null;
     }
@@ -148,6 +153,14 @@ const WidgetForm: React.FC = () => {
                 return (
                     <DataHistoryWidgetBuilder
                         formData={widgetData as IDataHistoryWidget}
+                        updateWidgetData={updateWidgetData}
+                        setIsWidgetConfigValid={setIsWidgetConfigValid}
+                    />
+                );
+            case WidgetType.PowerBI:
+                return (
+                    <PowerBIWidgetBuilder
+                        formData={widgetData as IPowerBIWidget}
                         updateWidgetData={updateWidgetData}
                         setIsWidgetConfigValid={setIsWidgetConfigValid}
                     />

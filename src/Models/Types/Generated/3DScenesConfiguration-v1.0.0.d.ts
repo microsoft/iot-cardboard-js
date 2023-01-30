@@ -8,7 +8,7 @@
 export type IElement = ITwinToObjectMapping | ICustomProperty;
 export type IDataSource = IElementTwinToObjectMappingDataSource | ICustomProperty;
 export type IVisual = IPopoverVisual | IExpressionRangeVisual;
-export type IWidget = IGaugeWidget | ILinkWidget | IValueWidget | IDataHistoryWidget;
+export type IWidget = IGaugeWidget | ILinkWidget | IValueWidget | IDataHistoryWidget | IPowerBIWidget;
 /**
  * Widget group to which a widget belongs
  */
@@ -286,6 +286,29 @@ export interface IDataHistoryChartOptions {
     defaultQuickTimeSpanInMillis: number;
     aggregationType: IDataHistoryAggregationType;
     extensionProperties?: IExtensionProperties;
+}
+/**
+ * A widget to connect to Power BI and display a specified visualization
+ */
+export interface IPowerBIWidget {
+    type: 'PowerBI';
+    id: string;
+    groupID?: IGroupID;
+    widgetConfiguration: IPowerBIWidgetConfiguration;
+    extensionProperties?: IExtensionProperties;
+}
+/**
+ * Widget configuration for required Power BI properties used to render visualization
+ */
+export interface IPowerBIWidgetConfiguration {
+    /**
+     * Supported types: report, dashboard, tile, visual
+     */
+    type: 'report' | 'dashboard' | 'tile' | 'visual';
+    label: string;
+    reportId: string;
+    pageName?: string;
+    visualName?: string;
 }
 /**
  * objectIDs specify the objects in the scene that a visual pertains to

@@ -201,6 +201,8 @@ function getListItems(
                 return widget?.widgetConfiguration?.displayName;
             case WidgetType.DataHistory:
                 return widget?.widgetConfiguration?.displayName;
+            case WidgetType.PowerBI:
+                return widget?.widgetConfiguration?.label;
             default:
                 return widget.type;
         }

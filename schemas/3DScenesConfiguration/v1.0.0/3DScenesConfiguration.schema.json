@@ -611,8 +611,59 @@
                 },
                 {
                     "$ref": "#/$defs/IDataHistoryWidget"
+                },
+                {
+                    "$ref": "#/$defs/IPowerBIWidget"
                 }
             ]
+        },
+        "IPowerBIWidget": {
+            "type": "object",
+            "description": "A widget to connect to Power BI and display a specified visualization",
+            "additionalProperties": false,
+            "properties": {
+                "type": {
+                    "const": "PowerBI"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "groupID": {
+                    "$ref": "#/$defs/IGroupID"
+                },
+                "widgetConfiguration": {
+                    "$ref": "#/$defs/IPowerBIWidgetConfiguration"
+                },
+                "extensionProperties": {
+                    "$ref": "#/$defs/IExtensionProperties"
+                }
+            },
+            "required": ["type", "id", "widgetConfiguration"]
+        },
+        "IPowerBIWidgetConfiguration": {
+            "type": "object",
+            "additionalProperties": false,
+            "description": "Widget configuration for required Power BI properties used to render visualization",
+            "properties": {
+                "type": {
+                    "description": "Supported types: report, dashboard, tile, visual",
+                    "type": "string",
+                    "enum": ["report", "dashboard", "tile", "visual"]
+                },
+                "label": {
+                    "type": "string"
+                },
+                "reportId": {
+                    "type": "string"
+                },
+                "pageName": {
+                    "type": "string"
+                },
+                "visualName": {
+                    "type": "string"
+                }
+            },
+            "required": ["type", "label", "reportId"]
         },
         "IPopoverVisual": {
             "type": "object",

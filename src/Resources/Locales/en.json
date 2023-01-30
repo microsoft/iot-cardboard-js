@@ -622,6 +622,11 @@
             "libraryName": "Panel",
             "description": "A layout panel"
         },
+        "powerBI": {
+            "title": "Power BI widget",
+            "libraryName": "Power BI Visual",
+            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor"
+        },
         "dataHistory": {
             "title": "Data history widget",
             "libraryName": "Data history",

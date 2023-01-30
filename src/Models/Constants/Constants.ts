@@ -10,6 +10,7 @@ import {
     defaultDataHistoryWidget,
     defaultGaugeWidget,
     defaultLinkWidget,
+    defaultPowerBIWidget,
     defaultValueWidget,
     IWidgetLibraryItem
 } from '../Classes/3DVConfig';
@@ -187,6 +188,12 @@ export const availableWidgets: Array<IWidgetLibraryItem> = [
         learnMoreLink: DOCUMENTATION_LINKS.dataHistory,
         iconName: 'Chart',
         data: defaultDataHistoryWidget
+    },
+    {
+        title: i18n.t('widgets.powerBI.title'),
+        description: i18n.t('widgets.powerBI.description'),
+        iconName: 'PowerBILogo',
+        data: defaultPowerBIWidget
     }
 ];
 export const twinRefreshMaxAge = 9000;
