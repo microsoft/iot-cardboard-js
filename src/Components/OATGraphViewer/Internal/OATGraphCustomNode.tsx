@@ -62,9 +62,27 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = (props) => {
     const [handleHoverRelationship, setHandleHoverRelationship] = useState(
         false
     );
-    const [handleHoverComponent, setHandleHoverComponent] = useState(false);
-    const [handleHoverExtend, setHandleHoverExtend] = useState(false);
-    const [handleHoverUntargeted, setHandleHoverUntargeted] = useState(false);
+    const [
+        handleHoverComponent,
+        {
+            setFalse: setHandleHoverComponentFalse,
+            setTrue: setHandleHoverComponentTrue
+        }
+    ] = useBoolean(false);
+    const [
+        handleHoverExtend,
+        {
+            setFalse: setHandleHoverExtendFalse,
+            setTrue: setHandleHoverExtendTrue
+        }
+    ] = useBoolean(false);
+    const [
+        handleHoverUntargeted,
+        {
+            setFalse: setHandleHoverUntargetedFalse,
+            setTrue: setHandleHoverUntargetedTrue
+        }
+    ] = useBoolean(false);
 
     // data
     const isSelected = useMemo(
@@ -212,12 +230,8 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = (props) => {
                                         : graphViewerStyles.componentHandleHidden
                                 }
                                 isConnectable={isConnectable}
-                                onMouseOver={() => {
-                                    setHandleHoverComponent(true);
-                                }}
-                                onMouseLeave={() => {
-                                    setHandleHoverComponent(false);
-                                }}
+                                onMouseOver={setHandleHoverComponentTrue}
+                                onMouseLeave={setHandleHoverComponentFalse}
                             >
                                 <div
                                     className={
@@ -302,12 +316,8 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = (props) => {
                                         : graphViewerStyles.untargetRelationshipHandleHidden
                                 }
                                 isConnectable={isConnectable}
-                                onMouseOver={() => {
-                                    setHandleHoverUntargeted(true);
-                                }}
-                                onMouseLeave={() => {
-                                    setHandleHoverUntargeted(false);
-                                }}
+                                onMouseOver={setHandleHoverUntargetedTrue}
+                                onMouseLeave={setHandleHoverUntargetedFalse}
                             >
                                 <div
                                     className={
@@ -348,12 +358,8 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = (props) => {
                                         : graphViewerStyles.extendHandleHidden
                                 }
                                 isConnectable={isConnectable}
-                                onMouseOver={() => {
-                                    setHandleHoverExtend(true);
-                                }}
-                                onMouseLeave={() => {
-                                    setHandleHoverExtend(false);
-                                }}
+                                onMouseOver={setHandleHoverExtendTrue}
+                                onMouseLeave={setHandleHoverExtendFalse}
                             >
                                 <div
                                     className={
