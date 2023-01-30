@@ -37,14 +37,6 @@ const GraphViewerControls: React.FC<IGraphViewerControlsProps> = (props) => {
     // contexts
     const { oatGraphDispatch, oatGraphState } = useOatGraphContext();
 
-    // state
-
-    // hooks
-
-    // callbacks
-
-    // side effects
-
     // styles
     const classNames = getClassNames(styles, {
         theme: useExtendedTheme()

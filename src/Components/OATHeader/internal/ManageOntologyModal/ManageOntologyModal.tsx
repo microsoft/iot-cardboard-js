@@ -142,7 +142,7 @@ const ManageOntologyModal: React.FC<IManageOntologyModalProps> = (props) => {
         theme: useTheme()
     });
 
-    const isFormValid = name && namespace;
+    const isFormValid = name?.trim() && namespace?.trim();
 
     return (
         <OatModal

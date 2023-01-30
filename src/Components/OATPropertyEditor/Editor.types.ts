@@ -4,6 +4,7 @@ import { Theme } from '../../Models/Constants/Enums';
 import { DtdlInterface, DtdlInterfaceContent } from '../..';
 import { IStyleFunctionOrObject, IStyle } from '@fluentui/react';
 import { IExtendedTheme } from '../../Theming/Theme.types';
+import { IllustrationMessageStyles } from '../IllustrationMessage/IllustrationMessage.types';
 
 export type IEditorProps = {
     editorDispatch?: React.Dispatch<React.SetStateAction<IAction>>;
@@ -33,5 +34,6 @@ export interface IEditorStyles {
     subComponentStyles?: IEditorSubComponentStyles;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface IEditorSubComponentStyles {}
+export interface IEditorSubComponentStyles {
+    illustrationMessage?: IllustrationMessageStyles;
+}
