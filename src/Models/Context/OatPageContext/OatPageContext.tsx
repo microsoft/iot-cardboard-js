@@ -300,7 +300,7 @@ export const OatPageContextReducer: (
                         model,
                         reference.name
                     );
-                    if (referenceIndex > -1) {
+                    if (referenceIndex > -1 && model.contents) {
                         // update value
                         model.contents[referenceIndex] = deepCopy(reference);
                         saveData(draft);

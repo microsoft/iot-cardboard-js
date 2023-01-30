@@ -14,6 +14,7 @@ import { DtdlInterface } from '../../Models/Constants/dtdlInterfaces';
 import { useOatPageContext } from '../../Models/Context/OatPageContext/OatPageContext';
 import {
     IOatPageContextState,
+    OatPageContextAction,
     OatPageContextActionType
 } from '../../Models/Context/OatPageContext/OatPageContext.types';
 import { CardboardList } from '../CardboardList';
@@ -148,9 +149,7 @@ export default styled<
 >(OATModelList, getStyles);
 
 function getListItems(
-    oatPageDispatch: React.Dispatch<
-        import('d:/Repos/iot-cardboard-js/src/Models/Context/OatPageContext/OatPageContext.types').OatPageContextAction
-    >,
+    oatPageDispatch: React.Dispatch<OatPageContextAction>,
     oatPageState: IOatPageContextState,
     t: TFunction,
     execute: (doFn: () => void, undoFn: () => void) => void,
