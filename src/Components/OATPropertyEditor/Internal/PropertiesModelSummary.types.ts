@@ -1,7 +1,6 @@
 import {
     IStyleFunctionOrObject,
     IStackStyles,
-    IButtonStyles,
     IStyle,
     ISeparatorStyles,
     ITextFieldStyles,
@@ -9,7 +8,6 @@ import {
 } from '@fluentui/react';
 import { DtdlInterface, DtdlInterfaceContent } from '../../..';
 import { DtdlRelationship } from '../../../Models/Constants';
-import { IAction } from '../../../Models/Constants/Interfaces';
 import { IExtendedTheme } from '../../../Theming/Theme.types';
 
 export interface IPartialModelId {
