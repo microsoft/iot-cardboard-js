@@ -1233,7 +1233,8 @@
         "editMetadataLabel": "メタデータの編集"
       }
     },
-    "noSelectionMessage": "詳細を表示するモデルまたはリレーションシップを選択する"
+    "noSelectionMessage": "詳細を表示するモデルまたはリレーションシップを選択する",
+    "propertiesNotSupported": "選択した項目はプロパティをサポートしていません"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "エラーメッセージ",

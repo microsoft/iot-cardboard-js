@@ -1233,7 +1233,8 @@
         "editMetadataLabel": "Modificare i metadati"
       }
     },
-    "noSelectionMessage": "Selezionare un modello o una relazione per visualizzarne i dettagli"
+    "noSelectionMessage": "Selezionare un modello o una relazione per visualizzarne i dettagli",
+    "propertiesNotSupported": "L'elemento selezionato non supporta le proprietà"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Messaggio di errore",

@@ -1233,7 +1233,8 @@
         "editMetadataLabel": "Meta verileri düzenleme"
       }
     },
-    "noSelectionMessage": "Ayrıntıları görüntülemek için bir model veya ilişki seçin"
+    "noSelectionMessage": "Ayrıntıları görüntülemek için bir model veya ilişki seçin",
+    "propertiesNotSupported": "Seçili öğe özellikleri desteklemiyor"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Hata mesajı",

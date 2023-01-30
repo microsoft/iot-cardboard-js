@@ -1233,7 +1233,8 @@
         "editMetadataLabel": "Metagegevens bewerken"
       }
     },
-    "noSelectionMessage": "Een model of relatie selecteren om details weer te geven"
+    "noSelectionMessage": "Een model of relatie selecteren om details weer te geven",
+    "propertiesNotSupported": "Het geselecteerde item ondersteunt geen eigenschappen"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Foutmelding",
