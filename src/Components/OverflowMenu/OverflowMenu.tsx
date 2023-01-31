@@ -68,7 +68,7 @@ export const OverflowMenu: React.FC<IOverflowMenuProps> = ({
                 ariaLabel={ariaLabel || t('more')}
                 className={className}
                 componentRef={menuRef}
-                data-is-focusable={isFocusable ?? false}
+                data-is-focusable={!!isFocusable}
                 data-testid={`context-menu-${menuKey}-${index}-moreMenu`}
                 menuIconProps={{
                     iconName: 'MoreVertical',
