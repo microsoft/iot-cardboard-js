@@ -1379,10 +1379,10 @@
           "noColor": "Não definido",
           "loading": "Carregando dados historizados...",
           "noSeries": "Nenhum gêmeo selecionado para consultar, adicione propriedades gêmeas para exibir dados historiados.",
-          "noDat": "Nenhum dado historizado encontrado no intervalo de tempo selecionado."
+          "noData": "Nenhum dado historizado encontrado no intervalo de tempo selecionado."
         }
       },
-      "chartc": {
+      "chart": {
         "title": "Gráfico",
         "messages": {
           "noData": "Sem dados históricos numéricos a serem exibidos, tente selecionar um intervalo de tempo diferente."

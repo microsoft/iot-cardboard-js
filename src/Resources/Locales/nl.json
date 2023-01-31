@@ -1379,10 +1379,10 @@
           "noColor": "Niet ingesteld",
           "loading": "Historized data laden...",
           "noSeries": "Geen tweeling geselecteerd om op te vragen, voeg dubbele eigenschappen toe om geïrtoriseerde gegevens te bekijken.",
-          "noDat": "Geen gehitoriseerde gegevens gevonden in het geselecteerde tijdsbereik."
+          "noData": "Geen gehitoriseerde gegevens gevonden in het geselecteerde tijdsbereik."
         }
       },
-      "chartc": {
+      "chart": {
         "title": "Zeekaart",
         "messages": {
           "noData": "Geen numerieke gehitoriseerde gegevens om weer te geven, probeer een ander tijdsbereik te selecteren."

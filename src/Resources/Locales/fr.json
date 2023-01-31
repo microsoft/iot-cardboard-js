@@ -1379,10 +1379,10 @@
           "noColor": "Non défini",
           "loading": "Chargement de données historiques...",
           "noSeries": "Aucun jumeau sélectionné pour interroger, veuillez ajouter des propriétés jumelles pour afficher les données historiques.",
-          "noDat": "Aucune donnée historisée n’a été trouvée dans la plage de temps sélectionnée."
+          "noData": "Aucune donnée historisée n’a été trouvée dans la plage de temps sélectionnée."
         }
       },
-      "chartc": {
+      "chart": {
         "title": "Graphique",
         "messages": {
           "noData": "Aucune donnée numérique historisée à afficher, essayez de sélectionner une autre plage de temps."

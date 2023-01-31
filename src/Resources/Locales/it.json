@@ -1379,10 +1379,10 @@
           "noColor": "Non impostato",
           "loading": "Caricamento dei dati storici...",
           "noSeries": "Nessun gemello selezionato per la query, aggiungere proprietà gemelle per visualizzare i dati cronologizzati.",
-          "noDat": "Nessun dato cronologizzato trovato nell'intervallo di tempo selezionato."
+          "noData": "Nessun dato cronologizzato trovato nell'intervallo di tempo selezionato."
         }
       },
-      "chartc": {
+      "chart": {
         "title": "Tabella",
         "messages": {
           "noData": "Nessun dato numerico storicizzato da visualizzare, prova a selezionare un intervallo di tempo diverso."

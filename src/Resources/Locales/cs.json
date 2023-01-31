@@ -1379,10 +1379,10 @@
           "noColor": "Není nastaveno",
           "loading": "Načítání historizovaných dat...",
           "noSeries": "K dotazu nebylo vybráno žádné dvojče, přidejte prosím vlastnosti dvojčat pro zobrazení historizovaných dat.",
-          "noDat": "Ve vybraném časovém období nebyla nalezena žádná historizovaná data."
+          "noData": "Ve vybraném časovém období nebyla nalezena žádná historizovaná data."
         }
       },
-      "chartc": {
+      "chart": {
         "title": "Graf",
         "messages": {
           "noData": "Žádná číselná historická data k zobrazení, zkuste vybrat jiný časový rozsah."
