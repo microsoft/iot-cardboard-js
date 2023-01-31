@@ -1,12 +1,11 @@
 import React, { useMemo, useState, useContext } from 'react';
 import { CommandHistoryContext } from '../../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
 import {
-    Icon,
-    ActionButton,
     Label,
     TooltipHost,
     FocusZone,
-    Text
+    Text,
+    IconButton
 } from '@fluentui/react';
 import { useId } from '@fluentui/react-hooks';
 import { useBoolean } from '@fluentui/react-hooks';
@@ -14,7 +13,6 @@ import { Handle, Position } from 'react-flow-renderer';
 import { useTranslation } from 'react-i18next';
 import {
     getGraphViewerStyles,
-    getGraphViewerIconStyles,
     getGraphViewerActionButtonStyles
 } from '../OATGraphViewer.styles';
 import {
@@ -36,6 +34,7 @@ import { IOATGraphCustomNodeProps } from './OATGraphCustomNode.types';
 import { parseModelId } from '../../../Models/Services/OatUtils';
 import { useOatGraphContext } from '../../../Models/Context/OatGraphContext/OatGraphContext';
 import { GRAPH_NODE_WIDTH } from '../OATGraphViewer';
+import { useExtendedTheme } from '../../../Models/Hooks/useExtendedTheme';
 
 const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = (props) => {
     const { id, data, isConnectable } = props;
@@ -125,8 +124,9 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = (props) => {
 
     // styles
     const graphViewerStyles = getGraphViewerStyles();
-    const iconStyles = getGraphViewerIconStyles();
-    const actionButtonStyles = getGraphViewerActionButtonStyles();
+    const actionButtonStyles = getGraphViewerActionButtonStyles(
+        useExtendedTheme()
+    );
 
     return (
         <FocusZone style={{ cursor: 'pointer' }}>
@@ -203,12 +203,11 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = (props) => {
                             <Label>{data['@type']}</Label>
                         </div>
                     )}
-                    <ActionButton
+                    <IconButton
                         styles={actionButtonStyles}
                         onClick={onDelete}
-                    >
-                        <Icon iconName="Delete" styles={iconStyles} />
-                    </ActionButton>
+                        iconProps={{ iconName: 'Delete' }}
+                    />
                 </div>
                 {data['@type'] === OAT_INTERFACE_TYPE && (
                     <>

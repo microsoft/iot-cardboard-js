@@ -6,9 +6,8 @@ import {
     IStyleFunctionOrObject,
     ILabelStyleProps,
     ILabelStyles,
-    IButtonProps,
-    IIconStyles,
-    FontWeights
+    FontWeights,
+    IButtonStyles
 } from '@fluentui/react';
 import { CardboardClassNamePrefix } from '../../Models/Constants';
 import {
@@ -23,6 +22,7 @@ import {
 } from '../../Models/Constants/OatStyleConstants';
 import { HEADER_BUTTON_HEIGHT } from '../../Models/Constants/StyleConstants';
 import { useExtendedTheme } from '../../Models/Hooks/useExtendedTheme';
+import { IExtendedTheme } from '../../Theming/Theme.types';
 import {
     IOATGraphViewerStyleProps,
     IOATGraphViewerStyles
@@ -509,26 +509,24 @@ export const getGraphViewerStyles = () => {
     });
 };
 
-export const getGraphViewerIconStyles = () => {
-    const theme = useTheme();
+export const getGraphViewerActionButtonStyles = (
+    theme: IExtendedTheme
+): IButtonStyles => {
     return {
         root: {
-            fontSize: FontSizes.size10,
+            float: 'right',
+            height: 24,
+            padding: 0,
+            position: 'absolute',
+            right: 4,
+            top: 4,
+            width: 24
+        },
+        icon: {
+            fontSize: FontSizes.size12,
             color: theme.semanticColors.actionLink
         }
-    } as Partial<IIconStyles>;
-};
-
-export const getGraphViewerActionButtonStyles = () => {
-    return {
-        root: {
-            height: FontSizes.size12,
-            float: 'right',
-            position: 'absolute',
-            top: '8px',
-            right: 4
-        }
-    } as IButtonProps;
+    };
 };
 
 export const getGraphViewerWarningStyles = () => {
