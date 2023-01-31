@@ -971,7 +971,8 @@
       "namespaceDescription": "모델 이름 예: {{모델 이름}}",
       "namespacePlaceholder": "네임스페이스 입력",
       "sampleModel": "샘플 모델"
-    }
+    },
+    "newModel": "새로운 모델"
   },
   "cameraControls": {
     "mouseControls": "마우스 컨트롤",

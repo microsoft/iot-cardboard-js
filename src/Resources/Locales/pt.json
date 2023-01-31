@@ -971,7 +971,8 @@
       "namespaceDescription": "Nome do modelo de exemplo: {{modelName}}",
       "namespacePlaceholder": "Inserir um namespace",
       "sampleModel": "modelo de exemplo"
-    }
+    },
+    "newModel": "Novo modelo"
   },
   "cameraControls": {
     "mouseControls": "Controles do mouse",

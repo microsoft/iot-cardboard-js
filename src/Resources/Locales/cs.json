@@ -971,7 +971,8 @@
       "namespaceDescription": "Příklad názvu modelu: {{modelName}}",
       "namespacePlaceholder": "Zadejte obor názvů",
       "sampleModel": "Vzorový model"
-    }
+    },
+    "newModel": "Nový model"
   },
   "OATGraphViewer": {
     "newModel": "Nový model",
