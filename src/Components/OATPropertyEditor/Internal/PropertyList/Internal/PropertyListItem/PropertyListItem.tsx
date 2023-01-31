@@ -183,7 +183,7 @@ const PropertyListItem: React.FC<IPropertyListItemProps> = (props) => {
             options.push({
                 key: 'change-child-type',
                 text: text,
-                iconProps: { iconName: '' }, // TODO: find the right icon
+                iconProps: { iconName: 'Switch' },
                 id: 'change-child-type',
                 subMenuProps: {
                     items: subItems
@@ -230,7 +230,7 @@ const PropertyListItem: React.FC<IPropertyListItemProps> = (props) => {
                 'data-testid': 'property-item-menu-change-child-type',
                 text: text,
                 id: 'change-child-type-button',
-                iconProps: { iconName: '' }, // TODO: find the right icon
+                iconProps: { iconName: 'Switch' },
                 subMenuProps: {
                     items: subItems
                 }
