@@ -944,7 +944,6 @@
     "deleteAll": "Ta bort alla",
     "folderUpload": "Uppladdning av mapp",
     "fileUpload": "Filuppladdning",
-    "files": "ﬁler",
     "selectFile": "Välj fil",
     "errorSingleFileHoldsRelationships": "Problem med {{fileName}}: Modellen innehåller relationer som inte importeras",
     "errorImportedModelAlreadyExists": "Problem med {{modelId}}: Modell med samma @id redan finns",
@@ -954,7 +953,26 @@
     "fileOpenModal": {
       "dropdownLabel": "Ontologi",
       "dropdownPlaceholder": "Välj en ontologi"
-    }
+    },
+    "configure": "Konfigurera",
+    "importFile": "Importera fil",
+    "importFolder": "Importera mapp",
+    "ontology": "Ontologi",
+    "manageOntologyModal": {
+      "deleteButtonText": "Ta bort ontologi",
+      "modalTitleCreate": "Ny ontologi",
+      "modalTitleEdit": "Redigera ontologi",
+      "modalSubTitleCreate": "Skapa en ny ontologi för att ge struktur till din digitala tvilling.",
+      "modalSubTitleEdit": "Redigera din ontologi för att ge struktur till din digitala tvilling.",
+      "modalSubTitleLinkText": "Läs mer om ontologier",
+      "nameLabel": "Namn",
+      "namePlaceholder": "Ange ett ontologinamn",
+      "namespaceLabel": "Namespace",
+      "namespaceDescription": "Exempel på modellnamn: {{modelName}}",
+      "namespacePlaceholder": "Ange ett namnområde",
+      "sampleModel": "exempel modell"
+    },
+    "newModel": "Ny modell"
   },
   "cameraControls": {
     "mouseControls": "Muskontroller",
@@ -1095,8 +1113,8 @@
     "errorDisplayNameLength": "Visningsnamn får inte överstiga 64 tecken",
     "errorRepeatedEdgeName": "En relation med samma namn finns redan",
     "runLayout": "Kör layout",
-    "errorReachedInheritanceLimit": "Uppnådd arvsgräns",
-    "errorInheritance": "Får inte ärva från fler än två gränssnitt"
+    "extends": "Sträcker sig",
+    "loadingText": "Positioner för datorlayout"
   },
   "OATPropertyEditor": {
     "displayName": "Visningsnamn",
@@ -1183,7 +1201,41 @@
     "addToPropertyList": "Lägg till i egenskapslistan",
     "moveDown": "Flytta ner",
     "moveUp": "Flytta upp",
-    "valueSchema": "Värdeschema"
+    "valueSchema": "Värdeschema",
+    "commentPlaceholder": "Kommentar för modellförfattare",
+    "date": "datum",
+    "descriptionPlaceholder": "En lokaliserbar beskrivning att visa",
+    "details": "Detaljer",
+    "displayNamePlaceholder": "Ett lokaliserbart namn att visa",
+    "expand": "Expandera",
+    "maxMultiplicityLabel": "Maximal mångfald",
+    "minMultiplicityLabel": "Minsta mångfald",
+    "minMultiplicityMessage": "DTDL V2 stöder endast en minsta mångfald på 0",
+    "modelId": "Modell-ID",
+    "path": "Stig",
+    "uniqueModelName": "Unikt modellnamn",
+    "version": "Version",
+    "SchemaDefaults": {
+      "defaultEnumName": "enum_key_{{index}}",
+      "defaultMapName": "enum_key_{{index}}",
+      "defaultObjectPropertyName": "field_name_{{index}}",
+      "defaultMapKeyName": "map_key_{{index}}",
+      "defaultMapValueName": "map_value_{{index}}",
+      "defaultPropertyName": "new_property_{{index}}"
+    },
+    "PropertyListItem": {
+      "arrayItemLabel": "Objekt",
+      "enumKeyPlaceholder": "Ange nyckel",
+      "enumValuePlaceholder": "Ange värde",
+      "ContextMenu": {
+        "changePropertyTypeLabel": "Redigera egenskapstyp",
+        "changeChildTypeLabelForArray": "Ändra matrisobjekttyp",
+        "changeChildTypeLabelForEnum": "Ändra uppräkningsvärdetyp",
+        "editMetadataLabel": "Redigera metadata"
+      }
+    },
+    "noSelectionMessage": "Välj en modell eller relation för att visa information",
+    "propertiesNotSupported": "Det markerade objektet stöder inte egenskaper"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Felmeddelande",
@@ -1335,5 +1387,24 @@
       }
     },
     "loadingConnectionLabel": "Laddar anslutningsinformation för tidsserier..."
+  },
+  "clear": "Klar",
+  "duplicate": "Duplicera",
+  "moveUp": "Flytta upp",
+  "moveDown": "Flytta ner",
+  "increaseBy1": "Öka värdet med 1",
+  "decreaseBy1": "Minska värdet med 1",
+  "OATCommon": {
+    "duplicateFileNameSuffix": "kopia",
+    "defaultFileName": "Ny ontologi",
+    "defaultModelNamePrefix": "Modell"
+  },
+  "OATModelList": {
+    "searchModels": "Sök modeller",
+    "noDataMessage": "Inga modeller",
+    "noMatchingItemsMessage": "Inga modeller matchar det kriteriet",
+    "removeModelButtonText": "Ta bort modell",
+    "modelListToggleAriaLabelShow": "Visa modelllista",
+    "modelListToggleAriaLabelHide": "Dölj modelllista"
   }
 }

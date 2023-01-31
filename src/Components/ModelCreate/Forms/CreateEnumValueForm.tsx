@@ -38,11 +38,11 @@ const CreateEnumValueForm: React.FC<CreateEnumValueFormProps> = ({
 
     const onClickCreate = () => {
         const newEnumValue = new DTDLEnumValue(
-            id,
             name,
             valueSchema === 'integer'
                 ? Number.parseInt(enumValue as string)
                 : enumValue,
+            id,
             displayName,
             description,
             comment

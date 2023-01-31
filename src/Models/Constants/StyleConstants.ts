@@ -18,3 +18,5 @@ export const VIEWER_CAMERA_CONTROLS_BOTTOM_OFFSET = ELEMENTS_PANEL_BUTTON_BOTTOM
 export const BUILDER_CAMERA_CONTROLS_BOTTOM_OFFSET = ELEMENTS_PANEL_BUTTON_BOTTOM_OFFSET;
 
 export const CUSTOM_HIGHCHARTS_COLOR_IDX_1 = '#d781fc'; // overriding default Highcharts color at index 1 since it is not visible in our dark themes
+
+export const APP_BACKGROUND_KRAKEN = '#16203b';

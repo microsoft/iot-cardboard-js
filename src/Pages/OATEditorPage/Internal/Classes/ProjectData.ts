@@ -1,31 +1,41 @@
-import { DTDLModel } from '../../../../Models/Classes/DTDL';
+import { DtdlInterface } from '../../../../Models/Constants';
 import {
     IOATModelPosition,
     IOATModelsMetadata
 } from '../../OATEditorPage.types';
 
-export class ProjectData {
-    modelPositions?: IOATModelPosition[];
-    models?: DTDLModel[];
-    modelsMetadata?: IOATModelsMetadata[];
-    namespace?: string;
-    projectDescription?: string;
-    projectName?: string;
+export interface IOatProjectData {
+    models: DtdlInterface[];
+    modelPositions: IOATModelPosition[];
+    modelsMetadata: IOATModelsMetadata[];
+    namespace: string;
+    projectDescription: string;
+    projectName: string;
+    templates: any[];
+}
+export class ProjectData implements IOatProjectData {
+    models: DtdlInterface[];
+    modelPositions: IOATModelPosition[];
+    modelsMetadata: IOATModelsMetadata[];
+    namespace: string;
+    projectDescription: string;
+    projectName: string;
     templates: any[];
 
     constructor(
-        modelPositions: IOATModelPosition[],
-        models: DTDLModel[],
         projectName: string,
-        templates: any[],
         namespace: string,
-        modelsMetadata: IOATModelsMetadata[]
+        models?: DtdlInterface[],
+        modelPositions?: IOATModelPosition[],
+        modelsMetadata?: IOATModelsMetadata[],
+        templates?: any[]
     ) {
-        this.modelPositions = modelPositions;
-        this.models = models;
-        this.projectName = projectName;
-        this.templates = templates;
-        this.namespace = namespace;
-        this.modelsMetadata = modelsMetadata;
+        this.projectName = projectName || '';
+        this.namespace = namespace || '';
+        this.projectDescription = '';
+        this.models = models ? Array.from(models) : [];
+        this.modelPositions = modelPositions ? Array.from(modelPositions) : [];
+        this.modelsMetadata = modelsMetadata ? Array.from(modelsMetadata) : [];
+        this.templates = templates ? Array.from(templates) : [];
     }
 }

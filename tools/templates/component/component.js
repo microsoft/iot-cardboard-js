@@ -6,7 +6,8 @@ module.exports = (componentName) => ({
         I${componentName}Styles
     } from './${componentName}.types';
     import { getStyles } from './${componentName}.styles';
-    import { classNamesFunction, useTheme, styled } from '@fluentui/react';
+    import { classNamesFunction, styled } from '@fluentui/react';
+    import { useExtendedTheme } from '../../Models/Hooks/useExtendedTheme';
     
     const getClassNames = classNamesFunction<
         I${componentName}StyleProps,
@@ -28,7 +29,7 @@ module.exports = (componentName) => ({
 
         // styles
         const classNames = getClassNames(styles, {
-            theme: useTheme()
+            theme: useExtendedTheme()
         });
     
         return <div className={classNames.root}>Hello ${componentName}!</div>;

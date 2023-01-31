@@ -1,4 +1,5 @@
 import { useState, useMemo } from 'react';
+import { getDebugLogger } from '../../../../Models/Services/Utils';
 
 interface ICommandRecord {
     doFn: () => void;
@@ -13,6 +14,9 @@ interface ICommandHistory {
     canUndo: boolean;
 }
 
+const debugLogging = false;
+const logDebugConsole = getDebugLogger('useCommandHistory', debugLogging);
+
 export const useCommandHistory = (
     initialState?: ICommandRecord[]
 ): ICommandHistory => {
@@ -22,6 +26,10 @@ export const useCommandHistory = (
     const execute = (doFn, undoFn) => {
         doFn();
         setHistory([...history.slice(0, index), { doFn, undoFn }]);
+        logDebugConsole(
+            'debug',
+            `Executing action. History: ${history.length}.`
+        );
         setIndex(index + 1);
     };
 
@@ -35,6 +43,10 @@ export const useCommandHistory = (
     ]);
 
     const redo = () => {
+        logDebugConsole(
+            'debug',
+            `Redo. History: ${history.length}. Index: ${index}.`
+        );
         if (canRedo) {
             history[index].doFn();
             setIndex((previousIndex) => previousIndex + 1);
@@ -42,6 +54,10 @@ export const useCommandHistory = (
     };
 
     const undo = () => {
+        logDebugConsole(
+            'debug',
+            `Undo. History: ${history.length}. Index: ${index}.`
+        );
         if (canUndo) {
             history[index - 1].undoFn();
             setIndex((previousIndex) => previousIndex - 1);

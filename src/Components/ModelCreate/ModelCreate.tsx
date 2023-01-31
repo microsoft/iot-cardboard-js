@@ -105,7 +105,8 @@ function ModelCreate(props: ModelCreateProps, ref) {
                 comment,
                 properties,
                 relationships,
-                components
+                components,
+                []
             );
         }
     }));
@@ -118,7 +119,8 @@ function ModelCreate(props: ModelCreateProps, ref) {
             comment,
             properties,
             relationships,
-            components
+            components,
+            []
         );
         if (onPrimaryAction && typeof onPrimaryAction === 'function') {
             onPrimaryAction(model);
@@ -319,11 +321,17 @@ function ModelCreate(props: ModelCreateProps, ref) {
                             />
                             <TextField
                                 label={t('displayName')}
-                                title={displayName}
+                                title={
+                                    typeof displayName === 'object'
+                                        ? displayName[0]
+                                        : displayName
+                                }
                                 value={
                                     formMode === FormMode.Readonly &&
                                     !displayName
                                         ? '(' + t('noInformation') + ')'
+                                        : typeof displayName === 'object'
+                                        ? displayName[0]
                                         : displayName
                                 }
                                 className={`${
@@ -345,11 +353,17 @@ function ModelCreate(props: ModelCreateProps, ref) {
                                 label={t('modelCreate.description')}
                                 multiline={formMode !== FormMode.Readonly}
                                 rows={3}
-                                title={description}
+                                title={
+                                    typeof description === 'object'
+                                        ? description[0]
+                                        : description
+                                }
                                 value={
                                     formMode === FormMode.Readonly &&
                                     !description
                                         ? '(' + t('noInformation') + ')'
+                                        : typeof description === 'object'
+                                        ? description[0]
                                         : description
                                 }
                                 className={`${
@@ -516,12 +530,17 @@ function ModelCreate(props: ModelCreateProps, ref) {
                             comment,
                             properties,
                             relationships,
-                            components
+                            components,
+                            []
                         )
                     }
                     isOpen={isModelPreviewOpen}
                     onDismiss={() => setIsModelPreviewOpen(false)}
-                    modalTitle={displayName || modelId}
+                    modalTitle={
+                        typeof displayName === 'object'
+                            ? displayName[0]
+                            : displayName || modelId
+                    }
                 />
             </I18nProviderWrapper>
         </div>

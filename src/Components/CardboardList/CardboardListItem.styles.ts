@@ -14,7 +14,7 @@ import {
 import { CardboardGroupedListItemType } from './CardboardGroupedList.types';
 
 const classPrefix = `${CardboardClassNamePrefix}-list-item`;
-export const classNames = {
+const classNames = {
     alertDot: `${classPrefix}-alert-dot`,
     checkbox: `${classPrefix}-checkbox`,
     endIcon: `${classPrefix}-end-icon`,
@@ -28,6 +28,7 @@ export const classNames = {
     secondaryText: `${classPrefix}-secondary-text`,
     separator: `${classPrefix}-separator`
 };
+export const CARDBOARD_LIST_ITEM_CLASS_NAMES = classNames;
 export const getStyles = memoizeFunction(
     (theme: Theme, isMenuOpen: boolean, iconColor?: string) => {
         const ellipseStyles = {
@@ -130,27 +131,23 @@ export const getStyles = memoizeFunction(
 export const getButtonStyles = memoizeFunction(
     (
         itemType: CardboardGroupedListItemType | undefined,
-        isSelected: boolean | undefined,
         theme: Theme,
         customStyles: Partial<IButtonStyles> | undefined
     ): IButtonStyles => {
         return {
+            ...(customStyles as IButtonStyles),
             root: [
                 {
                     alignItems: 'start', // top align everything
-                    border: 0,
+                    border: '1px solid transparent',
                     height: 'auto',
                     ':hover .cb-more-menu, :focus .cb-more-menu, .cb-more-menu-visible': {
                         opacity: 1
                     },
                     padding: '8px 12px',
-                    width: '100%',
-                    ...(customStyles?.root as IRawStyle)
+                    width: '100%'
                 },
-                isSelected && {
-                    backgroundColor:
-                        theme.semanticColors.buttonBackgroundPressed
-                },
+                { ...(customStyles?.root as IRawStyle) },
                 itemType === 'item' && {
                     paddingLeft: 40
                 },
@@ -158,6 +155,11 @@ export const getButtonStyles = memoizeFunction(
                     borderTop: `1px solid ${theme.palette.neutralLight}`
                 }
             ],
+            rootChecked: {
+                backgroundColor: theme.semanticColors.buttonBackgroundPressed,
+                borderColor: theme.palette.black,
+                ...(customStyles?.rootChecked as IRawStyle)
+            },
             flexContainer: {
                 justifyContent: 'start',
                 ...(customStyles?.flexContainer as IRawStyle)

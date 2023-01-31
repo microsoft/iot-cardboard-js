@@ -202,6 +202,21 @@ export type CardboardIconNames =
     | 'SpeedHigh'
     | 'View';
 
+export type OatIconNames =
+    | 'BufferTimeBefore'
+    | 'BulletedList2'
+    | 'Calendar'
+    | 'Clock'
+    | 'Code'
+    | 'CubeShape'
+    | 'DateTime'
+    | 'DocumentManagement'
+    | 'Down'
+    | 'GroupList'
+    | 'TextField'
+    | 'ToggleRight'
+    | 'Up';
+
 export enum DurationUnits {
     milliseconds = 0,
     seconds = 1,

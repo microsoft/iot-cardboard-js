@@ -1,5 +1,13 @@
 import { IStyle, mergeStyleSets, useTheme } from '@fluentui/react';
 import { CardboardClassNamePrefix } from '../../Models/Constants';
+import {
+    CONTROLS_BOTTOM_OFFSET,
+    CONTROLS_CALLOUT_OFFSET,
+    CONTROLS_SIDE_OFFSET,
+    CONTROLS_Z_INDEX,
+    OAT_HEADER_HEIGHT
+} from '../../Models/Constants/OatStyleConstants';
+import { HEADER_BUTTON_HEIGHT } from '../../Models/Constants/StyleConstants';
 
 const classPrefix = `${CardboardClassNamePrefix}-oat-body`;
 const classNames = {
@@ -17,6 +25,7 @@ const classNames = {
     confirmDeleteButtonsWrapper: `${classPrefix}-confirm-delete-buttons-wrapper`,
     confirmDeleteWrapperTitle: `${classPrefix}-confirm-delete-wrapper-title`
 };
+
 export const getEditorPageStyles = () => {
     const theme = useTheme();
     return mergeStyleSets({
@@ -39,21 +48,24 @@ export const getEditorPageStyles = () => {
         component: [
             classNames.component,
             {
-                display: 'grid',
-                gridTemplateColumns: '20% 55% 25%',
-                height: '95%', // 100% - header height
-                backgroundColor: theme.semanticColors.bodyBackground
-            } as IStyle
-        ],
-        componentTemplate: [
-            classNames.componentTemplate,
-            {
-                display: 'grid',
-                height: '100%',
+                display: 'flex',
                 backgroundColor: theme.semanticColors.bodyBackground,
-                gridTemplateColumns: '20% 30% 50%'
+                height: `calc(100% - ${OAT_HEADER_HEIGHT}px)`,
+                position: 'relative'
             } as IStyle
         ],
+        viewerContainer: {
+            width: '100%'
+        },
+        propertyEditorContainer: {
+            position: 'absolute',
+            right: CONTROLS_SIDE_OFFSET,
+            bottom:
+                CONTROLS_BOTTOM_OFFSET +
+                HEADER_BUTTON_HEIGHT +
+                CONTROLS_CALLOUT_OFFSET,
+            zIndex: CONTROLS_Z_INDEX
+        },
         errorHandlingWrapper: [
             classNames.errorHandlingWrapper,
             {

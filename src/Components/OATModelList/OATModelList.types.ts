@@ -1,7 +1,38 @@
-import { IAction } from '../../Models/Constants/Interfaces';
-import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
+import {
+    IStyleFunctionOrObject,
+    IStyle,
+    ISearchBoxStyles,
+    IStackStyles,
+    IButtonStyles
+} from '@fluentui/react';
+import { IExtendedTheme } from '../../Theming/Theme.types';
 
-export type OATModelListProps = {
-    dispatch: React.Dispatch<React.SetStateAction<IAction>>;
-    state?: IOATEditorState;
-};
+export interface IOATModelListProps {
+    /**
+     * Call to provide customized styling that will layer on top of the variant rules.
+     */
+    styles?: IStyleFunctionOrObject<
+        IOATModelListStyleProps,
+        IOATModelListStyles
+    >;
+}
+
+export interface IOATModelListStyleProps {
+    theme: IExtendedTheme;
+}
+export interface IOATModelListStyles {
+    root: IStyle;
+    listContainer: IStyle;
+    noDataMessage: IStyle;
+
+    /**
+     * SubComponent styles.
+     */
+    subComponentStyles?: IOATModelListSubComponentStyles;
+}
+
+export interface IOATModelListSubComponentStyles {
+    listItem?: IStyleFunctionOrObject<{ isSelected: boolean }, IButtonStyles>;
+    rootStack: IStackStyles;
+    searchbox?: ISearchBoxStyles;
+}

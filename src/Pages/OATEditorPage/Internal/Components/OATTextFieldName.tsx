@@ -3,9 +3,9 @@ import { TextField } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import {
     DTDLNameRegex,
-    OATInterfaceType,
-    OATNameLengthLimit,
-    OATRelationshipHandleName
+    OAT_INTERFACE_TYPE,
+    OAT_NAME_LENGTH_LIMIT,
+    OAT_RELATIONSHIP_HANDLE_NAME
 } from '../../../../Models/Constants';
 import { getModelPropertyListItemName } from '../../../../Components/OATPropertyEditor/Utils';
 import { OATTextFieldNameProps } from './OATTextFieldName.types';
@@ -45,7 +45,7 @@ const OATTextFieldName = ({
 
     const onChange = (value: string) => {
         // Check length
-        if (value.length <= OATNameLengthLimit) {
+        if (value.length <= OAT_NAME_LENGTH_LIMIT) {
             setNameLengthError(null);
             setTemporaryName(value);
             // Check format
@@ -53,7 +53,7 @@ const OATTextFieldName = ({
                 setNameValidCharactersError(null);
                 // Check for duplicate name
                 // If model is a relationship, check if name is duplicate to any other relationship
-                if (model['@type'] === OATRelationshipHandleName) {
+                if (model['@type'] === OAT_RELATIONSHIP_HANDLE_NAME) {
                     const repeatedNameOnRelationship = models.find(
                         (queryModel) =>
                             queryModel.contents &&
@@ -66,7 +66,7 @@ const OATTextFieldName = ({
                     setNameDuplicateRelationshipError(
                         !!repeatedNameOnRelationship
                     );
-                } else if (model['@type'] === OATInterfaceType) {
+                } else if (model['@type'] === OAT_INTERFACE_TYPE) {
                     // Check if name is duplicate to any other interface
                     const repeatedNameOnInterface = models.find(
                         (model) =>
@@ -119,7 +119,7 @@ const OATTextFieldName = ({
                 ? t('OATPropertyEditor.errorNameLength')
                 : nameValidCharactersError
                 ? t('OATPropertyEditor.errorName')
-                : model['@type'] === OATRelationshipHandleName
+                : model['@type'] === OAT_RELATIONSHIP_HANDLE_NAME
                 ? nameDuplicateRelationshipError
                     ? t('OATPropertyEditor.errorRepeatedEdgeName')
                     : ''

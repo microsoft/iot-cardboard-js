@@ -145,7 +145,7 @@ abstract class PropertyInspectorModel {
                 propertySourceObject,
                 modelProperty: {
                     ...modelProperty,
-                    schema: targetSchema,
+                    schema: targetSchema as any,
                     ...(targetSchema.displayName && {
                         displayName: targetSchema.displayName
                     })
@@ -231,7 +231,7 @@ abstract class PropertyInspectorModel {
                                       ];
                                 const result = PropertyInspectorModel.parsePropertyIntoNode(
                                     {
-                                        modelProperty: field,
+                                        modelProperty: field as any,
                                         propertySourceObject:
                                             inlinepropertySourceObject ??
                                             (isArrayItem
@@ -421,7 +421,7 @@ abstract class PropertyInspectorModel {
                         isInherited,
                         isMapChild,
                         isArrayItem,
-                        childSchema: modelProperty.schema.elementSchema,
+                        childSchema: modelProperty.schema.elementSchema as any,
                         isRemovable: !isArrayItem,
                         value: undefined,
                         isSet:
@@ -602,7 +602,7 @@ abstract class PropertyInspectorModel {
                         isObjectChild: false,
                         isMapChild: false,
                         propertySourceObject: twin,
-                        modelProperty: modelItem,
+                        modelProperty: modelItem as any,
                         path,
                         schemas
                     });
@@ -610,7 +610,9 @@ abstract class PropertyInspectorModel {
                 case DTDLType.Component: {
                     if (expandedModels) {
                         const componentInterface = expandedModels?.find(
-                            (m) => m['@id'] === modelItem.schema
+                            (m) =>
+                                'schema' in modelItem &&
+                                m['@id'] === modelItem.schema
                         );
 
                         if (componentInterface) {

@@ -1,5 +1,6 @@
 module.exports = (componentName) => ({
-    content: `import { IStyle, IStyleFunctionOrObject, ITheme } from '@fluentui/react';
+    content: `import { IStyle, IStyleFunctionOrObject } from '@fluentui/react';
+    import { IExtendedTheme } from '../../Theming/Theme.types';
 
     export interface I${componentName}Props {
         /**
@@ -9,7 +10,7 @@ module.exports = (componentName) => ({
     }
     
     export interface I${componentName}StyleProps {
-        theme: ITheme;
+        theme: IExtendedTheme;
     }
     export interface I${componentName}Styles {
         root: IStyle;

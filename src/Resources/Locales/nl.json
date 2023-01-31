@@ -944,7 +944,6 @@
     "deleteAll": "Alles verwijderen",
     "folderUpload": "Map uploaden",
     "fileUpload": "Bestand uploaden",
-    "files": "Archief",
     "selectFile": "Selecteer bestand",
     "errorSingleFileHoldsRelationships": "Probleem met {{bestandsnaam}}: model bevat relaties die niet worden geïmporteerd",
     "errorImportedModelAlreadyExists": "Probleem met {{modelId}}: model met dezelfde @id bestaat al",
@@ -954,7 +953,26 @@
     "fileOpenModal": {
       "dropdownLabel": "Ontologie",
       "dropdownPlaceholder": "Selecteer een ontologie"
-    }
+    },
+    "configure": "Configureren",
+    "importFile": "Bestand importeren",
+    "importFolder": "Map importeren",
+    "ontology": "Ontologie",
+    "manageOntologyModal": {
+      "deleteButtonText": "Ontologie verwijderen",
+      "modalTitleCreate": "Nieuwe ontologie",
+      "modalTitleEdit": "Ontologie bewerken",
+      "modalSubTitleCreate": "Creëer een nieuwe ontologie om structuur te geven aan je digitial twin.",
+      "modalSubTitleEdit": "Bewerk je ontologie om structuur te geven aan je digitial twin.",
+      "modalSubTitleLinkText": "Meer informatie over ontologieën",
+      "nameLabel": "Naam",
+      "namePlaceholder": "Voer een ontologienaam in",
+      "namespaceLabel": "Namespace",
+      "namespaceDescription": "Voorbeeld modelnaam: {{modelName}}",
+      "namespacePlaceholder": "Een naamruimte invoeren",
+      "sampleModel": "voorbeeldmodel"
+    },
+    "newModel": "Nieuw model"
   },
   "cameraControls": {
     "mouseControls": "Muisbediening",
@@ -1095,8 +1113,8 @@
     "errorDisplayNameLength": "Weergavenaam mag niet meer dan 64 tekens bevatten",
     "errorRepeatedEdgeName": "Er bestaat al een relatie met dezelfde naam",
     "runLayout": "Lay-out uitvoeren",
-    "errorReachedInheritanceLimit": "Overervingslimiet bereikt",
-    "errorInheritance": "Mag niet van meer dan twee interfaces overnemen"
+    "extends": "Breidt",
+    "loadingText": "Lay-outposities berekenen"
   },
   "OATPropertyEditor": {
     "displayName": "Weergegeven naam",
@@ -1183,7 +1201,41 @@
     "addToPropertyList": "Toevoegen aan lijst met accommodaties",
     "moveDown": "Naar beneden gaan",
     "moveUp": "Overgaan",
-    "valueSchema": "Waardenschema"
+    "valueSchema": "Waardenschema",
+    "commentPlaceholder": "Opmerking voor modelauteurs",
+    "date": "datum",
+    "descriptionPlaceholder": "Een lokale beschrijving om weer te geven",
+    "details": "Bijzonderheden",
+    "displayNamePlaceholder": "Een localiseerbare naam om weer te geven",
+    "expand": "Uitbreiden",
+    "maxMultiplicityLabel": "Maximale multipliciteit",
+    "minMultiplicityLabel": "Minimale veelheid",
+    "minMultiplicityMessage": "DTDL V2 ondersteunt alleen een minimale multipliciteit van 0",
+    "modelId": "Model-id",
+    "path": "Pad",
+    "uniqueModelName": "Unieke modelnaam",
+    "version": "Versie",
+    "SchemaDefaults": {
+      "defaultEnumName": "enum_key_{{index}}",
+      "defaultMapName": "enum_key_{{index}}",
+      "defaultObjectPropertyName": "field_name_{{index}}",
+      "defaultMapKeyName": "map_key_{{index}}",
+      "defaultMapValueName": "map_value_{{index}}",
+      "defaultPropertyName": "new_property_{{index}}"
+    },
+    "PropertyListItem": {
+      "arrayItemLabel": "Items",
+      "enumKeyPlaceholder": "Enter-toets",
+      "enumValuePlaceholder": "Waarde invoeren",
+      "ContextMenu": {
+        "changePropertyTypeLabel": "Type eigenschap bewerken",
+        "changeChildTypeLabelForArray": "Type array-item wijzigen",
+        "changeChildTypeLabelForEnum": "Type opsommingswaarde wijzigen",
+        "editMetadataLabel": "Metagegevens bewerken"
+      }
+    },
+    "noSelectionMessage": "Een model of relatie selecteren om details weer te geven",
+    "propertiesNotSupported": "Het geselecteerde item ondersteunt geen eigenschappen"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Foutmelding",
@@ -1335,5 +1387,24 @@
       }
     },
     "loadingConnectionLabel": "Tijdreeksverbindingsinformatie laden..."
+  },
+  "clear": "Duidelijk",
+  "duplicate": "Duplicaat",
+  "moveUp": "Overgaan",
+  "moveDown": "Naar beneden gaan",
+  "increaseBy1": "Waarde verhogen met 1",
+  "decreaseBy1": "Waarde verlagen met 1",
+  "OATCommon": {
+    "duplicateFileNameSuffix": "kopiëren",
+    "defaultFileName": "Nieuwe ontologie",
+    "defaultModelNamePrefix": "Model"
+  },
+  "OATModelList": {
+    "searchModels": "Modellen zoeken",
+    "noDataMessage": "Geen modellen",
+    "noMatchingItemsMessage": "Geen enkel model voldoet aan die criteria",
+    "removeModelButtonText": "Model verwijderen",
+    "modelListToggleAriaLabelShow": "Modellenlijst weergeven",
+    "modelListToggleAriaLabelHide": "Modellenlijst verbergen"
   }
 }
