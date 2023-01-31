@@ -47,7 +47,7 @@ const SINGLE_LANGUAGE_KEY = 'singleLanguage';
 const MULTI_LANGUAGE_KEY = 'multiLanguage';
 const PLACEHOLDER_LANGUAGE = 'unset';
 
-const debugLogging = true;
+const debugLogging = false;
 const logDebugConsole = getDebugLogger(
     'PropertyDetailsEditorModalContent',
     debugLogging
