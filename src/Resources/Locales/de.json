@@ -1366,7 +1366,6 @@
       "description": "Um vergangene Werte für historisierte Eigenschaften zu vergleichen, fügen Sie unten Zeitreihen hinzu."
     },
     "viewer": {
-      "chart": "Diagramm",
       "noSeriesDescription": "Um den Datenverlauf für diesen Zwilling anzuzeigen, wählen Sie eine anzuzeigende Eigenschaft aus.",
       "table": {
         "title": "Tisch",
@@ -1379,8 +1378,14 @@
         "messages": {
           "noColor": "Nicht festgelegt",
           "loading": "Historisierte Daten werden geladen...",
-          "noData": "Im ausgewählten Zeitraum wurden keine historisierten Daten gefunden.",
-          "noSeries": "Kein Zwilling zur Abfrage ausgewählt, fügen Sie Zwillingseigenschaften hinzu, um historisierte Daten anzuzeigen."
+          "noSeries": "Kein Zwilling zur Abfrage ausgewählt, fügen Sie Zwillingseigenschaften hinzu, um historisierte Daten anzuzeigen.",
+          "noDat": "Im ausgewählten Zeitraum wurden keine historisierten Daten gefunden."
+        }
+      },
+      "chartc": {
+        "title": "Diagramm",
+        "messages": {
+          "noData": "Keine numerischen historisierten Daten anzuzeigen, versuchen Sie, einen anderen Zeitraum auszuwählen."
         }
       }
     },

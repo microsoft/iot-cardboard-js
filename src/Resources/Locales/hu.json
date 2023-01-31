@@ -1366,7 +1366,6 @@
       "description": "A historizált tulajdonságok múltbeli értékeinek összehasonlításához adja hozzá az alábbi idősorokat."
     },
     "viewer": {
-      "chart": "Diagram",
       "noSeriesDescription": "Az ikereszköz adatelőzményeinek megtekintéséhez válassza ki a megtekinteni kívánt tulajdonságot.",
       "table": {
         "title": "Asztal",
@@ -1379,8 +1378,14 @@
         "messages": {
           "noColor": "Nincs beállítva",
           "loading": "Előzményadatok betöltése...",
-          "noData": "A kiválasztott időkeretben nem találhatók historizált adatok.",
-          "noSeries": "Nincs kiválasztva iker a lekérdezéshez, kérjük, adjon hozzá ikertulajdonságokat a historizált adatok megtekintéséhez."
+          "noSeries": "Nincs kiválasztva iker a lekérdezéshez, kérjük, adjon hozzá ikertulajdonságokat a historizált adatok megtekintéséhez.",
+          "noDat": "A kiválasztott időtartományban nem találhatók historizált adatok."
+        }
+      },
+      "chartc": {
+        "title": "Diagram",
+        "messages": {
+          "noData": "Nincsenek megjelenítendő numerikus historizált adatok, próbáljon meg másik időtartományt választani."
         }
       }
     },

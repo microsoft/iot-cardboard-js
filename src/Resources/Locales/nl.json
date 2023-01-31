@@ -1366,7 +1366,6 @@
       "description": "Als u eerdere waarden voor geïrtoriseerde eigenschappen wilt vergelijken, voegt u hieronder tijdreeksen toe."
     },
     "viewer": {
-      "chart": "Zeekaart",
       "noSeriesDescription": "Als u de gegevensgeschiedenis voor deze tweeling wilt weergeven, selecteert u een eigenschap die u wilt weergeven.",
       "table": {
         "title": "Tafel",
@@ -1379,8 +1378,14 @@
         "messages": {
           "noColor": "Niet ingesteld",
           "loading": "Historized data laden...",
-          "noData": "Geen gehitoriseerde gegevens gevonden in het geselecteerde tijdsbestek.",
-          "noSeries": "Geen tweeling geselecteerd om op te vragen, voeg dubbele eigenschappen toe om geïrtoriseerde gegevens te bekijken."
+          "noSeries": "Geen tweeling geselecteerd om op te vragen, voeg dubbele eigenschappen toe om geïrtoriseerde gegevens te bekijken.",
+          "noDat": "Geen gehitoriseerde gegevens gevonden in het geselecteerde tijdsbereik."
+        }
+      },
+      "chartc": {
+        "title": "Zeekaart",
+        "messages": {
+          "noData": "Geen numerieke gehitoriseerde gegevens om weer te geven, probeer een ander tijdsbereik te selecteren."
         }
       }
     },
