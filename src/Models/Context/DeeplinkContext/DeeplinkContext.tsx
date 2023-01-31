@@ -25,13 +25,11 @@ import {
     IDeeplinkContextState,
     DeeplinkContextAction,
     DeeplinkContextActionType,
-    IDeeplinkOptions
-} from './DeeplinkContext.types';
-import {
-    DEEPLINK_SERIALIZATION_OPTIONS,
     IDeeplinkContextProviderProps,
-    IPublicDeeplink
-} from '..';
+    IPublicDeeplink,
+    IDeeplinkOptions,
+    DEEPLINK_SERIALIZATION_OPTIONS
+} from './DeeplinkContext.types';
 import {
     getAdtInstanceOptionsFromLocalStorage,
     getResourceFromEnvironmentItem,

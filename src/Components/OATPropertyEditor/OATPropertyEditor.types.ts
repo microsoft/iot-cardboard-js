@@ -1,13 +1,11 @@
-import { IAction } from '../../Models/Constants/Interfaces';
+import { DtdlInterface, DtdlInterfaceContent } from '../../Models/Constants';
 import { Theme } from '../../Models/Constants/Enums';
-import { IDropdownOption } from '@fluentui/react';
-import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
 
 export type OATPropertyEditorProps = {
-    dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
-    theme?: Theme;
-    state?: IOATEditorState;
-    languages: IDropdownOption[];
+    selectedItem: DtdlInterface | DtdlInterfaceContent;
+    selectedThemeName?: Theme;
+    /** the id of the parent model (if relationship is selected, else undefined) */
+    parentModelId: string | undefined;
 };
 export interface IOATPropertyEditorState {
     currentPropertyIndex?: number;

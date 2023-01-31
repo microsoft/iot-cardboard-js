@@ -1,4 +1,4 @@
-import React, { CSSProperties } from 'react';
+import React from 'react';
 import { addDecorator } from '@storybook/react';
 import { withConsole, setConsoleOptions } from '@storybook/addon-console';
 import '../src/Resources/Styles/BaseThemeVars.scss'; // Import BaseThemeVars to access css theme variables
@@ -65,7 +65,7 @@ export const parameters = {
     options: {
         // Adds storybook sorting to make finding stories easier :)
         storySort: {
-            order: ['Pages', 'Components', '3DV', 'Test Stories'],
+            order: ['Pages', 'Components', 'Components - OAT', 'Contexts', '3DV', 'Test Stories'],
             method: 'Alphabetical'
         }
     },
@@ -116,7 +116,7 @@ const decoratorWithWrapper = (Story, context) => {
             break;
     }
     return (
-        <div style={{ backgroundColor: background }}>
+        <div style={{ backgroundColor: background, height: '100%' }}>
             <Story {...context} />
         </div>
     );

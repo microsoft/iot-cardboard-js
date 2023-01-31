@@ -1,138 +1,88 @@
-import React, { useReducer, useEffect, useMemo } from 'react';
+import React, { useMemo } from 'react';
+import { ErrorBoundary } from 'react-error-boundary';
+
 import OATHeader from '../../Components/OATHeader/OATHeader';
-import OATModelList from '../../Components/OATModelList/OATModelList';
 import OATGraphViewer from '../../Components/OATGraphViewer/OATGraphViewer';
 import OATPropertyEditor from '../../Components/OATPropertyEditor/OATPropertyEditor';
 import { getEditorPageStyles } from './OATEditorPage.styles';
-import { ErrorBoundary } from 'react-error-boundary';
-import {
-    OATEditorPageReducer,
-    defaultOATEditorState
-} from './OATEditorPage.state';
 import OATErrorHandlingModal from './Internal/OATErrorHandlingModal';
-import i18n from '../../i18n';
 import OATErrorPage from './Internal/OATErrorPage';
-import { CommandHistoryContext } from './Internal/Context/CommandHistoryContext';
-import useCommandHistory from './Internal/Hooks/useCommandHistory';
+import { CommandHistoryContextProvider } from './Internal/Context/CommandHistoryContext';
 import OATConfirmDeleteModal from './Internal/OATConfirmDeleteModal';
+import { IOATEditorPageProps } from './OATEditorPage.types';
 import {
-    convertDtdlInterfacesToModels,
-    getStoredEditorData,
-    loadOatFiles,
-    saveOatFiles,
-    storeEditorData
-} from '../../Models/Services/OatUtils';
-import { ProjectData } from './Internal/Classes/ProjectData';
-import { getDebugLogger } from '../../Models/Services/Utils';
+    OatPageContextProvider,
+    useOatPageContext
+} from '../../Models/Context/OatPageContext/OatPageContext';
+import BaseComponent from '../../Components/BaseComponent/BaseComponent';
+import { getTargetFromSelection } from '../../Components/OATPropertyEditor/Utils';
+import { isDTDLReference } from '../../Models/Services/DtdlUtils';
 
-const debugLogging = false;
-const logDebugConsole = getDebugLogger('OATEditorPage', debugLogging);
+const OATEditorPageContent: React.FC<IOATEditorPageProps> = (props) => {
+    const { locale, localeStrings, selectedThemeName } = props;
 
-const OATEditorPage = ({ theme }) => {
-    const [oatState, oatDispatch] = useReducer(
-        OATEditorPageReducer,
-        defaultOATEditorState
-    );
-    const {
-        models,
-        projectName,
-        templates,
-        modelPositions,
-        namespace,
-        modelsMetadata
-    } = oatState;
+    // hooks
 
-    const providerValue = useCommandHistory([]);
+    // contexts
+    const { oatPageState } = useOatPageContext();
 
-    const languages = useMemo(() => {
-        const languages = Object.keys(i18n.options.resources).map(
-            (language) => {
-                return {
-                    key: (i18n.options.resources[language].translation as any)
-                        .languageCode,
-                    text: (i18n.options.resources[language].translation as any)
-                        .languageName
-                };
-            }
+    // data
+    const selectedItem = useMemo(() => {
+        return (
+            oatPageState.selection &&
+            getTargetFromSelection(
+                oatPageState.currentOntologyModels,
+                oatPageState.selection
+            )
         );
-        logDebugConsole(
-            'debug',
-            `Generating language keys. Found ${languages.length} languages. {languages}`,
-            languages
-        );
-        return languages;
-    }, []);
+    }, [oatPageState.currentOntologyModels, oatPageState.selection]);
 
+    // styles
     const editorPageStyles = getEditorPageStyles();
 
-    useEffect(() => {
-        //  Set the OATFilesStorageKey to the localStorage if key doesn't exist
-        const files = loadOatFiles();
-        if (!files?.length) {
-            saveOatFiles([]);
-        }
-    }, []);
-
-    // Handle models persistence
-    useEffect(() => {
-        // Update oat-data storage
-        const editorData = getStoredEditorData();
-        const oatEditorData: ProjectData = {
-            ...editorData,
-            models: convertDtdlInterfacesToModels(models),
-            modelPositions,
-            modelsMetadata,
-            projectName,
-            projectDescription: '',
-            templates,
-            namespace
-        };
-        storeEditorData(oatEditorData);
-    }, [
-        models,
-        projectName,
-        templates,
-        modelPositions,
-        namespace,
-        modelsMetadata
-    ]);
-
     return (
-        <CommandHistoryContext.Provider value={providerValue}>
-            <ErrorBoundary FallbackComponent={OATErrorPage}>
-                <div className={editorPageStyles.container}>
-                    <OATHeader dispatch={oatDispatch} state={oatState} />
-                    <div
-                        className={
-                            oatState.templatesActive
-                                ? editorPageStyles.componentTemplate
-                                : editorPageStyles.component
-                        }
-                    >
-                        <OATModelList dispatch={oatDispatch} state={oatState} />
-                        <OATGraphViewer
-                            state={oatState}
-                            dispatch={oatDispatch}
-                        />
+        <>
+            <BaseComponent
+                theme={selectedThemeName}
+                locale={locale}
+                localeStrings={localeStrings}
+                containerClassName={editorPageStyles.container}
+                disableDefaultStyles={true}
+            >
+                <OATHeader />
+                <div className={editorPageStyles.component}>
+                    <div className={editorPageStyles.viewerContainer}>
+                        <OATGraphViewer />
+                    </div>
+                    <div className={editorPageStyles.propertyEditorContainer}>
                         <OATPropertyEditor
-                            theme={theme}
-                            state={oatState}
-                            dispatch={oatDispatch}
-                            languages={languages}
+                            selectedItem={selectedItem}
+                            selectedThemeName={selectedThemeName}
+                            parentModelId={
+                                isDTDLReference(selectedItem)
+                                    ? oatPageState.selection.modelId
+                                    : undefined
+                            }
                         />
                     </div>
                 </div>
-                <OATErrorHandlingModal
-                    state={oatState}
-                    dispatch={oatDispatch}
-                />
-                <OATConfirmDeleteModal
-                    state={oatState}
-                    dispatch={oatDispatch}
-                />
-            </ErrorBoundary>
-        </CommandHistoryContext.Provider>
+                <OATErrorHandlingModal />
+                <OATConfirmDeleteModal />
+            </BaseComponent>
+        </>
     );
 };
 
-export default React.memo(OATEditorPage);
+const OatEditorPage: React.FC<IOATEditorPageProps> = (props) => {
+    return (
+        <ErrorBoundary FallbackComponent={OATErrorPage}>
+            <OatPageContextProvider disableLocalStorage={props.disableStorage}>
+                <CommandHistoryContextProvider>
+                    <OATEditorPageContent {...props} />
+                </CommandHistoryContextProvider>
+            </OatPageContextProvider>
+        </ErrorBoundary>
+    );
+};
+
+export default React.memo(OatEditorPage);

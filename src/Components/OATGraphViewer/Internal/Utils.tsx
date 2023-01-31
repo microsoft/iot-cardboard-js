@@ -1,171 +1,177 @@
 import { Node, Edge } from 'react-flow-renderer';
+import { DTDLType } from '../../../Models/Classes/DTDL';
 import {
-    OATComponentHandleName,
-    OATExtendHandleName,
-    OATInterfaceType,
-    OATRelationshipHandleName,
-    OATUntargetedRelationshipName
+    IOATNodePosition,
+    OAT_COMPONENT_HANDLE_NAME,
+    OAT_EXTEND_HANDLE_NAME,
+    OAT_GRAPH_REFERENCE_TYPE,
+    OAT_INTERFACE_TYPE,
+    OAT_RELATIONSHIP_HANDLE_NAME,
+    OAT_UNTARGETED_RELATIONSHIP_NAME
 } from '../../../Models/Constants';
 import {
+    DtdlComponent,
     DtdlInterface,
-    DtdlInterfaceContent,
     DtdlRelationship
 } from '../../../Models/Constants/dtdlInterfaces';
+import { getUntargetedRelationshipNodeId } from '../../../Models/Services/OatUtils';
+import { getDebugLogger } from '../../../Models/Services/Utils';
 import {
     IOATModelPosition,
     IOATSelection
 } from '../../../Pages/OATEditorPage/OATEditorPage.types';
+import { IOATNodeData } from '../OATGraphViewer.types';
 import { ElementEdge } from './Classes/ElementEdge';
 import { ElementNode } from './Classes/ElementNode';
 import { ElementPosition } from './Classes/ElementPosition';
 
-export const versionClassBase = '1';
-export const contextClassBase = 'dtmi:dtdl:context;2';
-export const defaultNodePosition = 25;
+const debugLogging = false;
+const logDebugConsole = getDebugLogger('OatGraphViewerUtils', debugLogging);
 
-const getNextRelationshipIndex = (
-    sourceId: string,
-    elements: (ElementNode | ElementEdge)[]
-) => {
-    let relationshipIndex = 0;
-    while (
-        elements.some(
-            (element) =>
-                (element as ElementEdge).source === sourceId &&
-                (element.data as DtdlRelationship).name ===
-                    `${OATRelationshipHandleName}_${relationshipIndex}`
-        )
-    ) {
-        relationshipIndex++;
-    }
-    return relationshipIndex;
-};
+export const CONTEXT_CLASS_BASE = 'dtmi:dtdl:context;2';
+export const DEFAULT_NODE_POSITION = 25;
 
-const getNextComponentIndex = (
-    sourceId: string,
-    targetName: string,
-    elements: (ElementNode | ElementEdge)[]
-) => {
-    let componentIndex = 0;
-    const match = elements.find((element) => element.id === sourceId);
-    if (match) {
-        const int = match.data as DtdlInterface;
-        while (
-            int &&
-            int.contents.some(
-                (content) =>
-                    content['schema'] &&
-                    content.name === `${targetName}_${componentIndex}`
-            )
-        ) {
-            componentIndex++;
-        }
-    }
-    return componentIndex;
-};
+//#region Add relationships
 
 export const addTargetedRelationship = (
     sourceId: string,
-    relationship: DtdlInterfaceContent,
+    relationship: DtdlRelationship,
     elements: (ElementNode | ElementEdge)[]
 ) => {
-    const nextRelIndex = getNextRelationshipIndex(sourceId, elements);
-    const name =
-        relationship.name || `${OATRelationshipHandleName}_${nextRelIndex}`;
+    // logDebugConsole(
+    //     'debug',
+    //     '[START] addTargetedRelationship. {source, relationship, elements}',
+    //     sourceId,
+    //     relationship,
+    //     elements
+    // );
+    const name = relationship.name;
     const id = relationship['@id'] || `${sourceId}_${name}`;
     const relationshipEdge = new ElementEdge(
         id,
         '',
-        OATRelationshipHandleName,
+        OAT_GRAPH_REFERENCE_TYPE,
         '',
         sourceId,
-        OATRelationshipHandleName,
+        OAT_RELATIONSHIP_HANDLE_NAME,
         relationship['target'],
-        OATRelationshipHandleName,
+        OAT_RELATIONSHIP_HANDLE_NAME,
         {
-            ...relationship,
-            '@type': OATRelationshipHandleName,
+            '@type': DTDLType.Relationship,
+            '@id': relationship['@id'],
             name
         }
     );
 
     elements.push(relationshipEdge);
+    // logDebugConsole(
+    //     'debug',
+    //     '[END] addTargetedRelationship. {elements}',
+    //     elements
+    // );
     return relationshipEdge;
 };
 
 export const addUntargetedRelationship = (
-    sourceId: string,
-    relationship: DtdlInterfaceContent,
+    sourceModel: DtdlInterface,
+    relationship: DtdlRelationship,
     modelPositions: IOATModelPosition[],
     elements: (ElementNode | ElementEdge)[]
 ) => {
-    const nextRelIndex = getNextRelationshipIndex(sourceId, elements);
-    const name =
-        relationship.name || `${OATRelationshipHandleName}_${nextRelIndex}`;
-    const id = relationship['@id'] || `${sourceId}_${name}`;
+    // logDebugConsole(
+    //     'debug',
+    //     '[START] addUntargetedRelationship. {source, relationship, positions, elements}',
+    //     sourceModel['@id'],
+    //     relationship,
+    //     modelPositions,
+    //     elements
+    // );
+    const name = relationship.name;
+    const id = getUntargetedRelationshipNodeId(
+        sourceModel['@id'],
+        relationship
+    );
     const rp = modelPositions.find((x) => x['@id'] === id);
     const newNode = new ElementNode(
-        id,
-        OATInterfaceType,
+        id, // id
+        OAT_INTERFACE_TYPE, // type
         {
-            x: rp ? rp.position.x : defaultNodePosition,
-            y: rp ? rp.position.y : defaultNodePosition
-        },
+            x: rp ? rp.position.x : DEFAULT_NODE_POSITION,
+            y: rp ? rp.position.y : DEFAULT_NODE_POSITION
+        }, // position
         {
-            '@id': sourceId,
-            '@type': OATUntargetedRelationshipName,
-            '@context': contextClassBase,
+            '@id': sourceModel['@id'],
+            '@type': OAT_UNTARGETED_RELATIONSHIP_NAME,
+            '@context': CONTEXT_CLASS_BASE,
             displayName: '',
             contents: []
-        }
+        } // data
     );
     const relationshipEdge = new ElementEdge(
-        id,
-        '',
-        OATRelationshipHandleName,
-        '',
-        sourceId,
-        OATUntargetedRelationshipName,
-        id,
-        OATUntargetedRelationshipName,
+        id, // id
+        '', // label
+        OAT_GRAPH_REFERENCE_TYPE, // type
+        '', // marker end
+        sourceModel['@id'], // source
+        OAT_UNTARGETED_RELATIONSHIP_NAME, // source handle
+        id, // target
+        OAT_UNTARGETED_RELATIONSHIP_NAME, // target handle
         {
-            ...relationship,
             '@id': id,
-            '@type': OATUntargetedRelationshipName,
-            name
-        }
+            '@type': OAT_UNTARGETED_RELATIONSHIP_NAME,
+            name: name
+        } // data
     );
 
     elements.push(newNode);
     elements.push(relationshipEdge);
+    // logDebugConsole(
+    //     'debug',
+    //     '[END] addUntargetedRelationship. {node, edge, elements}',
+    //     newNode,
+    //     relationshipEdge,
+    //     elements
+    // );
     return relationshipEdge;
 };
 
 export const addComponentRelationship = (
     sourceId: string,
-    component: DtdlInterfaceContent,
-    targetName: string,
+    component: DtdlComponent,
     elements: (ElementNode | ElementEdge)[]
 ) => {
-    const nextComIndex = getNextComponentIndex(sourceId, targetName, elements);
-    const name = component.name || `${targetName}_${nextComIndex}`;
+    // logDebugConsole(
+    //     'debug',
+    //     '[START] addComponentRelationship. {source, component, elements}',
+    //     sourceId,
+    //     component,
+    //     elements
+    // );
+    // const nextComIndex = getNextComponentIndex(sourceId, targetName, elements);
+    const name = component.name; // || `${targetName}_${nextComIndex}`;
     const relationshipEdge = new ElementEdge(
-        `${sourceId}${OATComponentHandleName}${component.schema}${name}`,
+        `${sourceId}${OAT_COMPONENT_HANDLE_NAME}${component.schema}${name}`,
         '',
-        OATRelationshipHandleName,
+        OAT_GRAPH_REFERENCE_TYPE,
         '',
         sourceId,
-        OATComponentHandleName,
+        OAT_COMPONENT_HANDLE_NAME,
         component.schema as string,
-        OATComponentHandleName,
+        OAT_COMPONENT_HANDLE_NAME,
         {
-            ...component,
-            '@type': OATComponentHandleName,
+            '@id': component['@id'],
+            '@type': DTDLType.Component,
             name
         }
     );
 
     elements.push(relationshipEdge);
+    // logDebugConsole(
+    //     'debug',
+    //     '[END] addComponentRelationship. {edge, elements}',
+    //     relationshipEdge,
+    //     elements
+    // );
     return relationshipEdge;
 };
 
@@ -174,50 +180,170 @@ export const addExtendsRelationship = (
     extend: string,
     elements: (ElementNode | ElementEdge)[]
 ) => {
+    // logDebugConsole(
+    //     'debug',
+    //     '[START] addExtendsRelationship. {source, extend, elements}',
+    //     sourceId,
+    //     extend,
+    //     elements
+    // );
     const relationshipEdge = new ElementEdge(
-        `${sourceId}${OATExtendHandleName}${extend}`,
+        `${sourceId}${OAT_EXTEND_HANDLE_NAME}${extend}`,
         '',
-        OATRelationshipHandleName,
+        OAT_GRAPH_REFERENCE_TYPE,
         '',
         sourceId,
-        OATExtendHandleName,
+        OAT_EXTEND_HANDLE_NAME,
         extend,
-        OATExtendHandleName,
+        OAT_EXTEND_HANDLE_NAME,
         {
-            '@id': `${sourceId}${OATExtendHandleName}${extend}`,
-            '@type': OATExtendHandleName,
+            '@id': `${sourceId}${OAT_EXTEND_HANDLE_NAME}${extend}`,
+            '@type': OAT_EXTEND_HANDLE_NAME,
             name: ''
         }
     );
     elements.push(relationshipEdge);
+    // logDebugConsole(
+    //     'debug',
+    //     '[END] addExtendsRelationship. {elements}',
+    //     elements
+    // );
     return relationshipEdge;
 };
 
-export const addNewModel = (
-    newModelId: number,
-    idClassBase: string,
-    position: ElementPosition,
+//#endregion
+
+//#region Add/remove/edit models
+
+/**
+ * Adds a node to the graph with the given model data
+ * @param model model to bind to the new node
+ * @param position position of the new node
+ * @param elements collection of existing elements
+ * @returns new node that was added
+ */
+export const addModelToGraph = (
+    model: DtdlInterface,
+    position: ElementPosition | undefined,
     elements: (ElementNode | ElementEdge)[]
 ) => {
-    const id = `${idClassBase}model${newModelId};${versionClassBase}`;
-    const name = `Model${newModelId}`;
-    const newNode = new ElementNode(id, OATInterfaceType, position, {
-        '@id': id,
-        '@context': contextClassBase,
-        '@type': OATInterfaceType,
-        displayName: name,
-        contents: []
-    });
-
+    const newNode = new ElementNode(
+        model['@id'],
+        OAT_INTERFACE_TYPE,
+        position || {
+            x: DEFAULT_NODE_POSITION,
+            y: DEFAULT_NODE_POSITION
+        },
+        model
+    );
     elements.push(newNode);
     return newNode;
 };
 
-export const getSelectionIdentifier = (
-    data: DtdlRelationship | DtdlInterfaceContent
+/**
+ * Removes a node to the graph with the given model data
+ * @param model model to remove from the graph
+ * @param elements collection of existing elements, will be updated in place
+ * @returns the updated list of elements
+ */
+export const deleteModelFromGraph = (
+    model: DtdlInterface,
+    elements: (ElementNode | ElementEdge)[]
 ) => {
+    const index = elements.findIndex((x) => x.id === model['@id']);
+    if (index >= 0) {
+        elements.splice(index, 1);
+    }
+    return elements;
+};
+
+/**
+ * Finds a node in the graph for a model and updates the data to match the latest data
+ * @param oldId previous id
+ * @param newModel new model data
+ * @param elements existing graph nodes, updated in-place
+ * @returns the updated graph nodes
+ */
+export const updateModelInGraph = (
+    oldId: string,
+    newModel: DtdlInterface,
+    elements: (ElementNode | ElementEdge)[]
+) => {
+    // find an update the node itself
+    const existingNode = elements.find((x) => x.id === oldId);
+    if (existingNode) {
+        existingNode.id = newModel['@id'];
+        existingNode.data = newModel;
+    } else {
+        logDebugConsole(
+            'warn',
+            'Could not find the node in the graph to update. {oldId, newModel, elements}',
+            oldId,
+            newModel,
+            elements
+        );
+    }
+    // grab relationships pointing to/from this node
+    const existingRelationships = elements.filter(
+        (x: ElementEdge) =>
+            x.type === OAT_GRAPH_REFERENCE_TYPE &&
+            (x.source === oldId || x.target === oldId)
+    );
+    if (existingRelationships?.length) {
+        // update all those existing relationships for this node
+        existingRelationships.forEach((x: ElementEdge) => {
+            // update the id to replace the old id with the new one
+            x.id = x.id.replace(oldId, existingNode.id);
+            if (x.source === oldId) {
+                // update the source to be the new id
+                x.source = existingNode.id;
+            }
+            if (x.target === oldId) {
+                // update the target to be the new id
+                x.target = existingNode.id;
+            }
+        });
+    }
+
+    return elements;
+};
+
+//#endregion
+
+const NEW_NODE_OFFSET = 15;
+/**
+ * Gets the position of a node such that it does not sit directly on top of any other node.
+ * @param coordinates Coordinates to check to see if they are available
+ * @param positions positions of existing models on the graph
+ * @returns
+ */
+export const getNewNodePosition = (
+    coordinates: IOATNodePosition,
+    positions: IOATModelPosition[]
+): IOATNodePosition => {
+    // Find the amount of nodes at the same position
+    const nodesAtPosition = positions.filter(
+        (model) =>
+            model.position.x === coordinates.x &&
+            model.position.y === coordinates.y
+    );
+
+    // If there is no node at the same position, return the coordinates
+    if (nodesAtPosition.length === 0) {
+        return coordinates;
+    }
+    // Define the new coordinates
+    const newCoordinates = {
+        x: coordinates.x + nodesAtPosition.length * NEW_NODE_OFFSET,
+        y: coordinates.y + nodesAtPosition.length * NEW_NODE_OFFSET
+    };
+    // Prevent nodes with the same position
+    return getNewNodePosition(newCoordinates, positions);
+};
+
+export const getSelectionIdentifier = (data: IOATNodeData) => {
     switch (data['@type']) {
-        case OATExtendHandleName:
+        case OAT_EXTEND_HANDLE_NAME:
             return data['@id'];
         default:
             return data.name;

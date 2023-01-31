@@ -1,7 +1,37 @@
-import { IAction } from '../../Models/Constants/Interfaces';
-import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
+import {
+    ICommandBarStyles,
+    IStyle,
+    IStyleFunctionOrObject,
+    ITheme
+} from '@fluentui/react';
 
-export type OATHeaderProps = {
-    dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
-    state?: IOATEditorState;
+export enum HeaderModal {
+    None = 'None',
+    CreateOntology = 'CreateOntology',
+    EditOntology = 'EditOntology'
+}
+
+export type IOATHeaderProps = {
+    /**
+     * Call to provide customized styling that will layer on top of the variant rules.
+     */
+    styles?: IStyleFunctionOrObject<IOATHeaderStyleProps, IOATHeaderStyles>;
 };
+
+export interface IOATHeaderStyleProps {
+    theme: ITheme;
+}
+
+export interface IOATHeaderStyles {
+    root: IStyle;
+    projectName: IStyle;
+
+    /**
+     * SubComponent styles.
+     */
+    subComponentStyles?: IOATHeaderSubComponentStyles;
+}
+
+export interface IOATHeaderSubComponentStyles {
+    commandBar: ICommandBarStyles;
+}

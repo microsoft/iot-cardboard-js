@@ -4,7 +4,7 @@ import {
     IConditionsListStyles,
     IConditionsListStylesProps
 } from './ConditionsList.types';
-import { classNames as cardboardListItemClassNames } from '../../../../CardboardList/CardboardListItem.styles';
+import { CARDBOARD_LIST_ITEM_CLASS_NAMES as cardboardListItemClassNames } from '../../../../CardboardList/CardboardListItem.styles';
 
 const classPrefix = CardboardClassNamePrefix + '-conditions-list';
 const classNames = {

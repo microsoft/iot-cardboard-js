@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { TFunction, useTranslation } from 'react-i18next';
 import { CardboardList } from '../../../../CardboardList';
 import { ICardboardListItem } from '../../../../CardboardList/CardboardList.types';
-import { classNames } from '../../../../CardboardList/CardboardListItem.styles';
+import { CARDBOARD_LIST_ITEM_CLASS_NAMES } from '../../../../CardboardList/CardboardListItem.styles';
 import { IVisualRule, IVisualRulesListProps } from './VisualRules.types';
 import { ReactComponent as MeshAndBadgeIcon } from '../../../../../Resources/Static/meshAndBadgeIcon.svg';
 import { getVisualRuleListStyles } from './VisualRuleList.styles';
@@ -139,7 +139,7 @@ function getListItems(
     }
 
     return rules.map((item) => {
-        const primaryTextClassName = `.${classNames.primaryText}`;
+        const primaryTextClassName = `.${CARDBOARD_LIST_ITEM_CLASS_NAMES.primaryText}`;
         const viewModel: ICardboardListItem<IVisualRule> = {
             ariaLabel: '',
             iconStart: getIconStart(item),

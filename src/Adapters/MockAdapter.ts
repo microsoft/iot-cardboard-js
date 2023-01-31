@@ -286,7 +286,7 @@ export default class MockAdapter
                                 getModelContentType(m['@type']) ===
                                 DTDLType.Component
                         )
-                        ?.map((m) => m.schema as string);
+                        ?.map((m) => 'schema' in m && (m.schema as string));
 
                     if (componentModelIds) {
                         for (const mId of componentModelIds) {

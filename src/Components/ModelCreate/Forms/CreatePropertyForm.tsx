@@ -115,9 +115,9 @@ const CreatePropertyForm: React.FC<CreatePropertyFormProps> = ({
 
     const onClickCreate = () => {
         const property = new DTDLProperty(
-            id,
             name,
             schema,
+            id,
             comment,
             description,
             displayName,

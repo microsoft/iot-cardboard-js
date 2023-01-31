@@ -69,12 +69,7 @@ import {
 import ADT3DSceneAdapter from '../../Adapters/ADT3DSceneAdapter';
 import { WrapperMode } from '../../Components/3DV/SceneView.types';
 import MockAdapter from '../../Adapters/MockAdapter';
-import {
-    DtdlInterface,
-    DtdlInterfaceContent,
-    DtdlProperty,
-    DtdlRelationship
-} from './dtdlInterfaces';
+import { DtdlInterface, DtdlProperty } from './dtdlInterfaces';
 import { IStyleFunctionOrObject } from '@fluentui/react';
 import { ISceneViewWrapperStyles } from '../../Components/3DV/SceneViewWrapper.types';
 import {
@@ -89,6 +84,7 @@ import { BaseComponentProps } from '../../Components/BaseComponent/BaseComponent
 import ADTAdapter from '../../Adapters/ADTAdapter';
 import ADTInstanceTimeSeriesConnectionData from '../Classes/AdapterDataClasses/ADTInstanceTimeSeriesConnectionData';
 import ADXTimeSeriesData from '../Classes/AdapterDataClasses/ADXTimeSeriesData';
+import { IOATNodeData } from '../../Components/OATGraphViewer/OATGraphViewer.types';
 
 export interface IAction {
     type: string;
@@ -866,13 +862,6 @@ export interface IStorageBlob {
     Properties: Record<string, any>;
 }
 
-export interface IOATGraphCustomNodeProps extends IOATNodeElement {
-    isConnectable: boolean;
-}
-
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface IOATGraphCustomEdgeProps extends IOATRelationshipElement {}
-
 export interface IAliasedTwinProperty {
     alias: 'PrimaryTwin' | string;
     property: string;
@@ -920,7 +909,7 @@ export interface IOATRelationshipElement {
     target: string;
     targetHandle?: string;
     type?: string;
-    data?: DtdlRelationship | DtdlInterfaceContent;
+    data?: IOATNodeData;
 }
 
 export interface IOATLastPropertyFocused {

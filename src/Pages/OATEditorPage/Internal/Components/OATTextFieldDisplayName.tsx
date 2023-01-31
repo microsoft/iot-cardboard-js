@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { TextField } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
-import { OATDisplayNameLengthLimit } from '../../../../Models/Constants';
+import { OAT_DISPLAY_NAME_LENGTH_LIMIT } from '../../../../Models/Constants';
 import { getModelPropertyListItemName } from '../../../../Components/OATPropertyEditor/Utils';
 import { OATTextFieldDisplayNameProps } from './OATTextFieldDisplayName.types';
 
@@ -22,7 +22,7 @@ const OATTextFieldDisplayName = ({
 
     const onChangeClick = (value: string) => {
         // Check length
-        if (value.length <= OATDisplayNameLengthLimit) {
+        if (value.length <= OAT_DISPLAY_NAME_LENGTH_LIMIT) {
             setDisplayNameLengthError(null);
             setTemporaryValue(value);
             onChange();

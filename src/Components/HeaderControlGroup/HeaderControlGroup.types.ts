@@ -6,6 +6,7 @@ import {
 } from '@fluentui/react';
 
 export interface IHeaderControlGroupProps {
+    id?: string;
     /**
      * Call to provide customized styling that will layer on top of the variant rules.
      */
