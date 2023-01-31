@@ -484,7 +484,7 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
         {
             key: 'newModel',
             iconProps: { iconName: 'AppIconDefaultAdd' },
-            text: 'New model',
+            text: t('OATHeader.newModel'),
             onClick: onAddModel,
             'data-testid': 'oat-header-new-menu-new'
         },
