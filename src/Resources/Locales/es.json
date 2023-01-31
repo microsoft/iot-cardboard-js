@@ -1366,7 +1366,6 @@
       "description": "Para comparar los valores pasados de las propiedades históricas, agregue las series temporales a continuación."
     },
     "viewer": {
-      "chart": "Gráfico",
       "noSeriesDescription": "Para ver el historial de datos de este gemelo, seleccione una propiedad para ver.",
       "table": {
         "title": "Mesa",
@@ -1379,8 +1378,14 @@
         "messages": {
           "noColor": "No establecido",
           "loading": "Cargando datos históricos...",
-          "noData": "No se encontraron datos históricos en el marco de tiempo seleccionado.",
-          "noSeries": "No se seleccionó ningún gemelo para consultar, agregue propiedades gemelas para ver los datos históricos."
+          "noSeries": "No se seleccionó ningún gemelo para consultar, agregue propiedades gemelas para ver los datos históricos.",
+          "noDat": "No se han encontrado datos históricos en el intervalo de tiempo seleccionado."
+        }
+      },
+      "chartc": {
+        "title": "Gráfico",
+        "messages": {
+          "noData": "No hay datos numéricos históricos para mostrar, intente seleccionar un rango de tiempo diferente."
         }
       }
     },

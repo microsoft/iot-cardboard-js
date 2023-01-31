@@ -1366,7 +1366,6 @@
       "description": "Para comparar valores passados para propriedades historizadas, adicione séries temporais abaixo."
     },
     "viewer": {
-      "chart": "Gráfico",
       "noSeriesDescription": "Para exibir o histórico de dados desse gêmeo, selecione uma propriedade a ser exibida.",
       "table": {
         "title": "Mesa",
@@ -1379,8 +1378,14 @@
         "messages": {
           "noColor": "Não definido",
           "loading": "Carregando dados historizados...",
-          "noData": "Nenhum dado historizado encontrado no período de tempo selecionado.",
-          "noSeries": "Nenhum gêmeo selecionado para consultar, adicione propriedades gêmeas para exibir dados historiados."
+          "noSeries": "Nenhum gêmeo selecionado para consultar, adicione propriedades gêmeas para exibir dados historiados.",
+          "noDat": "Nenhum dado historizado encontrado no intervalo de tempo selecionado."
+        }
+      },
+      "chartc": {
+        "title": "Gráfico",
+        "messages": {
+          "noData": "Sem dados históricos numéricos a serem exibidos, tente selecionar um intervalo de tempo diferente."
         }
       }
     },

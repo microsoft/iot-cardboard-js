@@ -1366,7 +1366,6 @@
       "description": "Om du vill jämföra tidigare värden för historiserade egenskaper lägger du till tidsserier nedan."
     },
     "viewer": {
-      "chart": "Diagram",
       "noSeriesDescription": "Om du vill visa datahistorik för den här tvillingen väljer du en egenskap som ska visas.",
       "table": {
         "title": "Bord",
@@ -1379,8 +1378,14 @@
         "messages": {
           "noColor": "Inte inställt",
           "loading": "Laddar historiserade data...",
-          "noData": "Inga historiserade data hittades i vald tidsram.",
-          "noSeries": "Ingen tvilling har valts för att fråga, lägg till tvillingegenskaper för att visa historiserade data."
+          "noSeries": "Ingen tvilling har valts för att fråga, lägg till tvillingegenskaper för att visa historiserade data.",
+          "noDat": "Inga historiserade data hittades i det valda tidsintervallet."
+        }
+      },
+      "chartc": {
+        "title": "Diagram",
+        "messages": {
+          "noData": "Inga numeriska historiserade data att visa, försök att välja ett annat tidsintervall."
         }
       }
     },

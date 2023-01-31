@@ -1366,7 +1366,6 @@
       "description": "Per confrontare i valori passati per le proprietà cronologizzate, aggiungere le serie temporali riportate di seguito."
     },
     "viewer": {
-      "chart": "Tabella",
       "noSeriesDescription": "Per visualizzare la cronologia dei dati per questo gemello, selezionare una proprietà da visualizzare.",
       "table": {
         "title": "Tavolo",
@@ -1379,8 +1378,14 @@
         "messages": {
           "noColor": "Non impostato",
           "loading": "Caricamento dei dati storici...",
-          "noData": "Nessun dato storicizzato trovato nell'intervallo di tempo selezionato.",
-          "noSeries": "Nessun gemello selezionato per la query, aggiungere proprietà gemelle per visualizzare i dati cronologizzati."
+          "noSeries": "Nessun gemello selezionato per la query, aggiungere proprietà gemelle per visualizzare i dati cronologizzati.",
+          "noDat": "Nessun dato cronologizzato trovato nell'intervallo di tempo selezionato."
+        }
+      },
+      "chartc": {
+        "title": "Tabella",
+        "messages": {
+          "noData": "Nessun dato numerico storicizzato da visualizzare, prova a selezionare un intervallo di tempo diverso."
         }
       }
     },

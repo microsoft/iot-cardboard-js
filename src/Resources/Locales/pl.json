@@ -1366,7 +1366,6 @@
       "description": "Aby porównać wcześniejsze wartości historycznych właściwości, dodaj poniżej szereg czasowy."
     },
     "viewer": {
-      "chart": "Wykres",
       "noSeriesDescription": "Aby wyświetlić historię danych dla tej bliźniaczej płaszczyzny, wybierz właściwość do wyświetlenia.",
       "table": {
         "title": "Stół",
@@ -1379,8 +1378,14 @@
         "messages": {
           "noColor": "Nie ustawiono",
           "loading": "Ładowanie danych historycznych...",
-          "noData": "Nie znaleziono historycznych danych w wybranych przedziałach czasowych.",
-          "noSeries": "Nie wybrano bliźniaka do zapytania, dodaj właściwości bliźniacze, aby wyświetlić dane historyczne."
+          "noSeries": "Nie wybrano bliźniaka do zapytania, dodaj właściwości bliźniacze, aby wyświetlić dane historyczne.",
+          "noDat": "Nie znaleziono historycznych danych w wybranym zakresie czasowym."
+        }
+      },
+      "chartc": {
+        "title": "Wykres",
+        "messages": {
+          "noData": "Brak danych liczbowych do wyświetlenia, spróbuj wybrać inny zakres czasu."
         }
       }
     },
