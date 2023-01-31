@@ -99,7 +99,6 @@ export const CardboardListItem = <T extends unknown>(
     );
     const buttonStyles = getButtonStyles(
         itemType,
-        isSelected,
         theme,
         buttonProps?.customStyles
     );
@@ -112,6 +111,7 @@ export const CardboardListItem = <T extends unknown>(
                     data-testid={`cardboard-list-item-${listKey}-${index}`}
                     id={id}
                     selected={isSelected}
+                    checked={isSelected}
                     styles={buttonStyles}
                     onClick={onButtonClick}
                     onKeyPress={onButtonKeyPress}

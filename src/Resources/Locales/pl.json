@@ -945,7 +945,6 @@
     "deleteAll": "Usuń wszystko",
     "folderUpload": "Przesyłanie folderu",
     "fileUpload": "Przesyłanie plików",
-    "files": "Pliki",
     "selectFile": "Wybierz plik",
     "errorSingleFileHoldsRelationships": "Problem z {{fileName}}: Model przechowuje relacje, które nie są importowane",
     "errorImportedModelAlreadyExists": "Problem z {{modelId}}: Model z tym samym @id już istnieje",
@@ -955,7 +954,26 @@
     "fileOpenModal": {
       "dropdownLabel": "Ontologia",
       "dropdownPlaceholder": "Wybierz ontologię"
-    }
+    },
+    "configure": "Konfigurować",
+    "importFile": "Importuj plik",
+    "importFolder": "Folder importu",
+    "ontology": "Ontologia",
+    "manageOntologyModal": {
+      "deleteButtonText": "Usuń ontologię",
+      "modalTitleCreate": "Nowa ontologia",
+      "modalTitleEdit": "Edytuj ontologię",
+      "modalSubTitleCreate": "Stwórz nową ontologię, aby nadać strukturę swojemu cyfrowemu bliźniakowi.",
+      "modalSubTitleEdit": "Edytuj swoją ontologię, aby nadać strukturę swojemu cyfrowemu bliźniakowi.",
+      "modalSubTitleLinkText": "Dowiedz się więcej o ontologiach",
+      "nameLabel": "Nazwa",
+      "namePlaceholder": "Wprowadź nazwę ontologii",
+      "namespaceLabel": "Namespace",
+      "namespaceDescription": "Przykładowa nazwa modelu: {{modelName}}",
+      "namespacePlaceholder": "Wprowadzanie przestrzeni nazw",
+      "sampleModel": "przykładowy model"
+    },
+    "newModel": "Nowy model"
   },
   "cameraControls": {
     "mouseControls": "Sterowanie myszą",
@@ -1096,8 +1114,8 @@
     "errorDisplayNameLength": "Nazwa wyświetlana nie może przekraczać 64 znaków",
     "errorRepeatedEdgeName": "Relacja o tej samej nazwie już istnieje",
     "runLayout": "Uruchom układ",
-    "errorReachedInheritanceLimit": "Osiągnięty limit dziedziczenia",
-    "errorInheritance": "Nie może dziedziczyć z więcej niż dwóch interfejsów"
+    "extends": "Rozszerza",
+    "loadingText": "Pozycje układu obliczeniowego"
   },
   "OATPropertyEditor": {
     "displayName": "Nazwa wyświetlana",
@@ -1184,7 +1202,41 @@
     "addToPropertyList": "Dodaj do listy właściwości",
     "moveDown": "Przechodzenie w dół",
     "moveUp": "Przenieś się w górę",
-    "valueSchema": "Schemat wartości"
+    "valueSchema": "Schemat wartości",
+    "commentPlaceholder": "Komentarz dla autorów modeli",
+    "date": "data",
+    "descriptionPlaceholder": "Lokalizowalny opis do wyświetlenia",
+    "details": "Szczegóły",
+    "displayNamePlaceholder": "Lokalizowalna nazwa do wyświetlenia",
+    "expand": "Rozszerzać",
+    "maxMultiplicityLabel": "Maksymalna wielokrotność",
+    "minMultiplicityLabel": "Minimalna wielokrotność",
+    "minMultiplicityMessage": "DTDL V2 obsługuje tylko minimalną wielokrotność 0",
+    "modelId": "Identyfikator modelu",
+    "path": "Ścieżka",
+    "uniqueModelName": "Unikalna nazwa modelu",
+    "version": "Wersja",
+    "SchemaDefaults": {
+      "defaultEnumName": "enum_key_{{index}}",
+      "defaultMapName": "enum_key_{{index}}",
+      "defaultObjectPropertyName": "field_name_{{index}}",
+      "defaultMapKeyName": "map_key_{{index}}",
+      "defaultMapValueName": "map_value_{{index}}",
+      "defaultPropertyName": "new_property_{{index}}"
+    },
+    "PropertyListItem": {
+      "arrayItemLabel": "Elementy",
+      "enumKeyPlaceholder": "Wprowadź klucz",
+      "enumValuePlaceholder": "Wprowadź wartość",
+      "ContextMenu": {
+        "changePropertyTypeLabel": "Edytuj typ właściwości",
+        "changeChildTypeLabelForArray": "Zmienianie typu elementu tablicy",
+        "changeChildTypeLabelForEnum": "Zmienianie typu wartości wyliczenia",
+        "editMetadataLabel": "Edytowanie metadanych"
+      }
+    },
+    "noSelectionMessage": "Wybierz model lub relację, aby wyświetlić szczegóły",
+    "propertiesNotSupported": "Wybrany element nie obsługuje właściwości"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Komunikat o błędzie",
@@ -1319,7 +1371,6 @@
       "description": "Aby porównać wcześniejsze wartości historycznych właściwości, dodaj poniżej szereg czasowy."
     },
     "viewer": {
-      "chart": "Wykres",
       "noSeriesDescription": "Aby wyświetlić historię danych dla tej bliźniaczej płaszczyzny, wybierz właściwość do wyświetlenia.",
       "table": {
         "title": "Stół",
@@ -1332,12 +1383,37 @@
         "messages": {
           "noColor": "Nie ustawiono",
           "loading": "Ładowanie danych historycznych...",
-          "noData": "Nie znaleziono historycznych danych w wybranych przedziałach czasowych.",
-          "noSeries": "Nie wybrano bliźniaka do zapytania, dodaj właściwości bliźniacze, aby wyświetlić dane historyczne."
+          "noSeries": "Nie wybrano bliźniaka do zapytania, dodaj właściwości bliźniacze, aby wyświetlić dane historyczne.",
+          "noData": "Nie znaleziono historycznych danych w wybranym zakresie czasowym."
+        }
+      },
+      "chart": {
+        "title": "Wykres",
+        "messages": {
+          "noData": "Brak danych liczbowych do wyświetlenia, spróbuj wybrać inny zakres czasu."
         }
       }
     },
     "loadingConnectionLabel": "Czas ładowania szeregów informacji o połączeniu..."
+  },
+  "clear": "Jasny",
+  "duplicate": "Duplikat",
+  "moveUp": "Przejdź w górę",
+  "moveDown": "Przenieś w dół",
+  "increaseBy1": "Zwiększ wartość o 1",
+  "decreaseBy1": "Zmniejsz wartość o 1",
+  "OATCommon": {
+    "duplicateFileNameSuffix": "kopiować",
+    "defaultFileName": "Nowa ontologia",
+    "defaultModelNamePrefix": "Model"
+  },
+  "OATModelList": {
+    "searchModels": "Szukaj modeli",
+    "noDataMessage": "Brak modeli",
+    "noMatchingItemsMessage": "Żaden model nie spełnia tych kryteriów",
+    "removeModelButtonText": "Usuń model",
+    "modelListToggleAriaLabelShow": "Pokaż listę modeli",
+    "modelListToggleAriaLabelHide": "Ukryj listę modeli"
   },
   "dataHistoryErrorHandlingWrapper": {
     "errors": {

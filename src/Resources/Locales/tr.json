@@ -945,7 +945,6 @@
     "deleteAll": "Tümünü Sil",
     "folderUpload": "Klasör yükleme",
     "fileUpload": "Dosya yükleme",
-    "files": "Dosyaları",
     "selectFile": "Dosya seç",
     "errorSingleFileHoldsRelationships": "{{fileName}} ile ilgili sorun: Model, içe aktarılmayan ilişkileri tutuyor",
     "errorImportedModelAlreadyExists": "{{modelId}} ile ilgili sorun: Aynı @id sahip model zaten var",
@@ -955,7 +954,26 @@
     "fileOpenModal": {
       "dropdownLabel": "Ontoloji",
       "dropdownPlaceholder": "Bir ontoloji seçin"
-    }
+    },
+    "configure": "Yapılandırmak",
+    "importFile": "Dosyayı içe aktar",
+    "importFolder": "Klasörü içe aktar",
+    "ontology": "Ontoloji",
+    "manageOntologyModal": {
+      "deleteButtonText": "Ontolojiyi silme",
+      "modalTitleCreate": "Yeni ontoloji",
+      "modalTitleEdit": "Ontolojiyi düzenleme",
+      "modalSubTitleCreate": "Sayısal ikizinize yapı kazandırmak için yeni bir ontoloji oluşturun.",
+      "modalSubTitleEdit": "Sayısal ikizinize yapı kazandırmak için ontolojinizi düzenleyin.",
+      "modalSubTitleLinkText": "Ontolojiler hakkında daha fazla bilgi edinin",
+      "nameLabel": "Ad",
+      "namePlaceholder": "Ontoloji adı girin",
+      "namespaceLabel": "Namespace",
+      "namespaceDescription": "Örnek model adı: {{modelName}}",
+      "namespacePlaceholder": "Ad alanı girme",
+      "sampleModel": "örnek Model"
+    },
+    "newModel": "Yeni model"
   },
   "cameraControls": {
     "mouseControls": "Fare Kontrolleri",
@@ -1096,8 +1114,8 @@
     "errorDisplayNameLength": "Görünen Ad 64 karakteri aşamaz",
     "errorRepeatedEdgeName": "Aynı ada sahip bir ilişki zaten var",
     "runLayout": "Çalıştırma Düzeni",
-    "errorReachedInheritanceLimit": "Ulaşılan devralma sınırı",
-    "errorInheritance": "İkiden fazla arabirimden devralamaz"
+    "extends": "Genişletir",
+    "loadingText": "Bilgi işlem düzeni konumları"
   },
   "OATPropertyEditor": {
     "displayName": "Görünen Ad",
@@ -1184,7 +1202,41 @@
     "addToPropertyList": "Özellik listesine ekle",
     "moveDown": "Aşağı taşı",
     "moveUp": "Yukarı Taşı",
-    "valueSchema": "Değer Şeması"
+    "valueSchema": "Değer Şeması",
+    "commentPlaceholder": "Model yazarları için yorum",
+    "date": "tarih",
+    "descriptionPlaceholder": "Görüntülenecek yerelleştirilebilir bir açıklama",
+    "details": "Şey",
+    "displayNamePlaceholder": "Görüntülenecek yerelleştirilebilir bir ad",
+    "expand": "Genişletmek",
+    "maxMultiplicityLabel": "Maksimum çokluk",
+    "minMultiplicityLabel": "Minimum çokluk",
+    "minMultiplicityMessage": "DTDL V2 yalnızca minimum 0 çokluğunu destekler",
+    "modelId": "Model Kimliği",
+    "path": "Yol",
+    "uniqueModelName": "Benzersiz model adı",
+    "version": "Sürüm",
+    "SchemaDefaults": {
+      "defaultEnumName": "enum_key_{{index}}",
+      "defaultMapName": "enum_key_{{index}}",
+      "defaultObjectPropertyName": "field_name_{{index}}",
+      "defaultMapKeyName": "map_key_{{index}}",
+      "defaultMapValueName": "map_value_{{index}}",
+      "defaultPropertyName": "new_property_{{index}}"
+    },
+    "PropertyListItem": {
+      "arrayItemLabel": "eşya",
+      "enumKeyPlaceholder": "Enter tuşu",
+      "enumValuePlaceholder": "Değer girin",
+      "ContextMenu": {
+        "changePropertyTypeLabel": "Özellik türünü düzenle",
+        "changeChildTypeLabelForArray": "Dizi öğesi türünü değiştirme",
+        "changeChildTypeLabelForEnum": "Enum değer türünü değiştirme",
+        "editMetadataLabel": "Meta verileri düzenleme"
+      }
+    },
+    "noSelectionMessage": "Ayrıntıları görüntülemek için bir model veya ilişki seçin",
+    "propertiesNotSupported": "Seçili öğe özellikleri desteklemiyor"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Hata mesajı",
@@ -1319,7 +1371,6 @@
       "description": "Geçmişi geçmiş özelliklerin geçmiş değerlerini karşılaştırmak için aşağıya zaman serileri ekleyin."
     },
     "viewer": {
-      "chart": "Grafik",
       "noSeriesDescription": "Bu ikizin veri geçmişini görüntülemek için görüntülenecek bir özellik seçin.",
       "table": {
         "title": "Masa",
@@ -1332,12 +1383,37 @@
         "messages": {
           "noColor": "Ayarlanmadı",
           "loading": "Geçmiş veriler yükleniyor...",
-          "noData": "Seçilen zaman diliminde geçmiş veri bulunamadı.",
-          "noSeries": "Sorgulamak için ikiz seçilmemiş, geçmiş verileri görüntülemek için lütfen ikiz özellikleri ekleyin."
+          "noSeries": "Sorgulamak için ikiz seçilmemiş, geçmiş verileri görüntülemek için lütfen ikiz özellikleri ekleyin.",
+          "noData": "Seçilen zaman aralığında geçmiş veri bulunamadı."
+        }
+      },
+      "chart": {
+        "title": "Grafik",
+        "messages": {
+          "noData": "Görüntülenecek sayısal geçmiş veri yok, farklı bir zaman aralığı seçmeyi deneyin."
         }
       }
     },
     "loadingConnectionLabel": "Zaman serisi bağlantı bilgileri yükleniyor..."
+  },
+  "clear": "Berrak",
+  "duplicate": "Yinelenen",
+  "moveUp": "Yukarı taşı",
+  "moveDown": "Aşağı taşı",
+  "increaseBy1": "Değeri 1 artır",
+  "decreaseBy1": "Değeri 1 azalt",
+  "OATCommon": {
+    "duplicateFileNameSuffix": "kopya etmek",
+    "defaultFileName": "Yeni ontoloji",
+    "defaultModelNamePrefix": "Model"
+  },
+  "OATModelList": {
+    "searchModels": "Modelleri ara",
+    "noDataMessage": "Model yok",
+    "noMatchingItemsMessage": "Bu ölçütlere uyan model yok",
+    "removeModelButtonText": "Modeli kaldır",
+    "modelListToggleAriaLabelShow": "Model listesini göster",
+    "modelListToggleAriaLabelHide": "Model listesini gizle"
   },
   "dataHistoryErrorHandlingWrapper": {
     "errors": {

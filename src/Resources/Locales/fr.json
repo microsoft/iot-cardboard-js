@@ -945,7 +945,6 @@
     "deleteAll": "Supprimer tout",
     "folderUpload": "Téléchargement de dossiers",
     "fileUpload": "Téléchargement de fichiers",
-    "files": "Fichiers",
     "selectFile": "Sélectionner un fichier",
     "errorSingleFileHoldsRelationships": "Problème avec {{fileName}} : le modèle contient des relations qui ne sont pas importées",
     "errorImportedModelAlreadyExists": "Problème avec {{modelId}} : Modèle avec le même @id existe déjà",
@@ -955,7 +954,26 @@
     "fileOpenModal": {
       "dropdownLabel": "Ontologie",
       "dropdownPlaceholder": "Sélectionner une ontologie"
-    }
+    },
+    "configure": "Configurer",
+    "importFile": "Importer un fichier",
+    "importFolder": "Importer le dossier",
+    "ontology": "Ontologie",
+    "manageOntologyModal": {
+      "deleteButtonText": "Supprimer l’ontologie",
+      "modalTitleCreate": "Nouvelle ontologie",
+      "modalTitleEdit": "Modifier l’ontologie",
+      "modalSubTitleCreate": "Créez une nouvelle ontologie pour structurer votre jumeau numérique.",
+      "modalSubTitleEdit": "Modifiez votre ontologie pour donner une structure à votre jumeau numérique.",
+      "modalSubTitleLinkText": "En savoir plus sur les ontologies",
+      "nameLabel": "Nom",
+      "namePlaceholder": "Entrez un nom d’ontologie",
+      "namespaceLabel": "Espace de noms",
+      "namespaceDescription": "Exemple de nom de modèle : {{modelName}}",
+      "namespacePlaceholder": "Entrez un espace de noms",
+      "sampleModel": "exemple de modèle"
+    },
+    "newModel": "Nouveau modèle"
   },
   "cameraControls": {
     "mouseControls": "Contrôles de la souris",
@@ -1096,8 +1114,8 @@
     "errorDisplayNameLength": "Le nom d’affichage ne doit pas dépasser 64 caractères",
     "errorRepeatedEdgeName": "Une relation portant le même nom existe déjà",
     "runLayout": "Exécuter la mise en page",
-    "errorReachedInheritanceLimit": "Limite d’héritage atteinte",
-    "errorInheritance": "Ne peut pas hériter de plus de deux interfaces"
+    "extends": "S' étend",
+    "loadingText": "Calcul des positions de mise en page"
   },
   "OATPropertyEditor": {
     "displayName": "Nom d’affichage",
@@ -1184,7 +1202,41 @@
     "addToPropertyList": "Ajouter à la liste des propriétés",
     "moveDown": "Descendre",
     "moveUp": "Monter",
-    "valueSchema": "Schéma de valeur"
+    "valueSchema": "Schéma de valeur",
+    "commentPlaceholder": "Commentaire pour les auteurs de modèles",
+    "date": "date",
+    "descriptionPlaceholder": "Une description localisable à afficher",
+    "details": "Détails",
+    "displayNamePlaceholder": "Un nom localisable à afficher",
+    "expand": "Développer",
+    "maxMultiplicityLabel": "Multiplicité maximale",
+    "minMultiplicityLabel": "Multiplicité minimale",
+    "minMultiplicityMessage": "DTDL V2 ne prend en charge qu’une multiplicité minimale de 0",
+    "modelId": "ID du modèle",
+    "path": "Chemin",
+    "uniqueModelName": "Nom de modèle unique",
+    "version": "Version",
+    "SchemaDefaults": {
+      "defaultEnumName": "enum_key_{{index}}",
+      "defaultMapName": "enum_key_{{index}}",
+      "defaultObjectPropertyName": "field_name_{{index}}",
+      "defaultMapKeyName": "map_key_{{index}}",
+      "defaultMapValueName": "map_value_{{index}}",
+      "defaultPropertyName": "new_property_{{index}}"
+    },
+    "PropertyListItem": {
+      "arrayItemLabel": "Articles",
+      "enumKeyPlaceholder": "Entrée clé",
+      "enumValuePlaceholder": "Entrez la valeur",
+      "ContextMenu": {
+        "changePropertyTypeLabel": "Modifier le type de propriété",
+        "changeChildTypeLabelForArray": "Modifier le type d’élément de tableau",
+        "changeChildTypeLabelForEnum": "Modifier le type de valeur énumération",
+        "editMetadataLabel": "Modifier les métadonnées"
+      }
+    },
+    "noSelectionMessage": "Sélectionnez un modèle ou une relation pour afficher les détails",
+    "propertiesNotSupported": "L’élément sélectionné ne prend pas en charge les propriétés"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Message d'erreur",
@@ -1319,7 +1371,6 @@
       "description": "Pour comparer les valeurs antérieures des propriétés historisées, ajoutez des séries chronologiques ci-dessous."
     },
     "viewer": {
-      "chart": "Graphique",
       "noSeriesDescription": "Pour afficher l’historique des données de ce jumeau, sélectionnez une propriété à afficher.",
       "table": {
         "title": "Table",
@@ -1332,12 +1383,37 @@
         "messages": {
           "noColor": "Non défini",
           "loading": "Chargement de données historiques...",
-          "noData": "Aucune donnée historique n’a été trouvée au cours de la période sélectionnée.",
-          "noSeries": "Aucun jumeau sélectionné pour interroger, veuillez ajouter des propriétés jumelles pour afficher les données historiques."
+          "noSeries": "Aucun jumeau sélectionné pour interroger, veuillez ajouter des propriétés jumelles pour afficher les données historiques.",
+          "noData": "Aucune donnée historisée n’a été trouvée dans la plage de temps sélectionnée."
+        }
+      },
+      "chart": {
+        "title": "Graphique",
+        "messages": {
+          "noData": "Aucune donnée numérique historisée à afficher, essayez de sélectionner une autre plage de temps."
         }
       }
     },
     "loadingConnectionLabel": "Chargement des informations de connexion de séries chronologiques..."
+  },
+  "clear": "Clair",
+  "duplicate": "Dupliquer",
+  "moveUp": "Monter",
+  "moveDown": "Descendre",
+  "increaseBy1": "Augmenter la valeur de 1",
+  "decreaseBy1": "Diminuer la valeur de 1",
+  "OATCommon": {
+    "duplicateFileNameSuffix": "copier",
+    "defaultFileName": "Nouvelle ontologie",
+    "defaultModelNamePrefix": "Modèle"
+  },
+  "OATModelList": {
+    "searchModels": "Modèles de recherche",
+    "noDataMessage": "Aucun modèle",
+    "noMatchingItemsMessage": "Aucun modèle ne correspond à ces critères",
+    "removeModelButtonText": "Supprimer le modèle",
+    "modelListToggleAriaLabelShow": "Afficher la liste des modèles",
+    "modelListToggleAriaLabelHide": "Masquer la liste des modèles"
   },
   "dataHistoryErrorHandlingWrapper": {
     "errors": {

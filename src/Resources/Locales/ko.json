@@ -945,7 +945,6 @@
     "deleteAll": "모두 삭제",
     "folderUpload": "폴더 업로드",
     "fileUpload": "파일 업로드",
-    "files": "파일",
     "selectFile": "파일 선택",
     "errorSingleFileHoldsRelationships": "{{fileName}} 문제: 모델이 가져오지 않는 관계를 보유합니다.",
     "errorImportedModelAlreadyExists": "{{modelId}} 문제: 동일한 @id를 가진 모델이 이미 존재합니다.",
@@ -955,7 +954,26 @@
     "fileOpenModal": {
       "dropdownLabel": "존재론",
       "dropdownPlaceholder": "온톨로지 선택"
-    }
+    },
+    "configure": "구성",
+    "importFile": "파일 가져오기",
+    "importFolder": "폴더 가져오기",
+    "ontology": "존재론",
+    "manageOntologyModal": {
+      "deleteButtonText": "온톨로지 삭제",
+      "modalTitleCreate": "새 온톨로지",
+      "modalTitleEdit": "온톨로지 편집",
+      "modalSubTitleCreate": "새 온톨로지를 만들어 디지털 트윈에 구조를 부여합니다.",
+      "modalSubTitleEdit": "온톨로지를 편집하여 디지털 트윈에 구조를 제공합니다.",
+      "modalSubTitleLinkText": "온톨로지에 대해 자세히 알아보기",
+      "nameLabel": "이름",
+      "namePlaceholder": "온톨로지 이름 입력",
+      "namespaceLabel": "Namespace",
+      "namespaceDescription": "모델 이름 예: {{모델 이름}}",
+      "namespacePlaceholder": "네임스페이스 입력",
+      "sampleModel": "샘플 모델"
+    },
+    "newModel": "새로운 모델"
   },
   "cameraControls": {
     "mouseControls": "마우스 컨트롤",
@@ -1096,8 +1114,8 @@
     "errorDisplayNameLength": "표시 이름은 64자를 초과할 수 없습니다.",
     "errorRepeatedEdgeName": "같은 이름의 관계가 이미 존재합니다.",
     "runLayout": "실행 레이아웃",
-    "errorReachedInheritanceLimit": "상속 한도에 도달했습니다.",
-    "errorInheritance": "두 개 이상의 인터페이스에서 상속되지 않을 수 있습니다."
+    "extends": "확장",
+    "loadingText": "레이아웃 위치 계산"
   },
   "OATPropertyEditor": {
     "displayName": "표시 이름",
@@ -1184,7 +1202,41 @@
     "addToPropertyList": "속성 목록에 추가",
     "moveDown": "아래로 이동",
     "moveUp": "위로 이동",
-    "valueSchema": "값 스키마"
+    "valueSchema": "값 스키마",
+    "commentPlaceholder": "모델 작성자를 위한 설명",
+    "date": "날짜",
+    "descriptionPlaceholder": "표시할 지역화 가능한 설명",
+    "details": "세부 정보",
+    "displayNamePlaceholder": "표시할 지역화 가능한 이름",
+    "expand": "넓히다",
+    "maxMultiplicityLabel": "최대 다중성",
+    "minMultiplicityLabel": "최소 다중성",
+    "minMultiplicityMessage": "DTDL V2는 최소 복합성 0만 지원합니다.",
+    "modelId": "모델 아이디",
+    "path": "길",
+    "uniqueModelName": "고유한 모델 이름",
+    "version": "버전",
+    "SchemaDefaults": {
+      "defaultEnumName": "enum_key_{{색인}}",
+      "defaultMapName": "enum_key_{{색인}}",
+      "defaultObjectPropertyName": "field_name_{{색인}}",
+      "defaultMapKeyName": "map_key_{{색인}}",
+      "defaultMapValueName": "map_value_{{색인}}",
+      "defaultPropertyName": "new_property_{{색인}}"
+    },
+    "PropertyListItem": {
+      "arrayItemLabel": "항목",
+      "enumKeyPlaceholder": "엔터 키",
+      "enumValuePlaceholder": "값 입력",
+      "ContextMenu": {
+        "changePropertyTypeLabel": "속성 유형 편집",
+        "changeChildTypeLabelForArray": "배열 항목 유형 변경",
+        "changeChildTypeLabelForEnum": "열거형 값 형식 변경",
+        "editMetadataLabel": "메타데이터 편집"
+      }
+    },
+    "noSelectionMessage": "세부 정보를 볼 모델 또는 관계 선택",
+    "propertiesNotSupported": "선택한 항목이 속성을 지원하지 않습니다."
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "오류 메시지",
@@ -1319,7 +1371,6 @@
       "description": "히스토라이즈된 속성의 과거 값을 비교하려면 아래에 시계열을 추가합니다."
     },
     "viewer": {
-      "chart": "차트",
       "noSeriesDescription": "이 쌍에 대한 데이터 기록을 보려면 보려는 속성을 선택합니다.",
       "table": {
         "title": "테이블",
@@ -1332,12 +1383,37 @@
         "messages": {
           "noColor": "설정되지 않음",
           "loading": "히스토리화된 데이터를 로드하는 중...",
-          "noData": "선택한 시간 프레임에서 기록된 데이터를 찾을 수 없습니다.",
-          "noSeries": "쿼리할 쌍이 선택되어 있지 않으면 쌍 속성을 추가하여 히스토레이티드된 데이터를 확인하세요."
+          "noSeries": "쿼리할 쌍이 선택되어 있지 않으면 쌍 속성을 추가하여 히스토레이티드된 데이터를 확인하세요.",
+          "noData": "선택한 시간 범위에서 기록된 데이터를 찾을 수 없습니다."
+        }
+      },
+      "chart": {
+        "title": "차트",
+        "messages": {
+          "noData": "표시할 숫자 기록 데이터가 없으면 다른 시간 범위를 선택해 보십시오."
         }
       }
     },
     "loadingConnectionLabel": "시계열 연결 정보 로드 중..."
+  },
+  "clear": "맑다",
+  "duplicate": "복사하다",
+  "moveUp": "위로 이동",
+  "moveDown": "아래로 이동",
+  "increaseBy1": "값을 1씩 늘립니다.",
+  "decreaseBy1": "값 감소 1",
+  "OATCommon": {
+    "duplicateFileNameSuffix": "복사",
+    "defaultFileName": "새 온톨로지",
+    "defaultModelNamePrefix": "모델"
+  },
+  "OATModelList": {
+    "searchModels": "검색 모델",
+    "noDataMessage": "모델 없음",
+    "noMatchingItemsMessage": "해당 기준과 일치하는 모델이 없습니다.",
+    "removeModelButtonText": "모델 제거",
+    "modelListToggleAriaLabelShow": "모델 목록 표시",
+    "modelListToggleAriaLabelHide": "모델 목록 숨기기"
   },
   "dataHistoryErrorHandlingWrapper": {
     "errors": {

@@ -4,11 +4,14 @@ module.exports = (componentName) => ({
         I${componentName}StyleProps,
         I${componentName}Styles
     } from './${componentName}.types';
+    import { CardboardClassNamePrefix } from '../../Models/Constants/Constants';
     
-    export const classPrefix = 'cb-${componentName.toLowerCase()}';
+    const classPrefix = \`\${CardboardClassNamePrefix}-${componentName.toLowerCase()}\`;
     const classNames = {
         root: \`\${classPrefix}-root\`
     };
+
+    // export const ${componentName.toUpperCase()}_CLASS_NAMES = classNames;
     export const getStyles = (
         _props: I${componentName}StyleProps
     ): I${componentName}Styles => {

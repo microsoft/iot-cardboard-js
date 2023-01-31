@@ -48,6 +48,7 @@ const HeaderControlButton: React.FC<IHeaderControlButtonProps> = (props) => {
         <IconButton
             {...buttonProps}
             className={css(classNames.root, className)}
+            checked={isActive}
             data-testid={dataTestId}
             iconProps={iconProps}
             id={id}

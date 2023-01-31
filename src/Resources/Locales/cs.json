@@ -919,7 +919,6 @@
     "import": "Dovoz",
     "export": "Vývoz",
     "file": "Soubor",
-    "files": "Soubory",
     "new": "Nový",
     "open": "Otevřený",
     "saveAs": "Uložit jako",
@@ -955,7 +954,26 @@
     "fileOpenModal": {
       "dropdownLabel": "Ontologie",
       "dropdownPlaceholder": "Výběr ontologie"
-    }
+    },
+    "configure": "Konfigurovat",
+    "importFile": "Importovat soubor",
+    "importFolder": "Složka pro import",
+    "ontology": "Ontologie",
+    "manageOntologyModal": {
+      "deleteButtonText": "Odstranit ontologii",
+      "modalTitleCreate": "Nová ontologie",
+      "modalTitleEdit": "Upravit ontologii",
+      "modalSubTitleCreate": "Vytvořte novou ontologii, která dá strukturu vašemu digitálnímu dvojčeti.",
+      "modalSubTitleEdit": "Upravte svou ontologii tak, aby dala strukturu vašemu digitálnímu dvojčeti.",
+      "modalSubTitleLinkText": "Další informace o ontologiích",
+      "nameLabel": "Jméno",
+      "namePlaceholder": "Zadejte název ontologie",
+      "namespaceLabel": "Namespace",
+      "namespaceDescription": "Příklad názvu modelu: {{modelName}}",
+      "namespacePlaceholder": "Zadejte obor názvů",
+      "sampleModel": "Vzorový model"
+    },
+    "newModel": "Nový model"
   },
   "OATGraphViewer": {
     "newModel": "Nový model",
@@ -976,8 +994,8 @@
     "errorIdValidDTMI": "ID musí být platné DTMI",
     "errorName": "Název může obsahovat pouze znaky a-z, A-Z, 0-9 a podtržítko",
     "errorNameLength": "Název nesmí přesáhnout 64 znaků",
-    "errorReachedInheritanceLimit": "Dosažený limit dědičnosti",
-    "errorInheritance": "Nesmí dědit z více než dvou rozhraní"
+    "extends": "Rozšiřuje",
+    "loadingText": "Výpočetní pozice rozvržení"
   },
   "OATPropertyEditor": {
     "addEnumValue": "Přidat hodnotu výčtu",
@@ -1064,7 +1082,41 @@
     "value": "Hodnota",
     "valueSchema": "Schéma hodnot",
     "viewTemplates": "Zobrazení šablon",
-    "writable": "Zapisovatelný"
+    "writable": "Zapisovatelný",
+    "commentPlaceholder": "Komentář pro autory modelů",
+    "date": "rande",
+    "descriptionPlaceholder": "Lokalizovatelný popis, který se má zobrazit",
+    "details": "Podrobnosti",
+    "displayNamePlaceholder": "Lokalizovatelný název, který se má zobrazit",
+    "expand": "Expandovat",
+    "maxMultiplicityLabel": "Maximální násobnost",
+    "minMultiplicityLabel": "Minimální násobnost",
+    "minMultiplicityMessage": "DTDL V2 podporuje pouze minimální násobnost 0",
+    "modelId": "ID modelu",
+    "path": "Cesta",
+    "uniqueModelName": "Jedinečný název modelu",
+    "version": "Verze",
+    "SchemaDefaults": {
+      "defaultEnumName": "enum_key_{{index}}",
+      "defaultMapName": "enum_key_{{index}}",
+      "defaultObjectPropertyName": "field_name_{{index}}",
+      "defaultMapKeyName": "map_key_{{index}}",
+      "defaultMapValueName": "map_value_{{index}}",
+      "defaultPropertyName": "new_property_{{index}}"
+    },
+    "PropertyListItem": {
+      "arrayItemLabel": "položky",
+      "enumKeyPlaceholder": "Klávesa Enter",
+      "enumValuePlaceholder": "Zadejte hodnotu",
+      "ContextMenu": {
+        "changePropertyTypeLabel": "Upravit typ vlastnosti",
+        "changeChildTypeLabelForArray": "Změna typu položky pole",
+        "changeChildTypeLabelForEnum": "Změna typu výčtu",
+        "editMetadataLabel": "Upravit metadata"
+      }
+    },
+    "noSelectionMessage": "Výběr modelu nebo vztahu pro zobrazení podrobností",
+    "propertiesNotSupported": "Vybraná položka nepodporuje vlastnosti"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Zpráva o chybě",
@@ -1319,7 +1371,6 @@
       "description": "Chcete-li porovnat minulé hodnoty pro historizované vlastnosti, přidejte níže časovou řadu."
     },
     "viewer": {
-      "chart": "Graf",
       "noSeriesDescription": "Chcete-li zobrazit historii dat pro toto dvojče, vyberte vlastnost, kterou chcete zobrazit.",
       "table": {
         "title": "Stůl",
@@ -1332,12 +1383,37 @@
         "messages": {
           "noColor": "Není nastaveno",
           "loading": "Načítání historizovaných dat...",
-          "noData": "Ve vybraném časovém rámci nebyla nalezena žádná historizovaná data.",
-          "noSeries": "K dotazu nebylo vybráno žádné dvojče, přidejte prosím vlastnosti dvojčat pro zobrazení historizovaných dat."
+          "noSeries": "K dotazu nebylo vybráno žádné dvojče, přidejte prosím vlastnosti dvojčat pro zobrazení historizovaných dat.",
+          "noData": "Ve vybraném časovém období nebyla nalezena žádná historizovaná data."
+        }
+      },
+      "chart": {
+        "title": "Graf",
+        "messages": {
+          "noData": "Žádná číselná historická data k zobrazení, zkuste vybrat jiný časový rozsah."
         }
       }
     },
     "loadingConnectionLabel": "Informace o připojení časové řady načítání..."
+  },
+  "clear": "Jasný",
+  "duplicate": "Duplikát",
+  "moveUp": "Povýšit",
+  "moveDown": "Posunout dolů",
+  "increaseBy1": "Zvýšení hodnoty o 1",
+  "decreaseBy1": "Snížení hodnoty o 1",
+  "OATCommon": {
+    "duplicateFileNameSuffix": "kopírovat",
+    "defaultFileName": "Nová ontologie",
+    "defaultModelNamePrefix": "Model"
+  },
+  "OATModelList": {
+    "searchModels": "Hledat modely",
+    "noDataMessage": "Žádné modely",
+    "noMatchingItemsMessage": "Žádný model nesplňuje tato kritéria",
+    "removeModelButtonText": "Odebrat model",
+    "modelListToggleAriaLabelShow": "Zobrazit seznam modelů",
+    "modelListToggleAriaLabelHide": "Skrýt seznam modelů"
   },
   "dataHistoryErrorHandlingWrapper": {
     "errors": {

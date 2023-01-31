@@ -945,7 +945,6 @@
     "deleteAll": "Eliminar todo",
     "folderUpload": "Carga de carpetas",
     "fileUpload": "Carga de archivos",
-    "files": "Archivos",
     "selectFile": "Seleccionar archivo",
     "errorSingleFileHoldsRelationships": "Problema con {{fileName}}: el modelo contiene relaciones que no se están importando",
     "errorImportedModelAlreadyExists": "Problema con {{modelId}}: ya existe un modelo con el mismo @id",
@@ -955,7 +954,26 @@
     "fileOpenModal": {
       "dropdownLabel": "Ontología",
       "dropdownPlaceholder": "Seleccione una ontología"
-    }
+    },
+    "configure": "Configurar",
+    "importFile": "Importar archivo",
+    "importFolder": "Importar carpeta",
+    "ontology": "Ontología",
+    "manageOntologyModal": {
+      "deleteButtonText": "Eliminar ontología",
+      "modalTitleCreate": "Nueva ontología",
+      "modalTitleEdit": "Editar ontología",
+      "modalSubTitleCreate": "Crea una nueva ontología para dar estructura a tu gemelo digital.",
+      "modalSubTitleEdit": "Edita tu ontología para dar estructura a tu gemelo digital.",
+      "modalSubTitleLinkText": "Más información sobre las ontologías",
+      "nameLabel": "Nombre",
+      "namePlaceholder": "Introducir un nombre de ontología",
+      "namespaceLabel": "Namespace",
+      "namespaceDescription": "Nombre de modelo de ejemplo: {{modelName}}",
+      "namespacePlaceholder": "Introduzca un espacio de nombres",
+      "sampleModel": "modelo de muestra"
+    },
+    "newModel": "Nuevo modelo"
   },
   "cameraControls": {
     "mouseControls": "Controles del ratón",
@@ -1096,8 +1114,8 @@
     "errorDisplayNameLength": "El nombre para mostrar no puede exceder los 64 caracteres",
     "errorRepeatedEdgeName": "Ya existe una relación con el mismo nombre",
     "runLayout": "Ejecutar diseño",
-    "errorReachedInheritanceLimit": "Límite de herencia alcanzado",
-    "errorInheritance": "No puede heredar de más de dos interfaces"
+    "extends": "Extiende",
+    "loadingText": "Posiciones de diseño de cálculo"
   },
   "OATPropertyEditor": {
     "displayName": "Nombre para mostrar",
@@ -1184,7 +1202,41 @@
     "addToPropertyList": "Agregar a la lista de propiedades",
     "moveDown": "Desplazar hacia abajo",
     "moveUp": "Desplazar hacia arriba",
-    "valueSchema": "Esquema de valores"
+    "valueSchema": "Esquema de valores",
+    "commentPlaceholder": "Comentario para autores de modelos",
+    "date": "fecha",
+    "descriptionPlaceholder": "Una descripción localizable para mostrar",
+    "details": "Detalles",
+    "displayNamePlaceholder": "Un nombre localizable para mostrar",
+    "expand": "Expandir",
+    "maxMultiplicityLabel": "Multiplicidad máxima",
+    "minMultiplicityLabel": "Multiplicidad mínima",
+    "minMultiplicityMessage": "DTDL V2 solo admite una multiplicidad mínima de 0",
+    "modelId": "ID del modelo",
+    "path": "Camino",
+    "uniqueModelName": "Nombre único del modelo",
+    "version": "Versión",
+    "SchemaDefaults": {
+      "defaultEnumName": "enum_key_{{índice}}",
+      "defaultMapName": "enum_key_{{índice}}",
+      "defaultObjectPropertyName": "field_name_{{índice}}",
+      "defaultMapKeyName": "map_key_{{índice}}",
+      "defaultMapValueName": "map_value_{{índice}}",
+      "defaultPropertyName": "new_property_{{índice}}"
+    },
+    "PropertyListItem": {
+      "arrayItemLabel": "Artículos",
+      "enumKeyPlaceholder": "Tecla Enter",
+      "enumValuePlaceholder": "Introduzca el valor",
+      "ContextMenu": {
+        "changePropertyTypeLabel": "Editar tipo de propiedad",
+        "changeChildTypeLabelForArray": "Cambiar el tipo de elemento de matriz",
+        "changeChildTypeLabelForEnum": "Cambiar el tipo de valor de enumeración",
+        "editMetadataLabel": "Editar metadatos"
+      }
+    },
+    "noSelectionMessage": "Seleccionar un modelo o relación para ver los detalles",
+    "propertiesNotSupported": "El elemento seleccionado no admite propiedades"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Mensaje de error",
@@ -1319,7 +1371,6 @@
       "description": "Para comparar los valores pasados de las propiedades históricas, agregue las series temporales a continuación."
     },
     "viewer": {
-      "chart": "Gráfico",
       "noSeriesDescription": "Para ver el historial de datos de este gemelo, seleccione una propiedad para ver.",
       "table": {
         "title": "Mesa",
@@ -1332,12 +1383,37 @@
         "messages": {
           "noColor": "No establecido",
           "loading": "Cargando datos históricos...",
-          "noData": "No se encontraron datos históricos en el marco de tiempo seleccionado.",
-          "noSeries": "No se seleccionó ningún gemelo para consultar, agregue propiedades gemelas para ver los datos históricos."
+          "noSeries": "No se seleccionó ningún gemelo para consultar, agregue propiedades gemelas para ver los datos históricos.",
+          "noData": "No se han encontrado datos históricos en el intervalo de tiempo seleccionado."
+        }
+      },
+      "chart": {
+        "title": "Gráfico",
+        "messages": {
+          "noData": "No hay datos numéricos históricos para mostrar, intente seleccionar un rango de tiempo diferente."
         }
       }
     },
     "loadingConnectionLabel": "Cargando información de conexión de series temporales..."
+  },
+  "clear": "Claro",
+  "duplicate": "Duplicado",
+  "moveUp": "Desplazar hacia arriba",
+  "moveDown": "Desplazar hacia abajo",
+  "increaseBy1": "Aumentar el valor en 1",
+  "decreaseBy1": "Disminuir el valor en 1",
+  "OATCommon": {
+    "duplicateFileNameSuffix": "copiar",
+    "defaultFileName": "Nueva ontología",
+    "defaultModelNamePrefix": "Modelo"
+  },
+  "OATModelList": {
+    "searchModels": "Modelos de búsqueda",
+    "noDataMessage": "Sin modelos",
+    "noMatchingItemsMessage": "Ningún modelo cumple con ese criterio",
+    "removeModelButtonText": "Eliminar modelo",
+    "modelListToggleAriaLabelShow": "Mostrar lista de modelos",
+    "modelListToggleAriaLabelHide": "Ocultar lista de modelos"
   },
   "dataHistoryErrorHandlingWrapper": {
     "errors": {

@@ -945,7 +945,6 @@
     "deleteAll": "Elimina tutto",
     "folderUpload": "Caricamento cartella",
     "fileUpload": "Caricamento file",
-    "files": "ﬁle",
     "selectFile": "Seleziona file",
     "errorSingleFileHoldsRelationships": "Problema con {{nomefile}}: il modello contiene relazioni che non vengono importate",
     "errorImportedModelAlreadyExists": "Problema con {{modelId}}: il modello con lo stesso @id esiste già",
@@ -955,7 +954,26 @@
     "fileOpenModal": {
       "dropdownLabel": "Ontologia",
       "dropdownPlaceholder": "Seleziona un'ontologia"
-    }
+    },
+    "configure": "Configurare",
+    "importFile": "Importa file",
+    "importFolder": "Importa cartella",
+    "ontology": "Ontologia",
+    "manageOntologyModal": {
+      "deleteButtonText": "Eliminare ontologia",
+      "modalTitleCreate": "Nuova ontologia",
+      "modalTitleEdit": "Modifica ontologia",
+      "modalSubTitleCreate": "Crea una nuova ontologia per dare struttura al tuo gemello digitale.",
+      "modalSubTitleEdit": "Modifica la tua ontologia per dare struttura al tuo gemello digitale.",
+      "modalSubTitleLinkText": "Scopri di più sulle ontologie",
+      "nameLabel": "Nome",
+      "namePlaceholder": "Immettere un nome di ontologia",
+      "namespaceLabel": "Namespace",
+      "namespaceDescription": "Esempio di nome modello: {{modelName}}",
+      "namespacePlaceholder": "Immettere uno spazio dei nomi",
+      "sampleModel": "Modello di esempio"
+    },
+    "newModel": "Nuovo modello"
   },
   "cameraControls": {
     "mouseControls": "Controlli del mouse",
@@ -1096,8 +1114,8 @@
     "errorDisplayNameLength": "Il nome visualizzato non può superare i 64 caratteri",
     "errorRepeatedEdgeName": "Esiste già una relazione con lo stesso nome",
     "runLayout": "Esegui layout",
-    "errorReachedInheritanceLimit": "Limite di ereditarietà raggiunto",
-    "errorInheritance": "Non può ereditare da più di due interfacce"
+    "extends": "Si estende",
+    "loadingText": "Posizioni di layout di calcolo"
   },
   "OATPropertyEditor": {
     "displayName": "Nome visualizzato",
@@ -1184,7 +1202,41 @@
     "addToPropertyList": "Aggiungi all'elenco delle proprietà",
     "moveDown": "Retrocedere",
     "moveUp": "Promuovere",
-    "valueSchema": "Schema dei valori"
+    "valueSchema": "Schema dei valori",
+    "commentPlaceholder": "Commento per gli autori dei modelli",
+    "date": "dattero",
+    "descriptionPlaceholder": "Una descrizione localizzabile da visualizzare",
+    "details": "Dettagli",
+    "displayNamePlaceholder": "Nome localizzabile da visualizzare",
+    "expand": "Espandere",
+    "maxMultiplicityLabel": "Massima molteplicità",
+    "minMultiplicityLabel": "Molteplicità minima",
+    "minMultiplicityMessage": "DTDL V2 supporta solo una molteplicità minima di 0",
+    "modelId": "ID modello",
+    "path": "Sentiero",
+    "uniqueModelName": "Nome univoco del modello",
+    "version": "Versione",
+    "SchemaDefaults": {
+      "defaultEnumName": "enum_key_{{indice}}",
+      "defaultMapName": "enum_key_{{indice}}",
+      "defaultObjectPropertyName": "field_name_{{indice}}",
+      "defaultMapKeyName": "map_key_{{indice}}",
+      "defaultMapValueName": "map_value_{{indice}}",
+      "defaultPropertyName": "new_property_{{indice}}"
+    },
+    "PropertyListItem": {
+      "arrayItemLabel": "Elementi",
+      "enumKeyPlaceholder": "Tasto d’invio",
+      "enumValuePlaceholder": "Inserisci il valore",
+      "ContextMenu": {
+        "changePropertyTypeLabel": "Modificare il tipo di proprietà",
+        "changeChildTypeLabelForArray": "Modificare il tipo di elemento della matrice",
+        "changeChildTypeLabelForEnum": "Modificare il tipo di valore di enumerazione",
+        "editMetadataLabel": "Modificare i metadati"
+      }
+    },
+    "noSelectionMessage": "Selezionare un modello o una relazione per visualizzarne i dettagli",
+    "propertiesNotSupported": "L'elemento selezionato non supporta le proprietà"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Messaggio di errore",
@@ -1319,7 +1371,6 @@
       "description": "Per confrontare i valori passati per le proprietà cronologizzate, aggiungere le serie temporali riportate di seguito."
     },
     "viewer": {
-      "chart": "Tabella",
       "noSeriesDescription": "Per visualizzare la cronologia dei dati per questo gemello, selezionare una proprietà da visualizzare.",
       "table": {
         "title": "Tavolo",
@@ -1332,12 +1383,37 @@
         "messages": {
           "noColor": "Non impostato",
           "loading": "Caricamento dei dati storici...",
-          "noData": "Nessun dato storicizzato trovato nell'intervallo di tempo selezionato.",
-          "noSeries": "Nessun gemello selezionato per la query, aggiungere proprietà gemelle per visualizzare i dati cronologizzati."
+          "noSeries": "Nessun gemello selezionato per la query, aggiungere proprietà gemelle per visualizzare i dati cronologizzati.",
+          "noData": "Nessun dato cronologizzato trovato nell'intervallo di tempo selezionato."
+        }
+      },
+      "chart": {
+        "title": "Tabella",
+        "messages": {
+          "noData": "Nessun dato numerico storicizzato da visualizzare, prova a selezionare un intervallo di tempo diverso."
         }
       }
     },
     "loadingConnectionLabel": "Caricamento delle informazioni di connessione delle serie temporali..."
+  },
+  "clear": "Chiaro",
+  "duplicate": "Duplicare",
+  "moveUp": "Promuovere",
+  "moveDown": "Retrocedere",
+  "increaseBy1": "Aumentare il valore di 1",
+  "decreaseBy1": "Diminuire il valore di 1",
+  "OATCommon": {
+    "duplicateFileNameSuffix": "copiare",
+    "defaultFileName": "Nuova ontologia",
+    "defaultModelNamePrefix": "Modello"
+  },
+  "OATModelList": {
+    "searchModels": "Cerca modelli",
+    "noDataMessage": "Nessun modello",
+    "noMatchingItemsMessage": "Nessun modello corrisponde a tali criteri",
+    "removeModelButtonText": "Rimuovi modello",
+    "modelListToggleAriaLabelShow": "Mostra elenco modelli",
+    "modelListToggleAriaLabelHide": "Nascondi elenco modelli"
   },
   "dataHistoryErrorHandlingWrapper": {
     "errors": {

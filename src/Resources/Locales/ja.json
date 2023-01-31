@@ -945,7 +945,6 @@
     "deleteAll": "すべて削除",
     "folderUpload": "フォルダのアップロード",
     "fileUpload": "ファイルのアップロード",
-    "files": "ファイル",
     "selectFile": "ファイルの選択",
     "errorSingleFileHoldsRelationships": "{{fileName}}の問題:モデルはインポートされていない関係を保持しています",
     "errorImportedModelAlreadyExists": "{{modelId}} の問題: 同じ@idを持つモデルが既に存在します",
@@ -955,7 +954,26 @@
     "fileOpenModal": {
       "dropdownLabel": "オントロジー",
       "dropdownPlaceholder": "オントロジーの選択"
-    }
+    },
+    "configure": "構成",
+    "importFile": "ファイルのインポート",
+    "importFolder": "インポートフォルダ",
+    "ontology": "オントロジー",
+    "manageOntologyModal": {
+      "deleteButtonText": "オントロジーの削除",
+      "modalTitleCreate": "新しいオントロジー",
+      "modalTitleEdit": "オントロジーの編集",
+      "modalSubTitleCreate": "新しいオントロジーを作成して、デジタルツインに構造を与えます。",
+      "modalSubTitleEdit": "オントロジーを編集して、デジタルツインに構造を与えます。",
+      "modalSubTitleLinkText": "オントロジーの詳細",
+      "nameLabel": "名前",
+      "namePlaceholder": "オントロジー名を入力する",
+      "namespaceLabel": "名前空間",
+      "namespaceDescription": "モデル名の例: {{モデル名}}",
+      "namespacePlaceholder": "名前空間を入力する",
+      "sampleModel": "サンプルモデル"
+    },
+    "newModel": "新型"
   },
   "cameraControls": {
     "mouseControls": "マウスコントロール",
@@ -1096,8 +1114,8 @@
     "errorDisplayNameLength": "表示名は 64 文字を超えてはなりません。",
     "errorRepeatedEdgeName": "同じ名前の関係が既に存在します",
     "runLayout": "実行レイアウト",
-    "errorReachedInheritanceLimit": "継承制限に達しました",
-    "errorInheritance": "3 つ以上のインターフェイスから継承することはできません。"
+    "extends": "拡張",
+    "loadingText": "レイアウト位置の計算"
   },
   "OATPropertyEditor": {
     "displayName": "表示名",
@@ -1184,7 +1202,41 @@
     "addToPropertyList": "プロパティリストに追加",
     "moveDown": "下へ移動",
     "moveUp": "上へ移動",
-    "valueSchema": "値スキーマ"
+    "valueSchema": "値スキーマ",
+    "commentPlaceholder": "モデル作成者へのコメント",
+    "date": "日付",
+    "descriptionPlaceholder": "表示するローカライズ可能な説明",
+    "details": "細部",
+    "displayNamePlaceholder": "表示するローカライズ可能な名前",
+    "expand": "膨らむ",
+    "maxMultiplicityLabel": "最大多重度",
+    "minMultiplicityLabel": "最小多重度",
+    "minMultiplicityMessage": "DTDL V2 では、最小多重度 0 のみがサポートされます。",
+    "modelId": "モデル ID",
+    "path": "パス",
+    "uniqueModelName": "一意のモデル名",
+    "version": "バージョン",
+    "SchemaDefaults": {
+      "defaultEnumName": "enum_key_{{インデックス}}",
+      "defaultMapName": "enum_key_{{インデックス}}",
+      "defaultObjectPropertyName": "field_name_{{インデックス}}",
+      "defaultMapKeyName": "map_key_{{インデックス}}",
+      "defaultMapValueName": "map_value_{{インデックス}}",
+      "defaultPropertyName": "new_property_{{インデックス}}"
+    },
+    "PropertyListItem": {
+      "arrayItemLabel": "項目",
+      "enumKeyPlaceholder": "キーを入力してください",
+      "enumValuePlaceholder": "値を入力",
+      "ContextMenu": {
+        "changePropertyTypeLabel": "プロパティタイプの編集",
+        "changeChildTypeLabelForArray": "配列項目タイプの変更",
+        "changeChildTypeLabelForEnum": "列挙値の型を変更する",
+        "editMetadataLabel": "メタデータの編集"
+      }
+    },
+    "noSelectionMessage": "詳細を表示するモデルまたはリレーションシップを選択する",
+    "propertiesNotSupported": "選択した項目はプロパティをサポートしていません"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "エラーメッセージ",
@@ -1319,7 +1371,6 @@
       "description": "履歴化されたプロパティの過去の値を比較するには、以下に時系列を追加します。"
     },
     "viewer": {
-      "chart": "チャート",
       "noSeriesDescription": "このツインのデータ履歴を表示するには、表示するプロパティを選択します。",
       "table": {
         "title": "テーブル",
@@ -1332,12 +1383,37 @@
         "messages": {
           "noColor": "未設定",
           "loading": "履歴化されたデータを読み込んでいます...",
-          "noData": "選択した時間枠内に履歴データが見つかりません。",
-          "noSeries": "クエリするツインが選択されていません。履歴データを表示するためにツイン プロパティを追加してください。"
+          "noSeries": "クエリするツインが選択されていません。履歴データを表示するためにツイン プロパティを追加してください。",
+          "noData": "選択した時間範囲内に履歴データが見つかりません。"
+        }
+      },
+      "chart": {
+        "title": "チャート",
+        "messages": {
+          "noData": "表示する数値の履歴データがない場合は、別の時間範囲を選択してみてください。"
         }
       }
     },
     "loadingConnectionLabel": "時系列接続情報を読み込んでいます..."
+  },
+  "clear": "クリア",
+  "duplicate": "デュプリケート",
+  "moveUp": "上へ移動",
+  "moveDown": "下へ移動",
+  "increaseBy1": "値を 1 増やす",
+  "decreaseBy1": "値を 1 ずつ減らす",
+  "OATCommon": {
+    "duplicateFileNameSuffix": "写し",
+    "defaultFileName": "新しいオントロジー",
+    "defaultModelNamePrefix": "モデル"
+  },
+  "OATModelList": {
+    "searchModels": "モデルの検索",
+    "noDataMessage": "モデルなし",
+    "noMatchingItemsMessage": "その基準に一致するモデルはありません",
+    "removeModelButtonText": "モデルを削除",
+    "modelListToggleAriaLabelShow": "モデル一覧を表示",
+    "modelListToggleAriaLabelHide": "モデルリストを隠す"
   },
   "dataHistoryErrorHandlingWrapper": {
     "errors": {

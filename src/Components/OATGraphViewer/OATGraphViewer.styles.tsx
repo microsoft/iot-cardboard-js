@@ -3,17 +3,95 @@ import {
     mergeStyleSets,
     useTheme,
     FontSizes,
-    IButtonStyles,
     IStyleFunctionOrObject,
     ILabelStyleProps,
     ILabelStyles,
-    IStackProps,
-    IButtonProps,
-    IIconStyles,
-    ITextFieldStyles
+    FontWeights,
+    IButtonStyles
 } from '@fluentui/react';
-import { CSSProperties } from 'react';
 import { CardboardClassNamePrefix } from '../../Models/Constants';
+import {
+    CONTROLS_BOTTOM_OFFSET,
+    CONTROLS_CALLOUT_OFFSET,
+    CONTROLS_SIDE_OFFSET,
+    CONTROLS_Z_INDEX,
+    getControlBackgroundColor,
+    LOADING_Z_INDEX,
+    PANEL_VERTICAL_SPACING,
+    PROPERTY_EDITOR_WIDTH
+} from '../../Models/Constants/OatStyleConstants';
+import { HEADER_BUTTON_HEIGHT } from '../../Models/Constants/StyleConstants';
+import { useExtendedTheme } from '../../Models/Hooks/useExtendedTheme';
+import { IExtendedTheme } from '../../Theming/Theme.types';
+import {
+    IOATGraphViewerStyleProps,
+    IOATGraphViewerStyles
+} from './OATGraphViewer.types';
+
+export const classPrefix2 = `${CardboardClassNamePrefix}-oat-graph-viewer`;
+const classNames2 = {
+    root: `${classPrefix2}-root`,
+    graph: `${classPrefix2}-graph`,
+    graphMiniMap: `${classPrefix2}-graph-mini-map`,
+    minimapContainer: `${classPrefix2}-minimap-container`
+};
+export const getStyles = (
+    props: IOATGraphViewerStyleProps
+): IOATGraphViewerStyles => {
+    const { theme } = props;
+    return {
+        root: [classNames2.root],
+        graph: [classNames2.graph, { cursor: 'move' }],
+        graphMiniMapContainer: [
+            classNames2.minimapContainer,
+            {
+                bottom:
+                    CONTROLS_BOTTOM_OFFSET +
+                    HEADER_BUTTON_HEIGHT +
+                    CONTROLS_CALLOUT_OFFSET -
+                    10,
+                position: 'absolute',
+                right: PROPERTY_EDITOR_WIDTH + CONTROLS_SIDE_OFFSET,
+                '.react-flow__minimap': {
+                    background: theme.semanticColors.bodyBackground,
+                    left: 'unset',
+                    zIndex: CONTROLS_Z_INDEX
+                }
+            }
+        ],
+        graphMiniMap: [
+            classNames2.graphMiniMap,
+            {
+                borderRadius: theme.effects.roundedCorner2,
+                boxShadow: theme.effects.elevation16
+            }
+        ],
+        subComponentStyles: {
+            legendCallout: {
+                calloutMain: {
+                    backgroundColor: getControlBackgroundColor(theme)
+                },
+                beak: {
+                    backgroundColor: getControlBackgroundColor(theme)
+                }
+            },
+            modelsListCallout: {
+                root: {
+                    height: `calc(100vh - ${PANEL_VERTICAL_SPACING}px) !important`,
+                    minHeight: '300px !important',
+                    width: '30vw',
+                    minWidth: 200,
+                    maxWidth: 400
+                },
+                calloutMain: {
+                    backgroundColor: getControlBackgroundColor(theme),
+                    overflow: 'hidden',
+                    padding: 16
+                }
+            }
+        }
+    };
+};
 
 const classPrefix = `${CardboardClassNamePrefix}-oat-graph-viewer`;
 const classNames = {
@@ -44,11 +122,9 @@ const classNames = {
     selectedInheritancePath: `${classPrefix}-selected-inheritance-path`,
     inheritanceShape: `${classPrefix}-inheritance-shape`,
     nodeContainer: `${classPrefix}-node-container`,
+    nodeRow: `${classPrefix}-node-row`,
     untargetedNodeContainer: `${classPrefix}-untargeted-node-container`,
     graphViewerControls: `${classPrefix}-graph-viewer-controls`,
-    graphViewerFiltersWrap: `${classPrefix}-graph-viewer-filters-wrap`,
-    graphViewerForceLayoutWrap: `${classPrefix}-graph-viewer-force-layout-wrap`,
-    graphViewerFiltersKey: `${classPrefix}-graph-viewer-filters-key`,
     extendCancel: `${classPrefix}-extend-cancel`,
     relationshipCTASection: `${classPrefix}-node-container-cta-section`,
     relationshipNameEditorBody: `${classPrefix}-relationship-name-editor-body`,
@@ -63,13 +139,22 @@ const classNames = {
 };
 
 export const getGraphViewerStyles = () => {
-    const theme = useTheme();
+    const theme = useExtendedTheme();
+    const ellipseText: IStyle = {
+        overflow: 'hidden',
+        textOverflow: 'ellipsis'
+    };
+    const ellipseStart: IStyle = {
+        ...ellipseText,
+        direction: 'RTL',
+        textAlign: 'left'
+    };
     return mergeStyleSets({
         container: [
             classNames.container,
             {
                 background: theme.semanticColors.bodyBackground,
-                height: 'auto',
+                height: '100%',
                 position: 'relative',
                 [`& .${classNames.handle}`]: {
                     background: 'transparent',
@@ -85,7 +170,7 @@ export const getGraphViewerStyles = () => {
                     alignItems: 'center',
                     minWidth: '14px',
                     minHeight: '14px',
-                    top: '50px',
+                    top: '54px',
                     ':hover': {
                         minWidth: '18px',
                         minHeight: '18px',
@@ -109,7 +194,7 @@ export const getGraphViewerStyles = () => {
                     alignItems: 'center',
                     minWidth: '14px',
                     minHeight: '14px',
-                    top: '50px',
+                    top: '54px',
                     ':hover': {
                         minWidth: '18px',
                         minHeight: '18px',
@@ -133,7 +218,7 @@ export const getGraphViewerStyles = () => {
                     alignItems: 'center',
                     minWidth: '14px',
                     minHeight: '14px',
-                    top: '50px',
+                    top: '54px',
                     ':hover': {
                         minWidth: '18px',
                         minHeight: '18px',
@@ -157,7 +242,7 @@ export const getGraphViewerStyles = () => {
                     alignItems: 'center',
                     minWidth: '14px',
                     minHeight: '14px',
-                    top: '50px',
+                    top: '54px',
                     ':hover': {
                         minWidth: '18px',
                         minHeight: '18px',
@@ -191,7 +276,7 @@ export const getGraphViewerStyles = () => {
                 width: '100%',
                 height: '100%',
                 backgroundColor: 'rgba(0, 0, 0, 0.3)',
-                zIndex: 101,
+                zIndex: LOADING_Z_INDEX,
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center'
@@ -259,7 +344,7 @@ export const getGraphViewerStyles = () => {
         node: [
             classNames.node,
             {
-                background: theme.palette.neutralLight,
+                backgroundColor: getControlBackgroundColor(theme),
                 border: `1px solid ${theme.semanticColors.inputBorder}`,
                 borderRadius: '5px',
                 fontSize: FontSizes.size12,
@@ -270,7 +355,7 @@ export const getGraphViewerStyles = () => {
         selectedNode: [
             classNames.selectedNode,
             {
-                background: theme.palette.neutralLight,
+                backgroundColor: getControlBackgroundColor(theme),
                 border: `3px solid ${theme.semanticColors.inputBorder}`,
                 borderRadius: '5px',
                 fontSize: FontSizes.size12,
@@ -377,18 +462,26 @@ export const getGraphViewerStyles = () => {
                 fill: 'none'
             } as IStyle
         ],
-        nodeContainer: [
-            classNames.nodeContainer,
+        nodeContainer: [classNames.nodeContainer, { padding: 4 }],
+        nodeRow: [
+            classNames.nodeRow,
             {
                 alignItems: 'center',
                 display: 'grid',
                 gridTemplateColumns: '50px auto',
-                span: {
-                    padding: '5px 0px'
-                },
-                padding: '0 5px'
+                overflow: 'hidden',
+                padding: 4
             } as IStyle
         ],
+        nodeLabel: { fontWeight: FontWeights.regular, padding: 0 },
+        nodeNameValue: {
+            fontWeight: FontWeights.semibold,
+            ...ellipseText
+        },
+        nodeIdValue: {
+            fontWeight: FontWeights.semibold,
+            ...ellipseStart
+        },
         relationshipCTASection: [
             classNames.relationshipCTASection,
             {
@@ -397,83 +490,12 @@ export const getGraphViewerStyles = () => {
                 right: '2px'
             } as IStyle
         ],
-        relationshipNameEditorBody: [
-            classNames.relationshipNameEditorBody,
-            { position: 'relative' } as IStyle
-        ],
         untargetedNodeContainer: [
             classNames.untargetedNodeContainer,
             {
+                paddingLeft: 4,
                 label: {
                     overflowWrap: 'normal'
-                }
-            } as IStyle
-        ],
-        graphViewerControls: [
-            classNames.graphViewerControls,
-            {
-                '& button': {
-                    background: theme.semanticColors.primaryButtonBackground,
-                    borderColor: theme.semanticColors.primaryButtonTextPressed,
-                    ':hover': {
-                        background:
-                            theme.semanticColors.primaryButtonBackgroundHovered
-                    },
-                    '& svg': {
-                        fill: theme.semanticColors.primaryButtonTextPressed
-                    }
-                }
-            } as IStyle
-        ],
-        graphViewerFiltersWrap: [
-            classNames.graphViewerFiltersWrap,
-            {
-                display: 'flex',
-                flexDirection: 'column',
-                background: theme.palette.neutralLight,
-                border: `1px solid ${theme.semanticColors.inputBorder}`,
-                borderRadius: '5px',
-                fontSize: FontSizes.size12,
-                textAlign: 'center',
-                width: '180px',
-                padding: '10px',
-                zIndex: '100',
-                height: 'fit-content'
-            } as IStyle
-        ],
-        graphViewerForceLayoutWrap: [
-            classNames.graphViewerForceLayoutWrap,
-            {
-                display: 'flex',
-                flexDirection: 'column',
-                background: theme.palette.neutralLight,
-                border: `1px solid ${theme.semanticColors.inputBorder}`,
-                borderRadius: '5px',
-                fontSize: FontSizes.size12,
-                textAlign: 'center',
-                width: '34px',
-                zIndex: '100',
-                height: 'fit-content'
-            } as IStyle
-        ],
-        graphViewerFiltersKey: [
-            classNames.graphViewerFiltersKey,
-            {
-                zIndex: '100',
-                display: 'flex',
-                alignItems: 'center',
-                marginBottom: '4px',
-                '& svg': {
-                    minWidth: '28px',
-                    width: '28px',
-                    marginRight: '10px'
-                },
-                '& span.rel-title': {
-                    marginRight: '10px',
-                    minWidth: '70px'
-                },
-                '& div.ms-Toggle': {
-                    marginBottom: '0'
                 }
             } as IStyle
         ],
@@ -487,35 +509,24 @@ export const getGraphViewerStyles = () => {
     });
 };
 
-export const getGraphViewerButtonStyles = () => {
+export const getGraphViewerActionButtonStyles = (
+    theme: IExtendedTheme
+): IButtonStyles => {
     return {
         root: {
-            zIndex: '100',
-            marginBottom: '8px'
-        }
-    } as Partial<IButtonStyles>;
-};
-
-export const getGraphViewerIconStyles = () => {
-    const theme = useTheme();
-    return {
-        root: {
-            fontSize: FontSizes.size10,
+            float: 'right',
+            height: 24,
+            padding: 0,
+            position: 'absolute',
+            right: 4,
+            top: 4,
+            width: 24
+        },
+        icon: {
+            fontSize: FontSizes.size12,
             color: theme.semanticColors.actionLink
         }
-    } as Partial<IIconStyles>;
-};
-
-export const getGraphViewerActionButtonStyles = () => {
-    return {
-        root: {
-            height: FontSizes.size12,
-            float: 'right',
-            position: 'absolute',
-            top: '8px',
-            right: '0'
-        }
-    } as IButtonProps;
+    };
 };
 
 export const getGraphViewerWarningStyles = () => {
@@ -526,42 +537,4 @@ export const getGraphViewerWarningStyles = () => {
             color: theme.semanticColors.severeWarningIcon
         }
     } as IStyleFunctionOrObject<ILabelStyleProps, ILabelStyles>;
-};
-
-export const getGraphViewerMinimapStyles = () => {
-    const theme = useTheme();
-    return {
-        background: theme.semanticColors.bodyBackground
-    } as CSSProperties;
-};
-
-export const getGraphViewerFiltersStyles = () => {
-    return {
-        root: {
-            position: 'absolute',
-            top: '10px',
-            right: '10px'
-        }
-    } as IStackProps;
-};
-
-export const getGraphForceLayoutStyles = () => {
-    return {
-        root: {
-            position: 'absolute',
-            top: '110px',
-            right: '10px'
-        }
-    } as IStackProps;
-};
-
-export const getRelationshipTextFieldStyles = () => {
-    const theme = useTheme();
-    return {
-        root: {
-            fontSize: FontSizes.size12,
-            color: theme.semanticColors.bodyText,
-            background: theme.semanticColors.bodyBackground
-        }
-    } as Partial<ITextFieldStyles>;
 };

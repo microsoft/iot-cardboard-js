@@ -160,11 +160,11 @@ EditVisualRuleTabRemoveRule.play = async ({ canvasElement }) => {
     const moreMenu = await canvas.findByTestId(
         'context-menu-visualRules-in-behavior-0-moreMenu'
     );
-    await userEvent.click(moreMenu);
+    userEvent.click(moreMenu);
     await sleep(1);
 
     const deleteButton = await findOverflowMenuItem('removeRuleOverflow');
-    await clickOverFlowMenuItem(deleteButton);
+    clickOverFlowMenuItem(deleteButton);
 };
 
 export const EditWidgetsTab = Template.bind({});
