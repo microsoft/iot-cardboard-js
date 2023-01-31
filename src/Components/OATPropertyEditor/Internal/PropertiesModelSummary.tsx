@@ -33,6 +33,8 @@ import { useExtendedTheme } from '../../../Models/Hooks/useExtendedTheme';
 import {
     isDTDLModel,
     isDTDLReference,
+    isValidDtmiPath,
+    isValidModelName,
     isValidReferenceName
 } from '../../../Models/Services/DtdlUtils';
 import { getTargetFromSelection } from '../Utils';
@@ -41,8 +43,6 @@ import PropertyDetailsEditorModal from './FormRootModelDetails/PropertyDetailsEd
 
 const debugLogging = true;
 const logDebugConsole = getDebugLogger('PropertiesModelSummary', debugLogging);
-
-const INVALID_CHARACTERS: string[] = [' ', '-', '.', ';', '<', '>'];
 
 const getClassNames = classNamesFunction<
     IPropertiesModelSummaryStyleProps,
@@ -185,23 +185,22 @@ export const PropertiesModelSummary: React.FC<IPropertiesModelSummaryProps> = (
         ]
     );
     const onChangeUniqueName = useCallback((_ev, value: string) => {
-        // generally banned characters
-        INVALID_CHARACTERS.forEach((x) => (value = value.replaceAll(x, '')));
-        // specially banned for names
-        [':'].forEach((x) => (value = value.replaceAll(x, '')));
-        setModelUniqueName(value);
+        if (isValidModelName(value.trim(), false)) {
+            setModelUniqueName(value.trim());
+        }
     }, []);
     const onChangePath = useCallback((_ev, value: string) => {
-        INVALID_CHARACTERS.forEach((x) => (value = value.replaceAll(x, '')));
-        setModelPath(value);
+        if (isValidDtmiPath(value.trim(), false)) {
+            setModelPath(value.trim());
+        }
     }, []);
     const onChangeRelationshipName = useCallback((_ev, value: string) => {
         if (
             selectedItem &&
             isDTDLReference(selectedItem) &&
-            isValidReferenceName(value, selectedItem['@type'], false)
+            isValidReferenceName(value.trim(), selectedItem['@type'], false)
         ) {
-            setRelationshipName(value);
+            setRelationshipName(value.trim());
         }
     }, []);
 

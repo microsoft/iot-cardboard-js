@@ -12,6 +12,8 @@ import {
 } from '../../Classes/DTDL';
 import {
     isComplexSchemaProperty,
+    isValidDtmiPath,
+    isValidModelName,
     isValidReferenceName,
     movePropertyInCollection
 } from '../DtdlUtils';
@@ -487,6 +489,138 @@ describe('DtdlUtils', () => {
                     // ASSERT
                     expect(result).toBeFalsy();
                 });
+            });
+        });
+        describe('Model names', () => {
+            test('length 0 is invalid', () => {
+                // ARRANGE
+                const testName = '';
+                // ACT
+                const result = isValidModelName(testName, true);
+                // ASSERT
+                expect(result).toBeFalsy();
+            });
+            test('null is invalid', () => {
+                // ARRANGE
+                const testName = null;
+                // ACT
+                const result = isValidModelName(testName, true);
+                // ASSERT
+                expect(result).toBeFalsy();
+            });
+            test('undefined is invalid', () => {
+                // ARRANGE
+                const testName = undefined;
+                // ACT
+                const result = isValidModelName(testName, true);
+                // ASSERT
+                expect(result).toBeFalsy();
+            });
+            test('Non-final with trailing _ is valid', () => {
+                // ARRANGE
+                const testName = 'Teststring_';
+                // ACT
+                const result = isValidModelName(testName, false);
+                // ASSERT
+                expect(result).toBeTruthy();
+            });
+            test('Final with trailing _ is invalid', () => {
+                // ARRANGE
+                const testName = 'Teststring_';
+                // ACT
+                const result = isValidModelName(testName, true);
+                // ASSERT
+                expect(result).toBeFalsy();
+            });
+            test('Non-final without trailing _ is valid', () => {
+                // ARRANGE
+                const testName = 'Teststring';
+                // ACT
+                const result = isValidModelName(testName, false);
+                // ASSERT
+                expect(result).toBeTruthy();
+            });
+            test('Final without trailing _ is valid', () => {
+                // ARRANGE
+                const testName = 'Teststring';
+                // ACT
+                const result = isValidModelName(testName, true);
+                // ASSERT
+                expect(result).toBeTruthy();
+            });
+        });
+        describe('Model path', () => {
+            test('length 0 is valid', () => {
+                // ARRANGE
+                const testName = '';
+                // ACT
+                const result = isValidDtmiPath(testName, true);
+                // ASSERT
+                expect(result).toBeTruthy();
+            });
+            test('null is valid', () => {
+                // ARRANGE
+                const testName = null;
+                // ACT
+                const result = isValidDtmiPath(testName, true);
+                // ASSERT
+                expect(result).toBeTruthy();
+            });
+            test('undefined is valid', () => {
+                // ARRANGE
+                const testName = undefined;
+                // ACT
+                const result = isValidDtmiPath(testName, true);
+                // ASSERT
+                expect(result).toBeTruthy();
+            });
+            test('Non-final with trailing _ is valid', () => {
+                // ARRANGE
+                const testName = 'Teststring_';
+                // ACT
+                const result = isValidDtmiPath(testName, false);
+                // ASSERT
+                expect(result).toBeTruthy();
+            });
+            test('Final with trailing _ is invalid', () => {
+                // ARRANGE
+                const testName = 'Teststring_';
+                // ACT
+                const result = isValidDtmiPath(testName, true);
+                // ASSERT
+                expect(result).toBeFalsy();
+            });
+            test('Non-final without trailing _ is valid', () => {
+                // ARRANGE
+                const testName = 'Teststring';
+                // ACT
+                const result = isValidDtmiPath(testName, false);
+                // ASSERT
+                expect(result).toBeTruthy();
+            });
+            test('Final without trailing _ is valid', () => {
+                // ARRANGE
+                const testName = 'Teststring';
+                // ACT
+                const result = isValidDtmiPath(testName, true);
+                // ASSERT
+                expect(result).toBeTruthy();
+            });
+            test('Non-final with trailing : is valid', () => {
+                // ARRANGE
+                const testName = 'Teststring:';
+                // ACT
+                const result = isValidDtmiPath(testName, false);
+                // ASSERT
+                expect(result).toBeTruthy();
+            });
+            test('Final with trailing : is invalid', () => {
+                // ARRANGE
+                const testName = 'Teststring:';
+                // ACT
+                const result = isValidDtmiPath(testName, true);
+                // ASSERT
+                expect(result).toBeFalsy();
             });
         });
     });

@@ -268,7 +268,39 @@ export const updateEnumValueSchema = (
 const DEFAULT_NAME_REGEX = /^[a-zA-Z](?:[a-zA-Z0-9_]*[a-zA-Z0-9])?$/;
 /** allows for _ at the end when typing is in progress, should not get committed */
 const DEFAULT_NAME_REGEX_IN_PROGRESS = /^[a-zA-Z](?:[a-zA-Z0-9_]*[a-zA-Z0-9_])?$/;
+
+/**
+ * Regex for validating the model path field
+ * Note: it's mostly the same as name, but allows for : as well
+ */
+const DEFAULT_PATH_REGEX = /^[a-zA-Z](?:[a-zA-Z0-9_:]*[a-zA-Z0-9])?$/;
+const DEFAULT_PATH_REGEX_IN_PROGRESS = /^[a-zA-Z](?:[a-zA-Z0-9_:]*[a-zA-Z0-9_:])?$/;
+
 const DEFAULT_MAX_NAME_LENGTH = 64;
+
+const defaultNameValidation = (name: string, isFinal: boolean): boolean => {
+    let isValid = true;
+    const nameTrimmed = name?.trim();
+    if (
+        !isDefined(nameTrimmed) ||
+        nameTrimmed.length === 0 ||
+        nameTrimmed.length > DEFAULT_MAX_NAME_LENGTH
+    ) {
+        isValid = false;
+        return isValid;
+    }
+    if (isFinal) {
+        isValid = new RegExp(DEFAULT_NAME_REGEX).test(nameTrimmed);
+    } else {
+        isValid = new RegExp(DEFAULT_NAME_REGEX_IN_PROGRESS).test(nameTrimmed);
+    }
+
+    return isValid;
+};
+/** performs the necessary checks to determine if a given name is valid */
+export const isValidModelName = (name: string, isFinal: boolean): boolean => {
+    return defaultNameValidation(name, isFinal);
+};
 
 /** performs the necessary checks to determine if a given name is valid */
 export const isValidReferenceName = (
@@ -277,25 +309,10 @@ export const isValidReferenceName = (
     isFinal: boolean
 ): boolean => {
     let isValid = true;
-    const nameTrimmed = name?.trim();
     switch (referenceType) {
         case DTDLType.Relationship:
         case DTDLType.Component:
-            if (
-                !isDefined(nameTrimmed) ||
-                nameTrimmed.length === 0 ||
-                nameTrimmed.length > DEFAULT_MAX_NAME_LENGTH
-            ) {
-                isValid = false;
-                break;
-            }
-            if (isFinal) {
-                isValid = new RegExp(DEFAULT_NAME_REGEX).test(nameTrimmed);
-            } else {
-                isValid = new RegExp(DEFAULT_NAME_REGEX_IN_PROGRESS).test(
-                    nameTrimmed
-                );
-            }
+            isValid = defaultNameValidation(name, isFinal);
             break;
         case 'Extend':
             isValid = false;
@@ -305,16 +322,16 @@ export const isValidReferenceName = (
 };
 
 /** performs the necessary checks to determine if a given name is valid */
-// export const isValidPath = (path: string): boolean => {
-//     if (
-//         !isDefined(path) ||
-//         !path.trim() ||
-//         path.length > MAX_RELATIONSHIP_NAME_LENGTH
-//     ) {
-//         return false;
-//     }
-//     return new RegExp(DEFAULT_NAME_REGEX).test(path);
-// };
+export const isValidDtmiPath = (path: string, isFinal: boolean): boolean => {
+    if (!isDefined(path) || !path.trim()) {
+        return true;
+    }
+    if (isFinal) {
+        return new RegExp(DEFAULT_PATH_REGEX).test(path);
+    } else {
+        return new RegExp(DEFAULT_PATH_REGEX_IN_PROGRESS).test(path);
+    }
+};
 
 // #endregion
 
