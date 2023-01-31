@@ -32,13 +32,14 @@ import { getStyles } from './PropertiesModelSummary.styles';
 import { useExtendedTheme } from '../../../Models/Hooks/useExtendedTheme';
 import {
     isDTDLModel,
-    isDTDLReference
+    isDTDLReference,
+    isValidReferenceName
 } from '../../../Models/Services/DtdlUtils';
 import { getTargetFromSelection } from '../Utils';
 import ModelPropertyHeader from './ModelPropertyHeader/ModelPropertyHeader';
 import PropertyDetailsEditorModal from './FormRootModelDetails/PropertyDetailsEditorModal';
 
-const debugLogging = false;
+const debugLogging = true;
 const logDebugConsole = getDebugLogger('PropertiesModelSummary', debugLogging);
 
 const INVALID_CHARACTERS: string[] = [' ', '-', '.', ';', '<', '>'];
@@ -142,18 +143,29 @@ export const PropertiesModelSummary: React.FC<IPropertiesModelSummaryProps> = (
                     modelsCopy,
                     oatPageState.selection
                 );
-                if (modelCopy && isDTDLReference(modelCopy)) {
+                if (
+                    modelCopy &&
+                    isDTDLReference(modelCopy) &&
+                    isValidReferenceName(newValue, modelCopy['@type'], true)
+                ) {
                     modelCopy.name = newValue;
                     oatPageDispatch({
                         type: OatPageContextActionType.SET_CURRENT_MODELS,
                         payload: { models: modelsCopy }
                     });
+                    logDebugConsole(
+                        'debug',
+                        'Committed changes to name. {newValue}',
+                        newValue
+                    );
+                } else {
+                    logDebugConsole(
+                        'warn',
+                        'Did NOT commit changes to name. {newValue, modelToUpdate, isValid}',
+                        newValue,
+                        modelCopy
+                    );
                 }
-                logDebugConsole(
-                    'debug',
-                    'Committed changes to name. {newValue}',
-                    newValue
-                );
             };
 
             const undoCommit = () => {
@@ -184,11 +196,13 @@ export const PropertiesModelSummary: React.FC<IPropertiesModelSummaryProps> = (
         setModelPath(value);
     }, []);
     const onChangeRelationshipName = useCallback((_ev, value: string) => {
-        // generally banned characters
-        INVALID_CHARACTERS.forEach((x) => (value = value.replaceAll(x, '')));
-        // specially banned for names
-        [':'].forEach((x) => (value = value.replaceAll(x, '')));
-        setRelationshipName(value);
+        if (
+            selectedItem &&
+            isDTDLReference(selectedItem) &&
+            isValidReferenceName(value, selectedItem['@type'], false)
+        ) {
+            setRelationshipName(value);
+        }
     }, []);
 
     // needed primarly for the version spinner since it behaves differently and you don't have to set focus
