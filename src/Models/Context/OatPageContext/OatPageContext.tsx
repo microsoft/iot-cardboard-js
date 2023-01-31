@@ -131,10 +131,9 @@ export const OatPageContextReducer: (
                 const id = createGUID();
                 // duplicate the project
                 const project = convertStateToProject(draft);
-                project.projectName =
-                    project.projectName +
-                    '-' +
-                    i18n.t('OATCommon.duplicateFileNameSuffix');
+                project.projectName = `${project.projectName}-${i18n.t(
+                    'OATCommon.duplicateFileNameSuffix'
+                )}`;
                 draft.ontologyFiles.push({ id: id, data: project });
 
                 // save data

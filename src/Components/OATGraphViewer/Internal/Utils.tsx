@@ -78,14 +78,14 @@ export const addUntargetedRelationship = (
     modelPositions: IOATModelPosition[],
     elements: (ElementNode | ElementEdge)[]
 ) => {
-    logDebugConsole(
-        'debug',
-        '[START] addUntargetedRelationship. {source, relationship, positions, elements}',
-        sourceModel['@id'],
-        relationship,
-        modelPositions,
-        elements
-    );
+    // logDebugConsole(
+    //     'debug',
+    //     '[START] addUntargetedRelationship. {source, relationship, positions, elements}',
+    //     sourceModel['@id'],
+    //     relationship,
+    //     modelPositions,
+    //     elements
+    // );
     const name = relationship.name;
     const id = getUntargetedRelationshipNodeId(
         sourceModel['@id'],
@@ -125,13 +125,13 @@ export const addUntargetedRelationship = (
 
     elements.push(newNode);
     elements.push(relationshipEdge);
-    logDebugConsole(
-        'debug',
-        '[END] addUntargetedRelationship. {node, edge, elements}',
-        newNode,
-        relationshipEdge,
-        elements
-    );
+    // logDebugConsole(
+    //     'debug',
+    //     '[END] addUntargetedRelationship. {node, edge, elements}',
+    //     newNode,
+    //     relationshipEdge,
+    //     elements
+    // );
     return relationshipEdge;
 };
 

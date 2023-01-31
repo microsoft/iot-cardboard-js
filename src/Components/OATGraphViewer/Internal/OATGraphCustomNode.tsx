@@ -84,13 +84,10 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = (props) => {
     ] = useBoolean(false);
 
     // data
-    const isSelected = useMemo(
-        () =>
-            oatPageState.selection &&
-            oatPageState.selection.modelId === id &&
-            !oatPageState.selection.contentId,
-        [id, oatPageState.selection]
-    );
+    const isSelected =
+        oatPageState.selection &&
+        oatPageState.selection.modelId === id &&
+        !oatPageState.selection.contentId;
 
     const onDelete = () => {
         const deletion = () => {
