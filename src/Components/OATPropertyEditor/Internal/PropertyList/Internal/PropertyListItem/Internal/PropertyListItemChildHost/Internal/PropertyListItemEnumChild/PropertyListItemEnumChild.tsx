@@ -75,21 +75,21 @@ const PropertyListItemEnumChild: React.FC<IPropertyListItemEnumChildProps> = (
         () => [
             {
                 key: 'move-up',
-                text: 'Move up',
+                text: t('OATPropertyEditor.moveUp'),
                 disabled: isFirstItem,
                 iconProps: { iconName: 'Up' },
                 onClick: onMoveUp
             },
             {
                 key: 'move-down',
-                text: 'Move down',
+                text: t('OATPropertyEditor.moveDown'),
                 disabled: isLastItem,
                 iconProps: { iconName: 'Down' },
                 onClick: onMoveDown
             },
             {
                 key: 'remove',
-                text: 'Remove',
+                text: t('remove'),
                 disabled: !onRemove,
                 iconProps: { iconName: 'Delete' },
                 onClick: onRemove
