@@ -1402,7 +1402,7 @@
             "noSeriesDescription": "To view data history for this twin, select a property to view."
         }
     },
-    "dataHistoryErrorHandlingWrappe": {
+    "dataHistoryErrorHandlingWrapper": {
         "errors": {
             "genericNetwork": "Cluster cannot be connected which may be due to invalid url, stopped service or a network error.",
             "genericBadRequest": "Bad request exception occured.",
