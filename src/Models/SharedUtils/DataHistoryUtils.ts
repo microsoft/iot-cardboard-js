@@ -9,10 +9,18 @@ import {
 } from '../Constants/Interfaces';
 import { CUSTOM_HIGHCHARTS_COLOR_IDX_1 } from '../Constants/StyleConstants';
 import {
+    AppRegion,
+    ComponentName,
+    TelemetryEvents,
+    TelemetryTrigger
+} from '../Constants/TelemetryConstants';
+import {
     ADXTimeSeries,
     ADXTimeSeriesTableRow,
     TimeSeriesData
 } from '../Constants/Types';
+import { TelemetryEvent } from '../Services/TelemetryService/Telemetry';
+import TelemetryService from '../Services/TelemetryService/TelemetryService';
 import { objectHasOwnProperty } from '../Services/Utils';
 import { IDataHistoryChartYAxisType } from '../Types/Generated/3DScenesConfiguration-v1.0.0';
 
@@ -175,4 +183,47 @@ export const getDefaultSeriesLabel = (
     propertyName: string // can be nested
 ): string => {
     return `${twinId} (${propertyName})`;
+};
+
+/** send the KPI telemetry of captured data history explorer modal metrics  */
+export const sendDataHistoryExplorerSystemTelemetry = (
+    timeSeriesTwinList: Array<IDataHistoryTimeSeriesTwin>
+) => {
+    // capture the Data History Explorer Modal level metrics
+    const event =
+        TelemetryEvents.Tools.DataHistoryExplorer.SystemAction.ParseDataHistory;
+    TelemetryService.sendEvent(
+        new TelemetryEvent({
+            name: event.eventName,
+            appRegion: AppRegion.DataHistoryExplorer,
+            componentName: ComponentName.DataHistoryExplorerModal,
+            customProperties: {
+                [event.properties.countSeries]: timeSeriesTwinList.length
+            },
+            triggerType: TelemetryTrigger.SystemAction
+        })
+    );
+};
+
+/** send the user actions telemetry  */
+export const sendDataHistoryExplorerUserTelemetry = (
+    eventName: string,
+    customProperties?: Array<{
+        property: string;
+        value: string | number | boolean;
+    }>
+) => {
+    TelemetryService.sendEvent(
+        new TelemetryEvent({
+            name: eventName,
+            appRegion: AppRegion.DataHistoryExplorer,
+            componentName: ComponentName.DataHistoryExplorerModal,
+            ...(customProperties && {
+                customProperties: customProperties.map((cP) => ({
+                    [cP.property]: cP.value
+                }))
+            }),
+            triggerType: TelemetryTrigger.UserAction
+        })
+    );
 };

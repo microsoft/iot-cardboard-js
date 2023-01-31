@@ -34,7 +34,7 @@ export interface ITimeSeriesViewerSubComponentStyles {
     pivot?: Partial<IPivotStyles>;
 }
 
-export enum ViewerPivot {
+export enum TimeSeriesViewerPivot {
     Chart = 'Chart',
     Table = 'Table'
 }

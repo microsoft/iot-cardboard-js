@@ -28,10 +28,22 @@ import { ICardboardListItem } from '../../../CardboardList/CardboardList.types';
 import { IDataHistoryTimeSeriesTwin } from '../../../../Models/Constants/Interfaces';
 import TimeSeriesTwinCallout from '../TimeSeriesTwinCallout/TimeSeriesTwinCallout';
 import produce from 'immer';
-import { getHighChartColor } from '../../../../Models/SharedUtils/DataHistoryUtils';
+import {
+    getDefaultSeriesLabel,
+    getHighChartColor,
+    sendDataHistoryExplorerUserTelemetry
+} from '../../../../Models/SharedUtils/DataHistoryUtils';
 import { DTDLPropertyIconographyMap } from '../../../../Models/Constants/Constants';
 import { ColorString } from 'highcharts';
-import { deepCopy, isDefined } from '../../../../Models/Services/Utils';
+import {
+    deepCopy,
+    getDebugLogger,
+    isDefined
+} from '../../../../Models/Services/Utils';
+import { TelemetryEvents } from '../../../../Models/Constants/TelemetryConstants';
+
+const debugLogging = false;
+const logDebugConsole = getDebugLogger('TimeSeriesBuilder', debugLogging);
 
 const getClassNames = classNamesFunction<
     ITimeSeriesBuilderStyleProps,
@@ -91,11 +103,51 @@ const TimeSeriesBuilder: React.FC<ITimeSeriesBuilderProps> = (props) => {
                                 selectedTimeSeriesTwinSeriesId
                         );
                         draft[selectedIdx] = timeSeriesTwin;
+                        const telemetry =
+                            TelemetryEvents.Tools.DataHistoryExplorer.UserAction
+                                .EditSeries;
+                        sendDataHistoryExplorerUserTelemetry(
+                            telemetry.eventName,
+                            [
+                                {
+                                    property: telemetry.properties.itemIndex,
+                                    value: selectedIdx
+                                },
+                                {
+                                    property:
+                                        telemetry.properties.hasCustomLabel,
+                                    value:
+                                        timeSeriesTwin.label !==
+                                        getDefaultSeriesLabel(
+                                            timeSeriesTwin.twinId,
+                                            timeSeriesTwin.twinPropertyName
+                                        )
+                                }
+                            ]
+                        );
                     } else {
                         timeSeriesTwin.chartProps.color = getHighChartColor(
                             usedSeriesColorsRef.current
                         );
                         draft.push(timeSeriesTwin);
+                        const telemetry =
+                            TelemetryEvents.Tools.DataHistoryExplorer.UserAction
+                                .AddSeries;
+                        sendDataHistoryExplorerUserTelemetry(
+                            telemetry.eventName,
+                            [
+                                {
+                                    property:
+                                        telemetry.properties.hasCustomLabel,
+                                    value:
+                                        timeSeriesTwin.label !==
+                                        getDefaultSeriesLabel(
+                                            timeSeriesTwin.twinId,
+                                            timeSeriesTwin.twinPropertyName
+                                        )
+                                }
+                            ]
+                        );
                     }
                 })
             );
@@ -117,6 +169,15 @@ const TimeSeriesBuilder: React.FC<ITimeSeriesBuilderProps> = (props) => {
                         (tsTwin) => tsTwin.seriesId === seriesId
                     );
                     draft.splice(selectedIdx, 1);
+                    const telemetry =
+                        TelemetryEvents.Tools.DataHistoryExplorer.UserAction
+                            .RemoveSeries;
+                    sendDataHistoryExplorerUserTelemetry(telemetry.eventName, [
+                        {
+                            property: telemetry.properties.itemIndex,
+                            value: selectedIdx
+                        }
+                    ]);
                 })
             );
 
@@ -142,6 +203,11 @@ const TimeSeriesBuilder: React.FC<ITimeSeriesBuilderProps> = (props) => {
     // side effects
     useEffect(() => {
         onTimeSeriesTwinListChange?.(timeSeriesTwins);
+        logDebugConsole(
+            'debug',
+            'Series changed: {timeSeriesTwins}',
+            timeSeriesTwins
+        );
     }, [timeSeriesTwins]);
     const timeSeriesTwinList = useMemo(
         () =>

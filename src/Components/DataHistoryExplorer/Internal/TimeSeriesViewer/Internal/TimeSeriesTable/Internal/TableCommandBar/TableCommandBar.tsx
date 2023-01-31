@@ -15,6 +15,8 @@ import {
 import { useTranslation } from 'react-i18next';
 import { downloadText } from '../../../../../../../../Models/Services/Utils';
 import { ADXTimeSeriesTableRow } from '../../../../../../../../Models/Constants';
+import { TelemetryEvents } from '../../../../../../../../Models/Constants/TelemetryConstants';
+import { sendDataHistoryExplorerUserTelemetry } from '../../../../../../../../Models/SharedUtils/DataHistoryUtils';
 
 const DOWNLOAD_FILE_NAME = 'ADX Table (UTC)';
 
@@ -46,6 +48,14 @@ const TableCommandBar: React.FC<ITableCommandBarProps> = (props) => {
             ),
             `${DOWNLOAD_FILE_NAME}.json`
         );
+        const telemetry =
+            TelemetryEvents.Tools.DataHistoryExplorer.UserAction.DownloadTable;
+        sendDataHistoryExplorerUserTelemetry(telemetry.eventName, [
+            {
+                property: telemetry.properties.numberOfRows,
+                value: data.length
+            }
+        ]);
     }, [data]);
 
     // styles

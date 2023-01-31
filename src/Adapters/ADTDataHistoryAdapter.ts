@@ -11,10 +11,13 @@ import {
     timeSeriesConnectionRefreshMaxAge
 } from '../Models/Constants/Constants';
 import { IADXConnection, IAuthService } from '../Models/Constants/Interfaces';
-import { applyMixins } from '../Models/Services/Utils';
+import { applyMixins, getDebugLogger } from '../Models/Services/Utils';
 import ADTAdapter from './ADTAdapter';
 import ADXAdapter from './ADXAdapter';
 import AzureManagementAdapter from './AzureManagementAdapter';
+
+const debugLogging = false;
+const logDebugConsole = getDebugLogger('ADTDataHistoryAdapter', debugLogging);
 
 export default class ADTDataHistoryAdapter {
     constructor(
@@ -49,14 +52,28 @@ export default class ADTDataHistoryAdapter {
 
     updateADXConnectionInformation = async () => {
         if (this.adtHostUrl) {
+            logDebugConsole(
+                'debug',
+                '[START] Fetching time series connection information of ADT instance with url: ',
+                this.adtHostUrl
+            );
             const connectionInformation = await this.getTimeSeriesConnectionInformation(
                 this.adtHostUrl,
                 true,
                 true
             );
             this.adxConnectionInformation = connectionInformation.getData();
+            logDebugConsole(
+                'debug',
+                '[END] Fetched time series connection information of ADT instance: ',
+                this.adxConnectionInformation
+            );
             return connectionInformation;
         } else {
+            logDebugConsole(
+                'error',
+                'No adtHostUrl in adapter found get the connection information for!'
+            );
             return new AdapterResult<ADTInstanceTimeSeriesConnectionData>({
                 result: null,
                 errorInfo: null
