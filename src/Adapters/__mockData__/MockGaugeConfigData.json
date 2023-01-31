@@ -1,0 +1,194 @@
+[
+  {
+    "name": "RangesNoGaps",
+    "range": [
+      [
+        "-Infinity",
+        1000
+      ],
+      [
+        1000,
+        10000
+      ],
+      [
+        10000,
+        "Infinity"
+      ]
+    ],
+    "colors": [
+      {
+        "color": "#33A1FD"
+      },
+      {
+        "color": "#26C485"
+      },
+      {
+        "color": "#F79824"
+      }
+    ]
+  },
+  {
+    "name": "RangesInfinityUpperBound",
+    "range": [
+      [
+        -5000,
+        100
+      ],
+      [
+        15000,
+        90000
+      ],
+      [
+        90000,
+        "Infinity"
+      ]
+    ],
+    "colors": [
+      {
+        "color": "#33A1FD"
+      },
+      {
+        "color": "#26C485"
+      },
+      {
+        "color": "#F79824"
+      }
+    ]
+  },
+  {
+    "name": "RangesInfinityLowerBound",
+    "range": [
+      [
+        "-Infinity",
+        -5000
+      ],
+      [
+        -5000,
+        1
+      ],
+      [
+        10000,
+        100000
+      ]
+    ],
+    "colors": [
+      {
+        "color": "#33A1FD"
+      },
+      {
+        "color": "#26C485"
+      },
+      {
+        "color": "#F79824"
+      }
+    ]
+  },
+  {
+    "name": "RangesNoInfinities",
+    "range": [
+      [
+        -99,
+        5000
+      ],
+      [
+        5000,
+        10000
+      ],
+      [
+        10000,
+        90000
+      ]
+    ],
+    "colors": [
+      {
+        "color": "#33A1FD"
+      },
+      {
+        "color": "#26C485"
+      },
+      {
+        "color": "#F79824"
+      }
+    ]
+  },
+  {
+    "name": "RangesDecimals",
+    "range": [
+      [
+        -55.5,
+        9.67
+      ],
+      [
+        15.5,
+        55.5
+      ],
+      [
+        65.7,
+        101.5
+      ]
+    ],
+    "colors": [
+      {
+        "color": "#33A1FD"
+      },
+      {
+        "color": "#26C485"
+      },
+      {
+        "color": "#F79824"
+      }
+    ]
+  },
+  {
+    "name": "Only2Ranges",
+    "range": [
+      [
+        "-Infinity",
+        -1000
+      ],
+      [
+        1000,
+        60000
+      ]
+    ],
+    "colors": [
+      {
+        "color": "#33A1FD"
+      },
+      {
+        "color": "#26C485"
+      }
+    ]
+  },
+  {
+    "name": "SingleNumericRange",
+    "range": [
+      [
+        1000,
+        60000
+      ]
+    ],
+    "colors": [
+      {
+        "color": "#33A1FD"
+      },
+      {
+        "color": "#26C485"
+      }
+    ]
+  },
+  {
+    "name": "InfinityOnlyRange",
+    "range": [
+      [
+        "-Infinity",
+        "Infinity"
+      ]
+    ],
+    "colors": [
+      {
+        "color": "#33A1FD"
+      }
+    ]
+  }
+]
