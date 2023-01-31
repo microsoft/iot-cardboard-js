@@ -19,11 +19,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import JSZip from 'jszip';
 import { CommandHistoryContext } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
-import {
-    deepCopy,
-    getDebugLogger,
-    parseModels
-} from '../../Models/Services/Utils';
+import { getDebugLogger, parseModels } from '../../Models/Services/Utils';
 import {
     HeaderModal,
     IOATHeaderProps,
@@ -42,7 +38,6 @@ import { OatPageContextActionType } from '../../Models/Context/OatPageContext/Oa
 import ManageOntologyModal from './internal/ManageOntologyModal/ManageOntologyModal';
 import OATConfirmDialog from '../OATConfirmDialog/OATConfirmDialog';
 import { DtdlInterface } from '../../Models/Constants';
-import { IOATModelsMetadata } from '../../Pages/OATEditorPage/OATEditorPage.types';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('OATHeader', debugLogging);
@@ -82,63 +77,63 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
                 files
             );
             // Populates fileNames and filePaths
-            const populateMetadata = (
-                file: File & { webkitRelativePath?: string },
-                fileContent: string,
-                metaDataCopy: IOATModelsMetadata[]
-            ) => {
-                logDebugConsole(
-                    'debug',
-                    '[IMPORT] [START] Populate metadata for file. {file, model, allMetadata}',
-                    file,
-                    fileContent,
-                    metaDataCopy
-                );
-                // Get model metadata
-                // Get file name from file
-                let fileName = file.name;
-                // Get file name without extension
-                fileName = fileName.substring(0, fileName.lastIndexOf('.'));
-                // Get directory path from file
-                let directoryPath = file.webkitRelativePath;
-                // Get directory content within first and last "\"
-                directoryPath = directoryPath.substring(
-                    directoryPath.indexOf('/') + 1,
-                    directoryPath.lastIndexOf('/')
-                );
+            // const populateMetadata = (
+            //     file: File & { webkitRelativePath?: string },
+            //     fileContent: string,
+            //     metaDataCopy: IOATModelsMetadata[]
+            // ) => {
+            //     logDebugConsole(
+            //         'debug',
+            //         '[IMPORT] [START] Populate metadata for file. {file, model, allMetadata}',
+            //         file,
+            //         fileContent,
+            //         metaDataCopy
+            //     );
+            //     // Get model metadata
+            //     // Get file name from file
+            //     let fileName = file.name;
+            //     // Get file name without extension
+            //     fileName = fileName.substring(0, fileName.lastIndexOf('.'));
+            //     // Get directory path from file
+            //     let directoryPath = file.webkitRelativePath;
+            //     // Get directory content within first and last "\"
+            //     directoryPath = directoryPath.substring(
+            //         directoryPath.indexOf('/') + 1,
+            //         directoryPath.lastIndexOf('/')
+            //     );
 
-                if (!metaDataCopy) {
-                    metaDataCopy = deepCopy(
-                        oatPageState.currentOntologyModelMetadata
-                    );
-                }
+            //     if (!metaDataCopy) {
+            //         metaDataCopy = deepCopy(
+            //             oatPageState.currentOntologyModelMetadata
+            //         );
+            //     }
 
-                // Get JSON from content
-                const json = JSON.parse(fileContent);
-                // Check modelsMetadata for the existence of the model, if exists, update it, if not, add it
-                const modelMetadata = metaDataCopy.find(
-                    (model) => model['@id'] === json['@id']
-                );
-                if (modelMetadata) {
-                    // Update model metadata
-                    modelMetadata.fileName = fileName;
-                    modelMetadata.directoryPath = directoryPath;
-                } else {
-                    // Add model metadata
-                    metaDataCopy.push({
-                        '@id': json['@id'],
-                        fileName: fileName,
-                        directoryPath: directoryPath
-                    });
-                }
+            //     // Get JSON from content
+            //     const json = JSON.parse(fileContent);
+            //     // Check modelsMetadata for the existence of the model, if exists, update it, if not, add it
+            //     const modelMetadata = metaDataCopy.find(
+            //         (model) => model['@id'] === json['@id']
+            //     );
+            //     if (modelMetadata) {
+            //         // Update model metadata
+            //         modelMetadata.fileName = fileName;
+            //         modelMetadata.directoryPath = directoryPath;
+            //     } else {
+            //         // Add model metadata
+            //         metaDataCopy.push({
+            //             '@id': json['@id'],
+            //             fileName: fileName,
+            //             directoryPath: directoryPath
+            //         });
+            //     }
 
-                logDebugConsole(
-                    'debug',
-                    '[IMPORT] [END] Populate metadata for file. {resultingMetadata}',
-                    metaDataCopy
-                );
-                return metaDataCopy;
-            };
+            //     logDebugConsole(
+            //         'debug',
+            //         '[IMPORT] [END] Populate metadata for file. {resultingMetadata}',
+            //         metaDataCopy
+            //     );
+            //     return metaDataCopy;
+            // };
             const handleFileListChanged = async (files: Array<File>) => {
                 logDebugConsole(
                     'debug',
@@ -148,14 +143,27 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
                 const newModels: DtdlInterface[] = [];
                 if (files.length > 0) {
                     const filesErrors = [];
-                    let modelsMetadataReference = null;
+                    // let modelsMetadataReference = null;
                     for (const current of files) {
                         const content = await current.text();
-                        const validJson = safeJsonParse<DtdlInterface | null>(
-                            content
-                        );
-                        if (validJson) {
-                            newModels.push(validJson);
+                        const model = safeJsonParse<DtdlInterface>(content);
+                        if (model) {
+                            if (
+                                oatPageState.currentOntologyModels.find(
+                                    (x) => x['@id'] === model['@id']
+                                )
+                            ) {
+                                filesErrors.push(
+                                    t(
+                                        'OATHeader.errorImportedModelAlreadyExists',
+                                        {
+                                            modelId: model['@id']
+                                        }
+                                    )
+                                );
+                            } else {
+                                newModels.push(model);
+                            }
                         } else {
                             filesErrors.push(
                                 t('OATHeader.errorFileInvalidJSON', {
@@ -172,36 +180,7 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
                     ];
                     const error = await parseModels(combinedModels);
 
-                    const modelsCopy = deepCopy(
-                        oatPageState.currentOntologyModels
-                    );
-                    // remove duplicates
-                    for (const model of newModels) {
-                        // Check if model already exists
-                        const modelExists = modelsCopy.find(
-                            (m) => m['@id'] === model['@id']
-                        );
-                        if (!modelExists) {
-                            modelsCopy.push(model);
-                        } else {
-                            filesErrors.push(
-                                t('OATHeader.errorImportedModelAlreadyExists', {
-                                    modelId: model['@id']
-                                })
-                            );
-                            break;
-                        }
-                    }
-
-                    if (!error) {
-                        for (let i = 0; i < files.length; i++) {
-                            modelsMetadataReference = populateMetadata(
-                                files[i],
-                                JSON.stringify(newModels[i]),
-                                modelsMetadataReference
-                            );
-                        }
-                    } else {
+                    if (error) {
                         filesErrors.push(
                             t('OATHeader.errorIssueWithFile', {
                                 fileName: t('OATHeader.file'),
@@ -214,17 +193,17 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
                         logDebugConsole(
                             'debug',
                             '[IMPORT] Files parsed, storing models to context. {models}',
-                            modelsCopy
+                            combinedModels
                         );
                         oatPageDispatch({
                             type: OatPageContextActionType.IMPORT_MODELS,
-                            payload: { models: modelsCopy }
+                            payload: { models: combinedModels }
                         });
-                        oatPageDispatch({
-                            type:
-                                OatPageContextActionType.SET_CURRENT_MODELS_METADATA,
-                            payload: { metadata: modelsMetadataReference }
-                        });
+                        // oatPageDispatch({
+                        //     type:
+                        //         OatPageContextActionType.SET_CURRENT_MODELS_METADATA,
+                        //     payload: { metadata: modelsMetadataReference }
+                        // });
                     } else {
                         let accumulatedError = '';
                         for (const error of filesErrors) {
