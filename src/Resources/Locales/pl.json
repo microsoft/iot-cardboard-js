@@ -837,7 +837,11 @@
     },
     "removeArrayItemIconTitle": "Usuń element z listy",
     "addArrayItemIconTitle": "Dodaj nowy element",
-    "clearArrayIconTitle": "Usuń wszystkie elementy"
+    "clearArrayIconTitle": "Usuń wszystkie elementy",
+    "dataHistory": {
+      "title": "Otwórz Eksploratora historii danych",
+      "disabledTitle": "Połączenie historii danych nie jest włączone lub zweryfikowane"
+    }
   },
   "environmentPicker": {
     "editEnvironment": "Konfigurowanie środowiska Sceny 3D",
@@ -1309,7 +1313,8 @@
         "add": "Dodawanie szeregów czasowych",
         "remove": "Usuwanie szeregów czasowych",
         "edit": "Edytowanie szeregów czasowych",
-        "noData": "Ta seria czasowa nie zawiera żadnych danych do wyświetlenia"
+        "noData": "Ta seria czasowa nie zawiera żadnych danych do wyświetlenia",
+        "noProperty": "Nie wybrano właściwości"
       },
       "description": "Aby porównać wcześniejsze wartości historycznych właściwości, dodaj poniżej szereg czasowy."
     },

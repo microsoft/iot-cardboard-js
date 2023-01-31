@@ -837,7 +837,11 @@
     },
     "removeArrayItemIconTitle": "从列表中删除项目",
     "addArrayItemIconTitle": "添加新项目",
-    "clearArrayIconTitle": "删除所有项目"
+    "clearArrayIconTitle": "删除所有项目",
+    "dataHistory": {
+      "title": "打开数据历史记录浏览器",
+      "disabledTitle": "未启用或验证数据历史记录连接"
+    }
   },
   "environmentPicker": {
     "editEnvironment": "配置 3D 场景环境",
@@ -1309,7 +1313,8 @@
         "add": "添加时间序列",
         "remove": "删除时间序列",
         "edit": "编辑时间序列",
-        "noData": "此时间序列不包含要显示的数据"
+        "noData": "此时间序列不包含要显示的数据",
+        "noProperty": "未选择任何属性"
       },
       "description": "要比较历史化属性的过去值，请在下面添加时间序列。"
     },

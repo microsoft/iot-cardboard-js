@@ -837,7 +837,11 @@
     },
     "removeArrayItemIconTitle": "Öğeyi listeden kaldır",
     "addArrayItemIconTitle": "Yeni öğe ekle",
-    "clearArrayIconTitle": "Tüm öğeleri kaldır"
+    "clearArrayIconTitle": "Tüm öğeleri kaldır",
+    "dataHistory": {
+      "title": "Açık Veri Geçmişi Gezgini",
+      "disabledTitle": "Veri geçmişi bağlantısı etkinleştirilmedi veya doğrulanmadı"
+    }
   },
   "environmentPicker": {
     "editEnvironment": "3B Sahneler ortamını yapılandırma",
@@ -1309,7 +1313,8 @@
         "add": "Zaman serisi ekleme",
         "remove": "Zaman serilerini kaldırma",
         "edit": "Zaman serilerini düzenleme",
-        "noData": "Bu zaman serisi görüntülenecek veri içermiyor"
+        "noData": "Bu zaman serisi görüntülenecek veri içermiyor",
+        "noProperty": "Hiçbir mülk seçilmedi"
       },
       "description": "Geçmişi geçmiş özelliklerin geçmiş değerlerini karşılaştırmak için aşağıya zaman serileri ekleyin."
     },

@@ -837,7 +837,11 @@
     },
     "removeArrayItemIconTitle": "Supprimer un élément de la liste",
     "addArrayItemIconTitle": "Ajouter un nouvel élément",
-    "clearArrayIconTitle": "Supprimer tous les éléments"
+    "clearArrayIconTitle": "Supprimer tous les éléments",
+    "dataHistory": {
+      "title": "Explorateur d’historique Open Data",
+      "disabledTitle": "La connexion à l’historique des données n’est pas activée ou vérifiée"
+    }
   },
   "environmentPicker": {
     "editEnvironment": "Configurer l’environnement 3D Scenes",
@@ -1309,7 +1313,8 @@
         "add": "Ajouter des séries chronologiques",
         "remove": "Supprimer des séries chronologiques",
         "edit": "Modifier des séries chronologiques",
-        "noData": "Cette série chronologique ne contient aucune donnée à afficher"
+        "noData": "Cette série chronologique ne contient aucune donnée à afficher",
+        "noProperty": "Aucune propriété sélectionnée"
       },
       "description": "Pour comparer les valeurs antérieures des propriétés historisées, ajoutez des séries chronologiques ci-dessous."
     },

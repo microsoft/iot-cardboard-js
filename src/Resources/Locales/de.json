@@ -837,7 +837,11 @@
     },
     "removeArrayItemIconTitle": "Element aus Liste entfernen",
     "addArrayItemIconTitle": "Neues Element hinzufügen",
-    "clearArrayIconTitle": "Alle Elemente entfernen"
+    "clearArrayIconTitle": "Alle Elemente entfernen",
+    "dataHistory": {
+      "title": "Öffnen Sie den Datenverlaufs-Explorer",
+      "disabledTitle": "Die Datenverlaufsverbindung ist nicht aktiviert oder überprüft"
+    }
   },
   "environmentPicker": {
     "editEnvironment": "Konfigurieren der 3D-Szenenumgebung",
@@ -1309,7 +1313,8 @@
         "add": "Zeitreihen hinzufügen",
         "remove": "Zeitreihen entfernen",
         "edit": "Zeitreihen bearbeiten",
-        "noData": "Diese Zeitreihe enthält keine anzuzeigenden Daten"
+        "noData": "Diese Zeitreihe enthält keine anzuzeigenden Daten",
+        "noProperty": "Keine Eigenschaft ausgewählt"
       },
       "description": "Um vergangene Werte für historisierte Eigenschaften zu vergleichen, fügen Sie unten Zeitreihen hinzu."
     },

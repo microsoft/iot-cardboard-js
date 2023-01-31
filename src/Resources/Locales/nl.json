@@ -837,7 +837,11 @@
     },
     "removeArrayItemIconTitle": "Item uit lijst verwijderen",
     "addArrayItemIconTitle": "Nieuw item toevoegen",
-    "clearArrayIconTitle": "Alle items verwijderen"
+    "clearArrayIconTitle": "Alle items verwijderen",
+    "dataHistory": {
+      "title": "Verkenner voor gegevensgeschiedenis openen",
+      "disabledTitle": "Verbinding met gegevensgeschiedenis is niet ingeschakeld of geverifieerd"
+    }
   },
   "environmentPicker": {
     "editEnvironment": "3D-scèneomgeving configureren",
@@ -1309,7 +1313,8 @@
         "add": "Tijdreeksen toevoegen",
         "remove": "Tijdreeksen verwijderen",
         "edit": "Tijdreeksen bewerken",
-        "noData": "Deze tijdreeks bevat geen gegevens om weer te geven"
+        "noData": "Deze tijdreeks bevat geen gegevens om weer te geven",
+        "noProperty": "Geen woning geselecteerd"
       },
       "description": "Als u eerdere waarden voor geïrtoriseerde eigenschappen wilt vergelijken, voegt u hieronder tijdreeksen toe."
     },

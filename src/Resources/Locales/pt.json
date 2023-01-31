@@ -837,7 +837,11 @@
     },
     "removeArrayItemIconTitle": "Remover item da lista",
     "addArrayItemIconTitle": "Adicionar novo item",
-    "clearArrayIconTitle": "Remova todos os itens"
+    "clearArrayIconTitle": "Remova todos os itens",
+    "dataHistory": {
+      "title": "Abrir o Gerenciador de Histórico de Dados",
+      "disabledTitle": "A conexão do histórico de dados não está habilitada ou verificada"
+    }
   },
   "environmentPicker": {
     "editEnvironment": "Configure o ambiente de cenas 3D",
@@ -1309,7 +1313,8 @@
         "add": "Adicionar séries temporais",
         "remove": "Remover séries temporais",
         "edit": "Editar séries temporais",
-        "noData": "Esta série temporal não contém dados a serem exibidos"
+        "noData": "Esta série temporal não contém dados a serem exibidos",
+        "noProperty": "Nenhuma propriedade selecionada"
       },
       "description": "Para comparar valores passados para propriedades historizadas, adicione séries temporais abaixo."
     },

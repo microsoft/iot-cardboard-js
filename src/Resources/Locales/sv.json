@@ -837,7 +837,11 @@
     },
     "removeArrayItemIconTitle": "Ta bort objekt från listan",
     "addArrayItemIconTitle": "Lägg till nytt objekt",
-    "clearArrayIconTitle": "Ta bort alla objekt"
+    "clearArrayIconTitle": "Ta bort alla objekt",
+    "dataHistory": {
+      "title": "Öppna Datahistorikutforskaren",
+      "disabledTitle": "Anslutningen till datahistoriken är inte aktiverad eller verifierad"
+    }
   },
   "environmentPicker": {
     "editEnvironment": "Konfigurera 3D-scenmiljö",
@@ -1309,7 +1313,8 @@
         "add": "Lägg till tidsserier",
         "remove": "Ta bort tidsserier",
         "edit": "Redigera tidsserier",
-        "noData": "Den här tidsserien innehåller inga data att visa"
+        "noData": "Den här tidsserien innehåller inga data att visa",
+        "noProperty": "Ingen egenskap markerad"
       },
       "description": "Om du vill jämföra tidigare värden för historiserade egenskaper lägger du till tidsserier nedan."
     },

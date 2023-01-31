@@ -837,7 +837,11 @@
     },
     "removeArrayItemIconTitle": "목록에서 항목 제거",
     "addArrayItemIconTitle": "새 항목 추가",
-    "clearArrayIconTitle": "모든 항목 제거"
+    "clearArrayIconTitle": "모든 항목 제거",
+    "dataHistory": {
+      "title": "데이터 기록 탐색기 열기",
+      "disabledTitle": "데이터 기록 연결이 활성화되지 않았거나 확인되지 않았습니다."
+    }
   },
   "environmentPicker": {
     "editEnvironment": "3D 장면 환경 구성",
@@ -1309,7 +1313,8 @@
         "add": "시계열 추가",
         "remove": "시계열 제거",
         "edit": "시계열 편집",
-        "noData": "이 시계열에는 표시할 데이터가 없습니다."
+        "noData": "이 시계열에는 표시할 데이터가 없습니다.",
+        "noProperty": "선택한 속성 없음"
       },
       "description": "히스토라이즈된 속성의 과거 값을 비교하려면 아래에 시계열을 추가합니다."
     },

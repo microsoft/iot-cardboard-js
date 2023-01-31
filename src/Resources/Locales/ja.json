@@ -837,7 +837,11 @@
     },
     "removeArrayItemIconTitle": "リストからアイテムを削除する",
     "addArrayItemIconTitle": "新しいアイテムを追加する",
-    "clearArrayIconTitle": "すべてのアイテムを削除する"
+    "clearArrayIconTitle": "すべてのアイテムを削除する",
+    "dataHistory": {
+      "title": "データ履歴エクスプローラーを開く",
+      "disabledTitle": "データ履歴接続が有効になっていないか、検証されていません"
+    }
   },
   "environmentPicker": {
     "editEnvironment": "3D シーン環境の構成",
@@ -1309,7 +1313,8 @@
         "add": "時系列の追加",
         "remove": "時系列を削除する",
         "edit": "時系列の編集",
-        "noData": "この時系列には、表示するデータが含まれていません"
+        "noData": "この時系列には、表示するデータが含まれていません",
+        "noProperty": "プロパティが選択されていません"
       },
       "description": "履歴化されたプロパティの過去の値を比較するには、以下に時系列を追加します。"
     },

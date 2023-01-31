@@ -837,7 +837,11 @@
     },
     "removeArrayItemIconTitle": "Odebrat položku ze seznamu",
     "addArrayItemIconTitle": "Přidat novou položku",
-    "clearArrayIconTitle": "Odebrání všech položek"
+    "clearArrayIconTitle": "Odebrání všech položek",
+    "dataHistory": {
+      "title": "Otevřít Průzkumník historie dat",
+      "disabledTitle": "Připojení k historii dat není povoleno nebo ověřeno"
+    }
   },
   "environmentPicker": {
     "editEnvironment": "Konfigurace prostředí 3D scén",
@@ -1309,7 +1313,8 @@
         "add": "Přidat časovou řadu",
         "remove": "Odebrání časové řady",
         "edit": "Úprava časové řady",
-        "noData": "Tato časová řada neobsahuje žádná data k zobrazení"
+        "noData": "Tato časová řada neobsahuje žádná data k zobrazení",
+        "noProperty": "Není vybrána žádná vlastnost"
       },
       "description": "Chcete-li porovnat minulé hodnoty pro historizované vlastnosti, přidejte níže časovou řadu."
     },
