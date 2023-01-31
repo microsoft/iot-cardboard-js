@@ -10,7 +10,11 @@ import {
     modelRefreshMaxAge,
     timeSeriesConnectionRefreshMaxAge
 } from '../Models/Constants/Constants';
-import { IADXConnection, IAuthService } from '../Models/Constants/Interfaces';
+import {
+    IADTDataHistoryAdapter,
+    IADXConnection,
+    IAuthService
+} from '../Models/Constants/Interfaces';
 import { applyMixins, getDebugLogger } from '../Models/Services/Utils';
 import ADTAdapter from './ADTAdapter';
 import ADXAdapter from './ADXAdapter';
@@ -19,7 +23,7 @@ import AzureManagementAdapter from './AzureManagementAdapter';
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('ADTDataHistoryAdapter', debugLogging);
 
-export default class ADTDataHistoryAdapter {
+export default class ADTDataHistoryAdapter implements IADTDataHistoryAdapter {
     constructor(
         authService: IAuthService,
         adtHostUrl: string,
@@ -62,7 +66,7 @@ export default class ADTDataHistoryAdapter {
                 true,
                 true
             );
-            this.adxConnectionInformation = connectionInformation.getData();
+            this.setADXConnectionInformation(connectionInformation.getData());
             logDebugConsole(
                 'debug',
                 '[END] Fetched time series connection information of ADT instance: ',

@@ -11,6 +11,10 @@ export interface IPropertyInspectorCalloutProps {
     adapter: IPropertyInspectorAdapter;
     twinId: string;
     disabled?: boolean;
+    isWithDataHistory?: {
+        isEnabled: boolean;
+        onClick?: (twinId: string) => void;
+    };
     /**
      * Call to provide customized styling that will layer on top of the variant rules.
      */

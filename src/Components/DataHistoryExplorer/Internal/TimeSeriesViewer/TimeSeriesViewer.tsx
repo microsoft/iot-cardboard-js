@@ -1,4 +1,4 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useMemo, useState } from 'react';
 import {
     ITimeSeriesViewerContext,
     ITimeSeriesViewerProps,
@@ -43,6 +43,15 @@ const TimeSeriesViewer: React.FC<ITimeSeriesViewerProps> = (props) => {
 
     // hooks
     const { t } = useTranslation();
+    const hasNoSeries = useMemo(
+        () =>
+            !timeSeriesTwinList ||
+            timeSeriesTwinList.length === 0 ||
+            timeSeriesTwinList.every(
+                (tS) => !(tS.twinId && tS.twinPropertyName)
+            ),
+        [timeSeriesTwinList]
+    );
 
     // styles
     const classNames = getClassNames(styles, {
@@ -62,7 +71,7 @@ const TimeSeriesViewer: React.FC<ITimeSeriesViewerProps> = (props) => {
 
     return (
         <div className={classNames.root}>
-            {!timeSeriesTwinList || timeSeriesTwinList.length === 0 ? (
+            {hasNoSeries ? (
                 <IllustrationMessage
                     descriptionText={t(
                         'dataHistoryExplorer.viewer.noSeriesDescription'

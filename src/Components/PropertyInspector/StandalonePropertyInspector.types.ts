@@ -26,6 +26,10 @@ export interface StandalonePropertyInspectorProps {
     readonly?: boolean;
     parentHandlesScroll?: boolean;
     customCommandBarTitleSpan?: React.ReactNode;
+    isWithDataHistory?: {
+        isEnabled: boolean;
+        onClick?: (twinId: string) => void;
+    };
 }
 
 export type TwinParams = {

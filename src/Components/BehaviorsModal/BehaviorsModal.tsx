@@ -14,6 +14,7 @@ import MockAdapter from '../../Adapters/MockAdapter';
 import {
     BehaviorModalMode,
     DTwin,
+    IADTDataHistoryAdapter,
     IADXAdapter,
     IPropertyInspectorAdapter
 } from '../../Models/Constants';
@@ -36,12 +37,15 @@ export type IBehaviorsModalProps = IBehaviorsModalBaseProps &
     (ViewerModeProps | PreviewModeProps);
 interface IBehaviorsModalBaseProps {
     activeWidgetId?: string;
-    adapter?: MockAdapter | (IPropertyInspectorAdapter & IADXAdapter);
+    adapter?:
+        | MockAdapter
+        | (IPropertyInspectorAdapter & IADXAdapter & IADTDataHistoryAdapter);
     behaviors: IBehavior[];
     onClose?: () => any;
     onPropertyInspectorPatch?: (patchData: OnCommitPatchParams) => any;
     title?: string;
     twins: Record<string, DTwin>;
+    onDataHistoryExplorerClick: (twinId: string) => void;
 }
 
 interface ViewerModeProps {
@@ -57,7 +61,9 @@ interface PreviewModeProps {
 const cancelIcon: IIconProps = { iconName: 'Cancel' };
 
 export const BehaviorsModalContext = createContext<{
-    adapter?: MockAdapter | (IPropertyInspectorAdapter & IADXAdapter);
+    adapter?:
+        | MockAdapter
+        | (IPropertyInspectorAdapter & IADXAdapter & IADTDataHistoryAdapter);
     twins: Record<string, DTwin>;
     mode: BehaviorModalMode;
     activeWidgetId: string | null;
@@ -78,7 +84,8 @@ const BehaviorsModal: React.FC<IBehaviorsModalProps> = (props) => {
         onClose,
         onPropertyInspectorPatch,
         title,
-        twins
+        twins,
+        onDataHistoryExplorerClick
     } = props;
     const { t } = useTranslation();
     const boundaryRef = useRef<HTMLDivElement>(null);
@@ -227,6 +234,10 @@ const BehaviorsModal: React.FC<IBehaviorsModalProps> = (props) => {
                                                 )}
                                             </span>
                                         }
+                                        isWithDataHistory={{
+                                            isEnabled: !!adapter.getADXConnectionInformation(),
+                                            onClick: onDataHistoryExplorerClick
+                                        }}
                                     />
                                 )}
                         </div>

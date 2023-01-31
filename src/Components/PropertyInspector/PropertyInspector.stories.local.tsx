@@ -35,6 +35,7 @@ export const AdtTwin = (args, { globals: { theme, locale } }) => {
                 twinId={args.twinId}
                 theme={theme}
                 locale={locale}
+                isWithDataHistory={{ isEnabled: false }}
             />
         </div>
     );

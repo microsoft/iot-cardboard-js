@@ -29,6 +29,7 @@ import {
     AzureResourcesData
 } from '../Models/Classes/AdapterDataClasses/AzureManagementData';
 import ADTInstanceTimeSeriesConnectionData from '../Models/Classes/AdapterDataClasses/ADTInstanceTimeSeriesConnectionData';
+import ADTDataHistoryAdapter from './ADTDataHistoryAdapter';
 
 export default class ADT3DSceneAdapter {
     constructor(
@@ -231,7 +232,8 @@ export default interface ADT3DSceneAdapter
     extends ADTAdapter,
         BlobAdapter,
         AzureManagementAdapter,
-        ADXAdapter {
+        ADXAdapter,
+        ADTDataHistoryAdapter {
     getMissingStorageContainerAccessRoles: (
         containerURLString?: string
     ) => Promise<AdapterResult<AzureMissingRoleDefinitionsData>>;
@@ -243,5 +245,6 @@ applyMixins(ADT3DSceneAdapter, [
     ADTAdapter,
     BlobAdapter,
     AzureManagementAdapter,
-    ADXAdapter
+    ADXAdapter,
+    ADTDataHistoryAdapter
 ]);

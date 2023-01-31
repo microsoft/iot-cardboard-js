@@ -4,11 +4,17 @@ import { PropertyTreeNode } from './PropertyTree/PropertyTree.types';
 import './StandalonePropertyInspector.scss';
 import {
     isTwin,
-    StandalonePropertyInspectorProps
+    StandalonePropertyInspectorProps,
+    TwinParams
 } from './StandalonePropertyInspector.types';
 import PropertyInspectorModel from './PropertyInspectoryModel';
 import { ADTPatch, PropertyInspectorPatchMode } from '../../Models/Constants';
-import { CommandBar, MessageBar, MessageBarType } from '@fluentui/react';
+import {
+    CommandBar,
+    IconButton,
+    MessageBar,
+    MessageBarType
+} from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import StandalonePropertyInspectorReducer, {
     defaultStandalonePropertyInspectorState,
@@ -163,6 +169,33 @@ const StandalonePropertyInspector: React.FC<StandalonePropertyInspectorProps> = 
         }
     };
 
+    const dataHistoryButton = useMemo(
+        () =>
+            isTwin(props.inputData) && props.isWithDataHistory ? (
+                <IconButton
+                    className={'cb-property-inspector-data-history-button'}
+                    disabled={!props.isWithDataHistory.isEnabled}
+                    iconProps={{ iconName: 'Chart' }}
+                    ariaLabel={
+                        props.isWithDataHistory.isEnabled
+                            ? t('propertyInspector.dataHistory.title')
+                            : t('propertyInspector.dataHistory.disabledTitle')
+                    }
+                    title={
+                        props.isWithDataHistory.isEnabled
+                            ? t('propertyInspector.dataHistory.title')
+                            : t('propertyInspector.dataHistory.disabledTitle')
+                    }
+                    onClick={() =>
+                        props.isWithDataHistory.onClick?.(
+                            (props.inputData as TwinParams).twin.$dtId
+                        )
+                    }
+                />
+            ) : undefined,
+        [props.isWithDataHistory, t, props.inputData]
+    );
+
     return (
         <BaseComponent
             locale={props.locale}
@@ -209,6 +242,7 @@ const StandalonePropertyInspector: React.FC<StandalonePropertyInspectorProps> = 
                         onClearArray={onClearArray}
                         readonly={!!props.readonly}
                         isTreeEdited={Object.keys(state.editStatus).length > 0}
+                        dataHistoryIcon={dataHistoryButton}
                     />
                 </div>
             </div>

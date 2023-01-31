@@ -1,3 +1,4 @@
+import { ReactElement } from 'react';
 import { DTDLType } from '../../../Models/Classes/DTDL';
 import { DtdlInterfaceSchema, DtdlProperty } from '../../../Models/Constants';
 import { dtdlPropertyTypesEnum } from '../../../Models/Constants/Constants';
@@ -50,6 +51,7 @@ export interface PropertyTreeProps {
     onAddArrayItem: (node: PropertyTreeNode) => any;
     onRemoveArrayItem: (node: PropertyTreeNode) => any;
     onClearArray: (node: PropertyTreeNode) => any;
+    dataHistoryIcon?: ReactElement;
 }
 
 export interface TreeProps {

@@ -18,7 +18,8 @@ const PropertyTree: React.FC<PropertyTreeProps> = ({
     onAddArrayItem,
     onRemoveArrayItem,
     onClearArray,
-    readonly = false
+    readonly = false,
+    dataHistoryIcon
 }) => {
     return (
         <PropertyTreeContext.Provider
@@ -36,6 +37,7 @@ const PropertyTree: React.FC<PropertyTreeProps> = ({
             }}
         >
             <div className="cb-property-tree-container">
+                {dataHistoryIcon}
                 <Tree data={data} />
             </div>
         </PropertyTreeContext.Provider>

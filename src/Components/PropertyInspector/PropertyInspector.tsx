@@ -55,6 +55,10 @@ type PropertyInspectorProps = {
     };
     readonly?: boolean;
     customCommandBarTitleSpan?: React.ReactNode;
+    isWithDataHistory?: {
+        isEnabled: boolean;
+        onClick?: (twinId: string) => void;
+    };
 } & (TwinPropertyInspectorProps | RelationshipPropertyInspectorProps);
 
 /** Utility method for checking PropertyInspectorProps type -- twin or relationship*/
@@ -362,6 +366,7 @@ const PropertyInspector: React.FC<PropertyInspectorProps> = (props) => {
                         });
                     }
                 }}
+                isWithDataHistory={props.isWithDataHistory}
             />
         </div>
     );

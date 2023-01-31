@@ -837,6 +837,10 @@
             "save": "Save changes",
             "refresh": "Refresh data"
         },
+        "dataHistory": {
+            "title": "Open Data History Explorer",
+            "disabledTitle": "Data history connection is not enabled or verified"
+        },
         "dateTimePicker": {
             "datePickerTitle": "Date picker",
             "dateTimePickerTitle": "Datetime picker",
@@ -1303,7 +1307,8 @@
                 "remove": "Remove time series",
                 "property": "Property",
                 "propertyTypeCastLabel": "Cast property type to number",
-                "noData": "This time series contains no data to display"
+                "noData": "This time series contains no data to display",
+                "noProperty": "No property selected"
             }
         },
         "viewer": {

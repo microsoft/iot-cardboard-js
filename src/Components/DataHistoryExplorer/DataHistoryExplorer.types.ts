@@ -5,15 +5,17 @@ import {
     ITheme
 } from '@fluentui/react';
 import { MockAdapter } from '../../Adapters';
-import ADTDataHistoryAdapter from '../../Adapters/ADTDataHistoryAdapter';
-import { IDataHistoryTimeSeriesTwin } from '../../Models/Constants/Interfaces';
+import {
+    IADTDataHistoryAdapter,
+    IDataHistoryTimeSeriesTwin
+} from '../../Models/Constants/Interfaces';
 import { ICardboardModalStyles } from '../CardboardModal/CardboardModal.types';
 import { IDataHistoryErrorHandlingWrapperStyles } from '../DataHistoryErrorHandlingWrapper/DataHistoryErrorHandlingWrapper.types';
 import { ITimeSeriesBuilderStyles } from './Internal/TimeSeriesBuilder/TimeSeriesBuilder.types';
 import { ITimeSeriesViewerStyles } from './Internal/TimeSeriesViewer/TimeSeriesViewer.types';
 
 export interface IDataHistoryExplorerProps {
-    adapter: ADTDataHistoryAdapter | MockAdapter;
+    adapter: IADTDataHistoryAdapter | MockAdapter;
     hasTitle?: boolean;
     timeSeriesTwins?: Array<IDataHistoryTimeSeriesTwin>;
     /**
@@ -50,7 +52,7 @@ export interface IDataHistoryExplorerSubComponentStyles {
 }
 
 export interface IDataHistoryExplorerContext {
-    adapter: ADTDataHistoryAdapter | MockAdapter;
+    adapter: IADTDataHistoryAdapter | MockAdapter;
 }
 
 export const ERROR_IMAGE_HEIGHT = 120;

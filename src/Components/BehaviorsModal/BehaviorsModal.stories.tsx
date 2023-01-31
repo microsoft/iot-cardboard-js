@@ -43,6 +43,9 @@ const Template: BehaviorsModalStory = (args) => {
                 title={element.displayName}
                 twins={twins}
                 adapter={new MockAdapter()}
+                onDataHistoryExplorerClick={(twinId) =>
+                    console.log(`Open Data History Explorer with ${twinId}`)
+                }
                 {...args}
             />
         </div>

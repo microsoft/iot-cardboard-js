@@ -32,6 +32,11 @@ export const TwinMock = (_args, { globals: { theme, locale } }) => (
             onCommitChanges={(patch) => console.log(patch)}
             theme={theme}
             locale={locale}
+            isWithDataHistory={{
+                isEnabled: true,
+                onClick: (twinId) =>
+                    console.log(`Opening Data History Explorer with ${twinId}`)
+            }}
         />
     </div>
 );
