@@ -1378,7 +1378,7 @@
             }
         },
         "viewer": {
-            "chartc": {
+            "chart": {
                 "title": "Chart",
                 "messages": {
                     "noData": "No numeric historized data to display, try selecting a different time range."
@@ -1395,7 +1395,7 @@
                 "messages": {
                     "noColor": "Not set",
                     "loading": "Loading historized data...",
-                    "noDat": "No historized data found in the selected time range.",
+                    "noData": "No historized data found in the selected time range.",
                     "noSeries": "No twin selected to query, please add twin properties to view historized data."
                 }
             },
