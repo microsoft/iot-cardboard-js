@@ -837,11 +837,7 @@
     },
     "removeArrayItemIconTitle": "Quitar elemento de la lista",
     "addArrayItemIconTitle": "Agregar nuevo elemento",
-    "clearArrayIconTitle": "Quitar todos los elementos",
-    "dataHistory": {
-      "title": "Abrir el Explorador del historial de datos",
-      "disabledTitle": "La conexión del historial de datos no está habilitada ni verificada"
-    }
+    "clearArrayIconTitle": "Quitar todos los elementos"
   },
   "environmentPicker": {
     "editEnvironment": "Configurar el entorno de escenas 3D",
@@ -1394,7 +1390,11 @@
         }
       }
     },
-    "loadingConnectionLabel": "Cargando información de conexión de series temporales..."
+    "loadingConnectionLabel": "Cargando información de conexión de series temporales...",
+    "control": {
+      "title": "Abrir el Explorador del historial de datos",
+      "disabledTitle": "La conexión del historial de datos no está habilitada ni verificada"
+    }
   },
   "clear": "Claro",
   "duplicate": "Duplicado",

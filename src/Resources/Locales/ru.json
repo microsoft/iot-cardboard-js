@@ -837,11 +837,7 @@
     },
     "removeArrayItemIconTitle": "Удалить элемент из списка",
     "addArrayItemIconTitle": "Добавить новый элемент",
-    "clearArrayIconTitle": "Удалить все элементы",
-    "dataHistory": {
-      "title": "Открытый обозреватель истории данных",
-      "disabledTitle": "Подключение к журналу данных не включено или не проверено"
-    }
+    "clearArrayIconTitle": "Удалить все элементы"
   },
   "environmentPicker": {
     "editEnvironment": "Настройка среды 3D-сцен",
@@ -1394,7 +1390,11 @@
         }
       }
     },
-    "loadingConnectionLabel": "Загрузка информации о подключении временных рядов..."
+    "loadingConnectionLabel": "Загрузка информации о подключении временных рядов...",
+    "control": {
+      "title": "Открытый обозреватель истории данных",
+      "disabledTitle": "Подключение к журналу данных не включено или не проверено"
+    }
   },
   "clear": "Ясный",
   "duplicate": "Дублировать",

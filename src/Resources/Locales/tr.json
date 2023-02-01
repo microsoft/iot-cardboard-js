@@ -837,11 +837,7 @@
     },
     "removeArrayItemIconTitle": "Öğeyi listeden kaldır",
     "addArrayItemIconTitle": "Yeni öğe ekle",
-    "clearArrayIconTitle": "Tüm öğeleri kaldır",
-    "dataHistory": {
-      "title": "Açık Veri Geçmişi Gezgini",
-      "disabledTitle": "Veri geçmişi bağlantısı etkinleştirilmedi veya doğrulanmadı"
-    }
+    "clearArrayIconTitle": "Tüm öğeleri kaldır"
   },
   "environmentPicker": {
     "editEnvironment": "3B Sahneler ortamını yapılandırma",
@@ -1394,7 +1390,11 @@
         }
       }
     },
-    "loadingConnectionLabel": "Zaman serisi bağlantı bilgileri yükleniyor..."
+    "loadingConnectionLabel": "Zaman serisi bağlantı bilgileri yükleniyor...",
+    "control": {
+      "title": "Açık Veri Geçmişi Gezgini",
+      "disabledTitle": "Veri geçmişi bağlantısı etkinleştirilmedi veya doğrulanmadı"
+    }
   },
   "clear": "Berrak",
   "duplicate": "Yinelenen",

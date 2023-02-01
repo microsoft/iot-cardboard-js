@@ -837,11 +837,7 @@
     },
     "removeArrayItemIconTitle": "Supprimer un élément de la liste",
     "addArrayItemIconTitle": "Ajouter un nouvel élément",
-    "clearArrayIconTitle": "Supprimer tous les éléments",
-    "dataHistory": {
-      "title": "Explorateur d’historique Open Data",
-      "disabledTitle": "La connexion à l’historique des données n’est pas activée ou vérifiée"
-    }
+    "clearArrayIconTitle": "Supprimer tous les éléments"
   },
   "environmentPicker": {
     "editEnvironment": "Configurer l’environnement 3D Scenes",
@@ -1394,7 +1390,11 @@
         }
       }
     },
-    "loadingConnectionLabel": "Chargement des informations de connexion de séries chronologiques..."
+    "loadingConnectionLabel": "Chargement des informations de connexion de séries chronologiques...",
+    "control": {
+      "title": "Explorateur d’historique Open Data",
+      "disabledTitle": "La connexion à l’historique des données n’est pas activée ou vérifiée"
+    }
   },
   "clear": "Clair",
   "duplicate": "Dupliquer",

@@ -837,11 +837,7 @@
     },
     "removeArrayItemIconTitle": "Elem eltávolítása a listáról",
     "addArrayItemIconTitle": "Új elem hozzáadása",
-    "clearArrayIconTitle": "Az összes elem eltávolítása",
-    "dataHistory": {
-      "title": "Az Adatelőzmények kezelőjének megnyitása",
-      "disabledTitle": "Az adatelőzmények kapcsolata nincs engedélyezve vagy ellenőrizve"
-    }
+    "clearArrayIconTitle": "Az összes elem eltávolítása"
   },
   "environmentPicker": {
     "editEnvironment": "3D jelenetek környezetének konfigurálása",
@@ -1394,7 +1390,11 @@
         }
       }
     },
-    "loadingConnectionLabel": "Idősoros kapcsolati információk betöltése..."
+    "loadingConnectionLabel": "Idősoros kapcsolati információk betöltése...",
+    "control": {
+      "title": "Az Adatelőzmények kezelőjének megnyitása",
+      "disabledTitle": "Az adatelőzmények kapcsolata nincs engedélyezve vagy ellenőrizve"
+    }
   },
   "clear": "Világos",
   "duplicate": "Ismétlődő",

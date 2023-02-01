@@ -837,11 +837,7 @@
     },
     "removeArrayItemIconTitle": "Element aus Liste entfernen",
     "addArrayItemIconTitle": "Neues Element hinzufügen",
-    "clearArrayIconTitle": "Alle Elemente entfernen",
-    "dataHistory": {
-      "title": "Öffnen Sie den Datenverlaufs-Explorer",
-      "disabledTitle": "Die Datenverlaufsverbindung ist nicht aktiviert oder überprüft"
-    }
+    "clearArrayIconTitle": "Alle Elemente entfernen"
   },
   "environmentPicker": {
     "editEnvironment": "Konfigurieren der 3D-Szenenumgebung",
@@ -1394,7 +1390,11 @@
         }
       }
     },
-    "loadingConnectionLabel": "Zeitreihen-Verbindungsinformationen werden geladen..."
+    "loadingConnectionLabel": "Zeitreihen-Verbindungsinformationen werden geladen...",
+    "control": {
+      "title": "Öffnen Sie den Datenverlaufs-Explorer",
+      "disabledTitle": "Die Datenverlaufsverbindung ist nicht aktiviert oder überprüft"
+    }
   },
   "clear": "Klar",
   "duplicate": "Duplikat",

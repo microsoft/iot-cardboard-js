@@ -837,11 +837,7 @@
     },
     "removeArrayItemIconTitle": "Item uit lijst verwijderen",
     "addArrayItemIconTitle": "Nieuw item toevoegen",
-    "clearArrayIconTitle": "Alle items verwijderen",
-    "dataHistory": {
-      "title": "Verkenner voor gegevensgeschiedenis openen",
-      "disabledTitle": "Verbinding met gegevensgeschiedenis is niet ingeschakeld of geverifieerd"
-    }
+    "clearArrayIconTitle": "Alle items verwijderen"
   },
   "environmentPicker": {
     "editEnvironment": "3D-scèneomgeving configureren",
@@ -1394,7 +1390,11 @@
         }
       }
     },
-    "loadingConnectionLabel": "Tijdreeksverbindingsinformatie laden..."
+    "loadingConnectionLabel": "Tijdreeksverbindingsinformatie laden...",
+    "control": {
+      "title": "Verkenner voor gegevensgeschiedenis openen",
+      "disabledTitle": "Verbinding met gegevensgeschiedenis is niet ingeschakeld of geverifieerd"
+    }
   },
   "clear": "Duidelijk",
   "duplicate": "Duplicaat",

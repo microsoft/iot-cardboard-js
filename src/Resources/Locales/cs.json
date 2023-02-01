@@ -837,11 +837,7 @@
     },
     "removeArrayItemIconTitle": "Odebrat položku ze seznamu",
     "addArrayItemIconTitle": "Přidat novou položku",
-    "clearArrayIconTitle": "Odebrání všech položek",
-    "dataHistory": {
-      "title": "Otevřít Průzkumník historie dat",
-      "disabledTitle": "Připojení k historii dat není povoleno nebo ověřeno"
-    }
+    "clearArrayIconTitle": "Odebrání všech položek"
   },
   "environmentPicker": {
     "editEnvironment": "Konfigurace prostředí 3D scén",
@@ -1394,7 +1390,11 @@
         }
       }
     },
-    "loadingConnectionLabel": "Informace o připojení časové řady načítání..."
+    "loadingConnectionLabel": "Informace o připojení časové řady načítání...",
+    "control": {
+      "title": "Otevřít Průzkumník historie dat",
+      "disabledTitle": "Připojení k historii dat není povoleno nebo ověřeno"
+    }
   },
   "clear": "Jasný",
   "duplicate": "Duplikát",

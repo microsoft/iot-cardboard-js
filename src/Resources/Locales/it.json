@@ -837,11 +837,7 @@
     },
     "removeArrayItemIconTitle": "Rimuovi elemento dall'elenco",
     "addArrayItemIconTitle": "Aggiungi nuovo elemento",
-    "clearArrayIconTitle": "Rimuovi tutti gli elementi",
-    "dataHistory": {
-      "title": "Apri Esplora cronologia dati",
-      "disabledTitle": "La connessione alla cronologia dei dati non è abilitata o verificata"
-    }
+    "clearArrayIconTitle": "Rimuovi tutti gli elementi"
   },
   "environmentPicker": {
     "editEnvironment": "Configurare l'ambiente delle scene 3D",
@@ -1394,7 +1390,11 @@
         }
       }
     },
-    "loadingConnectionLabel": "Caricamento delle informazioni di connessione delle serie temporali..."
+    "loadingConnectionLabel": "Caricamento delle informazioni di connessione delle serie temporali...",
+    "control": {
+      "title": "Apri Esplora cronologia dati",
+      "disabledTitle": "La connessione alla cronologia dei dati non è abilitata o verificata"
+    }
   },
   "clear": "Chiaro",
   "duplicate": "Duplicare",

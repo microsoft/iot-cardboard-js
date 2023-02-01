@@ -837,11 +837,7 @@
     },
     "removeArrayItemIconTitle": "Remover o item da lista",
     "addArrayItemIconTitle": "Adicionar novo item",
-    "clearArrayIconTitle": "Remover todos os itens",
-    "dataHistory": {
-      "title": "Explorador de História de Dados Abertos",
-      "disabledTitle": "A ligação ao histórico de dados não está ativada ou verificada"
-    }
+    "clearArrayIconTitle": "Remover todos os itens"
   },
   "environmentPicker": {
     "editEnvironment": "Configurar ambiente de cenas 3D",
@@ -1394,7 +1390,11 @@
         }
       }
     },
-    "loadingConnectionLabel": "Informação de ligação de séries de tempo..."
+    "loadingConnectionLabel": "Informação de ligação de séries de tempo...",
+    "control": {
+      "title": "Explorador de História de Dados Abertos",
+      "disabledTitle": "A ligação ao histórico de dados não está ativada ou verificada"
+    }
   },
   "clear": "Claro",
   "duplicate": "Duplicado",

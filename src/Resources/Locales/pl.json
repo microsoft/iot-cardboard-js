@@ -837,11 +837,7 @@
     },
     "removeArrayItemIconTitle": "Usuń element z listy",
     "addArrayItemIconTitle": "Dodaj nowy element",
-    "clearArrayIconTitle": "Usuń wszystkie elementy",
-    "dataHistory": {
-      "title": "Otwórz Eksploratora historii danych",
-      "disabledTitle": "Połączenie historii danych nie jest włączone lub zweryfikowane"
-    }
+    "clearArrayIconTitle": "Usuń wszystkie elementy"
   },
   "environmentPicker": {
     "editEnvironment": "Konfigurowanie środowiska Sceny 3D",
@@ -1394,7 +1390,11 @@
         }
       }
     },
-    "loadingConnectionLabel": "Czas ładowania szeregów informacji o połączeniu..."
+    "loadingConnectionLabel": "Czas ładowania szeregów informacji o połączeniu...",
+    "control": {
+      "title": "Otwórz Eksploratora historii danych",
+      "disabledTitle": "Połączenie historii danych nie jest włączone lub zweryfikowane"
+    }
   },
   "clear": "Jasny",
   "duplicate": "Duplikat",

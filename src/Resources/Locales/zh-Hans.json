@@ -837,11 +837,7 @@
     },
     "removeArrayItemIconTitle": "从列表中删除项目",
     "addArrayItemIconTitle": "添加新项目",
-    "clearArrayIconTitle": "删除所有项目",
-    "dataHistory": {
-      "title": "打开数据历史记录浏览器",
-      "disabledTitle": "未启用或验证数据历史记录连接"
-    }
+    "clearArrayIconTitle": "删除所有项目"
   },
   "environmentPicker": {
     "editEnvironment": "配置 3D 场景环境",
@@ -1394,7 +1390,11 @@
         }
       }
     },
-    "loadingConnectionLabel": "正在加载时间序列连接信息..."
+    "loadingConnectionLabel": "正在加载时间序列连接信息...",
+    "control": {
+      "title": "打开数据历史记录浏览器",
+      "disabledTitle": "未启用或验证数据历史记录连接"
+    }
   },
   "clear": "清楚",
   "duplicate": "重复",

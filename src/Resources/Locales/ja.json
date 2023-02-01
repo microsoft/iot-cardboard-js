@@ -837,11 +837,7 @@
     },
     "removeArrayItemIconTitle": "リストからアイテムを削除する",
     "addArrayItemIconTitle": "新しいアイテムを追加する",
-    "clearArrayIconTitle": "すべてのアイテムを削除する",
-    "dataHistory": {
-      "title": "データ履歴エクスプローラーを開く",
-      "disabledTitle": "データ履歴接続が有効になっていないか、検証されていません"
-    }
+    "clearArrayIconTitle": "すべてのアイテムを削除する"
   },
   "environmentPicker": {
     "editEnvironment": "3D シーン環境の構成",
@@ -1394,7 +1390,11 @@
         }
       }
     },
-    "loadingConnectionLabel": "時系列接続情報を読み込んでいます..."
+    "loadingConnectionLabel": "時系列接続情報を読み込んでいます...",
+    "control": {
+      "title": "データ履歴エクスプローラーを開く",
+      "disabledTitle": "データ履歴接続が有効になっていないか、検証されていません"
+    }
   },
   "clear": "クリア",
   "duplicate": "デュプリケート",

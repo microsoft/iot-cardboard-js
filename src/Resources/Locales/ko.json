@@ -837,11 +837,7 @@
     },
     "removeArrayItemIconTitle": "목록에서 항목 제거",
     "addArrayItemIconTitle": "새 항목 추가",
-    "clearArrayIconTitle": "모든 항목 제거",
-    "dataHistory": {
-      "title": "데이터 기록 탐색기 열기",
-      "disabledTitle": "데이터 기록 연결이 활성화되지 않았거나 확인되지 않았습니다."
-    }
+    "clearArrayIconTitle": "모든 항목 제거"
   },
   "environmentPicker": {
     "editEnvironment": "3D 장면 환경 구성",
@@ -1394,7 +1390,11 @@
         }
       }
     },
-    "loadingConnectionLabel": "시계열 연결 정보 로드 중..."
+    "loadingConnectionLabel": "시계열 연결 정보 로드 중...",
+    "control": {
+      "title": "데이터 기록 탐색기 열기",
+      "disabledTitle": "데이터 기록 연결이 활성화되지 않았거나 확인되지 않았습니다."
+    }
   },
   "clear": "맑다",
   "duplicate": "복사하다",

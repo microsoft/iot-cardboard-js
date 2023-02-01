@@ -837,11 +837,7 @@
     },
     "removeArrayItemIconTitle": "Ta bort objekt från listan",
     "addArrayItemIconTitle": "Lägg till nytt objekt",
-    "clearArrayIconTitle": "Ta bort alla objekt",
-    "dataHistory": {
-      "title": "Öppna Datahistorikutforskaren",
-      "disabledTitle": "Anslutningen till datahistoriken är inte aktiverad eller verifierad"
-    }
+    "clearArrayIconTitle": "Ta bort alla objekt"
   },
   "environmentPicker": {
     "editEnvironment": "Konfigurera 3D-scenmiljö",
@@ -1394,7 +1390,11 @@
         }
       }
     },
-    "loadingConnectionLabel": "Laddar anslutningsinformation för tidsserier..."
+    "loadingConnectionLabel": "Laddar anslutningsinformation för tidsserier...",
+    "control": {
+      "title": "Öppna Datahistorikutforskaren",
+      "disabledTitle": "Anslutningen till datahistoriken är inte aktiverad eller verifierad"
+    }
   },
   "clear": "Klar",
   "duplicate": "Duplicera",
