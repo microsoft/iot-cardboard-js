@@ -121,15 +121,10 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = (props) => {
 
     // styles
     const graphViewerStyles = getGraphViewerStyles();
-<<<<<<< Updated upstream
     const actionButtonStyles = getGraphViewerActionButtonStyles(
         useExtendedTheme()
     );
 
-=======
-    const iconStyles = getGraphViewerIconStyles();
-    const actionButtonStyles = getGraphViewerActionButtonStyles();
->>>>>>> Stashed changes
     return (
         <FocusZone style={{ cursor: 'pointer' }}>
             <div
@@ -390,12 +385,8 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = (props) => {
     );
 };
 
-<<<<<<< Updated upstream
-export default React.memo(OATGraphCustomNode);
-=======
 export default React.memo(OATGraphCustomNode, (prevProps, nextProps) => {
     const areEqual = prevProps.id === nextProps.id;
     console.log(areEqual);
     return areEqual;
 });
->>>>>>> Stashed changes
