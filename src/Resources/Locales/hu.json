@@ -1410,7 +1410,7 @@
   "OATErrors": {
     "Validations": {
       "InvalidDtmiIdFormatTitle": "Érvénytelen DTMI-formátum",
-      "InvalidDtmiIdFormatMessage1": "A rendszer nem mentette a módosításokat, mert a DTMI nem felelt meg a szükséges formátumnak. \n DTMI:{{dtmi}}\n Szükséges formátum: {{regex}}"
+      "InvalidDtmiIdFormatMessage": "A rendszer nem mentette a módosításokat, mert a DTMI nem felelt meg a szükséges formátumnak. \n DTMI: {{dtmi}}\n Szükséges formátum: {{regex}}"
     }
   }
 }

@@ -1410,7 +1410,7 @@
   "OATErrors": {
     "Validations": {
       "InvalidDtmiIdFormatTitle": "Ungültiges DTMI-Format",
-      "InvalidDtmiIdFormatMessage1": "Ihre Änderungen wurden nicht gespeichert, da der DTMI nicht dem erforderlichen Format entsprach. \n DTMI:{{dtmi}}\n Erforderliches Format: {{regex}}"
+      "InvalidDtmiIdFormatMessage": "Ihre Änderungen wurden nicht gespeichert, da der DTMI nicht dem erforderlichen Format entsprach. \n DTMI: {{dtmi}}\n Erforderliches Format: {{regex}}"
     }
   }
 }

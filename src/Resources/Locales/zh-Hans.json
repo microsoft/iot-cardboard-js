@@ -1410,7 +1410,7 @@
   "OATErrors": {
     "Validations": {
       "InvalidDtmiIdFormatTitle": "无效的 DTMI 格式",
-      "InvalidDtmiIdFormatMessage1": "您的更改未保存，因为 DTMI 不符合所需的格式。\n DTMI：{{dtmi}}\n 所需格式：{{正则表达式}}"
+      "InvalidDtmiIdFormatMessage": "您的更改未保存，因为 DTMI 不符合所需的格式。\n DTMI： {{dtmi}}\n 所需格式：{{正则表达式}}"
     }
   }
 }

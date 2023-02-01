@@ -1410,7 +1410,7 @@
   "OATErrors": {
     "Validations": {
       "InvalidDtmiIdFormatTitle": "無効な DTMI 形式です",
-      "InvalidDtmiIdFormatMessage1": "DTMI が必要な形式を満たしていないため、変更は保存されませんでした。\n DTMI:{{dtmi}}\n 必要な形式: {{正規表現}}"
+      "InvalidDtmiIdFormatMessage": "DTMI が必要な形式を満たしていないため、変更は保存されませんでした。\n DTMI: {{dtmi}}\n 必要な形式: {{正規表現}}"
     }
   }
 }
