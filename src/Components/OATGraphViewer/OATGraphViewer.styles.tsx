@@ -169,11 +169,11 @@ export const getGraphViewerStyles = memoizeFunction((theme: IExtendedTheme) => {
                     alignItems: 'center',
                     minWidth: '14px',
                     minHeight: '14px',
-                    top: '54px',
+                    top: '55px',
                     ':hover': {
                         minWidth: '18px',
                         minHeight: '18px',
-                        top: '49px',
+                        top: '53px',
                         '& svg': {
                             pointerEvents: 'none'
                         }
@@ -193,11 +193,11 @@ export const getGraphViewerStyles = memoizeFunction((theme: IExtendedTheme) => {
                     alignItems: 'center',
                     minWidth: '14px',
                     minHeight: '14px',
-                    top: '54px',
+                    top: '55px',
                     ':hover': {
                         minWidth: '18px',
                         minHeight: '18px',
-                        top: '49px',
+                        top: '53px',
                         '& svg': {
                             pointerEvents: 'none'
                         }
@@ -217,11 +217,11 @@ export const getGraphViewerStyles = memoizeFunction((theme: IExtendedTheme) => {
                     alignItems: 'center',
                     minWidth: '14px',
                     minHeight: '14px',
-                    top: '54px',
+                    top: '55px',
                     ':hover': {
                         minWidth: '18px',
                         minHeight: '18px',
-                        top: '49px',
+                        top: '53px',
                         '& svg': {
                             pointerEvents: 'none'
                         }
@@ -241,11 +241,11 @@ export const getGraphViewerStyles = memoizeFunction((theme: IExtendedTheme) => {
                     alignItems: 'center',
                     minWidth: '14px',
                     minHeight: '14px',
-                    top: '54px',
+                    top: '55px',
                     ':hover': {
                         minWidth: '18px',
                         minHeight: '18px',
-                        top: '49px',
+                        top: '53px',
                         '& svg': {
                             pointerEvents: 'none'
                         }

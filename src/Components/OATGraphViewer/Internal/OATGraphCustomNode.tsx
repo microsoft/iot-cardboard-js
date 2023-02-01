@@ -5,7 +5,8 @@ import {
     TooltipHost,
     FocusZone,
     Text,
-    IconButton
+    IconButton,
+    DirectionalHint
 } from '@fluentui/react';
 import { useId } from '@fluentui/react-hooks';
 import { useBoolean } from '@fluentui/react-hooks';
@@ -211,7 +212,8 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = (props) => {
                             id={`${OAT_COMPONENT_HANDLE_NAME}ToolTip`}
                             calloutProps={{
                                 gapSpace: 6,
-                                target: `#${componentTooltipTargetId}`
+                                target: `#${componentTooltipTargetId}`,
+                                directionalHint: DirectionalHint.bottomCenter
                             }}
                         >
                             <Handle
@@ -251,7 +253,8 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = (props) => {
                             id={`${OAT_RELATIONSHIP_HANDLE_NAME}ToolTip`}
                             calloutProps={{
                                 gapSpace: 6,
-                                target: `#${relationshipTooltipTargetId}`
+                                target: `#${relationshipTooltipTargetId}`,
+                                directionalHint: DirectionalHint.bottomCenter
                             }}
                         >
                             <Handle
@@ -295,7 +298,8 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = (props) => {
                             id={`${OAT_UNTARGETED_RELATIONSHIP_NAME}ToolTip`}
                             calloutProps={{
                                 gapSpace: 6,
-                                target: `#${untargetedTooltipTargetId}`
+                                target: `#${untargetedTooltipTargetId}`,
+                                directionalHint: DirectionalHint.bottomCenter
                             }}
                         >
                             <Handle
@@ -335,7 +339,8 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = (props) => {
                             id={`${OAT_EXTEND_HANDLE_NAME}ToolTip`}
                             calloutProps={{
                                 gapSpace: 6,
-                                target: `#${extendTooltipTargetId}`
+                                target: `#${extendTooltipTargetId}`,
+                                directionalHint: DirectionalHint.bottomCenter
                             }}
                         >
                             <Handle
