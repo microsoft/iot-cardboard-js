@@ -1406,5 +1406,11 @@
     "removeModelButtonText": "Modell eltávolítása",
     "modelListToggleAriaLabelShow": "Modelllista megjelenítése",
     "modelListToggleAriaLabelHide": "Modelllista elrejtése"
+  },
+  "OATErrors": {
+    "Validations": {
+      "InvalidDtmiIdFormatTitle": "Érvénytelen DTMI-formátum",
+      "InvalidDtmiIdFormatMessage": "A DTMI-AZONOSÍTÓ érvénytelen. Az azonosítóknak meg kell felelniük a következő mintának: \"{{regex}}\""
+    }
   }
 }

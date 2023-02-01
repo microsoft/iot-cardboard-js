@@ -1406,5 +1406,11 @@
     "removeModelButtonText": "Ta bort modell",
     "modelListToggleAriaLabelShow": "Visa modelllista",
     "modelListToggleAriaLabelHide": "Dölj modelllista"
+  },
+  "OATErrors": {
+    "Validations": {
+      "InvalidDtmiIdFormatTitle": "Ogiltigt DTMI-format",
+      "InvalidDtmiIdFormatMessage": "DTMI-ID:t är inte giltigt. Id:n måste följa följande mönster {{regex}}'"
+    }
   }
 }

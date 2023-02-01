@@ -1406,5 +1406,11 @@
     "removeModelButtonText": "Remover modelo",
     "modelListToggleAriaLabelShow": "Mostrar lista de modelos",
     "modelListToggleAriaLabelHide": "Lista de modelos de ocultação"
+  },
+  "OATErrors": {
+    "Validations": {
+      "InvalidDtmiIdFormatTitle": "Formato DTMI inválido",
+      "InvalidDtmiIdFormatMessage": "O DTMI ID não é válido. Os IDs devem estar em conformidade com o padrão de seguimento '{regex}}"
+    }
   }
 }

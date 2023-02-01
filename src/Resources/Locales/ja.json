@@ -1406,5 +1406,11 @@
     "removeModelButtonText": "モデルを削除",
     "modelListToggleAriaLabelShow": "モデル一覧を表示",
     "modelListToggleAriaLabelHide": "モデルリストを隠す"
+  },
+  "OATErrors": {
+    "Validations": {
+      "InvalidDtmiIdFormatTitle": "無効な DTMI 形式です",
+      "InvalidDtmiIdFormatMessage": "DTMI ID が無効です。ID は、次のパターン '{{regex}}' に準拠している必要があります。"
+    }
   }
 }
