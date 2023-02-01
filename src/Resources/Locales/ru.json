@@ -1410,7 +1410,7 @@
   "OATErrors": {
     "Validations": {
       "InvalidDtmiIdFormatTitle": "Недопустимый формат DTMI",
-      "InvalidDtmiIdFormatMessage": "Недопустимый идентификатор DTMI. Идентификаторы должны соответствовать следующему шаблону '{{regex}}'"
+      "InvalidDtmiIdFormatMessage1": "Недопустимый идентификатор DTMI. Идентификаторы должны соответствовать следующему шаблону:\n {{regex}}"
     }
   }
 }

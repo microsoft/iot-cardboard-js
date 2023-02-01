@@ -1410,7 +1410,7 @@
   "OATErrors": {
     "Validations": {
       "InvalidDtmiIdFormatTitle": "Neplatný formát DTMI",
-      "InvalidDtmiIdFormatMessage": "DTMI ID není platné. ID musí odpovídat následujícímu vzoru '{{regex}}'"
+      "InvalidDtmiIdFormatMessage1": "DTMI ID není platné. ID musí odpovídat následujícímu vzoru:\n {{Regex}}"
     }
   }
 }
