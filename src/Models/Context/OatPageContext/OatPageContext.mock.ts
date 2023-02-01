@@ -83,14 +83,12 @@ export const getMockFile = (
     const namespace = 'test-ontology-namespace-' + index;
     const modelId1 = buildModelId({
         modelName: 'model' + subId1,
-        namespace: namespace,
-        path: 'folder1:folder2',
+        path: `${namespace}:folder1:folder2`,
         version: 2
     });
     const modelId2 = buildModelId({
         modelName: 'model' + subId2,
-        namespace: namespace,
-        path: 'folder1:folder2',
+        path: `${namespace}:folder1:folder2`,
         version: 2
     });
     return {

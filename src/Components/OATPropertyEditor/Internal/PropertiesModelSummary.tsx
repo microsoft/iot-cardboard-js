@@ -1,10 +1,4 @@
-import React, {
-    useContext,
-    useState,
-    useCallback,
-    useMemo,
-    useEffect
-} from 'react';
+import React, { useContext, useState, useCallback, useEffect } from 'react';
 import {
     Stack,
     Text,
@@ -58,9 +52,6 @@ export const PropertiesModelSummary: React.FC<IPropertiesModelSummaryProps> = (
     const { selectedItem, styles } = props;
     const isModelSelected = isDTDLModel(selectedItem);
     const isReferenceSelected = isDTDLReference(selectedItem);
-    const parsedId = useMemo(() => parseModelId(selectedItem?.['@id']), [
-        selectedItem
-    ]);
 
     // hooks
     const { t } = useTranslation();
@@ -82,7 +73,6 @@ export const PropertiesModelSummary: React.FC<IPropertiesModelSummaryProps> = (
 
     // data
     const itemId = buildModelId({
-        namespace: parsedId.namespace,
         modelName: modelUniqueName,
         path: modelPath,
         version: Number(modelVersion)
@@ -112,7 +102,7 @@ export const PropertiesModelSummary: React.FC<IPropertiesModelSummaryProps> = (
             }
             if (!isValidDtmiId(newId)) {
                 console.error(
-                    'DTMI is invalid. The id must conform to the format ',
+                    `DTMI (${newId}) is invalid. The id must conform to the format `,
                     DTMI_VALIDATION_REGEX
                 );
                 initializeIdFields(selectedItem);
@@ -124,7 +114,7 @@ export const PropertiesModelSummary: React.FC<IPropertiesModelSummaryProps> = (
                         ),
                         message: t(
                             'OATErrors.Validations.InvalidDtmiIdFormatMessage',
-                            { regex: DTMI_VALIDATION_REGEX }
+                            { dtmi: newId, regex: DTMI_VALIDATION_REGEX }
                         )
                     }
                 });
@@ -241,22 +231,15 @@ export const PropertiesModelSummary: React.FC<IPropertiesModelSummaryProps> = (
 
     // needed primarly for the version spinner since it behaves differently and you don't have to set focus
     const forceUpdateId = useCallback(
-        ({ namespace, modelName, path, version }: IPartialModelId) => {
+        ({ modelName, path, version }: IPartialModelId) => {
             const newId = buildModelId({
-                namespace: namespace || parsedId.namespace,
                 modelName: modelName || modelUniqueName,
                 path: path || modelPath,
                 version: Number(version || modelVersion)
             });
             commitModelIdChange(newId);
         },
-        [
-            commitModelIdChange,
-            modelPath,
-            modelUniqueName,
-            modelVersion,
-            parsedId.namespace
-        ]
+        [commitModelIdChange, modelPath, modelUniqueName, modelVersion]
     );
 
     // side effects

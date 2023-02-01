@@ -209,7 +209,9 @@ export function parseModelId(
     const idWithoutPrefix = id.replace(`${OAT_MODEL_ID_PREFIX}:`, '');
     const path = getPath(idWithoutPrefix);
 
-    const idWithoutPath = path ? id.replace(`${path}:`, '') : id;
+    const idWithoutPath = path
+        ? idWithoutPrefix.replace(`${path}:`, '')
+        : idWithoutPrefix;
     const name = getName(idWithoutPath);
 
     const idWithoutName = idWithoutPath.replace(`${name}:`, '');

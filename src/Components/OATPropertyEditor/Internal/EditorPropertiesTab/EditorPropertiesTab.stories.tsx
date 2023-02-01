@@ -40,8 +40,7 @@ export const Model = Template.bind({}) as EditorPropertiesTabStory;
 Model.args = (() => {
     const modelId1 = buildModelId({
         modelName: 'model' + 5,
-        namespace: 'test-namespace',
-        path: 'folder1:folder2',
+        path: 'test-namespace:folder1:folder2',
         version: 2
     });
     const model = getMockModelItem(modelId1);

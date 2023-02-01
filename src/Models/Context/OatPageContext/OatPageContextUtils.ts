@@ -53,13 +53,13 @@ import {
 /**
  * Looks at the existing models and generates a new name until it finds a unique name
  * @param existingModels current set of models in the graph
- * @param namespace the namespace for the current ontology
+ * @param defaultPath the namespace for the current ontology
  * @param defaultNamePrefix the name prefix for models (ex: "Model")
  * @returns the id string for the new model
  */
 const getNextModelInfo = (
     existingModels: DtdlInterface[],
-    namespace: string,
+    defaultPath: string,
     defaultNamePrefix: string
 ) => {
     // Identifies which is the next model Id on creating new nodes
@@ -69,7 +69,7 @@ const getNextModelInfo = (
     while (index !== -1) {
         nextModelIdIndex++;
         nextModelId = buildModelId({
-            namespace,
+            path: defaultPath,
             modelName: `${defaultNamePrefix.toLowerCase()}${nextModelIdIndex}`
         });
         index = existingModels.findIndex(
