@@ -31,8 +31,10 @@ import { OatPageContextActionType } from '../../../Models/Context/OatPageContext
 import { getStyles } from './PropertiesModelSummary.styles';
 import { useExtendedTheme } from '../../../Models/Hooks/useExtendedTheme';
 import {
+    DTMI_VALIDATION_REGEX,
     isDTDLModel,
     isDTDLReference,
+    isValidDtmiId,
     isValidDtmiPath,
     isValidModelName,
     isValidReferenceName
@@ -40,6 +42,7 @@ import {
 import { getTargetFromSelection } from '../Utils';
 import ModelPropertyHeader from './ModelPropertyHeader/ModelPropertyHeader';
 import PropertyDetailsEditorModal from './FormRootModelDetails/PropertyDetailsEditorModal';
+import { DtdlInterface, DtdlInterfaceContent } from '../../../Models/Constants';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('PropertiesModelSummary', debugLogging);
@@ -86,6 +89,18 @@ export const PropertiesModelSummary: React.FC<IPropertiesModelSummaryProps> = (
     });
 
     // callbacks
+    const initializeIdFields = useCallback(
+        (selected: DtdlInterface | DtdlInterfaceContent) => {
+            const parsedId = parseModelId(selected?.['@id']);
+            setModelUniqueName(parsedId.name);
+            setModelPath(parsedId.path);
+            setModelVersion(parsedId.version);
+            setRelationshipName(
+                isDTDLReference(selected) ? selected?.name : ''
+            );
+        },
+        []
+    );
     const commitModelIdChange = useCallback(
         (newId: string) => {
             if (newId === selectedItem?.['@id']) {
@@ -93,6 +108,26 @@ export const PropertiesModelSummary: React.FC<IPropertiesModelSummaryProps> = (
                     'warn',
                     'Aborting model id update, values are the same'
                 );
+                return;
+            }
+            if (!isValidDtmiId(newId)) {
+                console.error(
+                    'DTMI is invalid. The id must conform to the format ',
+                    DTMI_VALIDATION_REGEX
+                );
+                initializeIdFields(selectedItem);
+                oatPageDispatch({
+                    type: OatPageContextActionType.SET_OAT_ERROR,
+                    payload: {
+                        title: t(
+                            'OATErrors.Validations.InvalidDtmiIdFormatTitle'
+                        ),
+                        message: t(
+                            'OATErrors.Validations.InvalidDtmiIdFormatMessage',
+                            { regex: DTMI_VALIDATION_REGEX }
+                        )
+                    }
+                });
                 return;
             }
             const commit = () => {
@@ -227,13 +262,7 @@ export const PropertiesModelSummary: React.FC<IPropertiesModelSummaryProps> = (
     // side effects
     // when selected item changes, update all the states
     useEffect(() => {
-        const parsedId = parseModelId(selectedItem?.['@id']);
-        setModelUniqueName(parsedId.name);
-        setModelPath(parsedId.path);
-        setModelVersion(parsedId.version);
-        setRelationshipName(
-            isDTDLReference(selectedItem) ? selectedItem?.name : ''
-        );
+        initializeIdFields(selectedItem);
     }, [selectedItem]);
 
     // styles

@@ -12,6 +12,7 @@ import {
 } from '../../Classes/DTDL';
 import {
     isComplexSchemaProperty,
+    isValidDtmiId,
     isValidDtmiPath,
     isValidModelName,
     isValidReferenceName,
@@ -621,6 +622,56 @@ describe('DtdlUtils', () => {
                 const result = isValidDtmiPath(testName, true);
                 // ASSERT
                 expect(result).toBeFalsy();
+            });
+        });
+        describe('Model id', () => {
+            test('length 0 is invalid', () => {
+                // ARRANGE
+                const testName = '';
+                // ACT
+                const result = isValidDtmiId(testName);
+                // ASSERT
+                expect(result).toBeFalsy();
+            });
+            test('null is invalid', () => {
+                // ARRANGE
+                const testName = null;
+                // ACT
+                const result = isValidDtmiId(testName);
+                // ASSERT
+                expect(result).toBeFalsy();
+            });
+            test('undefined is invalid', () => {
+                // ARRANGE
+                const testName = undefined;
+                // ACT
+                const result = isValidDtmiId(testName);
+                // ASSERT
+                expect(result).toBeFalsy();
+            });
+            test('trailing _ is invalid', () => {
+                // ARRANGE
+                const testName = 'Teststring_';
+                // ACT
+                const result = isValidDtmiId(testName);
+                // ASSERT
+                expect(result).toBeFalsy();
+            });
+            test('trailing : is invalid', () => {
+                // ARRANGE
+                const testName = 'Teststring:';
+                // ACT
+                const result = isValidDtmiId(testName);
+                // ASSERT
+                expect(result).toBeFalsy();
+            });
+            test('basic string is valid', () => {
+                // ARRANGE
+                const testName = 'Teststring';
+                // ACT
+                const result = isValidDtmiId(testName);
+                // ASSERT
+                expect(result).toBeTruthy();
             });
         });
     });
