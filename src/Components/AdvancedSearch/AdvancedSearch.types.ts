@@ -1,6 +1,6 @@
 import { IIconStyles, IStyleFunctionOrObject, ITheme } from '@fluentui/react';
-import { ADTAdapter, MockAdapter } from '../../Adapters';
-import { PropertyValueType } from '../../Models/Constants';
+import { MockAdapter } from '../../Adapters';
+import { IADTAdapter, PropertyValueType } from '../../Models/Constants';
 import { ICardboardModalStyles } from '../CardboardModal/CardboardModal.types';
 import { IAdvancedSearchResultDetailsListStyles } from './Internal/AdvancedSearchResultDetailsList/AdvancedSearchResultDetailsList.types';
 
@@ -8,7 +8,7 @@ export const QUERY_RESULT_LIMIT = 1000;
 
 /** Advanced search modal */
 export interface IAdvancedSearchProps {
-    adapter: ADTAdapter | MockAdapter;
+    adapter: IADTAdapter | MockAdapter;
     allowedPropertyValueTypes: PropertyValueType[];
     isOpen: boolean;
     onDismiss: () => void;

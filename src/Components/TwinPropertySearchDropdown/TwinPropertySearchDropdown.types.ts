@@ -6,8 +6,8 @@ import {
     ITheme
 } from '@fluentui/react';
 import { StylesConfig } from 'react-select';
-import ADTAdapter from '../../Adapters/ADTAdapter';
 import MockAdapter from '../../Adapters/MockAdapter';
+import { IADTAdapter } from '../../Models/Constants/Interfaces';
 import { ITooltipCalloutContent } from '../TooltipCallout/TooltipCallout.types';
 
 export type PropertyValueHandle = {
@@ -20,7 +20,7 @@ export interface IReactSelectOption {
 }
 
 export interface ITwinPropertySearchDropdownProps {
-    adapter: ADTAdapter | MockAdapter;
+    adapter: IADTAdapter | MockAdapter;
     descriptionText?: string;
     initialSelectedValue?: string;
     inputStyles?: StylesConfig;

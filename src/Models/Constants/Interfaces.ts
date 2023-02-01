@@ -81,7 +81,6 @@ import {
     IADT3DViewerStyles
 } from '../../Components/ADT3DViewer/ADT3DViewer.types';
 import { BaseComponentProps } from '../../Components/BaseComponent/BaseComponent.types';
-import ADTAdapter from '../../Adapters/ADTAdapter';
 import ADTInstanceTimeSeriesConnectionData from '../Classes/AdapterDataClasses/ADTInstanceTimeSeriesConnectionData';
 import ADXTimeSeriesData from '../Classes/AdapterDataClasses/ADXTimeSeriesData';
 import { IOATNodeData } from '../../Components/OATGraphViewer/OATGraphViewer.types';
@@ -463,7 +462,7 @@ export interface IModelledPropertyBuilderAdapter {
     ): Promise<AdapterResult<ADTTwinToModelMappingData>>;
 }
 
-export type IQueryBuilderAdapter = ADTAdapter | MockAdapter;
+export type IQueryBuilderAdapter = IADTAdapter | MockAdapter;
 
 export interface IADT3DViewerAdapter {
     getSceneData(
