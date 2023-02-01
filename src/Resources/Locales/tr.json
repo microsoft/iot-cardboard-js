@@ -1410,7 +1410,7 @@
   "OATErrors": {
     "Validations": {
       "InvalidDtmiIdFormatTitle": "Geçersiz DTMI biçimi",
-      "InvalidDtmiIdFormatMessage1": "DTMI geçerli olmadığından değişiklikleriniz kaydedilemiyor. Kimlikler aşağıdaki desene uygun olmalıdır:\n {{regex}}"
+      "InvalidDtmiIdFormatMessage": "DTMI geçerli olmadığından değişiklikleriniz kaydedilemiyor. Kimlikler aşağıdaki desene uygun olmalıdır:\n {{regex}}"
     }
   }
 }

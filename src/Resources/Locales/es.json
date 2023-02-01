@@ -1410,7 +1410,7 @@
   "OATErrors": {
     "Validations": {
       "InvalidDtmiIdFormatTitle": "Formato DTMI no válido",
-      "InvalidDtmiIdFormatMessage1": "No se pueden guardar los cambios porque el DTMI no es válido. Los identificadores deben ajustarse al siguiente patrón:\n {{regex}}"
+      "InvalidDtmiIdFormatMessage": "No se pueden guardar los cambios porque el DTMI no es válido. Los identificadores deben ajustarse al siguiente patrón:\n {{regex}}"
     }
   }
 }
