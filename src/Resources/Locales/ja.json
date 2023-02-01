@@ -1097,7 +1097,6 @@
   "OATGraphViewer": {
     "newModel": "新型",
     "name": "名前",
-    "id": "身分証明書",
     "type": "種類",
     "emptyGraph": "利用可能なモデルはありません",
     "project": "プロジェクト",
@@ -1114,7 +1113,8 @@
     "errorRepeatedEdgeName": "同じ名前の関係が既に存在します",
     "runLayout": "実行レイアウト",
     "extends": "拡張",
-    "loadingText": "レイアウト位置の計算"
+    "loadingText": "レイアウト位置の計算",
+    "id2": "身分証明書"
   },
   "OATPropertyEditor": {
     "displayName": "表示名",

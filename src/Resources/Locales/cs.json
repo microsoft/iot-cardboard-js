@@ -977,7 +977,6 @@
   "OATGraphViewer": {
     "newModel": "Nový model",
     "name": "Jméno",
-    "id": "Id",
     "type": "Typ",
     "emptyGraph": "Nejsou k dispozici žádné modely",
     "project": "Projekt",
@@ -994,7 +993,8 @@
     "errorName": "Název může obsahovat pouze znaky a-z, A-Z, 0-9 a podtržítko",
     "errorNameLength": "Název nesmí přesáhnout 64 znaků",
     "extends": "Rozšiřuje",
-    "loadingText": "Výpočetní pozice rozvržení"
+    "loadingText": "Výpočetní pozice rozvržení",
+    "id2": "ID"
   },
   "OATPropertyEditor": {
     "addEnumValue": "Přidat hodnotu výčtu",

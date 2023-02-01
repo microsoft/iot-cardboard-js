@@ -1097,7 +1097,6 @@
   "OATGraphViewer": {
     "newModel": "新型号",
     "name": "名字",
-    "id": "编号",
     "type": "类型",
     "emptyGraph": "沒有可用的型號",
     "project": "项目",
@@ -1114,7 +1113,8 @@
     "errorRepeatedEdgeName": "具有相同名称的关系已存在",
     "runLayout": "运行布局",
     "extends": "延伸",
-    "loadingText": "计算布局位置"
+    "loadingText": "计算布局位置",
+    "id2": "身份证"
   },
   "OATPropertyEditor": {
     "displayName": "显示名称",

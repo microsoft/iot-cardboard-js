@@ -1097,7 +1097,6 @@
   "OATGraphViewer": {
     "newModel": "Neues Modell",
     "name": "Name",
-    "id": "Id",
     "type": "Art",
     "emptyGraph": "Keine Modelle verfügbar",
     "project": "Projekt",
@@ -1114,7 +1113,8 @@
     "errorRepeatedEdgeName": "Eine Beziehung mit demselben Namen existiert bereits",
     "runLayout": "Layout ausführen",
     "extends": "Erweitert",
-    "loadingText": "Layoutpositionen berechnen"
+    "loadingText": "Layoutpositionen berechnen",
+    "id2": "ID"
   },
   "OATPropertyEditor": {
     "displayName": "Anzeigename",

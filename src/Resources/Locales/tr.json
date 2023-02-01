@@ -1097,7 +1097,6 @@
   "OATGraphViewer": {
     "newModel": "Yeni Model",
     "name": "Ad",
-    "id": "Kimliği",
     "type": "Tür",
     "emptyGraph": "Model yok",
     "project": "Proje",
@@ -1114,7 +1113,8 @@
     "errorRepeatedEdgeName": "Aynı ada sahip bir ilişki zaten var",
     "runLayout": "Çalıştırma Düzeni",
     "extends": "Genişletir",
-    "loadingText": "Bilgi işlem düzeni konumları"
+    "loadingText": "Bilgi işlem düzeni konumları",
+    "id2": "KİMLİĞİ"
   },
   "OATPropertyEditor": {
     "displayName": "Görünen Ad",

@@ -1097,7 +1097,6 @@
   "OATGraphViewer": {
     "newModel": "새 모델",
     "name": "이름",
-    "id": "아이디",
     "type": "형",
     "emptyGraph": "사용 가능한 모델 없음",
     "project": "프로젝트",
@@ -1114,7 +1113,8 @@
     "errorRepeatedEdgeName": "같은 이름의 관계가 이미 존재합니다.",
     "runLayout": "실행 레이아웃",
     "extends": "확장",
-    "loadingText": "레이아웃 위치 계산"
+    "loadingText": "레이아웃 위치 계산",
+    "id2": "아이디"
   },
   "OATPropertyEditor": {
     "displayName": "표시 이름",

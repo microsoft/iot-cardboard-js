@@ -1097,7 +1097,6 @@
   "OATGraphViewer": {
     "newModel": "Nieuw model",
     "name": "Naam",
-    "id": "Legitimatiebewijs",
     "type": "Type",
     "emptyGraph": "Geen modellen beschikbaar",
     "project": "Project",
@@ -1114,7 +1113,8 @@
     "errorRepeatedEdgeName": "Er bestaat al een relatie met dezelfde naam",
     "runLayout": "Lay-out uitvoeren",
     "extends": "Breidt",
-    "loadingText": "Lay-outposities berekenen"
+    "loadingText": "Lay-outposities berekenen",
+    "id2": "LEGITIMATIEBEWIJS"
   },
   "OATPropertyEditor": {
     "displayName": "Weergegeven naam",

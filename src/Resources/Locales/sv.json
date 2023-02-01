@@ -1097,7 +1097,6 @@
   "OATGraphViewer": {
     "newModel": "Ny modell",
     "name": "Namn",
-    "id": "Id",
     "type": "Typ",
     "emptyGraph": "Inga modeller tillgängliga",
     "project": "Projekt",
@@ -1114,7 +1113,8 @@
     "errorRepeatedEdgeName": "En relation med samma namn finns redan",
     "runLayout": "Kör layout",
     "extends": "Sträcker sig",
-    "loadingText": "Positioner för datorlayout"
+    "loadingText": "Positioner för datorlayout",
+    "id2": "ID"
   },
   "OATPropertyEditor": {
     "displayName": "Visningsnamn",

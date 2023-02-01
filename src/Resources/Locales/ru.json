@@ -1097,7 +1097,6 @@
   "OATGraphViewer": {
     "newModel": "Новая модель",
     "name": "Имя",
-    "id": "Идентификатор",
     "type": "Тип",
     "emptyGraph": "Нет доступных моделей",
     "project": "Проект",
@@ -1114,7 +1113,8 @@
     "errorRepeatedEdgeName": "Связь с таким же именем уже существует",
     "runLayout": "Макет запуска",
     "extends": "Расширяет",
-    "loadingText": "Вычислительные позиции макета"
+    "loadingText": "Вычислительные позиции макета",
+    "id2": "ИДЕНТИФИКАТОР"
   },
   "OATPropertyEditor": {
     "displayName": "Отображаемое имя",

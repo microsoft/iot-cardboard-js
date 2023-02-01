@@ -1097,7 +1097,6 @@
   "OATGraphViewer": {
     "newModel": "Új modell",
     "name": "Név",
-    "id": "Azonosító",
     "type": "Típus",
     "emptyGraph": "Nincsenek elérhető modellek",
     "project": "Projekt",
@@ -1114,7 +1113,8 @@
     "errorRepeatedEdgeName": "Az azonos nevű kapcsolat már létezik",
     "runLayout": "Elrendezés futtatása",
     "extends": "Kiterjeszti",
-    "loadingText": "Elrendezési pozíciók számítása"
+    "loadingText": "Elrendezési pozíciók számítása",
+    "id2": "AZONOSÍTÓ"
   },
   "OATPropertyEditor": {
     "displayName": "Megjelenítendő név",
