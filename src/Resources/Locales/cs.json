@@ -967,10 +967,10 @@
       "modalSubTitleLinkText": "Další informace o ontologiích",
       "nameLabel": "Jméno",
       "namePlaceholder": "Zadejte název ontologie",
-      "namespaceLabel": "Namespace",
       "namespaceDescription": "Příklad názvu modelu: {{modelName}}",
-      "namespacePlaceholder": "Zadejte obor názvů",
-      "sampleModel": "Vzorový model"
+      "sampleModel": "Vzorový model",
+      "namespaceLabel1": "Výchozí cesta",
+      "namespacePlaceholder1": "Zadejte výchozí cestu"
     },
     "newModel": "Nový model"
   },

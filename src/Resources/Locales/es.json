@@ -967,10 +967,10 @@
       "modalSubTitleLinkText": "Más información sobre las ontologías",
       "nameLabel": "Nombre",
       "namePlaceholder": "Introducir un nombre de ontología",
-      "namespaceLabel": "Namespace",
       "namespaceDescription": "Nombre de modelo de ejemplo: {{modelName}}",
-      "namespacePlaceholder": "Introduzca un espacio de nombres",
-      "sampleModel": "modelo de muestra"
+      "sampleModel": "modelo de muestra",
+      "namespaceLabel1": "Ruta predeterminada",
+      "namespacePlaceholder1": "Introduzca una ruta predeterminada"
     },
     "newModel": "Nuevo modelo"
   },

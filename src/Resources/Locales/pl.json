@@ -967,10 +967,10 @@
       "modalSubTitleLinkText": "Dowiedz się więcej o ontologiach",
       "nameLabel": "Nazwa",
       "namePlaceholder": "Wprowadź nazwę ontologii",
-      "namespaceLabel": "Namespace",
       "namespaceDescription": "Przykładowa nazwa modelu: {{modelName}}",
-      "namespacePlaceholder": "Wprowadzanie przestrzeni nazw",
-      "sampleModel": "przykładowy model"
+      "sampleModel": "przykładowy model",
+      "namespaceLabel1": "Domyślna ścieżka",
+      "namespacePlaceholder1": "Wprowadź ścieżkę domyślną"
     },
     "newModel": "Nowy model"
   },

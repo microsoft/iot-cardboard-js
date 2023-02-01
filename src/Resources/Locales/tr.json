@@ -967,10 +967,10 @@
       "modalSubTitleLinkText": "Ontolojiler hakkında daha fazla bilgi edinin",
       "nameLabel": "Ad",
       "namePlaceholder": "Ontoloji adı girin",
-      "namespaceLabel": "Namespace",
       "namespaceDescription": "Örnek model adı: {{modelName}}",
-      "namespacePlaceholder": "Ad alanı girme",
-      "sampleModel": "örnek Model"
+      "sampleModel": "örnek Model",
+      "namespaceLabel1": "Varsayılan yol",
+      "namespacePlaceholder1": "Varsayılan bir yol girin"
     },
     "newModel": "Yeni model"
   },

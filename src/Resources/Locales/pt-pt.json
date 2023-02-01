@@ -967,10 +967,10 @@
       "modalSubTitleLinkText": "Saiba mais sobre os totologias",
       "nameLabel": "Nome",
       "namePlaceholder": "Insira um nome de ontologia",
-      "namespaceLabel": "Espaço de nome",
       "namespaceDescription": "Nome do modelo exemplo: {{modelName}}",
-      "namespacePlaceholder": "Insira um espaço de nome",
-      "sampleModel": "modelo de amostra"
+      "sampleModel": "modelo de amostra",
+      "namespaceLabel1": "Caminho padrão",
+      "namespacePlaceholder1": "Insira um caminho padrão"
     },
     "newModel": "Novo modelo"
   },

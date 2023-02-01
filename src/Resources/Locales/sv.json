@@ -967,10 +967,10 @@
       "modalSubTitleLinkText": "Läs mer om ontologier",
       "nameLabel": "Namn",
       "namePlaceholder": "Ange ett ontologinamn",
-      "namespaceLabel": "Namespace",
       "namespaceDescription": "Exempel på modellnamn: {{modelName}}",
-      "namespacePlaceholder": "Ange ett namnområde",
-      "sampleModel": "exempel modell"
+      "sampleModel": "exempel modell",
+      "namespaceLabel1": "Standardsökväg",
+      "namespacePlaceholder1": "Ange en standardsökväg"
     },
     "newModel": "Ny modell"
   },

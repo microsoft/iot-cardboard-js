@@ -967,10 +967,10 @@
       "modalSubTitleLinkText": "Подробнее об онтологиях",
       "nameLabel": "Имя",
       "namePlaceholder": "Введите имя онтологии",
-      "namespaceLabel": "Пространство имен",
       "namespaceDescription": "Пример имени модели: {{имя_модели}}",
-      "namespacePlaceholder": "Ввод пространства имен",
-      "sampleModel": "Образец модели"
+      "sampleModel": "Образец модели",
+      "namespaceLabel1": "Путь по умолчанию",
+      "namespacePlaceholder1": "Введите путь по умолчанию"
     },
     "newModel": "Новая модель"
   },

@@ -967,10 +967,10 @@
       "modalSubTitleLinkText": "온톨로지에 대해 자세히 알아보기",
       "nameLabel": "이름",
       "namePlaceholder": "온톨로지 이름 입력",
-      "namespaceLabel": "Namespace",
       "namespaceDescription": "모델 이름 예: {{모델 이름}}",
-      "namespacePlaceholder": "네임스페이스 입력",
-      "sampleModel": "샘플 모델"
+      "sampleModel": "샘플 모델",
+      "namespaceLabel1": "기본 경로",
+      "namespacePlaceholder1": "기본 경로 입력"
     },
     "newModel": "새로운 모델"
   },

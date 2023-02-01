@@ -967,10 +967,10 @@
       "modalSubTitleLinkText": "Tudjon meg többet az ontológiákról",
       "nameLabel": "Név",
       "namePlaceholder": "Adjon meg egy ontológiai nevet",
-      "namespaceLabel": "Namespace",
       "namespaceDescription": "Példa modellnévre: {{modelName}}",
-      "namespacePlaceholder": "Névtér megadása",
-      "sampleModel": "minta modell"
+      "sampleModel": "minta modell",
+      "namespaceLabel1": "Alapértelmezett elérési út",
+      "namespacePlaceholder1": "Adjon meg egy alapértelmezett elérési utat"
     },
     "newModel": "Új modell"
   },
