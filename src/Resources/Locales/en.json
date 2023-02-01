@@ -1006,7 +1006,7 @@
     "OATGraphViewer": {
         "newModel": "New Model",
         "name": "Name",
-        "id2": "ID",
+        "id": "ID",
         "type": "Type",
         "emptyGraph": "No models available",
         "project": "Project",
