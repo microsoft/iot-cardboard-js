@@ -920,6 +920,16 @@
         "showPanel": "Show elements panel",
         "hidePanel": "Hide elements panel"
     },
+    "OAT": {
+        "ModelList": {
+            "searchModels": "Search models",
+            "noMatchingItemsMessage": "No models match that criteria",
+            "removeModelButtonText": "Remove model",
+            "noModelsTitle": "Where are all the models at? 🤔",
+            "noModelsMessage": "Let's get the party started",
+            "noModelsButtonText": "Add a model"
+        }
+    },
     "OATCommon": {
         "duplicateFileNameSuffix": "copy",
         "defaultFileName": "New ontology",
@@ -989,14 +999,6 @@
             "namespacePlaceholder": "Enter a default path",
             "sampleModel": "sample Model"
         }
-    },
-    "OATModelList": {
-        "searchModels": "Search models",
-        "noDataMessage": "No models",
-        "noMatchingItemsMessage": "No models match that criteria",
-        "removeModelButtonText": "Remove model",
-        "modelListToggleAriaLabelShow": "Show model list",
-        "modelListToggleAriaLabelHide": "Hide model list"
     },
     "OATGraphViewer": {
         "newModel": "New Model",

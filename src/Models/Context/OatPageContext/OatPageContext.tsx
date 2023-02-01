@@ -386,6 +386,12 @@ export const OatPageContextReducer: (
             }
             case OatPageContextActionType.ADD_NEW_MODEL: {
                 const newModel = addNewModelToState(draft);
+                setSelectedModel(
+                    {
+                        modelId: newModel['@id']
+                    },
+                    draft
+                );
                 // need to send this to the graph component to figure out the relative coordinates for the new model to use
                 draft.graphUpdatesToSync = {
                     actionType: 'Add',

@@ -6,6 +6,7 @@ import {
     IButtonStyles
 } from '@fluentui/react';
 import { IExtendedTheme } from '../../Theming/Theme.types';
+import { IllustrationMessageStyles } from '../IllustrationMessage/IllustrationMessage.types';
 
 export interface IOATModelListProps {
     /**
@@ -35,4 +36,5 @@ export interface IOATModelListSubComponentStyles {
     listItem?: IStyleFunctionOrObject<{ isSelected: boolean }, IButtonStyles>;
     rootStack: IStackStyles;
     searchbox?: ISearchBoxStyles;
+    noDataIllustration?: IllustrationMessageStyles;
 }

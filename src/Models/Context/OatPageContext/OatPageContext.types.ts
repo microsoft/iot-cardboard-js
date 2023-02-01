@@ -298,9 +298,6 @@ export type OatPageContextAction =
       }
     | {
           type: OatPageContextActionType.ADD_NEW_MODEL;
-          payload?: {
-              position: IOATNodePosition;
-          };
       }
     | {
           type: OatPageContextActionType.ADD_NEW_RELATIONSHIP;
