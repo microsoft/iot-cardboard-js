@@ -978,5 +978,14 @@ export default React.memo(
         IOATGraphCustomEdgeProps,
         IOATGraphCustomEdgeStyleProps,
         IOATGraphCustomEdgeStyles
+<<<<<<< Updated upstream
     >(OATGraphCustomEdge, getStyles)
+=======
+    >(OATGraphCustomEdge, getStyles),
+    (prevProps, nextProps) => {
+        const areEqual = prevProps.id === nextProps.id;
+        console.log(areEqual);
+        return areEqual;
+    }
+>>>>>>> Stashed changes
 );

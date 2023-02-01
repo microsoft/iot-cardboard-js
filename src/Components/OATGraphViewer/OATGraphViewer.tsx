@@ -244,7 +244,7 @@ const OATGraphViewerContent: React.FC<IOATGraphViewerProps> = (props) => {
 
     // callbacks
 
-    const nodeTypes = useMemo(() => ({ Interface: OATGraphCustomNode }), []);
+    const nodeTypes = { Interface: OATGraphCustomNode };
 
     const edgeTypes = useMemo(() => ({ Relationship: OATGraphCustomEdge }), []);
 
@@ -502,7 +502,9 @@ const OATGraphViewerContent: React.FC<IOATGraphViewerProps> = (props) => {
                 .force('x', forceX())
                 .force('y', forceY())
                 .force('center', forceCenter())
+                .alphaTarget(0.1)
                 .on('end', () => {
+                    console.log('end');
                     // map the updated positions from the nodes collection onto the position data
                     const positions: IOatElementNode[] = [];
                     inputElements.forEach((element) => {
@@ -782,7 +784,6 @@ const OATGraphViewerContent: React.FC<IOATGraphViewerProps> = (props) => {
                     onLoad={onLoadGraph}
                     onNodeDragStop={onNodeDragEnd}
                     onPaneClick={clearSelectedModel}
-                    snapGrid={[15, 15]}
                     snapToGrid={true}
                 >
                     {!elements[0] && (
@@ -834,7 +835,7 @@ const OATGraphViewerContent: React.FC<IOATGraphViewerProps> = (props) => {
                             <GraphLegend />
                         </Callout>
                     )}
-                    <Background gap={16} onClick={clearSelectedModel} />
+                    <Background gap={null} onClick={clearSelectedModel} />
                 </ReactFlow>
             </div>
         </ReactFlowProvider>
