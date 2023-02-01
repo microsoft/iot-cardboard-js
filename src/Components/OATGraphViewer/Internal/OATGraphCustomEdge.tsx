@@ -318,9 +318,10 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = (props) => {
     // side effects
 
     // styles
-    const graphViewerStyles = getGraphViewerStyles();
+    const theme = useExtendedTheme();
+    const graphViewerStyles = getGraphViewerStyles(theme);
     const classNames = getClassNames(styles, {
-        theme: useExtendedTheme()
+        theme: theme
     });
 
     // callbacks

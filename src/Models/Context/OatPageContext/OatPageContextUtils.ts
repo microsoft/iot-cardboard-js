@@ -129,44 +129,42 @@ export const addNewModelToState = (
 export const deleteModelFromState = (
     modelId: string,
     modelType: string,
-    models: DtdlInterface[],
-    positions: IOATModelPosition[]
+    state: IOatPageContextState
 ) => {
     if (modelType === OAT_UNTARGETED_RELATIONSHIP_NAME) {
-        const match = models.find((element) => element['@id'] === modelId);
+        const match = state.currentOntologyModels.find(
+            (element) => element['@id'] === modelId
+        );
         if (match) {
             match.contents = match.contents.filter(
                 (content) => content['@id'] !== modelId
             );
         }
     } else {
-        const index = models.findIndex((m) => m['@id'] === modelId);
-        if (index >= 0) {
-            // remove from models list
-            models.splice(index, 1);
-            models.forEach((m) => {
-                // remove from relationship list of all models
-                m.contents = m.contents.filter(
-                    (content) =>
-                        (!('target' in content) ||
-                            content.target !== modelId) &&
-                        (!('schema' in content) || content.schema !== modelId)
+        // remove from models list
+        state.currentOntologyModels = state.currentOntologyModels.filter(
+            (m) => m['@id'] !== modelId
+        );
+        state.currentOntologyModels.forEach((m) => {
+            // remove from relationship list of all models
+            m.contents = m.contents.filter(
+                (content) =>
+                    (!('target' in content) || content.target !== modelId) &&
+                    (!('schema' in content) || content.schema !== modelId)
+            );
+            // remove from extends list for all models
+            if (m.extends) {
+                m.extends = ensureIsArray(m.extends).filter(
+                    (ex) => ex !== modelId
                 );
-                // remove from extends list for all models
-                if (m.extends) {
-                    m.extends = (m.extends as string[]).filter(
-                        (ex) => ex !== modelId
-                    );
-                }
-            });
-        }
+            }
+        });
     }
 
     // remove from positions list
-    const index = positions.findIndex((x) => x['@id'] === modelId);
-    positions.splice(index, 1);
-
-    return { models: models, positions: positions };
+    state.currentOntologyModelPositions = state.currentOntologyModelPositions.filter(
+        (x) => x['@id'] !== modelId
+    );
 };
 
 type DeleteReferenceArgs = {
