@@ -8,7 +8,7 @@ import {
     styled
 } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
-import NoResultImg from '../../Resources/Static/emptyClipboard.svg';
+import EmptyClipboard from '../../Resources/Static/emptyClipboard.svg';
 import { getStyles } from './OATModelList.styles';
 import { CommandHistoryContext } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
 import { DtdlInterface } from '../../Models/Constants/dtdlInterfaces';
@@ -126,7 +126,7 @@ const OATModelList: React.FC<IOATModelListProps> = (props) => {
                     descriptionText={t('OAT.ModelList.noModelsMessage')}
                     imageProps={{
                         height: 100,
-                        src: NoResultImg
+                        src: EmptyClipboard
                     }}
                     buttonProps={{
                         text: t('OAT.ModelList.noModelsButtonText'),
@@ -134,9 +134,35 @@ const OATModelList: React.FC<IOATModelListProps> = (props) => {
                             oatPageDispatch({
                                 type: OatPageContextActionType.ADD_NEW_MODEL
                             });
+                        },
+                        split: true,
+                        menuProps: {
+                            items: [
+                                {
+                                    key: 'add',
+                                    text: t('OATHeader.newModel'),
+                                    onClick: () => {
+                                        oatPageDispatch({
+                                            type:
+                                                OatPageContextActionType.ADD_NEW_MODEL
+                                        });
+                                    }
+                                },
+                                {
+                                    key: 'importFile',
+                                    text: t('OATHeader.importFile'),
+                                    onClick: oatPageState.openUploadFileCallback
+                                },
+                                {
+                                    key: 'importFolder',
+                                    text: t('OATHeader.importFolder'),
+                                    onClick:
+                                        oatPageState.openUploadFolderCallback
+                                }
+                            ]
                         }
                     }}
-                    styles={classNames.subComponentStyles?.noDataIllustration}
+                    styles={classNames.subComponentStyles?.noDataIllustration?.()}
                 />
             ) : (
                 <SearchBox

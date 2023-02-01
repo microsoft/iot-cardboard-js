@@ -926,7 +926,7 @@
             "noMatchingItemsMessage": "No models match that criteria",
             "removeModelButtonText": "Remove model",
             "noModelsTitle": "You don't have any models yet",
-            "noModelsMessage": "Start designing your ontology by adding a model",
+            "noModelsMessage": "Start designing your ontology by adding a model or importing your existing ontology",
             "noModelsButtonText": "Add a model"
         }
     },

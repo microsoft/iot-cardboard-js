@@ -43,7 +43,7 @@ import {
     deleteReferenceFromState
 } from './OatPageContextUtils';
 
-const debugLogging = false;
+const debugLogging = true;
 export const logDebugConsole = getDebugLogger('OatPageContext', debugLogging);
 
 export const OatPageContext = React.createContext<IOatPageContext>(null);
@@ -473,6 +473,14 @@ export const OatPageContextReducer: (
                 setSelectedModel(action.payload.selection, draft);
                 break;
             }
+            case OatPageContextActionType.SET_UPLOAD_FILE_CALLBACK: {
+                draft.openUploadFileCallback = action.payload.callback;
+                break;
+            }
+            case OatPageContextActionType.SET_UPLOAD_FOLDER_CALLBACK: {
+                draft.openUploadFolderCallback = action.payload.callback;
+                break;
+            }
             case OatPageContextActionType.SET_OAT_TEMPLATES_ACTIVE: {
                 draft.templatesActive = action.payload.isActive || false;
                 break;
@@ -538,7 +546,9 @@ const emptyState: IOatPageContextState = {
     modified: false,
     selection: null,
     templatesActive: false,
-    selectedPropertyEditorTab: IOatPropertyEditorTabKey.Properties
+    selectedPropertyEditorTab: IOatPropertyEditorTabKey.Properties,
+    openUploadFileCallback: null,
+    openUploadFolderCallback: null
 };
 
 const getInitialState = (
