@@ -1144,7 +1144,7 @@
     "OATErrors": {
         "Validations": {
             "InvalidDtmiIdFormatTitle": "Invalid DTMI format",
-            "InvalidDtmiIdFormatMessage1": "Unable to save your changes because the DTMI is not valid. Ids must conform to the following pattern:\n {{regex}}"
+            "InvalidDtmiIdFormatMessage": "Unable to save your changes because the DTMI is not valid. Ids must conform to the following pattern:\n {{regex}}"
         }
     },
     "OATErrorBoundary": {
