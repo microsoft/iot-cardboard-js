@@ -1410,7 +1410,7 @@
   "OATErrors": {
     "Validations": {
       "InvalidDtmiIdFormatTitle": "Ogiltigt DTMI-format",
-      "InvalidDtmiIdFormatMessage1": "DTMI-ID:t är inte giltigt. Id:n måste följa följande mönster:\n {{regex}}"
+      "InvalidDtmiIdFormatMessage": "DTMI-ID:t är inte giltigt. Id:n måste följa följande mönster:\n {{regex}}"
     }
   }
 }

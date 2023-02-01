@@ -1410,7 +1410,7 @@
   "OATErrors": {
     "Validations": {
       "InvalidDtmiIdFormatTitle": "OngeldigE DTMI-indeling",
-      "InvalidDtmiIdFormatMessage1": "De DTMI-id is niet geldig. Ids moet voldoen aan het volgende patroon:\n {{regex}}"
+      "InvalidDtmiIdFormatMessage": "De DTMI-id is niet geldig. Ids moet voldoen aan het volgende patroon:\n {{regex}}"
     }
   }
 }
