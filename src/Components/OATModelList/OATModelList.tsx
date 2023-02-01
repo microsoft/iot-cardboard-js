@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useContext, useRef } from 'react';
 import {
     classNamesFunction,
+    IButtonProps,
     IContextualMenuItem,
     IList,
     SearchBox,
@@ -109,6 +110,40 @@ const OATModelList: React.FC<IOATModelListProps> = (props) => {
         }
     }, [index, oatPageState.selection]);
 
+    // data
+    const illustrationCtaButtonProps: IButtonProps = {
+        text: t('OAT.ModelList.noModelsButtonText'),
+        onClick: () => {
+            oatPageDispatch({
+                type: OatPageContextActionType.ADD_NEW_MODEL
+            });
+        },
+        split: true,
+        menuProps: {
+            items: [
+                {
+                    key: 'add',
+                    text: t('OATHeader.newModel'),
+                    onClick: () => {
+                        oatPageDispatch({
+                            type: OatPageContextActionType.ADD_NEW_MODEL
+                        });
+                    }
+                },
+                {
+                    key: 'importFile',
+                    text: t('OATHeader.importFile'),
+                    onClick: oatPageState.openUploadFileCallback
+                },
+                {
+                    key: 'importFolder',
+                    text: t('OATHeader.importFolder'),
+                    onClick: oatPageState.openUploadFolderCallback
+                }
+            ]
+        }
+    };
+
     const listHasItems = listItems.length > 0;
     const isFiltered = filter?.length !== 0;
 
@@ -128,40 +163,7 @@ const OATModelList: React.FC<IOATModelListProps> = (props) => {
                         height: 100,
                         src: EmptyClipboard
                     }}
-                    buttonProps={{
-                        text: t('OAT.ModelList.noModelsButtonText'),
-                        onClick: () => {
-                            oatPageDispatch({
-                                type: OatPageContextActionType.ADD_NEW_MODEL
-                            });
-                        },
-                        split: true,
-                        menuProps: {
-                            items: [
-                                {
-                                    key: 'add',
-                                    text: t('OATHeader.newModel'),
-                                    onClick: () => {
-                                        oatPageDispatch({
-                                            type:
-                                                OatPageContextActionType.ADD_NEW_MODEL
-                                        });
-                                    }
-                                },
-                                {
-                                    key: 'importFile',
-                                    text: t('OATHeader.importFile'),
-                                    onClick: oatPageState.openUploadFileCallback
-                                },
-                                {
-                                    key: 'importFolder',
-                                    text: t('OATHeader.importFolder'),
-                                    onClick:
-                                        oatPageState.openUploadFolderCallback
-                                }
-                            ]
-                        }
-                    }}
+                    buttonProps={illustrationCtaButtonProps}
                     styles={classNames.subComponentStyles?.noDataIllustration?.()}
                 />
             ) : (
