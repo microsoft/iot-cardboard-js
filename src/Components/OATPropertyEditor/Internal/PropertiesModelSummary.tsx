@@ -41,7 +41,7 @@ import { getTargetFromSelection } from '../Utils';
 import ModelPropertyHeader from './ModelPropertyHeader/ModelPropertyHeader';
 import PropertyDetailsEditorModal from './FormRootModelDetails/PropertyDetailsEditorModal';
 
-const debugLogging = true;
+const debugLogging = false;
 const logDebugConsole = getDebugLogger('PropertiesModelSummary', debugLogging);
 
 const getClassNames = classNamesFunction<
