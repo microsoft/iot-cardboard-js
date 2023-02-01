@@ -1410,7 +1410,7 @@
   "OATErrors": {
     "Validations": {
       "InvalidDtmiIdFormatTitle": "无效的 DTMI 格式",
-      "InvalidDtmiIdFormatMessage": "DTMI ID 无效。ID 必须符合以下模式 '{{regex}}'"
+      "InvalidDtmiIdFormatMessage1": "DTMI ID 无效。ID 必须符合以下模式：\n {{正则表达式}}"
     }
   }
 }
