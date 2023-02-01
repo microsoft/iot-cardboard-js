@@ -26,9 +26,10 @@ import {
     OAT_INTERFACE_TYPE,
     DtdlEnum,
     DtdlObject,
-    DtdlEnumValueSchema
+    DtdlEnumValueSchema,
+    OatReferenceType
 } from '../Constants';
-import { deepCopy, isValueInEnum } from './Utils';
+import { deepCopy, isDefined, isValueInEnum } from './Utils';
 
 /** is the relationship a known DTDL relationship type */
 export const isDTDLReference = (
@@ -262,6 +263,77 @@ export const updateEnumValueSchema = (
 
     return itemCopy;
 };
+
+// #region Validations
+const DEFAULT_NAME_REGEX = /^[a-zA-Z](?:[a-zA-Z0-9_]*[a-zA-Z0-9])?$/;
+/** allows for _ at the end when typing is in progress, should not get committed */
+const DEFAULT_NAME_REGEX_IN_PROGRESS = /^[a-zA-Z](?:[a-zA-Z0-9_]*[a-zA-Z0-9_])?$/;
+
+/**
+ * Regex for validating the model path field
+ * Note: it's mostly the same as name, but allows for : as well
+ */
+const DEFAULT_PATH_REGEX = /^[a-zA-Z](?:[a-zA-Z0-9_:]*[a-zA-Z0-9])?$/;
+const DEFAULT_PATH_REGEX_IN_PROGRESS = /^[a-zA-Z](?:[a-zA-Z0-9_:]*[a-zA-Z0-9_:])?$/;
+
+const DEFAULT_MAX_NAME_LENGTH = 64;
+
+const defaultNameValidation = (name: string, isFinal: boolean): boolean => {
+    let isValid = true;
+    const nameTrimmed = name?.trim();
+    if (
+        !isDefined(nameTrimmed) ||
+        nameTrimmed.length === 0 ||
+        nameTrimmed.length > DEFAULT_MAX_NAME_LENGTH
+    ) {
+        isValid = false;
+        return isValid;
+    }
+    if (isFinal) {
+        isValid = new RegExp(DEFAULT_NAME_REGEX).test(nameTrimmed);
+    } else {
+        isValid = new RegExp(DEFAULT_NAME_REGEX_IN_PROGRESS).test(nameTrimmed);
+    }
+
+    return isValid;
+};
+/** performs the necessary checks to determine if a given name is valid */
+export const isValidModelName = (name: string, isFinal: boolean): boolean => {
+    return defaultNameValidation(name, isFinal);
+};
+
+/** performs the necessary checks to determine if a given name is valid */
+export const isValidReferenceName = (
+    name: string,
+    referenceType: OatReferenceType,
+    isFinal: boolean
+): boolean => {
+    let isValid = true;
+    switch (referenceType) {
+        case DTDLType.Relationship:
+        case DTDLType.Component:
+            isValid = defaultNameValidation(name, isFinal);
+            break;
+        case 'Extend':
+            isValid = false;
+    }
+
+    return isValid;
+};
+
+/** performs the necessary checks to determine if a given name is valid */
+export const isValidDtmiPath = (path: string, isFinal: boolean): boolean => {
+    if (!isDefined(path) || !path.trim()) {
+        return true;
+    }
+    if (isFinal) {
+        return new RegExp(DEFAULT_PATH_REGEX).test(path);
+    } else {
+        return new RegExp(DEFAULT_PATH_REGEX_IN_PROGRESS).test(path);
+    }
+};
+
+// #endregion
 
 // #region Add child to complex schemas
 

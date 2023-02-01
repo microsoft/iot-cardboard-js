@@ -213,8 +213,7 @@ export const OatPageContextReducer: (
                 deleteModelFromState(
                     targetModel['@id'],
                     targetModel['@type'],
-                    draft.currentOntologyModels,
-                    draft.currentOntologyModelPositions
+                    draft
                 );
                 draft.graphUpdatesToSync = {
                     actionType: 'Delete',

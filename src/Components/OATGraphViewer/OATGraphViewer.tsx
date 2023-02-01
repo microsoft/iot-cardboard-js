@@ -743,7 +743,7 @@ const OATGraphViewerContent: React.FC<IOATGraphViewerProps> = (props) => {
     ]);
 
     // styles
-    const graphViewerStyles = getGraphViewerStyles();
+    const graphViewerStyles = getGraphViewerStyles(theme);
     const warningStyles = getGraphViewerWarningStyles();
     const classNames = getClassNames(styles, { theme });
 
