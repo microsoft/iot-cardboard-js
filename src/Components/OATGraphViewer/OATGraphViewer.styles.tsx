@@ -1,6 +1,7 @@
 import {
     IStyle,
     mergeStyleSets,
+    memoizeFunction,
     useTheme,
     FontSizes,
     IStyleFunctionOrObject,
@@ -21,7 +22,6 @@ import {
     PROPERTY_EDITOR_WIDTH
 } from '../../Models/Constants/OatStyleConstants';
 import { HEADER_BUTTON_HEIGHT } from '../../Models/Constants/StyleConstants';
-import { useExtendedTheme } from '../../Models/Hooks/useExtendedTheme';
 import { IExtendedTheme } from '../../Theming/Theme.types';
 import {
     IOATGraphViewerStyleProps,
@@ -138,8 +138,7 @@ const classNames = {
     placeholderText: `${classPrefix}-placeholder-text`
 };
 
-export const getGraphViewerStyles = () => {
-    const theme = useExtendedTheme();
+export const getGraphViewerStyles = memoizeFunction((theme: IExtendedTheme) => {
     const ellipseText: IStyle = {
         overflow: 'hidden',
         textOverflow: 'ellipsis'
@@ -507,7 +506,7 @@ export const getGraphViewerStyles = () => {
             } as IStyle
         ]
     });
-};
+});
 
 export const getGraphViewerActionButtonStyles = (
     theme: IExtendedTheme

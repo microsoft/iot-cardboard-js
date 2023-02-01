@@ -119,10 +119,9 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = (props) => {
     };
 
     // styles
-    const graphViewerStyles = getGraphViewerStyles();
-    const actionButtonStyles = getGraphViewerActionButtonStyles(
-        useExtendedTheme()
-    );
+    const theme = useExtendedTheme();
+    const graphViewerStyles = getGraphViewerStyles(theme);
+    const actionButtonStyles = getGraphViewerActionButtonStyles(theme);
 
     return (
         <FocusZone style={{ cursor: 'pointer' }}>
