@@ -1399,18 +1399,20 @@
     "defaultFileName": "새 온톨로지",
     "defaultModelNamePrefix": "모델"
   },
-  "OATModelList": {
-    "searchModels": "검색 모델",
-    "noDataMessage": "모델 없음",
-    "noMatchingItemsMessage": "해당 기준과 일치하는 모델이 없습니다.",
-    "removeModelButtonText": "모델 제거",
-    "modelListToggleAriaLabelShow": "모델 목록 표시",
-    "modelListToggleAriaLabelHide": "모델 목록 숨기기"
-  },
   "OATErrors": {
     "Validations": {
       "InvalidDtmiIdFormatTitle": "잘못된 DTMI 형식",
       "InvalidDtmiIdFormatMessage": "DTMI가 필요한 형식을 충족하지 못했기 때문에 변경 내용이 저장되지 않았습니다. \n DTMI: {{dtmi}}\n 필수 형식: {{정규식}}"
+    }
+  },
+  "OAT": {
+    "ModelList": {
+      "searchModels": "검색 모델",
+      "noMatchingItemsMessage": "해당 기준과 일치하는 모델이 없습니다.",
+      "removeModelButtonText": "모델 제거",
+      "noModelsTitle": "모든 모델은 어디에 있습니까? 🤔",
+      "noModelsMessage": "파티를 시작합시다",
+      "noModelsButtonText": "모델 추가"
     }
   }
 }

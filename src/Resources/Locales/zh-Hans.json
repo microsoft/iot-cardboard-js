@@ -1399,18 +1399,20 @@
     "defaultFileName": "新本体",
     "defaultModelNamePrefix": "型"
   },
-  "OATModelList": {
-    "searchModels": "搜索型号",
-    "noDataMessage": "无型号",
-    "noMatchingItemsMessage": "没有符合该标准的模型",
-    "removeModelButtonText": "删除模型",
-    "modelListToggleAriaLabelShow": "显示型号列表",
-    "modelListToggleAriaLabelHide": "隐藏模型列表"
-  },
   "OATErrors": {
     "Validations": {
       "InvalidDtmiIdFormatTitle": "无效的 DTMI 格式",
       "InvalidDtmiIdFormatMessage": "您的更改未保存，因为 DTMI 不符合所需的格式。\n DTMI： {{dtmi}}\n 所需格式：{{正则表达式}}"
+    }
+  },
+  "OAT": {
+    "ModelList": {
+      "searchModels": "搜索型号",
+      "noMatchingItemsMessage": "没有符合该标准的模型",
+      "removeModelButtonText": "删除模型",
+      "noModelsTitle": "所有模型都在哪里？🤔",
+      "noModelsMessage": "让我们开始派对",
+      "noModelsButtonText": "添加模型"
     }
   }
 }
