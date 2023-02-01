@@ -356,8 +356,8 @@ export const getGraphViewerStyles = () => {
             classNames.selectedNode,
             {
                 backgroundColor: getControlBackgroundColor(theme),
-                border: `3px solid ${theme.semanticColors.inputBorder}`,
-                borderRadius: '5px',
+                border: `4px solid ${theme.semanticColors.inputBorder}`,
+                borderRadius: theme.effects.roundedCorner4,
                 fontSize: FontSizes.size12,
                 position: 'relative',
                 paddingRight: '20px' // Provide space for close icon
