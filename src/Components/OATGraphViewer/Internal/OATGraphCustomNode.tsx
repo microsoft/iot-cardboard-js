@@ -5,7 +5,8 @@ import {
     TooltipHost,
     FocusZone,
     Text,
-    IconButton
+    IconButton,
+    DirectionalHint
 } from '@fluentui/react';
 import { useId } from '@fluentui/react-hooks';
 import { useBoolean } from '@fluentui/react-hooks';
@@ -22,7 +23,6 @@ import {
     OAT_UNTARGETED_RELATIONSHIP_NAME,
     OAT_INTERFACE_TYPE
 } from '../../../Models/Constants/Constants';
-import { getDisplayName } from '../../OATPropertyEditor/Utils';
 import IconRelationship from '../../../Resources/Static/relationshipTargeted.svg';
 import IconUntargeted from '../../../Resources/Static/relationshipUntargeted.svg';
 import IconInheritance from '../../../Resources/Static/relationshipInheritance.svg';
@@ -120,10 +120,9 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = (props) => {
     };
 
     // styles
-    const graphViewerStyles = getGraphViewerStyles();
-    const actionButtonStyles = getGraphViewerActionButtonStyles(
-        useExtendedTheme()
-    );
+    const theme = useExtendedTheme();
+    const graphViewerStyles = getGraphViewerStyles(theme);
+    const actionButtonStyles = getGraphViewerActionButtonStyles(theme);
 
     return (
         <FocusZone style={{ cursor: 'pointer' }}>
@@ -213,7 +212,8 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = (props) => {
                             id={`${OAT_COMPONENT_HANDLE_NAME}ToolTip`}
                             calloutProps={{
                                 gapSpace: 6,
-                                target: `#${componentTooltipTargetId}`
+                                target: `#${componentTooltipTargetId}`,
+                                directionalHint: DirectionalHint.bottomCenter
                             }}
                         >
                             <Handle
@@ -253,7 +253,8 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = (props) => {
                             id={`${OAT_RELATIONSHIP_HANDLE_NAME}ToolTip`}
                             calloutProps={{
                                 gapSpace: 6,
-                                target: `#${relationshipTooltipTargetId}`
+                                target: `#${relationshipTooltipTargetId}`,
+                                directionalHint: DirectionalHint.bottomCenter
                             }}
                         >
                             <Handle
@@ -283,9 +284,7 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = (props) => {
 
                                 <Svg
                                     src={IconRelationship}
-                                    id={`${getDisplayName(
-                                        data.displayName
-                                    )}${OAT_RELATIONSHIP_HANDLE_NAME}`}
+                                    id={relationshipTooltipTargetId}
                                     className={
                                         handleHoverRelationship
                                             ? graphViewerStyles.handleContentIcon
@@ -299,7 +298,8 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = (props) => {
                             id={`${OAT_UNTARGETED_RELATIONSHIP_NAME}ToolTip`}
                             calloutProps={{
                                 gapSpace: 6,
-                                target: `#${untargetedTooltipTargetId}`
+                                target: `#${untargetedTooltipTargetId}`,
+                                directionalHint: DirectionalHint.bottomCenter
                             }}
                         >
                             <Handle
@@ -325,9 +325,7 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = (props) => {
 
                                 <Svg
                                     src={IconUntargeted}
-                                    id={`${getDisplayName(
-                                        data.displayName
-                                    )}${OAT_UNTARGETED_RELATIONSHIP_NAME}`}
+                                    id={untargetedTooltipTargetId}
                                     className={
                                         handleHoverUntargeted
                                             ? graphViewerStyles.handleContentIcon
@@ -341,7 +339,8 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = (props) => {
                             id={`${OAT_EXTEND_HANDLE_NAME}ToolTip`}
                             calloutProps={{
                                 gapSpace: 6,
-                                target: `#${extendTooltipTargetId}`
+                                target: `#${extendTooltipTargetId}`,
+                                directionalHint: DirectionalHint.bottomCenter
                             }}
                         >
                             <Handle
@@ -367,9 +366,7 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = (props) => {
 
                                 <Svg
                                     src={IconInheritance}
-                                    id={`${getDisplayName(
-                                        data.displayName
-                                    )}${OAT_EXTEND_HANDLE_NAME}`}
+                                    id={extendTooltipTargetId}
                                     className={
                                         handleHoverExtend
                                             ? graphViewerStyles.handleContentIcon
