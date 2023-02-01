@@ -843,10 +843,6 @@
             "save": "Save changes",
             "refresh": "Refresh data"
         },
-        "dataHistory": {
-            "title": "Open Data History Explorer",
-            "disabledTitle": "Data history connection is not enabled or verified"
-        },
         "dateTimePicker": {
             "datePickerTitle": "Date picker",
             "dateTimePickerTitle": "Datetime picker",
@@ -1405,6 +1401,10 @@
                 }
             },
             "noSeriesDescription": "To view data history for this twin, select a property to view."
+        },
+        "control": {
+            "title": "Open Data History Explorer",
+            "disabledTitle": "Data history connection is not enabled or verified"
         }
     },
     "dataHistoryErrorHandlingWrapper": {

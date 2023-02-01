@@ -36,8 +36,6 @@ export const WithDataHistory = Template.bind(
 WithDataHistory.args = {
     ...Base.args,
     isWithDataHistory: {
-        isEnabled: true,
-        onClick: (twinId) =>
-            console.log(`Opening Data History Explorer with ${twinId}`)
+        isEnabled: true
     }
 } as IPropertyInspectorCalloutProps;

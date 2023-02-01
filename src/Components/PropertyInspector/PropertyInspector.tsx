@@ -11,6 +11,7 @@ import {
 } from '../../Models/Constants/Enums';
 import {
     ADTPatch,
+    IADTDataHistoryAdapter,
     IADTRelationship,
     IADTTwin,
     IPropertyInspectorAdapter
@@ -28,7 +29,7 @@ import { Spinner } from '@fluentui/react';
 
 type TwinPropertyInspectorProps = {
     twinId: string;
-    adapter: IPropertyInspectorAdapter;
+    adapter: IPropertyInspectorAdapter | IADTDataHistoryAdapter;
     relationshipId?: never;
     resolvedTwin?: IADTTwin;
     resolvedRelationship?: never;
@@ -56,8 +57,7 @@ type PropertyInspectorProps = {
     readonly?: boolean;
     customCommandBarTitleSpan?: React.ReactNode;
     isWithDataHistory?: {
-        isEnabled: boolean;
-        onClick?: (twinId: string) => void;
+        isEnabled?: boolean;
     };
 } & (TwinPropertyInspectorProps | RelationshipPropertyInspectorProps);
 
@@ -366,10 +366,25 @@ const PropertyInspector: React.FC<PropertyInspectorProps> = (props) => {
                         });
                     }
                 }}
-                isWithDataHistory={props.isWithDataHistory}
+                isWithDataHistory={
+                    isTwin(props) &&
+                    hasDataHistoryAdapter(props.adapter) &&
+                    props.isWithDataHistory
+                        ? {
+                              isEnabled: props.isWithDataHistory.isEnabled,
+                              twinId: props.twinId,
+                              adapter: props.adapter
+                          }
+                        : undefined
+                }
             />
         </div>
     );
 };
+
+const hasDataHistoryAdapter = (
+    adapter: IPropertyInspectorAdapter | IADTDataHistoryAdapter
+): adapter is IADTDataHistoryAdapter =>
+    !!(adapter as IADTDataHistoryAdapter).updateADXConnectionInformation;
 
 export default React.memo(PropertyInspector);

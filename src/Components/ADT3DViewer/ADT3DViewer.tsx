@@ -27,11 +27,7 @@ import { useRuntimeSceneData } from '../../Models/Hooks/useRuntimeSceneData';
 import { IViewerElementsPanelItem } from '../ElementsPanel/ViewerElementsPanel.types';
 import { DefaultViewerModeObjectColor } from '../../Models/Constants/Constants';
 import { createCustomMeshItems } from '../3DV/SceneView.Utils';
-import {
-    createGUID,
-    deepCopy,
-    getDebugLogger
-} from '../../Models/Services/Utils';
+import { deepCopy, getDebugLogger } from '../../Models/Services/Utils';
 import VisualsModal from '../VisualsModal/VisualsModal';
 import ViewerConfigUtility from '../../Models/Classes/ViewerConfigUtility';
 import LayerDropdown, {
@@ -59,8 +55,7 @@ import {
     ADT3DScenePageModes,
     BehaviorModalMode,
     IADTBackgroundColor,
-    IADTDataHistoryAdapter,
-    IDataHistoryTimeSeriesTwin
+    IADTDataHistoryAdapter
 } from '../../Models/Constants';
 import FloatingScenePageModeToggle from '../../Pages/ADT3DScenePage/Internal/FloatingScenePageModeToggle';
 import DeeplinkFlyout from '../DeeplinkFlyout/DeeplinkFlyout';
@@ -75,8 +70,6 @@ import { useSceneThemeContext } from '../../Models/Context/SceneThemeContext/Sce
 import { SceneViewContextActionType } from '../../Models/Context/SceneViewContext/SceneViewContext.types';
 import SceneThemePicker from '../ModelViewerModePicker/SceneThemePicker';
 import SceneRefreshButton from '../SceneRefreshButton/SceneRefreshButton';
-import DataHistoryExplorerModal from '../DataHistoryExplorerModal/DataHistoryExplorerModal';
-import { getHighChartColor } from '../../Models/SharedUtils/DataHistoryUtils';
 
 const getClassNames = classNamesFunction<
     IADT3DViewerStyleProps,
@@ -206,15 +199,6 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
     const [selectedVisual, setSelectedVisual] = useState<Partial<SceneVisual>>(
         null
     );
-
-    const [
-        isDataHistoryExplorerVisible,
-        setIsDataHistoryExplorerVisible
-    ] = useState(false);
-    const [
-        defaultTimeSeriesTwin,
-        setDefaultTimeSeriesTwin
-    ] = useState<IDataHistoryTimeSeriesTwin>(null);
 
     const { sceneThemeState } = useSceneThemeContext();
 
@@ -707,22 +691,6 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
         [triggerRuntimeRefetch]
     );
 
-    const getDefaultTimeSeries = useCallback(
-        (twinId: string): IDataHistoryTimeSeriesTwin => {
-            return {
-                seriesId: createGUID(),
-                twinId: twinId,
-                twinPropertyName: null,
-                twinPropertyType: null,
-                chartProps: {
-                    color: getHighChartColor(),
-                    isTwinPropertyTypeCastedToNumber: true
-                }
-            };
-        },
-        []
-    );
-
     const svp = sceneViewProps || {};
     const sceneName = ViewerConfigUtility.getSceneById(scenesConfig, sceneId)
         ?.displayName;
@@ -823,10 +791,6 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
                     onPropertyInspectorPatch={onPropertyInspectorPatch}
                     title={behaviorModalSceneVisual?.element?.displayName}
                     twins={behaviorModalSceneVisual?.twins || {}}
-                    onDataHistoryExplorerClick={(twinId) => {
-                        setIsDataHistoryExplorerVisible(true);
-                        setDefaultTimeSeriesTwin(getDefaultTimeSeries(twinId));
-                    }}
                 />
             )}
             {isBadgePopoverVisible && (
@@ -841,12 +805,6 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
                     onItemBlur={onElementPanelItemBlured}
                 />
             )}
-            <DataHistoryExplorerModal
-                adapter={hasPropertyInspectorAdapter(adapter) ? adapter : null}
-                isOpen={isDataHistoryExplorerVisible}
-                onDismiss={() => setIsDataHistoryExplorerVisible(false)}
-                timeSeriesTwins={[defaultTimeSeriesTwin]}
-            />
         </BaseComponent>
     );
 };

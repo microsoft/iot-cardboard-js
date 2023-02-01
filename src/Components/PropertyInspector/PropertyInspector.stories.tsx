@@ -8,7 +8,7 @@ import {
 } from './__mockdata__/mockData';
 import mockExpandedModel from './__mockdata__/TeslaExampleModels.json';
 import StandalonePropertyInspector from './StandalonePropertyInspector';
-import { DtdlInterface } from '../..';
+import { DtdlInterface, MockAdapter } from '../..';
 
 export default {
     title: 'Components/Property Inspector/Standalone',
@@ -32,10 +32,27 @@ export const TwinMock = (_args, { globals: { theme, locale } }) => (
             onCommitChanges={(patch) => console.log(patch)}
             theme={theme}
             locale={locale}
+        />
+    </div>
+);
+
+export const TwinMockWithDataHistory = (
+    _args,
+    { globals: { theme, locale } }
+) => (
+    <div style={propertyInspectorStoryStyles}>
+        <StandalonePropertyInspector
+            inputData={{
+                twin: mockTwin,
+                expandedModels: mockExpandedModels as DtdlInterface[],
+                rootModel: mockExpandedModels[0] as DtdlInterface
+            }}
+            onCommitChanges={(patch) => console.log(patch)}
+            theme={theme}
+            locale={locale}
             isWithDataHistory={{
-                isEnabled: true,
-                onClick: (twinId) =>
-                    console.log(`Opening Data History Explorer with ${twinId}`)
+                adapter: new MockAdapter(),
+                twinId: mockTwin.$dtId
             }}
         />
     </div>

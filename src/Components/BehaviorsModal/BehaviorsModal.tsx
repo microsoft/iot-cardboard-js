@@ -44,7 +44,6 @@ interface IBehaviorsModalBaseProps {
     onPropertyInspectorPatch?: (patchData: OnCommitPatchParams) => any;
     title?: string;
     twins: Record<string, DTwin>;
-    onDataHistoryExplorerClick?: (twinId: string) => void;
 }
 
 interface ViewerModeProps {
@@ -83,8 +82,7 @@ const BehaviorsModal: React.FC<IBehaviorsModalProps> = (props) => {
         onClose,
         onPropertyInspectorPatch,
         title,
-        twins,
-        onDataHistoryExplorerClick
+        twins
     } = props;
     const { t } = useTranslation();
     const boundaryRef = useRef<HTMLDivElement>(null);
@@ -234,8 +232,7 @@ const BehaviorsModal: React.FC<IBehaviorsModalProps> = (props) => {
                                             </span>
                                         }
                                         isWithDataHistory={{
-                                            isEnabled: !!adapter.getADXConnectionInformation(),
-                                            onClick: onDataHistoryExplorerClick
+                                            isEnabled: !!adapter.getADXConnectionInformation()
                                         }}
                                     />
                                 )}

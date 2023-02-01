@@ -3,6 +3,7 @@ import { TreeProps, PropertyTreeProps } from './PropertyTree.types';
 import './PropertyTree.scss';
 import TreeNode from './TreeComponents/TreeNode';
 import { LOCAL_STORAGE_KEYS } from '../../../Models/Constants/Constants';
+import DataHistoryExplorerModalControl from '../../DataHistoryExplorerModal/DataHistoryExplorerModalControl/DataHistoryExplorerModalControl';
 
 export const PropertyTreeContext = createContext<
     Omit<PropertyTreeProps, 'data'>
@@ -25,7 +26,7 @@ const PropertyTree: React.FC<PropertyTreeProps> = ({
     onRemoveArrayItem,
     onClearArray,
     readonly = false,
-    dataHistoryIcon
+    isWithDataHistory
 }) => {
     return (
         <PropertyTreeContext.Provider
@@ -43,7 +44,16 @@ const PropertyTree: React.FC<PropertyTreeProps> = ({
             }}
         >
             <div className="cb-property-tree-container">
-                {isDataHistoryFeatureEnabled && dataHistoryIcon}
+                {isDataHistoryFeatureEnabled && !!isWithDataHistory && (
+                    <DataHistoryExplorerModalControl
+                        styles={{
+                            root: { position: 'absolute', right: 0, top: 0 }
+                        }}
+                        adapter={isWithDataHistory.adapter}
+                        isEnabled={isWithDataHistory.isEnabled}
+                        initialTwinId={isWithDataHistory.twinId}
+                    />
+                )}
                 <Tree data={data} />
             </div>
         </PropertyTreeContext.Provider>

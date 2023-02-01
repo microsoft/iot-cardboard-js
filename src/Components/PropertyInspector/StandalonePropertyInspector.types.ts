@@ -4,7 +4,9 @@ import {
     IADTRelationship,
     PropertyInspectorPatchMode,
     Theme,
-    Locale
+    Locale,
+    IADTDataHistoryAdapter,
+    MockAdapter
 } from '../..';
 import { DtdlInterface } from '../../Models/Constants/dtdlInterfaces';
 
@@ -27,8 +29,9 @@ export interface StandalonePropertyInspectorProps {
     parentHandlesScroll?: boolean;
     customCommandBarTitleSpan?: React.ReactNode;
     isWithDataHistory?: {
-        isEnabled: boolean;
-        onClick?: (twinId: string) => void;
+        isEnabled?: boolean;
+        twinId: string;
+        adapter: IADTDataHistoryAdapter | MockAdapter;
     };
 }
 
