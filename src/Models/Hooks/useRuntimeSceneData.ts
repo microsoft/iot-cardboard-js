@@ -246,3 +246,5 @@ function buildBadgeVisual(
         sceneViewBadge: sceneViewBadge
     };
 }
+
+export default useRuntimeSceneData;
