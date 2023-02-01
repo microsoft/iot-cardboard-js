@@ -969,8 +969,8 @@
       "namePlaceholder": "Insira um nome de ontologia",
       "namespaceDescription": "Nome do modelo exemplo: {{modelName}}",
       "sampleModel": "modelo de amostra",
-      "namespaceLabel1": "Caminho padrão",
-      "namespacePlaceholder1": "Insira um caminho padrão"
+      "namespaceLabel": "Caminho padrão",
+      "namespacePlaceholder": "Insira um caminho padrão"
     },
     "newModel": "Novo modelo"
   },
@@ -1410,7 +1410,7 @@
   "OATErrors": {
     "Validations": {
       "InvalidDtmiIdFormatTitle": "Formato DTMI inválido",
-      "InvalidDtmiIdFormatMessage": "As suas alterações não foram guardadas porque o DTMI é inválido. As DTMIs devem estar em conformidade com o seguinte padrão:\n {{regex}}"
+      "InvalidDtmiIdFormatMessage1": "As suas alterações não foram guardadas porque o DTMI não cumpriu o formato exigido. \n DTMI:{{dtmi}}\n Formato obrigatório: {{regex}}"
     }
   }
 }

@@ -969,8 +969,8 @@
       "namePlaceholder": "Введите имя онтологии",
       "namespaceDescription": "Пример имени модели: {{имя_модели}}",
       "sampleModel": "Образец модели",
-      "namespaceLabel1": "Путь по умолчанию",
-      "namespacePlaceholder1": "Введите путь по умолчанию"
+      "namespaceLabel": "Путь по умолчанию",
+      "namespacePlaceholder": "Введите путь по умолчанию"
     },
     "newModel": "Новая модель"
   },
@@ -1410,7 +1410,7 @@
   "OATErrors": {
     "Validations": {
       "InvalidDtmiIdFormatTitle": "Недопустимый формат DTMI",
-      "InvalidDtmiIdFormatMessage": "Изменения не были сохранены, поскольку DTMI недействителен. DTMI должны соответствовать следующему шаблону:\n {{regex}}"
+      "InvalidDtmiIdFormatMessage1": "Изменения не были сохранены, так как DTMI не соответствовал требуемому формату. \n DTMI:{{dtmi}}\n Требуемый формат: {{regex}}"
     }
   }
 }

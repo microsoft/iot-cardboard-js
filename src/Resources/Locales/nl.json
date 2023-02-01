@@ -969,8 +969,8 @@
       "namePlaceholder": "Voer een ontologienaam in",
       "namespaceDescription": "Voorbeeld modelnaam: {{modelName}}",
       "sampleModel": "voorbeeldmodel",
-      "namespaceLabel1": "Standaardpad",
-      "namespacePlaceholder1": "Voer een standaardpad in"
+      "namespaceLabel": "Standaardpad",
+      "namespacePlaceholder": "Voer een standaardpad in"
     },
     "newModel": "Nieuw model"
   },
@@ -1410,7 +1410,7 @@
   "OATErrors": {
     "Validations": {
       "InvalidDtmiIdFormatTitle": "OngeldigE DTMI-indeling",
-      "InvalidDtmiIdFormatMessage": "Uw wijzigingen zijn niet opgeslagen omdat de DTMI ongeldig is. DTMIs moeten voldoen aan het volgende patroon:\n {{regex}}"
+      "InvalidDtmiIdFormatMessage1": "Uw wijzigingen zijn niet opgeslagen omdat de DTMI niet voldeed aan de vereiste indeling. \n DTMI:{{dtmi}}\n Vereist formaat: {{regex}}"
     }
   }
 }

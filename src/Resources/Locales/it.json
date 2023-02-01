@@ -969,8 +969,8 @@
       "namePlaceholder": "Immettere un nome di ontologia",
       "namespaceDescription": "Esempio di nome modello: {{modelName}}",
       "sampleModel": "Modello di esempio",
-      "namespaceLabel1": "Percorso predefinito",
-      "namespacePlaceholder1": "Immettere un percorso predefinito"
+      "namespaceLabel": "Percorso predefinito",
+      "namespacePlaceholder": "Immettere un percorso predefinito"
     },
     "newModel": "Nuovo modello"
   },
@@ -1410,7 +1410,7 @@
   "OATErrors": {
     "Validations": {
       "InvalidDtmiIdFormatTitle": "Formato DTMI non valido",
-      "InvalidDtmiIdFormatMessage": "Le modifiche non sono state salvate perché DTMI non è valido. I DTMI devono essere conformi al seguente modello:\n {{regex}}"
+      "InvalidDtmiIdFormatMessage1": "Le modifiche non sono state salvate perché DTMI non soddisfaceva il formato richiesto. \n DTMI:{{dtmi}}\n Formato richiesto: {{regex}}"
     }
   }
 }

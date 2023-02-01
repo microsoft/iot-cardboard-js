@@ -969,8 +969,8 @@
       "namePlaceholder": "Adjon meg egy ontológiai nevet",
       "namespaceDescription": "Példa modellnévre: {{modelName}}",
       "sampleModel": "minta modell",
-      "namespaceLabel1": "Alapértelmezett elérési út",
-      "namespacePlaceholder1": "Adjon meg egy alapértelmezett elérési utat"
+      "namespaceLabel": "Alapértelmezett elérési út",
+      "namespacePlaceholder": "Adjon meg egy alapértelmezett elérési utat"
     },
     "newModel": "Új modell"
   },
@@ -1410,7 +1410,7 @@
   "OATErrors": {
     "Validations": {
       "InvalidDtmiIdFormatTitle": "Érvénytelen DTMI-formátum",
-      "InvalidDtmiIdFormatMessage": "A módosítások nem lettek mentve, mert a DTMI érvénytelen. A DTMI-knek meg kell felelniük a következő mintának:\n {{regex}}"
+      "InvalidDtmiIdFormatMessage1": "A rendszer nem mentette a módosításokat, mert a DTMI nem felelt meg a szükséges formátumnak. \n DTMI:{{dtmi}}\n Szükséges formátum: {{regex}}"
     }
   }
 }

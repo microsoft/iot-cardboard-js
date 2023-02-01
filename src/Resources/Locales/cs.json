@@ -969,8 +969,8 @@
       "namePlaceholder": "Zadejte název ontologie",
       "namespaceDescription": "Příklad názvu modelu: {{modelName}}",
       "sampleModel": "Vzorový model",
-      "namespaceLabel1": "Výchozí cesta",
-      "namespacePlaceholder1": "Zadejte výchozí cestu"
+      "namespaceLabel": "Výchozí cesta",
+      "namespacePlaceholder": "Zadejte výchozí cestu"
     },
     "newModel": "Nový model"
   },
@@ -1410,7 +1410,7 @@
   "OATErrors": {
     "Validations": {
       "InvalidDtmiIdFormatTitle": "Neplatný formát DTMI",
-      "InvalidDtmiIdFormatMessage": "Změny nebyly uloženy, protože DTMI je neplatný. DTMI musí odpovídat následujícímu vzoru:\n {{Regex}}"
+      "InvalidDtmiIdFormatMessage1": "Změny nebyly uloženy, protože DTMI nesplňoval požadovaný formát. \n DTMI:{{dtmi}}\n Požadovaný formát: {{regex}}"
     }
   }
 }

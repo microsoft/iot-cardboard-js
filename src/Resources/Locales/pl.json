@@ -969,8 +969,8 @@
       "namePlaceholder": "Wprowadź nazwę ontologii",
       "namespaceDescription": "Przykładowa nazwa modelu: {{modelName}}",
       "sampleModel": "przykładowy model",
-      "namespaceLabel1": "Domyślna ścieżka",
-      "namespacePlaceholder1": "Wprowadź ścieżkę domyślną"
+      "namespaceLabel": "Domyślna ścieżka",
+      "namespacePlaceholder": "Wprowadź ścieżkę domyślną"
     },
     "newModel": "Nowy model"
   },
@@ -1410,7 +1410,7 @@
   "OATErrors": {
     "Validations": {
       "InvalidDtmiIdFormatTitle": "Nieprawidłowy format DTMI",
-      "InvalidDtmiIdFormatMessage": "Zmiany nie zostały zapisane, ponieważ kod DTMI jest nieprawidłowy. DTMI muszą być zgodne z następującym wzorcem:\n {{regex}}"
+      "InvalidDtmiIdFormatMessage1": "Zmiany nie zostały zapisane, ponieważ DTMI nie spełnia wymaganego formatu. \n DTMI:{{dtmi}}\n Wymagany format: {{regex}}"
     }
   }
 }

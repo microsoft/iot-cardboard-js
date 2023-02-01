@@ -969,8 +969,8 @@
       "namePlaceholder": "온톨로지 이름 입력",
       "namespaceDescription": "모델 이름 예: {{모델 이름}}",
       "sampleModel": "샘플 모델",
-      "namespaceLabel1": "기본 경로",
-      "namespacePlaceholder1": "기본 경로 입력"
+      "namespaceLabel": "기본 경로",
+      "namespacePlaceholder": "기본 경로 입력"
     },
     "newModel": "새로운 모델"
   },
@@ -1410,7 +1410,7 @@
   "OATErrors": {
     "Validations": {
       "InvalidDtmiIdFormatTitle": "잘못된 DTMI 형식",
-      "InvalidDtmiIdFormatMessage": "DTMI가 잘못되었기 때문에 변경 내용이 저장되지 않았습니다. DTMI는 다음 패턴을 따라야 합니다.\n {{정규식}}"
+      "InvalidDtmiIdFormatMessage1": "DTMI가 필요한 형식을 충족하지 못했기 때문에 변경 내용이 저장되지 않았습니다. \n DTMI:{{dtmi}}\n 필수 형식: {{정규식}}"
     }
   }
 }

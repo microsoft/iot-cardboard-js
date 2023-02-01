@@ -969,8 +969,8 @@
       "namePlaceholder": "オントロジー名を入力する",
       "namespaceDescription": "モデル名の例: {{モデル名}}",
       "sampleModel": "サンプルモデル",
-      "namespaceLabel1": "既定のパス",
-      "namespacePlaceholder1": "既定のパスを入力"
+      "namespaceLabel": "既定のパス",
+      "namespacePlaceholder": "既定のパスを入力"
     },
     "newModel": "新型"
   },
@@ -1410,7 +1410,7 @@
   "OATErrors": {
     "Validations": {
       "InvalidDtmiIdFormatTitle": "無効な DTMI 形式です",
-      "InvalidDtmiIdFormatMessage": "DTMI が無効であるため、変更を保存しませんでした。DTMI は、次のパターンに準拠している必要があります。\n {{正規表現}}"
+      "InvalidDtmiIdFormatMessage1": "DTMI が必要な形式を満たしていないため、変更は保存されませんでした。\n DTMI:{{dtmi}}\n 必要な形式: {{正規表現}}"
     }
   }
 }

@@ -969,8 +969,8 @@
       "namePlaceholder": "Ontoloji adı girin",
       "namespaceDescription": "Örnek model adı: {{modelName}}",
       "sampleModel": "örnek Model",
-      "namespaceLabel1": "Varsayılan yol",
-      "namespacePlaceholder1": "Varsayılan bir yol girin"
+      "namespaceLabel": "Varsayılan yol",
+      "namespacePlaceholder": "Varsayılan bir yol girin"
     },
     "newModel": "Yeni model"
   },
@@ -1410,7 +1410,7 @@
   "OATErrors": {
     "Validations": {
       "InvalidDtmiIdFormatTitle": "Geçersiz DTMI biçimi",
-      "InvalidDtmiIdFormatMessage": "DTMI geçersiz olduğundan değişiklikleriniz kaydedilmedi. DTMI'lar aşağıdaki desene uygun olmalıdır:\n {{regex}}"
+      "InvalidDtmiIdFormatMessage1": "DTMI gerekli biçimi karşılamadığı için değişiklikleriniz kaydedilmedi. \n DTMI:{{dtmi}}\n Gerekli biçim: {{regex}}"
     }
   }
 }

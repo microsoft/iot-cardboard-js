@@ -969,8 +969,8 @@
       "namePlaceholder": "输入本体名称",
       "namespaceDescription": "示例模型名称：{{模型名称}}",
       "sampleModel": "示例模型",
-      "namespaceLabel1": "默认路径",
-      "namespacePlaceholder1": "输入默认路径"
+      "namespaceLabel": "默认路径",
+      "namespacePlaceholder": "输入默认路径"
     },
     "newModel": "新型号"
   },
@@ -1410,7 +1410,7 @@
   "OATErrors": {
     "Validations": {
       "InvalidDtmiIdFormatTitle": "无效的 DTMI 格式",
-      "InvalidDtmiIdFormatMessage": "您的更改未保存，因为 DTMI 无效。DTMI 必须符合以下模式：\n {{正则表达式}}"
+      "InvalidDtmiIdFormatMessage1": "您的更改未保存，因为 DTMI 不符合所需的格式。\n DTMI：{{dtmi}}\n 所需格式：{{正则表达式}}"
     }
   }
 }

@@ -969,8 +969,8 @@
       "namePlaceholder": "Ange ett ontologinamn",
       "namespaceDescription": "Exempel på modellnamn: {{modelName}}",
       "sampleModel": "exempel modell",
-      "namespaceLabel1": "Standardsökväg",
-      "namespacePlaceholder1": "Ange en standardsökväg"
+      "namespaceLabel": "Standardsökväg",
+      "namespacePlaceholder": "Ange en standardsökväg"
     },
     "newModel": "Ny modell"
   },
@@ -1410,7 +1410,7 @@
   "OATErrors": {
     "Validations": {
       "InvalidDtmiIdFormatTitle": "Ogiltigt DTMI-format",
-      "InvalidDtmiIdFormatMessage": "Dina ändringar sparades inte eftersom DTMI är ogiltigt. DTMI måste överensstämma med följande mönster:\n {{regex}}"
+      "InvalidDtmiIdFormatMessage1": "Ändringarna sparades inte eftersom DTMI inte uppfyllde det format som krävs. \n DTMI:{{dtmi}}\n Obligatoriskt format: {{regex}}"
     }
   }
 }
