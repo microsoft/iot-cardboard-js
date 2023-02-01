@@ -1413,6 +1413,9 @@
       "noModelsTitle": "Tüm modeller nerede? 🤔",
       "noModelsMessage": "Haydi partiyi başlatalım",
       "noModelsButtonText": "Model ekleme"
+    },
+    "Common": {
+      "untargeted": "Hedefsiz"
     }
   }
 }

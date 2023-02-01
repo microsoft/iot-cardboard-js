@@ -1413,6 +1413,9 @@
       "noModelsTitle": "所有模型都在哪里？🤔",
       "noModelsMessage": "让我们开始派对",
       "noModelsButtonText": "添加模型"
+    },
+    "Common": {
+      "untargeted": "非目标"
     }
   }
 }

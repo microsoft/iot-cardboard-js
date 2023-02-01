@@ -1413,6 +1413,9 @@
       "noModelsTitle": "すべてのモデルはどこにありますか?🤔",
       "noModelsMessage": "パーティーを始めましょう",
       "noModelsButtonText": "モデルを追加する"
+    },
+    "Common": {
+      "untargeted": "ターゲットなし"
     }
   }
 }
