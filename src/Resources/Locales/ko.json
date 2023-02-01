@@ -1410,7 +1410,7 @@
   "OATErrors": {
     "Validations": {
       "InvalidDtmiIdFormatTitle": "잘못된 DTMI 형식",
-      "InvalidDtmiIdFormatMessage": "DTMI가 유효하지 않으므로 변경 내용을 저장할 수 없습니다. ID는 다음 패턴을 준수해야 합니다.\n {{정규식}}"
+      "InvalidDtmiIdFormatMessage1": "DTMI가 유효하지 않으므로 변경 내용이 메모에 저장되었습니다. ID는 다음 패턴을 준수해야 합니다.\n {{정규식}}"
     }
   }
 }
