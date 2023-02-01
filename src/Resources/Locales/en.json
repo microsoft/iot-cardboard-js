@@ -1144,7 +1144,7 @@
     "OATErrors": {
         "Validations": {
             "InvalidDtmiIdFormatTitle": "Invalid DTMI format",
-            "InvalidDtmiIdFormatMessage": "The DTMI ID is not valid. Ids must conform to the follow pattern '{{regex}}'"
+            "InvalidDtmiIdFormatMessage1": "The DTMI ID is not valid. Ids must conform to the follow pattern:\n {{regex}}"
         }
     },
     "ErrorHandlingWrapper": {
