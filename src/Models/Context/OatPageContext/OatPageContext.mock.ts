@@ -119,7 +119,7 @@ export const GET_MOCK_OAT_CONTEXT_STATE = (): IOatPageContextState => {
         currentOntologyModelMetadata: currentFile.modelsMetadata,
         currentOntologyModelPositions: currentFile.modelPositions,
         currentOntologyModels: currentFile.models,
-        currentOntologyNamespace: currentFile.namespace,
+        currentOntologyDefaultPath: currentFile.defaultPath,
         currentOntologyProjectName: currentFile.projectName,
         currentOntologyTemplates: currentFile.templates,
         languageOptions: getAvailableLanguages(i18n),

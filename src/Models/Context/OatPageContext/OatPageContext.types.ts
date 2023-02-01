@@ -70,7 +70,7 @@ export interface IOatPageContextState {
     currentOntologyModelMetadata: IOATModelsMetadata[];
     currentOntologyModelPositions: IOATModelPosition[];
     currentOntologyModels: DtdlInterface[];
-    currentOntologyNamespace: string;
+    currentOntologyDefaultPath: string;
     currentOntologyProjectName: string;
     currentOntologyTemplates: DTDLProperty[];
     languageOptions: IDropdownOption[];

@@ -735,7 +735,7 @@ const OATGraphViewerContent: React.FC<IOATGraphViewerProps> = (props) => {
         oatPageDispatch,
         oatPageState.currentOntologyModelPositions,
         oatPageState.currentOntologyModels,
-        oatPageState.currentOntologyNamespace,
+        oatPageState.currentOntologyDefaultPath,
         oatPageState.graphUpdatesToSync,
         oatPageState.selection,
         rfInstance,
