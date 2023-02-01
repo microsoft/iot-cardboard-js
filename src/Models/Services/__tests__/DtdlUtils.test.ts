@@ -667,7 +667,7 @@ describe('DtdlUtils', () => {
             });
             test('basic string is valid', () => {
                 // ARRANGE
-                const testName = 'Teststring';
+                const testName = 'dtmi:Teststring:pathSeg_2:finalName;3';
                 // ACT
                 const result = isValidDtmiId(testName);
                 // ASSERT

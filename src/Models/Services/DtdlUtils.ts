@@ -281,7 +281,12 @@ const DEFAULT_PATH_REGEX_IN_PROGRESS = /^[a-zA-Z](?:[a-zA-Z0-9_:]*[a-zA-Z0-9_:])
 const DEFAULT_MAX_NAME_LENGTH = 64;
 
 export const isValidDtmiId = (dtmiId: string): boolean => {
-    return new RegExp(DTMI_VALIDATION_REGEX).test(dtmiId);
+    // return false if we can't get the version segment
+    if (!dtmiId?.includes(';')) {
+        return false;
+    }
+    const trimmedVersion = dtmiId.substring(0, dtmiId.lastIndexOf(';'));
+    return new RegExp(DTMI_VALIDATION_REGEX).test(trimmedVersion);
 };
 
 const defaultNameValidation = (name: string, isFinal: boolean): boolean => {
