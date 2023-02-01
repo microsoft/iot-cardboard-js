@@ -2,10 +2,16 @@ import React, { createContext } from 'react';
 import { TreeProps, PropertyTreeProps } from './PropertyTree.types';
 import './PropertyTree.scss';
 import TreeNode from './TreeComponents/TreeNode';
+import { LOCAL_STORAGE_KEYS } from '../../../Models/Constants/Constants';
 
 export const PropertyTreeContext = createContext<
     Omit<PropertyTreeProps, 'data'>
 >(null);
+
+const isDataHistoryFeatureEnabled =
+    localStorage.getItem(
+        LOCAL_STORAGE_KEYS.FeatureFlags.DataHistoryExplorer.showExplorer
+    ) === 'true';
 
 const PropertyTree: React.FC<PropertyTreeProps> = ({
     data,
@@ -37,7 +43,7 @@ const PropertyTree: React.FC<PropertyTreeProps> = ({
             }}
         >
             <div className="cb-property-tree-container">
-                {dataHistoryIcon}
+                {isDataHistoryFeatureEnabled && dataHistoryIcon}
                 <Tree data={data} />
             </div>
         </PropertyTreeContext.Provider>

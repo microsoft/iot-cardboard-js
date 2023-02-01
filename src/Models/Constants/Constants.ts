@@ -83,8 +83,8 @@ export const LOCAL_STORAGE_KEYS = {
         Telemetry: {
             debugLogging: 'cardboard.debug.telemetryLogging' // enables debug logging for all emitted telemetry events
         },
-        DataHistory: {
-            showDataHistoryWidget: 'cardboard.feature.dataHistoryWidget' // shows data history widget widget library
+        DataHistoryExplorer: {
+            showExplorer: 'cardboard.feature.dataHistoryExplorer' // enables data history explorer feature if supported
         }
     },
     Environment: {

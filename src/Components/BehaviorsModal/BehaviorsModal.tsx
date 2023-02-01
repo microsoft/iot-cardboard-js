@@ -15,7 +15,6 @@ import {
     BehaviorModalMode,
     DTwin,
     IADTDataHistoryAdapter,
-    IADXAdapter,
     IPropertyInspectorAdapter
 } from '../../Models/Constants';
 import {
@@ -39,13 +38,13 @@ interface IBehaviorsModalBaseProps {
     activeWidgetId?: string;
     adapter?:
         | MockAdapter
-        | (IPropertyInspectorAdapter & IADXAdapter & IADTDataHistoryAdapter);
+        | (IPropertyInspectorAdapter & IADTDataHistoryAdapter);
     behaviors: IBehavior[];
     onClose?: () => any;
     onPropertyInspectorPatch?: (patchData: OnCommitPatchParams) => any;
     title?: string;
     twins: Record<string, DTwin>;
-    onDataHistoryExplorerClick: (twinId: string) => void;
+    onDataHistoryExplorerClick?: (twinId: string) => void;
 }
 
 interface ViewerModeProps {
@@ -63,7 +62,7 @@ const cancelIcon: IIconProps = { iconName: 'Cancel' };
 export const BehaviorsModalContext = createContext<{
     adapter?:
         | MockAdapter
-        | (IPropertyInspectorAdapter & IADXAdapter & IADTDataHistoryAdapter);
+        | (IPropertyInspectorAdapter & IADTDataHistoryAdapter);
     twins: Record<string, DTwin>;
     mode: BehaviorModalMode;
     activeWidgetId: string | null;

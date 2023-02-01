@@ -578,11 +578,12 @@ export interface IADXAdapter {
     ) => AdapterReturnType<ADXTimeSeriesData>;
 }
 
-export type IADTDataHistoryAdapter = Pick<IADTAdapter, 'getAllAdtModels'> &
-    IADXAdapter &
-    Pick<IAzureManagementAdapter, 'getTimeSeriesConnectionInformation'> & {
-        updateADXConnectionInformation: () => AdapterReturnType<ADTInstanceTimeSeriesConnectionData>;
-    };
+export interface IADTDataHistoryAdapter
+    extends IADTAdapter,
+        IADXAdapter,
+        IAzureManagementAdapter {
+    updateADXConnectionInformation: () => AdapterReturnType<ADTInstanceTimeSeriesConnectionData>;
+}
 
 export interface IBaseStandardModelSearchAdapter {
     CdnUrl: string;
@@ -806,7 +807,6 @@ export interface IADT3DViewerProps extends BaseComponentProps {
         | IADT3DViewerAdapter
         | (IADT3DViewerAdapter &
               IPropertyInspectorAdapter &
-              IADXAdapter &
               IADTDataHistoryAdapter);
     sceneId: string;
     scenesConfig: I3DScenesConfig;

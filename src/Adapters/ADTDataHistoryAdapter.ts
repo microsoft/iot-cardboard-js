@@ -37,6 +37,8 @@ export default class ADTDataHistoryAdapter implements IADTDataHistoryAdapter {
         this.authService = this.adxAuthService = authService;
         this.tenantId = tenantId;
         this.uniqueObjectId = uniqueObjectId;
+        this.adtProxyServerPath = adtProxyServerPath;
+
         this.adtTwinCache = new AdapterEntityCache<ADTTwinData>(9000);
         this.adtModelsCache = new AdapterEntityCache<ADTAllModelsData>(
             modelRefreshMaxAge
@@ -48,13 +50,12 @@ export default class ADTDataHistoryAdapter implements IADTDataHistoryAdapter {
             timeSeriesConnectionRefreshMaxAge
         );
 
-        this.adtProxyServerPath = adtProxyServerPath;
         this.authService.login();
         // Fetch & cache models on mount (makes first use of models faster as models should already be cached)
         this.getAllAdtModels();
     }
 
-    updateADXConnectionInformation = async () => {
+    async updateADXConnectionInformation() {
         if (this.adtHostUrl) {
             logDebugConsole(
                 'debug',
@@ -83,14 +84,14 @@ export default class ADTDataHistoryAdapter implements IADTDataHistoryAdapter {
                 errorInfo: null
             });
         }
-    };
+    }
 }
 
 export default interface ADTDataHistoryAdapter
     extends ADTAdapter,
         ADXAdapter,
         AzureManagementAdapter {
-    updateADXConnectionInformation: () => Promise<
+    updateADXConnectionInformation(): Promise<
         AdapterResult<ADTInstanceTimeSeriesConnectionData>
     >;
 }

@@ -9,9 +9,6 @@ import {
 } from '../Models/Constants/Enums';
 import { IAuthService, IAzureResource } from '../Models/Constants/Interfaces';
 import { applyMixins, getUrlFromString } from '../Models/Services/Utils';
-import ADTAdapter from './ADTAdapter';
-import ADXAdapter from './ADXAdapter';
-import AzureManagementAdapter from './AzureManagementAdapter';
 import BlobAdapter from './BlobAdapter';
 import {
     ADTAllModelsData,
@@ -229,10 +226,7 @@ export default class ADT3DSceneAdapter {
 }
 
 export default interface ADT3DSceneAdapter
-    extends ADTAdapter,
-        BlobAdapter,
-        AzureManagementAdapter,
-        ADXAdapter,
+    extends BlobAdapter,
         ADTDataHistoryAdapter {
     getMissingStorageContainerAccessRoles: (
         containerURLString?: string
@@ -241,10 +235,4 @@ export default interface ADT3DSceneAdapter
         missingRoleDefinitionIds: AzureAccessPermissionRoleGroups
     ) => Promise<AdapterResult<AzureResourcesData>>;
 }
-applyMixins(ADT3DSceneAdapter, [
-    ADTAdapter,
-    BlobAdapter,
-    AzureManagementAdapter,
-    ADXAdapter,
-    ADTDataHistoryAdapter
-]);
+applyMixins(ADT3DSceneAdapter, [BlobAdapter, ADTDataHistoryAdapter]);
