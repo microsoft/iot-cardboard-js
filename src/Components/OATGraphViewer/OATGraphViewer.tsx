@@ -565,13 +565,32 @@ const OATGraphViewerContent: React.FC<IOATGraphViewerProps> = (props) => {
     // side effects
 
     // hide the minimap if we don't have any models cause we hide the property inspector too
+    const previousModelCountWasZero =
+        usePrevious(oatPageState.currentOntologyModels.length) === 0;
     useEffect(() => {
         if (oatPageState.currentOntologyModels?.length === 0) {
             oatGraphDispatch({
-                type: OatGraphContextActionType.MINI_MAP_VISIBLE_TOGGLE
+                type: OatGraphContextActionType.MINI_MAP_VISIBLE_TOGGLE,
+                payload: {
+                    value: false
+                }
+            });
+        } else if (
+            oatPageState.currentOntologyModels?.length > 0 &&
+            previousModelCountWasZero
+        ) {
+            oatGraphDispatch({
+                type: OatGraphContextActionType.MINI_MAP_VISIBLE_TOGGLE,
+                payload: {
+                    value: true
+                }
             });
         }
-    }, [oatPageState.currentOntologyModels?.length]);
+    }, [
+        oatGraphDispatch,
+        oatPageState.currentOntologyModels?.length,
+        previousModelCountWasZero
+    ]);
 
     // sync changes from models & positions in state onto the graph
     useEffect(() => {
