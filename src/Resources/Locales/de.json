@@ -1406,5 +1406,11 @@
     "removeModelButtonText": "Modell entfernen",
     "modelListToggleAriaLabelShow": "Modellliste anzeigen",
     "modelListToggleAriaLabelHide": "Modellliste ausblenden"
+  },
+  "OATErrors": {
+    "Validations": {
+      "InvalidDtmiIdFormatTitle": "Ungültiges DTMI-Format",
+      "InvalidDtmiIdFormatMessage": "Die DTMI-ID ist ungültig. IDs müssen dem folgenden Muster '{{regex}}' entsprechen"
+    }
   }
 }

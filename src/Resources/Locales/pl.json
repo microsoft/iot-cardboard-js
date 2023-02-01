@@ -1406,5 +1406,11 @@
     "removeModelButtonText": "Usuń model",
     "modelListToggleAriaLabelShow": "Pokaż listę modeli",
     "modelListToggleAriaLabelHide": "Ukryj listę modeli"
+  },
+  "OATErrors": {
+    "Validations": {
+      "InvalidDtmiIdFormatTitle": "Nieprawidłowy format DTMI",
+      "InvalidDtmiIdFormatMessage": "Identyfikator DTMI jest nieprawidłowy. Identyfikatory muszą być zgodne z następującym wzorcem \"{{regex}}\""
+    }
   }
 }

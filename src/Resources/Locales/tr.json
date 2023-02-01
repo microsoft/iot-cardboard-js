@@ -1406,5 +1406,11 @@
     "removeModelButtonText": "Modeli kaldır",
     "modelListToggleAriaLabelShow": "Model listesini göster",
     "modelListToggleAriaLabelHide": "Model listesini gizle"
+  },
+  "OATErrors": {
+    "Validations": {
+      "InvalidDtmiIdFormatTitle": "Geçersiz DTMI biçimi",
+      "InvalidDtmiIdFormatMessage": "DTMI Kimliği geçerli değil. Kimlikler aşağıdaki '{{regex}}' kalıbına uygun olmalıdır"
+    }
   }
 }

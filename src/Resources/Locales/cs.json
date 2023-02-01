@@ -1406,5 +1406,11 @@
     "removeModelButtonText": "Odebrat model",
     "modelListToggleAriaLabelShow": "Zobrazit seznam modelů",
     "modelListToggleAriaLabelHide": "Skrýt seznam modelů"
+  },
+  "OATErrors": {
+    "Validations": {
+      "InvalidDtmiIdFormatTitle": "Neplatný formát DTMI",
+      "InvalidDtmiIdFormatMessage": "DTMI ID není platné. ID musí odpovídat následujícímu vzoru '{{regex}}'"
+    }
   }
 }
