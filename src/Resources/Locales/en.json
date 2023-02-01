@@ -925,8 +925,8 @@
             "searchModels": "Search models",
             "noMatchingItemsMessage": "No models match that criteria",
             "removeModelButtonText": "Remove model",
-            "noModelsTitle": "Where are all the models at? 🤔",
-            "noModelsMessage": "Let's get the party started",
+            "noModelsTitle": "You don't have any models yet",
+            "noModelsMessage": "Start designing your ontology by adding a model",
             "noModelsButtonText": "Add a model"
         }
     },
