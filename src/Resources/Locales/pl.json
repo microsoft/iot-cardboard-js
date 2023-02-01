@@ -1399,18 +1399,20 @@
     "defaultFileName": "Nowa ontologia",
     "defaultModelNamePrefix": "Model"
   },
-  "OATModelList": {
-    "searchModels": "Szukaj modeli",
-    "noDataMessage": "Brak modeli",
-    "noMatchingItemsMessage": "Żaden model nie spełnia tych kryteriów",
-    "removeModelButtonText": "Usuń model",
-    "modelListToggleAriaLabelShow": "Pokaż listę modeli",
-    "modelListToggleAriaLabelHide": "Ukryj listę modeli"
-  },
   "OATErrors": {
     "Validations": {
       "InvalidDtmiIdFormatTitle": "Nieprawidłowy format DTMI",
       "InvalidDtmiIdFormatMessage": "Zmiany nie zostały zapisane, ponieważ DTMI nie spełnia wymaganego formatu. \n DTMI: {{dtmi}}\n Wymagany format: {{regex}}"
+    }
+  },
+  "OAT": {
+    "ModelList": {
+      "searchModels": "Szukaj modeli",
+      "noMatchingItemsMessage": "Żaden model nie spełnia tych kryteriów",
+      "removeModelButtonText": "Usuń model",
+      "noModelsTitle": "Gdzie są wszystkie modele? 🤔",
+      "noModelsMessage": "Zacznijmy imprezę",
+      "noModelsButtonText": "Dodawanie modelu"
     }
   }
 }

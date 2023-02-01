@@ -1399,18 +1399,20 @@
     "defaultFileName": "新しいオントロジー",
     "defaultModelNamePrefix": "モデル"
   },
-  "OATModelList": {
-    "searchModels": "モデルの検索",
-    "noDataMessage": "モデルなし",
-    "noMatchingItemsMessage": "その基準に一致するモデルはありません",
-    "removeModelButtonText": "モデルを削除",
-    "modelListToggleAriaLabelShow": "モデル一覧を表示",
-    "modelListToggleAriaLabelHide": "モデルリストを隠す"
-  },
   "OATErrors": {
     "Validations": {
       "InvalidDtmiIdFormatTitle": "無効な DTMI 形式です",
       "InvalidDtmiIdFormatMessage": "DTMI が必要な形式を満たしていないため、変更は保存されませんでした。\n DTMI: {{dtmi}}\n 必要な形式: {{正規表現}}"
+    }
+  },
+  "OAT": {
+    "ModelList": {
+      "searchModels": "モデルの検索",
+      "noMatchingItemsMessage": "その基準に一致するモデルはありません",
+      "removeModelButtonText": "モデルを削除",
+      "noModelsTitle": "すべてのモデルはどこにありますか?🤔",
+      "noModelsMessage": "パーティーを始めましょう",
+      "noModelsButtonText": "モデルを追加する"
     }
   }
 }
