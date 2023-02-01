@@ -921,6 +921,9 @@
         "hidePanel": "Hide elements panel"
     },
     "OAT": {
+        "Common": {
+            "untargeted": "Untargeted"
+        },
         "ModelList": {
             "searchModels": "Search models",
             "noMatchingItemsMessage": "No models match that criteria",

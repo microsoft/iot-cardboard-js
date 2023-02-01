@@ -6,7 +6,8 @@ import {
     FocusZone,
     Text,
     IconButton,
-    DirectionalHint
+    DirectionalHint,
+    Stack
 } from '@fluentui/react';
 import { useId } from '@fluentui/react-hooks';
 import { useBoolean } from '@fluentui/react-hooks';
@@ -161,7 +162,11 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = (props) => {
                 >
                     {data['@type'] !== OAT_UNTARGETED_RELATIONSHIP_NAME ? (
                         <div className={graphViewerStyles.nodeContainer}>
-                            <div className={graphViewerStyles.nodeRow}>
+                            <Stack
+                                horizontal
+                                className={graphViewerStyles.nodeRow}
+                                tokens={{ childrenGap: 8 }}
+                            >
                                 <Label
                                     id={nameLabelId}
                                     className={graphViewerStyles.nodeLabel}
@@ -174,8 +179,12 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = (props) => {
                                 >
                                     {parseModelId(id)?.name ?? ''}
                                 </Text>
-                            </div>
-                            <div className={graphViewerStyles.nodeRow}>
+                            </Stack>
+                            <Stack
+                                horizontal
+                                className={graphViewerStyles.nodeRow}
+                                tokens={{ childrenGap: 8 }}
+                            >
                                 <Label
                                     id={idLabelId}
                                     className={graphViewerStyles.nodeLabel}
@@ -188,7 +197,7 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = (props) => {
                                 >
                                     {data['@id']}
                                 </Text>
-                            </div>
+                            </Stack>
                         </div>
                     ) : (
                         <div
@@ -196,7 +205,7 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = (props) => {
                                 graphViewerStyles.untargetedNodeContainer
                             }
                         >
-                            <Label>{data['@type']}</Label>
+                            <Label>{t('OAT.Common.untargeted')}</Label>
                         </div>
                     )}
                     <IconButton
