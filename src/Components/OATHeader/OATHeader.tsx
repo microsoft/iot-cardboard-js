@@ -457,6 +457,29 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
             itemType: ContextualMenuItemType.Divider
         },
         {
+            key: 'import',
+            text: t('OATHeader.import'),
+            iconProps: { iconName: 'Import' },
+            subMenuProps: {
+                items: [
+                    {
+                        key: 'importFile',
+                        text: t('OATHeader.importFile'),
+                        iconProps: { iconName: 'FileCode' },
+                        onClick: oatPageState.openUploadFileCallback,
+                        'data-testid': 'oat-header-new-menu-import-file'
+                    },
+                    {
+                        key: 'importFolder',
+                        text: t('OATHeader.importFolder'),
+                        iconProps: { iconName: 'FabricFolder' },
+                        onClick: oatPageState.openUploadFolderCallback,
+                        'data-testid': 'oat-header-new-menu-import-folder'
+                    }
+                ]
+            }
+        },
+        {
             key: 'Export',
             text: t('OATHeader.export'),
             iconProps: { iconName: 'Export' },
@@ -495,29 +518,6 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
             'data-testid': 'oat-header-undo-menu-redo'
         }
     ];
-    const newModelMenuItems: IContextualMenuItem[] = [
-        {
-            key: 'newModel',
-            iconProps: { iconName: 'AppIconDefaultAdd' },
-            text: t('OATHeader.newModel'),
-            onClick: onAddModel,
-            'data-testid': 'oat-header-new-menu-new'
-        },
-        {
-            key: 'importFile',
-            text: t('OATHeader.importFile'),
-            iconProps: { iconName: 'Import' },
-            onClick: oatPageState.openUploadFileCallback,
-            'data-testid': 'oat-header-new-menu-import-file'
-        },
-        {
-            key: 'importFolder',
-            text: t('OATHeader.importFolder'),
-            iconProps: { iconName: 'Import' },
-            onClick: oatPageState.openUploadFolderCallback,
-            'data-testid': 'oat-header-new-menu-import-folder'
-        }
-    ];
     const commandBarItems: ICommandBarItemProps[] = [
         {
             key: 'file',
@@ -543,10 +543,6 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
         {
             key: 'newModel',
             iconProps: { iconName: 'AppIconDefaultAdd' },
-            split: true,
-            subMenuProps: {
-                items: newModelMenuItems
-            },
             text: 'New model',
             onClick: onAddModel,
             'data-testid': 'oat-header-new-menu'
