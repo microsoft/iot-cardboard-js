@@ -1114,7 +1114,7 @@
     "runLayout": "Lay-out uitvoeren",
     "extends": "Breidt",
     "loadingText": "Lay-outposities berekenen",
-    "id2": "LEGITIMATIEBEWIJS"
+    "id": "LEGITIMATIEBEWIJS"
   },
   "OATPropertyEditor": {
     "displayName": "Weergegeven naam",

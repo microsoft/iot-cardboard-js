@@ -1114,7 +1114,7 @@
     "runLayout": "実行レイアウト",
     "extends": "拡張",
     "loadingText": "レイアウト位置の計算",
-    "id2": "身分証明書"
+    "id": "身分証明書"
   },
   "OATPropertyEditor": {
     "displayName": "表示名",

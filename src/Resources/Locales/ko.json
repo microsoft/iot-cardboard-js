@@ -1114,7 +1114,7 @@
     "runLayout": "실행 레이아웃",
     "extends": "확장",
     "loadingText": "레이아웃 위치 계산",
-    "id2": "아이디"
+    "id": "아이디"
   },
   "OATPropertyEditor": {
     "displayName": "표시 이름",

@@ -1114,7 +1114,7 @@
     "runLayout": "运行布局",
     "extends": "延伸",
     "loadingText": "计算布局位置",
-    "id2": "身份证"
+    "id": "身份证"
   },
   "OATPropertyEditor": {
     "displayName": "显示名称",

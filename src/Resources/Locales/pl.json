@@ -1114,7 +1114,7 @@
     "runLayout": "Uruchom układ",
     "extends": "Rozszerza",
     "loadingText": "Pozycje układu obliczeniowego",
-    "id2": "ID"
+    "id": "ID"
   },
   "OATPropertyEditor": {
     "displayName": "Nazwa wyświetlana",

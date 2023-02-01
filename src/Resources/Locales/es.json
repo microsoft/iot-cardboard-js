@@ -1114,7 +1114,7 @@
     "runLayout": "Ejecutar diseño",
     "extends": "Extiende",
     "loadingText": "Posiciones de diseño de cálculo",
-    "id2": "IDENTIFICACIÓN"
+    "id": "IDENTIFICACIÓN"
   },
   "OATPropertyEditor": {
     "displayName": "Nombre para mostrar",

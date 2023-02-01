@@ -994,7 +994,7 @@
     "errorNameLength": "Název nesmí přesáhnout 64 znaků",
     "extends": "Rozšiřuje",
     "loadingText": "Výpočetní pozice rozvržení",
-    "id2": "ID"
+    "id": "ID"
   },
   "OATPropertyEditor": {
     "addEnumValue": "Přidat hodnotu výčtu",

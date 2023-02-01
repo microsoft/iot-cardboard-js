@@ -1114,7 +1114,7 @@
     "runLayout": "Çalıştırma Düzeni",
     "extends": "Genişletir",
     "loadingText": "Bilgi işlem düzeni konumları",
-    "id2": "KİMLİĞİ"
+    "id": "KİMLİĞİ"
   },
   "OATPropertyEditor": {
     "displayName": "Görünen Ad",

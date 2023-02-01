@@ -1114,7 +1114,7 @@
     "runLayout": "Layout de execução",
     "extends": "Estende-se",
     "loadingText": "Posições de layout de computação",
-    "id2": "ID"
+    "id": "ID"
   },
   "OATPropertyEditor": {
     "displayName": "Nome do visor",

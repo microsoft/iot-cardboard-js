@@ -1114,7 +1114,7 @@
     "runLayout": "Executar layout",
     "extends": "Estende",
     "loadingText": "Posições de layout de computação",
-    "id2": "ID"
+    "id": "ID"
   },
   "OATPropertyEditor": {
     "displayName": "Nome de exibição",

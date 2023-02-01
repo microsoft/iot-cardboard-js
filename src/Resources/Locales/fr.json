@@ -1114,7 +1114,7 @@
     "runLayout": "Exécuter la mise en page",
     "extends": "S' étend",
     "loadingText": "Calcul des positions de mise en page",
-    "id2": "ID"
+    "id": "ID"
   },
   "OATPropertyEditor": {
     "displayName": "Nom d’affichage",

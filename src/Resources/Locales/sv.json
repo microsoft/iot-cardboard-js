@@ -1114,7 +1114,7 @@
     "runLayout": "Kör layout",
     "extends": "Sträcker sig",
     "loadingText": "Positioner för datorlayout",
-    "id2": "ID"
+    "id": "ID"
   },
   "OATPropertyEditor": {
     "displayName": "Visningsnamn",

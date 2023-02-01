@@ -1114,7 +1114,7 @@
     "runLayout": "Elrendezés futtatása",
     "extends": "Kiterjeszti",
     "loadingText": "Elrendezési pozíciók számítása",
-    "id2": "AZONOSÍTÓ"
+    "id": "AZONOSÍTÓ"
   },
   "OATPropertyEditor": {
     "displayName": "Megjelenítendő név",

@@ -1114,7 +1114,7 @@
     "runLayout": "Layout ausführen",
     "extends": "Erweitert",
     "loadingText": "Layoutpositionen berechnen",
-    "id2": "ID"
+    "id": "ID"
   },
   "OATPropertyEditor": {
     "displayName": "Anzeigename",
