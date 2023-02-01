@@ -984,9 +984,9 @@
             "modalSubTitleLinkText": "Learn more about ontologies",
             "nameLabel": "Name",
             "namePlaceholder": "Enter an ontology name",
-            "namespaceLabel": "Namespace",
+            "namespaceLabel1": "Default path",
             "namespaceDescription": "Example model name: {{modelName}}",
-            "namespacePlaceholder": "Enter a namespace",
+            "namespacePlaceholder1": "Enter a default path",
             "sampleModel": "sample Model"
         }
     },
