@@ -984,9 +984,9 @@
             "modalSubTitleLinkText": "Learn more about ontologies",
             "nameLabel": "Name",
             "namePlaceholder": "Enter an ontology name",
-            "namespaceLabel1": "Default path",
+            "namespaceLabel": "Default path",
             "namespaceDescription": "Example model name: {{modelName}}",
-            "namespacePlaceholder1": "Enter a default path",
+            "namespacePlaceholder": "Enter a default path",
             "sampleModel": "sample Model"
         }
     },
@@ -1144,7 +1144,7 @@
     "OATErrors": {
         "Validations": {
             "InvalidDtmiIdFormatTitle": "Invalid DTMI format",
-            "InvalidDtmiIdFormatMessage": "Your changes were not saved because the DTMI is invalid. DTMIs must conform to the following pattern:\n {{regex}}"
+            "InvalidDtmiIdFormatMessage1": "Your changes were not saved because the DTMI did not meet the required format. \n DTMI:{{dtmi}}\n Required format: {{regex}}"
         }
     },
     "OATErrorBoundary": {
