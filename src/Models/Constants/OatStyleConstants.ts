@@ -15,8 +15,8 @@ export const LOADING_Z_INDEX = CONTROLS_Z_INDEX + 1;
 export const PANEL_VERTICAL_SPACING =
     CONTROLS_BOTTOM_OFFSET +
     CONTROLS_CALLOUT_OFFSET +
-    44 +
     OAT_HEADER_HEIGHT +
+    44 +
     48; // 44=control button height+pad, 48=flights shell header
 
 export const getControlBackgroundColor = (theme: IExtendedTheme): string =>
