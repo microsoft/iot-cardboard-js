@@ -1413,6 +1413,9 @@
       "noModelsTitle": "Wo sind all die Modelle? 🤔",
       "noModelsMessage": "Los geht's mit der Party",
       "noModelsButtonText": "Hinzufügen eines Modells"
+    },
+    "Common": {
+      "untargeted": "Nicht zielgerichtet"
     }
   }
 }

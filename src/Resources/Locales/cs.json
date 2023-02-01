@@ -1413,6 +1413,9 @@
       "noModelsTitle": "Kde jsou všechny modely? 🤔",
       "noModelsMessage": "Pusťme se do párty",
       "noModelsButtonText": "Přidání modelu"
+    },
+    "Common": {
+      "untargeted": "Necílené"
     }
   }
 }

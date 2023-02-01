@@ -1413,6 +1413,9 @@
       "noModelsTitle": "Var är alla modeller på? 🤔",
       "noModelsMessage": "Låt oss få igång festen",
       "noModelsButtonText": "Lägga till en modell"
+    },
+    "Common": {
+      "untargeted": "Oriktad"
     }
   }
 }

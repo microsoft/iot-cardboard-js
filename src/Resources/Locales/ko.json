@@ -1413,6 +1413,9 @@
       "noModelsTitle": "모든 모델은 어디에 있습니까? 🤔",
       "noModelsMessage": "파티를 시작합시다",
       "noModelsButtonText": "모델 추가"
+    },
+    "Common": {
+      "untargeted": "타겟팅되지 않음"
     }
   }
 }

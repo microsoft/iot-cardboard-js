@@ -1413,6 +1413,9 @@
       "noModelsTitle": "Hol vannak a modellek? 🤔",
       "noModelsMessage": "Kezdjük a bulit",
       "noModelsButtonText": "Modell hozzáadása"
+    },
+    "Common": {
+      "untargeted": "Nem célzott"
     }
   }
 }

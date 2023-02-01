@@ -1413,6 +1413,9 @@
       "noModelsTitle": "Waar zijn alle modellen? 🤔",
       "noModelsMessage": "Laten we het feest op gang brengen",
       "noModelsButtonText": "Een model toevoegen"
+    },
+    "Common": {
+      "untargeted": "Ongericht"
     }
   }
 }
