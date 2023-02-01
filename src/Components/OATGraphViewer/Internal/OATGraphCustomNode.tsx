@@ -22,7 +22,6 @@ import {
     OAT_UNTARGETED_RELATIONSHIP_NAME,
     OAT_INTERFACE_TYPE
 } from '../../../Models/Constants/Constants';
-import { getDisplayName } from '../../OATPropertyEditor/Utils';
 import IconRelationship from '../../../Resources/Static/relationshipTargeted.svg';
 import IconUntargeted from '../../../Resources/Static/relationshipUntargeted.svg';
 import IconInheritance from '../../../Resources/Static/relationshipInheritance.svg';
@@ -283,9 +282,7 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = (props) => {
 
                                 <Svg
                                     src={IconRelationship}
-                                    id={`${getDisplayName(
-                                        data.displayName
-                                    )}${OAT_RELATIONSHIP_HANDLE_NAME}`}
+                                    id={relationshipTooltipTargetId}
                                     className={
                                         handleHoverRelationship
                                             ? graphViewerStyles.handleContentIcon
@@ -325,9 +322,7 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = (props) => {
 
                                 <Svg
                                     src={IconUntargeted}
-                                    id={`${getDisplayName(
-                                        data.displayName
-                                    )}${OAT_UNTARGETED_RELATIONSHIP_NAME}`}
+                                    id={untargetedTooltipTargetId}
                                     className={
                                         handleHoverUntargeted
                                             ? graphViewerStyles.handleContentIcon
@@ -367,9 +362,7 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = (props) => {
 
                                 <Svg
                                     src={IconInheritance}
-                                    id={`${getDisplayName(
-                                        data.displayName
-                                    )}${OAT_EXTEND_HANDLE_NAME}`}
+                                    id={extendTooltipTargetId}
                                     className={
                                         handleHoverExtend
                                             ? graphViewerStyles.handleContentIcon
