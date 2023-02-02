@@ -100,6 +100,13 @@
     "schemaValidationFailed": {
       "type": "JSON-Schemavalidierung fehlgeschlagen",
       "message": "JSON ist ungültig. Überprüfen Sie, ob die Syntax mit dem erforderlichen Schema übereinstimmt."
+<<<<<<< HEAD
+=======
+    },
+    "timeSeriesDatabaseConnectionFetchFailed": {
+      "type": "Fehler bei der Überprüfung der Zeitreihendatenbankverbindung",
+      "message": "Verbindungsinformationen zum Datenverlauf konnten nicht gefunden werden, stellen Sie sicher, dass der Datenverlauf für diese Azure Digital Twins-Instanz aktiviert ist und dass Sie mindestens {{permission}}' Zugriff auf die Azure Data Explorer-Instanz haben."
+>>>>>>> 6e317f2ed7df657d9ad125f673daa1f74be28661
     }
   },
   "valueRangeBuilder": {
@@ -650,6 +657,7 @@
         }
       },
       "headerMenu": "Menü des Widgets \"Datenverlauf\"",
+<<<<<<< HEAD
       "openQuery": "Abfrage im Azure-Daten-Explorer öffnen",
       "errors": {
         "genericNetwork": "Die Cluster-URL ist ungültig, oder es ist ein Netzwerkfehler aufgetreten.",
@@ -658,6 +666,9 @@
         "entityNotFound": "Datenbank nicht gefunden, Abfrage konnte nicht ausgeführt werden.",
         "forbidden": "Der Zugriff wurde verweigert, Sie verfügen nicht über Abfrageberechtigungen."
       }
+=======
+      "openQuery": "Abfrage im Azure-Daten-Explorer öffnen"
+>>>>>>> 6e317f2ed7df657d9ad125f673daa1f74be28661
     }
   },
   "sdkStrings": {
@@ -1360,15 +1371,26 @@
       "title": "Twin-Immobilien",
       "timeSeriesTwin": {
         "property": "Eigentum",
+<<<<<<< HEAD
         "propertyTypeCastLabel": "Eigenschaftstyp in Zahl umwandeln",
         "add": "Zeitreihen hinzufügen",
         "remove": "Zeitreihen entfernen",
         "edit": "Zeitreihen bearbeiten"
+=======
+        "add": "Zeitreihen hinzufügen",
+        "remove": "Zeitreihen entfernen",
+        "edit": "Zeitreihen bearbeiten",
+        "noData": "Keine anzuzeigenden Daten für den ausgewählten Zeitraum",
+        "propertyTypeCastLabe": "Eigenschaftswert in Zahl umwandeln"
+>>>>>>> 6e317f2ed7df657d9ad125f673daa1f74be28661
       },
       "description": "Um vergangene Werte für historisierte Eigenschaften zu vergleichen, fügen Sie unten Zeitreihen hinzu."
     },
     "viewer": {
+<<<<<<< HEAD
       "chart": "Diagramm",
+=======
+>>>>>>> 6e317f2ed7df657d9ad125f673daa1f74be28661
       "noSeriesDescription": "Um den Datenverlauf für diesen Zwilling anzuzeigen, wählen Sie eine anzuzeigende Eigenschaft aus.",
       "table": {
         "title": "Tisch",
@@ -1381,6 +1403,7 @@
         "messages": {
           "noColor": "Nicht festgelegt",
           "loading": "Historisierte Daten werden geladen...",
+<<<<<<< HEAD
           "noData": "Im ausgewählten Zeitraum wurden keine historisierten Daten gefunden.",
           "noSeries": "Kein Zwilling zur Abfrage ausgewählt, fügen Sie Zwillingseigenschaften hinzu, um historisierte Daten anzuzeigen."
         }
@@ -1416,6 +1439,58 @@
     },
     "Common": {
       "untargeted": "Nicht zielgerichtet"
+=======
+          "noSeries": "Kein Zwilling zur Abfrage ausgewählt, fügen Sie Zwillingseigenschaften hinzu, um historisierte Daten anzuzeigen.",
+          "noData": "Im ausgewählten Zeitraum wurden keine Daten gefunden."
+        }
+      },
+      "chart": {
+        "title": "Diagramm",
+        "messages": {
+          "noData": "Im ausgewählten Zeitraum wurden keine numerischen Daten gefunden."
+        }
+      }
+    },
+    "loadingConnectionLabel": "Verbindungsinformationen zum Datenverlauf werden geladen..."
+  },
+  "clear": "Klar",
+  "duplicate": "Duplikat",
+  "moveUp": "Aufrücken",
+  "moveDown": "Nach unten",
+  "increaseBy1": "Wert um 1 erhöhen",
+  "decreaseBy1": "Wert um 1 verringern",
+  "OATCommon": {
+    "duplicateFileNameSuffix": "kopieren",
+    "defaultFileName": "Neue Ontologie",
+    "defaultModelNamePrefix": "Modell"
+  },
+  "OATErrors": {
+    "Validations": {
+      "InvalidDtmiIdFormatTitle": "Ungültiges DTMI-Format",
+      "InvalidDtmiIdFormatMessage": "Ihre Änderungen wurden nicht gespeichert, da der DTMI nicht dem erforderlichen Format entsprach. \n DTMI: {{dtmi}}\n Erforderliches Format: {{regex}}"
+    }
+  },
+  "OAT": {
+    "ModelList": {
+      "searchModels": "Modelle suchen",
+      "noMatchingItemsMessage": "Kein Modell erfüllt diese Kriterien",
+      "removeModelButtonText": "Modell entfernen",
+      "noModelsTitle": "Sie haben noch keine Modelle",
+      "noModelsMessage": "Beginnen Sie mit dem Entwurf Ihrer Ontologie, indem Sie ein Modell hinzufügen oder Ihre vorhandene Ontologie importieren",
+      "noModelsButtonText": "Hinzufügen eines Modells"
+    },
+    "Common": {
+      "untargeted": "Nicht zielgerichtet"
+    }
+  },
+  "dataHistoryErrorHandlingWrapper": {
+    "errors": {
+      "genericNetwork": "Die Azure Data Explorer-Instanz kann nicht verbunden werden, stellen Sie sicher, dass die Ressource nicht beendet wurde und Ihre Netzwerkkonnektivität stabil ist.",
+      "genericBadRequest": "Etwas ist schief gelaufen, bitte versuchen Sie es erneut.",
+      "generalBadRequestMessage": "Die Anforderung ist ungültig und kann nicht ausgeführt werden.",
+      "entityNotFound": "Datenbank nicht gefunden, kann die Abfrage nicht ausgeführt werden.",
+      "forbidden": "Der Zugriff wurde verweigert, Sie verfügen nicht über Abfrageberechtigungen."
+>>>>>>> 6e317f2ed7df657d9ad125f673daa1f74be28661
     }
   }
 }

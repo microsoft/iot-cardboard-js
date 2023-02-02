@@ -100,6 +100,13 @@
     "schemaValidationFailed": {
       "type": "JSON スキーマの検証に失敗しました",
       "message": "JSON が無効です。構文が必要なスキーマと一致することを確認します。"
+<<<<<<< HEAD
+=======
+    },
+    "timeSeriesDatabaseConnectionFetchFailed": {
+      "type": "時系列データベース接続の検証に失敗しました",
+      "message": "データ履歴の接続情報が見つかりませんでした。この Azure Digital Twins インスタンスのデータ履歴が有効になっていることと、Azure データ エクスプローラー インスタンスに対して少なくとも \"{{アクセス許可}}\" アクセス権があることを確認してください。"
+>>>>>>> 6e317f2ed7df657d9ad125f673daa1f74be28661
     }
   },
   "valueRangeBuilder": {
@@ -119,6 +126,7 @@
   },
   "relationshipsTable": {
     "twinID": "ツイン ID",
+<<<<<<< HEAD
     "model": "モデル",
     "relationshipName": "関係名"
   },
@@ -227,6 +235,116 @@
     "empty": "このボードにはカードがありません",
     "twinID": "ツイン ID",
     "model": "モデル",
+=======
+    "model": "モデル",
+    "relationshipName": "関係名"
+  },
+  "dataPusher": {
+    "dataPusherTitle": "Azure Digital Twins Data simulator",
+    "instanceUrl": "インスタンス URL",
+    "pastEventsLabel": "過去のイベントをシミュレートする",
+    "pastEventsDescriptionOn": "過去のイベントをすばやくシミュレートする",
+    "pastEventsDescriptionOff": "過去のデータはシミュレートされません",
+    "daysToSimulateLabel": "シミュレートする日数",
+    "daysToSimulateDescription": "何日も前にこれをシミュレートし始める",
+    "dataSpacingLabel": "データ間隔",
+    "dataSpacingDescription": "イベントのタイムスタンプ間の時間",
+    "quickStreamFrequencyLabel": "過去のイベント ストリーミング頻度",
+    "quickStreamFrequencyDescription": "過去のイベントをプッシュする頻度。ライブストリーミングが無効になっている場合、現在の時間に達すると、データはこの周波数でプッシュされ続けます。",
+    "liveStreamLabel": "ライブストリームデータ",
+    "liveStreamDescriptionOn": "現在の時間に達すると、シミュレーションは設定されたライブストリーム頻度でデータをプッシュします",
+    "liveStreamDescriptionOff": "シミュレーションは、設定されたクイックストリーム周波数でイベントを将来にわたって無期限に押し進め続けます",
+    "liveStreamFrequencyLabel": "周波数",
+    "liveStreamFrequencyDescription": "イベントをプッシュする頻度。この数値は、イベントのタイムスタンプ間の時間と、新しいイベントがプッシュされる間隔の両方を表します。",
+    "otherOptionsLabel": "その他のオプション",
+    "includeImagesLabel": "モデルの画像を含める",
+    "includeImagesDescriptionOn": "シミュレーションはデフォルトの画像でモデルをプッシュします",
+    "includeImagesDescriptionOff": "シミュレーションは画像をプッシュしません",
+    "generateEnvironment": "環境の生成",
+    "startSimulation": "シミュレーションの開始",
+    "stopSimulation": "シミュレーションの停止",
+    "days": "日",
+    "create": "創造する",
+    "simulate": "シミュレートする",
+    "models": "モデル",
+    "twins": "双子",
+    "relationships": "関係",
+    "simulating": "シミュレーション",
+    "liveStatus": "パケット番号: {{パケット番号}} |{{totalSuccessPatches}}/{{totalTwinsPatched}} 双子が更新されました",
+    "generateEnvironmentDescription": "モデル、ツイン、リレーションシップをプッシュして環境にデータを設定",
+    "simulateDescription": "環境へのイベントのプッシュ",
+    "pusherType": "シミュレーションの種類",
+    "robotArms": "ロボットアーム",
+    "dairyProduction": "酪農施設"
+  },
+  "scenes": {
+    "noScenes": "3Dシーンがないので、新しいシーンを追加して開始します。",
+    "addScene": "3D シーンの追加",
+    "latitude": "緯度",
+    "longitude": "経度",
+    "sampleLatitude": "例: 6.4511366",
+    "sampleLongitude": "例: 3.3883963",
+    "longitudeErrorMessage": "入力値は -180 度から 180 度以内である必要があります。",
+    "latitudeErrorMessage": "入力値は -90 度から 90 度以内でなければなりません。",
+    "showOnGlobe": "地球儀に表示",
+    "blobUrl": "3D ファイルの BLOB URL",
+    "dialogTitleCreate": "新しいシーンを作成する",
+    "dialogSubTitle": "URL経由で既存の3Dファイルをターゲットにするか、新しいファイルをコンテナに直接アップロードする",
+    "dialogTitleEdit": "3D シーンを編集する",
+    "3dFileSelectionMode": "3Dファイル選択モード",
+    "sceneNamePlaceholder": "シーン名を入力する",
+    "sceneDescriptionPlaceholder": "シーンの説明を入力する",
+    "tabNameFromContainer": "ファイルを選択",
+    "tabNameUploadFile": "ファイルのアップロード",
+    "3dFileAsset": "リンク 3D ファイル",
+    "description": "形容",
+    "overwriteIfExist": "ファイルが既に存在する場合は上書きする",
+    "fileExistsErrorMessage": "この名前のファイルはすでにストレージに存在します。コンテナからそのファイルを選択するか、上書きすることができます。"
+  },
+  "BIMUpload": {
+    "specifyFiles": "アップロード元のファイルを指定する",
+    "selectModels": "アップロードするモデルの選択",
+    "generateEnvironment": "環境の生成",
+    "specifyFilesSubheader": "指定した BIM ファイルと関連するメタデータは、ADT 環境にアップロードするモデル、ツイン、およびリレーションシップを抽出するために使用されます。",
+    "selectModelsSubheader": "選択したモデルとそれに関連付けられた双子と関係は、次の手順で環境に追加されます。",
+    "generateEnvironmentSubheader": "モデル、ツイン、およびリレーションシップ (前の手順で選択したモデルによってフィルター処理) が ADT 環境にプッシュされます。",
+    "initiateUpload": "アップロードの開始",
+    "bimFilePath": "BIM ファイルのパス",
+    "metadataFilePath": "メタデータファイルのパス",
+    "parsingModels": "モデルを解析しています...",
+    "noModelsParsed": "解析されたモデルはありません",
+    "modelsSelectedCount": "選択されたモデル ({{カウント}})",
+    "goToEnvironment": "環境に移動する"
+  },
+  "generateADTAssets": {
+    "assetsPushError": "{{assetType}}をADTにプッシュ中に問題が発生しました",
+    "assetsPushedCount": "{{カウント}}{{アセットタイプ}}プッシュ",
+    "uploadProgress": "{{合計}}の{{プッシュ}}}",
+    "uploading": "アップロード。。。",
+    "partialError": "{{assetType}} のアップロード中にエラーが発生しました: {{errorCount}} {{assetType}} のアップロードに失敗しました"
+  },
+  "uploadProgress": {
+    "uploading": "{{アセットタイプ}}のアップロード",
+    "uploadSuccess": "{{アセットタイプ}}が正常にアップロードされました",
+    "uploadPartiallyFailed": "アップロードされた{{アセットタイプ}}がいくつかの失敗で",
+    "uploadFailed": "{{アセットタイプ}}のアップロードに失敗しました"
+  },
+  "modelSearch": {
+    "placeholder": "モデル検索文字列を入力",
+    "fileNameOnly": "ファイル名のみで検索",
+    "cdnModelSearchdescription": "このツールは、一般に公開されている <CndLink> ホストされている DTDL モデル</CndLink> を検索します。指定された検索文字列は、モデル ID、表示名、および説明と照合されます。",
+    "githubModelSearchdescription": "このツールは、<GithubRepo>{{repo}}</GithubRepo>リポジトリで公開されているDTDLモデルを検索します。指定された検索文字列は、ファイル パスと内容の両方に対して照合されます。",
+    "rateLimitExceededTitle": "GitHub 検索 API のレート制限を超えました",
+    "rateLimitExceededDescription": "この検索は、GitHub 検索 API によって 1 分あたり 10 個の API リクエストに制限されます。あなたの制限は{{numSeconds}}秒でリセットされます",
+    "githubLink": "GitHub リンク",
+    "modelListItemAction": "創造する",
+    "modelListItemPreview": "DTDL を表示"
+  },
+  "board": {
+    "empty": "このボードにはカードがありません",
+    "twinID": "ツイン ID",
+    "model": "モデル",
+>>>>>>> 6e317f2ed7df657d9ad125f673daa1f74be28661
     "relationshipsTable": "リレーションシップ テーブル",
     "processGraphic": "プロセスグラフィック",
     "dataHistory": "データ履歴",
@@ -579,6 +697,7 @@
       "title": "トレンドウィジェット",
       "libraryName": "トレンド",
       "description": "履歴データのグラフを表示する"
+<<<<<<< HEAD
     },
     "gauge": {
       "title": "ゲージウィジェット",
@@ -604,6 +723,33 @@
       "libraryName": "パネル",
       "description": "レイアウトパネル"
     },
+=======
+    },
+    "gauge": {
+      "title": "ゲージウィジェット",
+      "libraryName": "ゲージ",
+      "description": "数値プロパティをカスタム範囲で表現する"
+    },
+    "link": {
+      "title": "リンクウィジェット",
+      "libraryName": "リンク",
+      "description": "要素に固有の URL に移動する",
+      "urlPlaceholder": "https://contoso.com/userManual/${PrimaryTwin.SerialNumber}",
+      "openLink": "リンクを開く"
+    },
+    "value": {
+      "title": "値ウィジェット",
+      "libraryName": "価値",
+      "description": "任意のプリミティブプロパティを表示する",
+      "displayNamePlaceholder": "表示名を入力",
+      "typePlaceholder": "値のタイプを選択します。"
+    },
+    "panel": {
+      "title": "パネルウィジェット",
+      "libraryName": "パネル",
+      "description": "レイアウトパネル"
+    },
+>>>>>>> 6e317f2ed7df657d9ad125f673daa1f74be28661
     "notSupported": "このウィジェットの種類は現在サポートされていません",
     "dataHistory": {
       "title": "データ履歴ウィジェット",
@@ -650,6 +796,7 @@
         }
       },
       "headerMenu": "データ履歴ウィジェットメニュー",
+<<<<<<< HEAD
       "openQuery": "Azure データ エクスプローラーでクエリを開く",
       "errors": {
         "genericNetwork": "クラスター URL が無効であるか、ネットワーク エラーが発生しました。",
@@ -658,6 +805,9 @@
         "entityNotFound": "データベースが見つかりません。クエリを実行できませんでした。",
         "forbidden": "アクセスが拒否されました。クエリのアクセス許可がありません。"
       }
+=======
+      "openQuery": "Azure データ エクスプローラーでクエリを開く"
+>>>>>>> 6e317f2ed7df657d9ad125f673daa1f74be28661
     }
   },
   "sdkStrings": {
@@ -1360,15 +1510,26 @@
       "title": "ツインプロパティ",
       "timeSeriesTwin": {
         "property": "財産",
+<<<<<<< HEAD
         "propertyTypeCastLabel": "プロパティの型を数値にキャスト",
         "add": "時系列の追加",
         "remove": "時系列を削除する",
         "edit": "時系列の編集"
+=======
+        "add": "時系列の追加",
+        "remove": "時系列を削除する",
+        "edit": "時系列の編集",
+        "noData": "選択した時間範囲に表示するデータがありません",
+        "propertyTypeCastLabe": "プロパティ値を数値にキャストする"
+>>>>>>> 6e317f2ed7df657d9ad125f673daa1f74be28661
       },
       "description": "履歴化されたプロパティの過去の値を比較するには、以下に時系列を追加します。"
     },
     "viewer": {
+<<<<<<< HEAD
       "chart": "チャート",
+=======
+>>>>>>> 6e317f2ed7df657d9ad125f673daa1f74be28661
       "noSeriesDescription": "このツインのデータ履歴を表示するには、表示するプロパティを選択します。",
       "table": {
         "title": "テーブル",
@@ -1381,6 +1542,7 @@
         "messages": {
           "noColor": "未設定",
           "loading": "履歴化されたデータを読み込んでいます...",
+<<<<<<< HEAD
           "noData": "選択した時間枠内に履歴データが見つかりません。",
           "noSeries": "クエリするツインが選択されていません。履歴データを表示するためにツイン プロパティを追加してください。"
         }
@@ -1416,6 +1578,58 @@
     },
     "Common": {
       "untargeted": "ターゲットなし"
+=======
+          "noSeries": "クエリするツインが選択されていません。履歴データを表示するためにツイン プロパティを追加してください。",
+          "noData": "選択した時間範囲内にデータが見つかりません。"
+        }
+      },
+      "chart": {
+        "title": "チャート",
+        "messages": {
+          "noData": "選択した時間範囲内に数値データが見つかりません。"
+        }
+      }
+    },
+    "loadingConnectionLabel": "データ履歴接続情報を読み込んでいます..."
+  },
+  "clear": "クリア",
+  "duplicate": "デュプリケート",
+  "moveUp": "上へ移動",
+  "moveDown": "下へ移動",
+  "increaseBy1": "値を 1 増やす",
+  "decreaseBy1": "値を 1 ずつ減らす",
+  "OATCommon": {
+    "duplicateFileNameSuffix": "写し",
+    "defaultFileName": "新しいオントロジー",
+    "defaultModelNamePrefix": "モデル"
+  },
+  "OATErrors": {
+    "Validations": {
+      "InvalidDtmiIdFormatTitle": "無効な DTMI 形式です",
+      "InvalidDtmiIdFormatMessage": "DTMI が必要な形式を満たしていないため、変更は保存されませんでした。\n DTMI: {{dtmi}}\n 必要な形式: {{正規表現}}"
+    }
+  },
+  "OAT": {
+    "ModelList": {
+      "searchModels": "モデルの検索",
+      "noMatchingItemsMessage": "その基準に一致するモデルはありません",
+      "removeModelButtonText": "モデルを削除",
+      "noModelsTitle": "まだモデルがありません",
+      "noModelsMessage": "モデルを追加するか、既存のオントロジーをインポートして、オントロジーの設計を開始します",
+      "noModelsButtonText": "モデルを追加する"
+    },
+    "Common": {
+      "untargeted": "ターゲットなし"
+    }
+  },
+  "dataHistoryErrorHandlingWrapper": {
+    "errors": {
+      "genericNetwork": "Azure Data Explorer インスタンスに接続できない場合は、リソースが停止していないこと、およびネットワーク接続が安定していることを確認してください。",
+      "genericBadRequest": "問題が発生しました。もう一度やり直してください。",
+      "generalBadRequestMessage": "要求は無効であり、実行できません。",
+      "entityNotFound": "データベースが見つからないため、クエリを実行できません。",
+      "forbidden": "アクセスが拒否されました。クエリのアクセス許可がありません。"
+>>>>>>> 6e317f2ed7df657d9ad125f673daa1f74be28661
     }
   }
 }

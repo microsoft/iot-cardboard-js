@@ -100,6 +100,13 @@
     "schemaValidationFailed": {
       "type": "Ověření schématu JSON se nezdařilo",
       "message": "JSON je neplatný. Zkontrolujte, zda syntaxe odpovídá požadovanému schématu."
+<<<<<<< HEAD
+=======
+    },
+    "timeSeriesDatabaseConnectionFetchFailed": {
+      "type": "Ověření připojení k databázi časové řady se nezdařilo",
+      "message": "Informace o připojení historie dat se nenašly, ujistěte se, že je pro tuto instanci digitálních vláken Azure povolená historie dat a že máte k instanci Azure Data Explorer přístup aspoň {{permission}}."
+>>>>>>> 6e317f2ed7df657d9ad125f673daa1f74be28661
     }
   },
   "valueRangeBuilder": {
@@ -119,6 +126,7 @@
   },
   "relationshipsTable": {
     "twinID": "Id dvojčat",
+<<<<<<< HEAD
     "model": "Model",
     "relationshipName": "Název vztahu"
   },
@@ -227,6 +235,116 @@
     "empty": "Tato deska nemá žádné karty",
     "twinID": "Id dvojčat",
     "model": "Model",
+=======
+    "model": "Model",
+    "relationshipName": "Název vztahu"
+  },
+  "dataPusher": {
+    "dataPusherTitle": "Simulátor dat Digitálních vláken Azure",
+    "instanceUrl": "Instance URL",
+    "pastEventsLabel": "Simulace minulých událostí",
+    "pastEventsDescriptionOn": "Rychlá simulace minulých událostí",
+    "pastEventsDescriptionOff": "Nebudou simulována žádná minulá data",
+    "daysToSimulateLabel": "Dny k simulaci",
+    "daysToSimulateDescription": "Začněte to simulovat před mnoha dny",
+    "dataSpacingLabel": "Rozestupy dat",
+    "dataSpacingDescription": "Čas mezi časovými razítky událostí",
+    "quickStreamFrequencyLabel": "Frekvence streamování minulých událostí",
+    "quickStreamFrequencyDescription": "Jak často tlačit minulé události. Pokud je živé vysílání zakázáno, budou data po dosažení aktuálního času pokračovat v odesílání na této frekvenci.",
+    "liveStreamLabel": "Data živého přenosu",
+    "liveStreamDescriptionOn": "Jakmile je dosaženo přítomného času, simulace bude odesílat data na nastavené frekvenci živého přenosu",
+    "liveStreamDescriptionOff": "Simulace bude i nadále posouvat události do budoucnosti na nastavené frekvenci rychlého streamu neomezeně dlouho",
+    "liveStreamFrequencyLabel": "Frekvence",
+    "liveStreamFrequencyDescription": "Jak často odesílat události. Toto číslo představuje čas mezi časovými razítky událostí a interval, ve kterém jsou odesílány nové události.",
+    "otherOptionsLabel": "Další možnosti",
+    "includeImagesLabel": "Zahrnutí obrázků pro model",
+    "includeImagesDescriptionOn": "Simulace bude tlačit model s výchozími obrázky",
+    "includeImagesDescriptionOff": "Simulace nebude odesílat obrázky",
+    "generateEnvironment": "Generování prostředí",
+    "startSimulation": "Spustit simulaci",
+    "stopSimulation": "Zastavit simulaci",
+    "days": "Dny",
+    "create": "Vytvářet",
+    "simulate": "Simulovat",
+    "models": "Modely",
+    "twins": "Dvojčata",
+    "relationships": "Vztahy",
+    "simulating": "Simulující",
+    "liveStatus": "Číslo paketu: {{packetNumber}} | {{totalSuccessfulPatches}}/{{totalTwinsPatched}} dvojčata úspěšně aktualizována",
+    "generateEnvironmentDescription": "Nabízení modelů, dvojčat a relací pro naplnění vašeho prostředí",
+    "simulateDescription": "Odesílání událostí do vašeho prostředí",
+    "pusherType": "Typ simulace",
+    "robotArms": "Robotická ramena",
+    "dairyProduction": "Mlékárenské zařízení"
+  },
+  "scenes": {
+    "noScenes": "Nemáte žádné 3D scény, přidejte novou, abyste mohli začít.",
+    "addScene": "Přidat 3D scénu",
+    "latitude": "Zeměpisná šířka",
+    "longitude": "Zeměpisná délka",
+    "sampleLatitude": "např.: 6.4511366",
+    "sampleLongitude": "např.: 3.3883963",
+    "longitudeErrorMessage": "Vstupní hodnota musí být v rozmezí -180 a 180 stupňů",
+    "latitudeErrorMessage": "Vstupní hodnota musí být v rozmezí -90 a 90 stupňů",
+    "showOnGlobe": "Zobrazit na zeměkouli",
+    "blobUrl": "Adresa URL objektu BLOB 3D souboru",
+    "dialogTitleCreate": "Vytvořit novou scénu",
+    "dialogSubTitle": "Cílení na existující 3D soubor prostřednictvím adresy URL nebo nahrání nového souboru přímo do kontejneru",
+    "dialogTitleEdit": "Úprava 3D scény",
+    "3dFileSelectionMode": "Režim výběru 3D souborů",
+    "sceneNamePlaceholder": "Zadejte název scény",
+    "sceneDescriptionPlaceholder": "Zadejte popis scény",
+    "tabNameFromContainer": "Vybrat soubor",
+    "tabNameUploadFile": "Nahrát soubor",
+    "3dFileAsset": "Odkaz 3D soubor",
+    "description": "Popis",
+    "overwriteIfExist": "Přepsat, pokud soubor již existuje",
+    "fileExistsErrorMessage": "Soubor s tímto názvem již existuje v úložišti, můžete tento soubor vybrat z kontejneru nebo přepsat."
+  },
+  "BIMUpload": {
+    "specifyFiles": "Určení souborů, ze kterých chcete nahrát",
+    "selectModels": "Výběr modelů pro nahrání",
+    "generateEnvironment": "Generování prostředí",
+    "specifyFilesSubheader": "Zadaný soubor BIM a přidružená metadata budou použity k extrahování modelů, dvojčat a vztahů pro nahrání do prostředí ADT.",
+    "selectModelsSubheader": "Vybrané modely a jejich přidružená dvojčata a vztahy budou přidány do vašeho prostředí v dalším kroku.",
+    "generateEnvironmentSubheader": "Modely, dvojčata a relace (filtrované podle modelů vybraných v předchozím kroku) budou odeslány do prostředí ADT.",
+    "initiateUpload": "Zahájit nahrávání",
+    "bimFilePath": "Cesta k souboru BIM",
+    "metadataFilePath": "Cesta k souboru metadat",
+    "parsingModels": "Analýza modelů...",
+    "noModelsParsed": "Žádné modely nebyly analyzovány",
+    "modelsSelectedCount": "Vybrané modely ({{count}})",
+    "goToEnvironment": "Přejít na životní prostředí"
+  },
+  "generateADTAssets": {
+    "assetsPushError": "Při odesílání {{assetType}} do nástroje ADT došlo k problému",
+    "assetsPushedCount": "{{počet}} {{assetType}} odesláno",
+    "uploadProgress": "{{pushed}} z {{total}}",
+    "uploading": "Nahrávání...",
+    "partialError": "Chyby při nahrávání {{assetType}}: {{errorCount}} {{assetType}} se nepodařilo nahrát"
+  },
+  "uploadProgress": {
+    "uploading": "Nahrání {{assetType}}",
+    "uploadSuccess": "Úspěšně nahráno {{assetType}}",
+    "uploadPartiallyFailed": "Nahráno {{assetType}} s některými chybami",
+    "uploadFailed": "Nepodařilo se nahrát {{assetType}} "
+  },
+  "modelSearch": {
+    "placeholder": "Zadejte hledaný řetězec modelu",
+    "fileNameOnly": "Vyhledávání pouze podle názvu souboru",
+    "cdnModelSearchdescription": "Tento nástroj vyhledává <CndLink>hostované modely DTDL</CndLink> veřejně dostupné. Zadaný vyhledávací řetězec je porovnán s ID modelů, zobrazovanými názvy a popisy.",
+    "githubModelSearchdescription": "Tento nástroj prohledává modely DTDL, které jsou veřejně dostupné v úložišti <GithubRepo>{{repo}}</GithubRepo>. Zadaný vyhledávací řetězec je porovnán s cestami k souborům i s obsahem.",
+    "rateLimitExceededTitle": "Překročení limitu rychlosti rozhraní API pro vyhledávání na GitHubu",
+    "rateLimitExceededDescription": "Toto vyhledávání je omezeno na 10 požadavků rozhraní API za minutu pomocí rozhraní API pro vyhledávání GitHubu. Limit se resetuje za {{numSeconds}} sekund",
+    "githubLink": "Odkaz na GitHub",
+    "modelListItemAction": "Vytvářet",
+    "modelListItemPreview": "Zobrazit DTDL"
+  },
+  "board": {
+    "empty": "Tato deska nemá žádné karty",
+    "twinID": "Id dvojčat",
+    "model": "Model",
+>>>>>>> 6e317f2ed7df657d9ad125f673daa1f74be28661
     "relationshipsTable": "Tabulka relací",
     "processGraphic": "Grafika procesu",
     "dataHistory": "Historie dat",
@@ -650,6 +768,7 @@
         }
       },
       "headerMenu": "Nabídka widgetu Historie dat",
+<<<<<<< HEAD
       "openQuery": "Otevřený dotaz v Azure Průzkumník dat",
       "errors": {
         "genericNetwork": "Adresa URL clusteru je neplatná nebo došlo k chybě sítě.",
@@ -658,6 +777,9 @@
         "entityNotFound": "Databáze nebyla nalezena, nepodařilo se spustit dotaz.",
         "forbidden": "Přístup byl odepřen, nemáte oprávnění k dotazu."
       }
+=======
+      "openQuery": "Otevřený dotaz v Azure Průzkumník dat"
+>>>>>>> 6e317f2ed7df657d9ad125f673daa1f74be28661
     }
   },
   "sdkStrings": {
@@ -1360,15 +1482,26 @@
       "title": "Vlastnosti dvojčat",
       "timeSeriesTwin": {
         "property": "Vlastnost",
+<<<<<<< HEAD
         "propertyTypeCastLabel": "Přetypování typu vlastnosti na číslo",
         "add": "Přidat časovou řadu",
         "remove": "Odebrání časové řady",
         "edit": "Úprava časové řady"
+=======
+        "add": "Přidat časovou řadu",
+        "remove": "Odebrání časové řady",
+        "edit": "Úprava časové řady",
+        "noData": "Pro vybraný časový rozsah se nezobrazí žádná data",
+        "propertyTypeCastLabe": "Přetypování hodnoty vlastnosti na číslo"
+>>>>>>> 6e317f2ed7df657d9ad125f673daa1f74be28661
       },
       "description": "Chcete-li porovnat minulé hodnoty pro historizované vlastnosti, přidejte níže časovou řadu."
     },
     "viewer": {
+<<<<<<< HEAD
       "chart": "Graf",
+=======
+>>>>>>> 6e317f2ed7df657d9ad125f673daa1f74be28661
       "noSeriesDescription": "Chcete-li zobrazit historii dat pro toto dvojče, vyberte vlastnost, kterou chcete zobrazit.",
       "table": {
         "title": "Stůl",
@@ -1381,6 +1514,7 @@
         "messages": {
           "noColor": "Není nastaveno",
           "loading": "Načítání historizovaných dat...",
+<<<<<<< HEAD
           "noData": "Ve vybraném časovém rámci nebyla nalezena žádná historizovaná data.",
           "noSeries": "K dotazu nebylo vybráno žádné dvojče, přidejte prosím vlastnosti dvojčat pro zobrazení historizovaných dat."
         }
@@ -1416,6 +1550,58 @@
     },
     "Common": {
       "untargeted": "Necílené"
+=======
+          "noSeries": "K dotazu nebylo vybráno žádné dvojče, přidejte prosím vlastnosti dvojčat pro zobrazení historizovaných dat.",
+          "noData": "Ve vybraném časovém rozsahu nebyla nalezena žádná data."
+        }
+      },
+      "chart": {
+        "title": "Graf",
+        "messages": {
+          "noData": "Ve vybraném časovém rozsahu nebyla nalezena žádná číselná data."
+        }
+      }
+    },
+    "loadingConnectionLabel": "Načítání informací o připojení historie dat..."
+  },
+  "clear": "Jasný",
+  "duplicate": "Duplikát",
+  "moveUp": "Povýšit",
+  "moveDown": "Posunout dolů",
+  "increaseBy1": "Zvýšení hodnoty o 1",
+  "decreaseBy1": "Snížení hodnoty o 1",
+  "OATCommon": {
+    "duplicateFileNameSuffix": "kopírovat",
+    "defaultFileName": "Nová ontologie",
+    "defaultModelNamePrefix": "Model"
+  },
+  "OATErrors": {
+    "Validations": {
+      "InvalidDtmiIdFormatTitle": "Neplatný formát DTMI",
+      "InvalidDtmiIdFormatMessage": "Změny nebyly uloženy, protože DTMI nesplňoval požadovaný formát. \n DTMI: {{dtmi}}\n Požadovaný formát: {{regex}}"
+    }
+  },
+  "OAT": {
+    "ModelList": {
+      "searchModels": "Hledat modely",
+      "noMatchingItemsMessage": "Žádný model nesplňuje tato kritéria",
+      "removeModelButtonText": "Odebrat model",
+      "noModelsTitle": "Zatím nemáte žádné modely",
+      "noModelsMessage": "Začněte navrhovat svou ontologii přidáním modelu nebo importem stávající ontologie",
+      "noModelsButtonText": "Přidání modelu"
+    },
+    "Common": {
+      "untargeted": "Necílené"
+    }
+  },
+  "dataHistoryErrorHandlingWrapper": {
+    "errors": {
+      "genericNetwork": "Instanci Průzkumníka dat Azure nelze připojit, ujistěte se, že prostředek není zastavený a připojení k síti je stabilní.",
+      "genericBadRequest": "Něco se pokazilo, zkuste to prosím znovu.",
+      "generalBadRequestMessage": "Požadavek je neplatný a nelze jej provést.",
+      "entityNotFound": "Databáze nebyla nalezena, dotaz nelze spustit.",
+      "forbidden": "Přístup byl odepřen, nemáte oprávnění k dotazu."
+>>>>>>> 6e317f2ed7df657d9ad125f673daa1f74be28661
     }
   }
 }

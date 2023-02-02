@@ -100,6 +100,13 @@
     "schemaValidationFailed": {
       "type": "A JSON-séma érvényesítése nem sikerült",
       "message": "A JSON érvénytelen. Ellenőrizze, hogy a szintaxis megfelel-e a szükséges sémának."
+<<<<<<< HEAD
+=======
+    },
+    "timeSeriesDatabaseConnectionFetchFailed": {
+      "type": "Az idősorozat-adatbázis kapcsolatának érvényesítése sikertelen",
+      "message": "Az adatelőzmények kapcsolati adatai nem találhatók, győződjön meg arról, hogy az adatelőzmények engedélyezve vannak ehhez a Azure Digital Twins példányhoz, és hogy legalább \"{{permission}}\" hozzáféréssel rendelkezik a Azure Data Explorer példányhoz."
+>>>>>>> 6e317f2ed7df657d9ad125f673daa1f74be28661
     }
   },
   "valueRangeBuilder": {
@@ -579,6 +586,7 @@
       "title": "Trend widget",
       "libraryName": "Irányzat",
       "description": "Előzményadatok diagramjainak megjelenítése"
+<<<<<<< HEAD
     },
     "gauge": {
       "title": "Mérőműszer widget",
@@ -604,6 +612,33 @@
       "libraryName": "Panel",
       "description": "Elrendezéspanel"
     },
+=======
+    },
+    "gauge": {
+      "title": "Mérőműszer widget",
+      "libraryName": "Mérőeszköz",
+      "description": "Numerikus tulajdonságok ábrázolása egyéni tartományokkal"
+    },
+    "link": {
+      "title": "Widget csatolása",
+      "libraryName": "Láncszem",
+      "description": "Ugrás az elemre jellemző URL-címekre",
+      "urlPlaceholder": "https://contoso.com/userManual/${PrimaryTwin.SerialNumber}",
+      "openLink": "Hivatkozás megnyitása"
+    },
+    "value": {
+      "title": "Érték widget",
+      "libraryName": "Érték",
+      "description": "Bármely primitív tulajdonság megjelenítése",
+      "displayNamePlaceholder": "Megjelenítendő név megadása",
+      "typePlaceholder": "Az érték típusának kiválasztása"
+    },
+    "panel": {
+      "title": "Panel widget",
+      "libraryName": "Panel",
+      "description": "Elrendezéspanel"
+    },
+>>>>>>> 6e317f2ed7df657d9ad125f673daa1f74be28661
     "notSupported": "Ez a widgettípus jelenleg nem támogatott",
     "dataHistory": {
       "title": "Adatelőzmények widget",
@@ -650,6 +685,7 @@
         }
       },
       "headerMenu": "Adatelőzmények widget menü",
+<<<<<<< HEAD
       "openQuery": "Lekérdezés megnyitása a Azure Data Explorer",
       "errors": {
         "genericNetwork": "A fürt URL-címe érvénytelen, vagy hálózati hiba történt.",
@@ -658,6 +694,9 @@
         "entityNotFound": "Az adatbázis nem található, nem sikerült végrehajtani a lekérdezést.",
         "forbidden": "A hozzáférés megtagadva lett, nincs lekérdezési engedélye."
       }
+=======
+      "openQuery": "Lekérdezés megnyitása a Azure Data Explorer"
+>>>>>>> 6e317f2ed7df657d9ad125f673daa1f74be28661
     }
   },
   "sdkStrings": {
@@ -1360,15 +1399,26 @@
       "title": "Iker tulajdonságok",
       "timeSeriesTwin": {
         "property": "Ingatlan",
+<<<<<<< HEAD
         "propertyTypeCastLabel": "Öntött tulajdonság típusa számra",
         "add": "Idősorok hozzáadása",
         "remove": "Idősorok eltávolítása",
         "edit": "Idősorok szerkesztése"
+=======
+        "add": "Idősorok hozzáadása",
+        "remove": "Idősorok eltávolítása",
+        "edit": "Idősorok szerkesztése",
+        "noData": "Nincs megjelenítendő adat a kiválasztott időtartományban",
+        "propertyTypeCastLabe": "Öntött tulajdonság értéke számra"
+>>>>>>> 6e317f2ed7df657d9ad125f673daa1f74be28661
       },
       "description": "A historizált tulajdonságok múltbeli értékeinek összehasonlításához adja hozzá az alábbi idősorokat."
     },
     "viewer": {
+<<<<<<< HEAD
       "chart": "Diagram",
+=======
+>>>>>>> 6e317f2ed7df657d9ad125f673daa1f74be28661
       "noSeriesDescription": "Az ikereszköz adatelőzményeinek megtekintéséhez válassza ki a megtekinteni kívánt tulajdonságot.",
       "table": {
         "title": "Asztal",
@@ -1381,6 +1431,7 @@
         "messages": {
           "noColor": "Nincs beállítva",
           "loading": "Előzményadatok betöltése...",
+<<<<<<< HEAD
           "noData": "A kiválasztott időkeretben nem találhatók historizált adatok.",
           "noSeries": "Nincs kiválasztva iker a lekérdezéshez, kérjük, adjon hozzá ikertulajdonságokat a historizált adatok megtekintéséhez."
         }
@@ -1416,6 +1467,58 @@
     },
     "Common": {
       "untargeted": "Nem célzott"
+=======
+          "noSeries": "Nincs kiválasztva iker a lekérdezéshez, kérjük, adjon hozzá ikertulajdonságokat a historizált adatok megtekintéséhez.",
+          "noData": "Nem található adat a kiválasztott időtartományban."
+        }
+      },
+      "chart": {
+        "title": "Diagram",
+        "messages": {
+          "noData": "A kiválasztott időtartományban nem találhatók numerikus adatok."
+        }
+      }
+    },
+    "loadingConnectionLabel": "Adatelőzmények kapcsolati adatainak betöltése..."
+  },
+  "clear": "Világos",
+  "duplicate": "Ismétlődő",
+  "moveUp": "Feljebb lépés",
+  "moveDown": "Lejjebb lépés",
+  "increaseBy1": "Növelje az értéket 1-gyel",
+  "decreaseBy1": "Érték csökkentése 1-gyel",
+  "OATCommon": {
+    "duplicateFileNameSuffix": "másolat",
+    "defaultFileName": "Új ontológia",
+    "defaultModelNamePrefix": "Modell"
+  },
+  "OATErrors": {
+    "Validations": {
+      "InvalidDtmiIdFormatTitle": "Érvénytelen DTMI-formátum",
+      "InvalidDtmiIdFormatMessage": "A rendszer nem mentette a módosításokat, mert a DTMI nem felelt meg a szükséges formátumnak. \n DTMI: {{dtmi}}\n Szükséges formátum: {{regex}}"
+    }
+  },
+  "OAT": {
+    "ModelList": {
+      "searchModels": "Keresési modellek",
+      "noMatchingItemsMessage": "Egyetlen modell sem felel meg ennek a feltételnek",
+      "removeModelButtonText": "Modell eltávolítása",
+      "noModelsTitle": "Még nincs modellje",
+      "noModelsMessage": "Kezdje el tervezni az ontológiát egy modell hozzáadásával vagy a meglévő ontológia importálásával",
+      "noModelsButtonText": "Modell hozzáadása"
+    },
+    "Common": {
+      "untargeted": "Nem célzott"
+    }
+  },
+  "dataHistoryErrorHandlingWrapper": {
+    "errors": {
+      "genericNetwork": "Azure Data Explorer példány nem csatlakoztatható, győződjön meg arról, hogy az erőforrás nincs leállítva, és a hálózati kapcsolat stabil.",
+      "genericBadRequest": "Hiba történt, kérjük, próbálja újra.",
+      "generalBadRequestMessage": "A kérelem érvénytelen, és nem hajtható végre.",
+      "entityNotFound": "Az adatbázis nem található, nem tudja végrehajtani a lekérdezést.",
+      "forbidden": "A hozzáférés megtagadva lett, nincs lekérdezési engedélye."
+>>>>>>> 6e317f2ed7df657d9ad125f673daa1f74be28661
     }
   }
 }

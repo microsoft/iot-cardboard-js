@@ -100,6 +100,13 @@
     "schemaValidationFailed": {
       "type": "JSON 架构验证失败",
       "message": "JSON 无效。检查语法是否与所需的架构匹配。"
+<<<<<<< HEAD
+=======
+    },
+    "timeSeriesDatabaseConnectionFetchFailed": {
+      "type": "时序数据库连接验证失败",
+      "message": "找不到数据历史记录连接信息，请确保为此 Azure 数字孪生实例启用了数据历史记录，并且你至少具有对 Azure 数据资源管理器实例的“{{权限}}”访问权限。"
+>>>>>>> 6e317f2ed7df657d9ad125f673daa1f74be28661
     }
   },
   "valueRangeBuilder": {
@@ -650,6 +657,7 @@
         }
       },
       "headerMenu": "“数据历史记录”小组件菜单",
+<<<<<<< HEAD
       "openQuery": "在 Azure 数据资源管理器中打开查询",
       "errors": {
         "genericNetwork": "群集 URL 无效或发生网络错误。",
@@ -658,6 +666,9 @@
         "entityNotFound": "找不到数据库，无法执行查询。",
         "forbidden": "访问被拒绝，您没有查询权限。"
       }
+=======
+      "openQuery": "在 Azure 数据资源管理器中打开查询"
+>>>>>>> 6e317f2ed7df657d9ad125f673daa1f74be28661
     }
   },
   "sdkStrings": {
@@ -1360,15 +1371,26 @@
       "title": "孪生属性",
       "timeSeriesTwin": {
         "property": "财产",
+<<<<<<< HEAD
         "propertyTypeCastLabel": "将属性类型转换为数字",
         "add": "添加时间序列",
         "remove": "删除时间序列",
         "edit": "编辑时间序列"
+=======
+        "add": "添加时间序列",
+        "remove": "删除时间序列",
+        "edit": "编辑时间序列",
+        "noData": "所选时间范围内没有要显示的数据",
+        "propertyTypeCastLabe": "将属性值强制转换为数字"
+>>>>>>> 6e317f2ed7df657d9ad125f673daa1f74be28661
       },
       "description": "要比较历史化属性的过去值，请在下面添加时间序列。"
     },
     "viewer": {
+<<<<<<< HEAD
       "chart": "图表",
+=======
+>>>>>>> 6e317f2ed7df657d9ad125f673daa1f74be28661
       "noSeriesDescription": "若要查看此孪生体的数据历史记录，请选择要查看的属性。",
       "table": {
         "title": "桌子",
@@ -1381,6 +1403,7 @@
         "messages": {
           "noColor": "未设置",
           "loading": "正在加载历史数据...",
+<<<<<<< HEAD
           "noData": "在选定的时间范围内找不到历史数据。",
           "noSeries": "没有选择孪生体进行查询，请添加孪生体属性以查看历史数据。"
         }
@@ -1416,6 +1439,58 @@
     },
     "Common": {
       "untargeted": "非目标"
+=======
+          "noSeries": "没有选择孪生体进行查询，请添加孪生体属性以查看历史数据。",
+          "noData": "在所选时间范围内未找到数据。"
+        }
+      },
+      "chart": {
+        "title": "图表",
+        "messages": {
+          "noData": "在所选时间范围内未找到数值数据。"
+        }
+      }
+    },
+    "loadingConnectionLabel": "正在加载数据历史记录连接信息..."
+  },
+  "clear": "清楚",
+  "duplicate": "重复",
+  "moveUp": "上升",
+  "moveDown": "下移",
+  "increaseBy1": "将值增加 1",
+  "decreaseBy1": "将值减少 1",
+  "OATCommon": {
+    "duplicateFileNameSuffix": "复制",
+    "defaultFileName": "新本体",
+    "defaultModelNamePrefix": "型"
+  },
+  "OATErrors": {
+    "Validations": {
+      "InvalidDtmiIdFormatTitle": "无效的 DTMI 格式",
+      "InvalidDtmiIdFormatMessage": "您的更改未保存，因为 DTMI 不符合所需的格式。\n DTMI： {{dtmi}}\n 所需格式：{{正则表达式}}"
+    }
+  },
+  "OAT": {
+    "ModelList": {
+      "searchModels": "搜索型号",
+      "noMatchingItemsMessage": "没有符合该标准的模型",
+      "removeModelButtonText": "删除模型",
+      "noModelsTitle": "您还没有任何型号",
+      "noModelsMessage": "通过添加模型或导入现有本体开始设计本体",
+      "noModelsButtonText": "添加模型"
+    },
+    "Common": {
+      "untargeted": "非目标"
+    }
+  },
+  "dataHistoryErrorHandlingWrapper": {
+    "errors": {
+      "genericNetwork": "Azure 数据资源管理器实例无法连接，请确保资源未停止且网络连接稳定。",
+      "genericBadRequest": "出现问题，请重试。",
+      "generalBadRequestMessage": "请求无效，无法执行。",
+      "entityNotFound": "找不到数据库，无法执行查询。",
+      "forbidden": "访问被拒绝，您没有查询权限。"
+>>>>>>> 6e317f2ed7df657d9ad125f673daa1f74be28661
     }
   }
 }

@@ -100,6 +100,13 @@
     "schemaValidationFailed": {
       "type": "JSON şema doğrulaması başarısız oldu",
       "message": "JSON geçersiz. Sözdiziminin gerekli şemayla eşleştiğini kontrol edin."
+<<<<<<< HEAD
+=======
+    },
+    "timeSeriesDatabaseConnectionFetchFailed": {
+      "type": "Zaman serisi veritabanı bağlantısı doğrulaması başarısız oldu",
+      "message": "Veri geçmişi bağlantı bilgileri bulunamadı, bu Azure Digital Twins örneği için veri geçmişinin etkinleştirildiğinden ve Azure Veri Gezgini örneğine en az '{{izin}}' erişiminiz olduğundan emin olun."
+>>>>>>> 6e317f2ed7df657d9ad125f673daa1f74be28661
     }
   },
   "valueRangeBuilder": {
@@ -119,6 +126,7 @@
   },
   "relationshipsTable": {
     "twinID": "İkiz Kimlik",
+<<<<<<< HEAD
     "model": "Model",
     "relationshipName": "İlişki adı"
   },
@@ -227,6 +235,116 @@
     "empty": "Bu kartın kartı yok",
     "twinID": "İkiz Kimlik",
     "model": "Model",
+=======
+    "model": "Model",
+    "relationshipName": "İlişki adı"
+  },
+  "dataPusher": {
+    "dataPusherTitle": "Azure Digital Twins Veri simülatörü",
+    "instanceUrl": "Örnek URL'si",
+    "pastEventsLabel": "Geçmiş olayları simüle etme",
+    "pastEventsDescriptionOn": "Geçmiş olayları hızla simüle edin",
+    "pastEventsDescriptionOff": "Hiçbir geçmiş veri simüle edilmez",
+    "daysToSimulateLabel": "Simüle edilecek günler",
+    "daysToSimulateDescription": "Bunu simüle etmeye birkaç gün önce başlayın",
+    "dataSpacingLabel": "Veri aralığı",
+    "dataSpacingDescription": "Etkinlik zaman damgaları arasındaki süre",
+    "quickStreamFrequencyLabel": "Geçmiş etkinlik akışı sıklığı",
+    "quickStreamFrequencyDescription": "Geçmiş olayları ne sıklıkta iteceğiniz. Canlı akış devre dışı bırakılırsa, mevcut saate ulaşıldığında veriler bu sıklıkta itilmeye devam eder.",
+    "liveStreamLabel": "Canlı yayın verileri",
+    "liveStreamDescriptionOn": "Mevcut zamana ulaşıldığında, simülasyon verileri ayarlanan canlı akış frekansına gönderir",
+    "liveStreamDescriptionOff": "Simülasyon, ayarlanan hızlı akış frekansında olayları süresiz olarak geleceğe taşımaya devam edecektir",
+    "liveStreamFrequencyLabel": "Frekans",
+    "liveStreamFrequencyDescription": "Olayların ne sıklıkta gönderileceği. Bu sayı hem olay zaman damgaları arasındaki süreyi hem de yeni olayların itildiği aralığı temsil eder.",
+    "otherOptionsLabel": "Diğer seçenekler",
+    "includeImagesLabel": "Model için görüntüler ekleme",
+    "includeImagesDescriptionOn": "Simülasyon, modeli varsayılan görüntülerle iter",
+    "includeImagesDescriptionOff": "Simülasyon görüntüleri zorlamaz",
+    "generateEnvironment": "Ortam oluşturma",
+    "startSimulation": "Simülasyonu başlat",
+    "stopSimulation": "Simülasyonu durdurma",
+    "days": "Gün",
+    "create": "Yaratmak",
+    "simulate": "Benzet -imini",
+    "models": "Model",
+    "twins": "İkizler",
+    "relationships": "Ilişki",
+    "simulating": "Simüle",
+    "liveStatus": "Paket numarası: {{packetNumber}} | {{totalSuccessfulPatches}}/{{totalTwinsPatched}} twins başarıyla güncellendi",
+    "generateEnvironmentDescription": "Ortamınızı doldurmak için modelleri, ikizleri ve ilişkileri itin",
+    "simulateDescription": "Olayları ortamınıza gönderin",
+    "pusherType": "Simülasyon Türü",
+    "robotArms": "Robot kolları",
+    "dairyProduction": "Süt ürünleri tesisi"
+  },
+  "scenes": {
+    "noScenes": "3B sahneleriniz yok, başlamak için yeni bir tane ekleyin.",
+    "addScene": "3B sahne ekleme",
+    "latitude": "Enlem",
+    "longitude": "Boylam",
+    "sampleLatitude": "Örnek: 6.4511366",
+    "sampleLongitude": "Örnek: 3.3883963",
+    "longitudeErrorMessage": "Giriş değeri -180 ve 180 derece arasında olmalıdır",
+    "latitudeErrorMessage": "Giriş değeri -90 ve 90 derece arasında olmalıdır",
+    "showOnGlobe": "Dünyada göster",
+    "blobUrl": "3B dosya blobu URL'si",
+    "dialogTitleCreate": "Yeni sahne oluştur",
+    "dialogSubTitle": "Mevcut bir 3B dosyayı URL üzerinden hedefleyin veya doğrudan kapsayıcınıza yeni bir dosya yükleyin",
+    "dialogTitleEdit": "3B sahnenizi düzenleme",
+    "3dFileSelectionMode": "3D dosya seçim modu",
+    "sceneNamePlaceholder": "Bir sahne adı girin",
+    "sceneDescriptionPlaceholder": "Bir sahne açıklaması girin",
+    "tabNameFromContainer": "Dosya seç",
+    "tabNameUploadFile": "Dosya yükle",
+    "3dFileAsset": "3B dosyayı bağlama",
+    "description": "Tarif",
+    "overwriteIfExist": "Dosya zaten varsa üzerine yaz",
+    "fileExistsErrorMessage": "Bu ada sahip bir dosya depolama alanında zaten varsa, bu dosyayı kapsayıcıdan seçebilir veya üzerine yazabilirsiniz."
+  },
+  "BIMUpload": {
+    "specifyFiles": "Karşıya yüklenecek dosyaları belirtme",
+    "selectModels": "Yükleme için modelleri seçin",
+    "generateEnvironment": "Ortam oluşturma",
+    "specifyFilesSubheader": "Belirtilen BIM dosyası ve ilişkili meta veriler, ADT ortamınıza yüklemek üzere modelleri, ikizleri ve ilişkileri ayıklamak için kullanılacaktır",
+    "selectModelsSubheader": "Seçilen modeller ve bunların ilişkili ikizleri ve ilişkileri bir sonraki adımda ortamınıza eklenecektir",
+    "generateEnvironmentSubheader": "Modeller, ikizler ve ilişkiler (önceki adımda seçilen modellere göre filtrelenmiş) ADT ortamınıza gönderilir",
+    "initiateUpload": "Yüklemeyi başlatma",
+    "bimFilePath": "BIM dosya yolu",
+    "metadataFilePath": "Meta veri dosyası yolu",
+    "parsingModels": "Ayrıştırma modelleri...",
+    "noModelsParsed": "Ayrıştırılmış model yok",
+    "modelsSelectedCount": "Seçilen modeller ({{count}})",
+    "goToEnvironment": "Ortama git"
+  },
+  "generateADTAssets": {
+    "assetsPushError": "{{assetType}} ADT'ye gönderilirken bir sorun oluştu",
+    "assetsPushedCount": "{{count}} {{assetType}} itti",
+    "uploadProgress": "{{pushed}} of {{total}}",
+    "uploading": "Yükleme...",
+    "partialError": "{{assetType}} yüklenirken oluşan hatalar: {{errorCount}} {{assetType}} yüklenemedi"
+  },
+  "uploadProgress": {
+    "uploading": "Yükleme {{assetType}}",
+    "uploadSuccess": "{{assetType}} başarıyla yüklendi",
+    "uploadPartiallyFailed": "Bazı hatalarla birlikte {{assetType}} yüklendi",
+    "uploadFailed": "{{assetType}} yüklenemedi "
+  },
+  "modelSearch": {
+    "placeholder": "Model arama dizesi girin",
+    "fileNameOnly": "Yalnızca dosya adına göre ara",
+    "cdnModelSearchdescription": "Bu araç, genel kullanıma sunulan <CndLink>barındırılan DTDL modelleri</CndLink> arar. Sağlanan arama dizesi model kimlikleri, görünen adlar ve açıklamalarla eşleştirilir.",
+    "githubModelSearchdescription": "Bu araç, <GithubRepo>{{repo}}</GithubRepo> deposunda genel kullanıma sunulan DTDL modellerini arar. Sağlanan arama dizesi hem dosya yollarıyla hem de içeriklerle eşleştirilir.",
+    "rateLimitExceededTitle": "GitHub arama API'si hız sınırı aşıldı",
+    "rateLimitExceededDescription": "Bu arama, GitHub arama API'si tarafından dakikada 10 API isteğiyle sınırlıdır. Sınırınız {{numSeconds}} saniye içinde sıfırlanır",
+    "githubLink": "GitHub bağlantısı",
+    "modelListItemAction": "Yaratmak",
+    "modelListItemPreview": "DTDL'yi görüntüleyin"
+  },
+  "board": {
+    "empty": "Bu kartın kartı yok",
+    "twinID": "İkiz Kimlik",
+    "model": "Model",
+>>>>>>> 6e317f2ed7df657d9ad125f673daa1f74be28661
     "relationshipsTable": "İlişkiler Tablosu",
     "processGraphic": "Süreç Grafiği",
     "dataHistory": "Veri geçmişi",
@@ -650,6 +768,7 @@
         }
       },
       "headerMenu": "Veri geçmişi widget menüsü",
+<<<<<<< HEAD
       "openQuery": "Azure Veri Gezgini'nde sorgu açma",
       "errors": {
         "genericNetwork": "Küme URL'si geçersiz veya ağ hatası oluştu.",
@@ -658,6 +777,9 @@
         "entityNotFound": "Veritabanı bulunamadı, sorgu yürütülemedi.",
         "forbidden": "Erişim reddedildi, sorgu izinleriniz yok."
       }
+=======
+      "openQuery": "Azure Veri Gezgini'nde sorgu açma"
+>>>>>>> 6e317f2ed7df657d9ad125f673daa1f74be28661
     }
   },
   "sdkStrings": {
@@ -1360,15 +1482,26 @@
       "title": "İkiz özellikler",
       "timeSeriesTwin": {
         "property": "Mülk",
+<<<<<<< HEAD
         "propertyTypeCastLabel": "Özellik türünü sayıya yayınla",
         "add": "Zaman serisi ekleme",
         "remove": "Zaman serilerini kaldırma",
         "edit": "Zaman serilerini düzenleme"
+=======
+        "add": "Zaman serisi ekleme",
+        "remove": "Zaman serilerini kaldırma",
+        "edit": "Zaman serilerini düzenleme",
+        "noData": "Seçilen zaman aralığı için görüntülenecek veri yok",
+        "propertyTypeCastLabe": "Özellik değerini sayıya dökme"
+>>>>>>> 6e317f2ed7df657d9ad125f673daa1f74be28661
       },
       "description": "Geçmişi geçmiş özelliklerin geçmiş değerlerini karşılaştırmak için aşağıya zaman serileri ekleyin."
     },
     "viewer": {
+<<<<<<< HEAD
       "chart": "Grafik",
+=======
+>>>>>>> 6e317f2ed7df657d9ad125f673daa1f74be28661
       "noSeriesDescription": "Bu ikizin veri geçmişini görüntülemek için görüntülenecek bir özellik seçin.",
       "table": {
         "title": "Masa",
@@ -1381,6 +1514,7 @@
         "messages": {
           "noColor": "Ayarlanmadı",
           "loading": "Geçmiş veriler yükleniyor...",
+<<<<<<< HEAD
           "noData": "Seçilen zaman diliminde geçmiş veri bulunamadı.",
           "noSeries": "Sorgulamak için ikiz seçilmemiş, geçmiş verileri görüntülemek için lütfen ikiz özellikleri ekleyin."
         }
@@ -1416,6 +1550,58 @@
     },
     "Common": {
       "untargeted": "Hedefsiz"
+=======
+          "noSeries": "Sorgulamak için ikiz seçilmemiş, geçmiş verileri görüntülemek için lütfen ikiz özellikleri ekleyin.",
+          "noData": "Seçilen zaman aralığında veri bulunamadı."
+        }
+      },
+      "chart": {
+        "title": "Grafik",
+        "messages": {
+          "noData": "Seçilen zaman aralığında sayısal veri bulunamadı."
+        }
+      }
+    },
+    "loadingConnectionLabel": "Veri geçmişi bağlantı bilgileri yükleniyor..."
+  },
+  "clear": "Berrak",
+  "duplicate": "Yinelenen",
+  "moveUp": "Yukarı taşı",
+  "moveDown": "Aşağı taşı",
+  "increaseBy1": "Değeri 1 artır",
+  "decreaseBy1": "Değeri 1 azalt",
+  "OATCommon": {
+    "duplicateFileNameSuffix": "kopya etmek",
+    "defaultFileName": "Yeni ontoloji",
+    "defaultModelNamePrefix": "Model"
+  },
+  "OATErrors": {
+    "Validations": {
+      "InvalidDtmiIdFormatTitle": "Geçersiz DTMI biçimi",
+      "InvalidDtmiIdFormatMessage": "DTMI gerekli biçimi karşılamadığı için değişiklikleriniz kaydedilmedi. \n DTMI: {{dtmi}}\n Gerekli biçim: {{regex}}"
+    }
+  },
+  "OAT": {
+    "ModelList": {
+      "searchModels": "Modelleri ara",
+      "noMatchingItemsMessage": "Bu ölçütlere uyan model yok",
+      "removeModelButtonText": "Modeli kaldır",
+      "noModelsTitle": "Henüz herhangi bir modeliniz yok",
+      "noModelsMessage": "Bir model ekleyerek veya mevcut ontolojinizi içe aktararak ontolojinizi tasarlamaya başlayın",
+      "noModelsButtonText": "Model ekleme"
+    },
+    "Common": {
+      "untargeted": "Hedefsiz"
+    }
+  },
+  "dataHistoryErrorHandlingWrapper": {
+    "errors": {
+      "genericNetwork": "Azure Veri Gezgini örneği bağlanamıyor, kaynağın durdurulmadığından ve ağ bağlantınızın kararlı olduğundan emin olun.",
+      "genericBadRequest": "Bir sorun oluştu, lütfen tekrar deneyin.",
+      "generalBadRequestMessage": "İstek geçersizdir ve yürütülemez.",
+      "entityNotFound": "Veritabanı bulunamadı, sorgu yürütülemiyor.",
+      "forbidden": "Erişim reddedildi, sorgu izinleriniz yok."
+>>>>>>> 6e317f2ed7df657d9ad125f673daa1f74be28661
     }
   }
 }

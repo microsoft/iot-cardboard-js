@@ -100,6 +100,13 @@
     "schemaValidationFailed": {
       "type": "A validação do esquema JSON falhou",
       "message": "JSON é inválido. Verifique os jogos de sintaxe necessários."
+<<<<<<< HEAD
+=======
+    },
+    "timeSeriesDatabaseConnectionFetchFailed": {
+      "type": "A validação da ligação da base de dados de séries de tempo falhou",
+      "message": "As informações de ligação ao histórico de dados não foram encontradas, certifique-se de que o histórico de dados está ativado para este caso Azure Digital Twins e que tem pelo menos acesso '{{permission}}} à instância Azure Data Explorer."
+>>>>>>> 6e317f2ed7df657d9ad125f673daa1f74be28661
     }
   },
   "valueRangeBuilder": {
@@ -119,6 +126,7 @@
   },
   "relationshipsTable": {
     "twinID": "Twin Id",
+<<<<<<< HEAD
     "model": "Modelo",
     "relationshipName": "Nome da relação"
   },
@@ -227,6 +235,116 @@
     "empty": "Este quadro não tem cartões.",
     "twinID": "Twin Id",
     "model": "Modelo",
+=======
+    "model": "Modelo",
+    "relationshipName": "Nome da relação"
+  },
+  "dataPusher": {
+    "dataPusherTitle": "Simulador de dados Azure Digital Twins",
+    "instanceUrl": "EXEMPLO URL",
+    "pastEventsLabel": "Simular eventos passados",
+    "pastEventsDescriptionOn": "Simular rapidamente eventos passados",
+    "pastEventsDescriptionOff": "Nenhum dado passado será simulado",
+    "daysToSimulateLabel": "Dias para simular",
+    "daysToSimulateDescription": "Comece a simular isto há muitos dias.",
+    "dataSpacingLabel": "Espaçamento de dados",
+    "dataSpacingDescription": "Tempo entre os tempos do evento",
+    "quickStreamFrequencyLabel": "Frequência de streaming de eventos passados",
+    "quickStreamFrequencyDescription": "Com que frequência se faz passar por eventos passados. Se o streaming ao vivo for desativado, os dados continuarão a empurrar esta frequência assim que o tempo presente for atingido.",
+    "liveStreamLabel": "Dados de transmissão ao vivo",
+    "liveStreamDescriptionOn": "Uma vez atingido o tempo presente, a simulação irá empurrar os dados na frequência de transmissão ao vivo definida",
+    "liveStreamDescriptionOff": "A simulação continuará a empurrar os eventos para o futuro na frequência de fluxo rápido definida indefinidamente",
+    "liveStreamFrequencyLabel": "Frequência",
+    "liveStreamFrequencyDescription": "Com que frequência empurra eventos. Este número representa tanto o tempo entre os tempos de evento e o intervalo em que novos eventos são empurrados.",
+    "otherOptionsLabel": "Outras opções",
+    "includeImagesLabel": "Incluir imagens para modelo",
+    "includeImagesDescriptionOn": "A simulação vai empurrar o modelo com imagens predefinidas",
+    "includeImagesDescriptionOff": "A simulação não vai empurrar imagens",
+    "generateEnvironment": "Gerar ambiente",
+    "startSimulation": "Iniciar a simulação",
+    "stopSimulation": "Parar a simulação",
+    "days": "Dias",
+    "create": "Criar",
+    "simulate": "Simular",
+    "models": "Modelos",
+    "twins": "Gémeos",
+    "relationships": "Relacionamentos",
+    "simulating": "Simulação",
+    "liveStatus": "Número do pacote: {{packetNumber}} | {{totalSuccessfulPatches}}/{totalTwinsPatched}} gémeos atualizados com sucesso",
+    "generateEnvironmentDescription": "Empurre modelos, gémeos e relacionamentos para povoar o seu ambiente",
+    "simulateDescription": "Empurre os eventos para o seu ambiente",
+    "pusherType": "Tipo de Simulação",
+    "robotArms": "Braços de robô",
+    "dairyProduction": "Instalações leiteiras"
+  },
+  "scenes": {
+    "noScenes": "Não tens cenas 3D, adicione uma nova para começar.",
+    "addScene": "Adicionar cena 3D",
+    "latitude": "Latitude",
+    "longitude": "Longitude",
+    "sampleLatitude": "por exemplo: 6.4511366",
+    "sampleLongitude": "por exemplo: 3.3883963",
+    "longitudeErrorMessage": "O valor de entrada deve estar dentro de -180 e 180 graus",
+    "latitudeErrorMessage": "O valor de entrada deve estar dentro de -90 e 90 graus",
+    "showOnGlobe": "Mostrar no globo",
+    "blobUrl": "URL de blob de arquivo 3D",
+    "dialogTitleCreate": "Criar nova cena",
+    "dialogSubTitle": "Destino um ficheiro 3D existente via URL ou faça upload de um novo ficheiro diretamente para o seu contentor",
+    "dialogTitleEdit": "Edite a sua cena 3D",
+    "3dFileSelectionMode": "Modo de seleção de ficheiros 3D",
+    "sceneNamePlaceholder": "Insira um nome de cena",
+    "sceneDescriptionPlaceholder": "Insira uma descrição da cena",
+    "tabNameFromContainer": "Escolha o arquivo",
+    "tabNameUploadFile": "Ficheiro de upload",
+    "3dFileAsset": "Link ficheiro 3D",
+    "description": "Descrição",
+    "overwriteIfExist": "Substitua se o ficheiro já existir",
+    "fileExistsErrorMessage": "Um ficheiro com este nome já existe no armazenamento, pode selecionar esse ficheiro a partir de um recipiente ou substituir."
+  },
+  "BIMUpload": {
+    "specifyFiles": "Especifique ficheiros para carregar a partir de",
+    "selectModels": "Selecione modelos para upload",
+    "generateEnvironment": "Gerar ambiente",
+    "specifyFilesSubheader": "O ficheiro BIM especificado e metadados associados serão usados para extrair modelos, gémeos e relações para o upload para o seu ambiente ADT",
+    "selectModelsSubheader": "Os modelos selecionados e os seus gémeos e relacionamentos associados serão adicionados ao seu ambiente no próximo passo",
+    "generateEnvironmentSubheader": "Os Modelos, gémeos e relacionamentos (filtrados pelos modelos selecionados no passo anterior) serão empurrados para o seu ambiente ADT",
+    "initiateUpload": "Iniciar upload",
+    "bimFilePath": "Caminho do arquivo BIM",
+    "metadataFilePath": "Caminho do arquivo de metadados",
+    "parsingModels": "Modelos de análise...",
+    "noModelsParsed": "Sem modelos analisados",
+    "modelsSelectedCount": "Modelos selecionados ({{count}})",
+    "goToEnvironment": "Ir para o ambiente"
+  },
+  "generateADTAssets": {
+    "assetsPushError": "Houve um problema ao empurrar {{assetType}} para ADT",
+    "assetsPushedCount": "{{count}} {{assetType}} empurrado",
+    "uploadProgress": "{{pushed}} de {{total}}",
+    "uploading": "A carregar...",
+    "partialError": "Erros ao carregar {{assetType}}} {{errorCount}} {{assetType}}"
+  },
+  "uploadProgress": {
+    "uploading": "Upload {{assetType}}",
+    "uploadSuccess": "Uploaded {{assetType}} com sucesso",
+    "uploadPartiallyFailed": "Uploaded {{assetType}} com algumas falhas",
+    "uploadFailed": "Falhou no upload {{assetType}} "
+  },
+  "modelSearch": {
+    "placeholder": "Introduza a cadeia de pesquisa de modelos",
+    "fileNameOnly": "Pesquisar apenas por nome de ficheiro",
+    "cdnModelSearchdescription": "Esta ferramenta procura <CndLink>dilhas DTDL</CndLink> disponibilizadas ao público. A cadeia de pesquisa fornecida é compatível com iDs de modelo, nomes de exibição e descrições.",
+    "githubModelSearchdescription": "Esta ferramenta procura os modelos DTDL disponibilizados publicamente no repositório <GithubRepo>{{repo}}</GithubRepo>. A cadeia de pesquisa fornecida é compatível com ambos os caminhos de ficheiro e conteúdo.",
+    "rateLimitExceededTitle": "Limite de taxa de API de pesquisa gitHub ultrapassado",
+    "rateLimitExceededDescription": "Esta pesquisa está limitada a 10 pedidos de API por minuto pela API de pesquisa do GitHub. O seu limite reinicia em {{numSeconds}} segundos",
+    "githubLink": "Ligação GitHub",
+    "modelListItemAction": "Criar",
+    "modelListItemPreview": "Ver DTDL"
+  },
+  "board": {
+    "empty": "Este quadro não tem cartões.",
+    "twinID": "Twin Id",
+    "model": "Modelo",
+>>>>>>> 6e317f2ed7df657d9ad125f673daa1f74be28661
     "relationshipsTable": "Tabela de Relacionamentos",
     "processGraphic": "Gráfico de processo",
     "dataHistory": "Histórico de dados",
@@ -650,6 +768,7 @@
         }
       },
       "headerMenu": "Menu widget de histórico de dados",
+<<<<<<< HEAD
       "openQuery": "Consulta aberta no Azure Data Explorer",
       "errors": {
         "genericNetwork": "O url de cluster é inválido ou ocorreu um erro de rede.",
@@ -658,6 +777,9 @@
         "entityNotFound": "A base de dados não foi encontrada, não executou a consulta.",
         "forbidden": "O acesso foi negado, não tem permissões de consulta."
       }
+=======
+      "openQuery": "Consulta aberta no Azure Data Explorer"
+>>>>>>> 6e317f2ed7df657d9ad125f673daa1f74be28661
     }
   },
   "sdkStrings": {
@@ -1360,15 +1482,26 @@
       "title": "Propriedades gémeas",
       "timeSeriesTwin": {
         "property": "Propriedade",
+<<<<<<< HEAD
         "propertyTypeCastLabel": "Tipo de propriedade de elenco para número",
         "add": "Adicionar séries de tempo",
         "remove": "Remover séries de tempo",
         "edit": "Editar séries tempor feiras"
+=======
+        "add": "Adicionar séries de tempo",
+        "remove": "Remover séries de tempo",
+        "edit": "Editar séries tempor feiras",
+        "noData": "Não há dados para visualizar para o intervalo de tempo selecionado",
+        "propertyTypeCastLabe": "Valor da propriedade do elenco para o número"
+>>>>>>> 6e317f2ed7df657d9ad125f673daa1f74be28661
       },
       "description": "Para comparar valores passados para propriedades historizadas, adicione séries de tempo abaixo."
     },
     "viewer": {
+<<<<<<< HEAD
       "chart": "Gráfico",
+=======
+>>>>>>> 6e317f2ed7df657d9ad125f673daa1f74be28661
       "noSeriesDescription": "Para ver o histórico de dados deste twin, selecione uma propriedade para visualizar.",
       "table": {
         "title": "Tabela",
@@ -1381,6 +1514,7 @@
         "messages": {
           "noColor": "Não definido",
           "loading": "A carregar dados historizados...",
+<<<<<<< HEAD
           "noData": "Não são encontrados dados historizados no tempo selecionado.",
           "noSeries": "Nenhum gémeo selecionado para consulta, por favor adicione propriedades gémeas para visualizar dados historizados."
         }
@@ -1416,6 +1550,58 @@
     },
     "Common": {
       "untargeted": "Sem alvos"
+=======
+          "noSeries": "Nenhum gémeo selecionado para consulta, por favor adicione propriedades gémeas para visualizar dados historizados.",
+          "noData": "Não são encontrados dados no intervalo de tempo selecionado."
+        }
+      },
+      "chart": {
+        "title": "Gráfico",
+        "messages": {
+          "noData": "Não são encontrados dados numéricos no intervalo de tempo selecionado."
+        }
+      }
+    },
+    "loadingConnectionLabel": "A carregar informações sobre a ligação do histórico de dados..."
+  },
+  "clear": "Claro",
+  "duplicate": "Duplicado",
+  "moveUp": "Mova-se para cima",
+  "moveDown": "Desçam",
+  "increaseBy1": "Valor de aumento em 1",
+  "decreaseBy1": "Diminuir o valor em 1",
+  "OATCommon": {
+    "duplicateFileNameSuffix": "cópia",
+    "defaultFileName": "Nova ontologia",
+    "defaultModelNamePrefix": "Modelo"
+  },
+  "OATErrors": {
+    "Validations": {
+      "InvalidDtmiIdFormatTitle": "Formato DTMI inválido",
+      "InvalidDtmiIdFormatMessage": "As suas alterações não foram guardadas porque o DTMI não cumpriu o formato exigido. \n DTMI: {{dtmi}}\n Formato obrigatório: {{regex}}"
+    }
+  },
+  "OAT": {
+    "ModelList": {
+      "searchModels": "Modelos de pesquisa",
+      "noMatchingItemsMessage": "Nenhum modelo corresponde a esse critério",
+      "removeModelButtonText": "Remover modelo",
+      "noModelsTitle": "Ainda não tens modelos.",
+      "noModelsMessage": "Comece a desenhar a sua ontologia adicionando um modelo ou importando a sua ontologia existente",
+      "noModelsButtonText": "Adicione um modelo"
+    },
+    "Common": {
+      "untargeted": "Sem alvos"
+    }
+  },
+  "dataHistoryErrorHandlingWrapper": {
+    "errors": {
+      "genericNetwork": "A exemplo do Azure Data Explorer não pode ser ligada, certifique-se de que o recurso não está parado e que a conectividade da rede é estável.",
+      "genericBadRequest": "Se alguma coisa correu mal, por favor, tente de novo.",
+      "generalBadRequestMessage": "O pedido é inválido e não pode ser executado.",
+      "entityNotFound": "A base de dados não foi encontrada, não pode executar a consulta.",
+      "forbidden": "O acesso foi negado, não tem permissões de consulta."
+>>>>>>> 6e317f2ed7df657d9ad125f673daa1f74be28661
     }
   }
 }

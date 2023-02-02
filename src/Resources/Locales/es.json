@@ -100,6 +100,13 @@
     "schemaValidationFailed": {
       "type": "Error en la validación del esquema JSON",
       "message": "JSON no es válido. Compruebe que la sintaxis coincide con el esquema requerido."
+<<<<<<< HEAD
+=======
+    },
+    "timeSeriesDatabaseConnectionFetchFailed": {
+      "type": "Error en la validación de la conexión de la base de datos de series temporales",
+      "message": "No se pudo encontrar la información de conexión del historial de datos, asegúrese de que el historial de datos esté habilitado para esta instancia de Azure Digital Twins y de que tenga al menos acceso '{{permission}}' a la instancia del Explorador de datos de Azure."
+>>>>>>> 6e317f2ed7df657d9ad125f673daa1f74be28661
     }
   },
   "valueRangeBuilder": {
@@ -650,6 +657,7 @@
         }
       },
       "headerMenu": "Menú del widget Historial de datos",
+<<<<<<< HEAD
       "openQuery": "Abrir consulta en el Explorador de datos de Azure",
       "errors": {
         "genericNetwork": "La dirección URL del clúster no es válida o se ha producido un error de red.",
@@ -658,6 +666,9 @@
         "entityNotFound": "No se encontró la base de datos, no se pudo ejecutar la consulta.",
         "forbidden": "Se ha denegado el acceso, no tiene permisos de consulta."
       }
+=======
+      "openQuery": "Abrir consulta en el Explorador de datos de Azure"
+>>>>>>> 6e317f2ed7df657d9ad125f673daa1f74be28661
     }
   },
   "sdkStrings": {
@@ -1360,15 +1371,26 @@
       "title": "Propiedades gemelas",
       "timeSeriesTwin": {
         "property": "Propiedad",
+<<<<<<< HEAD
         "propertyTypeCastLabel": "Convertir el tipo de propiedad en número",
         "add": "Agregar series temporales",
         "remove": "Quitar series temporales",
         "edit": "Editar series temporales"
+=======
+        "add": "Agregar series temporales",
+        "remove": "Quitar series temporales",
+        "edit": "Editar series temporales",
+        "noData": "No hay datos para mostrar para el rango de tiempo seleccionado",
+        "propertyTypeCastLabe": "Convertir el valor de la propiedad en número"
+>>>>>>> 6e317f2ed7df657d9ad125f673daa1f74be28661
       },
       "description": "Para comparar los valores pasados de las propiedades históricas, agregue las series temporales a continuación."
     },
     "viewer": {
+<<<<<<< HEAD
       "chart": "Gráfico",
+=======
+>>>>>>> 6e317f2ed7df657d9ad125f673daa1f74be28661
       "noSeriesDescription": "Para ver el historial de datos de este gemelo, seleccione una propiedad para ver.",
       "table": {
         "title": "Mesa",
@@ -1381,6 +1403,7 @@
         "messages": {
           "noColor": "No establecido",
           "loading": "Cargando datos históricos...",
+<<<<<<< HEAD
           "noData": "No se encontraron datos históricos en el marco de tiempo seleccionado.",
           "noSeries": "No se seleccionó ningún gemelo para consultar, agregue propiedades gemelas para ver los datos históricos."
         }
@@ -1416,6 +1439,58 @@
     },
     "Common": {
       "untargeted": "Sin objetivo"
+=======
+          "noSeries": "No se seleccionó ningún gemelo para consultar, agregue propiedades gemelas para ver los datos históricos.",
+          "noData": "No se encontraron datos en el intervalo de tiempo seleccionado."
+        }
+      },
+      "chart": {
+        "title": "Gráfico",
+        "messages": {
+          "noData": "No se encontraron datos numéricos en el intervalo de tiempo seleccionado."
+        }
+      }
+    },
+    "loadingConnectionLabel": "Cargando información de conexión del historial de datos..."
+  },
+  "clear": "Claro",
+  "duplicate": "Duplicado",
+  "moveUp": "Desplazar hacia arriba",
+  "moveDown": "Desplazar hacia abajo",
+  "increaseBy1": "Aumentar el valor en 1",
+  "decreaseBy1": "Disminuir el valor en 1",
+  "OATCommon": {
+    "duplicateFileNameSuffix": "copiar",
+    "defaultFileName": "Nueva ontología",
+    "defaultModelNamePrefix": "Modelo"
+  },
+  "OATErrors": {
+    "Validations": {
+      "InvalidDtmiIdFormatTitle": "Formato DTMI no válido",
+      "InvalidDtmiIdFormatMessage": "Los cambios no se guardaron porque el DTMI no cumplía con el formato requerido. \n DTMI: {{dtmi}}\n Formato requerido: {{regex}}"
+    }
+  },
+  "OAT": {
+    "ModelList": {
+      "searchModels": "Modelos de búsqueda",
+      "noMatchingItemsMessage": "Ningún modelo cumple con ese criterio",
+      "removeModelButtonText": "Eliminar modelo",
+      "noModelsTitle": "Todavía no tienes ningún modelo",
+      "noModelsMessage": "Comience a diseñar su ontología agregando un modelo o importando su ontología existente",
+      "noModelsButtonText": "Agregar un modelo"
+    },
+    "Common": {
+      "untargeted": "Sin objetivo"
+    }
+  },
+  "dataHistoryErrorHandlingWrapper": {
+    "errors": {
+      "genericNetwork": "La instancia de Azure Data Explorer no se puede conectar, asegúrese de que el recurso no se detenga y de que la conectividad de red sea estable.",
+      "genericBadRequest": "Algo salió mal, inténtalo de nuevo.",
+      "generalBadRequestMessage": "La solicitud no es válida y no se puede ejecutar.",
+      "entityNotFound": "Base de datos no encontrada, no se puede ejecutar la consulta.",
+      "forbidden": "Se ha denegado el acceso, no tiene permisos de consulta."
+>>>>>>> 6e317f2ed7df657d9ad125f673daa1f74be28661
     }
   }
 }

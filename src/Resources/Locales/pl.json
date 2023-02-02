@@ -100,6 +100,13 @@
     "schemaValidationFailed": {
       "type": "Sprawdzanie poprawności schematu JSON nie powiodło się",
       "message": "Kod JSON jest nieprawidłowy. Sprawdź zgodność składni z wymaganym schematem."
+<<<<<<< HEAD
+=======
+    },
+    "timeSeriesDatabaseConnectionFetchFailed": {
+      "type": "Sprawdzanie poprawności połączenia z bazą danych szeregów czasowych nie powiodło się",
+      "message": "Nie można odnaleźć informacji o połączeniu historii danych, upewnij się, że historia danych jest włączona dla tego wystąpienia usługi Azure Digital Twins i że masz dostęp co najmniej \"{{permission}}\" do wystąpienia usługi Azure Data Explorer."
+>>>>>>> 6e317f2ed7df657d9ad125f673daa1f74be28661
     }
   },
   "valueRangeBuilder": {
@@ -119,6 +126,7 @@
   },
   "relationshipsTable": {
     "twinID": "Podwójny identyfikator",
+<<<<<<< HEAD
     "model": "Model",
     "relationshipName": "Nazwa relacji"
   },
@@ -227,6 +235,116 @@
     "empty": "Ta plansza nie ma kart",
     "twinID": "Podwójny identyfikator",
     "model": "Model",
+=======
+    "model": "Model",
+    "relationshipName": "Nazwa relacji"
+  },
+  "dataPusher": {
+    "dataPusherTitle": "Symulator danych usługi Azure Digital Twins",
+    "instanceUrl": "Adres URL wystąpienia",
+    "pastEventsLabel": "Symuluj przeszłe wydarzenia",
+    "pastEventsDescriptionOn": "Szybko symuluj przeszłe wydarzenia",
+    "pastEventsDescriptionOff": "Żadne wcześniejsze dane nie będą symulowane",
+    "daysToSimulateLabel": "Dni do symulacji",
+    "daysToSimulateDescription": "Zacznij symulować to wiele dni temu",
+    "dataSpacingLabel": "Odstępy między danymi",
+    "dataSpacingDescription": "Czas między sygnaturami czasowymi zdarzeń",
+    "quickStreamFrequencyLabel": "Częstotliwość przesyłania strumieniowego poprzednich wydarzeń",
+    "quickStreamFrequencyDescription": "Jak często forsować przeszłe wydarzenia. Jeśli transmisja na żywo jest wyłączona, dane będą nadal przesyłane z tą częstotliwością po osiągnięciu obecnego czasu.",
+    "liveStreamLabel": "Dane transmisji na żywo",
+    "liveStreamDescriptionOn": "Po osiągnięciu obecnego czasu symulacja będzie przesyłać dane z ustawioną częstotliwością transmisji na żywo",
+    "liveStreamDescriptionOff": "Symulacja będzie nadal przesuwać zdarzenia w przyszłość przy ustalonej częstotliwości szybkiego strumienia w nieskończoność",
+    "liveStreamFrequencyLabel": "Częstotliwość",
+    "liveStreamFrequencyDescription": "Jak często wypychać wydarzenia. Ta liczba reprezentuje zarówno czas między sygnaturami czasowymi zdarzeń, jak i interwał, w którym nowe zdarzenia są wypychane.",
+    "otherOptionsLabel": "Inne opcje",
+    "includeImagesLabel": "Dołącz obrazy do modelu",
+    "includeImagesDescriptionOn": "Symulacja spowoduje wypchnięcie modelu z domyślnymi obrazami",
+    "includeImagesDescriptionOff": "Symulacja nie wypycha obrazów",
+    "generateEnvironment": "Generowanie środowiska",
+    "startSimulation": "Rozpocznij symulację",
+    "stopSimulation": "Zatrzymaj symulację",
+    "days": "Dni",
+    "create": "Tworzyć",
+    "simulate": "Symulować",
+    "models": "Modele",
+    "twins": "Bliźnięta",
+    "relationships": "Relacje",
+    "simulating": "Symulowanie",
+    "liveStatus": "Numer pakietu: {{packetNumber}} | {{totalSuccessfulPatches}}/{{totalTwinsPatched}} bliźniaki zostały pomyślnie zaktualizowane",
+    "generateEnvironmentDescription": "Wypychanie modeli, bliźniaków i relacji w celu wypełnienia środowiska",
+    "simulateDescription": "Wypychanie zdarzeń do środowiska",
+    "pusherType": "Typ symulacji",
+    "robotArms": "Ramiona robota",
+    "dairyProduction": "Zakład mleczarski"
+  },
+  "scenes": {
+    "noScenes": "Nie masz scen 3D, dodaj nową, aby rozpocząć.",
+    "addScene": "Dodawanie sceny 3D",
+    "latitude": "Szerokość geograficzna",
+    "longitude": "Długość",
+    "sampleLatitude": "np.: 6.4511366",
+    "sampleLongitude": "np.: 3.3883963",
+    "longitudeErrorMessage": "Wartość wejściowa musi mieścić się w zakresie -180 i 180 stopni",
+    "latitudeErrorMessage": "Wartość wejściowa musi mieścić się w zakresie -90 i 90 stopni",
+    "showOnGlobe": "Pokaż na mapie świata",
+    "blobUrl": "Adres URL obiektu blob pliku 3D",
+    "dialogTitleCreate": "Tworzenie nowej sceny",
+    "dialogSubTitle": "Kierowanie istniejącego pliku 3D za pomocą adresu URL lub przesyłanie nowego pliku bezpośrednio do kontenera",
+    "dialogTitleEdit": "Edytowanie sceny 3D",
+    "3dFileSelectionMode": "Tryb wyboru plików 3D",
+    "sceneNamePlaceholder": "Wprowadzanie nazwy sceny",
+    "sceneDescriptionPlaceholder": "Wprowadź opis sceny",
+    "tabNameFromContainer": "Wybierz plik",
+    "tabNameUploadFile": "Prześlij plik",
+    "3dFileAsset": "Połącz plik 3D",
+    "description": "Opis",
+    "overwriteIfExist": "Zastąp, jeśli plik już istnieje",
+    "fileExistsErrorMessage": "Plik o tej nazwie już istnieje w magazynie, możesz wybrać ten plik z kontenera lub zastąpić."
+  },
+  "BIMUpload": {
+    "specifyFiles": "Określanie plików do przesłania z",
+    "selectModels": "Wybierz modele do przesłania",
+    "generateEnvironment": "Generowanie środowiska",
+    "specifyFilesSubheader": "Określony plik BIM i skojarzone z nim metadane zostaną użyte do wyodrębnienia modeli, bliźniaków i relacji w celu przekazania ich do środowiska ADT.",
+    "selectModelsSubheader": "Wybrane modele oraz powiązane z nimi bliźnięta i relacje zostaną dodane do środowiska w następnym kroku.",
+    "generateEnvironmentSubheader": "Modele, bliźnięta i relacje (filtrowane według modeli wybranych w poprzednim kroku) zostaną wypchnięte do środowiska ADT",
+    "initiateUpload": "Inicjowanie przesyłania",
+    "bimFilePath": "Ścieżka do pliku BIM",
+    "metadataFilePath": "Ścieżka do pliku metadanych",
+    "parsingModels": "Analizowanie modeli...",
+    "noModelsParsed": "Brak przeanalizowanych modeli",
+    "modelsSelectedCount": "Wybrane modele ({{count}})",
+    "goToEnvironment": "Przejdź do środowiska"
+  },
+  "generateADTAssets": {
+    "assetsPushError": "Wystąpił problem podczas wypychania {{assetType}} do narzędzia ADT",
+    "assetsPushedCount": "{{count}} {{assetType}} wypchnięty",
+    "uploadProgress": "{{pushed}} z {{total}}",
+    "uploading": "Przesyłanie...",
+    "partialError": "Błędy podczas przesyłania {{assetType}}: {{errorCount}} {{assetType}} nie można przesłać"
+  },
+  "uploadProgress": {
+    "uploading": "Przesyłanie {{assetType}}",
+    "uploadSuccess": "Przesłano {{assetType}} pomyślnie",
+    "uploadPartiallyFailed": "Przesłano {{assetType}} z pewnymi błędami",
+    "uploadFailed": "Nie udało się przesłać {{assetType}} "
+  },
+  "modelSearch": {
+    "placeholder": "Wprowadź ciąg wyszukiwania modelu",
+    "fileNameOnly": "Wyszukiwanie tylko według nazwy pliku",
+    "cdnModelSearchdescription": "To narzędzie wyszukuje <CndLink>hostowane modele DTDL</CndLink> udostępnione publicznie. Podany ciąg wyszukiwania jest dopasowywany do identyfikatorów modeli, nazw wyświetlanych i opisów.",
+    "githubModelSearchdescription": "To narzędzie przeszukuje modele DTDL udostępnione publicznie w repozytorium <GithubRepo>{{repo}}</GithubRepo>. Podany ciąg wyszukiwania jest dopasowywany zarówno do ścieżek plików, jak i zawartości.",
+    "rateLimitExceededTitle": "Przekroczono limit szybkości interfejsu API wyszukiwania GitHub",
+    "rateLimitExceededDescription": "To wyszukiwanie jest ograniczone do 10 żądań interfejsu API na minutę przez interfejs API wyszukiwania GitHub.This search is limited to 10 API requests per minute by the GitHub search API. Limit resetuje się w ciągu {{numSeconds}} sekund",
+    "githubLink": "Link do gitHub",
+    "modelListItemAction": "Tworzyć",
+    "modelListItemPreview": "Zobacz DTDL"
+  },
+  "board": {
+    "empty": "Ta plansza nie ma kart",
+    "twinID": "Podwójny identyfikator",
+    "model": "Model",
+>>>>>>> 6e317f2ed7df657d9ad125f673daa1f74be28661
     "relationshipsTable": "Tabela relacji",
     "processGraphic": "Grafika procesu",
     "dataHistory": "Historia danych",
@@ -650,6 +768,7 @@
         }
       },
       "headerMenu": "Menu widżetu Historia danych",
+<<<<<<< HEAD
       "openQuery": "Otwieranie zapytania w usłudze Azure Data Explorer",
       "errors": {
         "genericNetwork": "Adres URL klastra jest nieprawidłowy lub wystąpił błąd sieci.",
@@ -658,6 +777,9 @@
         "entityNotFound": "Nie znaleziono bazy danych, nie można wykonać zapytania.",
         "forbidden": "Odmowa dostępu, nie masz uprawnień do wykonywania zapytań."
       }
+=======
+      "openQuery": "Otwieranie zapytania w usłudze Azure Data Explorer"
+>>>>>>> 6e317f2ed7df657d9ad125f673daa1f74be28661
     }
   },
   "sdkStrings": {
@@ -1360,15 +1482,26 @@
       "title": "Bliźniacze właściwości",
       "timeSeriesTwin": {
         "property": "Własność",
+<<<<<<< HEAD
         "propertyTypeCastLabel": "Typ właściwości rzutowania na numer",
         "add": "Dodawanie szeregów czasowych",
         "remove": "Usuwanie szeregów czasowych",
         "edit": "Edytowanie szeregów czasowych"
+=======
+        "add": "Dodawanie szeregów czasowych",
+        "remove": "Usuwanie szeregów czasowych",
+        "edit": "Edytowanie szeregów czasowych",
+        "noData": "Brak danych do wyświetlenia dla wybranego zakresu czasu",
+        "propertyTypeCastLabe": "Rzutowanie wartości właściwości na liczbę"
+>>>>>>> 6e317f2ed7df657d9ad125f673daa1f74be28661
       },
       "description": "Aby porównać wcześniejsze wartości historycznych właściwości, dodaj poniżej szereg czasowy."
     },
     "viewer": {
+<<<<<<< HEAD
       "chart": "Wykres",
+=======
+>>>>>>> 6e317f2ed7df657d9ad125f673daa1f74be28661
       "noSeriesDescription": "Aby wyświetlić historię danych dla tej bliźniaczej płaszczyzny, wybierz właściwość do wyświetlenia.",
       "table": {
         "title": "Stół",
@@ -1381,6 +1514,7 @@
         "messages": {
           "noColor": "Nie ustawiono",
           "loading": "Ładowanie danych historycznych...",
+<<<<<<< HEAD
           "noData": "Nie znaleziono historycznych danych w wybranych przedziałach czasowych.",
           "noSeries": "Nie wybrano bliźniaka do zapytania, dodaj właściwości bliźniacze, aby wyświetlić dane historyczne."
         }
@@ -1416,6 +1550,58 @@
     },
     "Common": {
       "untargeted": "Nieukierunkowane"
+=======
+          "noSeries": "Nie wybrano bliźniaka do zapytania, dodaj właściwości bliźniacze, aby wyświetlić dane historyczne.",
+          "noData": "Nie znaleziono danych w wybranym zakresie czasu."
+        }
+      },
+      "chart": {
+        "title": "Wykres",
+        "messages": {
+          "noData": "Nie znaleziono danych liczbowych w wybranym zakresie czasu."
+        }
+      }
+    },
+    "loadingConnectionLabel": "Ładowanie historii danych informacji o połączeniu..."
+  },
+  "clear": "Jasny",
+  "duplicate": "Duplikat",
+  "moveUp": "Przejdź w górę",
+  "moveDown": "Przenieś w dół",
+  "increaseBy1": "Zwiększ wartość o 1",
+  "decreaseBy1": "Zmniejsz wartość o 1",
+  "OATCommon": {
+    "duplicateFileNameSuffix": "kopiować",
+    "defaultFileName": "Nowa ontologia",
+    "defaultModelNamePrefix": "Model"
+  },
+  "OATErrors": {
+    "Validations": {
+      "InvalidDtmiIdFormatTitle": "Nieprawidłowy format DTMI",
+      "InvalidDtmiIdFormatMessage": "Zmiany nie zostały zapisane, ponieważ DTMI nie spełnia wymaganego formatu. \n DTMI: {{dtmi}}\n Wymagany format: {{regex}}"
+    }
+  },
+  "OAT": {
+    "ModelList": {
+      "searchModels": "Szukaj modeli",
+      "noMatchingItemsMessage": "Żaden model nie spełnia tych kryteriów",
+      "removeModelButtonText": "Usuń model",
+      "noModelsTitle": "Nie masz jeszcze żadnych modeli",
+      "noModelsMessage": "Rozpocznij projektowanie ontologii, dodając model lub importując istniejącą ontologię",
+      "noModelsButtonText": "Dodawanie modelu"
+    },
+    "Common": {
+      "untargeted": "Nieukierunkowane"
+    }
+  },
+  "dataHistoryErrorHandlingWrapper": {
+    "errors": {
+      "genericNetwork": "Nie można nawiązać połączenia z wystąpieniem usługi Azure Data Explorer, upewnij się, że zasób nie został zatrzymany, a łączność sieciowa jest stabilna.",
+      "genericBadRequest": "Coś poszło nie tak, spróbuj ponownie.",
+      "generalBadRequestMessage": "Żądanie jest nieprawidłowe i nie można go wykonać.",
+      "entityNotFound": "Nie znaleziono bazy danych, nie można wykonać zapytania.",
+      "forbidden": "Odmowa dostępu, nie masz uprawnień do wykonywania zapytań."
+>>>>>>> 6e317f2ed7df657d9ad125f673daa1f74be28661
     }
   }
 }

@@ -100,6 +100,13 @@
     "schemaValidationFailed": {
       "type": "Échec de la validation du schéma JSON",
       "message": "JSON n’est pas valide. Vérifiez que la syntaxe correspond au schéma requis."
+<<<<<<< HEAD
+=======
+    },
+    "timeSeriesDatabaseConnectionFetchFailed": {
+      "type": "Échec de la validation de la connexion à une base de données de séries chronologiques",
+      "message": "Les informations de connexion de l'historique des données sont introuvables, assurez-vous que l'historique des données est activé pour cette instance Azure Digital Twins et que vous disposez au moins d'un accès « {{permission}} » à l'instance Azure Data Explorer."
+>>>>>>> 6e317f2ed7df657d9ad125f673daa1f74be28661
     }
   },
   "valueRangeBuilder": {
@@ -650,6 +657,7 @@
         }
       },
       "headerMenu": "Menu du widget Historique des données",
+<<<<<<< HEAD
       "openQuery": "Ouvrir une requête dans l’Explorateur de données Azure",
       "errors": {
         "genericNetwork": "L’URL du cluster n’est pas valide ou une erreur réseau s’est produite.",
@@ -658,6 +666,9 @@
         "entityNotFound": "Base de données introuvable, échec de l’exécution de la requête.",
         "forbidden": "L’accès a été refusé, vous n’avez pas d’autorisations de requête."
       }
+=======
+      "openQuery": "Ouvrir une requête dans l’Explorateur de données Azure"
+>>>>>>> 6e317f2ed7df657d9ad125f673daa1f74be28661
     }
   },
   "sdkStrings": {
@@ -1360,15 +1371,26 @@
       "title": "Propriétés jumelles",
       "timeSeriesTwin": {
         "property": "Propriété",
+<<<<<<< HEAD
         "propertyTypeCastLabel": "Convertir le type de propriété en nombre",
         "add": "Ajouter des séries chronologiques",
         "remove": "Supprimer des séries chronologiques",
         "edit": "Modifier des séries chronologiques"
+=======
+        "add": "Ajouter des séries chronologiques",
+        "remove": "Supprimer des séries chronologiques",
+        "edit": "Modifier des séries chronologiques",
+        "noData": "Aucune donnée à afficher pour la plage de temps sélectionnée",
+        "propertyTypeCastLabe": "Convertir la valeur de la propriété en nombre"
+>>>>>>> 6e317f2ed7df657d9ad125f673daa1f74be28661
       },
       "description": "Pour comparer les valeurs antérieures des propriétés historisées, ajoutez des séries chronologiques ci-dessous."
     },
     "viewer": {
+<<<<<<< HEAD
       "chart": "Graphique",
+=======
+>>>>>>> 6e317f2ed7df657d9ad125f673daa1f74be28661
       "noSeriesDescription": "Pour afficher l’historique des données de ce jumeau, sélectionnez une propriété à afficher.",
       "table": {
         "title": "Table",
@@ -1381,6 +1403,7 @@
         "messages": {
           "noColor": "Non défini",
           "loading": "Chargement de données historiques...",
+<<<<<<< HEAD
           "noData": "Aucune donnée historique n’a été trouvée au cours de la période sélectionnée.",
           "noSeries": "Aucun jumeau sélectionné pour interroger, veuillez ajouter des propriétés jumelles pour afficher les données historiques."
         }
@@ -1416,6 +1439,58 @@
     },
     "Common": {
       "untargeted": "Non ciblé"
+=======
+          "noSeries": "Aucun jumeau sélectionné pour interroger, veuillez ajouter des propriétés jumelles pour afficher les données historiques.",
+          "noData": "Aucune donnée trouvée dans la plage de temps sélectionnée."
+        }
+      },
+      "chart": {
+        "title": "Graphique",
+        "messages": {
+          "noData": "Aucune donnée numérique trouvée dans la plage de temps sélectionnée."
+        }
+      }
+    },
+    "loadingConnectionLabel": "Chargement des informations de connexion de l’historique des données..."
+  },
+  "clear": "Clair",
+  "duplicate": "Dupliquer",
+  "moveUp": "Monter",
+  "moveDown": "Descendre",
+  "increaseBy1": "Augmenter la valeur de 1",
+  "decreaseBy1": "Diminuer la valeur de 1",
+  "OATCommon": {
+    "duplicateFileNameSuffix": "copier",
+    "defaultFileName": "Nouvelle ontologie",
+    "defaultModelNamePrefix": "Modèle"
+  },
+  "OATErrors": {
+    "Validations": {
+      "InvalidDtmiIdFormatTitle": "Format DTMI non valide",
+      "InvalidDtmiIdFormatMessage": "Vos modifications n’ont pas été enregistrées car le DTMI ne répondait pas au format requis. \n DTMI: {{dtmi}}\n Format requis : {{regex}}"
+    }
+  },
+  "OAT": {
+    "ModelList": {
+      "searchModels": "Modèles de recherche",
+      "noMatchingItemsMessage": "Aucun modèle ne correspond à ces critères",
+      "removeModelButtonText": "Supprimer le modèle",
+      "noModelsTitle": "Vous n'avez pas encore de modèles",
+      "noModelsMessage": "Commencez à concevoir votre ontologie en ajoutant un modèle ou en important votre ontologie existante",
+      "noModelsButtonText": "Ajouter un modèle"
+    },
+    "Common": {
+      "untargeted": "Non ciblé"
+    }
+  },
+  "dataHistoryErrorHandlingWrapper": {
+    "errors": {
+      "genericNetwork": "L’instance Azure Data Explorer ne peut pas être connectée, assurez-vous que la ressource n’est pas arrêtée et que votre connectivité réseau est stable.",
+      "genericBadRequest": "Quelque chose s’est mal passé, veuillez réessayer.",
+      "generalBadRequestMessage": "La demande n’est pas valide et ne peut pas être exécutée.",
+      "entityNotFound": "Base de données introuvable, impossible d’exécuter la requête.",
+      "forbidden": "L’accès a été refusé, vous n’avez pas d’autorisations de requête."
+>>>>>>> 6e317f2ed7df657d9ad125f673daa1f74be28661
     }
   }
 }

@@ -100,6 +100,13 @@
     "schemaValidationFailed": {
       "type": "JSON 스키마 유효성 검사 실패",
       "message": "JSON이 잘못되었습니다. 구문이 필요한 스키마와 일치하는지 확인합니다."
+<<<<<<< HEAD
+=======
+    },
+    "timeSeriesDatabaseConnectionFetchFailed": {
+      "type": "시계열 데이터베이스 연결 유효성 검사 실패",
+      "message": "데이터 기록 연결 정보를 찾을 수 없는 경우 이 Azure Digital Twins 인스턴스에 대해 데이터 기록을 사용하도록 설정하고 Azure 데이터 탐색기 인스턴스에 대해 '{{권한}}' 이상의 액세스 권한이 있는지 확인합니다."
+>>>>>>> 6e317f2ed7df657d9ad125f673daa1f74be28661
     }
   },
   "valueRangeBuilder": {
@@ -650,6 +657,7 @@
         }
       },
       "headerMenu": "데이터 기록 위젯 메뉴",
+<<<<<<< HEAD
       "openQuery": "Azure 데이터 탐색기에서 쿼리 열기",
       "errors": {
         "genericNetwork": "클러스터 URL이 잘못되었거나 네트워크 오류가 발생했습니다.",
@@ -658,6 +666,9 @@
         "entityNotFound": "데이터베이스를 찾을 수 없습니다. 쿼리를 실행하지 못했습니다.",
         "forbidden": "액세스가 거부되었습니다. 쿼리 권한이 없습니다."
       }
+=======
+      "openQuery": "Azure 데이터 탐색기에서 쿼리 열기"
+>>>>>>> 6e317f2ed7df657d9ad125f673daa1f74be28661
     }
   },
   "sdkStrings": {
@@ -1360,15 +1371,26 @@
       "title": "트윈 속성",
       "timeSeriesTwin": {
         "property": "재산",
+<<<<<<< HEAD
         "propertyTypeCastLabel": "속성 유형을 번호로 캐스트",
         "add": "시계열 추가",
         "remove": "시계열 제거",
         "edit": "시계열 편집"
+=======
+        "add": "시계열 추가",
+        "remove": "시계열 제거",
+        "edit": "시계열 편집",
+        "noData": "선택한 시간 범위에 대해 표시할 데이터가 없습니다.",
+        "propertyTypeCastLabe": "속성 값을 숫자로 변환"
+>>>>>>> 6e317f2ed7df657d9ad125f673daa1f74be28661
       },
       "description": "히스토라이즈된 속성의 과거 값을 비교하려면 아래에 시계열을 추가합니다."
     },
     "viewer": {
+<<<<<<< HEAD
       "chart": "차트",
+=======
+>>>>>>> 6e317f2ed7df657d9ad125f673daa1f74be28661
       "noSeriesDescription": "이 쌍에 대한 데이터 기록을 보려면 보려는 속성을 선택합니다.",
       "table": {
         "title": "테이블",
@@ -1381,6 +1403,7 @@
         "messages": {
           "noColor": "설정되지 않음",
           "loading": "히스토리화된 데이터를 로드하는 중...",
+<<<<<<< HEAD
           "noData": "선택한 시간 프레임에서 기록된 데이터를 찾을 수 없습니다.",
           "noSeries": "쿼리할 쌍이 선택되어 있지 않으면 쌍 속성을 추가하여 히스토레이티드된 데이터를 확인하세요."
         }
@@ -1416,6 +1439,58 @@
     },
     "Common": {
       "untargeted": "타겟팅되지 않음"
+=======
+          "noSeries": "쿼리할 쌍이 선택되어 있지 않으면 쌍 속성을 추가하여 히스토레이티드된 데이터를 확인하세요.",
+          "noData": "선택한 시간 범위에서 데이터를 찾을 수 없습니다."
+        }
+      },
+      "chart": {
+        "title": "차트",
+        "messages": {
+          "noData": "선택한 시간 범위에서 숫자 데이터를 찾을 수 없습니다."
+        }
+      }
+    },
+    "loadingConnectionLabel": "데이터 기록 연결 정보를 로드하는 중..."
+  },
+  "clear": "맑다",
+  "duplicate": "복사하다",
+  "moveUp": "위로 이동",
+  "moveDown": "아래로 이동",
+  "increaseBy1": "값을 1씩 늘립니다.",
+  "decreaseBy1": "값 감소 1",
+  "OATCommon": {
+    "duplicateFileNameSuffix": "복사",
+    "defaultFileName": "새 온톨로지",
+    "defaultModelNamePrefix": "모델"
+  },
+  "OATErrors": {
+    "Validations": {
+      "InvalidDtmiIdFormatTitle": "잘못된 DTMI 형식",
+      "InvalidDtmiIdFormatMessage": "DTMI가 필요한 형식을 충족하지 못했기 때문에 변경 내용이 저장되지 않았습니다. \n DTMI: {{dtmi}}\n 필수 형식: {{정규식}}"
+    }
+  },
+  "OAT": {
+    "ModelList": {
+      "searchModels": "검색 모델",
+      "noMatchingItemsMessage": "해당 기준과 일치하는 모델이 없습니다.",
+      "removeModelButtonText": "모델 제거",
+      "noModelsTitle": "아직 모델이 없습니다.",
+      "noModelsMessage": "모델을 추가하거나 기존 온톨로지를 가져와 온톨로지 디자인을 시작합니다.",
+      "noModelsButtonText": "모델 추가"
+    },
+    "Common": {
+      "untargeted": "타겟팅되지 않음"
+    }
+  },
+  "dataHistoryErrorHandlingWrapper": {
+    "errors": {
+      "genericNetwork": "Azure 데이터 탐색기 인스턴스를 연결할 수 없는 경우 리소스가 중지되지 않고 네트워크 연결이 안정적인지 확인합니다.",
+      "genericBadRequest": "문제가 발생했습니다. 다시 시도하십시오.",
+      "generalBadRequestMessage": "요청이 잘못되어 실행할 수 없습니다.",
+      "entityNotFound": "데이터베이스를 찾을 수 없습니다. 쿼리를 실행할 수 없습니다.",
+      "forbidden": "액세스가 거부되었습니다. 쿼리 권한이 없습니다."
+>>>>>>> 6e317f2ed7df657d9ad125f673daa1f74be28661
     }
   }
 }

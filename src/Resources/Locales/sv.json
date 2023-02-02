@@ -100,6 +100,13 @@
     "schemaValidationFailed": {
       "type": "JSON-schemaverifieringen misslyckades",
       "message": "JSON är ogiltigt. Kontrollera att syntaxen matchar det schema som krävs."
+<<<<<<< HEAD
+=======
+    },
+    "timeSeriesDatabaseConnectionFetchFailed": {
+      "type": "Validering av databasanslutning till tidsserier misslyckades",
+      "message": "Det gick inte att hitta anslutningsinformation för datahistorik och kontrollera att datahistoriken är aktiverad för den här Azure Digital Twins-instansen och att du har minst {{permission}}-åtkomst till Azure Data Explorer instansen."
+>>>>>>> 6e317f2ed7df657d9ad125f673daa1f74be28661
     }
   },
   "valueRangeBuilder": {
@@ -650,6 +657,7 @@
         }
       },
       "headerMenu": "Widgetmenyn Datahistorik",
+<<<<<<< HEAD
       "openQuery": "Öppna frågan i Azure Data Explorer",
       "errors": {
         "genericNetwork": "Kluster-URL:en är ogiltig eller nätverksfel har inträffat.",
@@ -658,6 +666,9 @@
         "entityNotFound": "Databasen hittades inte, det gick inte att köra frågan.",
         "forbidden": "Åtkomst nekades, du har inte frågebehörighet."
       }
+=======
+      "openQuery": "Öppna frågan i Azure Data Explorer"
+>>>>>>> 6e317f2ed7df657d9ad125f673daa1f74be28661
     }
   },
   "sdkStrings": {
@@ -1360,15 +1371,26 @@
       "title": "Tvillingegenskaper",
       "timeSeriesTwin": {
         "property": "Egenskap",
+<<<<<<< HEAD
         "propertyTypeCastLabel": "Gjuten egenskapstyp till nummer",
         "add": "Lägg till tidsserier",
         "remove": "Ta bort tidsserier",
         "edit": "Redigera tidsserier"
+=======
+        "add": "Lägg till tidsserier",
+        "remove": "Ta bort tidsserier",
+        "edit": "Redigera tidsserier",
+        "noData": "Inga data att visa för det valda tidsintervallet",
+        "propertyTypeCastLabe": "Gjutet egenskapsvärde till antal"
+>>>>>>> 6e317f2ed7df657d9ad125f673daa1f74be28661
       },
       "description": "Om du vill jämföra tidigare värden för historiserade egenskaper lägger du till tidsserier nedan."
     },
     "viewer": {
+<<<<<<< HEAD
       "chart": "Diagram",
+=======
+>>>>>>> 6e317f2ed7df657d9ad125f673daa1f74be28661
       "noSeriesDescription": "Om du vill visa datahistorik för den här tvillingen väljer du en egenskap som ska visas.",
       "table": {
         "title": "Bord",
@@ -1381,6 +1403,7 @@
         "messages": {
           "noColor": "Inte inställt",
           "loading": "Laddar historiserade data...",
+<<<<<<< HEAD
           "noData": "Inga historiserade data hittades i vald tidsram.",
           "noSeries": "Ingen tvilling har valts för att fråga, lägg till tvillingegenskaper för att visa historiserade data."
         }
@@ -1416,6 +1439,58 @@
     },
     "Common": {
       "untargeted": "Oriktad"
+=======
+          "noSeries": "Ingen tvilling har valts för att fråga, lägg till tvillingegenskaper för att visa historiserade data.",
+          "noData": "Inga data hittades i det valda tidsintervallet."
+        }
+      },
+      "chart": {
+        "title": "Diagram",
+        "messages": {
+          "noData": "Inga numeriska data hittades i det valda tidsintervallet."
+        }
+      }
+    },
+    "loadingConnectionLabel": "Laddar anslutningsinformation för datahistorik..."
+  },
+  "clear": "Klar",
+  "duplicate": "Duplicera",
+  "moveUp": "Flytta upp",
+  "moveDown": "Flytta ner",
+  "increaseBy1": "Öka värdet med 1",
+  "decreaseBy1": "Minska värdet med 1",
+  "OATCommon": {
+    "duplicateFileNameSuffix": "kopia",
+    "defaultFileName": "Ny ontologi",
+    "defaultModelNamePrefix": "Modell"
+  },
+  "OATErrors": {
+    "Validations": {
+      "InvalidDtmiIdFormatTitle": "Ogiltigt DTMI-format",
+      "InvalidDtmiIdFormatMessage": "Ändringarna sparades inte eftersom DTMI inte uppfyllde det format som krävs. \n DTMI: {{dtmi}}\n Obligatoriskt format: {{regex}}"
+    }
+  },
+  "OAT": {
+    "ModelList": {
+      "searchModels": "Sök modeller",
+      "noMatchingItemsMessage": "Inga modeller matchar det kriteriet",
+      "removeModelButtonText": "Ta bort modell",
+      "noModelsTitle": "Du har inga modeller ännu",
+      "noModelsMessage": "Börja utforma ontologin genom att lägga till en modell eller importera din befintliga ontologi",
+      "noModelsButtonText": "Lägga till en modell"
+    },
+    "Common": {
+      "untargeted": "Oriktad"
+    }
+  },
+  "dataHistoryErrorHandlingWrapper": {
+    "errors": {
+      "genericNetwork": "Azure Data Explorer instansen kan inte anslutas, se till att resursen inte stoppas och att nätverksanslutningen är stabil.",
+      "genericBadRequest": "Något gick fel, försök igen.",
+      "generalBadRequestMessage": "Begäran är ogiltig och kan inte utföras.",
+      "entityNotFound": "Databasen hittades inte, kan inte köra frågan.",
+      "forbidden": "Åtkomst nekades, du har inte frågebehörighet."
+>>>>>>> 6e317f2ed7df657d9ad125f673daa1f74be28661
     }
   }
 }
