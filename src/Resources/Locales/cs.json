@@ -103,7 +103,7 @@
     },
     "timeSeriesDatabaseConnectionFetchFailed": {
       "type": "Ověření připojení k databázi časové řady se nezdařilo",
-      "messag": "Informace o připojení historie dat se nenašly, ujistěte se, že je pro tuto instanci digitálních vláken Azure povolená historie dat a že máte k instanci Azure Data Explorer přístup aspoň {{permission}}."
+      "message": "Informace o připojení historie dat se nenašly, ujistěte se, že je pro tuto instanci digitálních vláken Azure povolená historie dat a že máte k instanci Azure Data Explorer přístup aspoň {{permission}}."
     }
   },
   "valueRangeBuilder": {
@@ -1361,7 +1361,7 @@
         "add": "Přidat časovou řadu",
         "remove": "Odebrání časové řady",
         "edit": "Úprava časové řady",
-        "noDat": "Pro vybraný časový rozsah se nezobrazí žádná data"
+        "noData": "Pro vybraný časový rozsah se nezobrazí žádná data"
       },
       "description": "Chcete-li porovnat minulé hodnoty pro historizované vlastnosti, přidejte níže časovou řadu."
     },
@@ -1385,11 +1385,11 @@
       "chart": {
         "title": "Graf",
         "messages": {
-          "noDat": "Ve vybraném časovém rozsahu nebyla nalezena žádná číselná historizovaná data."
+          "noData": "Ve vybraném časovém rozsahu nebyla nalezena žádná číselná historizovaná data."
         }
       }
     },
-    "loadingConnectionLabe": "Načítání informací o připojení historie dat..."
+    "loadingConnectionLabel": "Načítání informací o připojení historie dat..."
   },
   "clear": "Jasný",
   "duplicate": "Duplikát",
@@ -1416,7 +1416,7 @@
       "generalBadRequestMessage": "Požadavek je neplatný a nelze jej provést.",
       "entityNotFound": "Databáze nebyla nalezena, nepodařilo se spustit dotaz.",
       "forbidden": "Přístup byl odepřen, nemáte oprávnění k dotazu.",
-      "genericNetwor": "Instanci Průzkumníka dat Azure nelze připojit, ujistěte se, že prostředek není zastavený a připojení k síti je stabilní."
+      "genericNetwork": "Instanci Průzkumníka dat Azure nelze připojit, ujistěte se, že prostředek není zastavený a připojení k síti je stabilní."
     }
   }
 }

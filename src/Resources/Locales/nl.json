@@ -103,7 +103,7 @@
     },
     "timeSeriesDatabaseConnectionFetchFailed": {
       "type": "Validatie van de databaseverbinding met tijdreeksen is mislukt",
-      "messag": "Verbindingsgegevens over gegevensgeschiedenis kunnen niet worden gevonden, zorg ervoor dat gegevensgeschiedenis is ingeschakeld voor dit Azure Digital Twins-exemplaar en dat u ten minste '{{permission}}' toegang hebt tot het Azure Data Explorer-exemplaar."
+      "message": "Verbindingsgegevens over gegevensgeschiedenis kunnen niet worden gevonden, zorg ervoor dat gegevensgeschiedenis is ingeschakeld voor dit Azure Digital Twins-exemplaar en dat u ten minste '{{permission}}' toegang hebt tot het Azure Data Explorer-exemplaar."
     }
   },
   "valueRangeBuilder": {
@@ -1361,7 +1361,7 @@
         "add": "Tijdreeksen toevoegen",
         "remove": "Tijdreeksen verwijderen",
         "edit": "Tijdreeksen bewerken",
-        "noDat": "Geen gegevens om weer te geven voor het geselecteerde tijdsbereik"
+        "noData": "Geen gegevens om weer te geven voor het geselecteerde tijdsbereik"
       },
       "description": "Als u eerdere waarden voor geïrtoriseerde eigenschappen wilt vergelijken, voegt u hieronder tijdreeksen toe."
     },
@@ -1385,11 +1385,11 @@
       "chart": {
         "title": "Zeekaart",
         "messages": {
-          "noDat": "Geen numerieke gehistoriseerde gegevens gevonden in het geselecteerde tijdsbereik."
+          "noData": "Geen numerieke gehistoriseerde gegevens gevonden in het geselecteerde tijdsbereik."
         }
       }
     },
-    "loadingConnectionLabe": "Verbindingsgegevens voor gegevensgeschiedenis laden..."
+    "loadingConnectionLabel": "Verbindingsgegevens voor gegevensgeschiedenis laden..."
   },
   "clear": "Duidelijk",
   "duplicate": "Duplicaat",
@@ -1416,7 +1416,7 @@
       "generalBadRequestMessage": "Aanvraag is ongeldig en kan niet worden uitgevoerd.",
       "entityNotFound": "Database niet gevonden, kan de query niet uitvoeren.",
       "forbidden": "Toegang is geweigerd, u hebt geen querymachtigingen.",
-      "genericNetwor": "Azure Data Explorer-exemplaar kan niet worden verbonden, zorg ervoor dat de resource niet is gestopt en dat uw netwerkverbinding stabiel is."
+      "genericNetwork": "Azure Data Explorer-exemplaar kan niet worden verbonden, zorg ervoor dat de resource niet is gestopt en dat uw netwerkverbinding stabiel is."
     }
   }
 }

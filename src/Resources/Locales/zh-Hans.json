@@ -103,7 +103,7 @@
     },
     "timeSeriesDatabaseConnectionFetchFailed": {
       "type": "时序数据库连接验证失败",
-      "messag": "找不到数据历史记录连接信息，请确保为此 Azure 数字孪生实例启用了数据历史记录，并且你至少具有对 Azure 数据资源管理器实例的“{{权限}}”访问权限。"
+      "message": "找不到数据历史记录连接信息，请确保为此 Azure 数字孪生实例启用了数据历史记录，并且你至少具有对 Azure 数据资源管理器实例的“{{权限}}”访问权限。"
     }
   },
   "valueRangeBuilder": {
@@ -1361,7 +1361,7 @@
         "add": "添加时间序列",
         "remove": "删除时间序列",
         "edit": "编辑时间序列",
-        "noDat": "所选时间范围内没有要显示的数据"
+        "noData": "所选时间范围内没有要显示的数据"
       },
       "description": "要比较历史化属性的过去值，请在下面添加时间序列。"
     },
@@ -1385,11 +1385,11 @@
       "chart": {
         "title": "图表",
         "messages": {
-          "noDat": "在所选时间范围内未找到数字历史化数据。"
+          "noData": "在所选时间范围内未找到数字历史化数据。"
         }
       }
     },
-    "loadingConnectionLabe": "正在加载数据历史记录连接信息..."
+    "loadingConnectionLabel": "正在加载数据历史记录连接信息..."
   },
   "clear": "清楚",
   "duplicate": "重复",
@@ -1416,7 +1416,7 @@
       "generalBadRequestMessage": "请求无效，无法执行。",
       "entityNotFound": "找不到数据库，无法执行查询。",
       "forbidden": "访问被拒绝，您没有查询权限。",
-      "genericNetwor": "Azure 数据资源管理器实例无法连接，请确保资源未停止且网络连接稳定。"
+      "genericNetwork": "Azure 数据资源管理器实例无法连接，请确保资源未停止且网络连接稳定。"
     }
   }
 }
