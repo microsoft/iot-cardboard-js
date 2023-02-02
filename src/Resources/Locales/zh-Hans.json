@@ -1410,8 +1410,8 @@
       "searchModels": "搜索型号",
       "noMatchingItemsMessage": "没有符合该标准的模型",
       "removeModelButtonText": "删除模型",
-      "noModelsTitle": "所有模型都在哪里？🤔",
-      "noModelsMessage": "让我们开始派对",
+      "noModelsTitle": "您还没有任何型号",
+      "noModelsMessage": "通过添加模型或导入现有本体开始设计本体",
       "noModelsButtonText": "添加模型"
     },
     "Common": {

@@ -1410,8 +1410,8 @@
       "searchModels": "Sök modeller",
       "noMatchingItemsMessage": "Inga modeller matchar det kriteriet",
       "removeModelButtonText": "Ta bort modell",
-      "noModelsTitle": "Var är alla modeller på? 🤔",
-      "noModelsMessage": "Låt oss få igång festen",
+      "noModelsTitle": "Du har inga modeller ännu",
+      "noModelsMessage": "Börja utforma ontologin genom att lägga till en modell eller importera din befintliga ontologi",
       "noModelsButtonText": "Lägga till en modell"
     },
     "Common": {

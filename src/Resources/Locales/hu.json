@@ -1410,8 +1410,8 @@
       "searchModels": "Keresési modellek",
       "noMatchingItemsMessage": "Egyetlen modell sem felel meg ennek a feltételnek",
       "removeModelButtonText": "Modell eltávolítása",
-      "noModelsTitle": "Hol vannak a modellek? 🤔",
-      "noModelsMessage": "Kezdjük a bulit",
+      "noModelsTitle": "Még nincs modellje",
+      "noModelsMessage": "Kezdje el tervezni az ontológiát egy modell hozzáadásával vagy a meglévő ontológia importálásával",
       "noModelsButtonText": "Modell hozzáadása"
     },
     "Common": {

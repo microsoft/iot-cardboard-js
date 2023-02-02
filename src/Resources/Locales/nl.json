@@ -1410,8 +1410,8 @@
       "searchModels": "Modellen zoeken",
       "noMatchingItemsMessage": "Geen enkel model voldoet aan die criteria",
       "removeModelButtonText": "Model verwijderen",
-      "noModelsTitle": "Waar zijn alle modellen? 🤔",
-      "noModelsMessage": "Laten we het feest op gang brengen",
+      "noModelsTitle": "Je hebt nog geen modellen",
+      "noModelsMessage": "Begin met het ontwerpen van uw ontologie door een model toe te voegen of uw bestaande ontologie te importeren",
       "noModelsButtonText": "Een model toevoegen"
     },
     "Common": {

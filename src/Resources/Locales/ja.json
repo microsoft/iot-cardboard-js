@@ -1410,8 +1410,8 @@
       "searchModels": "モデルの検索",
       "noMatchingItemsMessage": "その基準に一致するモデルはありません",
       "removeModelButtonText": "モデルを削除",
-      "noModelsTitle": "すべてのモデルはどこにありますか?🤔",
-      "noModelsMessage": "パーティーを始めましょう",
+      "noModelsTitle": "まだモデルがありません",
+      "noModelsMessage": "モデルを追加するか、既存のオントロジーをインポートして、オントロジーの設計を開始します",
       "noModelsButtonText": "モデルを追加する"
     },
     "Common": {

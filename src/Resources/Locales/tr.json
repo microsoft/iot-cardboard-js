@@ -1410,8 +1410,8 @@
       "searchModels": "Modelleri ara",
       "noMatchingItemsMessage": "Bu ölçütlere uyan model yok",
       "removeModelButtonText": "Modeli kaldır",
-      "noModelsTitle": "Tüm modeller nerede? 🤔",
-      "noModelsMessage": "Haydi partiyi başlatalım",
+      "noModelsTitle": "Henüz herhangi bir modeliniz yok",
+      "noModelsMessage": "Bir model ekleyerek veya mevcut ontolojinizi içe aktararak ontolojinizi tasarlamaya başlayın",
       "noModelsButtonText": "Model ekleme"
     },
     "Common": {

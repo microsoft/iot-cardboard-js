@@ -1410,8 +1410,8 @@
       "searchModels": "Hledat modely",
       "noMatchingItemsMessage": "Žádný model nesplňuje tato kritéria",
       "removeModelButtonText": "Odebrat model",
-      "noModelsTitle": "Kde jsou všechny modely? 🤔",
-      "noModelsMessage": "Pusťme se do párty",
+      "noModelsTitle": "Zatím nemáte žádné modely",
+      "noModelsMessage": "Začněte navrhovat svou ontologii přidáním modelu nebo importem stávající ontologie",
       "noModelsButtonText": "Přidání modelu"
     },
     "Common": {

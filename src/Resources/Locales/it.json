@@ -1410,8 +1410,8 @@
       "searchModels": "Cerca modelli",
       "noMatchingItemsMessage": "Nessun modello corrisponde a tali criteri",
       "removeModelButtonText": "Rimuovi modello",
-      "noModelsTitle": "Dove sono tutti i modelli? 🤔",
-      "noModelsMessage": "Diamo inizio alla festa",
+      "noModelsTitle": "Non hai ancora nessun modello",
+      "noModelsMessage": "Inizia a progettare la tua ontologia aggiungendo un modello o importando la tua ontologia esistente",
       "noModelsButtonText": "Aggiungere un modello"
     },
     "Common": {
