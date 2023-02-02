@@ -1379,13 +1379,13 @@
           "noColor": "Nie ustawiono",
           "loading": "Ładowanie danych historycznych...",
           "noSeries": "Nie wybrano bliźniaka do zapytania, dodaj właściwości bliźniacze, aby wyświetlić dane historyczne.",
-          "noData": "Nie znaleziono historycznych danych w wybranym zakresie czasowym."
+          "noDat": "Nie znaleziono danych w wybranym zakresie czasu."
         }
       },
       "chart": {
         "title": "Wykres",
         "messages": {
-          "noData": "Nie znaleziono liczbowych danych historycznych w wybranym zakresie czasu."
+          "noDat": "Nie znaleziono danych liczbowych w wybranym zakresie czasu."
         }
       }
     },
