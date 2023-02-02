@@ -2,11 +2,7 @@ import {
     IStyle,
     mergeStyleSets,
     memoizeFunction,
-    useTheme,
     FontSizes,
-    IStyleFunctionOrObject,
-    ILabelStyleProps,
-    ILabelStyles,
     FontWeights,
     IButtonStyles
 } from '@fluentui/react';
@@ -526,14 +522,4 @@ export const getGraphViewerActionButtonStyles = (
             color: theme.semanticColors.actionLink
         }
     };
-};
-
-export const getGraphViewerWarningStyles = () => {
-    const theme = useTheme();
-    return {
-        root: {
-            fontSize: FontSizes.size10,
-            color: theme.semanticColors.severeWarningIcon
-        }
-    } as IStyleFunctionOrObject<ILabelStyleProps, ILabelStyles>;
 };

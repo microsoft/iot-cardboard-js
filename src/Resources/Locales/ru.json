@@ -1399,18 +1399,20 @@
     "defaultFileName": "Новая онтология",
     "defaultModelNamePrefix": "Модель"
   },
-  "OATModelList": {
-    "searchModels": "Поиск моделей",
-    "noDataMessage": "Нет моделей",
-    "noMatchingItemsMessage": "Ни одна модель не соответствует этим критериям",
-    "removeModelButtonText": "Удалить модель",
-    "modelListToggleAriaLabelShow": "Показать список моделей",
-    "modelListToggleAriaLabelHide": "Скрыть список моделей"
-  },
   "OATErrors": {
     "Validations": {
       "InvalidDtmiIdFormatTitle": "Недопустимый формат DTMI",
       "InvalidDtmiIdFormatMessage": "Изменения не были сохранены, так как DTMI не соответствовал требуемому формату. \n DTMI: {{dtmi}}\n Требуемый формат: {{regex}}"
+    }
+  },
+  "OAT": {
+    "ModelList": {
+      "searchModels": "Поиск моделей",
+      "noMatchingItemsMessage": "Ни одна модель не соответствует этим критериям",
+      "removeModelButtonText": "Удалить модель",
+      "noModelsTitle": "У вас еще нет моделей",
+      "noModelsMessage": "Начните проектирование онтологии, добавив модель или импортировав существующую онтологию",
+      "noModelsButtonText": "Добавление модели"
     }
   }
 }

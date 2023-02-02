@@ -1399,18 +1399,20 @@
     "defaultFileName": "Új ontológia",
     "defaultModelNamePrefix": "Modell"
   },
-  "OATModelList": {
-    "searchModels": "Keresési modellek",
-    "noDataMessage": "Nincs modell",
-    "noMatchingItemsMessage": "Egyetlen modell sem felel meg ennek a feltételnek",
-    "removeModelButtonText": "Modell eltávolítása",
-    "modelListToggleAriaLabelShow": "Modelllista megjelenítése",
-    "modelListToggleAriaLabelHide": "Modelllista elrejtése"
-  },
   "OATErrors": {
     "Validations": {
       "InvalidDtmiIdFormatTitle": "Érvénytelen DTMI-formátum",
       "InvalidDtmiIdFormatMessage": "A rendszer nem mentette a módosításokat, mert a DTMI nem felelt meg a szükséges formátumnak. \n DTMI: {{dtmi}}\n Szükséges formátum: {{regex}}"
+    }
+  },
+  "OAT": {
+    "ModelList": {
+      "searchModels": "Keresési modellek",
+      "noMatchingItemsMessage": "Egyetlen modell sem felel meg ennek a feltételnek",
+      "removeModelButtonText": "Modell eltávolítása",
+      "noModelsTitle": "Még nincs modellje",
+      "noModelsMessage": "Kezdje el tervezni az ontológiát egy modell hozzáadásával vagy a meglévő ontológia importálásával",
+      "noModelsButtonText": "Modell hozzáadása"
     }
   }
 }

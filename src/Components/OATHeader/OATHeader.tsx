@@ -269,7 +269,6 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
         [
             oatPageDispatch,
             oatPageState.currentOntologyModels,
-            oatPageState.currentOntologyModelMetadata,
             t,
             uploadFileInputRef
         ]
@@ -379,6 +378,22 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
             document.removeEventListener('keydown', onKeyDown);
         };
     }, []);
+    useEffect(() => {
+        oatPageDispatch({
+            type: OatPageContextActionType.SET_UPLOAD_FILE_CALLBACK,
+            payload: {
+                callback: () => uploadFileInputRef.current.click()
+            }
+        });
+    }, [oatPageDispatch, uploadFileInputRef]);
+    useEffect(() => {
+        oatPageDispatch({
+            type: OatPageContextActionType.SET_UPLOAD_FOLDER_CALLBACK,
+            payload: {
+                callback: () => uploadFolderInputRef.current.click()
+            }
+        });
+    }, [oatPageDispatch, uploadFolderInputRef]);
 
     // Data
     const switchSubMenuItems = useMemo(() => {
@@ -492,14 +507,14 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
             key: 'importFile',
             text: t('OATHeader.importFile'),
             iconProps: { iconName: 'Import' },
-            onClick: () => uploadFileInputRef.current.click(),
+            onClick: oatPageState.openUploadFileCallback,
             'data-testid': 'oat-header-new-menu-import-file'
         },
         {
             key: 'importFolder',
             text: t('OATHeader.importFolder'),
             iconProps: { iconName: 'Import' },
-            onClick: () => uploadFolderInputRef.current.click(),
+            onClick: oatPageState.openUploadFolderCallback,
             'data-testid': 'oat-header-new-menu-import-folder'
         }
     ];

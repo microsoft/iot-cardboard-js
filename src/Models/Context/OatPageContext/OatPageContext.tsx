@@ -386,6 +386,12 @@ export const OatPageContextReducer: (
             }
             case OatPageContextActionType.ADD_NEW_MODEL: {
                 const newModel = addNewModelToState(draft);
+                setSelectedModel(
+                    {
+                        modelId: newModel['@id']
+                    },
+                    draft
+                );
                 // need to send this to the graph component to figure out the relative coordinates for the new model to use
                 draft.graphUpdatesToSync = {
                     actionType: 'Add',
@@ -467,6 +473,14 @@ export const OatPageContextReducer: (
                 setSelectedModel(action.payload.selection, draft);
                 break;
             }
+            case OatPageContextActionType.SET_UPLOAD_FILE_CALLBACK: {
+                draft.openUploadFileCallback = action.payload.callback;
+                break;
+            }
+            case OatPageContextActionType.SET_UPLOAD_FOLDER_CALLBACK: {
+                draft.openUploadFolderCallback = action.payload.callback;
+                break;
+            }
             case OatPageContextActionType.SET_OAT_TEMPLATES_ACTIVE: {
                 draft.templatesActive = action.payload.isActive || false;
                 break;
@@ -532,7 +546,9 @@ const emptyState: IOatPageContextState = {
     modified: false,
     selection: null,
     templatesActive: false,
-    selectedPropertyEditorTab: IOatPropertyEditorTabKey.Properties
+    selectedPropertyEditorTab: IOatPropertyEditorTabKey.Properties,
+    openUploadFileCallback: null,
+    openUploadFolderCallback: null
 };
 
 const getInitialState = (

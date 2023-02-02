@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useContext, useRef } from 'react';
 import {
     classNamesFunction,
+    IButtonProps,
     IContextualMenuItem,
     IList,
     SearchBox,
@@ -8,6 +9,7 @@ import {
     styled
 } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
+import EmptyClipboard from '../../Resources/Static/emptyClipboard.svg';
 import { getStyles } from './OATModelList.styles';
 import { CommandHistoryContext } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
 import { DtdlInterface } from '../../Models/Constants/dtdlInterfaces';
@@ -28,6 +30,7 @@ import {
 import { useExtendedTheme } from '../../Models/Hooks/useExtendedTheme';
 import { TFunction } from 'i18next';
 import { parseModelId } from '../../Models/Services/OatUtils';
+import IllustrationMessage from '../IllustrationMessage/IllustrationMessage';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('OatModelList', debugLogging);
@@ -107,7 +110,42 @@ const OATModelList: React.FC<IOATModelListProps> = (props) => {
         }
     }, [index, oatPageState.selection]);
 
+    // data
+    const illustrationCtaButtonProps: IButtonProps = {
+        text: t('OAT.ModelList.noModelsButtonText'),
+        onClick: () => {
+            oatPageDispatch({
+                type: OatPageContextActionType.ADD_NEW_MODEL
+            });
+        },
+        split: true,
+        menuProps: {
+            items: [
+                {
+                    key: 'add',
+                    text: t('OATHeader.newModel'),
+                    onClick: () => {
+                        oatPageDispatch({
+                            type: OatPageContextActionType.ADD_NEW_MODEL
+                        });
+                    }
+                },
+                {
+                    key: 'importFile',
+                    text: t('OATHeader.importFile'),
+                    onClick: oatPageState.openUploadFileCallback
+                },
+                {
+                    key: 'importFolder',
+                    text: t('OATHeader.importFolder'),
+                    onClick: oatPageState.openUploadFolderCallback
+                }
+            ]
+        }
+    };
+
     const listHasItems = listItems.length > 0;
+    const isFiltered = filter?.length !== 0;
 
     return (
         <Stack
@@ -115,19 +153,33 @@ const OATModelList: React.FC<IOATModelListProps> = (props) => {
             tokens={{ childrenGap: 8 }}
             styles={classNames.subComponentStyles.rootStack}
         >
-            <SearchBox
-                placeholder={t('OATModelList.searchModels')}
-                onChange={(_, value) => setFilter(value)}
-                styles={classNames.subComponentStyles.searchbox}
-                data-testid={'models-list-search-box'}
-            />
-            {!listHasItems && (
+            {!listHasItems && !isFiltered ? (
+                <IllustrationMessage
+                    type={'info'}
+                    width={'wide'}
+                    headerText={t('OAT.ModelList.noModelsTitle')}
+                    descriptionText={t('OAT.ModelList.noModelsMessage')}
+                    imageProps={{
+                        height: 100,
+                        src: EmptyClipboard
+                    }}
+                    buttonProps={illustrationCtaButtonProps}
+                    styles={classNames.subComponentStyles?.noDataIllustration?.()}
+                />
+            ) : (
+                <SearchBox
+                    placeholder={t('OAT.ModelList.searchModels')}
+                    onChange={(_, value) => setFilter(value)}
+                    styles={classNames.subComponentStyles.searchbox}
+                    data-testid={'models-list-search-box'}
+                />
+            )}
+            {!listHasItems && isFiltered && (
                 <div className={classNames.noDataMessage}>
-                    {filter?.length
-                        ? t('OATModelList.noMatchingItemsMessage')
-                        : t('OATModelList.noDataMessage')}
+                    {t('OAT.ModelList.noMatchingItemsMessage')}
                 </div>
             )}
+
             {listHasItems && (
                 <CardboardList
                     className={classNames.listContainer}
@@ -218,7 +270,7 @@ function getListItems(
                     iconProps: {
                         iconName: 'Delete'
                     },
-                    text: t('OATModelList.removeModelButtonText'),
+                    text: t('OAT.ModelList.removeModelButtonText'),
                     onClick: () => {
                         onModelDelete(model);
                     }
