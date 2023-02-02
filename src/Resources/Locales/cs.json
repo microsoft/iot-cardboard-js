@@ -977,6 +977,7 @@
   "OATGraphViewer": {
     "newModel": "Nový model",
     "name": "Jméno",
+    "id": "Id",
     "type": "Typ",
     "emptyGraph": "Nejsou k dispozici žádné modely",
     "project": "Projekt",
@@ -993,8 +994,7 @@
     "errorName": "Název může obsahovat pouze znaky a-z, A-Z, 0-9 a podtržítko",
     "errorNameLength": "Název nesmí přesáhnout 64 znaků",
     "extends": "Rozšiřuje",
-    "loadingText": "Výpočetní pozice rozvržení",
-    "id": "ID"
+    "loadingText": "Výpočetní pozice rozvržení"
   },
   "OATPropertyEditor": {
     "addEnumValue": "Přidat hodnotu výčtu",
@@ -1413,12 +1413,6 @@
       "noModelsTitle": "Zatím nemáte žádné modely",
       "noModelsMessage": "Začněte navrhovat svou ontologii přidáním modelu nebo importem stávající ontologie",
       "noModelsButtonText": "Přidání modelu"
-<<<<<<< HEAD
-    },
-    "Common": {
-      "untargeted": "Necílené"
-=======
->>>>>>> origin/main
     }
   }
 }

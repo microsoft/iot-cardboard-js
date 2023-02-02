@@ -1097,6 +1097,7 @@
   "OATGraphViewer": {
     "newModel": "Nouveau modèle",
     "name": "Nom",
+    "id": "Id",
     "type": "Type",
     "emptyGraph": "Aucun modèle disponible",
     "project": "Projet",
@@ -1113,8 +1114,7 @@
     "errorRepeatedEdgeName": "Une relation portant le même nom existe déjà",
     "runLayout": "Exécuter la mise en page",
     "extends": "S' étend",
-    "loadingText": "Calcul des positions de mise en page",
-    "id": "ID"
+    "loadingText": "Calcul des positions de mise en page"
   },
   "OATPropertyEditor": {
     "displayName": "Nom d’affichage",
@@ -1413,12 +1413,6 @@
       "noModelsTitle": "Vous n'avez pas encore de modèles",
       "noModelsMessage": "Commencez à concevoir votre ontologie en ajoutant un modèle ou en important votre ontologie existante",
       "noModelsButtonText": "Ajouter un modèle"
-<<<<<<< HEAD
-    },
-    "Common": {
-      "untargeted": "Non ciblé"
-=======
->>>>>>> origin/main
     }
   }
 }

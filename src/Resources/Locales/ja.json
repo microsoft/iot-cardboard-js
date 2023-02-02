@@ -1097,6 +1097,7 @@
   "OATGraphViewer": {
     "newModel": "新型",
     "name": "名前",
+    "id": "身分証明書",
     "type": "種類",
     "emptyGraph": "利用可能なモデルはありません",
     "project": "プロジェクト",
@@ -1113,8 +1114,7 @@
     "errorRepeatedEdgeName": "同じ名前の関係が既に存在します",
     "runLayout": "実行レイアウト",
     "extends": "拡張",
-    "loadingText": "レイアウト位置の計算",
-    "id": "身分証明書"
+    "loadingText": "レイアウト位置の計算"
   },
   "OATPropertyEditor": {
     "displayName": "表示名",
@@ -1413,12 +1413,6 @@
       "noModelsTitle": "まだモデルがありません",
       "noModelsMessage": "モデルを追加するか、既存のオントロジーをインポートして、オントロジーの設計を開始します",
       "noModelsButtonText": "モデルを追加する"
-<<<<<<< HEAD
-    },
-    "Common": {
-      "untargeted": "ターゲットなし"
-=======
->>>>>>> origin/main
     }
   }
 }

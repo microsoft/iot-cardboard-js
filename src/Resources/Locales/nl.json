@@ -1097,6 +1097,7 @@
   "OATGraphViewer": {
     "newModel": "Nieuw model",
     "name": "Naam",
+    "id": "Legitimatiebewijs",
     "type": "Type",
     "emptyGraph": "Geen modellen beschikbaar",
     "project": "Project",
@@ -1113,8 +1114,7 @@
     "errorRepeatedEdgeName": "Er bestaat al een relatie met dezelfde naam",
     "runLayout": "Lay-out uitvoeren",
     "extends": "Breidt",
-    "loadingText": "Lay-outposities berekenen",
-    "id": "LEGITIMATIEBEWIJS"
+    "loadingText": "Lay-outposities berekenen"
   },
   "OATPropertyEditor": {
     "displayName": "Weergegeven naam",
@@ -1413,12 +1413,6 @@
       "noModelsTitle": "Je hebt nog geen modellen",
       "noModelsMessage": "Begin met het ontwerpen van uw ontologie door een model toe te voegen of uw bestaande ontologie te importeren",
       "noModelsButtonText": "Een model toevoegen"
-<<<<<<< HEAD
-    },
-    "Common": {
-      "untargeted": "Ongericht"
-=======
->>>>>>> origin/main
     }
   }
 }

@@ -1097,6 +1097,7 @@
   "OATGraphViewer": {
     "newModel": "Ny modell",
     "name": "Namn",
+    "id": "Id",
     "type": "Typ",
     "emptyGraph": "Inga modeller tillgängliga",
     "project": "Projekt",
@@ -1113,8 +1114,7 @@
     "errorRepeatedEdgeName": "En relation med samma namn finns redan",
     "runLayout": "Kör layout",
     "extends": "Sträcker sig",
-    "loadingText": "Positioner för datorlayout",
-    "id": "ID"
+    "loadingText": "Positioner för datorlayout"
   },
   "OATPropertyEditor": {
     "displayName": "Visningsnamn",
@@ -1413,12 +1413,6 @@
       "noModelsTitle": "Du har inga modeller ännu",
       "noModelsMessage": "Börja utforma ontologin genom att lägga till en modell eller importera din befintliga ontologi",
       "noModelsButtonText": "Lägga till en modell"
-<<<<<<< HEAD
-    },
-    "Common": {
-      "untargeted": "Oriktad"
-=======
->>>>>>> origin/main
     }
   }
 }

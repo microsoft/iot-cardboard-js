@@ -1097,6 +1097,7 @@
   "OATGraphViewer": {
     "newModel": "Yeni Model",
     "name": "Ad",
+    "id": "Kimliği",
     "type": "Tür",
     "emptyGraph": "Model yok",
     "project": "Proje",
@@ -1113,8 +1114,7 @@
     "errorRepeatedEdgeName": "Aynı ada sahip bir ilişki zaten var",
     "runLayout": "Çalıştırma Düzeni",
     "extends": "Genişletir",
-    "loadingText": "Bilgi işlem düzeni konumları",
-    "id": "KİMLİĞİ"
+    "loadingText": "Bilgi işlem düzeni konumları"
   },
   "OATPropertyEditor": {
     "displayName": "Görünen Ad",
@@ -1413,12 +1413,6 @@
       "noModelsTitle": "Henüz herhangi bir modeliniz yok",
       "noModelsMessage": "Bir model ekleyerek veya mevcut ontolojinizi içe aktararak ontolojinizi tasarlamaya başlayın",
       "noModelsButtonText": "Model ekleme"
-<<<<<<< HEAD
-    },
-    "Common": {
-      "untargeted": "Hedefsiz"
-=======
->>>>>>> origin/main
     }
   }
 }
