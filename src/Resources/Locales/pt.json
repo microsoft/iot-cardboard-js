@@ -103,7 +103,7 @@
     },
     "timeSeriesDatabaseConnectionFetchFailed": {
       "type": "Falha na validação da conexão do banco de dados de série temporal",
-      "message": "O histórico de dados não está habilitado para a instância selecionada ou a conexão de banco de dados de série temporal não pôde ser verificada."
+      "messag": "Não foi possível encontrar informações de conexão de histórico de dados, verifique se o histórico de dados está habilitado para essa instância de Gêmeos Digitais do Azure e se você tem pelo menos '{{permissão}}' acesso à instância do Azure Data Explorer."
     }
   },
   "valueRangeBuilder": {
@@ -1361,7 +1361,7 @@
         "add": "Adicionar séries temporais",
         "remove": "Remover séries temporais",
         "edit": "Editar séries temporais",
-        "noData": "Esta série temporal não contém dados a serem exibidos"
+        "noDat": "Nenhum dado a ser exibido para o intervalo de tempo selecionado"
       },
       "description": "Para comparar valores passados para propriedades historizadas, adicione séries temporais abaixo."
     },
@@ -1385,11 +1385,11 @@
       "chart": {
         "title": "Gráfico",
         "messages": {
-          "noData": "Sem dados históricos numéricos a serem exibidos, tente selecionar um intervalo de tempo diferente."
+          "noDat": "Nenhum dado numérico historizado encontrado no intervalo de tempo selecionado."
         }
       }
     },
-    "loadingConnectionLabel": "Carregando informações de conexão de série temporal..."
+    "loadingConnectionLabe": "Carregando informações de conexão do histórico de dados..."
   },
   "clear": "Claro",
   "duplicate": "Duplicar",
@@ -1412,11 +1412,11 @@
   },
   "dataHistoryErrorHandlingWrapper": {
     "errors": {
-      "genericNetwork": "O cluster não pode ser conectado, o que pode ser devido a URL inválida, serviço interrompido ou um erro de rede.",
       "genericBadRequest": "Ocorreu uma exceção de solicitação incorreta.",
       "generalBadRequestMessage": "A solicitação é inválida e não pode ser executada.",
       "entityNotFound": "Banco de dados não encontrado, falha ao executar a consulta.",
-      "forbidden": "O acesso foi negado, você não tem permissões de consulta."
+      "forbidden": "O acesso foi negado, você não tem permissões de consulta.",
+      "genericNetwor": "A instância do Azure Data Explorer não pode ser conectada, verifique se o recurso não está parado e se a conectividade de rede está estável."
     }
   }
 }

@@ -103,7 +103,7 @@
     },
     "timeSeriesDatabaseConnectionFetchFailed": {
       "type": "Échec de la validation de la connexion à une base de données de séries chronologiques",
-      "message": "L’historique des données n’est pas activé pour l’instance sélectionnée ou la connexion à la base de données de séries chronologiques n’a pas pu être vérifiée."
+      "messag": "Les informations de connexion de l'historique des données sont introuvables, assurez-vous que l'historique des données est activé pour cette instance Azure Digital Twins et que vous disposez au moins d'un accès « {{permission}} » à l'instance Azure Data Explorer."
     }
   },
   "valueRangeBuilder": {
@@ -1361,7 +1361,7 @@
         "add": "Ajouter des séries chronologiques",
         "remove": "Supprimer des séries chronologiques",
         "edit": "Modifier des séries chronologiques",
-        "noData": "Cette série chronologique ne contient aucune donnée à afficher"
+        "noDat": "Aucune donnée à afficher pour la plage de temps sélectionnée"
       },
       "description": "Pour comparer les valeurs antérieures des propriétés historisées, ajoutez des séries chronologiques ci-dessous."
     },
@@ -1385,11 +1385,11 @@
       "chart": {
         "title": "Graphique",
         "messages": {
-          "noData": "Aucune donnée numérique historisée à afficher, essayez de sélectionner une autre plage de temps."
+          "noDat": "Aucune donnée numérique historisée n’a été trouvée dans la plage de temps sélectionnée."
         }
       }
     },
-    "loadingConnectionLabel": "Chargement des informations de connexion de séries chronologiques..."
+    "loadingConnectionLabe": "Chargement des informations de connexion de l’historique des données..."
   },
   "clear": "Clair",
   "duplicate": "Dupliquer",
@@ -1412,11 +1412,11 @@
   },
   "dataHistoryErrorHandlingWrapper": {
     "errors": {
-      "genericNetwork": "Le cluster ne peut pas être connecté, ce qui peut être dû à une URL non valide, à un service arrêté ou à une erreur réseau.",
       "genericBadRequest": "Une exception de demande incorrecte s’est produite.",
       "generalBadRequestMessage": "La demande n’est pas valide et ne peut pas être exécutée.",
       "entityNotFound": "Base de données introuvable, échec de l’exécution de la requête.",
-      "forbidden": "L’accès a été refusé, vous n’avez pas d’autorisations de requête."
+      "forbidden": "L’accès a été refusé, vous n’avez pas d’autorisations de requête.",
+      "genericNetwor": "L’instance Azure Data Explorer ne peut pas être connectée, assurez-vous que la ressource n’est pas arrêtée et que votre connectivité réseau est stable."
     }
   }
 }

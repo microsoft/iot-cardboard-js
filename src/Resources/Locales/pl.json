@@ -103,7 +103,7 @@
     },
     "timeSeriesDatabaseConnectionFetchFailed": {
       "type": "Sprawdzanie poprawności połączenia z bazą danych szeregów czasowych nie powiodło się",
-      "message": "Historia danych nie jest włączona dla wybranego wystąpienia lub nie można zweryfikować połączenia z bazą danych szeregów czasowych."
+      "messag": "Nie można odnaleźć informacji o połączeniu historii danych, upewnij się, że historia danych jest włączona dla tego wystąpienia usługi Azure Digital Twins i że masz dostęp co najmniej \"{{permission}}\" do wystąpienia usługi Azure Data Explorer."
     }
   },
   "valueRangeBuilder": {
@@ -1361,7 +1361,7 @@
         "add": "Dodawanie szeregów czasowych",
         "remove": "Usuwanie szeregów czasowych",
         "edit": "Edytowanie szeregów czasowych",
-        "noData": "Ta seria czasowa nie zawiera żadnych danych do wyświetlenia"
+        "noDat": "Brak danych do wyświetlenia dla wybranego zakresu czasu"
       },
       "description": "Aby porównać wcześniejsze wartości historycznych właściwości, dodaj poniżej szereg czasowy."
     },
@@ -1385,11 +1385,11 @@
       "chart": {
         "title": "Wykres",
         "messages": {
-          "noData": "Brak danych liczbowych do wyświetlenia, spróbuj wybrać inny zakres czasu."
+          "noDat": "Nie znaleziono liczbowych danych historycznych w wybranym zakresie czasu."
         }
       }
     },
-    "loadingConnectionLabel": "Czas ładowania szeregów informacji o połączeniu..."
+    "loadingConnectionLabe": "Ładowanie historii danych informacji o połączeniu..."
   },
   "clear": "Jasny",
   "duplicate": "Duplikat",
@@ -1412,11 +1412,11 @@
   },
   "dataHistoryErrorHandlingWrapper": {
     "errors": {
-      "genericNetwork": "Nie można połączyć się z klastrem, co może być spowodowane nieprawidłowym adresem URL, zatrzymaniem usługi lub błędem sieci.",
       "genericBadRequest": "Wystąpił wyjątek nieprawidłowego żądania.",
       "generalBadRequestMessage": "Żądanie jest nieprawidłowe i nie można go wykonać.",
       "entityNotFound": "Nie znaleziono bazy danych, nie można wykonać zapytania.",
-      "forbidden": "Odmowa dostępu, nie masz uprawnień do wykonywania zapytań."
+      "forbidden": "Odmowa dostępu, nie masz uprawnień do wykonywania zapytań.",
+      "genericNetwor": "Nie można nawiązać połączenia z wystąpieniem usługi Azure Data Explorer, upewnij się, że zasób nie został zatrzymany, a łączność sieciowa jest stabilna."
     }
   }
 }

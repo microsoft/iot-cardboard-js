@@ -103,7 +103,7 @@
     },
     "timeSeriesDatabaseConnectionFetchFailed": {
       "type": "Error en la validación de la conexión de la base de datos de series temporales",
-      "message": "El historial de datos no está habilitado para la instancia seleccionada o no se pudo comprobar la conexión de base de datos de serie temporal."
+      "messag": "No se pudo encontrar la información de conexión del historial de datos, asegúrese de que el historial de datos esté habilitado para esta instancia de Azure Digital Twins y de que tenga al menos acceso '{{permission}}' a la instancia del Explorador de datos de Azure."
     }
   },
   "valueRangeBuilder": {
@@ -1361,7 +1361,7 @@
         "add": "Agregar series temporales",
         "remove": "Quitar series temporales",
         "edit": "Editar series temporales",
-        "noData": "Esta serie temporal no contiene datos para mostrar"
+        "noDat": "No hay datos para mostrar para el rango de tiempo seleccionado"
       },
       "description": "Para comparar los valores pasados de las propiedades históricas, agregue las series temporales a continuación."
     },
@@ -1385,11 +1385,11 @@
       "chart": {
         "title": "Gráfico",
         "messages": {
-          "noData": "No hay datos numéricos históricos para mostrar, intente seleccionar un rango de tiempo diferente."
+          "noDat": "No se han encontrado datos numéricos históricos en el intervalo de tiempo seleccionado."
         }
       }
     },
-    "loadingConnectionLabel": "Cargando información de conexión de series temporales..."
+    "loadingConnectionLabe": "Cargando información de conexión del historial de datos..."
   },
   "clear": "Claro",
   "duplicate": "Duplicado",
@@ -1412,11 +1412,11 @@
   },
   "dataHistoryErrorHandlingWrapper": {
     "errors": {
-      "genericNetwork": "El clúster no se puede conectar, lo que puede deberse a una URL no válida, un servicio detenido o un error de red.",
       "genericBadRequest": "Se ha producido una excepción de solicitud incorrecta.",
       "generalBadRequestMessage": "La solicitud no es válida y no se puede ejecutar.",
       "entityNotFound": "Base de datos no encontrada, no se pudo ejecutar la consulta.",
-      "forbidden": "Se ha denegado el acceso, no tiene permisos de consulta."
+      "forbidden": "Se ha denegado el acceso, no tiene permisos de consulta.",
+      "genericNetwor": "La instancia de Azure Data Explorer no se puede conectar, asegúrese de que el recurso no se detenga y de que la conectividad de red sea estable."
     }
   }
 }
