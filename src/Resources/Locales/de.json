@@ -1413,6 +1413,9 @@
       "noModelsTitle": "Sie haben noch keine Modelle",
       "noModelsMessage": "Beginnen Sie mit dem Entwurf Ihrer Ontologie, indem Sie ein Modell hinzufügen oder Ihre vorhandene Ontologie importieren",
       "noModelsButtonText": "Hinzufügen eines Modells"
+    },
+    "Common": {
+      "untargeted": "Nicht zielgerichtet"
     }
   }
 }
