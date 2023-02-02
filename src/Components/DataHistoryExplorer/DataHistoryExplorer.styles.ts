@@ -53,7 +53,7 @@ export const getStyles = (
             errorWrapper: {
                 subComponentStyles: {
                     illustrationMessage: {
-                        descriptionContainer: { maxWidth: 292 }
+                        descriptionContainer: { maxWidth: 400 }
                     }
                 }
             }

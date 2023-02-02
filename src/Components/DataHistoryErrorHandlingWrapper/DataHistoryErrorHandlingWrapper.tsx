@@ -108,7 +108,8 @@ const DataHistoryErrorHandlingWrapper: React.FC<IDataHistoryErrorHandlingWrapper
                 break;
             case ComponentErrorType.TimeSeriesDatabaseConnectionFetchFailed: // specific adapter error
                 description = t(
-                    'errors.timeSeriesDatabaseConnectionFetchFailed.message'
+                    'errors.timeSeriesDatabaseConnectionFetchFailed.message',
+                    { permission: 'Reader' }
                 );
                 imgSrc = ConnectionErrorImg;
                 break;

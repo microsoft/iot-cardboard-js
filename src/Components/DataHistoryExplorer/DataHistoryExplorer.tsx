@@ -114,7 +114,7 @@ const DataHistoryExplorer: React.FC<IDataHistoryExplorerProps> = (props) => {
                         size={SpinnerSize.large}
                         label={t('dataHistoryExplorer.loadingConnectionLabel')}
                         ariaLive="assertive"
-                        labelPosition="top"
+                        labelPosition="bottom"
                     />
                 ) : (
                     <Stack

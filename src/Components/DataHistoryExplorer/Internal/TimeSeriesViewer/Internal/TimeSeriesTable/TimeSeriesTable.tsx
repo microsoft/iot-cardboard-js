@@ -37,7 +37,7 @@ import { TimeSeriesViewerContext } from '../../TimeSeriesViewer';
 import { DataHistoryExplorerContext } from '../../../../DataHistoryExplorer';
 import { useTimeSeriesData } from '../../../../../../Models/Hooks/useTimeSeriesData';
 import IllustrationMessage from '../../../../../IllustrationMessage/IllustrationMessage';
-import GenericErrorImg from '../../../../../../Resources/Static/noResults.svg';
+import SearchErrorImg from '../../../../../../Resources/Static/searchError.svg';
 import { DTDLPropertyIconographyMap } from '../../../../../../Models/Constants/Constants';
 import TableCommandBar from './Internal/TableCommandBar/TableCommandBar';
 import {
@@ -268,7 +268,7 @@ const TimeSeriesTable: React.FC<ITimeSeriesTableProps> = (props) => {
                     type={'info'}
                     width={'compact'}
                     imageProps={{
-                        src: GenericErrorImg,
+                        src: SearchErrorImg,
                         height: 172
                     }}
                     styles={{ container: { flexGrow: 1 } }}

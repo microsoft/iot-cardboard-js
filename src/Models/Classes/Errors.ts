@@ -56,7 +56,8 @@ class ComponentError extends Error implements IComponentError {
                 return i18n.t('errors.schemaValidationFailed.message');
             case ComponentErrorType.TimeSeriesDatabaseConnectionFetchFailed:
                 return i18n.t(
-                    'errors.timeSeriesDatabaseConnectionFetchFailed.message'
+                    'errors.timeSeriesDatabaseConnectionFetchFailed.message',
+                    { permission: 'Reader' }
                 );
             default:
                 return i18n.t('errors.unkownError');
