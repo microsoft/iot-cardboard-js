@@ -1357,11 +1357,11 @@
       "title": "Twin-Immobilien",
       "timeSeriesTwin": {
         "property": "Eigentum",
-        "propertyTypeCastLabel": "Eigenschaftstyp in Zahl umwandeln",
         "add": "Zeitreihen hinzufügen",
         "remove": "Zeitreihen entfernen",
         "edit": "Zeitreihen bearbeiten",
-        "noData": "Keine anzuzeigenden Daten für den ausgewählten Zeitraum"
+        "noData": "Keine anzuzeigenden Daten für den ausgewählten Zeitraum",
+        "propertyTypeCastLabe": "Eigenschaftswert in Zahl umwandeln"
       },
       "description": "Um vergangene Werte für historisierte Eigenschaften zu vergleichen, fügen Sie unten Zeitreihen hinzu."
     },

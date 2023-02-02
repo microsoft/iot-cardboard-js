@@ -1357,11 +1357,11 @@
       "title": "Dubbele eigenschappen",
       "timeSeriesTwin": {
         "property": "Eigenschap",
-        "propertyTypeCastLabel": "Eigenschapstype casten naar nummer",
         "add": "Tijdreeksen toevoegen",
         "remove": "Tijdreeksen verwijderen",
         "edit": "Tijdreeksen bewerken",
-        "noData": "Geen gegevens om weer te geven voor het geselecteerde tijdsbereik"
+        "noData": "Geen gegevens om weer te geven voor het geselecteerde tijdsbereik",
+        "propertyTypeCastLabe": "Eigenschapswaarde naar getal casten"
       },
       "description": "Als u eerdere waarden voor geïrtoriseerde eigenschappen wilt vergelijken, voegt u hieronder tijdreeksen toe."
     },

@@ -1357,11 +1357,11 @@
       "title": "Bliźniacze właściwości",
       "timeSeriesTwin": {
         "property": "Własność",
-        "propertyTypeCastLabel": "Typ właściwości rzutowania na numer",
         "add": "Dodawanie szeregów czasowych",
         "remove": "Usuwanie szeregów czasowych",
         "edit": "Edytowanie szeregów czasowych",
-        "noData": "Brak danych do wyświetlenia dla wybranego zakresu czasu"
+        "noData": "Brak danych do wyświetlenia dla wybranego zakresu czasu",
+        "propertyTypeCastLabe": "Rzutowanie wartości właściwości na liczbę"
       },
       "description": "Aby porównać wcześniejsze wartości historycznych właściwości, dodaj poniżej szereg czasowy."
     },

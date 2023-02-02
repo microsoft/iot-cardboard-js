@@ -1357,11 +1357,11 @@
       "title": "Iker tulajdonságok",
       "timeSeriesTwin": {
         "property": "Ingatlan",
-        "propertyTypeCastLabel": "Öntött tulajdonság típusa számra",
         "add": "Idősorok hozzáadása",
         "remove": "Idősorok eltávolítása",
         "edit": "Idősorok szerkesztése",
-        "noData": "Nincs megjelenítendő adat a kiválasztott időtartományban"
+        "noData": "Nincs megjelenítendő adat a kiválasztott időtartományban",
+        "propertyTypeCastLabe": "Öntött tulajdonság értéke számra"
       },
       "description": "A historizált tulajdonságok múltbeli értékeinek összehasonlításához adja hozzá az alábbi idősorokat."
     },

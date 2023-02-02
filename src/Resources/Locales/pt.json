@@ -1357,11 +1357,11 @@
       "title": "Propriedades Twin",
       "timeSeriesTwin": {
         "property": "Propriedade",
-        "propertyTypeCastLabel": "Transmitir o tipo de propriedade para o número",
         "add": "Adicionar séries temporais",
         "remove": "Remover séries temporais",
         "edit": "Editar séries temporais",
-        "noData": "Nenhum dado a ser exibido para o intervalo de tempo selecionado"
+        "noData": "Nenhum dado a ser exibido para o intervalo de tempo selecionado",
+        "propertyTypeCastLabe": "Transferir o valor da propriedade para o número"
       },
       "description": "Para comparar valores passados para propriedades historizadas, adicione séries temporais abaixo."
     },
