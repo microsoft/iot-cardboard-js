@@ -1413,6 +1413,9 @@
       "noModelsTitle": "Nie masz jeszcze żadnych modeli",
       "noModelsMessage": "Rozpocznij projektowanie ontologii, dodając model lub importując istniejącą ontologię",
       "noModelsButtonText": "Dodawanie modelu"
+    },
+    "Common": {
+      "untargeted": "Nieukierunkowane"
     }
   }
 }

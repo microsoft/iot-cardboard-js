@@ -1413,6 +1413,9 @@
       "noModelsTitle": "아직 모델이 없습니다.",
       "noModelsMessage": "모델을 추가하거나 기존 온톨로지를 가져와 온톨로지 디자인을 시작합니다.",
       "noModelsButtonText": "모델 추가"
+    },
+    "Common": {
+      "untargeted": "타겟팅되지 않음"
     }
   }
 }

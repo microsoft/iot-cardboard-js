@@ -1413,6 +1413,9 @@
       "noModelsTitle": "Henüz herhangi bir modeliniz yok",
       "noModelsMessage": "Bir model ekleyerek veya mevcut ontolojinizi içe aktararak ontolojinizi tasarlamaya başlayın",
       "noModelsButtonText": "Model ekleme"
+    },
+    "Common": {
+      "untargeted": "Hedefsiz"
     }
   }
 }

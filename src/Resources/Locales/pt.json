@@ -1413,6 +1413,9 @@
       "noModelsTitle": "Você ainda não tem nenhum modelo",
       "noModelsMessage": "Comece a projetar sua ontologia adicionando um modelo ou importando sua ontologia existente",
       "noModelsButtonText": "Adicionar um modelo"
+    },
+    "Common": {
+      "untargeted": "Não direcionado"
     }
   }
 }

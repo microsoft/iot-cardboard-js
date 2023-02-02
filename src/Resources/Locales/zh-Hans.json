@@ -1413,6 +1413,9 @@
       "noModelsTitle": "您还没有任何型号",
       "noModelsMessage": "通过添加模型或导入现有本体开始设计本体",
       "noModelsButtonText": "添加模型"
+    },
+    "Common": {
+      "untargeted": "非目标"
     }
   }
 }

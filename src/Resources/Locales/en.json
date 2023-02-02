@@ -921,6 +921,9 @@
         "hidePanel": "Hide elements panel"
     },
     "OAT": {
+        "Common": {
+            "untargeted": "Untargeted"
+        },
         "ModelList": {
             "searchModels": "Search models",
             "noMatchingItemsMessage": "No models match that criteria",
@@ -1003,7 +1006,7 @@
     "OATGraphViewer": {
         "newModel": "New Model",
         "name": "Name",
-        "id": "Id",
+        "id": "ID",
         "type": "Type",
         "emptyGraph": "No models available",
         "project": "Project",
