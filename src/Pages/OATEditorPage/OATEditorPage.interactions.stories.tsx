@@ -9,8 +9,10 @@ import {
 } from '../../Models/Services/StoryUtilities';
 
 const wrapperStyle: React.CSSProperties = {
-    width: 'auto',
-    padding: 8
+    padding: 8,
+    height: '100%',
+    width: '100%',
+    position: 'absolute'
 };
 export default {
     title: 'Pages/OATEditorPage/Interactions',
@@ -51,7 +53,7 @@ AddModel.play = async ({ canvasElement }) => {
     const canvas = within(canvasElement);
 
     // Finds the menu and opens it
-    const menu = (await canvas.findAllByTestId('oat-header-new-menu'))[1];
+    const menu = (await canvas.findAllByTestId('oat-header-new-menu'))[0];
     userEvent.click(menu);
 };
 
