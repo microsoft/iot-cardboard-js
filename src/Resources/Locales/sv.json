@@ -1413,9 +1413,12 @@
       "noModelsTitle": "Du har inga modeller ännu",
       "noModelsMessage": "Börja utforma ontologin genom att lägga till en modell eller importera din befintliga ontologi",
       "noModelsButtonText": "Lägga till en modell"
+<<<<<<< HEAD
     },
     "Common": {
       "untargeted": "Oriktad"
+=======
+>>>>>>> origin/main
     }
   }
 }

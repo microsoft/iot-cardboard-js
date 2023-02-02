@@ -1413,9 +1413,12 @@
       "noModelsTitle": "Je hebt nog geen modellen",
       "noModelsMessage": "Begin met het ontwerpen van uw ontologie door een model toe te voegen of uw bestaande ontologie te importeren",
       "noModelsButtonText": "Een model toevoegen"
+<<<<<<< HEAD
     },
     "Common": {
       "untargeted": "Ongericht"
+=======
+>>>>>>> origin/main
     }
   }
 }

@@ -1413,9 +1413,12 @@
       "noModelsTitle": "Még nincs modellje",
       "noModelsMessage": "Kezdje el tervezni az ontológiát egy modell hozzáadásával vagy a meglévő ontológia importálásával",
       "noModelsButtonText": "Modell hozzáadása"
+<<<<<<< HEAD
     },
     "Common": {
       "untargeted": "Nem célzott"
+=======
+>>>>>>> origin/main
     }
   }
 }

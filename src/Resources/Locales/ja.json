@@ -1413,9 +1413,12 @@
       "noModelsTitle": "まだモデルがありません",
       "noModelsMessage": "モデルを追加するか、既存のオントロジーをインポートして、オントロジーの設計を開始します",
       "noModelsButtonText": "モデルを追加する"
+<<<<<<< HEAD
     },
     "Common": {
       "untargeted": "ターゲットなし"
+=======
+>>>>>>> origin/main
     }
   }
 }

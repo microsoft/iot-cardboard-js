@@ -1413,9 +1413,12 @@
       "noModelsTitle": "Zatím nemáte žádné modely",
       "noModelsMessage": "Začněte navrhovat svou ontologii přidáním modelu nebo importem stávající ontologie",
       "noModelsButtonText": "Přidání modelu"
+<<<<<<< HEAD
     },
     "Common": {
       "untargeted": "Necílené"
+=======
+>>>>>>> origin/main
     }
   }
 }

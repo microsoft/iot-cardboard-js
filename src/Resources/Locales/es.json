@@ -1413,9 +1413,12 @@
       "noModelsTitle": "Todavía no tienes ningún modelo",
       "noModelsMessage": "Comience a diseñar su ontología agregando un modelo o importando su ontología existente",
       "noModelsButtonText": "Agregar un modelo"
+<<<<<<< HEAD
     },
     "Common": {
       "untargeted": "Sin objetivo"
+=======
+>>>>>>> origin/main
     }
   }
 }
