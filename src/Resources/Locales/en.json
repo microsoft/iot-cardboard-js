@@ -1381,7 +1381,7 @@
             "chart": {
                 "title": "Chart",
                 "messages": {
-                    "noDat": "No numeric data found in the selected time range."
+                    "noData": "No numeric data found in the selected time range."
                 }
             },
             "table": {
@@ -1395,7 +1395,7 @@
                 "messages": {
                     "noColor": "Not set",
                     "loading": "Loading historized data...",
-                    "noDat": "No data found in the selected time range.",
+                    "noData": "No data found in the selected time range.",
                     "noSeries": "No twin selected to query, please add twin properties to view historized data."
                 }
             },
