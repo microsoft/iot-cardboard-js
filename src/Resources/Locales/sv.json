@@ -1379,13 +1379,13 @@
           "noColor": "Inte inställt",
           "loading": "Laddar historiserade data...",
           "noSeries": "Ingen tvilling har valts för att fråga, lägg till tvillingegenskaper för att visa historiserade data.",
-          "noData": "Inga historiserade data hittades i det valda tidsintervallet."
+          "noDat": "Inga data hittades i det valda tidsintervallet."
         }
       },
       "chart": {
         "title": "Diagram",
         "messages": {
-          "noData": "Inga numeriska historiserade data hittades i det valda tidsintervallet."
+          "noDat": "Inga numeriska data hittades i det valda tidsintervallet."
         }
       }
     },

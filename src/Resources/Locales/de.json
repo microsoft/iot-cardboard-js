@@ -1379,13 +1379,13 @@
           "noColor": "Nicht festgelegt",
           "loading": "Historisierte Daten werden geladen...",
           "noSeries": "Kein Zwilling zur Abfrage ausgewählt, fügen Sie Zwillingseigenschaften hinzu, um historisierte Daten anzuzeigen.",
-          "noData": "Im ausgewählten Zeitraum wurden keine historisierten Daten gefunden."
+          "noDat": "Im ausgewählten Zeitraum wurden keine Daten gefunden."
         }
       },
       "chart": {
         "title": "Diagramm",
         "messages": {
-          "noData": "Im ausgewählten Zeitraum wurden keine numerisch historisierten Daten gefunden."
+          "noDat": "Im ausgewählten Zeitraum wurden keine numerischen Daten gefunden."
         }
       }
     },
