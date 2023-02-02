@@ -50,10 +50,6 @@ const DataHistoryErrorHandlingWrapper: React.FC<IDataHistoryErrorHandlingWrapper
 ) => {
     const { error, imgHeight, styles } = props;
 
-    // contexts
-
-    // state
-
     // hooks
     const { t } = useTranslation();
     const [
