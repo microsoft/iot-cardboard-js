@@ -103,7 +103,7 @@
     },
     "timeSeriesDatabaseConnectionFetchFailed": {
       "type": "A validação da ligação da base de dados de séries de tempo falhou",
-      "messag": "As informações de ligação ao histórico de dados não foram encontradas, certifique-se de que o histórico de dados está ativado para este caso Azure Digital Twins e que tem pelo menos acesso '{{permission}}} à instância Azure Data Explorer."
+      "message": "As informações de ligação ao histórico de dados não foram encontradas, certifique-se de que o histórico de dados está ativado para este caso Azure Digital Twins e que tem pelo menos acesso '{{permission}}} à instância Azure Data Explorer."
     }
   },
   "valueRangeBuilder": {
@@ -1361,7 +1361,7 @@
         "add": "Adicionar séries de tempo",
         "remove": "Remover séries de tempo",
         "edit": "Editar séries tempor feiras",
-        "noDat": "Não há dados para visualizar para o intervalo de tempo selecionado"
+        "noData": "Não há dados para visualizar para o intervalo de tempo selecionado"
       },
       "description": "Para comparar valores passados para propriedades historizadas, adicione séries de tempo abaixo."
     },
@@ -1385,11 +1385,11 @@
       "chart": {
         "title": "Gráfico",
         "messages": {
-          "noDat": "Não são encontrados dados historizados numéricos no intervalo de tempo selecionado."
+          "noData": "Não são encontrados dados historizados numéricos no intervalo de tempo selecionado."
         }
       }
     },
-    "loadingConnectionLabe": "A carregar informações sobre a ligação do histórico de dados..."
+    "loadingConnectionLabel": "A carregar informações sobre a ligação do histórico de dados..."
   },
   "clear": "Claro",
   "duplicate": "Duplicado",
@@ -1416,7 +1416,7 @@
       "generalBadRequestMessage": "O pedido é inválido e não pode ser executado.",
       "entityNotFound": "A base de dados não foi encontrada, não executou a consulta.",
       "forbidden": "O acesso foi negado, não tem permissões de consulta.",
-      "genericNetwor": "A exemplo do Azure Data Explorer não pode ser ligada, certifique-se de que o recurso não está parado e que a conectividade da rede é estável."
+      "genericNetwork": "A exemplo do Azure Data Explorer não pode ser ligada, certifique-se de que o recurso não está parado e que a conectividade da rede é estável."
     }
   }
 }

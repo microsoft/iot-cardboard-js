@@ -103,7 +103,7 @@
     },
     "timeSeriesDatabaseConnectionFetchFailed": {
       "type": "Convalida della connessione al database Time Series non riuscita",
-      "messag": "Impossibile trovare le informazioni di connessione alla cronologia dei dati, assicurarsi che la cronologia dei dati sia abilitata per questa istanza di Gemelli digitali di Azure e che si disponga almeno dell'accesso \"{{permission}}\" all'istanza di Esplora dati di Azure."
+      "message": "Impossibile trovare le informazioni di connessione alla cronologia dei dati, assicurarsi che la cronologia dei dati sia abilitata per questa istanza di Gemelli digitali di Azure e che si disponga almeno dell'accesso \"{{permission}}\" all'istanza di Esplora dati di Azure."
     }
   },
   "valueRangeBuilder": {
@@ -1361,7 +1361,7 @@
         "add": "Aggiungere serie temporali",
         "remove": "Rimuovere serie temporali",
         "edit": "Modificare le serie temporali",
-        "noDat": "Nessun dato da visualizzare per l'intervallo di tempo selezionato"
+        "noData": "Nessun dato da visualizzare per l'intervallo di tempo selezionato"
       },
       "description": "Per confrontare i valori passati per le proprietà cronologizzate, aggiungere le serie temporali riportate di seguito."
     },
@@ -1385,11 +1385,11 @@
       "chart": {
         "title": "Tabella",
         "messages": {
-          "noDat": "Nessun dato numerico cronologizzato trovato nell'intervallo di tempo selezionato."
+          "noData": "Nessun dato numerico cronologizzato trovato nell'intervallo di tempo selezionato."
         }
       }
     },
-    "loadingConnectionLabe": "Caricamento delle informazioni di connessione della cronologia dei dati..."
+    "loadingConnectionLabel": "Caricamento delle informazioni di connessione della cronologia dei dati..."
   },
   "clear": "Chiaro",
   "duplicate": "Duplicare",
@@ -1416,7 +1416,7 @@
       "generalBadRequestMessage": "La richiesta non è valida e non può essere eseguita.",
       "entityNotFound": "Database non trovato, impossibile eseguire la query.",
       "forbidden": "L'accesso è stato negato, non si dispone delle autorizzazioni di query.",
-      "genericNetwor": "L'istanza di Esplora dati di Azure non può essere connessa, assicurarsi che la risorsa non venga arrestata e che la connettività di rete sia stabile."
+      "genericNetwork": "L'istanza di Esplora dati di Azure non può essere connessa, assicurarsi che la risorsa non venga arrestata e che la connettività di rete sia stabile."
     }
   }
 }

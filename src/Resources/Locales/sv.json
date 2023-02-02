@@ -103,7 +103,7 @@
     },
     "timeSeriesDatabaseConnectionFetchFailed": {
       "type": "Validering av databasanslutning till tidsserier misslyckades",
-      "messag": "Det gick inte att hitta anslutningsinformation för datahistorik och kontrollera att datahistoriken är aktiverad för den här Azure Digital Twins-instansen och att du har minst {{permission}}-åtkomst till Azure Data Explorer instansen."
+      "message": "Det gick inte att hitta anslutningsinformation för datahistorik och kontrollera att datahistoriken är aktiverad för den här Azure Digital Twins-instansen och att du har minst {{permission}}-åtkomst till Azure Data Explorer instansen."
     }
   },
   "valueRangeBuilder": {
@@ -1361,7 +1361,7 @@
         "add": "Lägg till tidsserier",
         "remove": "Ta bort tidsserier",
         "edit": "Redigera tidsserier",
-        "noDat": "Inga data att visa för det valda tidsintervallet"
+        "noData": "Inga data att visa för det valda tidsintervallet"
       },
       "description": "Om du vill jämföra tidigare värden för historiserade egenskaper lägger du till tidsserier nedan."
     },
@@ -1385,11 +1385,11 @@
       "chart": {
         "title": "Diagram",
         "messages": {
-          "noDat": "Inga numeriska historiserade data hittades i det valda tidsintervallet."
+          "noData": "Inga numeriska historiserade data hittades i det valda tidsintervallet."
         }
       }
     },
-    "loadingConnectionLabe": "Laddar anslutningsinformation för datahistorik..."
+    "loadingConnectionLabel": "Laddar anslutningsinformation för datahistorik..."
   },
   "clear": "Klar",
   "duplicate": "Duplicera",
@@ -1416,7 +1416,7 @@
       "generalBadRequestMessage": "Begäran är ogiltig och kan inte utföras.",
       "entityNotFound": "Databasen hittades inte, det gick inte att köra frågan.",
       "forbidden": "Åtkomst nekades, du har inte frågebehörighet.",
-      "genericNetwor": "Azure Data Explorer instansen kan inte anslutas, se till att resursen inte stoppas och att nätverksanslutningen är stabil."
+      "genericNetwork": "Azure Data Explorer instansen kan inte anslutas, se till att resursen inte stoppas och att nätverksanslutningen är stabil."
     }
   }
 }

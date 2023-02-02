@@ -103,7 +103,7 @@
     },
     "timeSeriesDatabaseConnectionFetchFailed": {
       "type": "Fehler bei der Überprüfung der Zeitreihendatenbankverbindung",
-      "messag": "Verbindungsinformationen zum Datenverlauf konnten nicht gefunden werden, stellen Sie sicher, dass der Datenverlauf für diese Azure Digital Twins-Instanz aktiviert ist und dass Sie mindestens {{permission}}' Zugriff auf die Azure Data Explorer-Instanz haben."
+      "message": "Verbindungsinformationen zum Datenverlauf konnten nicht gefunden werden, stellen Sie sicher, dass der Datenverlauf für diese Azure Digital Twins-Instanz aktiviert ist und dass Sie mindestens {{permission}}' Zugriff auf die Azure Data Explorer-Instanz haben."
     }
   },
   "valueRangeBuilder": {
@@ -1361,7 +1361,7 @@
         "add": "Zeitreihen hinzufügen",
         "remove": "Zeitreihen entfernen",
         "edit": "Zeitreihen bearbeiten",
-        "noDat": "Keine anzuzeigenden Daten für den ausgewählten Zeitraum"
+        "noData": "Keine anzuzeigenden Daten für den ausgewählten Zeitraum"
       },
       "description": "Um vergangene Werte für historisierte Eigenschaften zu vergleichen, fügen Sie unten Zeitreihen hinzu."
     },
@@ -1385,11 +1385,11 @@
       "chart": {
         "title": "Diagramm",
         "messages": {
-          "noDat": "Im ausgewählten Zeitraum wurden keine numerisch historisierten Daten gefunden."
+          "noData": "Im ausgewählten Zeitraum wurden keine numerisch historisierten Daten gefunden."
         }
       }
     },
-    "loadingConnectionLabe": "Verbindungsinformationen zum Datenverlauf werden geladen..."
+    "loadingConnectionLabel": "Verbindungsinformationen zum Datenverlauf werden geladen..."
   },
   "clear": "Klar",
   "duplicate": "Duplikat",
@@ -1416,7 +1416,7 @@
       "generalBadRequestMessage": "Die Anforderung ist ungültig und kann nicht ausgeführt werden.",
       "entityNotFound": "Datenbank nicht gefunden, konnte die Abfrage nicht ausgeführt werden.",
       "forbidden": "Der Zugriff wurde verweigert, Sie verfügen nicht über Abfrageberechtigungen.",
-      "genericNetwor": "Die Azure Data Explorer-Instanz kann nicht verbunden werden, stellen Sie sicher, dass die Ressource nicht beendet wurde und Ihre Netzwerkkonnektivität stabil ist."
+      "genericNetwork": "Die Azure Data Explorer-Instanz kann nicht verbunden werden, stellen Sie sicher, dass die Ressource nicht beendet wurde und Ihre Netzwerkkonnektivität stabil ist."
     }
   }
 }

@@ -103,7 +103,7 @@
     },
     "timeSeriesDatabaseConnectionFetchFailed": {
       "type": "Zaman serisi veritabanı bağlantısı doğrulaması başarısız oldu",
-      "messag": "Veri geçmişi bağlantı bilgileri bulunamadı, bu Azure Digital Twins örneği için veri geçmişinin etkinleştirildiğinden ve Azure Veri Gezgini örneğine en az '{{izin}}' erişiminiz olduğundan emin olun."
+      "message": "Veri geçmişi bağlantı bilgileri bulunamadı, bu Azure Digital Twins örneği için veri geçmişinin etkinleştirildiğinden ve Azure Veri Gezgini örneğine en az '{{izin}}' erişiminiz olduğundan emin olun."
     }
   },
   "valueRangeBuilder": {
@@ -1361,7 +1361,7 @@
         "add": "Zaman serisi ekleme",
         "remove": "Zaman serilerini kaldırma",
         "edit": "Zaman serilerini düzenleme",
-        "noDat": "Seçilen zaman aralığı için görüntülenecek veri yok"
+        "noData": "Seçilen zaman aralığı için görüntülenecek veri yok"
       },
       "description": "Geçmişi geçmiş özelliklerin geçmiş değerlerini karşılaştırmak için aşağıya zaman serileri ekleyin."
     },
@@ -1385,11 +1385,11 @@
       "chart": {
         "title": "Grafik",
         "messages": {
-          "noDat": "Seçilen zaman aralığında sayısal olarak geçmiş veri bulunamadı."
+          "noData": "Seçilen zaman aralığında sayısal olarak geçmiş veri bulunamadı."
         }
       }
     },
-    "loadingConnectionLabe": "Veri geçmişi bağlantı bilgileri yükleniyor..."
+    "loadingConnectionLabel": "Veri geçmişi bağlantı bilgileri yükleniyor..."
   },
   "clear": "Berrak",
   "duplicate": "Yinelenen",
@@ -1416,7 +1416,7 @@
       "generalBadRequestMessage": "İstek geçersizdir ve yürütülemez.",
       "entityNotFound": "Veritabanı bulunamadı, sorgu yürütülemedi.",
       "forbidden": "Erişim reddedildi, sorgu izinleriniz yok.",
-      "genericNetwor": "Azure Veri Gezgini örneği bağlanamıyor, kaynağın durdurulmadığından ve ağ bağlantınızın kararlı olduğundan emin olun."
+      "genericNetwork": "Azure Veri Gezgini örneği bağlanamıyor, kaynağın durdurulmadığından ve ağ bağlantınızın kararlı olduğundan emin olun."
     }
   }
 }

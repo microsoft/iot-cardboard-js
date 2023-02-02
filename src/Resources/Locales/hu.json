@@ -103,7 +103,7 @@
     },
     "timeSeriesDatabaseConnectionFetchFailed": {
       "type": "Az idősorozat-adatbázis kapcsolatának érvényesítése sikertelen",
-      "messag": "Az adatelőzmények kapcsolati adatai nem találhatók, győződjön meg arról, hogy az adatelőzmények engedélyezve vannak ehhez a Azure Digital Twins példányhoz, és hogy legalább \"{{permission}}\" hozzáféréssel rendelkezik a Azure Data Explorer példányhoz."
+      "message": "Az adatelőzmények kapcsolati adatai nem találhatók, győződjön meg arról, hogy az adatelőzmények engedélyezve vannak ehhez a Azure Digital Twins példányhoz, és hogy legalább \"{{permission}}\" hozzáféréssel rendelkezik a Azure Data Explorer példányhoz."
     }
   },
   "valueRangeBuilder": {
@@ -1361,7 +1361,7 @@
         "add": "Idősorok hozzáadása",
         "remove": "Idősorok eltávolítása",
         "edit": "Idősorok szerkesztése",
-        "noDat": "Nincs megjelenítendő adat a kiválasztott időtartományban"
+        "noData": "Nincs megjelenítendő adat a kiválasztott időtartományban"
       },
       "description": "A historizált tulajdonságok múltbeli értékeinek összehasonlításához adja hozzá az alábbi idősorokat."
     },
@@ -1385,11 +1385,11 @@
       "chart": {
         "title": "Diagram",
         "messages": {
-          "noDat": "A kiválasztott időtartományban nem találhatók numerikus historizált adatok."
+          "noData": "A kiválasztott időtartományban nem találhatók numerikus historizált adatok."
         }
       }
     },
-    "loadingConnectionLabe": "Adatelőzmények kapcsolati adatainak betöltése..."
+    "loadingConnectionLabel": "Adatelőzmények kapcsolati adatainak betöltése..."
   },
   "clear": "Világos",
   "duplicate": "Ismétlődő",
@@ -1416,7 +1416,7 @@
       "generalBadRequestMessage": "A kérelem érvénytelen, és nem hajtható végre.",
       "entityNotFound": "Az adatbázis nem található, nem sikerült végrehajtani a lekérdezést.",
       "forbidden": "A hozzáférés megtagadva lett, nincs lekérdezési engedélye.",
-      "genericNetwor": "Azure Data Explorer példány nem csatlakoztatható, győződjön meg arról, hogy az erőforrás nincs leállítva, és a hálózati kapcsolat stabil."
+      "genericNetwork": "Azure Data Explorer példány nem csatlakoztatható, győződjön meg arról, hogy az erőforrás nincs leállítva, és a hálózati kapcsolat stabil."
     }
   }
 }

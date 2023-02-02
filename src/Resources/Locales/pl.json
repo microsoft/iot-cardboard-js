@@ -103,7 +103,7 @@
     },
     "timeSeriesDatabaseConnectionFetchFailed": {
       "type": "Sprawdzanie poprawności połączenia z bazą danych szeregów czasowych nie powiodło się",
-      "messag": "Nie można odnaleźć informacji o połączeniu historii danych, upewnij się, że historia danych jest włączona dla tego wystąpienia usługi Azure Digital Twins i że masz dostęp co najmniej \"{{permission}}\" do wystąpienia usługi Azure Data Explorer."
+      "message": "Nie można odnaleźć informacji o połączeniu historii danych, upewnij się, że historia danych jest włączona dla tego wystąpienia usługi Azure Digital Twins i że masz dostęp co najmniej \"{{permission}}\" do wystąpienia usługi Azure Data Explorer."
     }
   },
   "valueRangeBuilder": {
@@ -1361,7 +1361,7 @@
         "add": "Dodawanie szeregów czasowych",
         "remove": "Usuwanie szeregów czasowych",
         "edit": "Edytowanie szeregów czasowych",
-        "noDat": "Brak danych do wyświetlenia dla wybranego zakresu czasu"
+        "noData": "Brak danych do wyświetlenia dla wybranego zakresu czasu"
       },
       "description": "Aby porównać wcześniejsze wartości historycznych właściwości, dodaj poniżej szereg czasowy."
     },
@@ -1385,11 +1385,11 @@
       "chart": {
         "title": "Wykres",
         "messages": {
-          "noDat": "Nie znaleziono liczbowych danych historycznych w wybranym zakresie czasu."
+          "noData": "Nie znaleziono liczbowych danych historycznych w wybranym zakresie czasu."
         }
       }
     },
-    "loadingConnectionLabe": "Ładowanie historii danych informacji o połączeniu..."
+    "loadingConnectionLabel": "Ładowanie historii danych informacji o połączeniu..."
   },
   "clear": "Jasny",
   "duplicate": "Duplikat",
@@ -1416,7 +1416,7 @@
       "generalBadRequestMessage": "Żądanie jest nieprawidłowe i nie można go wykonać.",
       "entityNotFound": "Nie znaleziono bazy danych, nie można wykonać zapytania.",
       "forbidden": "Odmowa dostępu, nie masz uprawnień do wykonywania zapytań.",
-      "genericNetwor": "Nie można nawiązać połączenia z wystąpieniem usługi Azure Data Explorer, upewnij się, że zasób nie został zatrzymany, a łączność sieciowa jest stabilna."
+      "genericNetwork": "Nie można nawiązać połączenia z wystąpieniem usługi Azure Data Explorer, upewnij się, że zasób nie został zatrzymany, a łączność sieciowa jest stabilna."
     }
   }
 }
