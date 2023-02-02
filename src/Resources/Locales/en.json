@@ -1405,9 +1405,9 @@
     "dataHistoryErrorHandlingWrapper": {
         "errors": {
             "genericNetwork": "Azure Data Explorer instance cannot be connected, make sure the resource is not stopped and your network connectivity is stable.",
-            "genericBadReques": "Something went wrong, please try again.",
+            "genericBadRequest": "Something went wrong, please try again.",
             "generalBadRequestMessage": "Request is invalid and cannot be executed.",
-            "entityNotFoun": "Database not found, cannot execute the query.",
+            "entityNotFound": "Database not found, cannot execute the query.",
             "forbidden": "Access was denied, you do not have query permissions."
         }
     }
