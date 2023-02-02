@@ -1399,8 +1399,6 @@
     "defaultFileName": "Ny ontologi",
     "defaultModelNamePrefix": "Modell"
   },
-<<<<<<< HEAD
-=======
   "OATModelList": {
     "searchModels": "Sök modeller",
     "noDataMessage": "Inga modeller",
@@ -1409,24 +1407,10 @@
     "modelListToggleAriaLabelShow": "Visa modelllista",
     "modelListToggleAriaLabelHide": "Dölj modelllista"
   },
->>>>>>> origin/main
   "OATErrors": {
     "Validations": {
       "InvalidDtmiIdFormatTitle": "Ogiltigt DTMI-format",
       "InvalidDtmiIdFormatMessage": "Ändringarna sparades inte eftersom DTMI inte uppfyllde det format som krävs. \n DTMI: {{dtmi}}\n Obligatoriskt format: {{regex}}"
     }
-<<<<<<< HEAD
-  },
-  "OAT": {
-    "ModelList": {
-      "searchModels": "Sök modeller",
-      "noMatchingItemsMessage": "Inga modeller matchar det kriteriet",
-      "removeModelButtonText": "Ta bort modell",
-      "noModelsTitle": "Var är alla modeller på? 🤔",
-      "noModelsMessage": "Låt oss få igång festen",
-      "noModelsButtonText": "Lägga till en modell"
-    }
-=======
->>>>>>> origin/main
   }
 }

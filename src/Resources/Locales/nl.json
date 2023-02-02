@@ -1399,8 +1399,6 @@
     "defaultFileName": "Nieuwe ontologie",
     "defaultModelNamePrefix": "Model"
   },
-<<<<<<< HEAD
-=======
   "OATModelList": {
     "searchModels": "Modellen zoeken",
     "noDataMessage": "Geen modellen",
@@ -1409,24 +1407,10 @@
     "modelListToggleAriaLabelShow": "Modellenlijst weergeven",
     "modelListToggleAriaLabelHide": "Modellenlijst verbergen"
   },
->>>>>>> origin/main
   "OATErrors": {
     "Validations": {
       "InvalidDtmiIdFormatTitle": "OngeldigE DTMI-indeling",
       "InvalidDtmiIdFormatMessage": "Uw wijzigingen zijn niet opgeslagen omdat de DTMI niet voldeed aan de vereiste indeling. \n DTMI: {{dtmi}}\n Vereist formaat: {{regex}}"
     }
-<<<<<<< HEAD
-  },
-  "OAT": {
-    "ModelList": {
-      "searchModels": "Modellen zoeken",
-      "noMatchingItemsMessage": "Geen enkel model voldoet aan die criteria",
-      "removeModelButtonText": "Model verwijderen",
-      "noModelsTitle": "Waar zijn alle modellen? 🤔",
-      "noModelsMessage": "Laten we het feest op gang brengen",
-      "noModelsButtonText": "Een model toevoegen"
-    }
-=======
->>>>>>> origin/main
   }
 }

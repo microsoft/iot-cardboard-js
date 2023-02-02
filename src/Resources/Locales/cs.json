@@ -1399,8 +1399,6 @@
     "defaultFileName": "Nová ontologie",
     "defaultModelNamePrefix": "Model"
   },
-<<<<<<< HEAD
-=======
   "OATModelList": {
     "searchModels": "Hledat modely",
     "noDataMessage": "Žádné modely",
@@ -1409,24 +1407,10 @@
     "modelListToggleAriaLabelShow": "Zobrazit seznam modelů",
     "modelListToggleAriaLabelHide": "Skrýt seznam modelů"
   },
->>>>>>> origin/main
   "OATErrors": {
     "Validations": {
       "InvalidDtmiIdFormatTitle": "Neplatný formát DTMI",
       "InvalidDtmiIdFormatMessage": "Změny nebyly uloženy, protože DTMI nesplňoval požadovaný formát. \n DTMI: {{dtmi}}\n Požadovaný formát: {{regex}}"
     }
-<<<<<<< HEAD
-  },
-  "OAT": {
-    "ModelList": {
-      "searchModels": "Hledat modely",
-      "noMatchingItemsMessage": "Žádný model nesplňuje tato kritéria",
-      "removeModelButtonText": "Odebrat model",
-      "noModelsTitle": "Kde jsou všechny modely? 🤔",
-      "noModelsMessage": "Pusťme se do párty",
-      "noModelsButtonText": "Přidání modelu"
-    }
-=======
->>>>>>> origin/main
   }
 }
