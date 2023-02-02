@@ -97,7 +97,7 @@ AddMultipleModels.play = async ({ canvasElement }) => {
     const canvas = within(canvasElement);
 
     // Clicks the button
-    const menu = (await canvas.findAllByTestId('oat-header-new-menu'))[1];
+    const menu = (await canvas.findAllByTestId('oat-header-new-menu'))[0];
     userEvent.click(menu);
     await sleep(10);
     userEvent.click(menu);
