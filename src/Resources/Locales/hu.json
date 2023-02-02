@@ -1379,13 +1379,13 @@
           "noColor": "Nincs beállítva",
           "loading": "Előzményadatok betöltése...",
           "noSeries": "Nincs kiválasztva iker a lekérdezéshez, kérjük, adjon hozzá ikertulajdonságokat a historizált adatok megtekintéséhez.",
-          "noDat": "Nem található adat a kiválasztott időtartományban."
+          "noData": "Nem található adat a kiválasztott időtartományban."
         }
       },
       "chart": {
         "title": "Diagram",
         "messages": {
-          "noDat": "A kiválasztott időtartományban nem találhatók numerikus adatok."
+          "noData": "A kiválasztott időtartományban nem találhatók numerikus adatok."
         }
       }
     },

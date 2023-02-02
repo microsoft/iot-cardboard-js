@@ -1379,13 +1379,13 @@
           "noColor": "No establecido",
           "loading": "Cargando datos históricos...",
           "noSeries": "No se seleccionó ningún gemelo para consultar, agregue propiedades gemelas para ver los datos históricos.",
-          "noDat": "No se encontraron datos en el intervalo de tiempo seleccionado."
+          "noData": "No se encontraron datos en el intervalo de tiempo seleccionado."
         }
       },
       "chart": {
         "title": "Gráfico",
         "messages": {
-          "noDat": "No se encontraron datos numéricos en el intervalo de tiempo seleccionado."
+          "noData": "No se encontraron datos numéricos en el intervalo de tiempo seleccionado."
         }
       }
     },

@@ -1379,13 +1379,13 @@
           "noColor": "Ayarlanmadı",
           "loading": "Geçmiş veriler yükleniyor...",
           "noSeries": "Sorgulamak için ikiz seçilmemiş, geçmiş verileri görüntülemek için lütfen ikiz özellikleri ekleyin.",
-          "noDat": "Seçilen zaman aralığında veri bulunamadı."
+          "noData": "Seçilen zaman aralığında veri bulunamadı."
         }
       },
       "chart": {
         "title": "Grafik",
         "messages": {
-          "noDat": "Seçilen zaman aralığında sayısal veri bulunamadı."
+          "noData": "Seçilen zaman aralığında sayısal veri bulunamadı."
         }
       }
     },
