@@ -100,6 +100,10 @@
     "schemaValidationFailed": {
       "type": "Error en la validación del esquema JSON",
       "message": "JSON no es válido. Compruebe que la sintaxis coincide con el esquema requerido."
+    },
+    "timeSeriesDatabaseConnectionFetchFailed": {
+      "type": "Error en la validación de la conexión de la base de datos de series temporales",
+      "message": "No se pudo encontrar la información de conexión del historial de datos, asegúrese de que el historial de datos esté habilitado para esta instancia de Azure Digital Twins y de que tenga al menos acceso '{{permission}}' a la instancia del Explorador de datos de Azure."
     }
   },
   "valueRangeBuilder": {
@@ -650,14 +654,7 @@
         }
       },
       "headerMenu": "Menú del widget Historial de datos",
-      "openQuery": "Abrir consulta en el Explorador de datos de Azure",
-      "errors": {
-        "genericNetwork": "La dirección URL del clúster no es válida o se ha producido un error de red.",
-        "genericBadRequest": "Se ha producido una excepción de solicitud incorrecta.",
-        "generalBadRequestMessage": "La solicitud no es válida y no se puede ejecutar.",
-        "entityNotFound": "No se encontró la base de datos, no se pudo ejecutar la consulta.",
-        "forbidden": "Se ha denegado el acceso, no tiene permisos de consulta."
-      }
+      "openQuery": "Abrir consulta en el Explorador de datos de Azure"
     }
   },
   "sdkStrings": {
@@ -1360,10 +1357,11 @@
       "title": "Propiedades gemelas",
       "timeSeriesTwin": {
         "property": "Propiedad",
-        "propertyTypeCastLabel": "Convertir el tipo de propiedad en número",
         "add": "Agregar series temporales",
         "remove": "Quitar series temporales",
-        "edit": "Editar series temporales"
+        "edit": "Editar series temporales",
+        "propertyTypeCastLabe": "Convertir el valor de la propiedad en número",
+        "noData": "No hay datos para mostrar para el rango de tiempo seleccionado"
       },
       "description": "Para comparar los valores pasados de las propiedades históricas, agregue las series temporales a continuación."
     },
@@ -1416,6 +1414,15 @@
     },
     "Common": {
       "untargeted": "Sin objetivo"
+    }
+  },
+  "dataHistoryErrorHandlingWrapper": {
+    "errors": {
+      "genericNetwork": "La instancia de Azure Data Explorer no se puede conectar, asegúrese de que el recurso no se detenga y de que la conectividad de red sea estable.",
+      "genericBadRequest": "Algo salió mal, inténtalo de nuevo.",
+      "generalBadRequestMessage": "La solicitud no es válida y no se puede ejecutar.",
+      "entityNotFound": "Base de datos no encontrada, no se puede ejecutar la consulta.",
+      "forbidden": "Se ha denegado el acceso, no tiene permisos de consulta."
     }
   }
 }

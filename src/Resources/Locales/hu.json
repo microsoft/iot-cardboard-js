@@ -100,6 +100,10 @@
     "schemaValidationFailed": {
       "type": "A JSON-séma érvényesítése nem sikerült",
       "message": "A JSON érvénytelen. Ellenőrizze, hogy a szintaxis megfelel-e a szükséges sémának."
+    },
+    "timeSeriesDatabaseConnectionFetchFailed": {
+      "type": "Az idősorozat-adatbázis kapcsolatának érvényesítése sikertelen",
+      "message": "Az adatelőzmények kapcsolati adatai nem találhatók, győződjön meg arról, hogy az adatelőzmények engedélyezve vannak ehhez a Azure Digital Twins példányhoz, és hogy legalább \"{{permission}}\" hozzáféréssel rendelkezik a Azure Data Explorer példányhoz."
     }
   },
   "valueRangeBuilder": {
@@ -650,14 +654,7 @@
         }
       },
       "headerMenu": "Adatelőzmények widget menü",
-      "openQuery": "Lekérdezés megnyitása a Azure Data Explorer",
-      "errors": {
-        "genericNetwork": "A fürt URL-címe érvénytelen, vagy hálózati hiba történt.",
-        "genericBadRequest": "Hibás kérelem kivétel történt.",
-        "generalBadRequestMessage": "A kérelem érvénytelen, és nem hajtható végre.",
-        "entityNotFound": "Az adatbázis nem található, nem sikerült végrehajtani a lekérdezést.",
-        "forbidden": "A hozzáférés megtagadva lett, nincs lekérdezési engedélye."
-      }
+      "openQuery": "Lekérdezés megnyitása a Azure Data Explorer"
     }
   },
   "sdkStrings": {
@@ -1360,10 +1357,11 @@
       "title": "Iker tulajdonságok",
       "timeSeriesTwin": {
         "property": "Ingatlan",
-        "propertyTypeCastLabel": "Öntött tulajdonság típusa számra",
         "add": "Idősorok hozzáadása",
         "remove": "Idősorok eltávolítása",
-        "edit": "Idősorok szerkesztése"
+        "edit": "Idősorok szerkesztése",
+        "propertyTypeCastLabe": "Öntött tulajdonság értéke számra",
+        "noData": "Nincs megjelenítendő adat a kiválasztott időtartományban"
       },
       "description": "A historizált tulajdonságok múltbeli értékeinek összehasonlításához adja hozzá az alábbi idősorokat."
     },
@@ -1416,6 +1414,15 @@
     },
     "Common": {
       "untargeted": "Nem célzott"
+    }
+  },
+  "dataHistoryErrorHandlingWrapper": {
+    "errors": {
+      "genericNetwork": "Azure Data Explorer példány nem csatlakoztatható, győződjön meg arról, hogy az erőforrás nincs leállítva, és a hálózati kapcsolat stabil.",
+      "genericBadRequest": "Hiba történt, kérjük, próbálja újra.",
+      "generalBadRequestMessage": "A kérelem érvénytelen, és nem hajtható végre.",
+      "entityNotFound": "Az adatbázis nem található, nem tudja végrehajtani a lekérdezést.",
+      "forbidden": "A hozzáférés megtagadva lett, nincs lekérdezési engedélye."
     }
   }
 }

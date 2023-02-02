@@ -100,6 +100,10 @@
     "schemaValidationFailed": {
       "type": "JSON şema doğrulaması başarısız oldu",
       "message": "JSON geçersiz. Sözdiziminin gerekli şemayla eşleştiğini kontrol edin."
+    },
+    "timeSeriesDatabaseConnectionFetchFailed": {
+      "type": "Zaman serisi veritabanı bağlantısı doğrulaması başarısız oldu",
+      "message": "Veri geçmişi bağlantı bilgileri bulunamadı, bu Azure Digital Twins örneği için veri geçmişinin etkinleştirildiğinden ve Azure Veri Gezgini örneğine en az '{{izin}}' erişiminiz olduğundan emin olun."
     }
   },
   "valueRangeBuilder": {
@@ -650,14 +654,7 @@
         }
       },
       "headerMenu": "Veri geçmişi widget menüsü",
-      "openQuery": "Azure Veri Gezgini'nde sorgu açma",
-      "errors": {
-        "genericNetwork": "Küme URL'si geçersiz veya ağ hatası oluştu.",
-        "genericBadRequest": "Hatalı istek özel durumu oluştu.",
-        "generalBadRequestMessage": "İstek geçersizdir ve yürütülemez.",
-        "entityNotFound": "Veritabanı bulunamadı, sorgu yürütülemedi.",
-        "forbidden": "Erişim reddedildi, sorgu izinleriniz yok."
-      }
+      "openQuery": "Azure Veri Gezgini'nde sorgu açma"
     }
   },
   "sdkStrings": {
@@ -1360,10 +1357,11 @@
       "title": "İkiz özellikler",
       "timeSeriesTwin": {
         "property": "Mülk",
-        "propertyTypeCastLabel": "Özellik türünü sayıya yayınla",
         "add": "Zaman serisi ekleme",
         "remove": "Zaman serilerini kaldırma",
-        "edit": "Zaman serilerini düzenleme"
+        "edit": "Zaman serilerini düzenleme",
+        "propertyTypeCastLabe": "Özellik değerini sayıya dökme",
+        "noData": "Seçilen zaman aralığı için görüntülenecek veri yok"
       },
       "description": "Geçmişi geçmiş özelliklerin geçmiş değerlerini karşılaştırmak için aşağıya zaman serileri ekleyin."
     },
@@ -1416,6 +1414,15 @@
     },
     "Common": {
       "untargeted": "Hedefsiz"
+    }
+  },
+  "dataHistoryErrorHandlingWrapper": {
+    "errors": {
+      "genericNetwork": "Azure Veri Gezgini örneği bağlanamıyor, kaynağın durdurulmadığından ve ağ bağlantınızın kararlı olduğundan emin olun.",
+      "genericBadRequest": "Bir sorun oluştu, lütfen tekrar deneyin.",
+      "generalBadRequestMessage": "İstek geçersizdir ve yürütülemez.",
+      "entityNotFound": "Veritabanı bulunamadı, sorgu yürütülemiyor.",
+      "forbidden": "Erişim reddedildi, sorgu izinleriniz yok."
     }
   }
 }

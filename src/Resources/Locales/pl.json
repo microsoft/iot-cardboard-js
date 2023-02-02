@@ -100,6 +100,10 @@
     "schemaValidationFailed": {
       "type": "Sprawdzanie poprawności schematu JSON nie powiodło się",
       "message": "Kod JSON jest nieprawidłowy. Sprawdź zgodność składni z wymaganym schematem."
+    },
+    "timeSeriesDatabaseConnectionFetchFailed": {
+      "type": "Sprawdzanie poprawności połączenia z bazą danych szeregów czasowych nie powiodło się",
+      "message": "Nie można odnaleźć informacji o połączeniu historii danych, upewnij się, że historia danych jest włączona dla tego wystąpienia usługi Azure Digital Twins i że masz dostęp co najmniej \"{{permission}}\" do wystąpienia usługi Azure Data Explorer."
     }
   },
   "valueRangeBuilder": {
@@ -650,14 +654,7 @@
         }
       },
       "headerMenu": "Menu widżetu Historia danych",
-      "openQuery": "Otwieranie zapytania w usłudze Azure Data Explorer",
-      "errors": {
-        "genericNetwork": "Adres URL klastra jest nieprawidłowy lub wystąpił błąd sieci.",
-        "genericBadRequest": "Wystąpił wyjątek nieprawidłowego żądania.",
-        "generalBadRequestMessage": "Żądanie jest nieprawidłowe i nie można go wykonać.",
-        "entityNotFound": "Nie znaleziono bazy danych, nie można wykonać zapytania.",
-        "forbidden": "Odmowa dostępu, nie masz uprawnień do wykonywania zapytań."
-      }
+      "openQuery": "Otwieranie zapytania w usłudze Azure Data Explorer"
     }
   },
   "sdkStrings": {
@@ -1360,10 +1357,11 @@
       "title": "Bliźniacze właściwości",
       "timeSeriesTwin": {
         "property": "Własność",
-        "propertyTypeCastLabel": "Typ właściwości rzutowania na numer",
         "add": "Dodawanie szeregów czasowych",
         "remove": "Usuwanie szeregów czasowych",
-        "edit": "Edytowanie szeregów czasowych"
+        "edit": "Edytowanie szeregów czasowych",
+        "propertyTypeCastLabe": "Rzutowanie wartości właściwości na liczbę",
+        "noData": "Brak danych do wyświetlenia dla wybranego zakresu czasu"
       },
       "description": "Aby porównać wcześniejsze wartości historycznych właściwości, dodaj poniżej szereg czasowy."
     },
@@ -1416,6 +1414,15 @@
     },
     "Common": {
       "untargeted": "Nieukierunkowane"
+    }
+  },
+  "dataHistoryErrorHandlingWrapper": {
+    "errors": {
+      "genericNetwork": "Nie można nawiązać połączenia z wystąpieniem usługi Azure Data Explorer, upewnij się, że zasób nie został zatrzymany, a łączność sieciowa jest stabilna.",
+      "genericBadRequest": "Coś poszło nie tak, spróbuj ponownie.",
+      "generalBadRequestMessage": "Żądanie jest nieprawidłowe i nie można go wykonać.",
+      "entityNotFound": "Nie znaleziono bazy danych, nie można wykonać zapytania.",
+      "forbidden": "Odmowa dostępu, nie masz uprawnień do wykonywania zapytań."
     }
   }
 }

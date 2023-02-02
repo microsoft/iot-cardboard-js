@@ -100,6 +100,10 @@
     "schemaValidationFailed": {
       "type": "JSON 架构验证失败",
       "message": "JSON 无效。检查语法是否与所需的架构匹配。"
+    },
+    "timeSeriesDatabaseConnectionFetchFailed": {
+      "type": "时序数据库连接验证失败",
+      "message": "找不到数据历史记录连接信息，请确保为此 Azure 数字孪生实例启用了数据历史记录，并且你至少具有对 Azure 数据资源管理器实例的“{{权限}}”访问权限。"
     }
   },
   "valueRangeBuilder": {
@@ -650,14 +654,7 @@
         }
       },
       "headerMenu": "“数据历史记录”小组件菜单",
-      "openQuery": "在 Azure 数据资源管理器中打开查询",
-      "errors": {
-        "genericNetwork": "群集 URL 无效或发生网络错误。",
-        "genericBadRequest": "发生错误请求异常。",
-        "generalBadRequestMessage": "请求无效，无法执行。",
-        "entityNotFound": "找不到数据库，无法执行查询。",
-        "forbidden": "访问被拒绝，您没有查询权限。"
-      }
+      "openQuery": "在 Azure 数据资源管理器中打开查询"
     }
   },
   "sdkStrings": {
@@ -1360,10 +1357,11 @@
       "title": "孪生属性",
       "timeSeriesTwin": {
         "property": "财产",
-        "propertyTypeCastLabel": "将属性类型转换为数字",
         "add": "添加时间序列",
         "remove": "删除时间序列",
-        "edit": "编辑时间序列"
+        "edit": "编辑时间序列",
+        "propertyTypeCastLabe": "将属性值强制转换为数字",
+        "noData": "所选时间范围内没有要显示的数据"
       },
       "description": "要比较历史化属性的过去值，请在下面添加时间序列。"
     },
@@ -1416,6 +1414,15 @@
     },
     "Common": {
       "untargeted": "非目标"
+    }
+  },
+  "dataHistoryErrorHandlingWrapper": {
+    "errors": {
+      "genericNetwork": "Azure 数据资源管理器实例无法连接，请确保资源未停止且网络连接稳定。",
+      "genericBadRequest": "出现问题，请重试。",
+      "generalBadRequestMessage": "请求无效，无法执行。",
+      "entityNotFound": "找不到数据库，无法执行查询。",
+      "forbidden": "访问被拒绝，您没有查询权限。"
     }
   }
 }

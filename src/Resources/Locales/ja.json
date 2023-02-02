@@ -100,6 +100,10 @@
     "schemaValidationFailed": {
       "type": "JSON スキーマの検証に失敗しました",
       "message": "JSON が無効です。構文が必要なスキーマと一致することを確認します。"
+    },
+    "timeSeriesDatabaseConnectionFetchFailed": {
+      "type": "時系列データベース接続の検証に失敗しました",
+      "message": "データ履歴の接続情報が見つかりませんでした。この Azure Digital Twins インスタンスのデータ履歴が有効になっていることと、Azure データ エクスプローラー インスタンスに対して少なくとも \"{{アクセス許可}}\" アクセス権があることを確認してください。"
     }
   },
   "valueRangeBuilder": {
@@ -650,14 +654,7 @@
         }
       },
       "headerMenu": "データ履歴ウィジェットメニュー",
-      "openQuery": "Azure データ エクスプローラーでクエリを開く",
-      "errors": {
-        "genericNetwork": "クラスター URL が無効であるか、ネットワーク エラーが発生しました。",
-        "genericBadRequest": "不正な要求例外が発生しました。",
-        "generalBadRequestMessage": "要求は無効であり、実行できません。",
-        "entityNotFound": "データベースが見つかりません。クエリを実行できませんでした。",
-        "forbidden": "アクセスが拒否されました。クエリのアクセス許可がありません。"
-      }
+      "openQuery": "Azure データ エクスプローラーでクエリを開く"
     }
   },
   "sdkStrings": {
@@ -1360,10 +1357,11 @@
       "title": "ツインプロパティ",
       "timeSeriesTwin": {
         "property": "財産",
-        "propertyTypeCastLabel": "プロパティの型を数値にキャスト",
         "add": "時系列の追加",
         "remove": "時系列を削除する",
-        "edit": "時系列の編集"
+        "edit": "時系列の編集",
+        "propertyTypeCastLabe": "プロパティ値を数値にキャストする",
+        "noData": "選択した時間範囲に表示するデータがありません"
       },
       "description": "履歴化されたプロパティの過去の値を比較するには、以下に時系列を追加します。"
     },
@@ -1416,6 +1414,15 @@
     },
     "Common": {
       "untargeted": "ターゲットなし"
+    }
+  },
+  "dataHistoryErrorHandlingWrapper": {
+    "errors": {
+      "genericNetwork": "Azure Data Explorer インスタンスに接続できない場合は、リソースが停止していないこと、およびネットワーク接続が安定していることを確認してください。",
+      "genericBadRequest": "問題が発生しました。もう一度やり直してください。",
+      "generalBadRequestMessage": "要求は無効であり、実行できません。",
+      "entityNotFound": "データベースが見つからないため、クエリを実行できません。",
+      "forbidden": "アクセスが拒否されました。クエリのアクセス許可がありません。"
     }
   }
 }
