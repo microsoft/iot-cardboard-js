@@ -1399,18 +1399,20 @@
     "defaultFileName": "Ny ontologi",
     "defaultModelNamePrefix": "Modell"
   },
-  "OATModelList": {
-    "searchModels": "Sök modeller",
-    "noDataMessage": "Inga modeller",
-    "noMatchingItemsMessage": "Inga modeller matchar det kriteriet",
-    "removeModelButtonText": "Ta bort modell",
-    "modelListToggleAriaLabelShow": "Visa modelllista",
-    "modelListToggleAriaLabelHide": "Dölj modelllista"
-  },
   "OATErrors": {
     "Validations": {
       "InvalidDtmiIdFormatTitle": "Ogiltigt DTMI-format",
       "InvalidDtmiIdFormatMessage": "Ändringarna sparades inte eftersom DTMI inte uppfyllde det format som krävs. \n DTMI: {{dtmi}}\n Obligatoriskt format: {{regex}}"
+    }
+  },
+  "OAT": {
+    "ModelList": {
+      "searchModels": "Sök modeller",
+      "noMatchingItemsMessage": "Inga modeller matchar det kriteriet",
+      "removeModelButtonText": "Ta bort modell",
+      "noModelsTitle": "Du har inga modeller ännu",
+      "noModelsMessage": "Börja utforma ontologin genom att lägga till en modell eller importera din befintliga ontologi",
+      "noModelsButtonText": "Lägga till en modell"
     }
   }
 }

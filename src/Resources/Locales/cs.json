@@ -1399,18 +1399,20 @@
     "defaultFileName": "Nová ontologie",
     "defaultModelNamePrefix": "Model"
   },
-  "OATModelList": {
-    "searchModels": "Hledat modely",
-    "noDataMessage": "Žádné modely",
-    "noMatchingItemsMessage": "Žádný model nesplňuje tato kritéria",
-    "removeModelButtonText": "Odebrat model",
-    "modelListToggleAriaLabelShow": "Zobrazit seznam modelů",
-    "modelListToggleAriaLabelHide": "Skrýt seznam modelů"
-  },
   "OATErrors": {
     "Validations": {
       "InvalidDtmiIdFormatTitle": "Neplatný formát DTMI",
       "InvalidDtmiIdFormatMessage": "Změny nebyly uloženy, protože DTMI nesplňoval požadovaný formát. \n DTMI: {{dtmi}}\n Požadovaný formát: {{regex}}"
+    }
+  },
+  "OAT": {
+    "ModelList": {
+      "searchModels": "Hledat modely",
+      "noMatchingItemsMessage": "Žádný model nesplňuje tato kritéria",
+      "removeModelButtonText": "Odebrat model",
+      "noModelsTitle": "Zatím nemáte žádné modely",
+      "noModelsMessage": "Začněte navrhovat svou ontologii přidáním modelu nebo importem stávající ontologie",
+      "noModelsButtonText": "Přidání modelu"
     }
   }
 }
