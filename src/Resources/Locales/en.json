@@ -1373,7 +1373,7 @@
     "colorPills": {
         "unlabeled": "Unlabeled"
     },
-    "dataHistoryExplorerr": {
+    "dataHistoryExplorer": {
         "title": "Data history explorer",
         "loadingConnectionLabel": "Loading data history connection information...",
         "builder": {
