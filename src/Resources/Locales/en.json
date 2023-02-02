@@ -119,7 +119,7 @@
         },
         "timeSeriesDatabaseConnectionFetchFailed": {
             "type": "Time series database connection validation failed",
-            "messag": "Data history connection information could not be found, make sure data history is enabled for this Azure Digital Twins instance and that you have at least '{{permission}}' access to the Azure Data Explorer instance."
+            "message": "Data history connection information could not be found, make sure data history is enabled for this Azure Digital Twins instance and that you have at least '{{permission}}' access to the Azure Data Explorer instance."
         }
     },
     "valueRangeBuilder": {
@@ -1364,7 +1364,7 @@
     },
     "dataHistoryExplorer": {
         "title": "Data history explorer",
-        "loadingConnectionLabe": "Loading data history connection information...",
+        "loadingConnectionLabel": "Loading data history connection information...",
         "builder": {
             "title": "Twin properties",
             "description": "To compare past values for historized properties, add time series below.",
@@ -1374,14 +1374,14 @@
                 "remove": "Remove time series",
                 "property": "Property",
                 "propertyTypeCastLabel": "Cast property type to number",
-                "noDat": "No data to display for the time range selected"
+                "noData": "No data to display for the time range selected"
             }
         },
         "viewer": {
             "chart": {
                 "title": "Chart",
                 "messages": {
-                    "noDat": "No numeric historized data found in the selected time range."
+                    "noData": "No numeric historized data found in the selected time range."
                 }
             },
             "table": {
@@ -1404,7 +1404,7 @@
     },
     "dataHistoryErrorHandlingWrapper": {
         "errors": {
-            "genericNetwor": "Azure Data Explorer instance cannot be connected, make sure the resource is not stopped and your network connectivity is stable.",
+            "genericNetwork": "Azure Data Explorer instance cannot be connected, make sure the resource is not stopped and your network connectivity is stable.",
             "genericBadRequest": "Bad request exception occured.",
             "generalBadRequestMessage": "Request is invalid and cannot be executed.",
             "entityNotFound": "Database not found, failed to execute the query.",
