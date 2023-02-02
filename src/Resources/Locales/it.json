@@ -1399,11 +1399,23 @@
     "defaultFileName": "Nuova ontologia",
     "defaultModelNamePrefix": "Modello"
   },
+<<<<<<< HEAD
+=======
+  "OATModelList": {
+    "searchModels": "Cerca modelli",
+    "noDataMessage": "Nessun modello",
+    "noMatchingItemsMessage": "Nessun modello corrisponde a tali criteri",
+    "removeModelButtonText": "Rimuovi modello",
+    "modelListToggleAriaLabelShow": "Mostra elenco modelli",
+    "modelListToggleAriaLabelHide": "Nascondi elenco modelli"
+  },
+>>>>>>> origin/main
   "OATErrors": {
     "Validations": {
       "InvalidDtmiIdFormatTitle": "Formato DTMI non valido",
       "InvalidDtmiIdFormatMessage": "Le modifiche non sono state salvate perché DTMI non soddisfaceva il formato richiesto. \n DTMI: {{dtmi}}\n Formato richiesto: {{regex}}"
     }
+<<<<<<< HEAD
   },
   "OAT": {
     "ModelList": {
@@ -1414,5 +1426,7 @@
       "noModelsMessage": "Diamo inizio alla festa",
       "noModelsButtonText": "Aggiungere un modello"
     }
+=======
+>>>>>>> origin/main
   }
 }

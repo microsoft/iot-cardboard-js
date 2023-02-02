@@ -1399,11 +1399,23 @@
     "defaultFileName": "Új ontológia",
     "defaultModelNamePrefix": "Modell"
   },
+<<<<<<< HEAD
+=======
+  "OATModelList": {
+    "searchModels": "Keresési modellek",
+    "noDataMessage": "Nincs modell",
+    "noMatchingItemsMessage": "Egyetlen modell sem felel meg ennek a feltételnek",
+    "removeModelButtonText": "Modell eltávolítása",
+    "modelListToggleAriaLabelShow": "Modelllista megjelenítése",
+    "modelListToggleAriaLabelHide": "Modelllista elrejtése"
+  },
+>>>>>>> origin/main
   "OATErrors": {
     "Validations": {
       "InvalidDtmiIdFormatTitle": "Érvénytelen DTMI-formátum",
       "InvalidDtmiIdFormatMessage": "A rendszer nem mentette a módosításokat, mert a DTMI nem felelt meg a szükséges formátumnak. \n DTMI: {{dtmi}}\n Szükséges formátum: {{regex}}"
     }
+<<<<<<< HEAD
   },
   "OAT": {
     "ModelList": {
@@ -1414,5 +1426,7 @@
       "noModelsMessage": "Kezdjük a bulit",
       "noModelsButtonText": "Modell hozzáadása"
     }
+=======
+>>>>>>> origin/main
   }
 }

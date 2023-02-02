@@ -1399,11 +1399,23 @@
     "defaultFileName": "Yeni ontoloji",
     "defaultModelNamePrefix": "Model"
   },
+<<<<<<< HEAD
+=======
+  "OATModelList": {
+    "searchModels": "Modelleri ara",
+    "noDataMessage": "Model yok",
+    "noMatchingItemsMessage": "Bu ölçütlere uyan model yok",
+    "removeModelButtonText": "Modeli kaldır",
+    "modelListToggleAriaLabelShow": "Model listesini göster",
+    "modelListToggleAriaLabelHide": "Model listesini gizle"
+  },
+>>>>>>> origin/main
   "OATErrors": {
     "Validations": {
       "InvalidDtmiIdFormatTitle": "Geçersiz DTMI biçimi",
       "InvalidDtmiIdFormatMessage": "DTMI gerekli biçimi karşılamadığı için değişiklikleriniz kaydedilmedi. \n DTMI: {{dtmi}}\n Gerekli biçim: {{regex}}"
     }
+<<<<<<< HEAD
   },
   "OAT": {
     "ModelList": {
@@ -1414,5 +1426,7 @@
       "noModelsMessage": "Haydi partiyi başlatalım",
       "noModelsButtonText": "Model ekleme"
     }
+=======
+>>>>>>> origin/main
   }
 }
