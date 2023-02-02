@@ -64,7 +64,7 @@ export const getFileNameFromDTMI = (dtmi: string) => {
     }
 };
 
-// Get directoryPath from  DTMI
+// Get directoryPath from DTMI
 export const getDirectoryPathFromDTMI = (dtmi: string) => {
     const initialPosition = dtmi.indexOf(':') + 1;
     const finalPosition = dtmi.lastIndexOf(':');
