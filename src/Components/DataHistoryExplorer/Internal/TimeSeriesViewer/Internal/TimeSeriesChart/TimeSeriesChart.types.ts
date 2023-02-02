@@ -1,6 +1,5 @@
 import { IStyle, IStyleFunctionOrObject, ITheme } from '@fluentui/react';
 import { IDataHistoryChartOptions } from '../../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
-import { IDataHistoryErrorHandlingWrapperStyles } from '../../../../../DataHistoryErrorHandlingWrapper/DataHistoryErrorHandlingWrapper.types';
 
 export interface ITimeSeriesChartProps {
     defaultOptions?: IDataHistoryChartOptions;
@@ -27,6 +26,5 @@ export interface ITimeSeriesChartStyles {
     subComponentStyles?: ITimeSeriesChartSubComponentStyles;
 }
 
-export interface ITimeSeriesChartSubComponentStyles {
-    errorWrapper?: Partial<IDataHistoryErrorHandlingWrapperStyles>;
-}
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface ITimeSeriesChartSubComponentStyles {}

@@ -43,13 +43,6 @@ export const getStyles = (
                         }
                     }
                 });
-            },
-            errorWrapper: {
-                subComponentStyles: {
-                    illustrationMessage: {
-                        descriptionContainer: { maxWidth: 300 }
-                    }
-                }
             }
         }
     };

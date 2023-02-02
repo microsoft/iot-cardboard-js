@@ -254,7 +254,7 @@ const TimeSeriesTable: React.FC<ITimeSeriesTableProps> = (props) => {
                 <DataHistoryErrorHandlingWrapper
                     error={errors[0]}
                     imgHeight={ERROR_IMAGE_HEIGHT}
-                    styles={classNames.subComponentStyles.errorWrapper}
+                    messageWidth="wide"
                 />
             ) : data === null || data?.length === 0 ? (
                 <IllustrationMessage
@@ -266,7 +266,7 @@ const TimeSeriesTable: React.FC<ITimeSeriesTableProps> = (props) => {
                         }`
                     )}
                     type={'info'}
-                    width={'compact'}
+                    width={'wide'}
                     imageProps={{
                         src: SearchErrorImg,
                         height: 172

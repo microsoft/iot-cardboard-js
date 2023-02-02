@@ -23,15 +23,6 @@ export const getStyles = (
         chartContainer: [
             classNames.chartContainer,
             { flexGrow: 1, overflow: 'hidden' }
-        ],
-        subComponentStyles: {
-            errorWrapper: {
-                subComponentStyles: {
-                    illustrationMessage: {
-                        descriptionContainer: { maxWidth: 300 }
-                    }
-                }
-            }
-        }
+        ]
     };
 };

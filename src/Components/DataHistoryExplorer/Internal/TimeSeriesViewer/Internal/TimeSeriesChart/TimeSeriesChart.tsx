@@ -135,7 +135,7 @@ const TimeSeriesChart: React.FC<ITimeSeriesChartProps> = (props) => {
                 <DataHistoryErrorHandlingWrapper
                     error={errors[0]}
                     imgHeight={ERROR_IMAGE_HEIGHT}
-                    styles={classNames.subComponentStyles.errorWrapper}
+                    messageWidth="wide"
                 />
             ) : (
                 <>

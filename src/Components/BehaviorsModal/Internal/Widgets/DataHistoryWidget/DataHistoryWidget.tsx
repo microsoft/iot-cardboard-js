@@ -223,6 +223,7 @@ const DataHistoryWidget: React.FC<IDataHistoryWidgetProps> = ({
                     <DataHistoryErrorHandlingWrapper
                         error={errors[0]}
                         imgHeight={ERROR_IMAGE_HEIGHT}
+                        styles={classNames.subComponentStyles.errorWrapper}
                     />
                 </>
             ) : (

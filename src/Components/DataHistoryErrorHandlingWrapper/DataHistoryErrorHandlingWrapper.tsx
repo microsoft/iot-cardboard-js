@@ -48,7 +48,7 @@ const getClassNames = classNamesFunction<
 const DataHistoryErrorHandlingWrapper: React.FC<IDataHistoryErrorHandlingWrapperProps> = (
     props
 ) => {
-    const { error, imgHeight, styles } = props;
+    const { error, imgHeight, messageWidth = 'compact', styles } = props;
 
     // hooks
     const { t } = useTranslation();
@@ -161,7 +161,7 @@ const DataHistoryErrorHandlingWrapper: React.FC<IDataHistoryErrorHandlingWrapper
             <IllustrationMessage
                 descriptionText={errorObj.description}
                 type={'info'}
-                width={'compact'}
+                width={messageWidth}
                 imageProps={{
                     src: errorObj.imgSrc,
                     styles: classNames.subComponentStyles.image,

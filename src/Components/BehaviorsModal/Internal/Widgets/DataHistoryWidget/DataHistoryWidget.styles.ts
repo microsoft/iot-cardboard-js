@@ -105,6 +105,13 @@ export const getStyles = ({
                     fontSize: FontSizes.size16,
                     lineHeight: '16px'
                 }
+            },
+            errorWrapper: {
+                subComponentStyles: {
+                    illustrationMessage: {
+                        descriptionContainer: { maxWidth: 236 }
+                    }
+                }
             }
         }
     };
