@@ -129,6 +129,8 @@ export const GET_MOCK_OAT_CONTEXT_STATE = (): IOatPageContextState => {
         ontologyFiles: files,
         selection: undefined,
         selectedPropertyEditorTab: IOatPropertyEditorTabKey.Properties,
-        templatesActive: false
+        templatesActive: false,
+        openUploadFileCallback: null,
+        openUploadFolderCallback: null
     };
 };
