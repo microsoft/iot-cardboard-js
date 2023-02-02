@@ -1357,11 +1357,11 @@
       "title": "Vlastnosti dvojčat",
       "timeSeriesTwin": {
         "property": "Vlastnost",
-        "propertyTypeCastLabel": "Přetypování typu vlastnosti na číslo",
         "add": "Přidat časovou řadu",
         "remove": "Odebrání časové řady",
         "edit": "Úprava časové řady",
-        "noData": "Pro vybraný časový rozsah se nezobrazí žádná data"
+        "noData": "Pro vybraný časový rozsah se nezobrazí žádná data",
+        "propertyTypeCastLabe": "Přetypování hodnoty vlastnosti na číslo"
       },
       "description": "Chcete-li porovnat minulé hodnoty pro historizované vlastnosti, přidejte níže časovou řadu."
     },

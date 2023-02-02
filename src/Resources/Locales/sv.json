@@ -1357,11 +1357,11 @@
       "title": "Tvillingegenskaper",
       "timeSeriesTwin": {
         "property": "Egenskap",
-        "propertyTypeCastLabel": "Gjuten egenskapstyp till nummer",
         "add": "Lägg till tidsserier",
         "remove": "Ta bort tidsserier",
         "edit": "Redigera tidsserier",
-        "noData": "Inga data att visa för det valda tidsintervallet"
+        "noData": "Inga data att visa för det valda tidsintervallet",
+        "propertyTypeCastLabe": "Gjutet egenskapsvärde till antal"
       },
       "description": "Om du vill jämföra tidigare värden för historiserade egenskaper lägger du till tidsserier nedan."
     },

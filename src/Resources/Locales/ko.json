@@ -1357,11 +1357,11 @@
       "title": "트윈 속성",
       "timeSeriesTwin": {
         "property": "재산",
-        "propertyTypeCastLabel": "속성 유형을 번호로 캐스트",
         "add": "시계열 추가",
         "remove": "시계열 제거",
         "edit": "시계열 편집",
-        "noData": "선택한 시간 범위에 대해 표시할 데이터가 없습니다."
+        "noData": "선택한 시간 범위에 대해 표시할 데이터가 없습니다.",
+        "propertyTypeCastLabe": "속성 값을 숫자로 변환"
       },
       "description": "히스토라이즈된 속성의 과거 값을 비교하려면 아래에 시계열을 추가합니다."
     },

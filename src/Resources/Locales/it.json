@@ -1357,11 +1357,11 @@
       "title": "Proprietà gemelle",
       "timeSeriesTwin": {
         "property": "Proprietà",
-        "propertyTypeCastLabel": "Eseguire il cast della proprietà dal tipo al numero",
         "add": "Aggiungere serie temporali",
         "remove": "Rimuovere serie temporali",
         "edit": "Modificare le serie temporali",
-        "noData": "Nessun dato da visualizzare per l'intervallo di tempo selezionato"
+        "noData": "Nessun dato da visualizzare per l'intervallo di tempo selezionato",
+        "propertyTypeCastLabe": "Eseguire il cast del valore della proprietà sul numero"
       },
       "description": "Per confrontare i valori passati per le proprietà cronologizzate, aggiungere le serie temporali riportate di seguito."
     },

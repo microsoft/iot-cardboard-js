@@ -1357,11 +1357,11 @@
       "title": "孪生属性",
       "timeSeriesTwin": {
         "property": "财产",
-        "propertyTypeCastLabel": "将属性类型转换为数字",
         "add": "添加时间序列",
         "remove": "删除时间序列",
         "edit": "编辑时间序列",
-        "noData": "所选时间范围内没有要显示的数据"
+        "noData": "所选时间范围内没有要显示的数据",
+        "propertyTypeCastLabe": "将属性值强制转换为数字"
       },
       "description": "要比较历史化属性的过去值，请在下面添加时间序列。"
     },

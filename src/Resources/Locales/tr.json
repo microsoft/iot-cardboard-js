@@ -1357,11 +1357,11 @@
       "title": "İkiz özellikler",
       "timeSeriesTwin": {
         "property": "Mülk",
-        "propertyTypeCastLabel": "Özellik türünü sayıya yayınla",
         "add": "Zaman serisi ekleme",
         "remove": "Zaman serilerini kaldırma",
         "edit": "Zaman serilerini düzenleme",
-        "noData": "Seçilen zaman aralığı için görüntülenecek veri yok"
+        "noData": "Seçilen zaman aralığı için görüntülenecek veri yok",
+        "propertyTypeCastLabe": "Özellik değerini sayıya dökme"
       },
       "description": "Geçmişi geçmiş özelliklerin geçmiş değerlerini karşılaştırmak için aşağıya zaman serileri ekleyin."
     },
