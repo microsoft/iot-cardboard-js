@@ -21,7 +21,7 @@ const Template: ManageOntologyModalStory = (args) => {
     return (
         <OatPageContextProvider
             initialState={{
-                currentOntologyNamespace: 'testNamespace',
+                currentOntologyDefaultPath: 'testNamespace',
                 currentOntologyProjectName: 'my test project'
             }}
         >

@@ -11,7 +11,7 @@ import {
 } from '../../../Pages/OATEditorPage/Internal/Classes/ProjectData';
 import {
     OAT_MODEL_ID_PREFIX,
-    OAT_NAMESPACE_DEFAULT_VALUE
+    OAT_DEFAULT_PATH_VALUE
 } from '../../Constants/Constants';
 import {
     getOntologiesFromStorage,
@@ -73,8 +73,8 @@ export const OatPageContextReducer: (
                 break;
             }
             case OatPageContextActionType.EDIT_PROJECT: {
-                const previousNamespace = draft.currentOntologyNamespace;
-                draft.currentOntologyNamespace = action.payload.namespace.replace(
+                const previousNamespace = draft.currentOntologyDefaultPath;
+                draft.currentOntologyDefaultPath = action.payload.namespace.replace(
                     / /g,
                     ''
                 );
@@ -83,9 +83,9 @@ export const OatPageContextReducer: (
                 logDebugConsole(
                     'debug',
                     'Updating project namespace to: ' +
-                        draft.currentOntologyNamespace
+                        draft.currentOntologyDefaultPath
                 );
-                if (previousNamespace !== draft.currentOntologyNamespace) {
+                if (previousNamespace !== draft.currentOntologyDefaultPath) {
                     draft.currentOntologyModels.forEach((x) => {
                         x['@id'] = x['@id'].replace(
                             `${OAT_MODEL_ID_PREFIX}:${previousNamespace}:`,
@@ -115,7 +115,7 @@ export const OatPageContextReducer: (
                     } else {
                         // create a new project if none exist to switch to
                         const name = i18n.t('OATCommon.defaultFileName');
-                        const namespace = OAT_NAMESPACE_DEFAULT_VALUE;
+                        const namespace = OAT_DEFAULT_PATH_VALUE;
                         createProject(name, namespace, draft);
                     }
                 } else {
@@ -182,7 +182,8 @@ export const OatPageContextReducer: (
                 break;
             }
             case OatPageContextActionType.SET_CURRENT_NAMESPACE: {
-                draft.currentOntologyNamespace = action.payload.namespace || '';
+                draft.currentOntologyDefaultPath =
+                    action.payload.namespace || '';
                 saveData(draft);
                 break;
             }
@@ -192,7 +193,7 @@ export const OatPageContextReducer: (
                 draft.currentOntologyModels = action.payload.models;
                 draft.currentOntologyModelMetadata =
                     action.payload.modelsMetadata;
-                draft.currentOntologyNamespace = action.payload.namespace;
+                draft.currentOntologyDefaultPath = action.payload.defaultPath;
                 draft.currentOntologyProjectName =
                     action.payload.projectName || '';
                 draft.currentOntologyTemplates = action.payload.templates;
@@ -518,7 +519,7 @@ const emptyState: IOatPageContextState = {
     currentOntologyModelMetadata: [],
     currentOntologyModelPositions: [],
     currentOntologyModels: [],
-    currentOntologyNamespace: '',
+    currentOntologyDefaultPath: '',
     currentOntologyProjectName: '',
     currentOntologyTemplates: [],
     // other properties
@@ -564,7 +565,7 @@ const getInitialState = (
         // create a project if none exists
         project = new ProjectData(
             i18n.t('OATCommon.defaultFileName'),
-            OAT_NAMESPACE_DEFAULT_VALUE,
+            OAT_DEFAULT_PATH_VALUE,
             [],
             [],
             [],
@@ -590,7 +591,7 @@ const getInitialState = (
         currentOntologyModelMetadata: project.modelsMetadata,
         currentOntologyModelPositions: project.modelPositions,
         currentOntologyModels: project.models,
-        currentOntologyNamespace: project.namespace,
+        currentOntologyDefaultPath: project.defaultPath,
         currentOntologyProjectName: project.projectName,
         currentOntologyTemplates: project.templates,
         languageOptions: getAvailableLanguages(i18n)

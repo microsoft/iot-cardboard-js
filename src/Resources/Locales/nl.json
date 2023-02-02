@@ -967,10 +967,10 @@
       "modalSubTitleLinkText": "Meer informatie over ontologieën",
       "nameLabel": "Naam",
       "namePlaceholder": "Voer een ontologienaam in",
-      "namespaceLabel": "Namespace",
       "namespaceDescription": "Voorbeeld modelnaam: {{modelName}}",
-      "namespacePlaceholder": "Een naamruimte invoeren",
-      "sampleModel": "voorbeeldmodel"
+      "sampleModel": "voorbeeldmodel",
+      "namespaceLabel": "Standaardpad",
+      "namespacePlaceholder": "Voer een standaardpad in"
     },
     "newModel": "Nieuw model"
   },
@@ -1406,5 +1406,11 @@
     "removeModelButtonText": "Model verwijderen",
     "modelListToggleAriaLabelShow": "Modellenlijst weergeven",
     "modelListToggleAriaLabelHide": "Modellenlijst verbergen"
+  },
+  "OATErrors": {
+    "Validations": {
+      "InvalidDtmiIdFormatTitle": "OngeldigE DTMI-indeling",
+      "InvalidDtmiIdFormatMessage": "Uw wijzigingen zijn niet opgeslagen omdat de DTMI niet voldeed aan de vereiste indeling. \n DTMI: {{dtmi}}\n Vereist formaat: {{regex}}"
+    }
   }
 }

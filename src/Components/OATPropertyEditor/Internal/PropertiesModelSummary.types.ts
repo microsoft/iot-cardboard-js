@@ -11,7 +11,6 @@ import { DtdlRelationship } from '../../../Models/Constants';
 import { IExtendedTheme } from '../../../Theming/Theme.types';
 
 export interface IPartialModelId {
-    namespace?: string;
     modelName?: string;
     path?: string;
     version?: string;

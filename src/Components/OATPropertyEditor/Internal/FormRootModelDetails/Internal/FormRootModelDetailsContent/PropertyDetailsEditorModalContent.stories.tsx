@@ -47,8 +47,7 @@ export const Model = Template.bind({});
 Model.args = (() => {
     const modelId1 = buildModelId({
         modelName: 'model' + 5,
-        namespace: 'test-namespace',
-        path: 'folder1:folder2',
+        path: 'test-namespace:folder1:folder2',
         version: 2
     });
     const model = getMockModelItem(modelId1);
@@ -65,8 +64,7 @@ export const RelationshipReferenceEmpty = Template.bind({});
 RelationshipReferenceEmpty.args = (() => {
     const modelId1 = buildModelId({
         modelName: 'model' + 5,
-        namespace: 'test-namespace',
-        path: 'folder1:folder2',
+        path: 'test-namespace:folder1:folder2',
         version: 2
     });
     const reference = getMockReference(
@@ -89,8 +87,7 @@ export const RelationshipReferenceEdit = Template.bind({});
 RelationshipReferenceEdit.args = (() => {
     const modelId1 = buildModelId({
         modelName: 'model' + 5,
-        namespace: 'test-namespace',
-        path: 'folder1:folder2',
+        path: 'test-namespace:folder1:folder2',
         version: 2
     });
     const reference = getMockReference(
@@ -119,8 +116,7 @@ export const RelationshipReferenceEditMultiLang = Template.bind({});
 RelationshipReferenceEditMultiLang.args = (() => {
     const modelId1 = buildModelId({
         modelName: 'model' + 5,
-        namespace: 'test-namespace',
-        path: 'folder1:folder2',
+        path: 'test-namespace:folder1:folder2',
         version: 2
     });
     const reference = getMockReference(
@@ -158,8 +154,7 @@ export const ComponentReference = Template.bind({});
 ComponentReference.args = (() => {
     const modelId1 = buildModelId({
         modelName: 'model' + 5,
-        namespace: 'test-namespace',
-        path: 'folder1:folder2',
+        path: 'test-namespace:folder1:folder2',
         version: 2
     });
     const reference = getMockReference(modelId1, DTDLType.Component);

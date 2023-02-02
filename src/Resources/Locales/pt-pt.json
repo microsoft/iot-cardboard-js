@@ -967,10 +967,10 @@
       "modalSubTitleLinkText": "Saiba mais sobre os totologias",
       "nameLabel": "Nome",
       "namePlaceholder": "Insira um nome de ontologia",
-      "namespaceLabel": "Espaço de nome",
       "namespaceDescription": "Nome do modelo exemplo: {{modelName}}",
-      "namespacePlaceholder": "Insira um espaço de nome",
-      "sampleModel": "modelo de amostra"
+      "sampleModel": "modelo de amostra",
+      "namespaceLabel": "Caminho padrão",
+      "namespacePlaceholder": "Insira um caminho padrão"
     },
     "newModel": "Novo modelo"
   },
@@ -1406,5 +1406,11 @@
     "removeModelButtonText": "Remover modelo",
     "modelListToggleAriaLabelShow": "Mostrar lista de modelos",
     "modelListToggleAriaLabelHide": "Lista de modelos de ocultação"
+  },
+  "OATErrors": {
+    "Validations": {
+      "InvalidDtmiIdFormatTitle": "Formato DTMI inválido",
+      "InvalidDtmiIdFormatMessage": "As suas alterações não foram guardadas porque o DTMI não cumpriu o formato exigido. \n DTMI: {{dtmi}}\n Formato obrigatório: {{regex}}"
+    }
   }
 }

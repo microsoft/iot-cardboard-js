@@ -967,10 +967,10 @@
       "modalSubTitleLinkText": "Tudjon meg többet az ontológiákról",
       "nameLabel": "Név",
       "namePlaceholder": "Adjon meg egy ontológiai nevet",
-      "namespaceLabel": "Namespace",
       "namespaceDescription": "Példa modellnévre: {{modelName}}",
-      "namespacePlaceholder": "Névtér megadása",
-      "sampleModel": "minta modell"
+      "sampleModel": "minta modell",
+      "namespaceLabel": "Alapértelmezett elérési út",
+      "namespacePlaceholder": "Adjon meg egy alapértelmezett elérési utat"
     },
     "newModel": "Új modell"
   },
@@ -1406,5 +1406,11 @@
     "removeModelButtonText": "Modell eltávolítása",
     "modelListToggleAriaLabelShow": "Modelllista megjelenítése",
     "modelListToggleAriaLabelHide": "Modelllista elrejtése"
+  },
+  "OATErrors": {
+    "Validations": {
+      "InvalidDtmiIdFormatTitle": "Érvénytelen DTMI-formátum",
+      "InvalidDtmiIdFormatMessage": "A rendszer nem mentette a módosításokat, mert a DTMI nem felelt meg a szükséges formátumnak. \n DTMI: {{dtmi}}\n Szükséges formátum: {{regex}}"
+    }
   }
 }

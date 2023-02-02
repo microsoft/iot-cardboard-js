@@ -967,10 +967,10 @@
       "modalSubTitleLinkText": "了解有关本体的更多信息",
       "nameLabel": "名字",
       "namePlaceholder": "输入本体名称",
-      "namespaceLabel": "Namespace",
       "namespaceDescription": "示例模型名称：{{模型名称}}",
-      "namespacePlaceholder": "输入命名空间",
-      "sampleModel": "示例模型"
+      "sampleModel": "示例模型",
+      "namespaceLabel": "默认路径",
+      "namespacePlaceholder": "输入默认路径"
     },
     "newModel": "新型号"
   },
@@ -1406,5 +1406,11 @@
     "removeModelButtonText": "删除模型",
     "modelListToggleAriaLabelShow": "显示型号列表",
     "modelListToggleAriaLabelHide": "隐藏模型列表"
+  },
+  "OATErrors": {
+    "Validations": {
+      "InvalidDtmiIdFormatTitle": "无效的 DTMI 格式",
+      "InvalidDtmiIdFormatMessage": "您的更改未保存，因为 DTMI 不符合所需的格式。\n DTMI： {{dtmi}}\n 所需格式：{{正则表达式}}"
+    }
   }
 }

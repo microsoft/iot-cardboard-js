@@ -53,13 +53,13 @@ import {
 /**
  * Looks at the existing models and generates a new name until it finds a unique name
  * @param existingModels current set of models in the graph
- * @param namespace the namespace for the current ontology
+ * @param defaultPath the namespace for the current ontology
  * @param defaultNamePrefix the name prefix for models (ex: "Model")
  * @returns the id string for the new model
  */
 const getNextModelInfo = (
     existingModels: DtdlInterface[],
-    namespace: string,
+    defaultPath: string,
     defaultNamePrefix: string
 ) => {
     // Identifies which is the next model Id on creating new nodes
@@ -69,7 +69,7 @@ const getNextModelInfo = (
     while (index !== -1) {
         nextModelIdIndex++;
         nextModelId = buildModelId({
-            namespace,
+            path: defaultPath,
             modelName: `${defaultNamePrefix.toLowerCase()}${nextModelIdIndex}`
         });
         index = existingModels.findIndex(
@@ -97,7 +97,7 @@ export const addNewModelToState = (
 ): DtdlInterface => {
     const modelInfo = getNextModelInfo(
         state.currentOntologyModels,
-        state.currentOntologyNamespace,
+        state.currentOntologyDefaultPath,
         i18n.t('OATCommon.defaultModelNamePrefix')
     );
     const newModel: DtdlInterface = getNewModel(modelInfo.id, modelInfo.name);
@@ -598,7 +598,7 @@ export function switchCurrentProject(
         const data = selectedFile.data;
         const projectToOpen = new ProjectData(
             data.projectName,
-            data.namespace,
+            data.defaultPath,
             data.models,
             data.modelPositions,
             data.modelsMetadata,
@@ -627,7 +627,7 @@ export function convertStateToProject(
         modelPositions: draft.currentOntologyModelPositions ?? [],
         models: draft.currentOntologyModels ?? [],
         modelsMetadata: draft.currentOntologyModelMetadata ?? [],
-        namespace: draft.currentOntologyNamespace || '',
+        defaultPath: draft.currentOntologyDefaultPath || '',
         projectDescription: '',
         projectName: draft.currentOntologyProjectName || '',
         templates: draft.currentOntologyTemplates ?? []
@@ -643,7 +643,7 @@ export function mapProjectOntoState(
     draft.currentOntologyModelPositions = projectToOpen.modelPositions;
     draft.currentOntologyModels = projectToOpen.models;
     draft.currentOntologyModelMetadata = projectToOpen.modelsMetadata;
-    draft.currentOntologyNamespace = projectToOpen.namespace;
+    draft.currentOntologyDefaultPath = projectToOpen.defaultPath;
     draft.currentOntologyProjectName = projectToOpen.projectName || '';
     draft.currentOntologyTemplates = projectToOpen.templates;
 }

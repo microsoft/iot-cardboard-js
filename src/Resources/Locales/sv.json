@@ -967,10 +967,10 @@
       "modalSubTitleLinkText": "Läs mer om ontologier",
       "nameLabel": "Namn",
       "namePlaceholder": "Ange ett ontologinamn",
-      "namespaceLabel": "Namespace",
       "namespaceDescription": "Exempel på modellnamn: {{modelName}}",
-      "namespacePlaceholder": "Ange ett namnområde",
-      "sampleModel": "exempel modell"
+      "sampleModel": "exempel modell",
+      "namespaceLabel": "Standardsökväg",
+      "namespacePlaceholder": "Ange en standardsökväg"
     },
     "newModel": "Ny modell"
   },
@@ -1406,5 +1406,11 @@
     "removeModelButtonText": "Ta bort modell",
     "modelListToggleAriaLabelShow": "Visa modelllista",
     "modelListToggleAriaLabelHide": "Dölj modelllista"
+  },
+  "OATErrors": {
+    "Validations": {
+      "InvalidDtmiIdFormatTitle": "Ogiltigt DTMI-format",
+      "InvalidDtmiIdFormatMessage": "Ändringarna sparades inte eftersom DTMI inte uppfyllde det format som krävs. \n DTMI: {{dtmi}}\n Obligatoriskt format: {{regex}}"
+    }
   }
 }

@@ -967,10 +967,10 @@
       "modalSubTitleLinkText": "Další informace o ontologiích",
       "nameLabel": "Jméno",
       "namePlaceholder": "Zadejte název ontologie",
-      "namespaceLabel": "Namespace",
       "namespaceDescription": "Příklad názvu modelu: {{modelName}}",
-      "namespacePlaceholder": "Zadejte obor názvů",
-      "sampleModel": "Vzorový model"
+      "sampleModel": "Vzorový model",
+      "namespaceLabel": "Výchozí cesta",
+      "namespacePlaceholder": "Zadejte výchozí cestu"
     },
     "newModel": "Nový model"
   },
@@ -1406,5 +1406,11 @@
     "removeModelButtonText": "Odebrat model",
     "modelListToggleAriaLabelShow": "Zobrazit seznam modelů",
     "modelListToggleAriaLabelHide": "Skrýt seznam modelů"
+  },
+  "OATErrors": {
+    "Validations": {
+      "InvalidDtmiIdFormatTitle": "Neplatný formát DTMI",
+      "InvalidDtmiIdFormatMessage": "Změny nebyly uloženy, protože DTMI nesplňoval požadovaný formát. \n DTMI: {{dtmi}}\n Požadovaný formát: {{regex}}"
+    }
   }
 }

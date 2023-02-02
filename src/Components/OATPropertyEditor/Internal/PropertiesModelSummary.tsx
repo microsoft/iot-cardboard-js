@@ -1,10 +1,4 @@
-import React, {
-    useContext,
-    useState,
-    useCallback,
-    useMemo,
-    useEffect
-} from 'react';
+import React, { useContext, useState, useCallback, useEffect } from 'react';
 import {
     Stack,
     Text,
@@ -31,8 +25,10 @@ import { OatPageContextActionType } from '../../../Models/Context/OatPageContext
 import { getStyles } from './PropertiesModelSummary.styles';
 import { useExtendedTheme } from '../../../Models/Hooks/useExtendedTheme';
 import {
+    DTMI_VALIDATION_REGEX,
     isDTDLModel,
     isDTDLReference,
+    isValidDtmiId,
     isValidDtmiPath,
     isValidModelName,
     isValidReferenceName
@@ -40,6 +36,7 @@ import {
 import { getTargetFromSelection } from '../Utils';
 import ModelPropertyHeader from './ModelPropertyHeader/ModelPropertyHeader';
 import PropertyDetailsEditorModal from './FormRootModelDetails/PropertyDetailsEditorModal';
+import { DtdlInterface, DtdlInterfaceContent } from '../../../Models/Constants';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('PropertiesModelSummary', debugLogging);
@@ -55,9 +52,6 @@ export const PropertiesModelSummary: React.FC<IPropertiesModelSummaryProps> = (
     const { selectedItem, styles } = props;
     const isModelSelected = isDTDLModel(selectedItem);
     const isReferenceSelected = isDTDLReference(selectedItem);
-    const parsedId = useMemo(() => parseModelId(selectedItem?.['@id']), [
-        selectedItem
-    ]);
 
     // hooks
     const { t } = useTranslation();
@@ -79,13 +73,24 @@ export const PropertiesModelSummary: React.FC<IPropertiesModelSummaryProps> = (
 
     // data
     const itemId = buildModelId({
-        namespace: parsedId.namespace,
         modelName: modelUniqueName,
         path: modelPath,
         version: Number(modelVersion)
     });
 
     // callbacks
+    const initializeIdFields = useCallback(
+        (selected: DtdlInterface | DtdlInterfaceContent) => {
+            const parsedId = parseModelId(selected?.['@id']);
+            setModelUniqueName(parsedId.name);
+            setModelPath(parsedId.path);
+            setModelVersion(parsedId.version);
+            setRelationshipName(
+                isDTDLReference(selected) ? selected?.name : ''
+            );
+        },
+        []
+    );
     const commitModelIdChange = useCallback(
         (newId: string) => {
             if (newId === selectedItem?.['@id']) {
@@ -93,6 +98,26 @@ export const PropertiesModelSummary: React.FC<IPropertiesModelSummaryProps> = (
                     'warn',
                     'Aborting model id update, values are the same'
                 );
+                return;
+            }
+            if (!isValidDtmiId(newId)) {
+                console.error(
+                    `DTMI (${newId}) is invalid. The id must conform to the format `,
+                    DTMI_VALIDATION_REGEX
+                );
+                initializeIdFields(selectedItem);
+                oatPageDispatch({
+                    type: OatPageContextActionType.SET_OAT_ERROR,
+                    payload: {
+                        title: t(
+                            'OATErrors.Validations.InvalidDtmiIdFormatTitle'
+                        ),
+                        message: t(
+                            'OATErrors.Validations.InvalidDtmiIdFormatMessage',
+                            { dtmi: newId, regex: DTMI_VALIDATION_REGEX }
+                        )
+                    }
+                });
                 return;
             }
             const commit = () => {
@@ -206,34 +231,21 @@ export const PropertiesModelSummary: React.FC<IPropertiesModelSummaryProps> = (
 
     // needed primarly for the version spinner since it behaves differently and you don't have to set focus
     const forceUpdateId = useCallback(
-        ({ namespace, modelName, path, version }: IPartialModelId) => {
+        ({ modelName, path, version }: IPartialModelId) => {
             const newId = buildModelId({
-                namespace: namespace || parsedId.namespace,
                 modelName: modelName || modelUniqueName,
                 path: path || modelPath,
                 version: Number(version || modelVersion)
             });
             commitModelIdChange(newId);
         },
-        [
-            commitModelIdChange,
-            modelPath,
-            modelUniqueName,
-            modelVersion,
-            parsedId.namespace
-        ]
+        [commitModelIdChange, modelPath, modelUniqueName, modelVersion]
     );
 
     // side effects
     // when selected item changes, update all the states
     useEffect(() => {
-        const parsedId = parseModelId(selectedItem?.['@id']);
-        setModelUniqueName(parsedId.name);
-        setModelPath(parsedId.path);
-        setModelVersion(parsedId.version);
-        setRelationshipName(
-            isDTDLReference(selectedItem) ? selectedItem?.name : ''
-        );
+        initializeIdFields(selectedItem);
     }, [selectedItem]);
 
     // styles
