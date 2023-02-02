@@ -57,7 +57,7 @@ const ContextRenderer: React.FC = () => {
                     </div>
                     <div>
                         <Label>Namespace:</Label>{' '}
-                        {oatPageState.currentOntologyNamespace}
+                        {oatPageState.currentOntologyDefaultPath}
                     </div>
                     <div>
                         <Label>Models:</Label>{' '}

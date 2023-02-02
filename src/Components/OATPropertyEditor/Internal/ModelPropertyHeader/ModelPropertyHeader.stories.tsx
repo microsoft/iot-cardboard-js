@@ -29,8 +29,7 @@ export const InterfaceHeader = Template.bind({}) as ModelPropertyHeaderStory;
 InterfaceHeader.args = {
     entityId: buildModelId({
         modelName: 'model' + 5,
-        namespace: 'test-namespace',
-        path: 'folder1:folder2',
+        path: 'test-namespace:folder1:folder2',
         version: 2
     }),
     entityName: 'Model 5',
@@ -42,8 +41,7 @@ export const RelationshipHeader = Template.bind({}) as ModelPropertyHeaderStory;
 RelationshipHeader.args = {
     entityId: buildModelId({
         modelName: 'model' + 5,
-        namespace: 'test-namespace',
-        path: 'folder1:folder2',
+        path: 'test-namespace:folder1:folder2',
         version: 2
     }),
     entityName: 'Relationship 5',

@@ -97,7 +97,7 @@ const Editor: React.FC<IEditorProps> = (props) => {
             <div className={classNames.root}>
                 <IllustrationMessage
                     type={'info'}
-                    width={'compact'}
+                    width={'wide'}
                     descriptionText={t('OATPropertyEditor.noSelectionMessage')}
                     imageProps={{
                         height: 100,

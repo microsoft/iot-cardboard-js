@@ -8,7 +8,7 @@ export interface IOatProjectData {
     models: DtdlInterface[];
     modelPositions: IOATModelPosition[];
     modelsMetadata: IOATModelsMetadata[];
-    namespace: string;
+    defaultPath: string;
     projectDescription: string;
     projectName: string;
     templates: any[];
@@ -17,21 +17,21 @@ export class ProjectData implements IOatProjectData {
     models: DtdlInterface[];
     modelPositions: IOATModelPosition[];
     modelsMetadata: IOATModelsMetadata[];
-    namespace: string;
+    defaultPath: string;
     projectDescription: string;
     projectName: string;
     templates: any[];
 
     constructor(
         projectName: string,
-        namespace: string,
+        defaultPath: string,
         models?: DtdlInterface[],
         modelPositions?: IOATModelPosition[],
         modelsMetadata?: IOATModelsMetadata[],
         templates?: any[]
     ) {
         this.projectName = projectName || '';
-        this.namespace = namespace || '';
+        this.defaultPath = defaultPath || '';
         this.projectDescription = '';
         this.models = models ? Array.from(models) : [];
         this.modelPositions = modelPositions ? Array.from(modelPositions) : [];

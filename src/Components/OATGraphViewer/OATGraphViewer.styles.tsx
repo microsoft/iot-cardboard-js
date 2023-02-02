@@ -1,11 +1,8 @@
 import {
     IStyle,
     mergeStyleSets,
-    useTheme,
+    memoizeFunction,
     FontSizes,
-    IStyleFunctionOrObject,
-    ILabelStyleProps,
-    ILabelStyles,
     FontWeights,
     IButtonStyles
 } from '@fluentui/react';
@@ -21,7 +18,6 @@ import {
     PROPERTY_EDITOR_WIDTH
 } from '../../Models/Constants/OatStyleConstants';
 import { HEADER_BUTTON_HEIGHT } from '../../Models/Constants/StyleConstants';
-import { useExtendedTheme } from '../../Models/Hooks/useExtendedTheme';
 import { IExtendedTheme } from '../../Theming/Theme.types';
 import {
     IOATGraphViewerStyleProps,
@@ -138,8 +134,7 @@ const classNames = {
     placeholderText: `${classPrefix}-placeholder-text`
 };
 
-export const getGraphViewerStyles = () => {
-    const theme = useExtendedTheme();
+export const getGraphViewerStyles = memoizeFunction((theme: IExtendedTheme) => {
     const ellipseText: IStyle = {
         overflow: 'hidden',
         textOverflow: 'ellipsis'
@@ -170,11 +165,11 @@ export const getGraphViewerStyles = () => {
                     alignItems: 'center',
                     minWidth: '14px',
                     minHeight: '14px',
-                    top: '54px',
+                    top: '55px',
                     ':hover': {
                         minWidth: '18px',
                         minHeight: '18px',
-                        top: '49px',
+                        top: '53px',
                         '& svg': {
                             pointerEvents: 'none'
                         }
@@ -194,11 +189,11 @@ export const getGraphViewerStyles = () => {
                     alignItems: 'center',
                     minWidth: '14px',
                     minHeight: '14px',
-                    top: '54px',
+                    top: '55px',
                     ':hover': {
                         minWidth: '18px',
                         minHeight: '18px',
-                        top: '49px',
+                        top: '53px',
                         '& svg': {
                             pointerEvents: 'none'
                         }
@@ -218,11 +213,11 @@ export const getGraphViewerStyles = () => {
                     alignItems: 'center',
                     minWidth: '14px',
                     minHeight: '14px',
-                    top: '54px',
+                    top: '55px',
                     ':hover': {
                         minWidth: '18px',
                         minHeight: '18px',
-                        top: '49px',
+                        top: '53px',
                         '& svg': {
                             pointerEvents: 'none'
                         }
@@ -242,11 +237,11 @@ export const getGraphViewerStyles = () => {
                     alignItems: 'center',
                     minWidth: '14px',
                     minHeight: '14px',
-                    top: '54px',
+                    top: '55px',
                     ':hover': {
                         minWidth: '18px',
                         minHeight: '18px',
-                        top: '49px',
+                        top: '53px',
                         '& svg': {
                             pointerEvents: 'none'
                         }
@@ -356,8 +351,8 @@ export const getGraphViewerStyles = () => {
             classNames.selectedNode,
             {
                 backgroundColor: getControlBackgroundColor(theme),
-                border: `3px solid ${theme.semanticColors.inputBorder}`,
-                borderRadius: '5px',
+                border: `4px solid ${theme.semanticColors.inputBorder}`,
+                borderRadius: theme.effects.roundedCorner4,
                 fontSize: FontSizes.size12,
                 position: 'relative',
                 paddingRight: '20px' // Provide space for close icon
@@ -466,9 +461,6 @@ export const getGraphViewerStyles = () => {
         nodeRow: [
             classNames.nodeRow,
             {
-                alignItems: 'center',
-                display: 'grid',
-                gridTemplateColumns: '50px auto',
                 overflow: 'hidden',
                 padding: 4
             } as IStyle
@@ -493,7 +485,8 @@ export const getGraphViewerStyles = () => {
         untargetedNodeContainer: [
             classNames.untargetedNodeContainer,
             {
-                paddingLeft: 4,
+                paddingLeft: 8,
+                paddingRight: 8,
                 label: {
                     overflowWrap: 'normal'
                 }
@@ -507,7 +500,7 @@ export const getGraphViewerStyles = () => {
             } as IStyle
         ]
     });
-};
+});
 
 export const getGraphViewerActionButtonStyles = (
     theme: IExtendedTheme
@@ -527,14 +520,4 @@ export const getGraphViewerActionButtonStyles = (
             color: theme.semanticColors.actionLink
         }
     };
-};
-
-export const getGraphViewerWarningStyles = () => {
-    const theme = useTheme();
-    return {
-        root: {
-            fontSize: FontSizes.size10,
-            color: theme.semanticColors.severeWarningIcon
-        }
-    } as IStyleFunctionOrObject<ILabelStyleProps, ILabelStyles>;
 };

@@ -917,6 +917,19 @@
         "showPanel": "Show elements panel",
         "hidePanel": "Hide elements panel"
     },
+    "OAT": {
+        "Common": {
+            "untargeted": "Untargeted"
+        },
+        "ModelList": {
+            "searchModels": "Search models",
+            "noMatchingItemsMessage": "No models match that criteria",
+            "removeModelButtonText": "Remove model",
+            "noModelsTitle": "You don't have any models yet",
+            "noModelsMessage": "Start designing your ontology by adding a model or importing your existing ontology",
+            "noModelsButtonText": "Add a model"
+        }
+    },
     "OATCommon": {
         "duplicateFileNameSuffix": "copy",
         "defaultFileName": "New ontology",
@@ -981,24 +994,16 @@
             "modalSubTitleLinkText": "Learn more about ontologies",
             "nameLabel": "Name",
             "namePlaceholder": "Enter an ontology name",
-            "namespaceLabel": "Namespace",
+            "namespaceLabel": "Default path",
             "namespaceDescription": "Example model name: {{modelName}}",
-            "namespacePlaceholder": "Enter a namespace",
+            "namespacePlaceholder": "Enter a default path",
             "sampleModel": "sample Model"
         }
-    },
-    "OATModelList": {
-        "searchModels": "Search models",
-        "noDataMessage": "No models",
-        "noMatchingItemsMessage": "No models match that criteria",
-        "removeModelButtonText": "Remove model",
-        "modelListToggleAriaLabelShow": "Show model list",
-        "modelListToggleAriaLabelHide": "Hide model list"
     },
     "OATGraphViewer": {
         "newModel": "New Model",
         "name": "Name",
-        "id": "Id",
+        "id": "ID",
         "type": "Type",
         "emptyGraph": "No models available",
         "project": "Project",
@@ -1138,16 +1143,22 @@
             }
         }
     },
-    "ErrorHandlingWrapper": {
-        "errorMessage": "Error message",
-        "errorTitle": "Error title",
-        "ok": "OK"
+    "OATErrors": {
+        "Validations": {
+            "InvalidDtmiIdFormatTitle": "Invalid DTMI format",
+            "InvalidDtmiIdFormatMessage": "Your changes were not saved because the DTMI did not meet the required format. \n DTMI: {{dtmi}}\n Required format: {{regex}}"
+        }
     },
     "OATErrorBoundary": {
         "modalHeader": "Something went wrong...",
         "messageHeader": "Message",
         "stackHeader": "Stack",
         "tryAgain": "Try again"
+    },
+    "ErrorHandlingWrapper": {
+        "errorMessage": "Error message",
+        "errorTitle": "Error title",
+        "ok": "OK"
     },
     "cameraControls": {
         "mouseControls": "Mouse Controls",

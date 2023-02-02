@@ -150,8 +150,6 @@ export function isUntargeted(id: string) {
 
 const DEFAULT_VERSION_NUMBER = 1;
 interface IBuildModelIdArgs {
-    /** namespace for the current ontology */
-    namespace: string;
     /** name of the model */
     modelName: string;
     /** the sub path for the model (optional) */
@@ -164,13 +162,11 @@ interface IBuildModelIdArgs {
  * @returns string for the id of the model
  */
 export function buildModelId({
-    namespace,
     modelName,
     path,
     version
 }: IBuildModelIdArgs): string {
     const prefix = OAT_MODEL_ID_PREFIX;
-    const namespaceValue = namespace?.replace(/ /g, '');
     const pathValue = path?.replace(/ /g, '');
     const nameValue = modelName?.replace(/ /g, '');
     const versionNumber = isDefined(version) ? version : DEFAULT_VERSION_NUMBER;
@@ -179,13 +175,12 @@ export function buildModelId({
     if (pathValue) {
         uniqueName = pathValue + ':' + nameValue;
     }
-    return `${prefix}:${namespaceValue}:${uniqueName};${versionNumber}`;
+    return `${prefix}:${uniqueName};${versionNumber}`;
 }
 
 export function parseModelId(
     id: string
 ): {
-    namespace: string;
     name: string;
     path: string;
     version: string;
@@ -193,14 +188,10 @@ export function parseModelId(
     if (!id) {
         return {
             name: '',
-            namespace: '',
             path: '',
             version: ''
         };
     }
-    const getNamespace = (id: string) => {
-        return id.substring(0, id.indexOf(':'));
-    };
     const getPath = (id: string) => {
         // if we still have any : then they must be part of the path or the separator
         if (id.split(':').length > 0) {
@@ -216,21 +207,17 @@ export function parseModelId(
     };
 
     const idWithoutPrefix = id.replace(`${OAT_MODEL_ID_PREFIX}:`, '');
-    const namespace = getNamespace(idWithoutPrefix);
-
-    const idWithoutNamespace = idWithoutPrefix.replace(`${namespace}:`, '');
-    const path = getPath(idWithoutNamespace);
+    const path = getPath(idWithoutPrefix);
 
     const idWithoutPath = path
-        ? idWithoutNamespace.replace(`${path}:`, '')
-        : idWithoutNamespace;
+        ? idWithoutPrefix.replace(`${path}:`, '')
+        : idWithoutPrefix;
     const name = getName(idWithoutPath);
 
     const idWithoutName = idWithoutPath.replace(`${name}:`, '');
     const version = getVersion(idWithoutName);
 
     return {
-        namespace: namespace,
         name: name,
         path: path,
         version: version
