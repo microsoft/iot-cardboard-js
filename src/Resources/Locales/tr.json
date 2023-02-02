@@ -1351,41 +1351,6 @@
   "colorPills": {
     "unlabeled": "Etiketlenmemiş"
   },
-  "dataHistoryExplorer": {
-    "title": "Veri geçmişi gezgini",
-    "builder": {
-      "title": "İkiz özellikler",
-      "timeSeriesTwin": {
-        "property": "Mülk",
-        "add": "Zaman serisi ekleme",
-        "remove": "Zaman serilerini kaldırma",
-        "edit": "Zaman serilerini düzenleme",
-        "propertyTypeCastLabe": "Özellik değerini sayıya dökme",
-        "noData": "Seçilen zaman aralığı için görüntülenecek veri yok"
-      },
-      "description": "Geçmişi geçmiş özelliklerin geçmiş değerlerini karşılaştırmak için aşağıya zaman serileri ekleyin."
-    },
-    "viewer": {
-      "chart": "Grafik",
-      "noSeriesDescription": "Bu ikizin veri geçmişini görüntülemek için görüntülenecek bir özellik seçin.",
-      "table": {
-        "title": "Masa",
-        "columns": {
-          "timestamp": "Zaman damgası",
-          "series": "Silsile",
-          "value": "Değer",
-          "type": "Tür"
-        },
-        "messages": {
-          "noColor": "Ayarlanmadı",
-          "loading": "Geçmiş veriler yükleniyor...",
-          "noData": "Seçilen zaman diliminde geçmiş veri bulunamadı.",
-          "noSeries": "Sorgulamak için ikiz seçilmemiş, geçmiş verileri görüntülemek için lütfen ikiz özellikleri ekleyin."
-        }
-      }
-    },
-    "loadingConnectionLabel": "Zaman serisi bağlantı bilgileri yükleniyor..."
-  },
   "clear": "Berrak",
   "duplicate": "Yinelenen",
   "moveUp": "Yukarı taşı",
@@ -1423,6 +1388,46 @@
       "generalBadRequestMessage": "İstek geçersizdir ve yürütülemez.",
       "entityNotFound": "Veritabanı bulunamadı, sorgu yürütülemiyor.",
       "forbidden": "Erişim reddedildi, sorgu izinleriniz yok."
+    }
+  },
+  "dataHistoryExplorerr": {
+    "title": "Veri geçmişi gezgini",
+    "loadingConnectionLabel": "Veri geçmişi bağlantı bilgileri yükleniyor...",
+    "builder": {
+      "title": "İkiz özellikler",
+      "description": "Geçmişi geçmiş özelliklerin geçmiş değerlerini karşılaştırmak için aşağıya zaman serileri ekleyin.",
+      "timeSeriesTwin": {
+        "add": "Zaman serisi ekleme",
+        "edit": "Zaman serilerini düzenleme",
+        "remove": "Zaman serilerini kaldırma",
+        "property": "Mülk",
+        "propertyTypeCastLabe": "Özellik değerini sayıya dökme",
+        "noData": "Seçilen zaman aralığı için görüntülenecek veri yok"
+      }
+    },
+    "viewer": {
+      "chart": {
+        "title": "Grafik",
+        "messages": {
+          "noData": "Seçilen zaman aralığında sayısal veri bulunamadı."
+        }
+      },
+      "table": {
+        "title": "Masa",
+        "columns": {
+          "timestamp": "Zaman damgası",
+          "series": "Silsile",
+          "value": "Değer",
+          "type": "Tür"
+        },
+        "messages": {
+          "noColor": "Ayarlanmadı",
+          "loading": "Geçmiş veriler yükleniyor...",
+          "noData": "Seçilen zaman aralığında veri bulunamadı.",
+          "noSeries": "Sorgulamak için ikiz seçilmemiş, geçmiş verileri görüntülemek için lütfen ikiz özellikleri ekleyin."
+        }
+      },
+      "noSeriesDescription": "Bu ikizin veri geçmişini görüntülemek için görüntülenecek bir özellik seçin."
     }
   }
 }

@@ -1351,41 +1351,6 @@
   "colorPills": {
     "unlabeled": "ラベル"
   },
-  "dataHistoryExplorer": {
-    "title": "データ履歴エクスプローラー",
-    "builder": {
-      "title": "ツインプロパティ",
-      "timeSeriesTwin": {
-        "property": "財産",
-        "add": "時系列の追加",
-        "remove": "時系列を削除する",
-        "edit": "時系列の編集",
-        "propertyTypeCastLabe": "プロパティ値を数値にキャストする",
-        "noData": "選択した時間範囲に表示するデータがありません"
-      },
-      "description": "履歴化されたプロパティの過去の値を比較するには、以下に時系列を追加します。"
-    },
-    "viewer": {
-      "chart": "チャート",
-      "noSeriesDescription": "このツインのデータ履歴を表示するには、表示するプロパティを選択します。",
-      "table": {
-        "title": "テーブル",
-        "columns": {
-          "timestamp": "タイムスタンプ",
-          "series": "級数",
-          "value": "価値",
-          "type": "種類"
-        },
-        "messages": {
-          "noColor": "未設定",
-          "loading": "履歴化されたデータを読み込んでいます...",
-          "noData": "選択した時間枠内に履歴データが見つかりません。",
-          "noSeries": "クエリするツインが選択されていません。履歴データを表示するためにツイン プロパティを追加してください。"
-        }
-      }
-    },
-    "loadingConnectionLabel": "時系列接続情報を読み込んでいます..."
-  },
   "clear": "クリア",
   "duplicate": "デュプリケート",
   "moveUp": "上へ移動",
@@ -1423,6 +1388,46 @@
       "generalBadRequestMessage": "要求は無効であり、実行できません。",
       "entityNotFound": "データベースが見つからないため、クエリを実行できません。",
       "forbidden": "アクセスが拒否されました。クエリのアクセス許可がありません。"
+    }
+  },
+  "dataHistoryExplorerr": {
+    "title": "データ履歴エクスプローラー",
+    "loadingConnectionLabel": "データ履歴接続情報を読み込んでいます...",
+    "builder": {
+      "title": "ツインプロパティ",
+      "description": "履歴化されたプロパティの過去の値を比較するには、以下に時系列を追加します。",
+      "timeSeriesTwin": {
+        "add": "時系列の追加",
+        "edit": "時系列の編集",
+        "remove": "時系列を削除する",
+        "property": "財産",
+        "propertyTypeCastLabe": "プロパティ値を数値にキャストする",
+        "noData": "選択した時間範囲に表示するデータがありません"
+      }
+    },
+    "viewer": {
+      "chart": {
+        "title": "チャート",
+        "messages": {
+          "noData": "選択した時間範囲内に数値データが見つかりません。"
+        }
+      },
+      "table": {
+        "title": "テーブル",
+        "columns": {
+          "timestamp": "タイムスタンプ",
+          "series": "級数",
+          "value": "価値",
+          "type": "種類"
+        },
+        "messages": {
+          "noColor": "未設定",
+          "loading": "履歴化されたデータを読み込んでいます...",
+          "noData": "選択した時間範囲内にデータが見つかりません。",
+          "noSeries": "クエリするツインが選択されていません。履歴データを表示するためにツイン プロパティを追加してください。"
+        }
+      },
+      "noSeriesDescription": "このツインのデータ履歴を表示するには、表示するプロパティを選択します。"
     }
   }
 }

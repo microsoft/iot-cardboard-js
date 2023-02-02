@@ -1351,41 +1351,6 @@
   "colorPills": {
     "unlabeled": "Bez etykiety"
   },
-  "dataHistoryExplorer": {
-    "title": "Eksplorator historii danych",
-    "builder": {
-      "title": "Bliźniacze właściwości",
-      "timeSeriesTwin": {
-        "property": "Własność",
-        "add": "Dodawanie szeregów czasowych",
-        "remove": "Usuwanie szeregów czasowych",
-        "edit": "Edytowanie szeregów czasowych",
-        "propertyTypeCastLabe": "Rzutowanie wartości właściwości na liczbę",
-        "noData": "Brak danych do wyświetlenia dla wybranego zakresu czasu"
-      },
-      "description": "Aby porównać wcześniejsze wartości historycznych właściwości, dodaj poniżej szereg czasowy."
-    },
-    "viewer": {
-      "chart": "Wykres",
-      "noSeriesDescription": "Aby wyświetlić historię danych dla tej bliźniaczej płaszczyzny, wybierz właściwość do wyświetlenia.",
-      "table": {
-        "title": "Stół",
-        "columns": {
-          "timestamp": "Sygnatury czasowej",
-          "series": "Seria",
-          "value": "Wartość",
-          "type": "Typ"
-        },
-        "messages": {
-          "noColor": "Nie ustawiono",
-          "loading": "Ładowanie danych historycznych...",
-          "noData": "Nie znaleziono historycznych danych w wybranych przedziałach czasowych.",
-          "noSeries": "Nie wybrano bliźniaka do zapytania, dodaj właściwości bliźniacze, aby wyświetlić dane historyczne."
-        }
-      }
-    },
-    "loadingConnectionLabel": "Czas ładowania szeregów informacji o połączeniu..."
-  },
   "clear": "Jasny",
   "duplicate": "Duplikat",
   "moveUp": "Przejdź w górę",
@@ -1423,6 +1388,46 @@
       "generalBadRequestMessage": "Żądanie jest nieprawidłowe i nie można go wykonać.",
       "entityNotFound": "Nie znaleziono bazy danych, nie można wykonać zapytania.",
       "forbidden": "Odmowa dostępu, nie masz uprawnień do wykonywania zapytań."
+    }
+  },
+  "dataHistoryExplorerr": {
+    "title": "Eksplorator historii danych",
+    "loadingConnectionLabel": "Ładowanie historii danych informacji o połączeniu...",
+    "builder": {
+      "title": "Bliźniacze właściwości",
+      "description": "Aby porównać wcześniejsze wartości historycznych właściwości, dodaj poniżej szereg czasowy.",
+      "timeSeriesTwin": {
+        "add": "Dodawanie szeregów czasowych",
+        "edit": "Edytowanie szeregów czasowych",
+        "remove": "Usuwanie szeregów czasowych",
+        "property": "Własność",
+        "propertyTypeCastLabe": "Rzutowanie wartości właściwości na liczbę",
+        "noData": "Brak danych do wyświetlenia dla wybranego zakresu czasu"
+      }
+    },
+    "viewer": {
+      "chart": {
+        "title": "Wykres",
+        "messages": {
+          "noData": "Nie znaleziono danych liczbowych w wybranym zakresie czasu."
+        }
+      },
+      "table": {
+        "title": "Stół",
+        "columns": {
+          "timestamp": "Sygnatury czasowej",
+          "series": "Seria",
+          "value": "Wartość",
+          "type": "Typ"
+        },
+        "messages": {
+          "noColor": "Nie ustawiono",
+          "loading": "Ładowanie danych historycznych...",
+          "noData": "Nie znaleziono danych w wybranym zakresie czasu.",
+          "noSeries": "Nie wybrano bliźniaka do zapytania, dodaj właściwości bliźniacze, aby wyświetlić dane historyczne."
+        }
+      },
+      "noSeriesDescription": "Aby wyświetlić historię danych dla tej bliźniaczej płaszczyzny, wybierz właściwość do wyświetlenia."
     }
   }
 }

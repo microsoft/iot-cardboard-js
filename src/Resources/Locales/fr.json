@@ -1351,41 +1351,6 @@
   "colorPills": {
     "unlabeled": "Sans étiquette"
   },
-  "dataHistoryExplorer": {
-    "title": "Explorateur d’historique des données",
-    "builder": {
-      "title": "Propriétés jumelles",
-      "timeSeriesTwin": {
-        "property": "Propriété",
-        "add": "Ajouter des séries chronologiques",
-        "remove": "Supprimer des séries chronologiques",
-        "edit": "Modifier des séries chronologiques",
-        "propertyTypeCastLabe": "Convertir la valeur de la propriété en nombre",
-        "noData": "Aucune donnée à afficher pour la plage de temps sélectionnée"
-      },
-      "description": "Pour comparer les valeurs antérieures des propriétés historisées, ajoutez des séries chronologiques ci-dessous."
-    },
-    "viewer": {
-      "chart": "Graphique",
-      "noSeriesDescription": "Pour afficher l’historique des données de ce jumeau, sélectionnez une propriété à afficher.",
-      "table": {
-        "title": "Table",
-        "columns": {
-          "timestamp": "Horodatage",
-          "series": "Série",
-          "value": "Valeur",
-          "type": "Type"
-        },
-        "messages": {
-          "noColor": "Non défini",
-          "loading": "Chargement de données historiques...",
-          "noData": "Aucune donnée historique n’a été trouvée au cours de la période sélectionnée.",
-          "noSeries": "Aucun jumeau sélectionné pour interroger, veuillez ajouter des propriétés jumelles pour afficher les données historiques."
-        }
-      }
-    },
-    "loadingConnectionLabel": "Chargement des informations de connexion de séries chronologiques..."
-  },
   "clear": "Clair",
   "duplicate": "Dupliquer",
   "moveUp": "Monter",
@@ -1423,6 +1388,46 @@
       "generalBadRequestMessage": "La demande n’est pas valide et ne peut pas être exécutée.",
       "entityNotFound": "Base de données introuvable, impossible d’exécuter la requête.",
       "forbidden": "L’accès a été refusé, vous n’avez pas d’autorisations de requête."
+    }
+  },
+  "dataHistoryExplorerr": {
+    "title": "Explorateur d’historique des données",
+    "loadingConnectionLabel": "Chargement des informations de connexion de l’historique des données...",
+    "builder": {
+      "title": "Propriétés jumelles",
+      "description": "Pour comparer les valeurs antérieures des propriétés historisées, ajoutez des séries chronologiques ci-dessous.",
+      "timeSeriesTwin": {
+        "add": "Ajouter des séries chronologiques",
+        "edit": "Modifier des séries chronologiques",
+        "remove": "Supprimer des séries chronologiques",
+        "property": "Propriété",
+        "propertyTypeCastLabe": "Convertir la valeur de la propriété en nombre",
+        "noData": "Aucune donnée à afficher pour la plage de temps sélectionnée"
+      }
+    },
+    "viewer": {
+      "chart": {
+        "title": "Graphique",
+        "messages": {
+          "noData": "Aucune donnée numérique trouvée dans la plage de temps sélectionnée."
+        }
+      },
+      "table": {
+        "title": "Table",
+        "columns": {
+          "timestamp": "Horodatage",
+          "series": "Série",
+          "value": "Valeur",
+          "type": "Type"
+        },
+        "messages": {
+          "noColor": "Non défini",
+          "loading": "Chargement de données historiques...",
+          "noData": "Aucune donnée trouvée dans la plage de temps sélectionnée.",
+          "noSeries": "Aucun jumeau sélectionné pour interroger, veuillez ajouter des propriétés jumelles pour afficher les données historiques."
+        }
+      },
+      "noSeriesDescription": "Pour afficher l’historique des données de ce jumeau, sélectionnez une propriété à afficher."
     }
   }
 }

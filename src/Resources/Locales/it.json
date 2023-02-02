@@ -1351,41 +1351,6 @@
   "colorPills": {
     "unlabeled": "Senza etichetta"
   },
-  "dataHistoryExplorer": {
-    "title": "Esplora cronologia dati",
-    "builder": {
-      "title": "Proprietà gemelle",
-      "timeSeriesTwin": {
-        "property": "Proprietà",
-        "add": "Aggiungere serie temporali",
-        "remove": "Rimuovere serie temporali",
-        "edit": "Modificare le serie temporali",
-        "propertyTypeCastLabe": "Eseguire il cast del valore della proprietà sul numero",
-        "noData": "Nessun dato da visualizzare per l'intervallo di tempo selezionato"
-      },
-      "description": "Per confrontare i valori passati per le proprietà cronologizzate, aggiungere le serie temporali riportate di seguito."
-    },
-    "viewer": {
-      "chart": "Tabella",
-      "noSeriesDescription": "Per visualizzare la cronologia dei dati per questo gemello, selezionare una proprietà da visualizzare.",
-      "table": {
-        "title": "Tavolo",
-        "columns": {
-          "timestamp": "Timestamp",
-          "series": "Serie",
-          "value": "Valore",
-          "type": "Digitare"
-        },
-        "messages": {
-          "noColor": "Non impostato",
-          "loading": "Caricamento dei dati storici...",
-          "noData": "Nessun dato storicizzato trovato nell'intervallo di tempo selezionato.",
-          "noSeries": "Nessun gemello selezionato per la query, aggiungere proprietà gemelle per visualizzare i dati cronologizzati."
-        }
-      }
-    },
-    "loadingConnectionLabel": "Caricamento delle informazioni di connessione delle serie temporali..."
-  },
   "clear": "Chiaro",
   "duplicate": "Duplicare",
   "moveUp": "Promuovere",
@@ -1423,6 +1388,46 @@
       "generalBadRequestMessage": "La richiesta non è valida e non può essere eseguita.",
       "entityNotFound": "Database non trovato, impossibile eseguire la query.",
       "forbidden": "L'accesso è stato negato, non si dispone delle autorizzazioni di query."
+    }
+  },
+  "dataHistoryExplorerr": {
+    "title": "Esplora cronologia dati",
+    "loadingConnectionLabel": "Caricamento delle informazioni di connessione della cronologia dei dati...",
+    "builder": {
+      "title": "Proprietà gemelle",
+      "description": "Per confrontare i valori passati per le proprietà cronologizzate, aggiungere le serie temporali riportate di seguito.",
+      "timeSeriesTwin": {
+        "add": "Aggiungere serie temporali",
+        "edit": "Modificare le serie temporali",
+        "remove": "Rimuovere serie temporali",
+        "property": "Proprietà",
+        "propertyTypeCastLabe": "Eseguire il cast del valore della proprietà sul numero",
+        "noData": "Nessun dato da visualizzare per l'intervallo di tempo selezionato"
+      }
+    },
+    "viewer": {
+      "chart": {
+        "title": "Tabella",
+        "messages": {
+          "noData": "Nessun dato numerico trovato nell'intervallo di tempo selezionato."
+        }
+      },
+      "table": {
+        "title": "Tavolo",
+        "columns": {
+          "timestamp": "Timestamp",
+          "series": "Serie",
+          "value": "Valore",
+          "type": "Digitare"
+        },
+        "messages": {
+          "noColor": "Non impostato",
+          "loading": "Caricamento dei dati storici...",
+          "noData": "Nessun dato trovato nell'intervallo di tempo selezionato.",
+          "noSeries": "Nessun gemello selezionato per la query, aggiungere proprietà gemelle per visualizzare i dati cronologizzati."
+        }
+      },
+      "noSeriesDescription": "Per visualizzare la cronologia dei dati per questo gemello, selezionare una proprietà da visualizzare."
     }
   }
 }

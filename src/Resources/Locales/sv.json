@@ -1351,41 +1351,6 @@
   "colorPills": {
     "unlabeled": "Omärkt"
   },
-  "dataHistoryExplorer": {
-    "title": "Utforskaren för datahistorik",
-    "builder": {
-      "title": "Tvillingegenskaper",
-      "timeSeriesTwin": {
-        "property": "Egenskap",
-        "add": "Lägg till tidsserier",
-        "remove": "Ta bort tidsserier",
-        "edit": "Redigera tidsserier",
-        "propertyTypeCastLabe": "Gjutet egenskapsvärde till antal",
-        "noData": "Inga data att visa för det valda tidsintervallet"
-      },
-      "description": "Om du vill jämföra tidigare värden för historiserade egenskaper lägger du till tidsserier nedan."
-    },
-    "viewer": {
-      "chart": "Diagram",
-      "noSeriesDescription": "Om du vill visa datahistorik för den här tvillingen väljer du en egenskap som ska visas.",
-      "table": {
-        "title": "Bord",
-        "columns": {
-          "timestamp": "Tidsstämpel",
-          "series": "Serie",
-          "value": "Värde",
-          "type": "Typ"
-        },
-        "messages": {
-          "noColor": "Inte inställt",
-          "loading": "Laddar historiserade data...",
-          "noData": "Inga historiserade data hittades i vald tidsram.",
-          "noSeries": "Ingen tvilling har valts för att fråga, lägg till tvillingegenskaper för att visa historiserade data."
-        }
-      }
-    },
-    "loadingConnectionLabel": "Laddar anslutningsinformation för tidsserier..."
-  },
   "clear": "Klar",
   "duplicate": "Duplicera",
   "moveUp": "Flytta upp",
@@ -1423,6 +1388,46 @@
       "generalBadRequestMessage": "Begäran är ogiltig och kan inte utföras.",
       "entityNotFound": "Databasen hittades inte, kan inte köra frågan.",
       "forbidden": "Åtkomst nekades, du har inte frågebehörighet."
+    }
+  },
+  "dataHistoryExplorerr": {
+    "title": "Utforskaren för datahistorik",
+    "loadingConnectionLabel": "Laddar anslutningsinformation för datahistorik...",
+    "builder": {
+      "title": "Tvillingegenskaper",
+      "description": "Om du vill jämföra tidigare värden för historiserade egenskaper lägger du till tidsserier nedan.",
+      "timeSeriesTwin": {
+        "add": "Lägg till tidsserier",
+        "edit": "Redigera tidsserier",
+        "remove": "Ta bort tidsserier",
+        "property": "Egenskap",
+        "propertyTypeCastLabe": "Gjutet egenskapsvärde till antal",
+        "noData": "Inga data att visa för det valda tidsintervallet"
+      }
+    },
+    "viewer": {
+      "chart": {
+        "title": "Diagram",
+        "messages": {
+          "noData": "Inga numeriska data hittades i det valda tidsintervallet."
+        }
+      },
+      "table": {
+        "title": "Bord",
+        "columns": {
+          "timestamp": "Tidsstämpel",
+          "series": "Serie",
+          "value": "Värde",
+          "type": "Typ"
+        },
+        "messages": {
+          "noColor": "Inte inställt",
+          "loading": "Laddar historiserade data...",
+          "noData": "Inga data hittades i det valda tidsintervallet.",
+          "noSeries": "Ingen tvilling har valts för att fråga, lägg till tvillingegenskaper för att visa historiserade data."
+        }
+      },
+      "noSeriesDescription": "Om du vill visa datahistorik för den här tvillingen väljer du en egenskap som ska visas."
     }
   }
 }

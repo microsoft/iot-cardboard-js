@@ -1351,41 +1351,6 @@
   "colorPills": {
     "unlabeled": "Sem rótulo"
   },
-  "dataHistoryExplorer": {
-    "title": "Explorador de histórico de dados",
-    "builder": {
-      "title": "Propriedades gémeas",
-      "timeSeriesTwin": {
-        "property": "Propriedade",
-        "add": "Adicionar séries de tempo",
-        "remove": "Remover séries de tempo",
-        "edit": "Editar séries tempor feiras",
-        "propertyTypeCastLabe": "Valor da propriedade do elenco para o número",
-        "noData": "Não há dados para visualizar para o intervalo de tempo selecionado"
-      },
-      "description": "Para comparar valores passados para propriedades historizadas, adicione séries de tempo abaixo."
-    },
-    "viewer": {
-      "chart": "Gráfico",
-      "noSeriesDescription": "Para ver o histórico de dados deste twin, selecione uma propriedade para visualizar.",
-      "table": {
-        "title": "Tabela",
-        "columns": {
-          "timestamp": "Carimbo de data/hora",
-          "series": "Série",
-          "value": "Valor",
-          "type": "Tipo"
-        },
-        "messages": {
-          "noColor": "Não definido",
-          "loading": "A carregar dados historizados...",
-          "noData": "Não são encontrados dados historizados no tempo selecionado.",
-          "noSeries": "Nenhum gémeo selecionado para consulta, por favor adicione propriedades gémeas para visualizar dados historizados."
-        }
-      }
-    },
-    "loadingConnectionLabel": "Informação de ligação de séries de tempo..."
-  },
   "clear": "Claro",
   "duplicate": "Duplicado",
   "moveUp": "Mova-se para cima",
@@ -1423,6 +1388,46 @@
       "generalBadRequestMessage": "O pedido é inválido e não pode ser executado.",
       "entityNotFound": "A base de dados não foi encontrada, não pode executar a consulta.",
       "forbidden": "O acesso foi negado, não tem permissões de consulta."
+    }
+  },
+  "dataHistoryExplorerr": {
+    "title": "Explorador de histórico de dados",
+    "loadingConnectionLabel": "A carregar informações sobre a ligação do histórico de dados...",
+    "builder": {
+      "title": "Propriedades gémeas",
+      "description": "Para comparar valores passados para propriedades historizadas, adicione séries de tempo abaixo.",
+      "timeSeriesTwin": {
+        "add": "Adicionar séries de tempo",
+        "edit": "Editar séries tempor feiras",
+        "remove": "Remover séries de tempo",
+        "property": "Propriedade",
+        "propertyTypeCastLabe": "Valor da propriedade do elenco para o número",
+        "noData": "Não há dados para visualizar para o intervalo de tempo selecionado"
+      }
+    },
+    "viewer": {
+      "chart": {
+        "title": "Gráfico",
+        "messages": {
+          "noData": "Não são encontrados dados numéricos no intervalo de tempo selecionado."
+        }
+      },
+      "table": {
+        "title": "Tabela",
+        "columns": {
+          "timestamp": "Carimbo de data/hora",
+          "series": "Série",
+          "value": "Valor",
+          "type": "Tipo"
+        },
+        "messages": {
+          "noColor": "Não definido",
+          "loading": "A carregar dados historizados...",
+          "noData": "Não são encontrados dados no intervalo de tempo selecionado.",
+          "noSeries": "Nenhum gémeo selecionado para consulta, por favor adicione propriedades gémeas para visualizar dados historizados."
+        }
+      },
+      "noSeriesDescription": "Para ver o histórico de dados deste twin, selecione uma propriedade para visualizar."
     }
   }
 }

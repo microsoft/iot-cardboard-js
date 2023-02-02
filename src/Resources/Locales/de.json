@@ -1351,41 +1351,6 @@
   "colorPills": {
     "unlabeled": "Unbeschriftet"
   },
-  "dataHistoryExplorer": {
-    "title": "Datenverlaufs-Explorer",
-    "builder": {
-      "title": "Twin-Immobilien",
-      "timeSeriesTwin": {
-        "property": "Eigentum",
-        "add": "Zeitreihen hinzufügen",
-        "remove": "Zeitreihen entfernen",
-        "edit": "Zeitreihen bearbeiten",
-        "propertyTypeCastLabe": "Eigenschaftswert in Zahl umwandeln",
-        "noData": "Keine anzuzeigenden Daten für den ausgewählten Zeitraum"
-      },
-      "description": "Um vergangene Werte für historisierte Eigenschaften zu vergleichen, fügen Sie unten Zeitreihen hinzu."
-    },
-    "viewer": {
-      "chart": "Diagramm",
-      "noSeriesDescription": "Um den Datenverlauf für diesen Zwilling anzuzeigen, wählen Sie eine anzuzeigende Eigenschaft aus.",
-      "table": {
-        "title": "Tisch",
-        "columns": {
-          "timestamp": "Zeitstempel",
-          "series": "Reihe",
-          "value": "Wert",
-          "type": "Art"
-        },
-        "messages": {
-          "noColor": "Nicht festgelegt",
-          "loading": "Historisierte Daten werden geladen...",
-          "noData": "Im ausgewählten Zeitraum wurden keine historisierten Daten gefunden.",
-          "noSeries": "Kein Zwilling zur Abfrage ausgewählt, fügen Sie Zwillingseigenschaften hinzu, um historisierte Daten anzuzeigen."
-        }
-      }
-    },
-    "loadingConnectionLabel": "Zeitreihen-Verbindungsinformationen werden geladen..."
-  },
   "clear": "Klar",
   "duplicate": "Duplikat",
   "moveUp": "Aufrücken",
@@ -1423,6 +1388,46 @@
       "generalBadRequestMessage": "Die Anforderung ist ungültig und kann nicht ausgeführt werden.",
       "entityNotFound": "Datenbank nicht gefunden, kann die Abfrage nicht ausgeführt werden.",
       "forbidden": "Der Zugriff wurde verweigert, Sie verfügen nicht über Abfrageberechtigungen."
+    }
+  },
+  "dataHistoryExplorerr": {
+    "title": "Datenverlaufs-Explorer",
+    "loadingConnectionLabel": "Verbindungsinformationen zum Datenverlauf werden geladen...",
+    "builder": {
+      "title": "Twin-Immobilien",
+      "description": "Um vergangene Werte für historisierte Eigenschaften zu vergleichen, fügen Sie unten Zeitreihen hinzu.",
+      "timeSeriesTwin": {
+        "add": "Zeitreihen hinzufügen",
+        "edit": "Zeitreihen bearbeiten",
+        "remove": "Zeitreihen entfernen",
+        "property": "Eigentum",
+        "propertyTypeCastLabe": "Eigenschaftswert in Zahl umwandeln",
+        "noData": "Keine anzuzeigenden Daten für den ausgewählten Zeitraum"
+      }
+    },
+    "viewer": {
+      "chart": {
+        "title": "Diagramm",
+        "messages": {
+          "noData": "Im ausgewählten Zeitraum wurden keine numerischen Daten gefunden."
+        }
+      },
+      "table": {
+        "title": "Tisch",
+        "columns": {
+          "timestamp": "Zeitstempel",
+          "series": "Reihe",
+          "value": "Wert",
+          "type": "Art"
+        },
+        "messages": {
+          "noColor": "Nicht festgelegt",
+          "loading": "Historisierte Daten werden geladen...",
+          "noData": "Im ausgewählten Zeitraum wurden keine Daten gefunden.",
+          "noSeries": "Kein Zwilling zur Abfrage ausgewählt, fügen Sie Zwillingseigenschaften hinzu, um historisierte Daten anzuzeigen."
+        }
+      },
+      "noSeriesDescription": "Um den Datenverlauf für diesen Zwilling anzuzeigen, wählen Sie eine anzuzeigende Eigenschaft aus."
     }
   }
 }
