@@ -103,7 +103,7 @@
     },
     "timeSeriesDatabaseConnectionFetchFailed": {
       "type": "Ověření připojení k databázi časové řady se nezdařilo",
-      "message": "Historie dat není povolena pro vybranou instanci nebo připojení k databázi časové řady nelze ověřit."
+      "messag": "Informace o připojení historie dat se nenašly, ujistěte se, že je pro tuto instanci digitálních vláken Azure povolená historie dat a že máte k instanci Azure Data Explorer přístup aspoň {{permission}}."
     }
   },
   "valueRangeBuilder": {
@@ -1361,7 +1361,7 @@
         "add": "Přidat časovou řadu",
         "remove": "Odebrání časové řady",
         "edit": "Úprava časové řady",
-        "noData": "Tato časová řada neobsahuje žádná data k zobrazení"
+        "noDat": "Pro vybraný časový rozsah se nezobrazí žádná data"
       },
       "description": "Chcete-li porovnat minulé hodnoty pro historizované vlastnosti, přidejte níže časovou řadu."
     },
@@ -1385,11 +1385,11 @@
       "chart": {
         "title": "Graf",
         "messages": {
-          "noData": "Žádná číselná historická data k zobrazení, zkuste vybrat jiný časový rozsah."
+          "noDat": "Ve vybraném časovém rozsahu nebyla nalezena žádná číselná historizovaná data."
         }
       }
     },
-    "loadingConnectionLabel": "Informace o připojení časové řady načítání..."
+    "loadingConnectionLabe": "Načítání informací o připojení historie dat..."
   },
   "clear": "Jasný",
   "duplicate": "Duplikát",
@@ -1412,11 +1412,11 @@
   },
   "dataHistoryErrorHandlingWrapper": {
     "errors": {
-      "genericNetwork": "Cluster nelze připojit, což může být způsobeno neplatnou adresou URL, zastavenou službou nebo chybou sítě.",
       "genericBadRequest": "Došlo k výjimce chybného požadavku.",
       "generalBadRequestMessage": "Požadavek je neplatný a nelze jej provést.",
       "entityNotFound": "Databáze nebyla nalezena, nepodařilo se spustit dotaz.",
-      "forbidden": "Přístup byl odepřen, nemáte oprávnění k dotazu."
+      "forbidden": "Přístup byl odepřen, nemáte oprávnění k dotazu.",
+      "genericNetwor": "Instanci Průzkumníka dat Azure nelze připojit, ujistěte se, že prostředek není zastavený a připojení k síti je stabilní."
     }
   }
 }

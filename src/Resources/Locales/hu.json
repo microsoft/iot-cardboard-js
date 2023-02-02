@@ -103,7 +103,7 @@
     },
     "timeSeriesDatabaseConnectionFetchFailed": {
       "type": "Az idősorozat-adatbázis kapcsolatának érvényesítése sikertelen",
-      "message": "Az adatelőzmények nincsenek engedélyezve a kiválasztott példányhoz, vagy az idősoros adatbázis-kapcsolat nem ellenőrizhető."
+      "messag": "Az adatelőzmények kapcsolati adatai nem találhatók, győződjön meg arról, hogy az adatelőzmények engedélyezve vannak ehhez a Azure Digital Twins példányhoz, és hogy legalább \"{{permission}}\" hozzáféréssel rendelkezik a Azure Data Explorer példányhoz."
     }
   },
   "valueRangeBuilder": {
@@ -1361,7 +1361,7 @@
         "add": "Idősorok hozzáadása",
         "remove": "Idősorok eltávolítása",
         "edit": "Idősorok szerkesztése",
-        "noData": "Ez az idősor nem tartalmaz megjelenítendő adatokat"
+        "noDat": "Nincs megjelenítendő adat a kiválasztott időtartományban"
       },
       "description": "A historizált tulajdonságok múltbeli értékeinek összehasonlításához adja hozzá az alábbi idősorokat."
     },
@@ -1385,11 +1385,11 @@
       "chart": {
         "title": "Diagram",
         "messages": {
-          "noData": "Nincsenek megjelenítendő numerikus historizált adatok, próbáljon meg másik időtartományt választani."
+          "noDat": "A kiválasztott időtartományban nem találhatók numerikus historizált adatok."
         }
       }
     },
-    "loadingConnectionLabel": "Idősoros kapcsolati információk betöltése..."
+    "loadingConnectionLabe": "Adatelőzmények kapcsolati adatainak betöltése..."
   },
   "clear": "Világos",
   "duplicate": "Ismétlődő",
@@ -1412,11 +1412,11 @@
   },
   "dataHistoryErrorHandlingWrapper": {
     "errors": {
-      "genericNetwork": "A fürt nem csatlakoztatható, ami érvénytelen URL-cím, leállított szolgáltatás vagy hálózati hiba lehet.",
       "genericBadRequest": "Hibás kérelem kivétel történt.",
       "generalBadRequestMessage": "A kérelem érvénytelen, és nem hajtható végre.",
       "entityNotFound": "Az adatbázis nem található, nem sikerült végrehajtani a lekérdezést.",
-      "forbidden": "A hozzáférés megtagadva lett, nincs lekérdezési engedélye."
+      "forbidden": "A hozzáférés megtagadva lett, nincs lekérdezési engedélye.",
+      "genericNetwor": "Azure Data Explorer példány nem csatlakoztatható, győződjön meg arról, hogy az erőforrás nincs leállítva, és a hálózati kapcsolat stabil."
     }
   }
 }

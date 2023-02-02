@@ -103,7 +103,7 @@
     },
     "timeSeriesDatabaseConnectionFetchFailed": {
       "type": "Zaman serisi veritabanı bağlantısı doğrulaması başarısız oldu",
-      "message": "Veri geçmişi seçili örnek için etkinleştirilmedi veya zaman serisi veritabanı bağlantısı doğrulanamadı."
+      "messag": "Veri geçmişi bağlantı bilgileri bulunamadı, bu Azure Digital Twins örneği için veri geçmişinin etkinleştirildiğinden ve Azure Veri Gezgini örneğine en az '{{izin}}' erişiminiz olduğundan emin olun."
     }
   },
   "valueRangeBuilder": {
@@ -1361,7 +1361,7 @@
         "add": "Zaman serisi ekleme",
         "remove": "Zaman serilerini kaldırma",
         "edit": "Zaman serilerini düzenleme",
-        "noData": "Bu zaman serisi görüntülenecek veri içermiyor"
+        "noDat": "Seçilen zaman aralığı için görüntülenecek veri yok"
       },
       "description": "Geçmişi geçmiş özelliklerin geçmiş değerlerini karşılaştırmak için aşağıya zaman serileri ekleyin."
     },
@@ -1385,11 +1385,11 @@
       "chart": {
         "title": "Grafik",
         "messages": {
-          "noData": "Görüntülenecek sayısal geçmiş veri yok, farklı bir zaman aralığı seçmeyi deneyin."
+          "noDat": "Seçilen zaman aralığında sayısal olarak geçmiş veri bulunamadı."
         }
       }
     },
-    "loadingConnectionLabel": "Zaman serisi bağlantı bilgileri yükleniyor..."
+    "loadingConnectionLabe": "Veri geçmişi bağlantı bilgileri yükleniyor..."
   },
   "clear": "Berrak",
   "duplicate": "Yinelenen",
@@ -1412,11 +1412,11 @@
   },
   "dataHistoryErrorHandlingWrapper": {
     "errors": {
-      "genericNetwork": "Geçersiz URL, durdurulmuş hizmet veya bir ağ hatası nedeniyle kümeye bağlanılamıyor.",
       "genericBadRequest": "Hatalı istek özel durumu oluştu.",
       "generalBadRequestMessage": "İstek geçersizdir ve yürütülemez.",
       "entityNotFound": "Veritabanı bulunamadı, sorgu yürütülemedi.",
-      "forbidden": "Erişim reddedildi, sorgu izinleriniz yok."
+      "forbidden": "Erişim reddedildi, sorgu izinleriniz yok.",
+      "genericNetwor": "Azure Veri Gezgini örneği bağlanamıyor, kaynağın durdurulmadığından ve ağ bağlantınızın kararlı olduğundan emin olun."
     }
   }
 }

@@ -103,7 +103,7 @@
     },
     "timeSeriesDatabaseConnectionFetchFailed": {
       "type": "Validatie van de databaseverbinding met tijdreeksen is mislukt",
-      "message": "Gegevensgeschiedenis is niet ingeschakeld voor geselecteerde exemplaren of tijdreeksdatabaseverbindingen kunnen niet worden geverifieerd."
+      "messag": "Verbindingsgegevens over gegevensgeschiedenis kunnen niet worden gevonden, zorg ervoor dat gegevensgeschiedenis is ingeschakeld voor dit Azure Digital Twins-exemplaar en dat u ten minste '{{permission}}' toegang hebt tot het Azure Data Explorer-exemplaar."
     }
   },
   "valueRangeBuilder": {
@@ -1361,7 +1361,7 @@
         "add": "Tijdreeksen toevoegen",
         "remove": "Tijdreeksen verwijderen",
         "edit": "Tijdreeksen bewerken",
-        "noData": "Deze tijdreeks bevat geen gegevens om weer te geven"
+        "noDat": "Geen gegevens om weer te geven voor het geselecteerde tijdsbereik"
       },
       "description": "Als u eerdere waarden voor geïrtoriseerde eigenschappen wilt vergelijken, voegt u hieronder tijdreeksen toe."
     },
@@ -1385,11 +1385,11 @@
       "chart": {
         "title": "Zeekaart",
         "messages": {
-          "noData": "Geen numerieke gehitoriseerde gegevens om weer te geven, probeer een ander tijdsbereik te selecteren."
+          "noDat": "Geen numerieke gehistoriseerde gegevens gevonden in het geselecteerde tijdsbereik."
         }
       }
     },
-    "loadingConnectionLabel": "Tijdreeksverbindingsinformatie laden..."
+    "loadingConnectionLabe": "Verbindingsgegevens voor gegevensgeschiedenis laden..."
   },
   "clear": "Duidelijk",
   "duplicate": "Duplicaat",
@@ -1412,11 +1412,11 @@
   },
   "dataHistoryErrorHandlingWrapper": {
     "errors": {
-      "genericNetwork": "Cluster kan niet worden verbonden, wat te wijten kan zijn aan een ongeldige URL, gestopte service of een netwerkfout.",
       "genericBadRequest": "Er is een uitzondering voor een ongeldige aanvraag opgetreden.",
       "generalBadRequestMessage": "Aanvraag is ongeldig en kan niet worden uitgevoerd.",
       "entityNotFound": "Database niet gevonden, kan de query niet uitvoeren.",
-      "forbidden": "Toegang is geweigerd, u hebt geen querymachtigingen."
+      "forbidden": "Toegang is geweigerd, u hebt geen querymachtigingen.",
+      "genericNetwor": "Azure Data Explorer-exemplaar kan niet worden verbonden, zorg ervoor dat de resource niet is gestopt en dat uw netwerkverbinding stabiel is."
     }
   }
 }

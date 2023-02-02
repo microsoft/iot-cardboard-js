@@ -103,7 +103,7 @@
     },
     "timeSeriesDatabaseConnectionFetchFailed": {
       "type": "Validering av databasanslutning till tidsserier misslyckades",
-      "message": "Datahistoriken är inte aktiverad för den valda instansen eller så kunde databasanslutningen för tidsserier inte verifieras."
+      "messag": "Det gick inte att hitta anslutningsinformation för datahistorik och kontrollera att datahistoriken är aktiverad för den här Azure Digital Twins-instansen och att du har minst {{permission}}-åtkomst till Azure Data Explorer instansen."
     }
   },
   "valueRangeBuilder": {
@@ -1361,7 +1361,7 @@
         "add": "Lägg till tidsserier",
         "remove": "Ta bort tidsserier",
         "edit": "Redigera tidsserier",
-        "noData": "Den här tidsserien innehåller inga data att visa"
+        "noDat": "Inga data att visa för det valda tidsintervallet"
       },
       "description": "Om du vill jämföra tidigare värden för historiserade egenskaper lägger du till tidsserier nedan."
     },
@@ -1385,11 +1385,11 @@
       "chart": {
         "title": "Diagram",
         "messages": {
-          "noData": "Inga numeriska historiserade data att visa, försök att välja ett annat tidsintervall."
+          "noDat": "Inga numeriska historiserade data hittades i det valda tidsintervallet."
         }
       }
     },
-    "loadingConnectionLabel": "Laddar anslutningsinformation för tidsserier..."
+    "loadingConnectionLabe": "Laddar anslutningsinformation för datahistorik..."
   },
   "clear": "Klar",
   "duplicate": "Duplicera",
@@ -1412,11 +1412,11 @@
   },
   "dataHistoryErrorHandlingWrapper": {
     "errors": {
-      "genericNetwork": "Kluster kan inte anslutas vilket kan bero på ogiltig URL, stoppad tjänst eller ett nätverksfel.",
       "genericBadRequest": "Undantag för felaktig begäran inträffade.",
       "generalBadRequestMessage": "Begäran är ogiltig och kan inte utföras.",
       "entityNotFound": "Databasen hittades inte, det gick inte att köra frågan.",
-      "forbidden": "Åtkomst nekades, du har inte frågebehörighet."
+      "forbidden": "Åtkomst nekades, du har inte frågebehörighet.",
+      "genericNetwor": "Azure Data Explorer instansen kan inte anslutas, se till att resursen inte stoppas och att nätverksanslutningen är stabil."
     }
   }
 }

@@ -103,7 +103,7 @@
     },
     "timeSeriesDatabaseConnectionFetchFailed": {
       "type": "Convalida della connessione al database Time Series non riuscita",
-      "message": "Impossibile verificare la cronologia dei dati per l'istanza selezionata o Impossibile verificare la connessione al database delle serie temporali."
+      "messag": "Impossibile trovare le informazioni di connessione alla cronologia dei dati, assicurarsi che la cronologia dei dati sia abilitata per questa istanza di Gemelli digitali di Azure e che si disponga almeno dell'accesso \"{{permission}}\" all'istanza di Esplora dati di Azure."
     }
   },
   "valueRangeBuilder": {
@@ -1361,7 +1361,7 @@
         "add": "Aggiungere serie temporali",
         "remove": "Rimuovere serie temporali",
         "edit": "Modificare le serie temporali",
-        "noData": "Questa serie temporale non contiene dati da visualizzare"
+        "noDat": "Nessun dato da visualizzare per l'intervallo di tempo selezionato"
       },
       "description": "Per confrontare i valori passati per le proprietà cronologizzate, aggiungere le serie temporali riportate di seguito."
     },
@@ -1385,11 +1385,11 @@
       "chart": {
         "title": "Tabella",
         "messages": {
-          "noData": "Nessun dato numerico storicizzato da visualizzare, prova a selezionare un intervallo di tempo diverso."
+          "noDat": "Nessun dato numerico cronologizzato trovato nell'intervallo di tempo selezionato."
         }
       }
     },
-    "loadingConnectionLabel": "Caricamento delle informazioni di connessione delle serie temporali..."
+    "loadingConnectionLabe": "Caricamento delle informazioni di connessione della cronologia dei dati..."
   },
   "clear": "Chiaro",
   "duplicate": "Duplicare",
@@ -1412,11 +1412,11 @@
   },
   "dataHistoryErrorHandlingWrapper": {
     "errors": {
-      "genericNetwork": "Impossibile connettere il cluster, il che potrebbe essere dovuto a URL non valido, servizio arrestato o un errore di rete.",
       "genericBadRequest": "Si è verificata un'eccezione per richiesta non valida.",
       "generalBadRequestMessage": "La richiesta non è valida e non può essere eseguita.",
       "entityNotFound": "Database non trovato, impossibile eseguire la query.",
-      "forbidden": "L'accesso è stato negato, non si dispone delle autorizzazioni di query."
+      "forbidden": "L'accesso è stato negato, non si dispone delle autorizzazioni di query.",
+      "genericNetwor": "L'istanza di Esplora dati di Azure non può essere connessa, assicurarsi che la risorsa non venga arrestata e che la connettività di rete sia stabile."
     }
   }
 }
