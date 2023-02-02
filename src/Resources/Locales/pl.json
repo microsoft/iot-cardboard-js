@@ -1390,7 +1390,7 @@
       "forbidden": "Odmowa dostępu, nie masz uprawnień do wykonywania zapytań."
     }
   },
-  "dataHistoryExplorerr": {
+  "dataHistoryExplorer": {
     "title": "Eksplorator historii danych",
     "loadingConnectionLabel": "Ładowanie historii danych informacji o połączeniu...",
     "builder": {

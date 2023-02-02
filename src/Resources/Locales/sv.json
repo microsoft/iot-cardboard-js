@@ -1390,7 +1390,7 @@
       "forbidden": "Åtkomst nekades, du har inte frågebehörighet."
     }
   },
-  "dataHistoryExplorerr": {
+  "dataHistoryExplorer": {
     "title": "Utforskaren för datahistorik",
     "loadingConnectionLabel": "Laddar anslutningsinformation för datahistorik...",
     "builder": {

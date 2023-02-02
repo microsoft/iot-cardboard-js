@@ -1390,7 +1390,7 @@
       "forbidden": "A hozzáférés megtagadva lett, nincs lekérdezési engedélye."
     }
   },
-  "dataHistoryExplorerr": {
+  "dataHistoryExplorer": {
     "title": "Adatelőzmény-kezelő",
     "loadingConnectionLabel": "Adatelőzmények kapcsolati adatainak betöltése...",
     "builder": {

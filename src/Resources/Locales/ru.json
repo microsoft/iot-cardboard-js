@@ -1390,7 +1390,7 @@
       "forbidden": "В доступе отказано, у вас нет разрешений на запрос."
     }
   },
-  "dataHistoryExplorerr": {
+  "dataHistoryExplorer": {
     "title": "Обозреватель истории данных",
     "loadingConnectionLabel": "Загрузка информации о подключении к истории данных...",
     "builder": {

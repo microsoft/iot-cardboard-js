@@ -1390,7 +1390,7 @@
       "forbidden": "Toegang is geweigerd, u hebt geen querymachtigingen."
     }
   },
-  "dataHistoryExplorerr": {
+  "dataHistoryExplorer": {
     "title": "Gegevensgeschiedenisverkenner",
     "loadingConnectionLabel": "Verbindingsgegevens voor gegevensgeschiedenis laden...",
     "builder": {

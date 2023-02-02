@@ -1390,7 +1390,7 @@
       "forbidden": "Erişim reddedildi, sorgu izinleriniz yok."
     }
   },
-  "dataHistoryExplorerr": {
+  "dataHistoryExplorer": {
     "title": "Veri geçmişi gezgini",
     "loadingConnectionLabel": "Veri geçmişi bağlantı bilgileri yükleniyor...",
     "builder": {

@@ -1390,7 +1390,7 @@
       "forbidden": "Přístup byl odepřen, nemáte oprávnění k dotazu."
     }
   },
-  "dataHistoryExplorerr": {
+  "dataHistoryExplorer": {
     "title": "Průzkumník historie dat",
     "loadingConnectionLabel": "Načítání informací o připojení historie dat...",
     "builder": {

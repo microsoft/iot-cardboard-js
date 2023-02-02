@@ -1390,7 +1390,7 @@
       "forbidden": "L'accesso è stato negato, non si dispone delle autorizzazioni di query."
     }
   },
-  "dataHistoryExplorerr": {
+  "dataHistoryExplorer": {
     "title": "Esplora cronologia dati",
     "loadingConnectionLabel": "Caricamento delle informazioni di connessione della cronologia dei dati...",
     "builder": {

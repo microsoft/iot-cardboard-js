@@ -1390,7 +1390,7 @@
       "forbidden": "アクセスが拒否されました。クエリのアクセス許可がありません。"
     }
   },
-  "dataHistoryExplorerr": {
+  "dataHistoryExplorer": {
     "title": "データ履歴エクスプローラー",
     "loadingConnectionLabel": "データ履歴接続情報を読み込んでいます...",
     "builder": {

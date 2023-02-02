@@ -1390,7 +1390,7 @@
       "forbidden": "O acesso foi negado, não tem permissões de consulta."
     }
   },
-  "dataHistoryExplorerr": {
+  "dataHistoryExplorer": {
     "title": "Explorador de histórico de dados",
     "loadingConnectionLabel": "A carregar informações sobre a ligação do histórico de dados...",
     "builder": {

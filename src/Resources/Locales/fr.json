@@ -1390,7 +1390,7 @@
       "forbidden": "L’accès a été refusé, vous n’avez pas d’autorisations de requête."
     }
   },
-  "dataHistoryExplorerr": {
+  "dataHistoryExplorer": {
     "title": "Explorateur d’historique des données",
     "loadingConnectionLabel": "Chargement des informations de connexion de l’historique des données...",
     "builder": {

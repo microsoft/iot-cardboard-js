@@ -1390,7 +1390,7 @@
       "forbidden": "Se ha denegado el acceso, no tiene permisos de consulta."
     }
   },
-  "dataHistoryExplorerr": {
+  "dataHistoryExplorer": {
     "title": "Explorador del historial de datos",
     "loadingConnectionLabel": "Cargando información de conexión del historial de datos...",
     "builder": {

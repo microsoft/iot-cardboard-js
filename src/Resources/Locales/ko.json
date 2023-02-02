@@ -1390,7 +1390,7 @@
       "forbidden": "액세스가 거부되었습니다. 쿼리 권한이 없습니다."
     }
   },
-  "dataHistoryExplorerr": {
+  "dataHistoryExplorer": {
     "title": "데이터 기록 탐색기",
     "loadingConnectionLabel": "데이터 기록 연결 정보를 로드하는 중...",
     "builder": {

@@ -1390,7 +1390,7 @@
       "forbidden": "访问被拒绝，您没有查询权限。"
     }
   },
-  "dataHistoryExplorerr": {
+  "dataHistoryExplorer": {
     "title": "数据历史记录浏览器",
     "loadingConnectionLabel": "正在加载数据历史记录连接信息...",
     "builder": {

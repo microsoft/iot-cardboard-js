@@ -1390,7 +1390,7 @@
       "forbidden": "Der Zugriff wurde verweigert, Sie verfügen nicht über Abfrageberechtigungen."
     }
   },
-  "dataHistoryExplorerr": {
+  "dataHistoryExplorer": {
     "title": "Datenverlaufs-Explorer",
     "loadingConnectionLabel": "Verbindungsinformationen zum Datenverlauf werden geladen...",
     "builder": {
