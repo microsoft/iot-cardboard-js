@@ -51,7 +51,7 @@ interface IImportFileArgs {
     /** the existing models in the ontology to merge with */
     currentModels: DtdlInterface[];
     /** localization translation function */
-    translate: TFunction;
+    translate: TFunction<string>;
     localizationKeys: IImportLocalizationKeys;
 }
 interface IImportError {
@@ -168,7 +168,7 @@ interface IParseFilesResult {
 const getModelsFromFiles = async (
     files: Array<File>,
     currentModels: DtdlInterface[],
-    translate: TFunction,
+    translate: TFunction<string>,
     localizationKeys: IImportLocalizationKeys
 ): Promise<IParseFilesResult> => {
     const result: IParseFilesResult = {
@@ -240,6 +240,7 @@ const getModelsFromFiles = async (
 // #endregion
 
 // #region Export
+
 type ExportStatus = 'Success' | 'Failed';
 export interface IExportLocalizationKeys {
     ExceptionTitle: string;
@@ -249,7 +250,7 @@ interface IExportModelsArgs {
     /** the existing models in the ontology to merge with */
     models: DtdlInterface[];
     /** localization translation function */
-    translate: TFunction;
+    translate: TFunction<string>;
     /** the keys to use for localized strings */
     localizationKeys: IExportLocalizationKeys;
 }

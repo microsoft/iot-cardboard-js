@@ -46,7 +46,7 @@ const getClassNames = classNamesFunction<
 >();
 
 /** localization keys for error messages in the Import flow */
-const IMPORT_LOC_KEYS: IImportLocalizationKeys = {
+export const IMPORT_LOC_KEYS: IImportLocalizationKeys = {
     FileFormatNotSupportedMessage:
         'OAT.ImportErrors.fileFormatNotSupportedMessage',
     FileInvalidJson: 'OAT.ImportErrors.fileInvalidJSON',
@@ -58,7 +58,7 @@ const IMPORT_LOC_KEYS: IImportLocalizationKeys = {
 };
 
 /** localization keys for error messages in the Export flow */
-const EXPORT_LOC_KEYS: IExportLocalizationKeys = {
+export const EXPORT_LOC_KEYS: IExportLocalizationKeys = {
     ExceptionTitle: 'OAT.Common.unhandledExceptionTitle',
     ExceptionMessage: 'OAT.Common.unhandledExceptionMessage'
 };
