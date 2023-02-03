@@ -917,7 +917,6 @@
     "sync": "Synchronisation",
     "import": "Importation",
     "export": "Exportation",
-    "file": "Lime",
     "new": "Nouveau",
     "open": "Ouvrir",
     "saveAs": "Enregistrer sous",
@@ -934,10 +933,6 @@
     "namespace": "Espace de noms",
     "enterANamespace": "Entrer un espace de noms",
     "settings": "Paramètres",
-    "errorInvalidJSON": "JSON non valide",
-    "errorFileFormatNotSupported": "Le format {{file}} n’est pas pris en charge",
-    "errorFormatNoSupported": "Format de fichier non pris en charge",
-    "errorIssueWithFile": "Problème avec {{fileName}} : {{error}}",
     "errorNamespace": "L’espace de noms ne peut contenir que des lettres, des chiffres et des traits de soulignement.",
     "undo": "Défaire",
     "redo": "Refaire",
@@ -946,8 +941,6 @@
     "fileUpload": "Téléchargement de fichiers",
     "selectFile": "Sélectionner un fichier",
     "errorSingleFileHoldsRelationships": "Problème avec {{fileName}} : le modèle contient des relations qui ne sont pas importées",
-    "errorImportedModelAlreadyExists": "Problème avec {{modelId}} : Modèle avec le même @id existe déjà",
-    "errorFileInvalidJSON": "Problème avec {{fileName}} : JSON non valide",
     "deleteProjectMessage": "Voulez-vous vraiment supprimer {{projectName}} ?",
     "errorSameName": "Le projet portant le même nom existe déjà. Voulez-vous l’écraser?",
     "fileOpenModal": {
@@ -1416,6 +1409,14 @@
     },
     "Common": {
       "untargeted": "Non ciblé"
+    },
+    "ImportErrors": {
+      "fileFormatNotSupportedMessage": "Seuls les fichiers JSON sont pris en charge. Impossible d’importer les fichiers suivants : \n{{fileNames}}.",
+      "fileFormatNotSupportedTitle": "Format de fichier non pris en charge",
+      "fileInvalidJSON": "Impossible d'importer '{{fileName}}', il contient du JSON non valide.",
+      "invalidJSON": "JSON non valide",
+      "issueWithFile": "Problème avec le fichier : {{error}}",
+      "modelAlreadyExists": "Le modèle avec @id ({{modelId}}) existe déjà"
     }
   }
 }

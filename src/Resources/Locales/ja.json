@@ -917,7 +917,6 @@
     "sync": "同期",
     "import": "輸入",
     "export": "輸出",
-    "file": "ファイル",
     "new": "新機能",
     "open": "開ける",
     "saveAs": "名前を付けて保存",
@@ -934,10 +933,6 @@
     "namespace": "名前空間",
     "enterANamespace": "名前空間を入力する",
     "settings": "設定",
-    "errorInvalidJSON": "無効な JSON",
-    "errorFileFormatNotSupported": "{{ファイル}}形式はサポートされていません",
-    "errorFormatNoSupported": "サポートされていないファイル形式",
-    "errorIssueWithFile": "{{ファイル名}}に関する問題: {{エラー}}",
     "errorNamespace": "名前空間には、文字、数字、およびアンダースコアのみを含めることができます。",
     "undo": "外す",
     "redo": "やり直す",
@@ -946,8 +941,6 @@
     "fileUpload": "ファイルのアップロード",
     "selectFile": "ファイルの選択",
     "errorSingleFileHoldsRelationships": "{{fileName}}の問題:モデルはインポートされていない関係を保持しています",
-    "errorImportedModelAlreadyExists": "{{modelId}} の問題: 同じ@idを持つモデルが既に存在します",
-    "errorFileInvalidJSON": "{{ファイル名}}の問題: 無効な JSON",
     "deleteProjectMessage": "{{プロジェクト名}} を削除してもよろしいですか?",
     "errorSameName": "同じ名前のプロジェクトはすでに存在します。上書きしますか?",
     "fileOpenModal": {
@@ -1416,6 +1409,14 @@
     },
     "Common": {
       "untargeted": "ターゲットなし"
+    },
+    "ImportErrors": {
+      "fileFormatNotSupportedMessage": "JSON ファイルのみがサポートされています。次のファイルをインポートできません。\n{{ファイル名}}.",
+      "fileFormatNotSupportedTitle": "サポートされていないファイル形式",
+      "fileInvalidJSON": "'{{ファイル名}}' をインポートできません。無効な JSON が含まれています。",
+      "invalidJSON": "無効な JSON",
+      "issueWithFile": "ファイルに関する問題: {{エラー}}",
+      "modelAlreadyExists": "@id ({{modelId}}) を持つモデルが既に存在します"
     }
   }
 }

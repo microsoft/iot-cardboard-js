@@ -917,7 +917,6 @@
     "sync": "sincronização",
     "import": "Importação",
     "export": "Exportação",
-    "file": "Arquivo",
     "new": "Novo",
     "open": "Aberto",
     "saveAs": "Salvar como",
@@ -934,10 +933,6 @@
     "namespace": "Espaço de nome",
     "enterANamespace": "Insira um espaço de nome",
     "settings": "Configurações",
-    "errorInvalidJSON": "JSON inválido",
-    "errorFileFormatNotSupported": "{{file}} formato não suportado",
-    "errorFormatNoSupported": "Formato de ficheiro não suportado",
-    "errorIssueWithFile": "Problema com {{fileName}} {{error}}",
     "errorNamespace": "O espaço de nomes só pode conter letras, dígitos e sublinhados.",
     "undo": "Desfazer",
     "redo": "Redo",
@@ -946,8 +941,6 @@
     "fileUpload": "Upload de arquivo",
     "selectFile": "Selecione ficheiro",
     "errorSingleFileHoldsRelationships": "Problema com {{fileName}}: Modelo detém relações que não estão a ser importadas",
-    "errorImportedModelAlreadyExists": "Problema com {{modelId}}: Modelo com o mesmo @id já existe",
-    "errorFileInvalidJSON": "Emissão com {{fileName}}: Invalid JSON",
     "deleteProjectMessage": "Tem a certeza de que pretende eliminar {{projectName}}",
     "errorSameName": "Projeto com o mesmo nome já existe. Gostaria de exagerar?",
     "fileOpenModal": {
@@ -1416,6 +1409,14 @@
     },
     "Common": {
       "untargeted": "Sem alvos"
+    },
+    "ImportErrors": {
+      "fileFormatNotSupportedMessage": "Apenas os ficheiros JSON são suportados. Não é possível importar os seguintes ficheiros: \n{{fileNames}} .",
+      "fileFormatNotSupportedTitle": "Formato de ficheiro não suportado",
+      "fileInvalidJSON": "Incapaz de importar '{fileName}', contém JSON inválido.",
+      "invalidJSON": "JSON inválido",
+      "issueWithFile": "Emissão com ficheiro: {{error}}",
+      "modelAlreadyExists": "Modelo com @id ({modelId}} já existe"
     }
   }
 }

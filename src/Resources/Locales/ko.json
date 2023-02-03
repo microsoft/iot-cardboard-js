@@ -917,7 +917,6 @@
     "sync": "동기화",
     "import": "수입",
     "export": "수출",
-    "file": "파일",
     "new": "새로운",
     "open": "열다",
     "saveAs": "다른 이름으로 저장",
@@ -934,10 +933,6 @@
     "namespace": "Namespace",
     "enterANamespace": "네임스페이스 입력",
     "settings": "설정",
-    "errorInvalidJSON": "잘못된 JSON",
-    "errorFileFormatNotSupported": "{{file}} 형식이 지원되지 않음",
-    "errorFormatNoSupported": "지원되지 않는 파일 형식",
-    "errorIssueWithFile": "{{fileName}}의 문제: {{error}}",
     "errorNamespace": "네임스페이스에는 문자, 숫자 및 밑줄만 포함될 수 있습니다.",
     "undo": "취소",
     "redo": "다시",
@@ -946,8 +941,6 @@
     "fileUpload": "파일 업로드",
     "selectFile": "파일 선택",
     "errorSingleFileHoldsRelationships": "{{fileName}} 문제: 모델이 가져오지 않는 관계를 보유합니다.",
-    "errorImportedModelAlreadyExists": "{{modelId}} 문제: 동일한 @id를 가진 모델이 이미 존재합니다.",
-    "errorFileInvalidJSON": "{{fileName}} 문제 : 잘못된 JSON",
     "deleteProjectMessage": "{{프로젝트 이름}}을(를) 삭제하시겠습니까?",
     "errorSameName": "이름이 같은 프로젝트가 이미 있습니다. 덮어쓰시겠습니까?",
     "fileOpenModal": {
@@ -1416,6 +1409,14 @@
     },
     "Common": {
       "untargeted": "타겟팅되지 않음"
+    },
+    "ImportErrors": {
+      "fileFormatNotSupportedMessage": "JSON 파일만 지원됩니다. 다음 파일을 가져올 수 없습니다. \n{{파일 이름}}.",
+      "fileFormatNotSupportedTitle": "지원되지 않는 파일 형식",
+      "fileInvalidJSON": "'{{파일 이름}}'을 가져올 수 없으며 잘못된 JSON이 포함되어 있습니다.",
+      "invalidJSON": "잘못된 JSON",
+      "issueWithFile": "파일 문제: {{오류}}",
+      "modelAlreadyExists": "@id 모델({{modelId}})이 이미 존재합니다."
     }
   }
 }

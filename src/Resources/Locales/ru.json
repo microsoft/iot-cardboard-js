@@ -917,7 +917,6 @@
     "sync": "синхронизировать",
     "import": "Импорт",
     "export": "Экспорт",
-    "file": "Файл",
     "new": "Новые функции",
     "open": "Открытый",
     "saveAs": "Сохранить как",
@@ -934,10 +933,6 @@
     "namespace": "Пространство имен",
     "enterANamespace": "Ввод пространства имен",
     "settings": "Параметры",
-    "errorInvalidJSON": "Недопустимый JSON",
-    "errorFileFormatNotSupported": "Формат {{file}} не поддерживается",
-    "errorFormatNoSupported": "Формат файла не поддерживается",
-    "errorIssueWithFile": "Проблема с {{имя_файла}}: {{ошибка}}",
     "errorNamespace": "Пространство имен может содержать только буквы, цифры и подчеркивания.",
     "undo": "Отменить",
     "redo": "Повторить",
@@ -946,8 +941,6 @@
     "fileUpload": "Загрузка файла",
     "selectFile": "Выберите файл",
     "errorSingleFileHoldsRelationships": "Проблема с {{имя_файла}}: модель содержит связи, которые не импортируются",
-    "errorImportedModelAlreadyExists": "Проблема с {{modelId}}: модель с тем же @id уже существует",
-    "errorFileInvalidJSON": "Проблема с {{имя_файла}}: Недопустимый JSON",
     "deleteProjectMessage": "Вы уверены, что хотите удалить {{имя_проекта}}?",
     "errorSameName": "Проект с таким же названием уже существует. Вы хотите перезаписать его?",
     "fileOpenModal": {
@@ -1416,6 +1409,14 @@
     },
     "Common": {
       "untargeted": "Нецелевой"
+    },
+    "ImportErrors": {
+      "fileFormatNotSupportedMessage": "Поддерживаются только JSON-файлы. Не удается импортировать следующие файлы: \n{{Именафайлов}}.",
+      "fileFormatNotSupportedTitle": "Формат файла не поддерживается",
+      "fileInvalidJSON": "Не удается импортировать '{{имя_файла}}', он содержит недопустимый JSON.",
+      "invalidJSON": "Недопустимый JSON",
+      "issueWithFile": "Проблема с файлом: {{error}}",
+      "modelAlreadyExists": "Модель с @id ({{modelId}}) уже существует"
     }
   }
 }

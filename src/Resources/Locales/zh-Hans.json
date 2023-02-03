@@ -917,7 +917,6 @@
     "sync": "同步",
     "import": "进口",
     "export": "出口",
-    "file": "文件",
     "new": "新增功能",
     "open": "打开",
     "saveAs": "另存为",
@@ -934,10 +933,6 @@
     "namespace": "Namespace",
     "enterANamespace": "输入命名空间",
     "settings": "设置",
-    "errorInvalidJSON": "无效的 JSON",
-    "errorFileFormatNotSupported": "{{文件}} 格式不受支持",
-    "errorFormatNoSupported": "不支持的文件格式",
-    "errorIssueWithFile": "{{文件名}} 的问题：{{错误}}",
     "errorNamespace": "命名空间只能包含字母、数字和下划线。",
     "undo": "撤消",
     "redo": "重做",
@@ -946,8 +941,6 @@
     "fileUpload": "文件上传",
     "selectFile": "选择文件",
     "errorSingleFileHoldsRelationships": "{{文件名}} 的问题：模型保留未导入的关系",
-    "errorImportedModelAlreadyExists": "{{modelId}} 的问题：具有相同@id的模型已存在",
-    "errorFileInvalidJSON": "{{文件名}} 的问题：无效的 JSON",
     "deleteProjectMessage": "是否确实要删除 {{项目名称}}？",
     "errorSameName": "具有相同名称的项目已存在。是否要覆盖它？",
     "fileOpenModal": {
@@ -1416,6 +1409,14 @@
     },
     "Common": {
       "untargeted": "非目标"
+    },
+    "ImportErrors": {
+      "fileFormatNotSupportedMessage": "仅支持 JSON 文件。无法导入以下文件：\n{{文件名}}.",
+      "fileFormatNotSupportedTitle": "不支持文件格式",
+      "fileInvalidJSON": "无法导入“{{文件名}}”，它包含无效的 JSON。",
+      "invalidJSON": "无效的 JSON",
+      "issueWithFile": "文件问题：{{错误}}",
+      "modelAlreadyExists": "具有@id （{{modelId}}） 的模型已存在"
     }
   }
 }
