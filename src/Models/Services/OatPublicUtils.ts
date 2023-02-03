@@ -22,16 +22,15 @@ interface IImportFileResult {
     status: Status;
 }
 
-const IMPORT_LOC_KEYS = {
+export const IMPORT_LOC_KEYS = {
     ERRORS: {
         FileFormatNotSupportedMessage:
             'OAT.ImportErrors.fileFormatNotSupportedMessage',
         FileInvalidJson: 'OAT.ImportErrors.fileInvalidJSON',
         FileFormatNotSupportedTitle:
             'OAT.ImportErrors.fileFormatNotSupportedTitle',
-        InvalidJson: 'OAT.ImportErrors.invalidJSON',
-        IssueWithFile: 'OAT.ImportErrors.issueWithFile',
-        ModelAlreadyExists: 'OAT.ImportErrors.modelAlreadyExists'
+        ImportFailedTitle: 'OAT.ImportErrors.importFailedTitle',
+        IssueWithFile: 'OAT.ImportErrors.issueWithFile'
     }
 };
 export const parseFilesToModels = async (
@@ -148,7 +147,6 @@ const getModelsFromFiles = async (
     const filesErrors: string[] = [];
 
     for (const current of files) {
-        console.log(current);
         const content = await current.text();
         const model = safeJsonParse<DtdlInterface>(content);
 
@@ -160,17 +158,7 @@ const getModelsFromFiles = async (
             );
             break;
         }
-
-        // manual validations
-        if (currentModels.find((x) => x['@id'] === model['@id'])) {
-            filesErrors.push(
-                translate(IMPORT_LOC_KEYS.ERRORS.ModelAlreadyExists, {
-                    modelId: model['@id']
-                })
-            );
-        } else {
-            newModels.push(model);
-        }
+        newModels.push(model);
     }
 
     // run the parser for full validations
@@ -203,7 +191,7 @@ const getModelsFromFiles = async (
             accumulatedError
         );
         result.errors.push({
-            title: translate(IMPORT_LOC_KEYS.ERRORS.InvalidJson),
+            title: translate(IMPORT_LOC_KEYS.ERRORS.ImportFailedTitle),
             message: accumulatedError
         });
     }

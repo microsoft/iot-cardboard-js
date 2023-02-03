@@ -938,9 +938,8 @@
             "fileFormatNotSupportedMessage": "Only JSON files are supported. Unable to import the following files: \n{{fileNames}}.",
             "fileFormatNotSupportedTitle": "File format not supported",
             "fileInvalidJSON": "Unable to import '{{fileName}}', it contains invalid JSON.",
-            "invalidJSON": "Invalid JSON",
-            "issueWithFile": "Issue with file: {{error}}",
-            "modelAlreadyExists": "Model with @id ({{modelId}}) already exists"
+            "importFailedTitle": "Import failed",
+            "issueWithFile": "Issue with file: {{error}}"
         }
     },
     "OATCommon": {
