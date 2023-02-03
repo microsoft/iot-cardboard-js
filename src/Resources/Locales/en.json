@@ -939,7 +939,7 @@
             "fileFormatNotSupportedTitle": "File format not supported",
             "fileInvalidJSON": "Unable to import '{{fileName}}', it contains invalid JSON.",
             "importFailedTitle": "Import failed",
-            "issueWithFile": "Issue with file: {{error}}"
+            "importFailedMessage": "There was an error during import. Resolve them and try again.\n {{error}}"
         }
     },
     "OATCommon": {

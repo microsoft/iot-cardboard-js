@@ -1,15 +1,44 @@
+import { createParser, ModelParsingOption } from 'azure-iot-dtdl-parser';
 import { TFunction } from 'i18next';
 import { DtdlInterface } from '../Constants/dtdlInterfaces';
 import { safeJsonParse } from './OatUtils';
-import { getDebugLogger, parseModels } from './Utils';
+import { getDebugLogger } from './Utils';
 
 const debugLogging = true;
 const logDebugConsole = getDebugLogger('OATPublicUtils', debugLogging);
 
+/**
+ * Runs the collection of models through the `azure-iot-dtdl-parser` package and returns a string containing the errors (if any) or empty string if successful.
+ * @param models The collection of models that make up the entire ontology
+ * @returns a string containing the errors or empty string if successful
+ */
+export async function parseModels(models: DtdlInterface[]): Promise<string> {
+    const modelParser = createParser(
+        ModelParsingOption.PermitAnyTopLevelElement
+    );
+    try {
+        await modelParser.parse([JSON.stringify(models)]);
+        return '';
+    } catch (err) {
+        console.error('Error while parsing models {input, error}', models, err);
+        if (err.name === 'ParsingException') {
+            console.error('Parsing errors {errors}', err._parsingErrors);
+            return err._parsingErrors
+                .map((e) => `${e.cause} ${e.action}`)
+                .join('\n');
+        }
+
+        return err.message;
+    }
+}
+
 type Status = 'Success' | 'Failed';
 interface IImportFileArgs {
+    /** the collection of model files being uploaded */
     files: File[];
+    /** the existing models in the ontology to merge with */
     currentModels: DtdlInterface[];
+    /** localization translation function */
     translate: TFunction;
 }
 interface IImportError {
@@ -22,6 +51,7 @@ interface IImportFileResult {
     status: Status;
 }
 
+/** localization keys for error messages */
 export const IMPORT_LOC_KEYS = {
     ERRORS: {
         FileFormatNotSupportedMessage:
@@ -30,9 +60,15 @@ export const IMPORT_LOC_KEYS = {
         FileFormatNotSupportedTitle:
             'OAT.ImportErrors.fileFormatNotSupportedTitle',
         ImportFailedTitle: 'OAT.ImportErrors.importFailedTitle',
-        IssueWithFile: 'OAT.ImportErrors.issueWithFile'
+        ImportFailedMessage: 'OAT.ImportErrors.importFailedMessage'
     }
 };
+
+/**
+ * Takes a collection of uploaded files, reads the contents and the validates the models to ensure they are valid DTDL and the ontology is in a valid state.
+ * @param args the arguments for the function
+ * @returns an object containing the resulting valid model collection or a collection of errors.
+ */
 export const parseFilesToModels = async (
     args: IImportFileArgs
 ): Promise<IImportFileResult> => {
@@ -166,7 +202,7 @@ const getModelsFromFiles = async (
     const error = await parseModels(combinedModels);
     if (error) {
         filesErrors.push(
-            translate(IMPORT_LOC_KEYS.ERRORS.IssueWithFile, {
+            translate(IMPORT_LOC_KEYS.ERRORS.ImportFailedMessage, {
                 error
             })
         );

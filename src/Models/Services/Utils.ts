@@ -538,25 +538,6 @@ export function rgbToHex(r, g, b) {
     return '#' + componentToHex(r) + componentToHex(g) + componentToHex(b);
 }
 
-export async function parseModels(models: DtdlInterface[]) {
-    const modelParser = createParser(
-        ModelParsingOption.PermitAnyTopLevelElement
-    );
-    try {
-        await modelParser.parse([JSON.stringify(models)]);
-        return '';
-    } catch (err) {
-        console.error('Error while parsing models {input, error}', models, err);
-        if (err.name === 'ParsingException') {
-            return err._parsingErrors
-                .map((e) => `${e.cause} ${e.action}`)
-                .join('\n');
-        }
-
-        return err.message;
-    }
-}
-
 /**
  * Sorts a list alphabetically ignoring casing
  * @example listItems.sort(sortCaseInsensitiveAlphabetically())
