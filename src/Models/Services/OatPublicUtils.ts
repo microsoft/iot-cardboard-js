@@ -1,6 +1,5 @@
 import { createParser, ModelParsingOption } from 'azure-iot-dtdl-parser';
 import JSZip from 'jszip';
-import { TFunction } from 'react-i18next';
 import { DtdlInterface } from '../Constants/dtdlInterfaces';
 import { convertModelToDtdl, safeJsonParse } from './OatUtils';
 import { getDebugLogger } from './Utils';
@@ -35,6 +34,8 @@ export async function parseModels(models: DtdlInterface[]): Promise<string> {
     }
 }
 
+// defined our own type since the i18next type was breaking rollup for some reason
+type TranslateFunction = (key: string, args?: Record<string, string>) => string;
 type ImportStatus = 'Success' | 'Failed';
 export interface IImportLocalizationKeys {
     FileFormatNotSupportedMessage: string;
@@ -51,7 +52,7 @@ interface IImportFileArgs {
     /** the existing models in the ontology to merge with */
     currentModels: DtdlInterface[];
     /** localization translation function */
-    translate: TFunction<string>;
+    translate: TranslateFunction;
     localizationKeys: IImportLocalizationKeys;
 }
 interface IImportError {
@@ -168,7 +169,7 @@ interface IParseFilesResult {
 const getModelsFromFiles = async (
     files: Array<File>,
     currentModels: DtdlInterface[],
-    translate: TFunction<string>,
+    translate: TranslateFunction,
     localizationKeys: IImportLocalizationKeys
 ): Promise<IParseFilesResult> => {
     const result: IParseFilesResult = {
@@ -250,7 +251,7 @@ interface IExportModelsArgs {
     /** the existing models in the ontology to merge with */
     models: DtdlInterface[];
     /** localization translation function */
-    translate: TFunction<string>;
+    translate: TranslateFunction;
     /** the keys to use for localized strings */
     localizationKeys: IExportLocalizationKeys;
 }
