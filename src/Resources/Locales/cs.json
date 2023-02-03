@@ -1414,9 +1414,10 @@
       "fileFormatNotSupportedMessage": "Podporují se jenom soubory JSON. Nelze importovat následující soubory: \n{{fileNames}}.",
       "fileFormatNotSupportedTitle": "Formát souboru není podporován",
       "fileInvalidJSON": "Nelze importovat '{{fileName}}', obsahuje neplatný JSON.",
-      "invalidJSON": "Neplatný kód JSON",
-      "issueWithFile": "Problém se souborem: {{error}}",
-      "modelAlreadyExists": "Model s @id ({{modelId}}) již existuje"
+      "exceptionTitle": "Neočekávaná chyba",
+      "exceptionMessage": "Stalo se něco nečekaného. Zkuste to prosím znovu.",
+      "importFailedTitle": "Import se nezdařil",
+      "importFailedMessage": "Během importu došlo k chybě. Vyřešte je a zkuste to znovu.\n {{chyba}}"
     }
   }
 }

@@ -1414,9 +1414,10 @@
       "fileFormatNotSupportedMessage": "Alleen JSON-bestanden worden ondersteund. Kan de volgende bestanden niet importeren: \n{{bestandsnaam}}.",
       "fileFormatNotSupportedTitle": "Bestandsindeling wordt niet ondersteund",
       "fileInvalidJSON": "Het kan '{{bestandsnaam}}' niet importeren en bevat ongeldige JSON.",
-      "invalidJSON": "Ongeldige JSON",
-      "issueWithFile": "Probleem met bestand: {{error}}",
-      "modelAlreadyExists": "Model met @id ({{modelId}}) bestaat al"
+      "exceptionTitle": "Onverwachte fout",
+      "exceptionMessage": "Er gebeurde iets onverwachts. Probeer het opnieuw.",
+      "importFailedTitle": "Importeren mislukt",
+      "importFailedMessage": "Er is een fout opgetreden tijdens het importeren. Los ze op en probeer het opnieuw.\n {{fout}}"
     }
   }
 }

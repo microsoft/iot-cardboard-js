@@ -1414,9 +1414,10 @@
       "fileFormatNotSupportedMessage": "Solo se admiten archivos JSON. No se pueden importar los siguientes archivos: \n{{fileNames}}.",
       "fileFormatNotSupportedTitle": "Formato de archivo no compatible",
       "fileInvalidJSON": "No se puede importar '{{fileName}}', contiene JSON no válido.",
-      "invalidJSON": "JSON no válido",
-      "issueWithFile": "Problema con el archivo: {{error}}",
-      "modelAlreadyExists": "El modelo con @id ({{modelId}}) ya existe"
+      "exceptionTitle": "Error inesperado",
+      "exceptionMessage": "Algo inesperado sucedió. Inténtalo de nuevo.",
+      "importFailedTitle": "Error de importación",
+      "importFailedMessage": "Se ha producido un error durante la importación. Resuélvelos e inténtalo de nuevo.\n {{error}}"
     }
   }
 }
