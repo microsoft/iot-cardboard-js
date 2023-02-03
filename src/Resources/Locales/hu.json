@@ -1408,7 +1408,9 @@
       "noModelsButtonText": "Modell hozzáadása"
     },
     "Common": {
-      "untargeted": "Nem célzott"
+      "untargeted": "Nem célzott",
+      "unhandledExceptionTitle": "Váratlan hiba",
+      "unhandledExceptionMessage": "Valami váratlan történt. Kérjük, próbálja újra."
     },
     "ImportErrors": {
       "fileFormatNotSupportedMessage": "Csak a JSON-fájlok támogatottak. Nem lehet importálni a következő fájlokat: \n{{fájlnevek}} sablont.",

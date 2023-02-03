@@ -1408,7 +1408,9 @@
       "noModelsButtonText": "Dodawanie modelu"
     },
     "Common": {
-      "untargeted": "Nieukierunkowane"
+      "untargeted": "Nieukierunkowane",
+      "unhandledExceptionTitle": "Nieoczekiwany błąd",
+      "unhandledExceptionMessage": "Stało się coś nieoczekiwanego. Spróbuj ponownie."
     },
     "ImportErrors": {
       "fileFormatNotSupportedMessage": "Obsługiwane są tylko pliki JSON. Nie można zaimportować następujących plików: \n{{fileNames}}.",

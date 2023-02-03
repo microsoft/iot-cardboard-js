@@ -1408,7 +1408,9 @@
       "noModelsButtonText": "Lägga till en modell"
     },
     "Common": {
-      "untargeted": "Oriktad"
+      "untargeted": "Oriktad",
+      "unhandledExceptionTitle": "Oväntat fel",
+      "unhandledExceptionMessage": "Något oväntat hände. Försök igen."
     },
     "ImportErrors": {
       "fileFormatNotSupportedMessage": "Endast JSON-filer stöds. Det går inte att importera följande filer: \n{{fileNames}}.",

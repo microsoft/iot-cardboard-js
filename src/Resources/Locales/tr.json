@@ -1408,7 +1408,9 @@
       "noModelsButtonText": "Model ekleme"
     },
     "Common": {
-      "untargeted": "Hedefsiz"
+      "untargeted": "Hedefsiz",
+      "unhandledExceptionTitle": "Beklenmeyen hata",
+      "unhandledExceptionMessage": "Beklenmedik bir şey oldu. Lütfen tekrar deneyin."
     },
     "ImportErrors": {
       "fileFormatNotSupportedMessage": "Yalnızca JSON dosyaları desteklenir. Aşağıdaki dosyalar içe aktarılamıyor: \n{{fileNames}}.",
