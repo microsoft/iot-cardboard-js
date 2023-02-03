@@ -933,6 +933,8 @@
             "noModelsButtonText": "Add a model"
         },
         "ImportErrors": {
+            "exceptionTitle": "Unexpected issue",
+            "exceptionMessage": "Something unexpected happened. Please try again.",
             "fileFormatNotSupportedMessage": "Only JSON files are supported. Unable to import the following files: \n{{fileNames}}.",
             "fileFormatNotSupportedTitle": "File format not supported",
             "fileInvalidJSON": "Unable to import '{{fileName}}', it contains invalid JSON.",

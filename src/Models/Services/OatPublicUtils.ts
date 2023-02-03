@@ -58,8 +58,8 @@ export const parseFilesToModels = async (
             `[IMPORT] [START] Files upload. (${files.length} files) {files}`,
             files
         );
-        const validFiles = getValidFiles(files);
-        if (validFiles.failedFileNames.length > 0) {
+        const fileValidationResult = validateFiles(files);
+        if (fileValidationResult.failedFileNames.length > 0) {
             result.errors = [
                 {
                     title: translate(
@@ -68,7 +68,7 @@ export const parseFilesToModels = async (
                     message: translate(
                         IMPORT_LOC_KEYS.ERRORS.FileFormatNotSupportedMessage,
                         {
-                            fileNames: validFiles.failedFileNames
+                            fileNames: fileValidationResult.failedFileNames
                                 .map((x) => `'${x}'`)
                                 .join('\n')
                         }
@@ -77,8 +77,8 @@ export const parseFilesToModels = async (
             ];
             result.status = 'Failed';
         } else {
-            const parseResult = await parseFilesToModelsInternal(
-                validFiles.validFiles,
+            const parseResult = await getModelsFromFiles(
+                fileValidationResult.validFiles,
                 currentModels,
                 translate
             );
@@ -96,9 +96,10 @@ export const parseFilesToModels = async (
     } catch (error) {
         result.status = 'Failed';
         result.errors.push({
-            title: 'Unexpected exception',
-            message: 'Exception: ' + error
+            title: translate('OAT.ImportErrors.exceptionTitle'),
+            message: translate('OAT.ImportErrors.exceptionMessage')
         });
+        console.error('Exception occured while importing.', error);
         logDebugConsole(
             'debug',
             '[IMPORT] [END] Files upload. {result}',
@@ -108,7 +109,7 @@ export const parseFilesToModels = async (
     }
 };
 
-const getValidFiles = (
+const validateFiles = (
     files: File[]
 ): { validFiles: File[]; failedFileNames: string[] } => {
     const newFiles = [];
@@ -128,7 +129,7 @@ interface IParseFilesResult {
     models: DtdlInterface[];
     errors: IImportError[];
 }
-const parseFilesToModelsInternal = async (
+const getModelsFromFiles = async (
     files: Array<File>,
     currentModels: DtdlInterface[],
     translate: TFunction
