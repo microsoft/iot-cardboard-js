@@ -1408,7 +1408,9 @@
       "noModelsButtonText": "Aggiungere un modello"
     },
     "Common": {
-      "untargeted": "Non mirato"
+      "untargeted": "Non mirato",
+      "unhandledExceptionTitle": "Errore imprevisto",
+      "unhandledExceptionMessage": "Accadde qualcosa di inaspettato. Riprova."
     },
     "ImportErrors": {
       "fileFormatNotSupportedMessage": "Sono supportati solo i file JSON. Impossibile importare i seguenti file: \n{{fileNames}}.",

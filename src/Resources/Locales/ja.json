@@ -1408,7 +1408,9 @@
       "noModelsButtonText": "モデルを追加する"
     },
     "Common": {
-      "untargeted": "ターゲットなし"
+      "untargeted": "ターゲットなし",
+      "unhandledExceptionTitle": "予期しないエラー",
+      "unhandledExceptionMessage": "予期せぬことが起こりました。もう一度やり直してください。"
     },
     "ImportErrors": {
       "fileFormatNotSupportedMessage": "JSON ファイルのみがサポートされています。次のファイルをインポートできません。\n{{ファイル名}}.",

@@ -1408,7 +1408,9 @@
       "noModelsButtonText": "Добавление модели"
     },
     "Common": {
-      "untargeted": "Нецелевой"
+      "untargeted": "Нецелевой",
+      "unhandledExceptionTitle": "Непредвиденная ошибка",
+      "unhandledExceptionMessage": "Случилось нечто неожиданное. Повторите попытку."
     },
     "ImportErrors": {
       "fileFormatNotSupportedMessage": "Поддерживаются только JSON-файлы. Не удается импортировать следующие файлы: \n{{Именафайлов}}.",

@@ -1408,7 +1408,9 @@
       "noModelsButtonText": "添加模型"
     },
     "Common": {
-      "untargeted": "非目标"
+      "untargeted": "非目标",
+      "unhandledExceptionTitle": "意外错误",
+      "unhandledExceptionMessage": "意想不到的事情发生了。请重试。"
     },
     "ImportErrors": {
       "fileFormatNotSupportedMessage": "仅支持 JSON 文件。无法导入以下文件：\n{{文件名}}.",

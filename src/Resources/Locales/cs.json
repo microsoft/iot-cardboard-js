@@ -1408,7 +1408,9 @@
       "noModelsButtonText": "Přidání modelu"
     },
     "Common": {
-      "untargeted": "Necílené"
+      "untargeted": "Necílené",
+      "unhandledExceptionTitle": "Neočekávaná chyba",
+      "unhandledExceptionMessage": "Stalo se něco nečekaného. Zkuste to prosím znovu."
     },
     "ImportErrors": {
       "fileFormatNotSupportedMessage": "Podporují se jenom soubory JSON. Nelze importovat následující soubory: \n{{fileNames}}.",

@@ -1408,7 +1408,9 @@
       "noModelsButtonText": "Agregar un modelo"
     },
     "Common": {
-      "untargeted": "Sin objetivo"
+      "untargeted": "Sin objetivo",
+      "unhandledExceptionTitle": "Error inesperado",
+      "unhandledExceptionMessage": "Algo inesperado sucedió. Inténtalo de nuevo."
     },
     "ImportErrors": {
       "fileFormatNotSupportedMessage": "Solo se admiten archivos JSON. No se pueden importar los siguientes archivos: \n{{fileNames}}.",

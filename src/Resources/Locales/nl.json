@@ -1408,7 +1408,9 @@
       "noModelsButtonText": "Een model toevoegen"
     },
     "Common": {
-      "untargeted": "Ongericht"
+      "untargeted": "Ongericht",
+      "unhandledExceptionTitle": "Onverwachte fout",
+      "unhandledExceptionMessage": "Er gebeurde iets onverwachts. Probeer het opnieuw."
     },
     "ImportErrors": {
       "fileFormatNotSupportedMessage": "Alleen JSON-bestanden worden ondersteund. Kan de volgende bestanden niet importeren: \n{{bestandsnaam}}.",
