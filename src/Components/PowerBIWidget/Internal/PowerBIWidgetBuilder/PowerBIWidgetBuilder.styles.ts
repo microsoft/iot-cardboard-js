@@ -17,7 +17,6 @@ export const getStyles = (
         root: [
             classNames.root,
             {
-                borderRight: `1px solid ${props.theme.palette.neutralLight}`,
                 display: 'flex',
                 flexDirection: 'column',
                 height: '100%'
@@ -27,16 +26,14 @@ export const getStyles = (
             classNames.header,
             {
                 fontWeight: FontWeights.semibold,
-                fontSize: FontSizes.size16,
-                marginTop: '0 !important'
+                fontSize: FontSizes.size16
             }
         ],
         description: [
             classNames.description,
             {
                 color: props.theme.palette.neutralSecondary,
-                fontSize: FontSizes.medium,
-                marginTop: '0 !important'
+                fontSize: FontSizes.medium
             }
         ],
         subComponentStyles: {}

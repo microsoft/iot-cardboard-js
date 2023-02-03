@@ -625,7 +625,32 @@
         "powerBI": {
             "title": "Power BI widget",
             "libraryName": "Power BI Visual",
-            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor"
+            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
+            "type": {
+                "label": "Type",
+                "options": {
+                    "report": "Report",
+                    "dashboard": "Dashboard",
+                    "tile": "Tile",
+                    "visual": "Visual"
+                }
+            },
+            "reportUrl": {
+                "label": "Report URL",
+                "placeholder": "https://powerbi.com/groups/me/reports/{reportId}"
+            },
+            "pageName": {
+                "label": "Page Name",
+                "placeholder": "Page name"
+            },
+            "visualName": {
+                "label": "Visual Name",
+                "placeholder": "Visual name",
+                "suffix": "Enter the name of the specific element from the report to show in this widget"
+            },
+            "dataFilters": {
+                "label": "Data Filters"
+            }
         },
         "dataHistory": {
             "title": "Data history widget",
