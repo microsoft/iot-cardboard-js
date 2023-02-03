@@ -125,7 +125,12 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
                     '[END] Export models to file. {content}',
                     content
                 );
-                downloadFile(content, 'modelExport.zip');
+                downloadFile(
+                    content,
+                    `${
+                        oatPageState.currentOntologyProjectName || 'ontology'
+                    }-models.zip`
+                );
             });
         } else {
             // show error
@@ -144,7 +149,12 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
                 }
             });
         }
-    }, [oatPageState.currentOntologyModels, t, oatPageDispatch]);
+    }, [
+        oatPageState.currentOntologyModels,
+        oatPageState.currentOntologyProjectName,
+        t,
+        oatPageDispatch
+    ]);
 
     const getUploadFileHandler = (
         inputRef: HTMLInputElement
