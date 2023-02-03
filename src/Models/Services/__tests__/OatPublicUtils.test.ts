@@ -1,6 +1,6 @@
 import { cleanup } from '@testing-library/react-hooks';
 import { getMockModelItem } from '../../Context/OatPageContext/OatPageContext.mock';
-import { IMPORT_LOC_KEYS, parseFilesToModels } from '../OatPublicUtils';
+import { parseFilesToModels } from '../OatPublicUtils';
 
 afterEach(cleanup);
 
