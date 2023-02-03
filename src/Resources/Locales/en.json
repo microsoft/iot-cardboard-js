@@ -922,7 +922,9 @@
     },
     "OAT": {
         "Common": {
-            "untargeted": "Untargeted"
+            "untargeted": "Untargeted",
+            "unhandledExceptionTitle": "Unexpected error",
+            "unhandledExceptionMessage": "Something unexpected happened. Please try again."
         },
         "ModelList": {
             "searchModels": "Search models",

@@ -48,34 +48,6 @@ export const storeOntologiesToStorage = (files: IOATFile[]) => {
 
 //#endregion
 
-// Get fileName from DTMI
-export const getFileNameFromDTMI = (dtmi: string) => {
-    // Get id path - Get section between last ":" and ";"
-    const initialPosition = dtmi.lastIndexOf(':') + 1;
-    const finalPosition = dtmi.lastIndexOf(';');
-
-    if (initialPosition !== 0 && finalPosition !== -1) {
-        const idPath = dtmi.substring(initialPosition, finalPosition);
-        const idVersion = dtmi.substring(
-            dtmi.lastIndexOf(';') + 1,
-            dtmi.length
-        );
-        return `${idPath}-${idVersion}`;
-    }
-};
-
-// Get directoryPath from DTMI
-export const getDirectoryPathFromDTMI = (dtmi: string) => {
-    const initialPosition = dtmi.indexOf(':') + 1;
-    const finalPosition = dtmi.lastIndexOf(':');
-
-    if (initialPosition !== 0 && finalPosition !== -1) {
-        const directoryPath = dtmi.substring(initialPosition, finalPosition);
-        // Scheme - replace ":" with "\"
-        return directoryPath.replace(':', '\\');
-    }
-};
-
 /**
  * Tries to parse a string to an object of type `T`. Returns null and eats any exception thrown in case of an error.
  * @param value string value to parse

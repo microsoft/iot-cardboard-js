@@ -1005,3 +1005,15 @@ export function capitalizeFirstLetter(str: string) {
         return str;
     }
 }
+
+/** downloads a file as a blob to the user's machine */
+export function downloadFile(blob: Blob, fileName: string) {
+    const blobURL = window.URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.setAttribute('href', blobURL);
+    link.setAttribute('download', fileName);
+    link.innerHTML = '';
+    document.body.appendChild(link);
+    link.click();
+    link.parentNode.removeChild(link);
+}

@@ -1,11 +1,14 @@
 import { createParser, ModelParsingOption } from 'azure-iot-dtdl-parser';
-import { TFunction } from 'i18next';
+import JSZip from 'jszip';
+import { TFunction } from 'react-i18next';
 import { DtdlInterface } from '../Constants/dtdlInterfaces';
-import { safeJsonParse } from './OatUtils';
+import { convertModelToDtdl, safeJsonParse } from './OatUtils';
 import { getDebugLogger } from './Utils';
 
 const debugLogging = true;
 const logDebugConsole = getDebugLogger('OATPublicUtils', debugLogging);
+
+// #region Import
 
 /**
  * Runs the collection of models through the `azure-iot-dtdl-parser` package and returns a string containing the errors (if any) or empty string if successful.
@@ -32,7 +35,7 @@ export async function parseModels(models: DtdlInterface[]): Promise<string> {
     }
 }
 
-type Status = 'Success' | 'Failed';
+type ImportStatus = 'Success' | 'Failed';
 interface IImportFileArgs {
     /** the collection of model files being uploaded */
     files: File[];
@@ -48,7 +51,7 @@ interface IImportError {
 interface IImportFileResult {
     models: DtdlInterface[];
     errors: IImportError[];
-    status: Status;
+    status: ImportStatus;
 }
 
 /** localization keys for error messages */
@@ -60,7 +63,9 @@ export const IMPORT_LOC_KEYS = {
         FileFormatNotSupportedTitle:
             'OAT.ImportErrors.fileFormatNotSupportedTitle',
         ImportFailedTitle: 'OAT.ImportErrors.importFailedTitle',
-        ImportFailedMessage: 'OAT.ImportErrors.importFailedMessage'
+        ImportFailedMessage: 'OAT.ImportErrors.importFailedMessage',
+        ExceptionTitle: 'OAT.Common.unhandledExceptionTitle',
+        ExceptionMessage: 'OAT.Common.unhandledExceptionMessage'
     }
 };
 
@@ -131,8 +136,8 @@ export const parseFilesToModels = async (
     } catch (error) {
         result.status = 'Failed';
         result.errors.push({
-            title: translate('OAT.ImportErrors.exceptionTitle'),
-            message: translate('OAT.ImportErrors.exceptionMessage')
+            title: translate(IMPORT_LOC_KEYS.ERRORS.ExceptionTitle),
+            message: translate(IMPORT_LOC_KEYS.ERRORS.ExceptionMessage)
         });
         console.error('Exception occured while importing.', error);
         logDebugConsole(
@@ -234,3 +239,150 @@ const getModelsFromFiles = async (
     logDebugConsole('debug', '[IMPORT] [END] Parsing files. {files}', files);
     return result;
 };
+
+// #endregion
+
+// #region Export
+
+/** localization keys for error messages */
+export const EXPORT_LOC_KEYS = {
+    ERRORS: {
+        ExceptionTitle: 'OAT.Common.unhandledExceptionTitle',
+        ExceptionMessage: 'OAT.Common.unhandledExceptionMessage'
+    }
+};
+type ExportStatus = 'Success' | 'Failed';
+interface IExportModelsArgs {
+    /** the existing models in the ontology to merge with */
+    models: DtdlInterface[];
+    /** localization translation function */
+    translate: TFunction;
+}
+interface IExportError {
+    title: string;
+    message: string;
+}
+interface IExportModelsResult {
+    file: JSZip;
+    errors: IExportError[];
+    status: ExportStatus;
+}
+/**
+ * Creates a downloadable zip file containing one file for each model in the collection. The files are nested in folders that reflect the path in their DTMI.
+ * @example dtmi:folder1:folder2:myModel;1 -->
+ *      root.zip
+ *         |--folder1
+ *              |--folder2
+ *                  |--myModel.json
+ */
+export const createZipFileFromModels = (
+    args: IExportModelsArgs
+): IExportModelsResult => {
+    const result: IExportModelsResult = {
+        errors: [],
+        file: new JSZip(),
+        status: 'Success'
+    };
+    const { models, translate } = args;
+    if (models?.length === 0) {
+        logDebugConsole(
+            'debug',
+            `[EXPORT] [SKIP] Export models. No models found. `
+        );
+        return result;
+    }
+    logDebugConsole(
+        'debug',
+        `[EXPORT] [START] Exporting (${models.length}) models. {models}`,
+        models
+    );
+    try {
+        const zip = new JSZip();
+        for (const model of models) {
+            const modelId = model['@id'];
+            const fileName = getFileNameFromDTMI(modelId);
+            const directoryPath = getDirectoryPathFromDTMI(modelId);
+
+            // Split every part of the directory path
+            const directoryPathParts = directoryPath.split('\\');
+            // Create a folder for evert directory path part and nest them
+            let currentDirectory = zip;
+            for (const directoryPathPart of directoryPathParts) {
+                currentDirectory = currentDirectory.folder(directoryPathPart);
+                // Store json file on the last directory path part
+                if (
+                    directoryPathPart ===
+                    directoryPathParts[directoryPathParts.length - 1]
+                ) {
+                    const fileContent = JSON.stringify(
+                        convertModelToDtdl(model)
+                    );
+                    currentDirectory.file(`${fileName}.json`, fileContent);
+                    logDebugConsole(
+                        'debug',
+                        `[EXPORT] Adding file to zip for id ${modelId}. {content}`,
+                        fileContent
+                    );
+                }
+            }
+        }
+        result.file = zip;
+        logDebugConsole(
+            'debug',
+            `[EXPORT] [END] Exported models. {result}`,
+            result
+        );
+        return result;
+    } catch (error) {
+        console.error(
+            'Failed to generate zip file with models due to an exception. {exception}',
+            error
+        );
+        result.status = 'Failed';
+        result.errors.push({
+            title: translate(EXPORT_LOC_KEYS.ERRORS.ExceptionTitle),
+            message: translate(EXPORT_LOC_KEYS.ERRORS.ExceptionMessage)
+        });
+        return result;
+    }
+};
+
+/**
+ * Gets the name to use for the file based on the model's DTMI id
+ * @param dtmi the id for the model
+ * @returns the name to use for the file
+ */
+const getFileNameFromDTMI = (dtmi: string): string => {
+    // Get id path - Get section between last ":" and ";"
+    const initialPosition = dtmi.lastIndexOf(':') + 1;
+    const finalPosition = dtmi.lastIndexOf(';');
+
+    if (initialPosition !== 0 && finalPosition !== -1) {
+        const idPath = dtmi.substring(initialPosition, finalPosition);
+        const idVersion = dtmi.substring(
+            dtmi.lastIndexOf(';') + 1,
+            dtmi.length
+        );
+        return `${idPath}-${idVersion}`;
+    }
+    return '';
+};
+
+/**
+ * Get directoryPath from DTMI
+ * @param dtmi ID of a model
+ * @returns the string of the directory file path to use for the model
+ */
+const getDirectoryPathFromDTMI = (dtmi: string): string => {
+    const initialPosition = dtmi.indexOf(':') + 1;
+    const finalPosition = dtmi.lastIndexOf(':');
+
+    if (initialPosition !== 0 && finalPosition !== -1) {
+        const directoryPath = dtmi.substring(initialPosition, finalPosition);
+        // Scheme - replace ":" with "\"
+        return directoryPath.replace(':', '\\');
+    }
+    return '';
+};
+
+// #endregion

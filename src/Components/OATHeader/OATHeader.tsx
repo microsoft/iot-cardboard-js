@@ -17,26 +17,23 @@ import {
     useTheme
 } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
-import JSZip from 'jszip';
 import { CommandHistoryContext } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
-import { getDebugLogger } from '../../Models/Services/Utils';
+import { downloadFile, getDebugLogger } from '../../Models/Services/Utils';
 import {
     HeaderModal,
     IOATHeaderProps,
     IOATHeaderStyleProps,
     IOATHeaderStyles
 } from './OATHeader.types';
-import {
-    convertModelToDtdl,
-    getDirectoryPathFromDTMI,
-    getFileNameFromDTMI
-} from '../../Models/Services/OatUtils';
 import { getStyles } from './OATHeader.styles';
 import { useOatPageContext } from '../../Models/Context/OatPageContext/OatPageContext';
 import { OatPageContextActionType } from '../../Models/Context/OatPageContext/OatPageContext.types';
 import ManageOntologyModal from './internal/ManageOntologyModal/ManageOntologyModal';
 import OATConfirmDialog from '../OATConfirmDialog/OATConfirmDialog';
-import { parseFilesToModels } from '../../Models/Services/OatPublicUtils';
+import {
+    createZipFileFromModels,
+    parseFilesToModels
+} from '../../Models/Services/OatPublicUtils';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('OATHeader', debugLogging);
@@ -91,8 +88,8 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
                     result.errors?.length > 0
                         ? result.errors[0]
                         : {
-                              title: 'generic error',
-                              message: 'something went wrong'
+                              title: t('OAT.Common.unhandledExceptionTitle'),
+                              message: t('OAT.Common.unhandledexceptionMessage')
                           };
                 oatPageDispatch({
                     type: OatPageContextActionType.SET_OAT_ERROR,
@@ -109,6 +106,45 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
         },
         [oatPageDispatch, oatPageState.currentOntologyModels, t]
     );
+
+    const onExportClick = useCallback(() => {
+        logDebugConsole(
+            'info',
+            '[START] Export models to file. {models}',
+            oatPageState.currentOntologyModels
+        );
+
+        const zipResult = createZipFileFromModels({
+            models: oatPageState.currentOntologyModels,
+            translate: t
+        });
+        if (zipResult.status === 'Success') {
+            zipResult.file.generateAsync({ type: 'blob' }).then((content) => {
+                logDebugConsole(
+                    'info',
+                    '[END] Export models to file. {content}',
+                    content
+                );
+                downloadFile(content, 'modelExport.zip');
+            });
+        } else {
+            // show error
+            const error =
+                zipResult.errors?.length > 0
+                    ? zipResult.errors[0]
+                    : {
+                          title: t('OAT.Common.unhandledExceptionTitle'),
+                          message: t('OAT.Common.unhandledexceptionMessage')
+                      };
+            oatPageDispatch({
+                type: OatPageContextActionType.SET_OAT_ERROR,
+                payload: {
+                    title: error.title,
+                    message: error.message
+                }
+            });
+        }
+    }, [oatPageState.currentOntologyModels, t, oatPageDispatch]);
 
     const getUploadFileHandler = (
         inputRef: HTMLInputElement
@@ -139,62 +175,6 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
             type: OatPageContextActionType.DUPLICATE_PROJECT
         });
     }, [oatPageDispatch]);
-
-    const onExportClick = useCallback(() => {
-        logDebugConsole(
-            'info',
-            '[START] Export models to file. {models, metadata}',
-            oatPageState.currentOntologyModels,
-            oatPageState.currentOntologyModelMetadata
-        );
-        const zip = new JSZip();
-        for (const currentModel of oatPageState.currentOntologyModels) {
-            const currentModelId = currentModel['@id'];
-            const fileName = getFileNameFromDTMI(currentModelId);
-            const directoryPath = getDirectoryPathFromDTMI(currentModelId);
-
-            // Split every part of the directory path
-            const directoryPathParts = directoryPath.split('\\');
-            // Create a folder for evert directory path part and nest them
-            let currentDirectory = zip;
-            for (const directoryPathPart of directoryPathParts) {
-                currentDirectory = currentDirectory.folder(directoryPathPart);
-                // Store json file on the last directory path part
-                if (
-                    directoryPathPart ===
-                    directoryPathParts[directoryPathParts.length - 1]
-                ) {
-                    currentDirectory.file(
-                        `${fileName}.json`,
-                        JSON.stringify(convertModelToDtdl(currentModel))
-                    );
-                }
-            }
-        }
-
-        const downloadModelExportBlob = (blob: Blob) => {
-            const blobURL = window.URL.createObjectURL(blob);
-            const link = document.createElement('a');
-            link.setAttribute('href', blobURL);
-            link.setAttribute('download', 'modelExport.zip');
-            link.innerHTML = '';
-            document.body.appendChild(link);
-            link.click();
-            link.parentNode.removeChild(link);
-        };
-
-        zip.generateAsync({ type: 'blob' }).then((content) => {
-            logDebugConsole(
-                'info',
-                '[END] Export models to file. {content}',
-                content
-            );
-            downloadModelExportBlob(content);
-        });
-    }, [
-        oatPageState.currentOntologyModels,
-        oatPageState.currentOntologyModelMetadata
-    ]);
 
     const onAddModel = useCallback(() => {
         oatPageDispatch({
