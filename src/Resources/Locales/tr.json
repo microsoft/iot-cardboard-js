@@ -1414,9 +1414,10 @@
       "fileFormatNotSupportedMessage": "Yalnızca JSON dosyaları desteklenir. Aşağıdaki dosyalar içe aktarılamıyor: \n{{fileNames}}.",
       "fileFormatNotSupportedTitle": "Dosya biçimi desteklenmiyor",
       "fileInvalidJSON": "'{{fileName}}' içe aktarılamıyor, geçersiz JSON içeriyor.",
-      "invalidJSON": "Geçersiz JSON",
-      "issueWithFile": "Dosyayla ilgili sorun: {{error}}",
-      "modelAlreadyExists": "@id sahip model ({{modelId}}) zaten var"
+      "exceptionTitle": "Beklenmeyen hata",
+      "exceptionMessage": "Beklenmedik bir şey oldu. Lütfen tekrar deneyin.",
+      "importFailedTitle": "İçe aktarma başarısız oldu",
+      "importFailedMessage": "İçe aktarma sırasında bir hata oluştu. Bunları çözün ve yeniden deneyin.\n {{error}}"
     }
   }
 }

@@ -1414,9 +1414,10 @@
       "fileFormatNotSupportedMessage": "Поддерживаются только JSON-файлы. Не удается импортировать следующие файлы: \n{{Именафайлов}}.",
       "fileFormatNotSupportedTitle": "Формат файла не поддерживается",
       "fileInvalidJSON": "Не удается импортировать '{{имя_файла}}', он содержит недопустимый JSON.",
-      "invalidJSON": "Недопустимый JSON",
-      "issueWithFile": "Проблема с файлом: {{error}}",
-      "modelAlreadyExists": "Модель с @id ({{modelId}}) уже существует"
+      "exceptionTitle": "Непредвиденная ошибка",
+      "exceptionMessage": "Случилось нечто неожиданное. Повторите попытку.",
+      "importFailedTitle": "Сбой импорта",
+      "importFailedMessage": "Произошла ошибка при импорте. Устраните их и повторите попытку.\n {{ошибка}}"
     }
   }
 }

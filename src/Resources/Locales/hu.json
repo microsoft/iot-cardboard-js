@@ -1414,9 +1414,10 @@
       "fileFormatNotSupportedMessage": "Csak a JSON-fájlok támogatottak. Nem lehet importálni a következő fájlokat: \n{{fájlnevek}} sablont.",
       "fileFormatNotSupportedTitle": "A fájlformátum nem támogatott",
       "fileInvalidJSON": "A(z) \"{{fileName}}\" nem importálható, érvénytelen JSON-t tartalmaz.",
-      "invalidJSON": "Érvénytelen JSON",
-      "issueWithFile": "Probléma a fájllal: {{error}}",
-      "modelAlreadyExists": "A @id ({{modelId}}) modellel már létezik"
+      "exceptionTitle": "Váratlan hiba",
+      "exceptionMessage": "Valami váratlan történt. Kérjük, próbálja újra.",
+      "importFailedTitle": "Az importálás sikertelen",
+      "importFailedMessage": "Hiba történt az importálás során. Oldja meg őket, és próbálkozzon újra.\n {{hiba}}"
     }
   }
 }

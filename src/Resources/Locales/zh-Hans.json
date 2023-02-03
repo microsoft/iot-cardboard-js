@@ -1414,9 +1414,10 @@
       "fileFormatNotSupportedMessage": "仅支持 JSON 文件。无法导入以下文件：\n{{文件名}}.",
       "fileFormatNotSupportedTitle": "不支持文件格式",
       "fileInvalidJSON": "无法导入“{{文件名}}”，它包含无效的 JSON。",
-      "invalidJSON": "无效的 JSON",
-      "issueWithFile": "文件问题：{{错误}}",
-      "modelAlreadyExists": "具有@id （{{modelId}}） 的模型已存在"
+      "exceptionTitle": "意外错误",
+      "exceptionMessage": "意想不到的事情发生了。请重试。",
+      "importFailedTitle": "导入失败",
+      "importFailedMessage": "导入过程中出错。请解决它们，然后重试。\n {{错误}}"
     }
   }
 }
