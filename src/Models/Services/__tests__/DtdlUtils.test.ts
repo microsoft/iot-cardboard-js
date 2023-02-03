@@ -8,9 +8,13 @@ import {
     DTDLObject,
     DTDLProperty,
     DTDLRelationship,
-    DTDLType
+    DTDLType,
+    DTDL_CONTEXT_VERSION_2,
+    DTDL_CONTEXT_VERSION_3
 } from '../../Classes/DTDL';
+import { getMockModelItem } from '../../Context/OatPageContext/OatPageContext.mock';
 import {
+    getDtdlVersion,
     isComplexSchemaProperty,
     isValidDtmiId,
     isValidDtmiPath,
@@ -271,6 +275,76 @@ describe('DtdlUtils', () => {
                 expect(result[2].name).toEqual('targetProperty');
                 expect(result[3].name).toEqual('rel2');
             });
+        });
+    });
+
+    describe('getDtdlVersion', () => {
+        test('null model defaults to version 2', () => {
+            // ARRANGE
+            // ACT
+            const result = getDtdlVersion(null);
+            // ASSERT
+            expect(result).toEqual('2');
+        });
+        test('context contains version 2 in array', () => {
+            // ARRANGE
+            const context = ['other stuff', DTDL_CONTEXT_VERSION_2];
+            const model = getMockModelItem('dtmi:model1;1');
+            model['@context'] = context;
+            // ACT
+            const result = getDtdlVersion(model);
+            // ASSERT
+            expect(result).toEqual('2');
+        });
+        test('context has unknown string, default to 2', () => {
+            // ARRANGE
+            const context = ['other stuff', DTDL_CONTEXT_VERSION_2];
+            const model = getMockModelItem('dtmi:model1;1');
+            model['@context'] = context;
+            // ACT
+            const result = getDtdlVersion(model);
+            // ASSERT
+            expect(result).toEqual('2');
+        });
+        test('context contains version 3 in array', () => {
+            // ARRANGE
+            const context = ['other stuff', DTDL_CONTEXT_VERSION_3];
+            const model = getMockModelItem('dtmi:model1;1');
+            model['@context'] = context;
+            // ACT
+            const result = getDtdlVersion(model);
+            // ASSERT
+            expect(result).toEqual('3');
+        });
+        test('context has version 2 as string', () => {
+            // ARRANGE
+            const context = DTDL_CONTEXT_VERSION_2;
+            const model = getMockModelItem('dtmi:model1;1');
+            model['@context'] = context;
+            // ACT
+            const result = getDtdlVersion(model);
+            // ASSERT
+            expect(result).toEqual('2');
+        });
+        test('context has unknown string default to 2', () => {
+            // ARRANGE
+            const context = 'other stuff';
+            const model = getMockModelItem('dtmi:model1;1');
+            model['@context'] = context;
+            // ACT
+            const result = getDtdlVersion(model);
+            // ASSERT
+            expect(result).toEqual('2');
+        });
+        test('context has version 3 as string', () => {
+            // ARRANGE
+            const context = DTDL_CONTEXT_VERSION_3;
+            const model = getMockModelItem('dtmi:model1;1');
+            model['@context'] = context;
+            // ACT
+            const result = getDtdlVersion(model);
+            // ASSERT
+            expect(result).toEqual('3');
         });
     });
 

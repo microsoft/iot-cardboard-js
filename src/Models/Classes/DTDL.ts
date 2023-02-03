@@ -16,7 +16,9 @@ import {
     IADTProperty
 } from '../Constants';
 
-export const CURRENT_CONTEXT_VERSION = 'dtmi:dtdl:context;2';
+const DTDL_CONTEXT_VERSION_PREFIX = 'dtmi:dtdl:context;';
+export const DTDL_CONTEXT_VERSION_2 = `${DTDL_CONTEXT_VERSION_PREFIX}2`;
+export const DTDL_CONTEXT_VERSION_3 = `${DTDL_CONTEXT_VERSION_PREFIX}3`;
 
 export enum DTDLType {
     Interface = 'Interface',
@@ -448,7 +450,7 @@ export class DTDLModel implements DtdlInterface {
         schemas?: DtdlInterfaceSchema[]
     ) {
         this['@type'] = DTDLType.Interface;
-        this['@context'] = CURRENT_CONTEXT_VERSION;
+        this['@context'] = DTDL_CONTEXT_VERSION_2;
         this['@id'] = id;
         this.displayName = displayName;
         this.description = description;
