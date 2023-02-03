@@ -72,7 +72,7 @@
         "query-string": "^7.1.1",
         "react-draggable": "^4.4.4",
         "react-dropzone": "^11.3.4",
-        "react-flow-renderer": "^9.7.4",
+        "react-flow-renderer": "^10.3.17",
         "react-gauge-chart": "^0.4.0",
         "react-i18next": "^11.8.5",
         "react-inlinesvg": "^3.0.0",

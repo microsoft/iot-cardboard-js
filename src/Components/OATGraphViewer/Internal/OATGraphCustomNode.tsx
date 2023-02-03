@@ -133,14 +133,12 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = (props) => {
                 onBlur={setIsHoveredFalse}
                 style={{ maxWidth: GRAPH_NODE_WIDTH }}
             >
-                {data['@type'] === OAT_UNTARGETED_RELATIONSHIP_NAME && (
-                    <Handle
-                        type="target"
-                        position={Position.Top}
-                        className={graphViewerStyles.handle}
-                        isConnectable={isConnectable}
-                    />
-                )}
+                <Handle
+                    type="target"
+                    position={Position.Top}
+                    className={graphViewerStyles.handle}
+                    isConnectable={isConnectable}
+                />
                 {oatGraphState.isEdgeDragging && (
                     <div
                         data-targetid={id}

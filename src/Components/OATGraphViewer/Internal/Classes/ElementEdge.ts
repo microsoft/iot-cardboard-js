@@ -9,7 +9,6 @@ export class ElementEdge implements IOATRelationshipElement {
     public source: string;
     public sourceHandle: string;
     public target: string;
-    public targetHandle: string;
     public data: IOATNodeData;
 
     constructor(
@@ -30,7 +29,6 @@ export class ElementEdge implements IOATRelationshipElement {
         this.source = source;
         this.sourceHandle = sourceHandle;
         this.target = target;
-        this.targetHandle = targetHandle;
         this.data = data;
     }
 }

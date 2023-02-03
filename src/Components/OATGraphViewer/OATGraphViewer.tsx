@@ -21,7 +21,9 @@ import ReactFlow, {
     MiniMap,
     Background,
     Node,
-    Edge
+    Edge,
+    applyNodeChanges,
+    applyEdgeChanges
 } from 'react-flow-renderer';
 import { useTranslation } from 'react-i18next';
 import OATGraphCustomNode from './Internal/OATGraphCustomNode';
@@ -232,6 +234,23 @@ const OATGraphViewerContent: React.FC<IOATGraphViewerProps> = (props) => {
             oatPageState.currentOntologyModelPositions
         )
     );
+
+    // react-flow V10 structures
+    const [nodes, setNodes] = useState([]);
+    const [edges, setEdges] = useState([]);
+    const onNodesChange = useCallback(
+        (changes) => setNodes((ns) => applyNodeChanges(changes, ns)),
+        []
+    );
+    const onEdgesChange = useCallback(
+        (changes) => setEdges((es) => applyEdgeChanges(changes, es)),
+        []
+    );
+    useEffect(() => {
+        setNodes(elements.filter((e) => !('source' in e)));
+        setEdges(elements.filter((e) => 'source' in e));
+    }, [elements]);
+
     const currentNodeIdRef = useRef<string>(null);
     const currentHandleIdRef = useRef<string>(null);
     const [rfInstance, setRfInstance] = useState<IReactFlowInstance | null>(
@@ -773,15 +792,18 @@ const OATGraphViewerContent: React.FC<IOATGraphViewerProps> = (props) => {
 
                 <ReactFlow
                     className={classNames.graph}
+                    nodes={nodes}
+                    edges={edges}
                     edgeTypes={edgeTypes}
-                    elements={elements}
                     nodeTypes={nodeTypes}
                     onConnectStart={onConnectStart}
                     onConnectStop={onConnectStop}
-                    onElementClick={onElementClick}
-                    onLoad={onLoadGraph}
+                    onNodeClick={onElementClick}
+                    onInit={onLoadGraph}
                     onNodeDragStop={onNodeDragEnd}
                     onPaneClick={clearSelectedModel}
+                    onNodesChange={onNodesChange}
+                    onEdgesChange={onEdgesChange}
                     snapGrid={[15, 15]}
                     snapToGrid={true}
                 >

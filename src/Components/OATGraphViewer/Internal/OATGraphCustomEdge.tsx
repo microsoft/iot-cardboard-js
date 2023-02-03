@@ -10,7 +10,7 @@ import {
 import { useId, useBoolean } from '@fluentui/react-hooks';
 import {
     getEdgeCenter,
-    useStoreState,
+    useStore,
     Position as FlowPosition,
     Node,
     Edge,
@@ -177,8 +177,8 @@ const getMidPointForNode = (node: Node<any>): number[] => {
     let x = 0;
     let y = 0;
     if (node) {
-        x = node.__rf.position.x + node.__rf.width / 2;
-        y = node.__rf.position.y + node.__rf.height / 2;
+        x = node.position.x + node.width / 2;
+        y = node.position.y + node.height / 2;
     }
 
     return [x, y];
@@ -214,22 +214,27 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = (props) => {
     // hooks
     const { t } = useTranslation();
     const edgeCalloutTargetId = useId('callout-stacked-references');
-    const nodes = useStoreState(
-        (state) => state.nodes,
-        (l, r) =>
-            l.length === r.length &&
-            l.every((li) => {
-                const rm = r.find((ri) => ri.id === li.id);
-                return (
-                    rm &&
-                    rm.__rf.position.x === li.__rf.position.x &&
-                    rm.__rf.position.y === li.__rf.position.y &&
-                    rm.__rf.width === li.__rf.width &&
-                    rm.__rf.height === li.__rf.height
-                );
-            })
+    const nodes = useStore(
+        (state) => Array.from(state.nodeInternals.values()),
+        (lII, rII) => {
+            const l = Array.from(lII);
+            const r = Array.from(rII);
+            return (
+                l.length === r.length &&
+                l.every((li) => {
+                    const rm = r.find((ri) => ri.id === li.id);
+                    return (
+                        rm &&
+                        rm.position.x === li.position.x &&
+                        rm.position.y === li.position.y &&
+                        rm.width === li.width &&
+                        rm.height === li.height
+                    );
+                })
+            );
+        }
     );
-    const edges = useStoreState((state) => state.edges);
+    const edges = useStore((state) => state.edges);
 
     // contexts
     const { execute } = useContext(CommandHistoryContext);
@@ -295,10 +300,10 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = (props) => {
     const isSelfReferencing = edge.source === edge.target;
 
     // If a valid element we get size based on positioning
-    const sourceNodeSizeX = edgeSourceNode.__rf.width;
-    const sourceNodeSizeY = edgeSourceNode.__rf.height;
-    const targetNodeSizeX = edgeTargetNode.__rf.width;
-    const targetNodeSizeY = edgeTargetNode.__rf.height;
+    const sourceNodeSizeX = edgeSourceNode.width;
+    const sourceNodeSizeY = edgeSourceNode.height;
+    const targetNodeSizeX = edgeTargetNode.width;
+    const targetNodeSizeY = edgeTargetNode.height;
 
     const isSelected = useMemo(() => {
         if (!oatPageState.selection) {
@@ -760,10 +765,7 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = (props) => {
         if (isSelfReferencing) {
             return {
                 x: edgeSourceX - STACKED_EDGE_NUMBER_OBJECT_SIZE / 2,
-                y:
-                    edgeSourceY -
-                    edgeSourceNode.__rf.height -
-                    SELF_REFERENCING_RADIUS
+                y: edgeSourceY - edgeSourceNode.height - SELF_REFERENCING_RADIUS
             };
         } else {
             const [edgeCenterX, edgeCenterY] = getEdgeCenter({
@@ -778,7 +780,7 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = (props) => {
             };
         }
     }, [
-        edgeSourceNode.__rf.height,
+        edgeSourceNode.height,
         edgeSourceX,
         edgeSourceY,
         isSelfReferencing,
