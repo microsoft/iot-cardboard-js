@@ -32,6 +32,8 @@ import ManageOntologyModal from './internal/ManageOntologyModal/ManageOntologyMo
 import OATConfirmDialog from '../OATConfirmDialog/OATConfirmDialog';
 import {
     createZipFileFromModels,
+    IExportLocalizationKeys,
+    IImportLocalizationKeys,
     parseFilesToModels
 } from '../../Models/Services/OatPublicUtils';
 
@@ -42,6 +44,24 @@ const getClassNames = classNamesFunction<
     IOATHeaderStyleProps,
     IOATHeaderStyles
 >();
+
+/** localization keys for error messages in the Import flow */
+const IMPORT_LOC_KEYS: IImportLocalizationKeys = {
+    FileFormatNotSupportedMessage:
+        'OAT.ImportErrors.fileFormatNotSupportedMessage',
+    FileInvalidJson: 'OAT.ImportErrors.fileInvalidJSON',
+    FileFormatNotSupportedTitle: 'OAT.ImportErrors.fileFormatNotSupportedTitle',
+    ImportFailedTitle: 'OAT.ImportErrors.importFailedTitle',
+    ImportFailedMessage: 'OAT.ImportErrors.importFailedMessage',
+    ExceptionTitle: 'OAT.Common.unhandledExceptionTitle',
+    ExceptionMessage: 'OAT.Common.unhandledExceptionMessage'
+};
+
+/** localization keys for error messages in the Export flow */
+const EXPORT_LOC_KEYS: IExportLocalizationKeys = {
+    ExceptionTitle: 'OAT.Common.unhandledExceptionTitle',
+    ExceptionMessage: 'OAT.Common.unhandledExceptionMessage'
+};
 
 const OATHeader: React.FC<IOATHeaderProps> = (props) => {
     const { styles } = props;
@@ -75,6 +95,7 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
             const result = await parseFilesToModels({
                 files: files,
                 currentModels: oatPageState.currentOntologyModels,
+                localizationKeys: IMPORT_LOC_KEYS,
                 translate: t
             });
             if (result.status === 'Success') {
@@ -116,6 +137,7 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
 
         const zipResult = createZipFileFromModels({
             models: oatPageState.currentOntologyModels,
+            localizationKeys: EXPORT_LOC_KEYS,
             translate: t
         });
         if (zipResult.status === 'Success') {

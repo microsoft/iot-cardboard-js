@@ -36,6 +36,15 @@ export async function parseModels(models: DtdlInterface[]): Promise<string> {
 }
 
 type ImportStatus = 'Success' | 'Failed';
+export interface IImportLocalizationKeys {
+    FileFormatNotSupportedMessage: string;
+    FileInvalidJson: string;
+    FileFormatNotSupportedTitle: string;
+    ImportFailedTitle: string;
+    ImportFailedMessage: string;
+    ExceptionTitle: string;
+    ExceptionMessage: string;
+}
 interface IImportFileArgs {
     /** the collection of model files being uploaded */
     files: File[];
@@ -43,6 +52,7 @@ interface IImportFileArgs {
     currentModels: DtdlInterface[];
     /** localization translation function */
     translate: TFunction;
+    localizationKeys: IImportLocalizationKeys;
 }
 interface IImportError {
     title: string;
@@ -54,21 +64,6 @@ interface IImportFileResult {
     status: ImportStatus;
 }
 
-/** localization keys for error messages */
-export const IMPORT_LOC_KEYS = {
-    ERRORS: {
-        FileFormatNotSupportedMessage:
-            'OAT.ImportErrors.fileFormatNotSupportedMessage',
-        FileInvalidJson: 'OAT.ImportErrors.fileInvalidJSON',
-        FileFormatNotSupportedTitle:
-            'OAT.ImportErrors.fileFormatNotSupportedTitle',
-        ImportFailedTitle: 'OAT.ImportErrors.importFailedTitle',
-        ImportFailedMessage: 'OAT.ImportErrors.importFailedMessage',
-        ExceptionTitle: 'OAT.Common.unhandledExceptionTitle',
-        ExceptionMessage: 'OAT.Common.unhandledExceptionMessage'
-    }
-};
-
 /**
  * Takes a collection of uploaded files, reads the contents and the validates the models to ensure they are valid DTDL and the ontology is in a valid state.
  * @param args the arguments for the function
@@ -77,7 +72,7 @@ export const IMPORT_LOC_KEYS = {
 export const parseFilesToModels = async (
     args: IImportFileArgs
 ): Promise<IImportFileResult> => {
-    const { files, currentModels = [], translate } = args;
+    const { files, currentModels = [], localizationKeys, translate } = args;
     const result: IImportFileResult = {
         errors: [],
         models: [],
@@ -103,10 +98,10 @@ export const parseFilesToModels = async (
             result.errors = [
                 {
                     title: translate(
-                        IMPORT_LOC_KEYS.ERRORS.FileFormatNotSupportedTitle
+                        localizationKeys.FileFormatNotSupportedTitle
                     ),
                     message: translate(
-                        IMPORT_LOC_KEYS.ERRORS.FileFormatNotSupportedMessage,
+                        localizationKeys.FileFormatNotSupportedMessage,
                         {
                             fileNames: fileValidationResult.failedFileNames
                                 .map((x) => `'${x}'`)
@@ -120,7 +115,8 @@ export const parseFilesToModels = async (
             const parseResult = await getModelsFromFiles(
                 fileValidationResult.validFiles,
                 currentModels,
-                translate
+                translate,
+                localizationKeys
             );
             result.errors = parseResult.errors;
             result.models = parseResult.models;
@@ -136,8 +132,8 @@ export const parseFilesToModels = async (
     } catch (error) {
         result.status = 'Failed';
         result.errors.push({
-            title: translate(IMPORT_LOC_KEYS.ERRORS.ExceptionTitle),
-            message: translate(IMPORT_LOC_KEYS.ERRORS.ExceptionMessage)
+            title: translate(localizationKeys.ExceptionTitle),
+            message: translate(localizationKeys.ExceptionMessage)
         });
         console.error('Exception occured while importing.', error);
         logDebugConsole(
@@ -172,7 +168,8 @@ interface IParseFilesResult {
 const getModelsFromFiles = async (
     files: Array<File>,
     currentModels: DtdlInterface[],
-    translate: TFunction
+    translate: TFunction,
+    localizationKeys: IImportLocalizationKeys
 ): Promise<IParseFilesResult> => {
     const result: IParseFilesResult = {
         errors: [],
@@ -193,7 +190,7 @@ const getModelsFromFiles = async (
 
         if (!model) {
             filesErrors.push(
-                translate(IMPORT_LOC_KEYS.ERRORS.FileInvalidJson, {
+                translate(localizationKeys.FileInvalidJson, {
                     fileName: current.name
                 })
             );
@@ -207,7 +204,7 @@ const getModelsFromFiles = async (
     const error = await parseModels(combinedModels);
     if (error) {
         filesErrors.push(
-            translate(IMPORT_LOC_KEYS.ERRORS.ImportFailedMessage, {
+            translate(localizationKeys.ImportFailedMessage, {
                 error
             })
         );
@@ -232,7 +229,7 @@ const getModelsFromFiles = async (
             accumulatedError
         );
         result.errors.push({
-            title: translate(IMPORT_LOC_KEYS.ERRORS.ImportFailedTitle),
+            title: translate(localizationKeys.ImportFailedTitle),
             message: accumulatedError
         });
     }
@@ -243,20 +240,18 @@ const getModelsFromFiles = async (
 // #endregion
 
 // #region Export
-
-/** localization keys for error messages */
-export const EXPORT_LOC_KEYS = {
-    ERRORS: {
-        ExceptionTitle: 'OAT.Common.unhandledExceptionTitle',
-        ExceptionMessage: 'OAT.Common.unhandledExceptionMessage'
-    }
-};
 type ExportStatus = 'Success' | 'Failed';
+export interface IExportLocalizationKeys {
+    ExceptionTitle: string;
+    ExceptionMessage: string;
+}
 interface IExportModelsArgs {
     /** the existing models in the ontology to merge with */
     models: DtdlInterface[];
     /** localization translation function */
     translate: TFunction;
+    /** the keys to use for localized strings */
+    localizationKeys: IExportLocalizationKeys;
 }
 interface IExportError {
     title: string;
@@ -283,7 +278,7 @@ export const createZipFileFromModels = (
         file: new JSZip(),
         status: 'Success'
     };
-    const { models, translate } = args;
+    const { models, localizationKeys, translate } = args;
     if (models?.length === 0) {
         logDebugConsole(
             'debug',
@@ -340,8 +335,8 @@ export const createZipFileFromModels = (
         );
         result.status = 'Failed';
         result.errors.push({
-            title: translate(EXPORT_LOC_KEYS.ERRORS.ExceptionTitle),
-            message: translate(EXPORT_LOC_KEYS.ERRORS.ExceptionMessage)
+            title: translate(localizationKeys.ExceptionTitle),
+            message: translate(localizationKeys.ExceptionMessage)
         });
         return result;
     }
