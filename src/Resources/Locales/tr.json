@@ -1390,7 +1390,7 @@
       "forbidden": "Erişim reddedildi, sorgu izinleriniz yok."
     }
   },
-  "dataHistoryExplorerr": {
+  "dataHistoryExplorer": {
     "title": "Veri geçmişi gezgini",
     "loadingConnectionLabel": "Veri geçmişi bağlantı bilgileri yükleniyor...",
     "builder": {
@@ -1401,16 +1401,13 @@
         "edit": "Zaman serilerini düzenleme",
         "remove": "Zaman serilerini kaldırma",
         "property": "Mülk",
-        "propertyTypeCastLabe": "Özellik değerini sayıya dökme",
+        "propertyTypeCastLabel": "Özellik değerini sayıya dökme",
         "noData": "Seçilen zaman aralığı için görüntülenecek veri yok"
       }
     },
     "viewer": {
       "chart": {
-        "title": "Grafik",
-        "messages": {
-          "noData": "Seçilen zaman aralığında sayısal veri bulunamadı."
-        }
+        "title": "Grafik"
       },
       "table": {
         "title": "Masa",
@@ -1420,14 +1417,14 @@
           "value": "Değer",
           "type": "Tür"
         },
-        "messages": {
-          "noColor": "Ayarlanmadı",
-          "loading": "Geçmiş veriler yükleniyor...",
-          "noData": "Seçilen zaman aralığında veri bulunamadı.",
-          "noSeries": "Sorgulamak için ikiz seçilmemiş, geçmiş verileri görüntülemek için lütfen ikiz özellikleri ekleyin."
-        }
+        "noColor": "Ayarlanmadı"
       },
-      "noSeriesDescription": "Bu ikizin veri geçmişini görüntülemek için görüntülenecek bir özellik seçin."
+      "messages": {
+        "loading": "Geçmiş veriler yükleniyor...",
+        "noData": "Seçilen zaman aralığında veri bulunamadı.",
+        "noNumericData": "Seçilen zaman aralığında sayısal veri bulunamadı.",
+        "noSeries": "Sorgulamak için ikiz seçilmemiş, geçmiş verileri görüntülemek için lütfen ikiz özellikleri ekleyin."
+      }
     }
   }
 }
