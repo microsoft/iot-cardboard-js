@@ -1,6 +1,12 @@
 import { createParser, ModelParsingOption } from 'azure-iot-dtdl-parser';
 import JSZip from 'jszip';
+import { DTDLSchema } from '../Classes/DTDL';
 import { DtdlInterface } from '../Constants/dtdlInterfaces';
+import {
+    hasArraySchemaType,
+    hasObjectSchemaType,
+    isDTDLProperty
+} from './DtdlUtils';
 import { convertModelToDtdl, safeJsonParse } from './OatUtils';
 import { getDebugLogger } from './Utils';
 
@@ -202,7 +208,8 @@ const getModelsFromFiles = async (
 
     // run the parser for full validations
     const combinedModels = [...currentModels, ...newModels];
-    const error = await parseModels(combinedModels);
+
+    const error = await parseModels(stripV3Features(combinedModels));
     if (error) {
         filesErrors.push(
             translate(localizationKeys.ImportFailedMessage, {
@@ -237,6 +244,77 @@ const getModelsFromFiles = async (
     logDebugConsole('debug', '[IMPORT] [END] Parsing files. {files}', files);
     return result;
 };
+
+/**
+ * NOTE: Exposed only for testing purposes, not intended to be used externally
+ * Function that takes a collection of models and removes all the V3 features from them and returns that collection back.
+ * @param models Collection of models to process
+ * @returns collection of models without V3 features
+ */
+export const stripV3Features = (models: DtdlInterface[]): DtdlInterface[] => {
+    if (!models || !models.length) {
+        return models;
+    }
+    logDebugConsole(
+        'debug',
+        '[STRIP V3] [START] Stripping V3 features. {models}',
+        models
+    );
+    models.forEach((model) => {
+        // if (getDtdlVersion(model) !== '3') {
+        //     return;
+        // }
+        // remove arrays
+        removeArrays(model);
+        // remove geospatial schemas from properties
+        // add version if missing
+        // relationships set minMultiplicity to 0
+    });
+
+    logDebugConsole(
+        'debug',
+        '[STRIP V3] [END] Stripping V3 features. {models}',
+        models
+    );
+    return models;
+};
+const removeArrays = (model: DtdlInterface): DtdlInterface => {
+    logDebugConsole('debug', '[REMOVE ARRAYS] [START] {models}', model);
+    const nonProperties = model.contents?.filter((x) => !isDTDLProperty(x));
+    const properties = model.contents?.filter((x) => isDTDLProperty(x));
+    if (properties?.length > 0) {
+        const filteredProperties = properties.filter((x) => {
+            if (isDTDLProperty(x)) {
+                return !isChildAnArray(x);
+            } else {
+                return true;
+            }
+        });
+        model.contents = [...nonProperties, ...filteredProperties];
+    }
+    logDebugConsole('debug', '[REMOVE ARRAYS] [END] {models}', model);
+    return model;
+};
+/** traverses the children and returns true if it finds an array item */
+const isChildAnArray = (item: { schema: DTDLSchema }): boolean => {
+    if (hasArraySchemaType(item)) {
+        return true;
+    } else if (hasObjectSchemaType(item)) {
+        if (item.schema.fields?.length > 0) {
+            // check children
+            item.schema.fields = item.schema.fields.filter((objectField) => {
+                return !isChildAnArray(objectField);
+            });
+        }
+        return false;
+    }
+};
+// const removeArrays = (models: DtdlInterface[]): DtdlInterface[] =>{
+//     logDebugConsole('debug', '[REMOVE ARRAYS] [START] {models}', models);
+
+//     logDebugConsole('debug', '[REMOVE ARRAYS] [START] {models}', models);
+//     return models;
+// }
 
 // #endregion
 
