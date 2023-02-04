@@ -1390,7 +1390,7 @@
       "forbidden": "O acesso foi negado, não tem permissões de consulta."
     }
   },
-  "dataHistoryExplorerr": {
+  "dataHistoryExplorer": {
     "title": "Explorador de histórico de dados",
     "loadingConnectionLabel": "A carregar informações sobre a ligação do histórico de dados...",
     "builder": {
@@ -1401,16 +1401,13 @@
         "edit": "Editar séries tempor feiras",
         "remove": "Remover séries de tempo",
         "property": "Propriedade",
-        "propertyTypeCastLabe": "Valor da propriedade do elenco para o número",
+        "propertyTypeCastLabel": "Valor da propriedade do elenco para o número",
         "noData": "Não há dados para visualizar para o intervalo de tempo selecionado"
       }
     },
     "viewer": {
       "chart": {
-        "title": "Gráfico",
-        "messages": {
-          "noData": "Não são encontrados dados numéricos no intervalo de tempo selecionado."
-        }
+        "title": "Gráfico"
       },
       "table": {
         "title": "Tabela",
@@ -1420,14 +1417,14 @@
           "value": "Valor",
           "type": "Tipo"
         },
-        "messages": {
-          "noColor": "Não definido",
-          "loading": "A carregar dados historizados...",
-          "noData": "Não são encontrados dados no intervalo de tempo selecionado.",
-          "noSeries": "Nenhum gémeo selecionado para consulta, por favor adicione propriedades gémeas para visualizar dados historizados."
-        }
+        "noColor": "Não definido"
       },
-      "noSeriesDescription": "Para ver o histórico de dados deste twin, selecione uma propriedade para visualizar."
+      "messages": {
+        "loading": "A carregar dados historizados...",
+        "noData": "Não são encontrados dados no intervalo de tempo selecionado.",
+        "noNumericData": "Não são encontrados dados numéricos no intervalo de tempo selecionado.",
+        "noSeries": "Nenhum gémeo selecionado para consulta, por favor adicione propriedades gémeas para visualizar dados historizados."
+      }
     }
   }
 }

@@ -1390,7 +1390,7 @@
       "forbidden": "L’accès a été refusé, vous n’avez pas d’autorisations de requête."
     }
   },
-  "dataHistoryExplorerr": {
+  "dataHistoryExplorer": {
     "title": "Explorateur d’historique des données",
     "loadingConnectionLabel": "Chargement des informations de connexion de l’historique des données...",
     "builder": {
@@ -1401,16 +1401,13 @@
         "edit": "Modifier des séries chronologiques",
         "remove": "Supprimer des séries chronologiques",
         "property": "Propriété",
-        "propertyTypeCastLabe": "Convertir la valeur de la propriété en nombre",
+        "propertyTypeCastLabel": "Convertir la valeur de la propriété en nombre",
         "noData": "Aucune donnée à afficher pour la plage de temps sélectionnée"
       }
     },
     "viewer": {
       "chart": {
-        "title": "Graphique",
-        "messages": {
-          "noData": "Aucune donnée numérique trouvée dans la plage de temps sélectionnée."
-        }
+        "title": "Graphique"
       },
       "table": {
         "title": "Table",
@@ -1420,14 +1417,14 @@
           "value": "Valeur",
           "type": "Type"
         },
-        "messages": {
-          "noColor": "Non défini",
-          "loading": "Chargement de données historiques...",
-          "noData": "Aucune donnée trouvée dans la plage de temps sélectionnée.",
-          "noSeries": "Aucun jumeau sélectionné pour interroger, veuillez ajouter des propriétés jumelles pour afficher les données historiques."
-        }
+        "noColor": "Non défini"
       },
-      "noSeriesDescription": "Pour afficher l’historique des données de ce jumeau, sélectionnez une propriété à afficher."
+      "messages": {
+        "loading": "Chargement de données historiques...",
+        "noData": "Aucune donnée trouvée dans la plage de temps sélectionnée.",
+        "noNumericData": "Aucune donnée numérique trouvée dans la plage de temps sélectionnée.",
+        "noSeries": "Aucun jumeau sélectionné pour interroger, veuillez ajouter des propriétés jumelles pour afficher les données historiques."
+      }
     }
   }
 }

@@ -1390,7 +1390,7 @@
       "forbidden": "Der Zugriff wurde verweigert, Sie verfügen nicht über Abfrageberechtigungen."
     }
   },
-  "dataHistoryExplorerr": {
+  "dataHistoryExplorer": {
     "title": "Datenverlaufs-Explorer",
     "loadingConnectionLabel": "Verbindungsinformationen zum Datenverlauf werden geladen...",
     "builder": {
@@ -1401,16 +1401,13 @@
         "edit": "Zeitreihen bearbeiten",
         "remove": "Zeitreihen entfernen",
         "property": "Eigentum",
-        "propertyTypeCastLabe": "Eigenschaftswert in Zahl umwandeln",
+        "propertyTypeCastLabel": "Eigenschaftswert in Zahl umwandeln",
         "noData": "Keine anzuzeigenden Daten für den ausgewählten Zeitraum"
       }
     },
     "viewer": {
       "chart": {
-        "title": "Diagramm",
-        "messages": {
-          "noData": "Im ausgewählten Zeitraum wurden keine numerischen Daten gefunden."
-        }
+        "title": "Diagramm"
       },
       "table": {
         "title": "Tisch",
@@ -1420,14 +1417,14 @@
           "value": "Wert",
           "type": "Art"
         },
-        "messages": {
-          "noColor": "Nicht festgelegt",
-          "loading": "Historisierte Daten werden geladen...",
-          "noData": "Im ausgewählten Zeitraum wurden keine Daten gefunden.",
-          "noSeries": "Kein Zwilling zur Abfrage ausgewählt, fügen Sie Zwillingseigenschaften hinzu, um historisierte Daten anzuzeigen."
-        }
+        "noColor": "Nicht festgelegt"
       },
-      "noSeriesDescription": "Um den Datenverlauf für diesen Zwilling anzuzeigen, wählen Sie eine anzuzeigende Eigenschaft aus."
+      "messages": {
+        "loading": "Historisierte Daten werden geladen...",
+        "noData": "Im ausgewählten Zeitraum wurden keine Daten gefunden.",
+        "noNumericData": "Im ausgewählten Zeitraum wurden keine numerischen Daten gefunden.",
+        "noSeries": "Kein Zwilling zur Abfrage ausgewählt, fügen Sie Zwillingseigenschaften hinzu, um historisierte Daten anzuzeigen."
+      }
     }
   }
 }

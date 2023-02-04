@@ -1390,7 +1390,7 @@
       "forbidden": "Odmowa dostępu, nie masz uprawnień do wykonywania zapytań."
     }
   },
-  "dataHistoryExplorerr": {
+  "dataHistoryExplorer": {
     "title": "Eksplorator historii danych",
     "loadingConnectionLabel": "Ładowanie historii danych informacji o połączeniu...",
     "builder": {
@@ -1401,16 +1401,13 @@
         "edit": "Edytowanie szeregów czasowych",
         "remove": "Usuwanie szeregów czasowych",
         "property": "Własność",
-        "propertyTypeCastLabe": "Rzutowanie wartości właściwości na liczbę",
+        "propertyTypeCastLabel": "Rzutowanie wartości właściwości na liczbę",
         "noData": "Brak danych do wyświetlenia dla wybranego zakresu czasu"
       }
     },
     "viewer": {
       "chart": {
-        "title": "Wykres",
-        "messages": {
-          "noData": "Nie znaleziono danych liczbowych w wybranym zakresie czasu."
-        }
+        "title": "Wykres"
       },
       "table": {
         "title": "Stół",
@@ -1420,14 +1417,14 @@
           "value": "Wartość",
           "type": "Typ"
         },
-        "messages": {
-          "noColor": "Nie ustawiono",
-          "loading": "Ładowanie danych historycznych...",
-          "noData": "Nie znaleziono danych w wybranym zakresie czasu.",
-          "noSeries": "Nie wybrano bliźniaka do zapytania, dodaj właściwości bliźniacze, aby wyświetlić dane historyczne."
-        }
+        "noColor": "Nie ustawiono"
       },
-      "noSeriesDescription": "Aby wyświetlić historię danych dla tej bliźniaczej płaszczyzny, wybierz właściwość do wyświetlenia."
+      "messages": {
+        "loading": "Ładowanie danych historycznych...",
+        "noData": "Nie znaleziono danych w wybranym zakresie czasu.",
+        "noNumericData": "Nie znaleziono danych liczbowych w wybranym zakresie czasu.",
+        "noSeries": "Nie wybrano bliźniaka do zapytania, dodaj właściwości bliźniacze, aby wyświetlić dane historyczne."
+      }
     }
   }
 }

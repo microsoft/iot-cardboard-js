@@ -1390,7 +1390,7 @@
       "forbidden": "Åtkomst nekades, du har inte frågebehörighet."
     }
   },
-  "dataHistoryExplorerr": {
+  "dataHistoryExplorer": {
     "title": "Utforskaren för datahistorik",
     "loadingConnectionLabel": "Laddar anslutningsinformation för datahistorik...",
     "builder": {
@@ -1401,16 +1401,13 @@
         "edit": "Redigera tidsserier",
         "remove": "Ta bort tidsserier",
         "property": "Egenskap",
-        "propertyTypeCastLabe": "Gjutet egenskapsvärde till antal",
+        "propertyTypeCastLabel": "Gjutet egenskapsvärde till antal",
         "noData": "Inga data att visa för det valda tidsintervallet"
       }
     },
     "viewer": {
       "chart": {
-        "title": "Diagram",
-        "messages": {
-          "noData": "Inga numeriska data hittades i det valda tidsintervallet."
-        }
+        "title": "Diagram"
       },
       "table": {
         "title": "Bord",
@@ -1420,14 +1417,14 @@
           "value": "Värde",
           "type": "Typ"
         },
-        "messages": {
-          "noColor": "Inte inställt",
-          "loading": "Laddar historiserade data...",
-          "noData": "Inga data hittades i det valda tidsintervallet.",
-          "noSeries": "Ingen tvilling har valts för att fråga, lägg till tvillingegenskaper för att visa historiserade data."
-        }
+        "noColor": "Inte inställt"
       },
-      "noSeriesDescription": "Om du vill visa datahistorik för den här tvillingen väljer du en egenskap som ska visas."
+      "messages": {
+        "loading": "Laddar historiserade data...",
+        "noData": "Inga data hittades i det valda tidsintervallet.",
+        "noNumericData": "Inga numeriska data hittades i det valda tidsintervallet.",
+        "noSeries": "Ingen tvilling har valts för att fråga, lägg till tvillingegenskaper för att visa historiserade data."
+      }
     }
   }
 }

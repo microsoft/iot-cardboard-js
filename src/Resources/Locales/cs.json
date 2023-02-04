@@ -1390,7 +1390,7 @@
       "forbidden": "Přístup byl odepřen, nemáte oprávnění k dotazu."
     }
   },
-  "dataHistoryExplorerr": {
+  "dataHistoryExplorer": {
     "title": "Průzkumník historie dat",
     "loadingConnectionLabel": "Načítání informací o připojení historie dat...",
     "builder": {
@@ -1401,16 +1401,13 @@
         "edit": "Úprava časové řady",
         "remove": "Odebrání časové řady",
         "property": "Vlastnost",
-        "propertyTypeCastLabe": "Přetypování hodnoty vlastnosti na číslo",
+        "propertyTypeCastLabel": "Přetypování hodnoty vlastnosti na číslo",
         "noData": "Pro vybraný časový rozsah se nezobrazí žádná data"
       }
     },
     "viewer": {
       "chart": {
-        "title": "Graf",
-        "messages": {
-          "noData": "Ve vybraném časovém rozsahu nebyla nalezena žádná číselná data."
-        }
+        "title": "Graf"
       },
       "table": {
         "title": "Stůl",
@@ -1420,14 +1417,14 @@
           "value": "Hodnota",
           "type": "Typ"
         },
-        "messages": {
-          "noColor": "Není nastaveno",
-          "loading": "Načítání historizovaných dat...",
-          "noData": "Ve vybraném časovém rozsahu nebyla nalezena žádná data.",
-          "noSeries": "K dotazu nebylo vybráno žádné dvojče, přidejte prosím vlastnosti dvojčat pro zobrazení historizovaných dat."
-        }
+        "noColor": "Není nastaveno"
       },
-      "noSeriesDescription": "Chcete-li zobrazit historii dat pro toto dvojče, vyberte vlastnost, kterou chcete zobrazit."
+      "messages": {
+        "loading": "Načítání historizovaných dat...",
+        "noData": "Ve vybraném časovém rozsahu nebyla nalezena žádná data.",
+        "noNumericData": "Ve vybraném časovém rozsahu nebyla nalezena žádná číselná data.",
+        "noSeries": "K dotazu nebylo vybráno žádné dvojče, přidejte prosím vlastnosti dvojčat pro zobrazení historizovaných dat."
+      }
     }
   }
 }

@@ -1390,7 +1390,7 @@
       "forbidden": "アクセスが拒否されました。クエリのアクセス許可がありません。"
     }
   },
-  "dataHistoryExplorerr": {
+  "dataHistoryExplorer": {
     "title": "データ履歴エクスプローラー",
     "loadingConnectionLabel": "データ履歴接続情報を読み込んでいます...",
     "builder": {
@@ -1401,16 +1401,13 @@
         "edit": "時系列の編集",
         "remove": "時系列を削除する",
         "property": "財産",
-        "propertyTypeCastLabe": "プロパティ値を数値にキャストする",
+        "propertyTypeCastLabel": "プロパティ値を数値にキャストする",
         "noData": "選択した時間範囲に表示するデータがありません"
       }
     },
     "viewer": {
       "chart": {
-        "title": "チャート",
-        "messages": {
-          "noData": "選択した時間範囲内に数値データが見つかりません。"
-        }
+        "title": "チャート"
       },
       "table": {
         "title": "テーブル",
@@ -1420,14 +1417,14 @@
           "value": "価値",
           "type": "種類"
         },
-        "messages": {
-          "noColor": "未設定",
-          "loading": "履歴化されたデータを読み込んでいます...",
-          "noData": "選択した時間範囲内にデータが見つかりません。",
-          "noSeries": "クエリするツインが選択されていません。履歴データを表示するためにツイン プロパティを追加してください。"
-        }
+        "noColor": "未設定"
       },
-      "noSeriesDescription": "このツインのデータ履歴を表示するには、表示するプロパティを選択します。"
+      "messages": {
+        "loading": "履歴化されたデータを読み込んでいます...",
+        "noData": "選択した時間範囲内にデータが見つかりません。",
+        "noNumericData": "選択した時間範囲内に数値データが見つかりません。",
+        "noSeries": "クエリするツインが選択されていません。履歴データを表示するためにツイン プロパティを追加してください。"
+      }
     }
   }
 }

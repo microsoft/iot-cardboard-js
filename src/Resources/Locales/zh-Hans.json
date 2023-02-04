@@ -1390,7 +1390,7 @@
       "forbidden": "访问被拒绝，您没有查询权限。"
     }
   },
-  "dataHistoryExplorerr": {
+  "dataHistoryExplorer": {
     "title": "数据历史记录浏览器",
     "loadingConnectionLabel": "正在加载数据历史记录连接信息...",
     "builder": {
@@ -1401,16 +1401,13 @@
         "edit": "编辑时间序列",
         "remove": "删除时间序列",
         "property": "财产",
-        "propertyTypeCastLabe": "将属性值强制转换为数字",
+        "propertyTypeCastLabel": "将属性值强制转换为数字",
         "noData": "所选时间范围内没有要显示的数据"
       }
     },
     "viewer": {
       "chart": {
-        "title": "图表",
-        "messages": {
-          "noData": "在所选时间范围内未找到数值数据。"
-        }
+        "title": "图表"
       },
       "table": {
         "title": "桌子",
@@ -1420,14 +1417,14 @@
           "value": "价值",
           "type": "类型"
         },
-        "messages": {
-          "noColor": "未设置",
-          "loading": "正在加载历史数据...",
-          "noData": "在所选时间范围内未找到数据。",
-          "noSeries": "没有选择孪生体进行查询，请添加孪生体属性以查看历史数据。"
-        }
+        "noColor": "未设置"
       },
-      "noSeriesDescription": "若要查看此孪生体的数据历史记录，请选择要查看的属性。"
+      "messages": {
+        "loading": "正在加载历史数据...",
+        "noData": "在所选时间范围内未找到数据。",
+        "noNumericData": "在所选时间范围内未找到数值数据。",
+        "noSeries": "没有选择孪生体进行查询，请添加孪生体属性以查看历史数据。"
+      }
     }
   }
 }

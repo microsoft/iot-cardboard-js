@@ -1390,7 +1390,7 @@
       "forbidden": "A hozzáférés megtagadva lett, nincs lekérdezési engedélye."
     }
   },
-  "dataHistoryExplorerr": {
+  "dataHistoryExplorer": {
     "title": "Adatelőzmény-kezelő",
     "loadingConnectionLabel": "Adatelőzmények kapcsolati adatainak betöltése...",
     "builder": {
@@ -1401,16 +1401,13 @@
         "edit": "Idősorok szerkesztése",
         "remove": "Idősorok eltávolítása",
         "property": "Ingatlan",
-        "propertyTypeCastLabe": "Öntött tulajdonság értéke számra",
+        "propertyTypeCastLabel": "Öntött tulajdonság értéke számra",
         "noData": "Nincs megjelenítendő adat a kiválasztott időtartományban"
       }
     },
     "viewer": {
       "chart": {
-        "title": "Diagram",
-        "messages": {
-          "noData": "A kiválasztott időtartományban nem találhatók numerikus adatok."
-        }
+        "title": "Diagram"
       },
       "table": {
         "title": "Asztal",
@@ -1420,14 +1417,14 @@
           "value": "Érték",
           "type": "Típus"
         },
-        "messages": {
-          "noColor": "Nincs beállítva",
-          "loading": "Előzményadatok betöltése...",
-          "noData": "Nem található adat a kiválasztott időtartományban.",
-          "noSeries": "Nincs kiválasztva iker a lekérdezéshez, kérjük, adjon hozzá ikertulajdonságokat a historizált adatok megtekintéséhez."
-        }
+        "noColor": "Nincs beállítva"
       },
-      "noSeriesDescription": "Az ikereszköz adatelőzményeinek megtekintéséhez válassza ki a megtekinteni kívánt tulajdonságot."
+      "messages": {
+        "loading": "Előzményadatok betöltése...",
+        "noData": "Nem található adat a kiválasztott időtartományban.",
+        "noNumericData": "A kiválasztott időtartományban nem találhatók numerikus adatok.",
+        "noSeries": "Nincs kiválasztva iker a lekérdezéshez, kérjük, adjon hozzá ikertulajdonságokat a historizált adatok megtekintéséhez."
+      }
     }
   }
 }
