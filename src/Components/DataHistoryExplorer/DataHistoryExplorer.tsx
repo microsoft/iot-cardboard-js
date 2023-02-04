@@ -68,6 +68,7 @@ import {
 } from './Internal/TimeSeriesCommandBar/TimeSeriesCommandBar.types';
 import { TimeSeriesTableRow } from './Internal/TimeSeriesViewer/Internal/TimeSeriesTable/TimeSeriesTable.types';
 import { usePrevious } from '@fluentui/react-hooks';
+import { hasOwnProperty } from 'fast-json-patch/module/helpers';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('DataHistoryExplorer', debugLogging);
@@ -159,11 +160,14 @@ const DataHistoryExplorer: React.FC<IDataHistoryExplorerProps> = (props) => {
                             // filter out null values
                             const castedNumeric = Number(current.value);
                             if (
-                                seriesTwin.chartProps
-                                    .isTwinPropertyTypeCastedToNumber &&
-                                !isNaN(castedNumeric)
+                                typeof current.value === 'number' ||
+                                (hasOwnProperty(
+                                    seriesTwin.chartProps,
+                                    'isTwinPropertyTypeCastedToNumber'
+                                ) &&
+                                    !isNaN(castedNumeric))
                             ) {
-                                // filter out non-numeric values if it is set to numeric casting (by default it is true for numeric data types)
+                                // filter out non-numeric values, only keep already numeric values or non-numeric values which are set for numeric casting
                                 acc.push({
                                     value: castedNumeric,
                                     timestamp: current.timestamp
@@ -245,12 +249,10 @@ const DataHistoryExplorer: React.FC<IDataHistoryExplorerProps> = (props) => {
                         .EditSeries;
                 sendDataHistoryExplorerUserTelemetry(telemetry.eventName, [
                     {
-                        property: telemetry.properties.itemIndex,
-                        value: selectedIdx
+                        [telemetry.properties.itemIndex]: selectedIdx
                     },
                     {
-                        property: telemetry.properties.hasCustomLabel,
-                        value:
+                        [telemetry.properties.hasCustomLabel]:
                             timeSeriesTwin.label !==
                             getDefaultSeriesLabel(
                                 timeSeriesTwin.twinId,
@@ -278,8 +280,7 @@ const DataHistoryExplorer: React.FC<IDataHistoryExplorerProps> = (props) => {
                         .AddSeries;
                 sendDataHistoryExplorerUserTelemetry(telemetry.eventName, [
                     {
-                        property: telemetry.properties.hasCustomLabel,
-                        value:
+                        [telemetry.properties.hasCustomLabel]:
                             timeSeriesTwin.label !==
                             getDefaultSeriesLabel(
                                 timeSeriesTwin.twinId,
@@ -330,8 +331,7 @@ const DataHistoryExplorer: React.FC<IDataHistoryExplorerProps> = (props) => {
                     .RemoveSeries;
             sendDataHistoryExplorerUserTelemetry(telemetry.eventName, [
                 {
-                    property: telemetry.properties.itemIndex,
-                    value: selectedIdx
+                    [telemetry.properties.itemIndex]: selectedIdx
                 }
             ]);
             /**
@@ -363,8 +363,7 @@ const DataHistoryExplorer: React.FC<IDataHistoryExplorerProps> = (props) => {
                 TelemetryEvents.Tools.DataHistoryExplorer.UserAction.ChangeView;
             sendDataHistoryExplorerUserTelemetry(telemetry.eventName, [
                 {
-                    property: telemetry.properties.view,
-                    value: viewerMode
+                    [telemetry.properties.view]: viewerMode
                 }
             ]);
         },
@@ -386,8 +385,7 @@ const DataHistoryExplorer: React.FC<IDataHistoryExplorerProps> = (props) => {
                     .ChangeChartOption;
             sendDataHistoryExplorerUserTelemetry(telemetry.eventName, [
                 {
-                    property: telemetry.properties.chartOptions,
-                    value: JSON.stringify(chartOptions)
+                    [telemetry.properties.chartOptions]: chartOptions
                 }
             ]);
         },
@@ -419,8 +417,7 @@ const DataHistoryExplorer: React.FC<IDataHistoryExplorerProps> = (props) => {
             TelemetryEvents.Tools.DataHistoryExplorer.UserAction.DownloadTable;
         sendDataHistoryExplorerUserTelemetry(telemetry.eventName, [
             {
-                property: telemetry.properties.numberOfRows,
-                value: data.length
+                [telemetry.properties.numberOfRows]: data.length
             }
         ]);
     }, [tableData]);

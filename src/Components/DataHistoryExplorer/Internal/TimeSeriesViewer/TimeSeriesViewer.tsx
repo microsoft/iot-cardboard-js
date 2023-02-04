@@ -62,8 +62,7 @@ const TimeSeriesViewer: React.FC<ITimeSeriesViewerProps> = (props) => {
             TelemetryEvents.Tools.DataHistoryExplorer.UserAction.ChangeView;
         sendDataHistoryExplorerUserTelemetry(telemetry.eventName, [
             {
-                property: telemetry.properties.view,
-                value: item.props.itemKey
+                [telemetry.properties.view]: item.props.itemKey
             }
         ]);
         onViewerModeChange(item.props.itemKey as TimeSeriesViewerMode);

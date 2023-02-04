@@ -21,6 +21,7 @@ import {
 } from '../Constants/Types';
 import { TelemetryEvent } from '../Services/TelemetryService/Telemetry';
 import TelemetryService from '../Services/TelemetryService/TelemetryService';
+import { CustomProperties } from '../Services/TelemetryService/TelemetryService.types';
 import { objectHasOwnProperty } from '../Services/Utils';
 import { IDataHistoryChartYAxisType } from '../Types/Generated/3DScenesConfiguration-v1.0.0';
 
@@ -208,21 +209,14 @@ export const sendDataHistoryExplorerSystemTelemetry = (
 /** send the user actions telemetry  */
 export const sendDataHistoryExplorerUserTelemetry = (
     eventName: string,
-    customProperties?: Array<{
-        property: string;
-        value: string | number | boolean;
-    }>
+    customProperties?: Array<CustomProperties>
 ) => {
     TelemetryService.sendEvent(
         new TelemetryEvent({
             name: eventName,
             appRegion: AppRegion.DataHistoryExplorer,
             componentName: ComponentName.DataHistoryExplorerModal,
-            ...(customProperties && {
-                customProperties: customProperties.map((cP) => ({
-                    [cP.property]: cP.value
-                }))
-            }),
+            customProperties,
             triggerType: TelemetryTrigger.UserAction
         })
     );
