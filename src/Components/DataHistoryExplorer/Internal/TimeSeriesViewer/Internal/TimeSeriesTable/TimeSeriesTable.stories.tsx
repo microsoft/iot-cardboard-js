@@ -3,11 +3,9 @@ import { ComponentStory } from '@storybook/react';
 import TimeSeriesTable from './TimeSeriesTable';
 import { ITimeSeriesTableProps } from './TimeSeriesTable.types';
 import { getDefaultStoryDecorator } from '../../../../../../Models/Services/StoryUtilities';
-import { DataHistoryExplorerContext } from '../../../../DataHistoryExplorer';
 import { TimeSeriesViewerContext } from '../../TimeSeriesViewer';
-import MockAdapter from '../../../../../../Adapters/MockAdapter';
-import { QuickTimeSpans } from '../../../../../../Models/Constants/Constants';
-import { QuickTimeSpanKey } from '../../../../../../Models/Constants/Enums';
+import { getHighChartColorByIdx } from '../../../../../../Models/SharedUtils/DataHistoryUtils';
+import { createGUID } from '../../../../../../Models/Services/Utils';
 
 const wrapperStyle = { width: '800px', height: '600px', padding: 8 };
 
@@ -20,31 +18,56 @@ export default {
 
 type TableStory = ComponentStory<typeof TimeSeriesTable>;
 
+const seriesId = createGUID();
 const Template: TableStory = (args) => {
     return (
-        <DataHistoryExplorerContext.Provider
-            value={{ adapter: new MockAdapter() }}
-        >
-            <TimeSeriesViewerContext.Provider
-                value={{
-                    timeSeriesTwinList: [
-                        {
-                            seriesId: '',
-                            twinId: 'PasteurizationMachine_A01',
-                            twinPropertyName: 'Inflow',
-                            twinPropertyType: 'double',
-                            label: 'PasteurizationMachine_A01 Inflow'
+        <TimeSeriesViewerContext.Provider
+            value={{
+                timeSeriesTwins: [
+                    {
+                        seriesId: seriesId,
+                        twinId: 'PasteurizationMachine_A01',
+                        twinPropertyName: 'Inflow',
+                        twinPropertyType: 'double',
+                        label: 'PasteurizationMachine_A01 (Inflow)',
+                        chartProps: {
+                            color: getHighChartColorByIdx(0)
                         }
-                    ]
-                }}
-            >
-                <TimeSeriesTable {...args} />
-            </TimeSeriesViewerContext.Provider>
-        </DataHistoryExplorerContext.Provider>
+                    }
+                ]
+            }}
+        >
+            <TimeSeriesTable {...args} />
+        </TimeSeriesViewerContext.Provider>
     );
 };
 
 export const Base = Template.bind({}) as TableStory;
 Base.args = {
-    quickTimeSpanInMillis: QuickTimeSpans[QuickTimeSpanKey.Last15Mins]
+    data: [
+        {
+            seriesId: seriesId,
+            property: 'InFlow',
+            timestamp: '2023-01-09T18:02:49.712Z',
+            id: 'PasteurizationMachine_A01',
+            key: 'InFlow',
+            value: 115
+        },
+        {
+            seriesId: seriesId,
+            property: 'InFlow',
+            timestamp: '2023-01-09T18:03:09.216Z',
+            id: 'PasteurizationMachine_A01',
+            key: 'InFlow',
+            value: 23
+        },
+        {
+            seriesId: seriesId,
+            property: 'InFlow',
+            timestamp: '2023-01-09T18:04:16.698Z',
+            id: 'PasteurizationMachine_A01',
+            key: 'InFlow',
+            value: 188
+        }
+    ]
 } as ITimeSeriesTableProps;

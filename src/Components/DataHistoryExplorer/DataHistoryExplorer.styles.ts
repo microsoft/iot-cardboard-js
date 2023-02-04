@@ -49,6 +49,11 @@ export const getStyles = (
         subComponentStyles: {
             builder: { root: { width: 240 } },
             viewer: { root: { flexGrow: 1, overflow: 'hidden' } },
+            timeSeriesTwinCallout: {
+                subComponentStyles: {
+                    callout: { calloutMain: { width: 300 } }
+                }
+            },
             loadingSpinner: { root: { flexGrow: 1 } },
             errorWrapper: {
                 subComponentStyles: {

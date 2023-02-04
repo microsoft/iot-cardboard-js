@@ -42,12 +42,7 @@ export const getStyles = (
         ],
         twinPropertyList: [classNames.twinPropertyList, { flexGrow: 1 }],
         subComponentStyles: {
-            addNewButton: { root: { padding: '8px 0px' } },
-            timeSeriesTwinCallout: {
-                subComponentStyles: {
-                    callout: { calloutMain: { width: 300 } }
-                }
-            }
+            addNewButton: { root: { padding: '8px 0px' } }
         }
     };
 };

@@ -1,7 +1,6 @@
 import {
     IDetailsListStyles,
     IProcessedStyleSet,
-    ISpinnerStyles,
     IStyle,
     IStyleFunctionOrObject,
     ITheme
@@ -9,7 +8,7 @@ import {
 import { ADXTimeSeriesTableRow } from '../../../../../../Models/Constants/Types';
 
 export interface ITimeSeriesTableProps {
-    quickTimeSpanInMillis: number;
+    data: Array<TimeSeriesTableRow>;
     timeStampFormat?: TimeStampFormat;
     /**
      * Call to provide customized styling that will layer on top of the variant rules.
@@ -38,7 +37,6 @@ interface SeriesColumnStyles {
 }
 
 export interface ITimeSeriesTableSubComponentStyles {
-    loadingSpinner?: Partial<ISpinnerStyles>;
     detailsList?: Partial<IDetailsListStyles>;
     seriesColumn?: IStyleFunctionOrObject<
         { color: string },

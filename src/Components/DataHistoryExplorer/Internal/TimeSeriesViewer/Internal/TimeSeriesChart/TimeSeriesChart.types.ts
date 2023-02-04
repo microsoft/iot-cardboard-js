@@ -1,9 +1,9 @@
 import { IStyle, IStyleFunctionOrObject, ITheme } from '@fluentui/react';
-import { IDataHistoryChartOptions } from '../../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
-
+import { ADXTimeSeries } from '../../../../../../Models/Constants';
+import { IDataHistoryExplorerChartOptions } from '../../../../DataHistoryExplorer.types';
 export interface ITimeSeriesChartProps {
-    defaultOptions?: IDataHistoryChartOptions;
-    onChartOptionsChange?: (options: IDataHistoryChartOptions) => void;
+    chartOptions: IDataHistoryExplorerChartOptions;
+    data: Array<ADXTimeSeries>;
     /**
      * Call to provide customized styling that will layer on top of the variant rules.
      */

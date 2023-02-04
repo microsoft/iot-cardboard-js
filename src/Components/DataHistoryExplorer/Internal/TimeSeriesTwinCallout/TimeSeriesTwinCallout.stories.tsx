@@ -5,7 +5,6 @@ import TimeSeriesTwinCallout from './TimeSeriesTwinCallout';
 import { ITimeSeriesTwinCalloutProps } from './TimeSeriesTwinCallout.types';
 import MockAdapter from '../../../../Adapters/MockAdapter';
 import { DefaultButton } from '@fluentui/react';
-import { DataHistoryExplorerContext } from '../../DataHistoryExplorer';
 import { createGUID } from '../../../../Models/Services/Utils';
 
 const wrapperStyle = { width: '200px', height: '600px', padding: 8 };
@@ -22,18 +21,17 @@ type TimeSeriesTwinCalloutStory = ComponentStory<typeof TimeSeriesTwinCallout>;
 
 const Template: TimeSeriesTwinCalloutStory = (args) => {
     return (
-        <DataHistoryExplorerContext.Provider
-            value={{ adapter: new MockAdapter() }}
-        >
+        <>
             <DefaultButton
                 text="Target button"
                 id="mock-time-series-twin-callout-target"
             />
             <TimeSeriesTwinCallout
                 {...args}
+                adapter={new MockAdapter()}
                 target={'mock-time-series-twin-callout-target'}
             />
-        </DataHistoryExplorerContext.Provider>
+        </>
     );
 };
 

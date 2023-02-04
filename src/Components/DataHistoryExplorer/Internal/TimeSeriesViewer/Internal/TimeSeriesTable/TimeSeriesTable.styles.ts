@@ -29,7 +29,6 @@ export const getStyles = (
         ],
         notSetCell: [classNames.notSetCell, { fontStyle: 'italic' }],
         subComponentStyles: {
-            loadingSpinner: { root: { height: '100%' } },
             detailsList: {
                 root: { overflow: 'hidden', '.ms-DetailsRow': { fontSize: 13 } }
             },

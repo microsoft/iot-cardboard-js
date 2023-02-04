@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useRef, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import {
     ITimeSeriesTwinCalloutProps,
     ITimeSeriesTwinCalloutStyleProps,
@@ -28,7 +28,6 @@ import {
     PropertyExpression
 } from '../../../ModelledPropertyBuilder/ModelledPropertyBuilder.types';
 import { PRIMARY_TWIN_NAME } from '../../../../Models/Constants/Constants';
-import { DataHistoryExplorerContext } from '../../DataHistoryExplorer';
 import { createGUID, deepCopy } from '../../../../Models/Services/Utils';
 import { isNumericType } from '../../../../Models/Classes/3DVConfig';
 import {
@@ -55,6 +54,7 @@ const TimeSeriesTwinCallout: React.FC<ITimeSeriesTwinCalloutProps> = (
     props
 ) => {
     const {
+        adapter,
         timeSeriesTwin,
         target,
         onDismiss,
@@ -81,7 +81,6 @@ const TimeSeriesTwinCallout: React.FC<ITimeSeriesTwinCalloutProps> = (
 
     // hooks
     const { t } = useTranslation();
-    const { adapter } = useContext(DataHistoryExplorerContext);
 
     // callbacks
     const handleTwinIdChange = useCallback((selectedTwinId: string) => {

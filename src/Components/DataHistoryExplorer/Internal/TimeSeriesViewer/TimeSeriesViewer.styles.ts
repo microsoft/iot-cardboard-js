@@ -5,9 +5,7 @@ import {
 
 export const classPrefix = 'cb-time-series-viewer';
 const classNames = {
-    root: `${classPrefix}-root`,
-    commandWrapper: `${classPrefix}-command-wrapper`,
-    command: `${classPrefix}-command`
+    root: `${classPrefix}-root`
 };
 export const getStyles = (
     _props: ITimeSeriesViewerStyleProps
@@ -16,18 +14,6 @@ export const getStyles = (
         root: [
             classNames.root,
             { height: '100%', '> div': { height: '100%' } }
-        ],
-        commandWrapper: [
-            classNames.commandWrapper,
-            { flexFlow: 'row-reverse' }
-        ],
-        command: [
-            classNames.command,
-            {
-                paddingRight: 12,
-                margin: '0 !important',
-                span: { textOverflow: 'ellipsis', overflow: 'hidden' }
-            }
         ],
         subComponentStyles: {
             pivot: {
@@ -39,7 +25,8 @@ export const getStyles = (
                         flexDirection: 'column'
                     }
                 }
-            }
+            },
+            loadingSpinner: { root: { height: '100%' } }
         }
     };
 };
