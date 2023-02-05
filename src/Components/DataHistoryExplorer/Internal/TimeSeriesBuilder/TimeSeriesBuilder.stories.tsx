@@ -4,6 +4,7 @@ import { getDefaultStoryDecorator } from '../../../../Models/Services/StoryUtili
 import TimeSeriesBuilder from './TimeSeriesBuilder';
 import { ITimeSeriesBuilderProps } from './TimeSeriesBuilder.types';
 import { createGUID } from '../../../../Models/Services/Utils';
+import DataHistoryExplorerMockSeriesData from '../../__mockData__/DataHistoryExplorerMockSeriesData.json';
 
 const wrapperStyle = { width: '400px', height: '400px', padding: 8 };
 
@@ -49,18 +50,8 @@ export const ListWithNoDataSeries = Template.bind({}) as TimeSeriesBuilderStory;
 ListWithNoDataSeries.args = {
     timeSeriesTwins: [
         {
-            seriesId: createGUID(),
-            twinId: 'PasteurizationMachine_A01',
-            twinPropertyName: 'InFlow',
-            twinPropertyType: 'double',
-            chartProps: { color: 'red' }
-        },
-        {
-            seriesId: noDataSeriesId,
-            twinId: 'PasteurizationMachine_A02',
-            twinPropertyName: 'OutFlow',
-            twinPropertyType: 'double',
-            chartProps: { color: 'green' }
+            ...DataHistoryExplorerMockSeriesData[0],
+            seriesId: noDataSeriesId
         }
     ],
     missingTimeSeriesTwinIds: [noDataSeriesId]
@@ -68,55 +59,5 @@ ListWithNoDataSeries.args = {
 
 export const LongList = Template.bind({}) as TimeSeriesBuilderStory;
 LongList.args = {
-    timeSeriesTwins: [
-        {
-            seriesId: createGUID(),
-            twinId: 'PasteurizationMachine_A01',
-            twinPropertyName: 'InFlow',
-            twinPropertyType: 'double',
-            chartProps: { color: 'red' }
-        },
-        {
-            seriesId: createGUID(),
-            twinId: 'PasteurizationMachine_A02',
-            twinPropertyName: 'OutFlow',
-            twinPropertyType: 'double',
-            chartProps: { color: 'green' }
-        },
-        {
-            seriesId: createGUID(),
-            twinId: 'PasteurizationMachine_A03',
-            twinPropertyName: 'Temperature',
-            twinPropertyType: 'double',
-            chartProps: { color: 'blue' }
-        },
-        {
-            seriesId: createGUID(),
-            twinId: 'PasteurizationMachine_A03',
-            twinPropertyName: 'InFlow',
-            twinPropertyType: 'double',
-            chartProps: { color: 'orange' }
-        },
-        {
-            seriesId: createGUID(),
-            twinId: 'SaltMachine_C1',
-            twinPropertyName: 'InFlow',
-            twinPropertyType: 'double',
-            chartProps: { color: 'yellow' }
-        },
-        {
-            seriesId: createGUID(),
-            twinId: 'SaltMachine_C2',
-            twinPropertyName: 'OutFlow',
-            twinPropertyType: 'float',
-            chartProps: { color: 'pink' }
-        },
-        {
-            seriesId: createGUID(),
-            twinId: 'SaltMachine_C3',
-            twinPropertyName: 'Temperature',
-            twinPropertyType: 'float',
-            chartProps: { color: 'purple' }
-        }
-    ]
+    timeSeriesTwins: DataHistoryExplorerMockSeriesData
 } as ITimeSeriesBuilderProps;

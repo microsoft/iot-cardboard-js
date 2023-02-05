@@ -14,7 +14,13 @@ export const getStyles = (
     _props: ITimeSeriesTableStyleProps
 ): ITimeSeriesTableStyles => {
     return {
-        root: [classNames.root],
+        root: [
+            classNames.root,
+            {
+                width: '100%',
+                height: '100%'
+            }
+        ],
         listWrapper: [
             classNames.listWrapper,
             { overflow: 'auto', position: 'relative', height: '100%' }

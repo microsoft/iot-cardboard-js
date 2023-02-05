@@ -37,15 +37,14 @@ import {
     deepCopy,
     downloadText,
     getDebugLogger,
-    isDefined,
-    sortAscendingOrDescending
+    isDefined
 } from '../../Models/Services/Utils';
 import {
     getDefaultSeriesLabel,
     getHighChartColor,
     sendDataHistoryExplorerSystemTelemetry,
     sendDataHistoryExplorerUserTelemetry,
-    transformADXTimeSeriesToADXTableData
+    transformADXTimeSeriesToTimeSeriesTableData
 } from '../../Models/SharedUtils/DataHistoryUtils';
 import DataHistoryErrorHandlingWrapper from '../DataHistoryErrorHandlingWrapper/DataHistoryErrorHandlingWrapper';
 import { useTimeSeriesData } from '../../Models/Hooks/useTimeSeriesData';
@@ -174,23 +173,9 @@ const DataHistoryExplorer: React.FC<IDataHistoryExplorerProps> = (props) => {
     }, [data, state.timeSeriesTwins]);
 
     const tableData = useMemo(() => {
-        const adxTimeSeriesTableRows: Array<TimeSeriesTableRow> =
-            data?.reduce((acc, adxTs) => {
-                const transformedADXRow = transformADXTimeSeriesToADXTableData(
-                    adxTs
-                ); // flatten the adxTimeSeries back to individual rows
-                transformedADXRow.map(
-                    (adxRow, idxR) =>
-                        acc.push({
-                            ...adxRow,
-                            seriesId: adxTs.seriesId,
-                            property: adxRow.key,
-                            key: adxTs.seriesId + idxR
-                        } as TimeSeriesTableRow) // cannot use the ADXTimeSeriesTableRow type since key cannot be used as a unique DOM key for rendering))
-                );
-                return acc;
-            }, []) || [];
-        adxTimeSeriesTableRows.sort(sortAscendingOrDescending('timestamp'));
+        const adxTimeSeriesTableRows: Array<TimeSeriesTableRow> = transformADXTimeSeriesToTimeSeriesTableData(
+            data
+        );
         logDebugConsole(
             'debug',
             `Number of rows: ${adxTimeSeriesTableRows.length}`
@@ -205,7 +190,6 @@ const DataHistoryExplorer: React.FC<IDataHistoryExplorerProps> = (props) => {
 
     //callbacks
     const updateXMinAndMax = useCallback(() => {
-        debugger;
         const nowInMillis = Date.now();
         dispatch({
             type: DataHistoryExplorerActionType.SET_EXPLORER_CHART_OPTION,
@@ -364,7 +348,6 @@ const DataHistoryExplorer: React.FC<IDataHistoryExplorerProps> = (props) => {
 
     const handleOnChartOptionChange = useCallback(
         (chartOptions: ITimeSeriesCommandBarOptions) => {
-            debugger;
             dispatch({
                 type:
                     DataHistoryExplorerActionType.SET_COMMAND_BAR_CHART_OPTIONS,
@@ -466,7 +449,6 @@ const DataHistoryExplorer: React.FC<IDataHistoryExplorerProps> = (props) => {
     }, [updateConnectionAdapterData?.adapterResult.result]);
     useEffect(() => {
         if (data && !isLoading) {
-            debugger;
             const seriesIdsWithNoData = state.timeSeriesTwins
                 ?.filter((ts) => !data?.find((d) => d.seriesId === ts.seriesId))
                 .map((ts) => ts.seriesId);
@@ -474,7 +456,6 @@ const DataHistoryExplorer: React.FC<IDataHistoryExplorerProps> = (props) => {
                 type: DataHistoryExplorerActionType.SET_MISSING_SERIES,
                 payload: { seriesIds: seriesIdsWithNoData }
             });
-            updateXMinAndMax();
         }
     }, [data, state.timeSeriesTwins, isLoading]);
 
@@ -486,6 +467,7 @@ const DataHistoryExplorer: React.FC<IDataHistoryExplorerProps> = (props) => {
                 `Query to send for ${state.selectedViewerMode}: ${query}`
             );
             fetchTimeSeriesData();
+            updateXMinAndMax();
         }
     }, [query]);
 

@@ -4,8 +4,10 @@ import TimeSeriesTable from './TimeSeriesTable';
 import { ITimeSeriesTableProps } from './TimeSeriesTable.types';
 import { getDefaultStoryDecorator } from '../../../../../../Models/Services/StoryUtilities';
 import { TimeSeriesViewerContext } from '../../TimeSeriesViewer';
-import { getHighChartColorByIdx } from '../../../../../../Models/SharedUtils/DataHistoryUtils';
-import { createGUID } from '../../../../../../Models/Services/Utils';
+import DataHistoryExplorerMockSeriesData from '../../../../__mockData__/DataHistoryExplorerMockSeriesData.json';
+import MockADXTimeSeriesData from '../../../../../../Adapters/__mockData__/MockAdapterData/MockADXTimeSeriesData.json';
+import { IDataHistoryTimeSeriesTwin } from '../../../../../../Models/Constants';
+import { transformADXTimeSeriesToTimeSeriesTableData } from '../../../../../../Models/SharedUtils/DataHistoryUtils';
 
 const wrapperStyle = { width: '800px', height: '600px', padding: 8 };
 
@@ -18,23 +20,12 @@ export default {
 
 type TableStory = ComponentStory<typeof TimeSeriesTable>;
 
-const seriesId = createGUID();
+const series = DataHistoryExplorerMockSeriesData[0] as IDataHistoryTimeSeriesTwin;
 const Template: TableStory = (args) => {
     return (
         <TimeSeriesViewerContext.Provider
             value={{
-                timeSeriesTwins: [
-                    {
-                        seriesId: seriesId,
-                        twinId: 'PasteurizationMachine_A01',
-                        twinPropertyName: 'Inflow',
-                        twinPropertyType: 'double',
-                        label: 'PasteurizationMachine_A01 (Inflow)',
-                        chartProps: {
-                            color: getHighChartColorByIdx(0)
-                        }
-                    }
-                ]
+                timeSeriesTwins: [series]
             }}
         >
             <TimeSeriesTable {...args} />
@@ -44,30 +35,7 @@ const Template: TableStory = (args) => {
 
 export const Mock = Template.bind({}) as TableStory;
 Mock.args = {
-    data: [
-        {
-            seriesId: seriesId,
-            property: 'InFlow',
-            timestamp: '2023-01-09T18:02:49.712Z',
-            id: 'PasteurizationMachine_A01',
-            key: seriesId + '1',
-            value: 115
-        },
-        {
-            seriesId: seriesId,
-            property: 'InFlow',
-            timestamp: '2023-01-09T18:03:09.216Z',
-            id: 'PasteurizationMachine_A01',
-            key: seriesId + '2',
-            value: 23
-        },
-        {
-            seriesId: seriesId,
-            property: 'InFlow',
-            timestamp: '2023-01-09T18:04:16.698Z',
-            id: 'PasteurizationMachine_A01',
-            key: seriesId + '3',
-            value: 188
-        }
-    ]
+    data: transformADXTimeSeriesToTimeSeriesTableData(
+        MockADXTimeSeriesData.filter((d) => d.seriesId === series.seriesId)
+    )
 } as ITimeSeriesTableProps;

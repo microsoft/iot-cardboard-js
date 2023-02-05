@@ -28,9 +28,14 @@ export const getStyles = (
             },
             loadingSpinner: { root: { height: '100%' } },
             noSeriesIllustration: { container: { flex: 1, padding: 0 } },
-            commandBar: { root: { height: 60 } },
+            commandBar: {
+                root: { height: 60 },
+                subComponentStyles: {
+                    commandBar: { root: { padding: '8px 8px 16px 0' } }
+                }
+            },
             chart: { root: { flexGrow: 1, overflow: 'hidden', paddingTop: 8 } },
-            table: { root: { flexGrow: 1 } }
+            table: { root: { flexGrow: 1, height: 'unset' } }
         }
     };
 };

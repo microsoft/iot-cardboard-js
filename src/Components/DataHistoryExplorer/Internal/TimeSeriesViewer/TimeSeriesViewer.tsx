@@ -57,23 +57,25 @@ const TimeSeriesViewer: React.FC<ITimeSeriesViewerProps> = (props) => {
     });
 
     const CommandBarComponent = useMemo(() => {
-        const {
-            yAxisType,
-            aggregationType,
-            defaultQuickTimeSpanInMillis
-        } = explorerChartOptions;
-        return (
-            <TimeSeriesCommandBar
-                defaultChartOptions={{
-                    yAxisType,
-                    aggregationType,
-                    defaultQuickTimeSpanInMillis
-                }}
-                viewerModeProps={viewerModeProps}
-                onChartOptionsChange={onChartOptionsChange}
-                styles={classNames.subComponentStyles.commandBar}
-            />
-        );
+        if (explorerChartOptions) {
+            const {
+                yAxisType,
+                aggregationType,
+                defaultQuickTimeSpanInMillis
+            } = explorerChartOptions;
+            return (
+                <TimeSeriesCommandBar
+                    defaultChartOptions={{
+                        yAxisType,
+                        aggregationType,
+                        defaultQuickTimeSpanInMillis
+                    }}
+                    viewerModeProps={viewerModeProps}
+                    onChartOptionsChange={onChartOptionsChange}
+                    styles={classNames.subComponentStyles.commandBar}
+                />
+            );
+        }
     }, [explorerChartOptions, viewerModeProps, onChartOptionsChange]);
 
     const SpinnerComponent = useMemo(

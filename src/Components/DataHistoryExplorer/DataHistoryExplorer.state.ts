@@ -58,7 +58,6 @@ export const DataHistoryExplorerReducer = produce(
             }
             case DataHistoryExplorerActionType.SET_COMMAND_BAR_CHART_OPTIONS: {
                 const { chartOptions } = action.payload;
-                debugger;
                 draft.explorerChartOptions = {
                     ...draft.explorerChartOptions, // keep the existing extending chart option properties like x values
                     ...chartOptions

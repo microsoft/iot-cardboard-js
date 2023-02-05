@@ -4,10 +4,11 @@ import TimeSeriesChart from './TimeSeriesChart';
 import { ITimeSeriesChartProps } from './TimeSeriesChart.types';
 import { getDefaultStoryDecorator } from '../../../../../../Models/Services/StoryUtilities';
 import { TimeSeriesViewerContext } from '../../TimeSeriesViewer';
-import { createGUID } from '../../../../../../Models/Services/Utils';
-import { getHighChartColorByIdx } from '../../../../../../Models/SharedUtils/DataHistoryUtils';
 import { QuickTimeSpans } from '../../../../../../Models/Constants/Constants';
 import { QuickTimeSpanKey } from '../../../../../../Models/Constants/Enums';
+import DataHistoryExplorerMockSeriesData from '../../../../__mockData__/DataHistoryExplorerMockSeriesData.json';
+import MockADXTimeSeriesData from '../../../../../../Adapters/__mockData__/MockAdapterData/MockADXTimeSeriesData.json';
+import { IDataHistoryTimeSeriesTwin } from '../../../../../../Models/Constants';
 
 const wrapperStyle = { width: '100%', height: '400px' };
 
@@ -20,22 +21,12 @@ export default {
 
 type TimeSeriesChartStory = ComponentStory<typeof TimeSeriesChart>;
 
-const seriesId = createGUID();
 const Template: TimeSeriesChartStory = (args) => {
     return (
         <TimeSeriesViewerContext.Provider
             value={{
                 timeSeriesTwins: [
-                    {
-                        seriesId: seriesId,
-                        twinId: 'PasteurizationMachine_A01',
-                        twinPropertyName: 'Inflow',
-                        twinPropertyType: 'double',
-                        label: 'PasteurizationMachine_A01 (Inflow)',
-                        chartProps: {
-                            color: getHighChartColorByIdx(0)
-                        }
-                    }
+                    DataHistoryExplorerMockSeriesData[0] as IDataHistoryTimeSeriesTwin
                 ]
             }}
         >
@@ -43,8 +34,6 @@ const Template: TimeSeriesChartStory = (args) => {
         </TimeSeriesViewerContext.Provider>
     );
 };
-
-const nowInMillis = Date.now();
 export const Mock = Template.bind({}) as TimeSeriesChartStory;
 Mock.args = {
     explorerChartOptions: {
@@ -52,29 +41,8 @@ Mock.args = {
         defaultQuickTimeSpanInMillis:
             QuickTimeSpans[QuickTimeSpanKey.Last60Days],
         aggregationType: 'avg',
-        xMinDateInMillis:
-            nowInMillis - QuickTimeSpans[QuickTimeSpanKey.Last60Days],
-        xMaxDateInMillis: nowInMillis
+        xMinDateInMillis: Date.parse('2023-1-1'),
+        xMaxDateInMillis: Date.parse('2023-1-20')
     },
-    data: [
-        {
-            seriesId: seriesId,
-            id: 'PasteurizationMachine_A01',
-            key: 'Inflow',
-            data: [
-                {
-                    timestamp: '2023-01-09T18:02:49.712Z', // note that date is in UTC
-                    value: 115
-                },
-                {
-                    timestamp: '2023-01-10T18:03:09.216Z', // note that date is in UTC
-                    value: 23
-                },
-                {
-                    timestamp: '2023-01-11T18:04:16.698Z', // note that date is in UTC
-                    value: 188
-                }
-            ]
-        }
-    ]
+    data: [MockADXTimeSeriesData[0]]
 } as ITimeSeriesChartProps;

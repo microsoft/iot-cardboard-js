@@ -5,7 +5,7 @@ import TimeSeriesTwinCallout from './TimeSeriesTwinCallout';
 import { ITimeSeriesTwinCalloutProps } from './TimeSeriesTwinCallout.types';
 import MockAdapter from '../../../../Adapters/MockAdapter';
 import { DefaultButton } from '@fluentui/react';
-import { createGUID } from '../../../../Models/Services/Utils';
+import DataHistoryExplorerMockSeriesData from '../../__mockData__/DataHistoryExplorerMockSeriesData.json';
 
 const wrapperStyle = { width: '200px', height: '600px', padding: 8 };
 
@@ -30,25 +30,18 @@ const Template: TimeSeriesTwinCalloutStory = (args) => {
                 {...args}
                 adapter={new MockAdapter()}
                 target={'mock-time-series-twin-callout-target'}
+                onPrimaryActionClick={(timeSeriesTwin) => {
+                    console.log(timeSeriesTwin);
+                }}
             />
         </>
     );
 };
 
 export const New = Template.bind({}) as TimeSeriesTwinCalloutStory;
-New.args = {
-    onPrimaryActionClick(timeSeriesTwin) {
-        console.log(timeSeriesTwin);
-    }
-} as ITimeSeriesTwinCalloutProps;
+New.args = {} as ITimeSeriesTwinCalloutProps;
 
 export const Edit = Template.bind({}) as TimeSeriesTwinCalloutStory;
 Edit.args = {
-    timeSeriesTwin: {
-        seriesId: createGUID(),
-        twinId: 'PasteurizationMachine_A01',
-        twinPropertyName: 'InFlow',
-        twinPropertyType: 'double',
-        label: 'PasteurizationMachine_A01 InFlow'
-    }
+    timeSeriesTwin: DataHistoryExplorerMockSeriesData[0]
 } as ITimeSeriesTwinCalloutProps;

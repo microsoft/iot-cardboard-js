@@ -1,5 +1,6 @@
 import Highcharts, { ColorString } from 'highcharts';
 import { TFunction } from 'react-i18next';
+import { TimeSeriesTableRow } from '../../Components/DataHistoryExplorer/Internal/TimeSeriesViewer/Internal/TimeSeriesTable/TimeSeriesTable.types';
 import { IHighChartSeriesData } from '../../Components/HighChartsWrapper/HighChartsWrapper.types';
 import { QuickTimeSpans } from '../Constants/Constants';
 import { QuickTimeSpanKey } from '../Constants/Enums';
@@ -14,15 +15,14 @@ import {
     TelemetryEvents,
     TelemetryTrigger
 } from '../Constants/TelemetryConstants';
-import {
-    ADXTimeSeries,
-    ADXTimeSeriesTableRow,
-    TimeSeriesData
-} from '../Constants/Types';
+import { ADXTimeSeries, TimeSeriesData } from '../Constants/Types';
 import { TelemetryEvent } from '../Services/TelemetryService/Telemetry';
 import TelemetryService from '../Services/TelemetryService/TelemetryService';
 import { CustomProperties } from '../Services/TelemetryService/TelemetryService.types';
-import { objectHasOwnProperty } from '../Services/Utils';
+import {
+    objectHasOwnProperty,
+    sortAscendingOrDescending
+} from '../Services/Utils';
 import { IDataHistoryChartYAxisType } from '../Types/Generated/3DScenesConfiguration-v1.0.0';
 
 /** Creates mock time series data array with data points between now and a certain milliseconds ago */
@@ -102,23 +102,31 @@ export const transformADXTimeSeriesToHighChartsSeries = (
         : [];
 
 /**
- * Gets a single ADX time series and transform it into a shape to view in raw data table
+ * Gets a list of ADX time serires adapter return data and flatten the data field of each series back again
+ * by transforming it into individual rows to view in raw data table
  */
-export const transformADXTimeSeriesToADXTableData = (
-    adxTimeSeries: ADXTimeSeries
-): Array<ADXTimeSeriesTableRow> =>
-    adxTimeSeries?.data?.map(
-        (tsData) =>
-            ({
-                timestamp:
-                    typeof tsData.timestamp === 'number'
-                        ? new Date(tsData.timestamp).toISOString()
-                        : tsData.timestamp,
-                id: adxTimeSeries.id,
-                key: adxTimeSeries.key,
-                value: tsData.value
-            } as ADXTimeSeriesTableRow)
-    ) || [];
+export const transformADXTimeSeriesToTimeSeriesTableData = (
+    adxTimeSeries: Array<ADXTimeSeries>
+): Array<TimeSeriesTableRow> => {
+    const seriesTableRows: Array<TimeSeriesTableRow> =
+        adxTimeSeries?.reduce((acc, series) => {
+            series.data.forEach((data, idx) => {
+                acc.push({
+                    timestamp:
+                        typeof data.timestamp === 'number'
+                            ? new Date(data.timestamp).toISOString()
+                            : data.timestamp,
+                    value: data.value,
+                    id: series.id,
+                    seriesId: series.seriesId,
+                    property: series.key,
+                    key: series.seriesId + idx
+                } as TimeSeriesTableRow); // cannot use the ADXTimeSeriesTableRow type since key cannot be used as a unique DOM key for rendering))
+            });
+            return acc;
+        }, []) || [];
+    return seriesTableRows.sort(sortAscendingOrDescending('timestamp'));
+};
 
 /** Returns y-axis options as chart options */
 export const getYAxisTypeOptions = (t: TFunction): Array<IChartOption> => {
