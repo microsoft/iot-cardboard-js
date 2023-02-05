@@ -1407,7 +1407,10 @@
     },
     "viewer": {
       "chart": {
-        "title": "图表"
+        "title": "图表",
+        "messages": {
+          "noData": "在所选时间范围内未找到数值数据。"
+        }
       },
       "table": {
         "title": "桌子",
@@ -1417,12 +1420,13 @@
           "value": "价值",
           "type": "类型"
         },
-        "noColor": "未设置"
+        "noColor": "未设置",
+        "messages": {
+          "noData": "在所选时间范围内未找到数据。"
+        }
       },
       "messages": {
         "loading": "正在加载历史数据...",
-        "noData": "在所选时间范围内未找到数据。",
-        "noNumericData": "在所选时间范围内未找到数值数据。",
         "noSeries": "没有选择孪生体进行查询，请添加孪生体属性以查看历史数据。"
       }
     }

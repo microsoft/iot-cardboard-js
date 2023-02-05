@@ -1407,7 +1407,10 @@
     },
     "viewer": {
       "chart": {
-        "title": "Grafik"
+        "title": "Grafik",
+        "messages": {
+          "noData": "Seçilen zaman aralığında sayısal veri bulunamadı."
+        }
       },
       "table": {
         "title": "Masa",
@@ -1417,12 +1420,13 @@
           "value": "Değer",
           "type": "Tür"
         },
-        "noColor": "Ayarlanmadı"
+        "noColor": "Ayarlanmadı",
+        "messages": {
+          "noData": "Seçilen zaman aralığında veri bulunamadı."
+        }
       },
       "messages": {
         "loading": "Geçmiş veriler yükleniyor...",
-        "noData": "Seçilen zaman aralığında veri bulunamadı.",
-        "noNumericData": "Seçilen zaman aralığında sayısal veri bulunamadı.",
         "noSeries": "Sorgulamak için ikiz seçilmemiş, geçmiş verileri görüntülemek için lütfen ikiz özellikleri ekleyin."
       }
     }

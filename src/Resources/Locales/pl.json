@@ -1407,7 +1407,10 @@
     },
     "viewer": {
       "chart": {
-        "title": "Wykres"
+        "title": "Wykres",
+        "messages": {
+          "noData": "Nie znaleziono danych liczbowych w wybranym zakresie czasu."
+        }
       },
       "table": {
         "title": "Stół",
@@ -1417,12 +1420,13 @@
           "value": "Wartość",
           "type": "Typ"
         },
-        "noColor": "Nie ustawiono"
+        "noColor": "Nie ustawiono",
+        "messages": {
+          "noData": "Nie znaleziono danych w wybranym zakresie czasu."
+        }
       },
       "messages": {
         "loading": "Ładowanie danych historycznych...",
-        "noData": "Nie znaleziono danych w wybranym zakresie czasu.",
-        "noNumericData": "Nie znaleziono danych liczbowych w wybranym zakresie czasu.",
         "noSeries": "Nie wybrano bliźniaka do zapytania, dodaj właściwości bliźniacze, aby wyświetlić dane historyczne."
       }
     }

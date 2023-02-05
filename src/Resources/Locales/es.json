@@ -1407,7 +1407,10 @@
     },
     "viewer": {
       "chart": {
-        "title": "Gráfico"
+        "title": "Gráfico",
+        "messages": {
+          "noData": "No se encontraron datos numéricos en el intervalo de tiempo seleccionado."
+        }
       },
       "table": {
         "title": "Mesa",
@@ -1417,12 +1420,13 @@
           "value": "Valor",
           "type": "Tipo"
         },
-        "noColor": "No establecido"
+        "noColor": "No establecido",
+        "messages": {
+          "noData": "No se encontraron datos en el intervalo de tiempo seleccionado."
+        }
       },
       "messages": {
         "loading": "Cargando datos históricos...",
-        "noData": "No se encontraron datos en el intervalo de tiempo seleccionado.",
-        "noNumericData": "No se encontraron datos numéricos en el intervalo de tiempo seleccionado.",
         "noSeries": "No se seleccionó ningún gemelo para consultar, agregue propiedades gemelas para ver los datos históricos."
       }
     }

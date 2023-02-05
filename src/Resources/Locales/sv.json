@@ -1407,7 +1407,10 @@
     },
     "viewer": {
       "chart": {
-        "title": "Diagram"
+        "title": "Diagram",
+        "messages": {
+          "noData": "Inga numeriska data hittades i det valda tidsintervallet."
+        }
       },
       "table": {
         "title": "Bord",
@@ -1417,12 +1420,13 @@
           "value": "Värde",
           "type": "Typ"
         },
-        "noColor": "Inte inställt"
+        "noColor": "Inte inställt",
+        "messages": {
+          "noData": "Inga data hittades i det valda tidsintervallet."
+        }
       },
       "messages": {
         "loading": "Laddar historiserade data...",
-        "noData": "Inga data hittades i det valda tidsintervallet.",
-        "noNumericData": "Inga numeriska data hittades i det valda tidsintervallet.",
         "noSeries": "Ingen tvilling har valts för att fråga, lägg till tvillingegenskaper för att visa historiserade data."
       }
     }

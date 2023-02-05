@@ -1407,7 +1407,10 @@
     },
     "viewer": {
       "chart": {
-        "title": "Gráfico"
+        "title": "Gráfico",
+        "messages": {
+          "noData": "Não são encontrados dados numéricos no intervalo de tempo selecionado."
+        }
       },
       "table": {
         "title": "Tabela",
@@ -1417,12 +1420,13 @@
           "value": "Valor",
           "type": "Tipo"
         },
-        "noColor": "Não definido"
+        "noColor": "Não definido",
+        "messages": {
+          "noData": "Não são encontrados dados no intervalo de tempo selecionado."
+        }
       },
       "messages": {
         "loading": "A carregar dados historizados...",
-        "noData": "Não são encontrados dados no intervalo de tempo selecionado.",
-        "noNumericData": "Não são encontrados dados numéricos no intervalo de tempo selecionado.",
         "noSeries": "Nenhum gémeo selecionado para consulta, por favor adicione propriedades gémeas para visualizar dados historizados."
       }
     }

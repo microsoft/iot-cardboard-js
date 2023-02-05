@@ -1407,7 +1407,10 @@
     },
     "viewer": {
       "chart": {
-        "title": "Graf"
+        "title": "Graf",
+        "messages": {
+          "noData": "Ve vybraném časovém rozsahu nebyla nalezena žádná číselná data."
+        }
       },
       "table": {
         "title": "Stůl",
@@ -1417,12 +1420,13 @@
           "value": "Hodnota",
           "type": "Typ"
         },
-        "noColor": "Není nastaveno"
+        "noColor": "Není nastaveno",
+        "messages": {
+          "noData": "Ve vybraném časovém rozsahu nebyla nalezena žádná data."
+        }
       },
       "messages": {
         "loading": "Načítání historizovaných dat...",
-        "noData": "Ve vybraném časovém rozsahu nebyla nalezena žádná data.",
-        "noNumericData": "Ve vybraném časovém rozsahu nebyla nalezena žádná číselná data.",
         "noSeries": "K dotazu nebylo vybráno žádné dvojče, přidejte prosím vlastnosti dvojčat pro zobrazení historizovaných dat."
       }
     }
