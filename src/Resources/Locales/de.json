@@ -1407,7 +1407,10 @@
     },
     "viewer": {
       "chart": {
-        "title": "Diagramm"
+        "title": "Diagramm",
+        "messages": {
+          "noData": "Im ausgewählten Zeitraum wurden keine numerischen Daten gefunden."
+        }
       },
       "table": {
         "title": "Tisch",
@@ -1417,12 +1420,13 @@
           "value": "Wert",
           "type": "Art"
         },
-        "noColor": "Nicht festgelegt"
+        "noColor": "Nicht festgelegt",
+        "messages": {
+          "noData": "Im ausgewählten Zeitraum wurden keine Daten gefunden."
+        }
       },
       "messages": {
         "loading": "Historisierte Daten werden geladen...",
-        "noData": "Im ausgewählten Zeitraum wurden keine Daten gefunden.",
-        "noNumericData": "Im ausgewählten Zeitraum wurden keine numerischen Daten gefunden.",
         "noSeries": "Kein Zwilling zur Abfrage ausgewählt, fügen Sie Zwillingseigenschaften hinzu, um historisierte Daten anzuzeigen."
       }
     }

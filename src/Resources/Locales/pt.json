@@ -1407,7 +1407,10 @@
     },
     "viewer": {
       "chart": {
-        "title": "Gráfico"
+        "title": "Gráfico",
+        "messages": {
+          "noData": "Nenhum dado numérico encontrado no intervalo de tempo selecionado."
+        }
       },
       "table": {
         "title": "Mesa",
@@ -1417,12 +1420,13 @@
           "value": "Valor",
           "type": "Tipo"
         },
-        "noColor": "Não definido"
+        "noColor": "Não definido",
+        "messages": {
+          "noData": "Nenhum dado encontrado no intervalo de tempo selecionado."
+        }
       },
       "messages": {
         "loading": "Carregando dados historizados...",
-        "noData": "Nenhum dado encontrado no intervalo de tempo selecionado.",
-        "noNumericData": "Nenhum dado numérico encontrado no intervalo de tempo selecionado.",
         "noSeries": "Nenhum gêmeo selecionado para consultar, adicione propriedades gêmeas para exibir dados historiados."
       }
     }

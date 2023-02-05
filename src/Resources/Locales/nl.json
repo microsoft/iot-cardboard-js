@@ -1407,7 +1407,10 @@
     },
     "viewer": {
       "chart": {
-        "title": "Zeekaart"
+        "title": "Zeekaart",
+        "messages": {
+          "noData": "Geen numerieke gegevens gevonden in het geselecteerde tijdsbereik."
+        }
       },
       "table": {
         "title": "Tafel",
@@ -1417,12 +1420,13 @@
           "value": "Waarde",
           "type": "Type"
         },
-        "noColor": "Niet ingesteld"
+        "noColor": "Niet ingesteld",
+        "messages": {
+          "noData": "Geen gegevens gevonden in het geselecteerde tijdsbereik."
+        }
       },
       "messages": {
         "loading": "Historized data laden...",
-        "noData": "Geen gegevens gevonden in het geselecteerde tijdsbereik.",
-        "noNumericData": "Geen numerieke gegevens gevonden in het geselecteerde tijdsbereik.",
         "noSeries": "Geen tweeling geselecteerd om op te vragen, voeg dubbele eigenschappen toe om geïrtoriseerde gegevens te bekijken."
       }
     }

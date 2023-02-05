@@ -1407,7 +1407,10 @@
     },
     "viewer": {
       "chart": {
-        "title": "Tabella"
+        "title": "Tabella",
+        "messages": {
+          "noData": "Nessun dato numerico trovato nell'intervallo di tempo selezionato."
+        }
       },
       "table": {
         "title": "Tavolo",
@@ -1417,12 +1420,13 @@
           "value": "Valore",
           "type": "Digitare"
         },
-        "noColor": "Non impostato"
+        "noColor": "Non impostato",
+        "messages": {
+          "noData": "Nessun dato trovato nell'intervallo di tempo selezionato."
+        }
       },
       "messages": {
         "loading": "Caricamento dei dati storici...",
-        "noData": "Nessun dato trovato nell'intervallo di tempo selezionato.",
-        "noNumericData": "Nessun dato numerico trovato nell'intervallo di tempo selezionato.",
         "noSeries": "Nessun gemello selezionato per la query, aggiungere proprietà gemelle per visualizzare i dati cronologizzati."
       }
     }
