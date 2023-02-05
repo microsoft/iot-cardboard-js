@@ -1,4 +1,4 @@
-import React, { createContext } from 'react';
+import React, { createContext, useMemo } from 'react';
 import {
     ERROR_IMAGE_HEIGHT,
     ITimeSeriesViewerContext,
@@ -19,14 +19,12 @@ import {
 } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import GenericErrorImg from '../../../../Resources/Static/noResults.svg';
-import SearchErrorImg from '../../../../Resources/Static/searchError.svg';
 import IllustrationMessage from '../../../IllustrationMessage/IllustrationMessage';
 import TimeSeriesChart from './Internal/TimeSeriesChart/TimeSeriesChart';
 import TimeSeriesTable from './Internal/TimeSeriesTable/TimeSeriesTable';
 import { TimeStampFormat } from './Internal/TimeSeriesTable/TimeSeriesTable.types';
-import { sendDataHistoryExplorerUserTelemetry } from '../../../../Models/SharedUtils/DataHistoryUtils';
-import { TelemetryEvents } from '../../../../Models/Constants/TelemetryConstants';
 import DataHistoryErrorHandlingWrapper from '../../../DataHistoryErrorHandlingWrapper/DataHistoryErrorHandlingWrapper';
+import TimeSeriesCommandBar from './Internal/TimeSeriesCommandBar/TimeSeriesCommandBar';
 
 export const TimeSeriesViewerContext = createContext<ITimeSeriesViewerContext>(
     null
@@ -42,9 +40,10 @@ const TimeSeriesViewer: React.FC<ITimeSeriesViewerProps> = (props) => {
         timeSeriesTwins = [],
         data = null,
         isLoading = false,
-        viewerMode = TimeSeriesViewerMode.Chart,
+        viewerModeProps,
         onViewerModeChange,
-        chartOptions,
+        explorerChartOptions,
+        onChartOptionsChange,
         error,
         styles
     } = props;
@@ -57,56 +56,59 @@ const TimeSeriesViewer: React.FC<ITimeSeriesViewerProps> = (props) => {
         theme: useTheme()
     });
 
-    const handleOnChangePivot = (item: PivotItem) => {
-        const telemetry =
-            TelemetryEvents.Tools.DataHistoryExplorer.UserAction.ChangeView;
-        sendDataHistoryExplorerUserTelemetry(telemetry.eventName, [
-            {
-                [telemetry.properties.view]: item.props.itemKey
-            }
-        ]);
-        onViewerModeChange(item.props.itemKey as TimeSeriesViewerMode);
-    };
+    const CommandBarComponent = useMemo(() => {
+        const {
+            yAxisType,
+            aggregationType,
+            defaultQuickTimeSpanInMillis
+        } = explorerChartOptions;
+        return (
+            <TimeSeriesCommandBar
+                defaultChartOptions={{
+                    yAxisType,
+                    aggregationType,
+                    defaultQuickTimeSpanInMillis
+                }}
+                viewerModeProps={viewerModeProps}
+                onChartOptionsChange={onChartOptionsChange}
+                styles={classNames.subComponentStyles.commandBar}
+            />
+        );
+    }, [explorerChartOptions, viewerModeProps, onChartOptionsChange]);
+
+    const SpinnerComponent = useMemo(
+        () => (
+            <Spinner
+                styles={classNames.subComponentStyles.loadingSpinner}
+                size={SpinnerSize.large}
+                label={t('dataHistoryExplorer.viewer.messages.loading')}
+                ariaLive="assertive"
+                labelPosition="top"
+            />
+        ),
+        []
+    );
 
     return (
         <div className={classNames.root}>
-            {isLoading ? (
-                <Spinner
-                    styles={classNames.subComponentStyles.loadingSpinner}
-                    size={SpinnerSize.large}
-                    label={t('dataHistoryExplorer.viewer.messages.loading')}
-                    ariaLive="assertive"
-                    labelPosition="top"
-                />
-            ) : error ? (
+            {error ? (
                 <DataHistoryErrorHandlingWrapper
                     error={error}
                     imgHeight={ERROR_IMAGE_HEIGHT}
                     messageWidth="wide"
                 />
-            ) : !(viewerMode === TimeSeriesViewerMode.Chart
-                  ? data?.chart.length > 0
-                  : data?.table.length > 0) ? (
+            ) : !(timeSeriesTwins?.length > 0) ? (
                 <IllustrationMessage
                     descriptionText={t(
-                        `dataHistoryExplorer.viewer.messages.${
-                            !(timeSeriesTwins?.length > 0)
-                                ? 'noSeries'
-                                : viewerMode === TimeSeriesViewerMode.Chart
-                                ? 'noNumericData'
-                                : 'noData'
-                        }`
+                        'dataHistoryExplorer.viewer.messages.noSeries'
                     )}
                     type={'info'}
                     width={'wide'}
                     imageProps={{
-                        src:
-                            timeSeriesTwins?.length > 0
-                                ? SearchErrorImg
-                                : GenericErrorImg,
+                        src: GenericErrorImg,
                         height: 172
                     }}
-                    styles={{ container: { flexGrow: 1 } }}
+                    styles={classNames.subComponentStyles.noSeriesIllustration}
                 />
             ) : (
                 <TimeSeriesViewerContext.Provider
@@ -115,10 +117,13 @@ const TimeSeriesViewer: React.FC<ITimeSeriesViewerProps> = (props) => {
                     }}
                 >
                     <Pivot
-                        overflowBehavior={'menu'}
                         styles={classNames.subComponentStyles.pivot}
-                        onLinkClick={handleOnChangePivot}
-                        selectedKey={viewerMode}
+                        onLinkClick={(viewMode) =>
+                            onViewerModeChange(
+                                viewMode.props.itemKey as TimeSeriesViewerMode
+                            )
+                        }
+                        selectedKey={viewerModeProps.viewerMode}
                     >
                         <PivotItem
                             headerText={t(
@@ -126,10 +131,16 @@ const TimeSeriesViewer: React.FC<ITimeSeriesViewerProps> = (props) => {
                             )}
                             itemKey={TimeSeriesViewerMode.Chart}
                         >
-                            <TimeSeriesChart
-                                data={data.chart}
-                                chartOptions={chartOptions}
-                            />
+                            {CommandBarComponent}
+                            {isLoading ? (
+                                SpinnerComponent
+                            ) : (
+                                <TimeSeriesChart
+                                    data={data.chart}
+                                    explorerChartOptions={explorerChartOptions}
+                                    styles={classNames.subComponentStyles.chart}
+                                />
+                            )}
                         </PivotItem>
                         <PivotItem
                             headerText={t(
@@ -137,10 +148,16 @@ const TimeSeriesViewer: React.FC<ITimeSeriesViewerProps> = (props) => {
                             )}
                             itemKey={TimeSeriesViewerMode.Table}
                         >
-                            <TimeSeriesTable
-                                data={data.table}
-                                timeStampFormat={TimeStampFormat.date}
-                            />
+                            {CommandBarComponent}
+                            {isLoading ? (
+                                SpinnerComponent
+                            ) : (
+                                <TimeSeriesTable
+                                    data={data.table}
+                                    timeStampFormat={TimeStampFormat.date}
+                                    styles={classNames.subComponentStyles.table}
+                                />
+                            )}
                         </PivotItem>
                     </Pivot>
                 </TimeSeriesViewerContext.Provider>

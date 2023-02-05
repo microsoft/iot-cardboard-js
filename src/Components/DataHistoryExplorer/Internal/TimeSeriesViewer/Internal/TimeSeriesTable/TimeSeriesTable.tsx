@@ -20,11 +20,14 @@ import {
     ScrollablePane,
     IDetailsHeaderProps,
     IRenderFunction,
-    Sticky
+    Sticky,
+    StickyPositionType
 } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { TimeSeriesViewerContext } from '../../TimeSeriesViewer';
 import { DTDLPropertyIconographyMap } from '../../../../../../Models/Constants/Constants';
+import IllustrationMessage from '../../../../../IllustrationMessage/IllustrationMessage';
+import SearchErrorImg from '../../../../../../Resources/Static/searchError.svg';
 
 const getClassNames = classNamesFunction<
     ITimeSeriesTableStyleProps,
@@ -50,7 +53,7 @@ const TimeSeriesTable: React.FC<ITimeSeriesTableProps> = (props) => {
                 key: 'timestamp',
                 name: t('dataHistoryExplorer.viewer.table.columns.timestamp'),
                 minWidth: 100,
-                maxWidth: 180,
+                maxWidth: 160,
                 isResizable: true,
                 onRender: (item: TimeSeriesTableRow) =>
                     getFormattedTimeStamp(item.timestamp)
@@ -140,7 +143,7 @@ const TimeSeriesTable: React.FC<ITimeSeriesTableProps> = (props) => {
         detailsHeaderProps: IDetailsHeaderProps,
         defaultRender: IRenderFunction<IDetailsHeaderProps>
     ) => (
-        <Sticky>
+        <Sticky stickyPosition={StickyPositionType.Header}>
             {defaultRender({
                 ...detailsHeaderProps,
                 styles: { root: { paddingTop: 0 } }
@@ -150,20 +153,35 @@ const TimeSeriesTable: React.FC<ITimeSeriesTableProps> = (props) => {
 
     return (
         <div className={classNames.root}>
-            <div className={classNames.listWrapper}>
-                <ScrollablePane>
-                    <DetailsList
-                        styles={classNames.subComponentStyles.detailsList}
-                        key={'adx-series-data'}
-                        selectionMode={SelectionMode.none}
-                        items={data}
-                        columns={getColumns}
-                        layoutMode={DetailsListLayoutMode.justified}
-                        constrainMode={ConstrainMode.horizontalConstrained}
-                        onRenderDetailsHeader={onRenderDetailsHeader}
-                    />
-                </ScrollablePane>
-            </div>
+            {!(data.length > 0) ? (
+                <IllustrationMessage
+                    descriptionText={t(
+                        'dataHistoryExplorer.viewer.table.messages.noData'
+                    )}
+                    type={'info'}
+                    width={'wide'}
+                    imageProps={{
+                        src: SearchErrorImg,
+                        height: 172
+                    }}
+                    styles={{ container: { flexGrow: 1 } }}
+                />
+            ) : (
+                <div className={classNames.listWrapper}>
+                    <ScrollablePane scrollContainerFocus={true}>
+                        <DetailsList
+                            styles={classNames.subComponentStyles.detailsList}
+                            key={'adx-series-data'}
+                            selectionMode={SelectionMode.none}
+                            items={data}
+                            columns={getColumns}
+                            layoutMode={DetailsListLayoutMode.justified}
+                            constrainMode={ConstrainMode.horizontalConstrained}
+                            onRenderDetailsHeader={onRenderDetailsHeader}
+                        />
+                    </ScrollablePane>
+                </div>
+            )}
         </div>
     );
 };

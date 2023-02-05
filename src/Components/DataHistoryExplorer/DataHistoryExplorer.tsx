@@ -48,7 +48,6 @@ import {
     transformADXTimeSeriesToADXTableData
 } from '../../Models/SharedUtils/DataHistoryUtils';
 import DataHistoryErrorHandlingWrapper from '../DataHistoryErrorHandlingWrapper/DataHistoryErrorHandlingWrapper';
-import { IDataHistoryChartOptions } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { useTimeSeriesData } from '../../Models/Hooks/useTimeSeriesData';
 import { ColorString } from 'highcharts';
 import {
@@ -57,15 +56,15 @@ import {
 } from './DataHistoryExplorer.state';
 import { TelemetryEvents } from '../../Models/Constants/TelemetryConstants';
 import TimeSeriesTwinCallout from './Internal/TimeSeriesTwinCallout/TimeSeriesTwinCallout';
-import TimeSeriesCommandBar from './Internal/TimeSeriesCommandBar/TimeSeriesCommandBar';
 import {
     TimerSeriesViewerData,
     TimeSeriesViewerMode
 } from './Internal/TimeSeriesViewer/TimeSeriesViewer.types';
 import {
-    ChartCommandBarProps,
-    TableCommandBarProps
-} from './Internal/TimeSeriesCommandBar/TimeSeriesCommandBar.types';
+    IChartCommandBarProps,
+    ITableCommandBarProps,
+    ITimeSeriesCommandBarOptions
+} from './Internal/TimeSeriesViewer/Internal/TimeSeriesCommandBar/TimeSeriesCommandBar.types';
 import { TimeSeriesTableRow } from './Internal/TimeSeriesViewer/Internal/TimeSeriesTable/TimeSeriesTable.types';
 import { usePrevious } from '@fluentui/react-hooks';
 import { hasOwnProperty } from 'fast-json-patch/module/helpers';
@@ -92,8 +91,11 @@ const DataHistoryExplorer: React.FC<IDataHistoryExplorerProps> = (props) => {
         ...defaultDataHistoryExplorerState,
         adxConnectionInformation: adapter.getADXConnectionInformation(),
         timeSeriesTwins: timeSeriesTwinsProp,
-        chartOptions: {
-            ...deepCopy(defaultChartOptions),
+        explorerChartOptions: {
+            ...deepCopy(
+                defaultChartOptions ||
+                    defaultDataHistoryExplorerState.explorerChartOptions
+            ),
             xMinDateInMillis: null,
             xMaxDateInMillis: null
         }
@@ -124,26 +126,11 @@ const DataHistoryExplorer: React.FC<IDataHistoryExplorerProps> = (props) => {
     } = useTimeSeriesData({
         adapter,
         connection: adapter.getADXConnectionInformation(),
-        quickTimeSpanInMillis: state.chartOptions.defaultQuickTimeSpanInMillis,
+        quickTimeSpanInMillis:
+            state.explorerChartOptions.defaultQuickTimeSpanInMillis,
         twins: state.timeSeriesTwins,
         queryOptions: { isNullIncluded: true, shouldCastToDouble: false } // fetch all raw data, do filtering later based on selected viewer mode later
     });
-
-    const commandBarViewerModeProps:
-        | ChartCommandBarProps
-        | TableCommandBarProps = useMemo(
-        () =>
-            state.selectedViewerMode === TimeSeriesViewerMode.Chart
-                ? ({
-                      viewerMode: TimeSeriesViewerMode.Chart,
-                      deeplink: deeplink
-                  } as ChartCommandBarProps)
-                : ({
-                      viewerMode: TimeSeriesViewerMode.Table,
-                      onDownloadClick: handleOnDownloadTableClick
-                  } as TableCommandBarProps),
-        [state.selectedViewerMode]
-    );
 
     const chartData = useMemo(() => {
         const filteredSeries: Array<ADXTimeSeries> = [];
@@ -218,20 +205,25 @@ const DataHistoryExplorer: React.FC<IDataHistoryExplorerProps> = (props) => {
 
     //callbacks
     const updateXMinAndMax = useCallback(() => {
+        debugger;
         const nowInMillis = Date.now();
         dispatch({
-            type: DataHistoryExplorerActionType.SET_EXPLORER_CHART_OPTIONS,
+            type: DataHistoryExplorerActionType.SET_EXPLORER_CHART_OPTION,
             payload: {
-                explorerChartOptions: {
-                    ...state.chartOptions,
-                    xMinDateInMillis:
-                        nowInMillis -
-                        state.chartOptions.defaultQuickTimeSpanInMillis,
-                    xMaxDateInMillis: nowInMillis
-                }
+                option: 'xMinDateInMillis',
+                value:
+                    nowInMillis -
+                    state.explorerChartOptions.defaultQuickTimeSpanInMillis
             }
         });
-    }, [state.chartOptions]);
+        dispatch({
+            type: DataHistoryExplorerActionType.SET_EXPLORER_CHART_OPTION,
+            payload: {
+                option: 'xMaxDateInMillis',
+                value: nowInMillis
+            }
+        });
+    }, [state.explorerChartOptions.defaultQuickTimeSpanInMillis]);
 
     const handleTimeSeriesTwinCalloutPrimaryAction = useCallback(
         (timeSeriesTwin: IDataHistoryTimeSeriesTwin) => {
@@ -371,9 +363,11 @@ const DataHistoryExplorer: React.FC<IDataHistoryExplorerProps> = (props) => {
     );
 
     const handleOnChartOptionChange = useCallback(
-        (chartOptions: IDataHistoryChartOptions) => {
+        (chartOptions: ITimeSeriesCommandBarOptions) => {
+            debugger;
             dispatch({
-                type: DataHistoryExplorerActionType.SET_CHART_OPTIONS,
+                type:
+                    DataHistoryExplorerActionType.SET_COMMAND_BAR_CHART_OPTIONS,
                 payload: { chartOptions: chartOptions }
             });
             logDebugConsole(
@@ -422,6 +416,22 @@ const DataHistoryExplorer: React.FC<IDataHistoryExplorerProps> = (props) => {
         ]);
     }, [tableData]);
 
+    const viewerModeProps:
+        | IChartCommandBarProps
+        | ITableCommandBarProps = useMemo(
+        () =>
+            state.selectedViewerMode === TimeSeriesViewerMode.Chart
+                ? ({
+                      viewerMode: TimeSeriesViewerMode.Chart,
+                      deeplink: deeplink
+                  } as IChartCommandBarProps)
+                : ({
+                      viewerMode: TimeSeriesViewerMode.Table,
+                      onDownloadClick: handleOnDownloadTableClick
+                  } as ITableCommandBarProps),
+        [state.selectedViewerMode, handleOnDownloadTableClick]
+    );
+
     // styles
     const classNames = getClassNames(styles, {
         theme: useTheme()
@@ -456,6 +466,7 @@ const DataHistoryExplorer: React.FC<IDataHistoryExplorerProps> = (props) => {
     }, [updateConnectionAdapterData?.adapterResult.result]);
     useEffect(() => {
         if (data && !isLoading) {
+            debugger;
             const seriesIdsWithNoData = state.timeSeriesTwins
                 ?.filter((ts) => !data?.find((d) => d.seriesId === ts.seriesId))
                 .map((ts) => ts.seriesId);
@@ -463,6 +474,7 @@ const DataHistoryExplorer: React.FC<IDataHistoryExplorerProps> = (props) => {
                 type: DataHistoryExplorerActionType.SET_MISSING_SERIES,
                 payload: { seriesIds: seriesIdsWithNoData }
             });
+            updateXMinAndMax();
         }
     }, [data, state.timeSeriesTwins, isLoading]);
 
@@ -474,7 +486,6 @@ const DataHistoryExplorer: React.FC<IDataHistoryExplorerProps> = (props) => {
                 `Query to send for ${state.selectedViewerMode}: ${query}`
             );
             fetchTimeSeriesData();
-            updateXMinAndMax();
         }
     }, [query]);
 
@@ -506,7 +517,7 @@ const DataHistoryExplorer: React.FC<IDataHistoryExplorerProps> = (props) => {
                         updateConnectionAdapterData.adapterResult.getErrors()[0]
                     }
                     imgHeight={ERROR_IMAGE_HEIGHT}
-                    styles={classNames.subComponentStyles.errorWrapper}
+                    messageWidth={'wide'}
                 />
             ) : updateConnectionAdapterData.isLoading ? (
                 <Spinner
@@ -533,29 +544,17 @@ const DataHistoryExplorer: React.FC<IDataHistoryExplorerProps> = (props) => {
                             onRemoveSeriesClick={handleOnRemoveSeriesClick}
                             styles={classNames.subComponentStyles.builder}
                         />
-                        <Stack
-                            tokens={{ childrenGap: 8 }}
-                            className={classNames.contentStack}
-                        >
-                            {state.timeSeriesTwins.length > 0 && (
-                                <TimeSeriesCommandBar
-                                    viewerModeProps={commandBarViewerModeProps}
-                                    onChartOptionsChange={
-                                        handleOnChartOptionChange
-                                    }
-                                />
-                            )}
-                            <TimeSeriesViewer
-                                isLoading={isLoading}
-                                timeSeriesTwins={state.timeSeriesTwins}
-                                viewerMode={state.selectedViewerMode}
-                                onViewerModeChange={handleOnViewModeChange}
-                                chartOptions={state.chartOptions}
-                                data={viewerData}
-                                error={errors[0]}
-                                styles={classNames.subComponentStyles.viewer}
-                            />
-                        </Stack>
+                        <TimeSeriesViewer
+                            isLoading={isLoading}
+                            timeSeriesTwins={state.timeSeriesTwins}
+                            viewerModeProps={viewerModeProps}
+                            onViewerModeChange={handleOnViewModeChange}
+                            explorerChartOptions={state.explorerChartOptions}
+                            onChartOptionsChange={handleOnChartOptionChange}
+                            data={viewerData}
+                            error={errors[0]}
+                            styles={classNames.subComponentStyles.viewer}
+                        />
                     </Stack>
                     {state.isTimeSeriesTwinCalloutVisible && (
                         <TimeSeriesTwinCallout

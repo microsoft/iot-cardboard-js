@@ -47,12 +47,13 @@ const Template: TimeSeriesChartStory = (args) => {
 const nowInMillis = Date.now();
 export const Mock = Template.bind({}) as TimeSeriesChartStory;
 Mock.args = {
-    chartOptions: {
+    explorerChartOptions: {
         yAxisType: 'independent',
-        defaultQuickTimeSpanInMillis: QuickTimeSpans[QuickTimeSpanKey.LastYear],
+        defaultQuickTimeSpanInMillis:
+            QuickTimeSpans[QuickTimeSpanKey.Last60Days],
         aggregationType: 'avg',
         xMinDateInMillis:
-            nowInMillis - QuickTimeSpans[QuickTimeSpanKey.LastYear],
+            nowInMillis - QuickTimeSpans[QuickTimeSpanKey.Last60Days],
         xMaxDateInMillis: nowInMillis
     },
     data: [
@@ -66,11 +67,11 @@ Mock.args = {
                     value: 115
                 },
                 {
-                    timestamp: '2023-01-09T18:03:09.216Z', // note that date is in UTC
+                    timestamp: '2023-01-10T18:03:09.216Z', // note that date is in UTC
                     value: 23
                 },
                 {
-                    timestamp: '2023-01-09T18:04:16.698Z', // note that date is in UTC
+                    timestamp: '2023-01-11T18:04:16.698Z', // note that date is in UTC
                     value: 188
                 }
             ]

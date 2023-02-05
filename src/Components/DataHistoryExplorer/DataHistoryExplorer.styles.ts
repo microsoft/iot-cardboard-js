@@ -54,14 +54,7 @@ export const getStyles = (
                     callout: { calloutMain: { width: 300 } }
                 }
             },
-            loadingSpinner: { root: { flexGrow: 1 } },
-            errorWrapper: {
-                subComponentStyles: {
-                    illustrationMessage: {
-                        descriptionContainer: { maxWidth: 400 }
-                    }
-                }
-            }
+            loadingSpinner: { root: { flexGrow: 1 } }
         }
     };
 };

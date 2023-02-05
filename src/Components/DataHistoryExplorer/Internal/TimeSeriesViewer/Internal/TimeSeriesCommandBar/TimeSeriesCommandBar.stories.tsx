@@ -2,15 +2,16 @@ import React from 'react';
 import { ComponentStory } from '@storybook/react';
 import TimeSeriesCommandBar from './TimeSeriesCommandBar';
 import { ITimeSeriesCommandBarProps } from './TimeSeriesCommandBar.types';
-import { getDefaultStoryDecorator } from '../../../../Models/Services/StoryUtilities';
-import { QuickTimeSpans } from '../../../../Models/Constants/Constants';
-import { QuickTimeSpanKey } from '../../../../Models/Constants/Enums';
-import { TimeSeriesViewerMode } from '../TimeSeriesViewer/TimeSeriesViewer.types';
+import { getDefaultStoryDecorator } from '../../../../../../Models/Services/StoryUtilities';
+import { QuickTimeSpans } from '../../../../../../Models/Constants/Constants';
+import { QuickTimeSpanKey } from '../../../../../../Models/Constants/Enums';
+import { TimeSeriesViewerMode } from '../../TimeSeriesViewer.types';
 
 const wrapperStyle = { width: '100%', height: '100px' };
 
 export default {
-    title: 'Components/DataHistoryExplorer/Internal/TimeSeriesCommandBar',
+    title:
+        'Components/DataHistoryExplorer/Internal/TimeSeriesViewer/Internal/TimeSeriesCommandBar',
     component: TimeSeriesCommandBar,
     decorators: [
         getDefaultStoryDecorator<ITimeSeriesCommandBarProps>(wrapperStyle)

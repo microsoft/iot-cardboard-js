@@ -10,11 +10,10 @@ import {
     IADXConnection,
     IDataHistoryTimeSeriesTwin
 } from '../../Models/Constants/Interfaces';
-import { IDataHistoryChartOptions } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { ICardboardModalStyles } from '../CardboardModal/CardboardModal.types';
-import { IDataHistoryErrorHandlingWrapperStyles } from '../DataHistoryErrorHandlingWrapper/DataHistoryErrorHandlingWrapper.types';
 import { ITimeSeriesBuilderStyles } from './Internal/TimeSeriesBuilder/TimeSeriesBuilder.types';
 import { ITimeSeriesTwinCalloutStyles } from './Internal/TimeSeriesTwinCallout/TimeSeriesTwinCallout.types';
+import { ITimeSeriesCommandBarOptions } from './Internal/TimeSeriesViewer/Internal/TimeSeriesCommandBar/TimeSeriesCommandBar.types';
 import {
     ITimeSeriesViewerStyles,
     TimeSeriesViewerMode
@@ -24,7 +23,7 @@ export interface IDataHistoryExplorerProps {
     adapter: ADTDataHistoryAdapter | MockAdapter;
     hasTitle?: boolean;
     timeSeriesTwins?: Array<IDataHistoryTimeSeriesTwin>;
-    defaultChartOptions?: IDataHistoryChartOptions;
+    defaultChartOptions?: ITimeSeriesCommandBarOptions;
     /**
      * Call to provide customized styling that will layer on top of the variant rules.
      */
@@ -56,11 +55,10 @@ export interface IDataHistoryExplorerSubComponentStyles {
     viewer?: ITimeSeriesViewerStyles;
     timeSeriesTwinCallout?: Partial<ITimeSeriesTwinCalloutStyles>;
     loadingSpinner?: Partial<ISpinnerStyles>;
-    errorWrapper?: Partial<IDataHistoryErrorHandlingWrapperStyles>;
 }
 
 export interface IDataHistoryExplorerChartOptions
-    extends IDataHistoryChartOptions {
+    extends ITimeSeriesCommandBarOptions {
     xMinDateInMillis: number;
     xMaxDateInMillis: number;
 }
@@ -72,7 +70,7 @@ export interface IDataHistoryExplorerState {
     selectedViewerMode: TimeSeriesViewerMode;
     missingDataSeriesIds: Array<string>;
     isTimeSeriesTwinCalloutVisible: boolean;
-    chartOptions?: IDataHistoryExplorerChartOptions;
+    explorerChartOptions?: IDataHistoryExplorerChartOptions;
 }
 
 export enum DataHistoryExplorerActionType {
@@ -82,8 +80,8 @@ export enum DataHistoryExplorerActionType {
     SET_IS_TIME_SERIES_TWIN_CALLOUT_VISIBLE,
     SET_SELECTED_TIME_SERIES_ID,
     SET_MISSING_SERIES,
-    SET_CHART_OPTIONS,
-    SET_EXPLORER_CHART_OPTIONS,
+    SET_COMMAND_BAR_CHART_OPTIONS,
+    SET_EXPLORER_CHART_OPTION,
     SET_ADX_CONNECTION_INFORMATION,
     SET_VIEWER_MODE
 }
@@ -122,15 +120,16 @@ export type IDataHistoryExplorerAction =
           };
       }
     | {
-          type: DataHistoryExplorerActionType.SET_CHART_OPTIONS;
+          type: DataHistoryExplorerActionType.SET_COMMAND_BAR_CHART_OPTIONS;
           payload: {
-              chartOptions: IDataHistoryChartOptions;
+              chartOptions: ITimeSeriesCommandBarOptions;
           };
       }
     | {
-          type: DataHistoryExplorerActionType.SET_EXPLORER_CHART_OPTIONS;
+          type: DataHistoryExplorerActionType.SET_EXPLORER_CHART_OPTION;
           payload: {
-              explorerChartOptions: IDataHistoryExplorerChartOptions;
+              option: keyof IDataHistoryExplorerChartOptions;
+              value: any;
           };
       }
     | {

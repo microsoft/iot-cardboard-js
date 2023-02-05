@@ -2,7 +2,7 @@ import { IStyle, IStyleFunctionOrObject, ITheme } from '@fluentui/react';
 import { ADXTimeSeries } from '../../../../../../Models/Constants';
 import { IDataHistoryExplorerChartOptions } from '../../../../DataHistoryExplorer.types';
 export interface ITimeSeriesChartProps {
-    chartOptions: IDataHistoryExplorerChartOptions;
+    explorerChartOptions: IDataHistoryExplorerChartOptions;
     data: Array<ADXTimeSeries>;
     /**
      * Call to provide customized styling that will layer on top of the variant rules.

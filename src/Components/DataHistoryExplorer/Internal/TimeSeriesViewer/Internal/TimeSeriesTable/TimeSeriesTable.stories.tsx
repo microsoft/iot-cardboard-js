@@ -42,15 +42,15 @@ const Template: TableStory = (args) => {
     );
 };
 
-export const Base = Template.bind({}) as TableStory;
-Base.args = {
+export const Mock = Template.bind({}) as TableStory;
+Mock.args = {
     data: [
         {
             seriesId: seriesId,
             property: 'InFlow',
             timestamp: '2023-01-09T18:02:49.712Z',
             id: 'PasteurizationMachine_A01',
-            key: 'InFlow',
+            key: seriesId + '1',
             value: 115
         },
         {
@@ -58,7 +58,7 @@ Base.args = {
             property: 'InFlow',
             timestamp: '2023-01-09T18:03:09.216Z',
             id: 'PasteurizationMachine_A01',
-            key: 'InFlow',
+            key: seriesId + '2',
             value: 23
         },
         {
@@ -66,7 +66,7 @@ Base.args = {
             property: 'InFlow',
             timestamp: '2023-01-09T18:04:16.698Z',
             id: 'PasteurizationMachine_A01',
-            key: 'InFlow',
+            key: seriesId + '3',
             value: 188
         }
     ]

@@ -14,7 +14,7 @@ export const defaultDataHistoryExplorerState: IDataHistoryExplorerState = {
     selectedViewerMode: TimeSeriesViewerMode.Chart,
     missingDataSeriesIds: [],
     isTimeSeriesTwinCalloutVisible: false,
-    chartOptions: {
+    explorerChartOptions: {
         yAxisType: 'independent',
         defaultQuickTimeSpanInMillis:
             QuickTimeSpans[QuickTimeSpanKey.Last15Mins],
@@ -56,14 +56,21 @@ export const DataHistoryExplorerReducer = produce(
                 draft.missingDataSeriesIds = seriesIds;
                 break;
             }
-            case DataHistoryExplorerActionType.SET_CHART_OPTIONS: {
+            case DataHistoryExplorerActionType.SET_COMMAND_BAR_CHART_OPTIONS: {
                 const { chartOptions } = action.payload;
-                draft.chartOptions = { ...draft.chartOptions, ...chartOptions }; // only override the common properties, keep x values
+                debugger;
+                draft.explorerChartOptions = {
+                    ...draft.explorerChartOptions, // keep the existing extending chart option properties like x values
+                    ...chartOptions
+                };
                 break;
             }
-            case DataHistoryExplorerActionType.SET_EXPLORER_CHART_OPTIONS: {
-                const { explorerChartOptions } = action.payload;
-                draft.chartOptions = explorerChartOptions; // only override the common properties, keep x values
+            case DataHistoryExplorerActionType.SET_EXPLORER_CHART_OPTION: {
+                const { option, value } = action.payload;
+                draft.explorerChartOptions = {
+                    ...draft.explorerChartOptions,
+                    [option]: value
+                };
                 break;
             }
             case DataHistoryExplorerActionType.SET_ADX_CONNECTION_INFORMATION: {

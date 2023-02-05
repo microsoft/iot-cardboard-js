@@ -12,17 +12,10 @@ export const getStyles = (
     _props: ITimeSeriesChartStyleProps
 ): ITimeSeriesChartStyles => {
     return {
-        root: [
-            classNames.root,
-            {
-                display: 'flex',
-                flexDirection: 'column',
-                height: '100%'
-            }
-        ],
+        root: [classNames.root],
         chartContainer: [
             classNames.chartContainer,
-            { flexGrow: 1, overflow: 'hidden' }
+            { height: '100%', overflow: 'hidden' }
         ]
     };
 };

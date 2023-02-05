@@ -14,18 +14,10 @@ export const getStyles = (
     _props: ITimeSeriesTableStyleProps
 ): ITimeSeriesTableStyles => {
     return {
-        root: [
-            classNames.root,
-            {
-                width: '100%',
-                height: '100%',
-                display: 'flex',
-                flexDirection: 'column'
-            }
-        ],
+        root: [classNames.root],
         listWrapper: [
             classNames.listWrapper,
-            { overflow: 'auto', position: 'relative', flexGrow: 1 }
+            { overflow: 'auto', position: 'relative', height: '100%' }
         ],
         notSetCell: [classNames.notSetCell, { fontStyle: 'italic' }],
         subComponentStyles: {

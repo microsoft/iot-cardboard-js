@@ -1,5 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import {
+    ITimeSeriesCommandBarOptionKeys,
+    ITimeSeriesCommandBarOptions,
     ITimeSeriesCommandBarProps,
     ITimeSeriesCommandBarStyleProps,
     ITimeSeriesCommandBarStyles
@@ -12,12 +14,15 @@ import {
     CommandBar,
     ICommandBarItemProps
 } from '@fluentui/react';
-import { IDataHistoryChartOptions } from '../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
-import { QuickTimeSpanKey } from '../../../../Models/Constants/Enums';
+import {
+    IDataHistoryAggregationType,
+    IDataHistoryChartYAxisType
+} from '../../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
+import { QuickTimeSpanKey } from '../../../../../../Models/Constants/Enums';
 import {
     AggregationTypeDropdownOptions,
     QuickTimeSpans
-} from '../../../../Models/Constants/Constants';
+} from '../../../../../../Models/Constants/Constants';
 import produce from 'immer';
 import { useTranslation } from 'react-i18next';
 import {
@@ -25,13 +30,13 @@ import {
     getQuickTimeSpanOptions,
     getYAxisTypeOptions,
     sendDataHistoryExplorerUserTelemetry
-} from '../../../../Models/SharedUtils/DataHistoryUtils';
+} from '../../../../../../Models/SharedUtils/DataHistoryUtils';
 import {
     capitalizeFirstLetter,
     deepCopy
-} from '../../../../Models/Services/Utils';
-import { TelemetryEvents } from '../../../../Models/Constants/TelemetryConstants';
-import { TimeSeriesViewerMode } from '../TimeSeriesViewer/TimeSeriesViewer.types';
+} from '../../../../../../Models/Services/Utils';
+import { TelemetryEvents } from '../../../../../../Models/Constants/TelemetryConstants';
+import { TimeSeriesViewerMode } from '../../TimeSeriesViewer.types';
 
 const getClassNames = classNamesFunction<
     ITimeSeriesCommandBarStyleProps,
@@ -47,7 +52,10 @@ const TimeSeriesCommandBar: React.FC<ITimeSeriesCommandBarProps> = (props) => {
     } = props;
 
     // state
-    const [chartOptions, setChartOptions] = useState<IDataHistoryChartOptions>(
+    const [
+        chartOptions,
+        setChartOptions
+    ] = useState<ITimeSeriesCommandBarOptions>(
         deepCopy(defaultChartOptions) || {
             yAxisType: 'independent',
             defaultQuickTimeSpanInMillis:
@@ -62,27 +70,15 @@ const TimeSeriesCommandBar: React.FC<ITimeSeriesCommandBarProps> = (props) => {
     // callbacks
     const handleChartOptionChange = useCallback(
         (
-            chartOption:
-                | 'aggregationType'
-                | 'yAxisType'
-                | 'defaultQuickTimeSpanInMillis',
-            value: any
+            chartOption: ITimeSeriesCommandBarOptionKeys,
+            value:
+                | IDataHistoryChartYAxisType
+                | number
+                | IDataHistoryAggregationType
         ) => {
             setChartOptions(
                 produce((draft) => {
-                    switch (chartOption) {
-                        case 'aggregationType':
-                            draft.aggregationType = value;
-                            break;
-                        case 'yAxisType':
-                            draft.yAxisType = value;
-                            break;
-                        case 'defaultQuickTimeSpanInMillis':
-                            draft.defaultQuickTimeSpanInMillis = value;
-                            break;
-                        default:
-                            break;
-                    }
+                    return { ...draft, [chartOption]: value };
                 })
             );
         },
@@ -101,6 +97,24 @@ const TimeSeriesCommandBar: React.FC<ITimeSeriesCommandBarProps> = (props) => {
         theme: useTheme()
     });
 
+    const quickTimeItem: ICommandBarItemProps = {
+        key: 'QuickTime',
+        text: getQuickTimeSpanKeyByValue(
+            chartOptions.defaultQuickTimeSpanInMillis
+        ),
+        iconProps: { iconName: 'DateTime' },
+        subMenuProps: {
+            items: getQuickTimeSpanOptions(t).map((o) => ({
+                ...o,
+                onClick: () =>
+                    handleChartOptionChange(
+                        'defaultQuickTimeSpanInMillis',
+                        o.data as number
+                    )
+            }))
+        }
+    };
+
     const items: ICommandBarItemProps[] =
         viewerModeProps.viewerMode === TimeSeriesViewerMode.Chart
             ? [
@@ -112,7 +126,10 @@ const TimeSeriesCommandBar: React.FC<ITimeSeriesCommandBarProps> = (props) => {
                           items: getYAxisTypeOptions(t).map((o) => ({
                               ...o,
                               onClick: () =>
-                                  handleChartOptionChange('yAxisType', o.key)
+                                  handleChartOptionChange(
+                                      'yAxisType',
+                                      o.key as IDataHistoryChartYAxisType
+                                  )
                           }))
                       }
                   },
@@ -127,48 +144,14 @@ const TimeSeriesCommandBar: React.FC<ITimeSeriesCommandBarProps> = (props) => {
                               onClick: () =>
                                   handleChartOptionChange(
                                       'aggregationType',
-                                      o.key
+                                      o.key as IDataHistoryAggregationType
                                   )
                           }))
                       }
                   },
-                  {
-                      key: 'QuickTime',
-                      text: getQuickTimeSpanKeyByValue(
-                          chartOptions.defaultQuickTimeSpanInMillis
-                      ),
-                      iconProps: { iconName: 'DateTime' },
-                      subMenuProps: {
-                          items: getQuickTimeSpanOptions(t).map((o) => ({
-                              ...o,
-                              onClick: () =>
-                                  handleChartOptionChange(
-                                      'defaultQuickTimeSpanInMillis',
-                                      o.data
-                                  )
-                          }))
-                      }
-                  }
+                  quickTimeItem
               ]
-            : [
-                  {
-                      key: 'QuickTime',
-                      text: getQuickTimeSpanKeyByValue(
-                          chartOptions.defaultQuickTimeSpanInMillis
-                      ),
-                      iconProps: { iconName: 'DateTime' },
-                      subMenuProps: {
-                          items: getQuickTimeSpanOptions(t).map((o) => ({
-                              ...o,
-                              onClick: () =>
-                                  handleChartOptionChange(
-                                      'defaultQuickTimeSpanInMillis',
-                                      o.data
-                                  )
-                          }))
-                      }
-                  }
-              ];
+            : [quickTimeItem];
 
     const farItems: ICommandBarItemProps[] =
         viewerModeProps.viewerMode === TimeSeriesViewerMode.Chart

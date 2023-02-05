@@ -10,6 +10,9 @@ import HighChartsWrapper from '../../../../../HighChartsWrapper/HighChartsWrappe
 import { IHighChartSeriesData } from '../../../../../HighChartsWrapper/HighChartsWrapper.types';
 import { transformADXTimeSeriesToHighChartsSeries } from '../../../../../../Models/SharedUtils/DataHistoryUtils';
 import { TimeSeriesViewerContext } from '../../TimeSeriesViewer';
+import SearchErrorImg from '../../../../../../Resources/Static/searchError.svg';
+import IllustrationMessage from '../../../../../IllustrationMessage/IllustrationMessage';
+import { useTranslation } from 'react-i18next';
 
 const getClassNames = classNamesFunction<
     ITimeSeriesChartStyleProps,
@@ -17,12 +20,13 @@ const getClassNames = classNamesFunction<
 >();
 
 const TimeSeriesChart: React.FC<ITimeSeriesChartProps> = (props) => {
-    const { data, chartOptions, styles } = props;
+    const { data, explorerChartOptions, styles } = props;
 
     // contexts
     const { timeSeriesTwins } = useContext(TimeSeriesViewerContext);
 
     // hooks
+    const { t } = useTranslation();
     const highChartSeriesData: Array<IHighChartSeriesData> = useMemo(
         () =>
             timeSeriesTwins?.length
@@ -41,22 +45,38 @@ const TimeSeriesChart: React.FC<ITimeSeriesChartProps> = (props) => {
 
     return (
         <div className={classNames.root}>
-            <div className={classNames.chartContainer}>
-                <HighChartsWrapper
-                    seriesData={highChartSeriesData}
-                    chartOptions={{
-                        titleAlign: 'left',
-                        legendLayout: 'horizontal',
-                        legendPadding: 0,
-                        hasMultipleAxes:
-                            chartOptions.yAxisType === 'independent',
-                        dataGrouping: chartOptions.aggregationType,
-                        xMinInMillis: chartOptions.xMinDateInMillis,
-                        xMaxInMillis: chartOptions.xMaxDateInMillis,
-                        maxLegendHeight: 160
+            {!(data.length > 0) ? (
+                <IllustrationMessage
+                    descriptionText={t(
+                        'dataHistoryExplorer.viewer.chart.messages.noData'
+                    )}
+                    type={'info'}
+                    width={'wide'}
+                    imageProps={{
+                        src: SearchErrorImg,
+                        height: 172
                     }}
+                    styles={{ container: { flexGrow: 1 } }}
                 />
-            </div>
+            ) : (
+                <div className={classNames.chartContainer}>
+                    <HighChartsWrapper
+                        seriesData={highChartSeriesData}
+                        chartOptions={{
+                            titleAlign: 'left',
+                            legendLayout: 'horizontal',
+                            legendPadding: 0,
+                            hasMultipleAxes:
+                                explorerChartOptions.yAxisType ===
+                                'independent',
+                            dataGrouping: explorerChartOptions.aggregationType,
+                            xMinInMillis: explorerChartOptions.xMinDateInMillis,
+                            xMaxInMillis: explorerChartOptions.xMaxDateInMillis,
+                            maxLegendHeight: 160
+                        }}
+                    />
+                </div>
+            )}
         </div>
     );
 };

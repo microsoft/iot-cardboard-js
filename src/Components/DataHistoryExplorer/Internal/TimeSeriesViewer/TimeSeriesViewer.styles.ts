@@ -26,7 +26,11 @@ export const getStyles = (
                     }
                 }
             },
-            loadingSpinner: { root: { height: '100%' } }
+            loadingSpinner: { root: { height: '100%' } },
+            noSeriesIllustration: { container: { flex: 1, padding: 0 } },
+            commandBar: { root: { height: 60 } },
+            chart: { root: { flexGrow: 1, overflow: 'hidden', paddingTop: 8 } },
+            table: { root: { flexGrow: 1 } }
         }
     };
 };
