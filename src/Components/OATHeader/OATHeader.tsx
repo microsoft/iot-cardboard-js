@@ -147,12 +147,15 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
                     '[END] Export models to file. {content}',
                     content
                 );
-                downloadFile(
-                    content,
-                    `${
-                        oatPageState.currentOntologyProjectName || 'ontology'
-                    }-models.zip`
+                // valid filename with no special characters
+                const rgx = new RegExp(
+                    /^[a-zA-Z0-9](?:[ a-zA-Z0-9._-]*[a-zA-Z0-9])?$/g
                 );
+                let fileName = 'ontology-models.zip';
+                if (rgx.test(oatPageState.currentOntologyProjectName)) {
+                    fileName = `${oatPageState.currentOntologyProjectName}-models.zip`;
+                }
+                downloadFile(content, fileName);
             });
         } else {
             // show error
