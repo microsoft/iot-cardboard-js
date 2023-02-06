@@ -51,6 +51,7 @@ export const useTimeSeriesData = ({
     const [connectionToQuery, setConnectionToQuery] = useState<IADXConnection>(
         null
     );
+    const [isLoading, setIsLoading] = useState(false);
 
     const timeSeriesData = useAdapter({
         adapterMethod: (params: {
@@ -137,6 +138,10 @@ export const useTimeSeriesData = ({
         }
     };
 
+    useEffect(() => {
+        setIsLoading(timeSeriesData.isLoading);
+    }, [timeSeriesData.isLoading]);
+
     return useMemo(() => {
         return {
             query,
@@ -144,9 +149,9 @@ export const useTimeSeriesData = ({
             data,
             errors,
             fetchTimeSeriesData: fetchData,
-            isLoading: timeSeriesData.isLoading
+            isLoading
         };
-    }, [query, deeplink, data, errors, fetchData, timeSeriesData.isLoading]);
+    }, [query, deeplink, data, errors, fetchData, isLoading]);
 };
 
 /** Constructs the bulk query based on the parsed time series twin information from data history widget

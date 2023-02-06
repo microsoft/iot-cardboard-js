@@ -11,7 +11,7 @@ import {
     BehaviorModalMode,
     ComponentErrorType
 } from '../../../../../Models/Constants';
-import { DataHistoryServiceErrorCodes } from './DataHistoryWidget.types';
+import { DataHistoryServiceErrorCodes } from '../../../../DataHistoryErrorHandlingWrapper/DataHistoryErrorHandlingWrapper.types';
 
 const wrapperStyle = { width: '100%', height: '600px' };
 

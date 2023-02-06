@@ -100,6 +100,10 @@
     "schemaValidationFailed": {
       "type": "Ověření schématu JSON se nezdařilo",
       "message": "JSON je neplatný. Zkontrolujte, zda syntaxe odpovídá požadovanému schématu."
+    },
+    "timeSeriesDatabaseConnectionFetchFailed": {
+      "type": "Ověření připojení k databázi časové řady se nezdařilo",
+      "message": "Informace o připojení historie dat se nenašly, ujistěte se, že je pro tuto instanci digitálních vláken Azure povolená historie dat a že máte k instanci Azure Data Explorer přístup aspoň {{permission}}."
     }
   },
   "valueRangeBuilder": {
@@ -650,14 +654,7 @@
         }
       },
       "headerMenu": "Nabídka widgetu Historie dat",
-      "openQuery": "Otevřený dotaz v Azure Průzkumník dat",
-      "errors": {
-        "genericNetwork": "Adresa URL clusteru je neplatná nebo došlo k chybě sítě.",
-        "genericBadRequest": "Došlo k výjimce chybného požadavku.",
-        "generalBadRequestMessage": "Požadavek je neplatný a nelze jej provést.",
-        "entityNotFound": "Databáze nebyla nalezena, nepodařilo se spustit dotaz.",
-        "forbidden": "Přístup byl odepřen, nemáte oprávnění k dotazu."
-      }
+      "openQuery": "Otevřený dotaz v Azure Průzkumník dat"
     }
   },
   "sdkStrings": {
@@ -1347,40 +1344,6 @@
   "colorPills": {
     "unlabeled": "Neoznačené"
   },
-  "dataHistoryExplorer": {
-    "title": "Průzkumník historie dat",
-    "builder": {
-      "title": "Vlastnosti dvojčat",
-      "timeSeriesTwin": {
-        "property": "Vlastnost",
-        "propertyTypeCastLabel": "Přetypování typu vlastnosti na číslo",
-        "add": "Přidat časovou řadu",
-        "remove": "Odebrání časové řady",
-        "edit": "Úprava časové řady"
-      },
-      "description": "Chcete-li porovnat minulé hodnoty pro historizované vlastnosti, přidejte níže časovou řadu."
-    },
-    "viewer": {
-      "chart": "Graf",
-      "noSeriesDescription": "Chcete-li zobrazit historii dat pro toto dvojče, vyberte vlastnost, kterou chcete zobrazit.",
-      "table": {
-        "title": "Stůl",
-        "columns": {
-          "timestamp": "Časová značka",
-          "series": "Řada",
-          "value": "Hodnota",
-          "type": "Typ"
-        },
-        "messages": {
-          "noColor": "Není nastaveno",
-          "loading": "Načítání historizovaných dat...",
-          "noData": "Ve vybraném časovém rámci nebyla nalezena žádná historizovaná data.",
-          "noSeries": "K dotazu nebylo vybráno žádné dvojče, přidejte prosím vlastnosti dvojčat pro zobrazení historizovaných dat."
-        }
-      }
-    },
-    "loadingConnectionLabel": "Informace o připojení časové řady načítání..."
-  },
   "clear": "Jasný",
   "duplicate": "Duplikát",
   "moveUp": "Povýšit",
@@ -1420,6 +1383,58 @@
       "exceptionMessage": "Stalo se něco nečekaného. Zkuste to prosím znovu.",
       "importFailedTitle": "Import se nezdařil",
       "importFailedMessage": "Během importu došlo k chybě. Vyřešte je a zkuste to znovu.\n {{chyba}}"
+<<<<<<< HEAD
+=======
+    }
+  },
+  "dataHistoryErrorHandlingWrapper": {
+    "errors": {
+      "genericNetwork": "Instanci Průzkumníka dat Azure nelze připojit, ujistěte se, že prostředek není zastavený a připojení k síti je stabilní.",
+      "genericBadRequest": "Něco se pokazilo, zkuste to prosím znovu.",
+      "generalBadRequestMessage": "Požadavek je neplatný a nelze jej provést.",
+      "entityNotFound": "Databáze nebyla nalezena, dotaz nelze spustit.",
+      "forbidden": "Přístup byl odepřen, nemáte oprávnění k dotazu."
+    }
+  },
+  "dataHistoryExplorer": {
+    "title": "Průzkumník historie dat",
+    "loadingConnectionLabel": "Načítání informací o připojení historie dat...",
+    "builder": {
+      "title": "Vlastnosti dvojčat",
+      "description": "Chcete-li porovnat minulé hodnoty pro historizované vlastnosti, přidejte níže časovou řadu.",
+      "timeSeriesTwin": {
+        "add": "Přidat časovou řadu",
+        "edit": "Úprava časové řady",
+        "remove": "Odebrání časové řady",
+        "property": "Vlastnost",
+        "propertyTypeCastLabe": "Přetypování hodnoty vlastnosti na číslo",
+        "noData": "Pro vybraný časový rozsah se nezobrazí žádná data"
+      }
+    },
+    "viewer": {
+      "chart": {
+        "title": "Graf",
+        "messages": {
+          "noData": "Ve vybraném časovém rozsahu nebyla nalezena žádná číselná data."
+        }
+      },
+      "table": {
+        "title": "Stůl",
+        "columns": {
+          "timestamp": "Časová značka",
+          "series": "Řada",
+          "value": "Hodnota",
+          "type": "Typ"
+        },
+        "messages": {
+          "noColor": "Není nastaveno",
+          "loading": "Načítání historizovaných dat...",
+          "noData": "Ve vybraném časovém rozsahu nebyla nalezena žádná data.",
+          "noSeries": "K dotazu nebylo vybráno žádné dvojče, přidejte prosím vlastnosti dvojčat pro zobrazení historizovaných dat."
+        }
+      },
+      "noSeriesDescription": "Chcete-li zobrazit historii dat pro toto dvojče, vyberte vlastnost, kterou chcete zobrazit."
+>>>>>>> origin/main
     }
   }
 }

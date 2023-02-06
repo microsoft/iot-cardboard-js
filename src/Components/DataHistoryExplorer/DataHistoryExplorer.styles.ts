@@ -49,7 +49,14 @@ export const getStyles = (
         subComponentStyles: {
             builder: { root: { width: 240 } },
             viewer: { root: { flexGrow: 1, overflow: 'hidden' } },
-            loadingSpinner: { root: { flexGrow: 1 } }
+            loadingSpinner: { root: { flexGrow: 1 } },
+            errorWrapper: {
+                subComponentStyles: {
+                    illustrationMessage: {
+                        descriptionContainer: { maxWidth: 400 }
+                    }
+                }
+            }
         }
     };
 };
