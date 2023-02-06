@@ -3,6 +3,7 @@ import {
     EXPORT_LOC_KEYS,
     IMPORT_LOC_KEYS
 } from '../../../Components/OATHeader/OATHeader';
+import { DTDLObjectField } from '../../Classes/DTDL';
 import {
     DtdlArray,
     DtdlEnum,
@@ -16,7 +17,7 @@ import {
     parseFilesToModels,
     stripV3Features
 } from '../OatPublicUtils';
-import { getMockProperty } from '../OatTestUtils';
+import { getMockArraySchema, getMockProperty } from '../OatTestUtils';
 
 afterEach(cleanup);
 
@@ -222,9 +223,15 @@ describe('OatPublicUtils', () => {
             // ARRANGE
             const objectProperty = getMockProperty({
                 type: 'Object',
-                complexity: 'complex'
+                complexity: 'simple' // ignored, set custom data below
             }) as ObjectProperty;
-            const objectFieldCountBefore = objectProperty.schema.fields.length;
+            objectProperty.schema.fields = [
+                new DTDLObjectField(
+                    'array_to_remove',
+                    getMockArraySchema({ itemSchema: 'boolean', type: 'Array' })
+                ),
+                new DTDLObjectField('non-array', 'boolean')
+            ];
 
             const mockModel = getMockModelItem('dtmi:mockmodel;1');
             mockModel.contents = [objectProperty];
@@ -241,152 +248,9 @@ describe('OatPublicUtils', () => {
             const properties = result[0].contents;
             expect(properties.length).toEqual(propertyCountBefore);
             expect(properties[0]['@id']).toEqual(objectProperty['@id']);
-            const objectPropertyAfter = properties[0] as ObjectProperty;
-            expect(objectPropertyAfter.schema.fields.length).toEqual(
-                objectFieldCountBefore
-            );
-            expect(objectPropertyAfter).toMatchInlineSnapshot(`
-                DTDLProperty {
-                  "@id": "id1",
-                  "@type": "Property",
-                  "comment": "test comment",
-                  "description": "test description",
-                  "displayName": "test display name",
-                  "name": "test Object property name",
-                  "schema": DTDLObject {
-                    "@id": "test object display name",
-                    "@type": "Object",
-                    "comment": undefined,
-                    "description": "test object comment",
-                    "displayName": "test object description",
-                    "fields": Array [
-                      Object {
-                        "name": "double property 1 name",
-                        "schema": "double",
-                      },
-                      Object {
-                        "name": "string property 2 name",
-                        "schema": "string",
-                      },
-                      Object {
-                        "name": "mega object property name",
-                        "schema": DTDLObject {
-                          "@id": undefined,
-                          "@type": "Object",
-                          "comment": undefined,
-                          "description": undefined,
-                          "displayName": undefined,
-                          "fields": Array [
-                            DTDLObjectField {
-                              "@id": undefined,
-                              "comment": undefined,
-                              "description": undefined,
-                              "displayName": undefined,
-                              "name": "name 1",
-                              "schema": "string",
-                            },
-                            DTDLObjectField {
-                              "@id": undefined,
-                              "comment": undefined,
-                              "description": undefined,
-                              "displayName": undefined,
-                              "name": "object 1",
-                              "schema": DTDLObject {
-                                "@id": undefined,
-                                "@type": "Object",
-                                "comment": undefined,
-                                "description": undefined,
-                                "displayName": undefined,
-                                "fields": Array [
-                                  DTDLObjectField {
-                                    "@id": undefined,
-                                    "comment": undefined,
-                                    "description": undefined,
-                                    "displayName": undefined,
-                                    "name": "prop 1",
-                                    "schema": "string",
-                                  },
-                                  DTDLObjectField {
-                                    "@id": undefined,
-                                    "comment": undefined,
-                                    "description": undefined,
-                                    "displayName": undefined,
-                                    "name": "prop 2",
-                                    "schema": "string",
-                                  },
-                                  DTDLObjectField {
-                                    "@id": undefined,
-                                    "comment": undefined,
-                                    "description": undefined,
-                                    "displayName": undefined,
-                                    "name": "prop 3",
-                                    "schema": "string",
-                                  },
-                                ],
-                              },
-                            },
-                            DTDLObjectField {
-                              "@id": undefined,
-                              "comment": undefined,
-                              "description": undefined,
-                              "displayName": undefined,
-                              "name": "enum 2",
-                              "schema": DTDLEnum {
-                                "@id": undefined,
-                                "@type": "Enum",
-                                "comment": undefined,
-                                "description": undefined,
-                                "displayName": undefined,
-                                "enumValues": Array [
-                                  DTDLEnumValue {
-                                    "@id": undefined,
-                                    "comment": undefined,
-                                    "description": undefined,
-                                    "displayName": undefined,
-                                    "enumValue": 1,
-                                    "name": "enum val 1",
-                                  },
-                                  DTDLEnumValue {
-                                    "@id": undefined,
-                                    "comment": undefined,
-                                    "description": undefined,
-                                    "displayName": undefined,
-                                    "enumValue": 200,
-                                    "name": "enum value 2",
-                                  },
-                                  DTDLEnumValue {
-                                    "@id": undefined,
-                                    "comment": undefined,
-                                    "description": undefined,
-                                    "displayName": undefined,
-                                    "enumValue": 3,
-                                    "name": "enum val 3",
-                                  },
-                                ],
-                                "valueSchema": "integer",
-                              },
-                            },
-                            DTDLObjectField {
-                              "@id": undefined,
-                              "comment": undefined,
-                              "description": undefined,
-                              "displayName": undefined,
-                              "name": "name 3",
-                              "schema": "string",
-                            },
-                          ],
-                        },
-                      },
-                      Object {
-                        "name": "long property 2 name",
-                        "schema": "long",
-                      },
-                    ],
-                  },
-                  "unit": "",
-                  "writable": true,
-                }
-            `);
+            const firstProperty = properties[0] as ObjectProperty;
+            expect(firstProperty.schema.fields.length).toEqual(1);
+            expect(firstProperty.schema.fields[0].name).toEqual('non-array');
         });
     });
 });
