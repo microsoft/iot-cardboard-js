@@ -372,7 +372,6 @@ const forceRelationshipMinMultiplicityTo0 = (
             isDefined(x.minMultiplicity) &&
             x.minMultiplicity !== 0
         ) {
-            // cast to any to get around the readonly property
             x.minMultiplicity = 0;
         }
     });
