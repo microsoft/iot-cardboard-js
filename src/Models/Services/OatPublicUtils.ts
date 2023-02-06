@@ -11,7 +11,7 @@ import {
     isDTDLProperty
 } from './DtdlUtils';
 import { convertModelToDtdl, safeJsonParse } from './OatUtils';
-import { getDebugLogger } from './Utils';
+import { deepCopy, getDebugLogger } from './Utils';
 
 const debugLogging = true;
 const logDebugConsole = getDebugLogger('OATPublicUtils', debugLogging);
@@ -212,7 +212,7 @@ const getModelsFromFiles = async (
     // run the parser for full validations
     const combinedModels = [...currentModels, ...newModels];
 
-    const error = await parseModels(stripV3Features(combinedModels));
+    const error = await parseModels(stripV3Features(deepCopy(combinedModels)));
     if (error) {
         filesErrors.push(
             translate(localizationKeys.ImportFailedMessage, {
