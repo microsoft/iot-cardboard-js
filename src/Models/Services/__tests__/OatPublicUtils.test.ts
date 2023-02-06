@@ -309,12 +309,11 @@ describe('OatPublicUtils', () => {
             expect(mapValueSchema.fields[0].name).toEqual('non-array'); // originally index 1
         });
     });
-    xdescribe('RemoveGeoSpatial', () => {
+    describe('RemoveGeoSpatial', () => {
         test('removes top level geo properties', () => {
             // ARRANGE
-            const arrayProperty = getMockProperty({
-                type: 'Array',
-                itemSchema: 'boolean'
+            const geoProperty = getMockProperty({
+                type: 'linestring'
             }) as ArrayProperty;
             const enumProperty = getMockProperty({
                 type: 'Enum',
@@ -322,7 +321,7 @@ describe('OatPublicUtils', () => {
             }) as EnumProperty;
 
             const mockModel = getMockModelItem('dtmi:mockmodel;1');
-            mockModel.contents = [arrayProperty, enumProperty];
+            mockModel.contents = [geoProperty, enumProperty];
             const propertyCountBefore = mockModel.contents.length;
 
             const models: DtdlInterface[] = [mockModel];
@@ -336,18 +335,15 @@ describe('OatPublicUtils', () => {
             expect(properties.length).toEqual(propertyCountBefore - 1); // removed array
             expect(properties[0]['@id']).toEqual(enumProperty['@id']);
         });
-        test('removes arrays from nested objects', () => {
+        test('removes geo spatial fields from nested objects', () => {
             // ARRANGE
             const objectProperty = getMockProperty({
                 type: 'Object',
                 complexity: 'simple' // ignored, set custom data below
             }) as ObjectProperty;
             objectProperty.schema.fields = [
-                new DTDLObjectField(
-                    'array_to_remove',
-                    getMockArraySchema({ itemSchema: 'boolean', type: 'Array' })
-                ),
-                new DTDLObjectField('non-array', 'boolean')
+                new DTDLObjectField('field_to_remove', 'linestring'),
+                new DTDLObjectField('non-geo', 'boolean')
             ];
 
             const mockModel = getMockModelItem('dtmi:mockmodel;1');
@@ -367,9 +363,9 @@ describe('OatPublicUtils', () => {
             expect(properties[0]['@id']).toEqual(objectProperty['@id']);
             const firstProperty = properties[0] as ObjectProperty;
             expect(firstProperty.schema.fields.length).toEqual(1);
-            expect(firstProperty.schema.fields[0].name).toEqual('non-array');
+            expect(firstProperty.schema.fields[0].name).toEqual('non-geo');
         });
-        test('removes arrays from maps', () => {
+        test('removes geo spatials from maps', () => {
             // ARRANGE
             // create an object schema for the value field
             const nestedObjectProperty = getMockObjectSchema({
@@ -377,10 +373,7 @@ describe('OatPublicUtils', () => {
                 complexity: 'simple'
             });
             nestedObjectProperty.fields = [
-                new DTDLObjectField(
-                    'array_to_remove',
-                    getMockArraySchema({ itemSchema: 'boolean', type: 'Array' })
-                ),
+                new DTDLObjectField('array_to_remove', 'linestring'),
                 new DTDLObjectField('non-array', 'boolean')
             ];
             // set the value of the map to be the object

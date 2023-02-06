@@ -4,6 +4,7 @@ import { DTDLSchema } from '../Classes/DTDL';
 import { DtdlInterface } from '../Constants/dtdlInterfaces';
 import {
     hasArraySchemaType,
+    hasGeospatialSchemaType,
     hasMapSchemaType,
     hasObjectSchemaType,
     isComplexSchemaType,
@@ -267,9 +268,9 @@ export const stripV3Features = (models: DtdlInterface[]): DtdlInterface[] => {
         //     return;
         // }
         // remove arrays
-        filterPropertiesRecursively(model, isChildAnArray);
+        filterPropertiesRecursively(model, hasArraySchemaType);
         // remove geospatial schemas from properties
-        filterPropertiesRecursively(model, isChildGeoSpatial);
+        filterPropertiesRecursively(model, hasGeospatialSchemaType);
         // add version if missing
         // relationships set minMultiplicity to 0
     });
@@ -282,10 +283,13 @@ export const stripV3Features = (models: DtdlInterface[]): DtdlInterface[] => {
     return models;
 };
 
+interface ItemWithSchema {
+    schema: DTDLSchema;
+}
 /** recursively removes properties/attributes from the properties of a model that match the comparator function */
 const filterPropertiesRecursively = (
     model: DtdlInterface,
-    comparator: (item: { schema: DTDLSchema }) => boolean
+    baseItemComparator: (item: ItemWithSchema) => boolean
 ): DtdlInterface => {
     logDebugConsole('debug', '[FILTER CHILDREN] [START] {models}', model);
     const nonProperties = model.contents?.filter((x) => !isDTDLProperty(x));
@@ -293,7 +297,7 @@ const filterPropertiesRecursively = (
     if (properties?.length > 0) {
         const filteredProperties = properties.filter((x) => {
             if (isDTDLProperty(x)) {
-                return !comparator(x);
+                return !doesChildHaveSchemaType(x, baseItemComparator);
             } else {
                 return true;
             }
@@ -305,14 +309,21 @@ const filterPropertiesRecursively = (
 };
 
 /** traverses the children and returns true if it finds an array item */
-const isChildAnArray = (item: { schema: DTDLSchema }): boolean => {
-    if (hasArraySchemaType(item)) {
+const doesChildHaveSchemaType = (
+    item: ItemWithSchema,
+    baseItemComparator: (item: ItemWithSchema) => boolean
+): boolean => {
+    // root level comparison once finished drilling
+    if (baseItemComparator(item)) {
         return true;
     } else if (hasObjectSchemaType(item)) {
         if (item.schema.fields?.length > 0) {
             // check children
             item.schema.fields = item.schema.fields.filter((objectField) => {
-                return !isChildAnArray(objectField);
+                return !doesChildHaveSchemaType(
+                    objectField,
+                    baseItemComparator
+                );
             });
             return false;
         }
@@ -322,25 +333,11 @@ const isChildAnArray = (item: { schema: DTDLSchema }): boolean => {
             isComplexSchemaType(item.schema.mapValue.schema)
         ) {
             // check children and modify in place,
-            isChildAnArray(item.schema.mapValue);
+            doesChildHaveSchemaType(item.schema.mapValue, baseItemComparator);
             return false;
         }
     }
     return false;
-};
-/** traverses the children and returns true if it finds an array item */
-const isChildGeoSpatial = (item: { schema: DTDLSchema }): boolean => {
-    if (hasArraySchemaType(item)) {
-        return true;
-    } else if (hasObjectSchemaType(item)) {
-        if (item.schema.fields?.length > 0) {
-            // check children
-            item.schema.fields = item.schema.fields.filter((objectField) => {
-                return !isChildAnArray(objectField);
-            });
-        }
-        return false;
-    }
 };
 
 // #endregion

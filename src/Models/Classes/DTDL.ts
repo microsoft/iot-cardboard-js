@@ -408,6 +408,7 @@ export type DTDLPrimitiveSchema =
     | 'string'
     | 'time';
 
+// NOTE: update `hasGeospatialSchemaType` definition if adding/removing entries to this union
 export type DTDLGeospatialSchema =
     | 'linestring'
     | 'multiLinestring'

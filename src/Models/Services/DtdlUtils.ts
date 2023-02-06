@@ -4,6 +4,7 @@ import {
     DTDLComplexSchema,
     DTDLEnum,
     DTDLEnumValue,
+    DTDLGeospatialSchema,
     DTDLMap,
     DTDLMapKey,
     DTDLMapValue,
@@ -162,6 +163,26 @@ export const hasEnumSchemaType = <T extends { schema: DTDLSchema }>(
     return (
         hasComplexSchemaType(property) &&
         property.schema['@type'] === DTDLSchemaType.Enum
+    );
+};
+
+export const hasGeospatialSchemaType = <T extends { schema: DTDLSchema }>(
+    property: T
+): property is T & { schema: DTDLGeospatialSchema } => {
+    if (!property) {
+        return false;
+    }
+    return (
+        typeof property.schema === 'string' &&
+        // NOTE: must stay in sync with the `DTDLGeospatialSchema` union type
+        [
+            'linestring',
+            'multiLinestring',
+            'multiPoint',
+            'multiPolygon',
+            'point',
+            'polygon'
+        ].includes(property.schema)
     );
 };
 
