@@ -4,7 +4,9 @@ import { DTDLSchema } from '../Classes/DTDL';
 import { DtdlInterface } from '../Constants/dtdlInterfaces';
 import {
     hasArraySchemaType,
+    hasMapSchemaType,
     hasObjectSchemaType,
+    isComplexSchemaType,
     isDTDLProperty
 } from './DtdlUtils';
 import { convertModelToDtdl, safeJsonParse } from './OatUtils';
@@ -265,8 +267,9 @@ export const stripV3Features = (models: DtdlInterface[]): DtdlInterface[] => {
         //     return;
         // }
         // remove arrays
-        removeArrays(model);
+        filterPropertiesRecursively(model, isChildAnArray);
         // remove geospatial schemas from properties
+        filterPropertiesRecursively(model, isChildGeoSpatial);
         // add version if missing
         // relationships set minMultiplicity to 0
     });
@@ -278,26 +281,55 @@ export const stripV3Features = (models: DtdlInterface[]): DtdlInterface[] => {
     );
     return models;
 };
-/** recursively removes arrays from the properties of a model */
-const removeArrays = (model: DtdlInterface): DtdlInterface => {
-    logDebugConsole('debug', '[REMOVE ARRAYS] [START] {models}', model);
+
+/** recursively removes properties/attributes from the properties of a model that match the comparator function */
+const filterPropertiesRecursively = (
+    model: DtdlInterface,
+    comparator: (item: { schema: DTDLSchema }) => boolean
+): DtdlInterface => {
+    logDebugConsole('debug', '[FILTER CHILDREN] [START] {models}', model);
     const nonProperties = model.contents?.filter((x) => !isDTDLProperty(x));
     const properties = model.contents?.filter((x) => isDTDLProperty(x));
     if (properties?.length > 0) {
         const filteredProperties = properties.filter((x) => {
             if (isDTDLProperty(x)) {
-                return !isChildAnArray(x);
+                return !comparator(x);
             } else {
                 return true;
             }
         });
         model.contents = [...nonProperties, ...filteredProperties];
     }
-    logDebugConsole('debug', '[REMOVE ARRAYS] [END] {models}', model);
+    logDebugConsole('debug', '[FILTER CHILDREN] [END] {models}', model);
     return model;
 };
+
 /** traverses the children and returns true if it finds an array item */
 const isChildAnArray = (item: { schema: DTDLSchema }): boolean => {
+    if (hasArraySchemaType(item)) {
+        return true;
+    } else if (hasObjectSchemaType(item)) {
+        if (item.schema.fields?.length > 0) {
+            // check children
+            item.schema.fields = item.schema.fields.filter((objectField) => {
+                return !isChildAnArray(objectField);
+            });
+            return false;
+        }
+    } else if (hasMapSchemaType(item)) {
+        if (
+            item.schema.mapValue &&
+            isComplexSchemaType(item.schema.mapValue.schema)
+        ) {
+            // check children and modify in place,
+            isChildAnArray(item.schema.mapValue);
+            return false;
+        }
+    }
+    return false;
+};
+/** traverses the children and returns true if it finds an array item */
+const isChildGeoSpatial = (item: { schema: DTDLSchema }): boolean => {
     if (hasArraySchemaType(item)) {
         return true;
     } else if (hasObjectSchemaType(item)) {

@@ -3,11 +3,12 @@ import {
     EXPORT_LOC_KEYS,
     IMPORT_LOC_KEYS
 } from '../../../Components/OATHeader/OATHeader';
-import { DTDLObjectField } from '../../Classes/DTDL';
+import { DTDLMapValue, DTDLObjectField } from '../../Classes/DTDL';
 import {
     DtdlArray,
     DtdlEnum,
     DtdlInterface,
+    DtdlMap,
     DtdlObject,
     DtdlProperty
 } from '../../Constants';
@@ -17,7 +18,12 @@ import {
     parseFilesToModels,
     stripV3Features
 } from '../OatPublicUtils';
-import { getMockArraySchema, getMockProperty } from '../OatTestUtils';
+import {
+    getMockArraySchema,
+    getMockMapSchema,
+    getMockObjectSchema,
+    getMockProperty
+} from '../OatTestUtils';
 
 afterEach(cleanup);
 
@@ -36,6 +42,7 @@ jest.mock('azure-iot-dtdl-parser', () => {
 type ArrayProperty = DtdlProperty & { schema: DtdlArray };
 type EnumProperty = DtdlProperty & { schema: DtdlEnum };
 type ObjectProperty = DtdlProperty & { schema: DtdlObject };
+type MapProperty = DtdlProperty & { schema: DtdlMap };
 
 describe('OatPublicUtils', () => {
     const mockTranslate = (key: string, args?: any) => {
@@ -251,6 +258,165 @@ describe('OatPublicUtils', () => {
             const firstProperty = properties[0] as ObjectProperty;
             expect(firstProperty.schema.fields.length).toEqual(1);
             expect(firstProperty.schema.fields[0].name).toEqual('non-array');
+        });
+        test('removes arrays from maps', () => {
+            // ARRANGE
+            // create an object schema for the value field
+            const nestedObjectProperty = getMockObjectSchema({
+                type: 'Object',
+                complexity: 'simple'
+            });
+            nestedObjectProperty.fields = [
+                new DTDLObjectField(
+                    'array_to_remove',
+                    getMockArraySchema({ itemSchema: 'boolean', type: 'Array' })
+                ),
+                new DTDLObjectField('non-array', 'boolean')
+            ];
+            // set the value of the map to be the object
+            const valueSchema = getMockMapSchema({
+                type: 'Map',
+                valueType: 'Primitive'
+            });
+            valueSchema.mapValue = new DTDLMapValue(
+                'map-value',
+                nestedObjectProperty
+            );
+            // bind the map to the property
+            const mapProperty = getMockProperty({
+                type: 'Map',
+                valueType: 'Primitive'
+            }) as MapProperty;
+            mapProperty.schema = valueSchema;
+
+            const mockModel = getMockModelItem('dtmi:mockmodel;1');
+            mockModel.contents = [mapProperty];
+
+            const models: DtdlInterface[] = [mockModel];
+
+            // ACT
+            const result = stripV3Features(models) as DtdlInterface[];
+
+            // ASSERT
+            expect(result.length).toEqual(models.length);
+            const properties = result[0].contents;
+            expect(properties.length).toEqual(1);
+            expect(properties[0]['@id']).toEqual(mapProperty['@id']);
+            const firstProperty = properties[0] as MapProperty;
+            const mapValueSchema = firstProperty.schema.mapValue
+                .schema as DtdlObject;
+            expect(mapValueSchema.fields).toBeDefined();
+            expect(mapValueSchema.fields[0].name).toEqual('non-array'); // originally index 1
+        });
+    });
+    xdescribe('RemoveGeoSpatial', () => {
+        test('removes top level geo properties', () => {
+            // ARRANGE
+            const arrayProperty = getMockProperty({
+                type: 'Array',
+                itemSchema: 'boolean'
+            }) as ArrayProperty;
+            const enumProperty = getMockProperty({
+                type: 'Enum',
+                enumType: 'integer'
+            }) as EnumProperty;
+
+            const mockModel = getMockModelItem('dtmi:mockmodel;1');
+            mockModel.contents = [arrayProperty, enumProperty];
+            const propertyCountBefore = mockModel.contents.length;
+
+            const models: DtdlInterface[] = [mockModel];
+
+            // ACT
+            const result = stripV3Features(models) as DtdlInterface[];
+
+            // ASSERT
+            expect(result.length).toEqual(models.length);
+            const properties = result[0].contents;
+            expect(properties.length).toEqual(propertyCountBefore - 1); // removed array
+            expect(properties[0]['@id']).toEqual(enumProperty['@id']);
+        });
+        test('removes arrays from nested objects', () => {
+            // ARRANGE
+            const objectProperty = getMockProperty({
+                type: 'Object',
+                complexity: 'simple' // ignored, set custom data below
+            }) as ObjectProperty;
+            objectProperty.schema.fields = [
+                new DTDLObjectField(
+                    'array_to_remove',
+                    getMockArraySchema({ itemSchema: 'boolean', type: 'Array' })
+                ),
+                new DTDLObjectField('non-array', 'boolean')
+            ];
+
+            const mockModel = getMockModelItem('dtmi:mockmodel;1');
+            mockModel.contents = [objectProperty];
+
+            const propertyCountBefore = mockModel.contents.length;
+
+            const models: DtdlInterface[] = [mockModel];
+
+            // ACT
+            const result = stripV3Features(models) as DtdlInterface[];
+
+            // ASSERT
+            expect(result.length).toEqual(models.length);
+            const properties = result[0].contents;
+            expect(properties.length).toEqual(propertyCountBefore);
+            expect(properties[0]['@id']).toEqual(objectProperty['@id']);
+            const firstProperty = properties[0] as ObjectProperty;
+            expect(firstProperty.schema.fields.length).toEqual(1);
+            expect(firstProperty.schema.fields[0].name).toEqual('non-array');
+        });
+        test('removes arrays from maps', () => {
+            // ARRANGE
+            // create an object schema for the value field
+            const nestedObjectProperty = getMockObjectSchema({
+                type: 'Object',
+                complexity: 'simple'
+            });
+            nestedObjectProperty.fields = [
+                new DTDLObjectField(
+                    'array_to_remove',
+                    getMockArraySchema({ itemSchema: 'boolean', type: 'Array' })
+                ),
+                new DTDLObjectField('non-array', 'boolean')
+            ];
+            // set the value of the map to be the object
+            const valueSchema = getMockMapSchema({
+                type: 'Map',
+                valueType: 'Primitive'
+            });
+            valueSchema.mapValue = new DTDLMapValue(
+                'map-value',
+                nestedObjectProperty
+            );
+            // bind the map to the property
+            const mapProperty = getMockProperty({
+                type: 'Map',
+                valueType: 'Primitive'
+            }) as MapProperty;
+            mapProperty.schema = valueSchema;
+
+            const mockModel = getMockModelItem('dtmi:mockmodel;1');
+            mockModel.contents = [mapProperty];
+
+            const models: DtdlInterface[] = [mockModel];
+
+            // ACT
+            const result = stripV3Features(models) as DtdlInterface[];
+
+            // ASSERT
+            expect(result.length).toEqual(models.length);
+            const properties = result[0].contents;
+            expect(properties.length).toEqual(1);
+            expect(properties[0]['@id']).toEqual(mapProperty['@id']);
+            const firstProperty = properties[0] as MapProperty;
+            const mapValueSchema = firstProperty.schema.mapValue
+                .schema as DtdlObject;
+            expect(mapValueSchema.fields).toBeDefined();
+            expect(mapValueSchema.fields[0].name).toEqual('non-array'); // originally index 1
         });
     });
 });

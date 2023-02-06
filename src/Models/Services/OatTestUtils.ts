@@ -10,6 +10,7 @@ import {
     DTDLMapKey,
     DTDLMapValue
 } from '../Classes/DTDL';
+import { DtdlMapValue } from '../Constants';
 
 interface IMockPropertyBaseArgs {
     type: DTDLSchema;
@@ -29,6 +30,7 @@ interface IMockPropertyMapArgs {
     type: 'Map';
     valueType: 'Complex' | 'Primitive';
     discriminator?: number;
+    mapValue?: DtdlMapValue;
 }
 interface IMockPropertyArrayArgs {
     type: 'Array';
@@ -127,25 +129,26 @@ export const getMockMapSchema = (args: IMockPropertyMapArgs): DTDLMap => {
     if (args.valueType === 'Complex') {
         schema = new DTDLMap(
             new DTDLMapKey('map key 1'),
-            new DTDLMapValue(
-                'value 1',
-                new DTDLObject([
-                    new DTDLObjectField('prop 1', 'double'),
-                    new DTDLObjectField(
-                        'prop 2',
-                        new DTDLObject([
-                            new DTDLObjectField('my double', 'double')
-                        ])
-                    ),
-                    new DTDLObjectField('prop 3', 'string')
-                ])
-            ),
+            args.mapValue ??
+                new DTDLMapValue(
+                    'value 1',
+                    new DTDLObject([
+                        new DTDLObjectField('prop 1', 'double'),
+                        new DTDLObjectField(
+                            'prop 2',
+                            new DTDLObject([
+                                new DTDLObjectField('my double', 'double')
+                            ])
+                        ),
+                        new DTDLObjectField('prop 3', 'string')
+                    ])
+                ),
             'test map 1'
         );
     } else {
         schema = new DTDLMap(
             new DTDLMapKey('map key 1'),
-            new DTDLMapValue('value 1', 'string'),
+            args.mapValue ?? new DTDLMapValue('value 1', 'string'),
             'test map 1'
         );
     }
