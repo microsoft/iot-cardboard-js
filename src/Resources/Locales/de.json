@@ -1383,8 +1383,6 @@
       "exceptionMessage": "Etwas Unerwartetes geschah. Bitte versuchen Sie es erneut.",
       "importFailedTitle": "Import fehlgeschlagen",
       "importFailedMessage": "Beim Import ist ein Fehler aufgetreten. Lösen Sie sie und versuchen Sie es erneut.\n {{Fehler}}"
-<<<<<<< HEAD
-=======
     }
   },
   "dataHistoryErrorHandlingWrapper": {
@@ -1434,7 +1432,6 @@
         }
       },
       "noSeriesDescription": "Um den Datenverlauf für diesen Zwilling anzuzeigen, wählen Sie eine anzuzeigende Eigenschaft aus."
->>>>>>> origin/main
     }
   }
 }

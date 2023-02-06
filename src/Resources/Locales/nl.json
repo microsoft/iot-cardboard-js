@@ -1383,8 +1383,6 @@
       "exceptionMessage": "Er gebeurde iets onverwachts. Probeer het opnieuw.",
       "importFailedTitle": "Importeren mislukt",
       "importFailedMessage": "Er is een fout opgetreden tijdens het importeren. Los ze op en probeer het opnieuw.\n {{fout}}"
-<<<<<<< HEAD
-=======
     }
   },
   "dataHistoryErrorHandlingWrapper": {
@@ -1434,7 +1432,6 @@
         }
       },
       "noSeriesDescription": "Als u de gegevensgeschiedenis voor deze tweeling wilt weergeven, selecteert u een eigenschap die u wilt weergeven."
->>>>>>> origin/main
     }
   }
 }

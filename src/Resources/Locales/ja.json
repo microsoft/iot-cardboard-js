@@ -1383,8 +1383,6 @@
       "exceptionMessage": "予期せぬことが起こりました。もう一度やり直してください。",
       "importFailedTitle": "インポートに失敗しました",
       "importFailedMessage": "インポート中にエラーが発生しました。それらを解決して、もう一度やり直してください。\n {{エラー}}"
-<<<<<<< HEAD
-=======
     }
   },
   "dataHistoryErrorHandlingWrapper": {
@@ -1434,7 +1432,6 @@
         }
       },
       "noSeriesDescription": "このツインのデータ履歴を表示するには、表示するプロパティを選択します。"
->>>>>>> origin/main
     }
   }
 }

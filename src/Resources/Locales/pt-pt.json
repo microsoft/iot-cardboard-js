@@ -1383,8 +1383,6 @@
       "exceptionMessage": "Algo inesperado aconteceu. Por favor, tente de novo.",
       "importFailedTitle": "Importação falhou",
       "importFailedMessage": "Houve um erro durante a importação. Resolva-os e tente de novo.\n {{erro}}"
-<<<<<<< HEAD
-=======
     }
   },
   "dataHistoryErrorHandlingWrapper": {
@@ -1434,7 +1432,6 @@
         }
       },
       "noSeriesDescription": "Para ver o histórico de dados deste twin, selecione uma propriedade para visualizar."
->>>>>>> origin/main
     }
   }
 }

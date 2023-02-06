@@ -1383,8 +1383,6 @@
       "exceptionMessage": "Stało się coś nieoczekiwanego. Spróbuj ponownie.",
       "importFailedTitle": "Importowanie nie powiodło się",
       "importFailedMessage": "Wystąpił błąd podczas importu. Rozwiąż je i spróbuj ponownie.\n {{error}}"
-<<<<<<< HEAD
-=======
     }
   },
   "dataHistoryErrorHandlingWrapper": {
@@ -1434,7 +1432,6 @@
         }
       },
       "noSeriesDescription": "Aby wyświetlić historię danych dla tej bliźniaczej płaszczyzny, wybierz właściwość do wyświetlenia."
->>>>>>> origin/main
     }
   }
 }
