@@ -33,6 +33,10 @@ class ComponentError extends Error implements IComponentError {
                 return i18n.t('errors.errorBoundary');
             case ComponentErrorType.JsonSchemaError:
                 return i18n.t('errors.schemaValidationFailed.type');
+            case ComponentErrorType.TimeSeriesDatabaseConnectionFetchFailed:
+                return i18n.t(
+                    'errors.timeSeriesDatabaseConnectionFetchFailed.type'
+                );
             default:
                 return i18n.t('errors.unkownError');
         }
@@ -50,6 +54,11 @@ class ComponentError extends Error implements IComponentError {
                 );
             case ComponentErrorType.JsonSchemaError:
                 return i18n.t('errors.schemaValidationFailed.message');
+            case ComponentErrorType.TimeSeriesDatabaseConnectionFetchFailed:
+                return i18n.t(
+                    'errors.timeSeriesDatabaseConnectionFetchFailed.message',
+                    { permission: 'Reader' }
+                );
             default:
                 return i18n.t('errors.unkownError');
         }

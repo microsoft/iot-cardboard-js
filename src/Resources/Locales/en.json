@@ -116,6 +116,10 @@
         "schemaValidationFailed": {
             "type": "JSON schema validation failed",
             "message": "JSON is invalid. Check syntax matches required schema."
+        },
+        "timeSeriesDatabaseConnectionFetchFailed": {
+            "type": "Time series database connection validation failed",
+            "message": "Data history connection information could not be found, make sure data history is enabled for this Azure Digital Twins instance and that you have at least '{{permission}}' access to the Azure Data Explorer instance."
         }
     },
     "valueRangeBuilder": {
@@ -660,13 +664,6 @@
                         "information": "When there are too many datapoints to display, values will be grouped in the chart. Choose the aggregation method for these groupings."
                     }
                 }
-            },
-            "errors": {
-                "genericNetwork": "Cluster url is invalid or a network error occured.",
-                "genericBadRequest": "Bad request exception occured.",
-                "generalBadRequestMessage": "Request is invalid and cannot be executed.",
-                "entityNotFound": "Database not found, failed to execute the query.",
-                "forbidden": "Access was denied, you do not have query permissions."
             }
         },
         "notSupported": "This widget type is not currently supported"
@@ -1378,7 +1375,7 @@
     },
     "dataHistoryExplorer": {
         "title": "Data history explorer",
-        "loadingConnectionLabel": "Loading time series connection information...",
+        "loadingConnectionLabel": "Loading data history connection information...",
         "builder": {
             "title": "Twin properties",
             "description": "To compare past values for historized properties, add time series below.",
@@ -1387,11 +1384,17 @@
                 "edit": "Edit time series",
                 "remove": "Remove time series",
                 "property": "Property",
-                "propertyTypeCastLabel": "Cast property type to number"
+                "propertyTypeCastLabe": "Cast property value to number",
+                "noData": "No data to display for the time range selected"
             }
         },
         "viewer": {
-            "chart": "Chart",
+            "chart": {
+                "title": "Chart",
+                "messages": {
+                    "noData": "No numeric data found in the selected time range."
+                }
+            },
             "table": {
                 "title": "Table",
                 "columns": {
@@ -1403,11 +1406,20 @@
                 "messages": {
                     "noColor": "Not set",
                     "loading": "Loading historized data...",
-                    "noData": "No historized data found in selected time frame.",
+                    "noData": "No data found in the selected time range.",
                     "noSeries": "No twin selected to query, please add twin properties to view historized data."
                 }
             },
             "noSeriesDescription": "To view data history for this twin, select a property to view."
+        }
+    },
+    "dataHistoryErrorHandlingWrapper": {
+        "errors": {
+            "genericNetwork": "Azure Data Explorer instance cannot be connected, make sure the resource is not stopped and your network connectivity is stable.",
+            "genericBadRequest": "Something went wrong, please try again.",
+            "generalBadRequestMessage": "Request is invalid and cannot be executed.",
+            "entityNotFound": "Database not found, cannot execute the query.",
+            "forbidden": "Access was denied, you do not have query permissions."
         }
     }
 }

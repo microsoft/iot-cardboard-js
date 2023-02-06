@@ -100,6 +100,10 @@
     "schemaValidationFailed": {
       "type": "Validatie van JSON-schema mislukt",
       "message": "JSON is ongeldig. Controleer of de syntaxis overeenkomt met het vereiste schema."
+    },
+    "timeSeriesDatabaseConnectionFetchFailed": {
+      "type": "Validatie van de databaseverbinding met tijdreeksen is mislukt",
+      "message": "Verbindingsgegevens over gegevensgeschiedenis kunnen niet worden gevonden, zorg ervoor dat gegevensgeschiedenis is ingeschakeld voor dit Azure Digital Twins-exemplaar en dat u ten minste '{{permission}}' toegang hebt tot het Azure Data Explorer-exemplaar."
     }
   },
   "valueRangeBuilder": {
@@ -650,14 +654,7 @@
         }
       },
       "headerMenu": "Widgetmenu gegevensgeschiedenis",
-      "openQuery": "Query openen in Azure Data Explorer",
-      "errors": {
-        "genericNetwork": "Cluster-URL is ongeldig of er is een netwerkfout opgetreden.",
-        "genericBadRequest": "Er is een uitzondering voor een ongeldige aanvraag opgetreden.",
-        "generalBadRequestMessage": "Aanvraag is ongeldig en kan niet worden uitgevoerd.",
-        "entityNotFound": "Database niet gevonden, kan query niet uitvoeren.",
-        "forbidden": "Toegang is geweigerd, u hebt geen querymachtigingen."
-      }
+      "openQuery": "Query openen in Azure Data Explorer"
     }
   },
   "sdkStrings": {
@@ -1354,40 +1351,6 @@
   "colorPills": {
     "unlabeled": "Niet-gelabeld"
   },
-  "dataHistoryExplorer": {
-    "title": "Gegevensgeschiedenisverkenner",
-    "builder": {
-      "title": "Dubbele eigenschappen",
-      "timeSeriesTwin": {
-        "property": "Eigenschap",
-        "propertyTypeCastLabel": "Eigenschapstype casten naar nummer",
-        "add": "Tijdreeksen toevoegen",
-        "remove": "Tijdreeksen verwijderen",
-        "edit": "Tijdreeksen bewerken"
-      },
-      "description": "Als u eerdere waarden voor geïrtoriseerde eigenschappen wilt vergelijken, voegt u hieronder tijdreeksen toe."
-    },
-    "viewer": {
-      "chart": "Zeekaart",
-      "noSeriesDescription": "Als u de gegevensgeschiedenis voor deze tweeling wilt weergeven, selecteert u een eigenschap die u wilt weergeven.",
-      "table": {
-        "title": "Tafel",
-        "columns": {
-          "timestamp": "Tijdstempel",
-          "series": "Reeks",
-          "value": "Waarde",
-          "type": "Type"
-        },
-        "messages": {
-          "noColor": "Niet ingesteld",
-          "loading": "Historized data laden...",
-          "noData": "Geen gehitoriseerde gegevens gevonden in het geselecteerde tijdsbestek.",
-          "noSeries": "Geen tweeling geselecteerd om op te vragen, voeg dubbele eigenschappen toe om geïrtoriseerde gegevens te bekijken."
-        }
-      }
-    },
-    "loadingConnectionLabel": "Tijdreeksverbindingsinformatie laden..."
-  },
   "clear": "Duidelijk",
   "duplicate": "Duplicaat",
   "moveUp": "Overgaan",
@@ -1416,6 +1379,55 @@
     },
     "Common": {
       "untargeted": "Ongericht"
+    }
+  },
+  "dataHistoryErrorHandlingWrapper": {
+    "errors": {
+      "genericNetwork": "Azure Data Explorer-exemplaar kan niet worden verbonden, zorg ervoor dat de resource niet is gestopt en dat uw netwerkverbinding stabiel is.",
+      "genericBadRequest": "Er is iets misgegaan, probeer het opnieuw.",
+      "generalBadRequestMessage": "Aanvraag is ongeldig en kan niet worden uitgevoerd.",
+      "entityNotFound": "Database niet gevonden, kan de query niet uitvoeren.",
+      "forbidden": "Toegang is geweigerd, u hebt geen querymachtigingen."
+    }
+  },
+  "dataHistoryExplorer": {
+    "title": "Gegevensgeschiedenisverkenner",
+    "loadingConnectionLabel": "Verbindingsgegevens voor gegevensgeschiedenis laden...",
+    "builder": {
+      "title": "Dubbele eigenschappen",
+      "description": "Als u eerdere waarden voor geïrtoriseerde eigenschappen wilt vergelijken, voegt u hieronder tijdreeksen toe.",
+      "timeSeriesTwin": {
+        "add": "Tijdreeksen toevoegen",
+        "edit": "Tijdreeksen bewerken",
+        "remove": "Tijdreeksen verwijderen",
+        "property": "Eigenschap",
+        "propertyTypeCastLabe": "Eigenschapswaarde naar getal casten",
+        "noData": "Geen gegevens om weer te geven voor het geselecteerde tijdsbereik"
+      }
+    },
+    "viewer": {
+      "chart": {
+        "title": "Zeekaart",
+        "messages": {
+          "noData": "Geen numerieke gegevens gevonden in het geselecteerde tijdsbereik."
+        }
+      },
+      "table": {
+        "title": "Tafel",
+        "columns": {
+          "timestamp": "Tijdstempel",
+          "series": "Reeks",
+          "value": "Waarde",
+          "type": "Type"
+        },
+        "messages": {
+          "noColor": "Niet ingesteld",
+          "loading": "Historized data laden...",
+          "noData": "Geen gegevens gevonden in het geselecteerde tijdsbereik.",
+          "noSeries": "Geen tweeling geselecteerd om op te vragen, voeg dubbele eigenschappen toe om geïrtoriseerde gegevens te bekijken."
+        }
+      },
+      "noSeriesDescription": "Als u de gegevensgeschiedenis voor deze tweeling wilt weergeven, selecteert u een eigenschap die u wilt weergeven."
     }
   }
 }

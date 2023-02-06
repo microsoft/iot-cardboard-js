@@ -30,11 +30,19 @@ const classNames = {
 };
 export const CARDBOARD_LIST_ITEM_CLASS_NAMES = classNames;
 export const getStyles = memoizeFunction(
-    (theme: Theme, isMenuOpen: boolean, iconColor?: string) => {
+    (
+        theme: Theme,
+        isMenuOpen: boolean,
+        iconStartColor?: string,
+        iconEndColor?: string
+    ) => {
         const ellipseStyles = {
             overflow: 'hidden',
             whiteSpace: 'nowrap',
             textOverflow: 'ellipsis'
+        };
+        const iconStyles = {
+            fontSize: StyleConstants.icons.size16
         };
         return mergeStyleSets({
             alertDot: [
@@ -49,14 +57,23 @@ export const getStyles = memoizeFunction(
                 } as IStyle
             ],
             checkbox: [classNames.checkbox, { marginRight: 8 } as IStyle],
-            endIcon: [classNames.endIcon, { marginLeft: 8 } as IStyle],
-            icon: [
+            iconEnd: [
+                classNames.endIcon,
+                {
+                    ...iconStyles,
+                    marginLeft: 8,
+                    ...(iconEndColor && {
+                        color: iconEndColor
+                    })
+                } as IStyle
+            ],
+            iconStart: [
                 classNames.icon,
                 {
+                    ...iconStyles,
                     marginRight: 8,
-                    fontSize: StyleConstants.icons.size16,
-                    ...(iconColor && {
-                        color: iconColor
+                    ...(iconStartColor && {
+                        color: iconStartColor
                     })
                 } as IStyle
             ],

@@ -89,7 +89,7 @@ exports[`CardboardListCallout entered search term passed successfully on primary
                       >
                         <i
                           aria-hidden="true"
-                          class="ms-Icon root-105 css-168 cb-list-item-icon icon-156"
+                          class="ms-Icon root-105 css-168 cb-list-item-icon iconStart-156"
                           data-icon-name="Shapes"
                           style="font-family: \\"FabricMDL2Icons-5\\";"
                         >
@@ -113,7 +113,7 @@ exports[`CardboardListCallout entered search term passed successfully on primary
                         </div>
                         <i
                           aria-hidden="true"
-                          class="ms-Icon root-105 css-142 cb-list-item-icon icon-156 cb-list-item-end-icon endIcon-155"
+                          class="ms-Icon root-105 css-142 cb-list-item-end-icon iconEnd-155"
                           data-icon-name="Add"
                           style="font-family: \\"FabricMDL2Icons\\";"
                         >
@@ -144,7 +144,7 @@ exports[`CardboardListCallout entered search term passed successfully on primary
                       >
                         <i
                           aria-hidden="true"
-                          class="ms-Icon root-105 css-168 cb-list-item-icon icon-156"
+                          class="ms-Icon root-105 css-168 cb-list-item-icon iconStart-156"
                           data-icon-name="Shapes"
                           style="font-family: \\"FabricMDL2Icons-5\\";"
                         >
@@ -168,7 +168,7 @@ exports[`CardboardListCallout entered search term passed successfully on primary
                         </div>
                         <i
                           aria-hidden="true"
-                          class="ms-Icon root-105 css-142 cb-list-item-icon icon-156 cb-list-item-end-icon endIcon-155"
+                          class="ms-Icon root-105 css-142 cb-list-item-end-icon iconEnd-155"
                           data-icon-name="Add"
                           style="font-family: \\"FabricMDL2Icons\\";"
                         >
@@ -199,7 +199,7 @@ exports[`CardboardListCallout entered search term passed successfully on primary
                       >
                         <i
                           aria-hidden="true"
-                          class="ms-Icon root-105 css-168 cb-list-item-icon icon-156"
+                          class="ms-Icon root-105 css-168 cb-list-item-icon iconStart-156"
                           data-icon-name="Shapes"
                           style="font-family: \\"FabricMDL2Icons-5\\";"
                         >
@@ -223,7 +223,7 @@ exports[`CardboardListCallout entered search term passed successfully on primary
                         </div>
                         <i
                           aria-hidden="true"
-                          class="ms-Icon root-105 css-142 cb-list-item-icon icon-156 cb-list-item-end-icon endIcon-155"
+                          class="ms-Icon root-105 css-142 cb-list-item-end-icon iconEnd-155"
                           data-icon-name="Add"
                           style="font-family: \\"FabricMDL2Icons\\";"
                         >
@@ -254,7 +254,7 @@ exports[`CardboardListCallout entered search term passed successfully on primary
                       >
                         <i
                           aria-hidden="true"
-                          class="ms-Icon root-105 css-168 cb-list-item-icon icon-156"
+                          class="ms-Icon root-105 css-168 cb-list-item-icon iconStart-156"
                           data-icon-name="Shapes"
                           style="font-family: \\"FabricMDL2Icons-5\\";"
                         >
@@ -278,7 +278,7 @@ exports[`CardboardListCallout entered search term passed successfully on primary
                         </div>
                         <i
                           aria-hidden="true"
-                          class="ms-Icon root-105 css-142 cb-list-item-icon icon-156 cb-list-item-end-icon endIcon-155"
+                          class="ms-Icon root-105 css-142 cb-list-item-end-icon iconEnd-155"
                           data-icon-name="Add"
                           style="font-family: \\"FabricMDL2Icons\\";"
                         >
@@ -309,7 +309,7 @@ exports[`CardboardListCallout entered search term passed successfully on primary
                       >
                         <i
                           aria-hidden="true"
-                          class="ms-Icon root-105 css-168 cb-list-item-icon icon-156"
+                          class="ms-Icon root-105 css-168 cb-list-item-icon iconStart-156"
                           data-icon-name="Shapes"
                           style="font-family: \\"FabricMDL2Icons-5\\";"
                         >
@@ -333,7 +333,7 @@ exports[`CardboardListCallout entered search term passed successfully on primary
                         </div>
                         <i
                           aria-hidden="true"
-                          class="ms-Icon root-105 css-142 cb-list-item-icon icon-156 cb-list-item-end-icon endIcon-155"
+                          class="ms-Icon root-105 css-142 cb-list-item-end-icon iconEnd-155"
                           data-icon-name="Add"
                           style="font-family: \\"FabricMDL2Icons\\";"
                         >

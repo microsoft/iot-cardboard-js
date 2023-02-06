@@ -100,6 +100,10 @@
     "schemaValidationFailed": {
       "type": "A JSON-séma érvényesítése nem sikerült",
       "message": "A JSON érvénytelen. Ellenőrizze, hogy a szintaxis megfelel-e a szükséges sémának."
+    },
+    "timeSeriesDatabaseConnectionFetchFailed": {
+      "type": "Az idősorozat-adatbázis kapcsolatának érvényesítése sikertelen",
+      "message": "Az adatelőzmények kapcsolati adatai nem találhatók, győződjön meg arról, hogy az adatelőzmények engedélyezve vannak ehhez a Azure Digital Twins példányhoz, és hogy legalább \"{{permission}}\" hozzáféréssel rendelkezik a Azure Data Explorer példányhoz."
     }
   },
   "valueRangeBuilder": {
@@ -650,14 +654,7 @@
         }
       },
       "headerMenu": "Adatelőzmények widget menü",
-      "openQuery": "Lekérdezés megnyitása a Azure Data Explorer",
-      "errors": {
-        "genericNetwork": "A fürt URL-címe érvénytelen, vagy hálózati hiba történt.",
-        "genericBadRequest": "Hibás kérelem kivétel történt.",
-        "generalBadRequestMessage": "A kérelem érvénytelen, és nem hajtható végre.",
-        "entityNotFound": "Az adatbázis nem található, nem sikerült végrehajtani a lekérdezést.",
-        "forbidden": "A hozzáférés megtagadva lett, nincs lekérdezési engedélye."
-      }
+      "openQuery": "Lekérdezés megnyitása a Azure Data Explorer"
     }
   },
   "sdkStrings": {
@@ -1354,40 +1351,6 @@
   "colorPills": {
     "unlabeled": "Címkézetlen"
   },
-  "dataHistoryExplorer": {
-    "title": "Adatelőzmény-kezelő",
-    "builder": {
-      "title": "Iker tulajdonságok",
-      "timeSeriesTwin": {
-        "property": "Ingatlan",
-        "propertyTypeCastLabel": "Öntött tulajdonság típusa számra",
-        "add": "Idősorok hozzáadása",
-        "remove": "Idősorok eltávolítása",
-        "edit": "Idősorok szerkesztése"
-      },
-      "description": "A historizált tulajdonságok múltbeli értékeinek összehasonlításához adja hozzá az alábbi idősorokat."
-    },
-    "viewer": {
-      "chart": "Diagram",
-      "noSeriesDescription": "Az ikereszköz adatelőzményeinek megtekintéséhez válassza ki a megtekinteni kívánt tulajdonságot.",
-      "table": {
-        "title": "Asztal",
-        "columns": {
-          "timestamp": "Időbélyeg",
-          "series": "Sorozat",
-          "value": "Érték",
-          "type": "Típus"
-        },
-        "messages": {
-          "noColor": "Nincs beállítva",
-          "loading": "Előzményadatok betöltése...",
-          "noData": "A kiválasztott időkeretben nem találhatók historizált adatok.",
-          "noSeries": "Nincs kiválasztva iker a lekérdezéshez, kérjük, adjon hozzá ikertulajdonságokat a historizált adatok megtekintéséhez."
-        }
-      }
-    },
-    "loadingConnectionLabel": "Idősoros kapcsolati információk betöltése..."
-  },
   "clear": "Világos",
   "duplicate": "Ismétlődő",
   "moveUp": "Feljebb lépés",
@@ -1416,6 +1379,55 @@
     },
     "Common": {
       "untargeted": "Nem célzott"
+    }
+  },
+  "dataHistoryErrorHandlingWrapper": {
+    "errors": {
+      "genericNetwork": "Azure Data Explorer példány nem csatlakoztatható, győződjön meg arról, hogy az erőforrás nincs leállítva, és a hálózati kapcsolat stabil.",
+      "genericBadRequest": "Hiba történt, kérjük, próbálja újra.",
+      "generalBadRequestMessage": "A kérelem érvénytelen, és nem hajtható végre.",
+      "entityNotFound": "Az adatbázis nem található, nem tudja végrehajtani a lekérdezést.",
+      "forbidden": "A hozzáférés megtagadva lett, nincs lekérdezési engedélye."
+    }
+  },
+  "dataHistoryExplorer": {
+    "title": "Adatelőzmény-kezelő",
+    "loadingConnectionLabel": "Adatelőzmények kapcsolati adatainak betöltése...",
+    "builder": {
+      "title": "Iker tulajdonságok",
+      "description": "A historizált tulajdonságok múltbeli értékeinek összehasonlításához adja hozzá az alábbi idősorokat.",
+      "timeSeriesTwin": {
+        "add": "Idősorok hozzáadása",
+        "edit": "Idősorok szerkesztése",
+        "remove": "Idősorok eltávolítása",
+        "property": "Ingatlan",
+        "propertyTypeCastLabe": "Öntött tulajdonság értéke számra",
+        "noData": "Nincs megjelenítendő adat a kiválasztott időtartományban"
+      }
+    },
+    "viewer": {
+      "chart": {
+        "title": "Diagram",
+        "messages": {
+          "noData": "A kiválasztott időtartományban nem találhatók numerikus adatok."
+        }
+      },
+      "table": {
+        "title": "Asztal",
+        "columns": {
+          "timestamp": "Időbélyeg",
+          "series": "Sorozat",
+          "value": "Érték",
+          "type": "Típus"
+        },
+        "messages": {
+          "noColor": "Nincs beállítva",
+          "loading": "Előzményadatok betöltése...",
+          "noData": "Nem található adat a kiválasztott időtartományban.",
+          "noSeries": "Nincs kiválasztva iker a lekérdezéshez, kérjük, adjon hozzá ikertulajdonságokat a historizált adatok megtekintéséhez."
+        }
+      },
+      "noSeriesDescription": "Az ikereszköz adatelőzményeinek megtekintéséhez válassza ki a megtekinteni kívánt tulajdonságot."
     }
   }
 }

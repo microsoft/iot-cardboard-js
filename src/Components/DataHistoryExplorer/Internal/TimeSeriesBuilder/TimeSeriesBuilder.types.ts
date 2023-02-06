@@ -16,6 +16,7 @@ export interface ITimeSeriesBuilderProps {
     onTimeSeriesTwinListChange?: (
         timeSeriesTwinList: Array<IDataHistoryTimeSeriesTwin>
     ) => void;
+    missingDataSeriesIds?: Array<string>;
     /**
      * Call to provide customized styling that will layer on top of the variant rules.
      */

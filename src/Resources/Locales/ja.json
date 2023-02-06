@@ -100,6 +100,10 @@
     "schemaValidationFailed": {
       "type": "JSON スキーマの検証に失敗しました",
       "message": "JSON が無効です。構文が必要なスキーマと一致することを確認します。"
+    },
+    "timeSeriesDatabaseConnectionFetchFailed": {
+      "type": "時系列データベース接続の検証に失敗しました",
+      "message": "データ履歴の接続情報が見つかりませんでした。この Azure Digital Twins インスタンスのデータ履歴が有効になっていることと、Azure データ エクスプローラー インスタンスに対して少なくとも \"{{アクセス許可}}\" アクセス権があることを確認してください。"
     }
   },
   "valueRangeBuilder": {
@@ -650,14 +654,7 @@
         }
       },
       "headerMenu": "データ履歴ウィジェットメニュー",
-      "openQuery": "Azure データ エクスプローラーでクエリを開く",
-      "errors": {
-        "genericNetwork": "クラスター URL が無効であるか、ネットワーク エラーが発生しました。",
-        "genericBadRequest": "不正な要求例外が発生しました。",
-        "generalBadRequestMessage": "要求は無効であり、実行できません。",
-        "entityNotFound": "データベースが見つかりません。クエリを実行できませんでした。",
-        "forbidden": "アクセスが拒否されました。クエリのアクセス許可がありません。"
-      }
+      "openQuery": "Azure データ エクスプローラーでクエリを開く"
     }
   },
   "sdkStrings": {
@@ -1354,40 +1351,6 @@
   "colorPills": {
     "unlabeled": "ラベル"
   },
-  "dataHistoryExplorer": {
-    "title": "データ履歴エクスプローラー",
-    "builder": {
-      "title": "ツインプロパティ",
-      "timeSeriesTwin": {
-        "property": "財産",
-        "propertyTypeCastLabel": "プロパティの型を数値にキャスト",
-        "add": "時系列の追加",
-        "remove": "時系列を削除する",
-        "edit": "時系列の編集"
-      },
-      "description": "履歴化されたプロパティの過去の値を比較するには、以下に時系列を追加します。"
-    },
-    "viewer": {
-      "chart": "チャート",
-      "noSeriesDescription": "このツインのデータ履歴を表示するには、表示するプロパティを選択します。",
-      "table": {
-        "title": "テーブル",
-        "columns": {
-          "timestamp": "タイムスタンプ",
-          "series": "級数",
-          "value": "価値",
-          "type": "種類"
-        },
-        "messages": {
-          "noColor": "未設定",
-          "loading": "履歴化されたデータを読み込んでいます...",
-          "noData": "選択した時間枠内に履歴データが見つかりません。",
-          "noSeries": "クエリするツインが選択されていません。履歴データを表示するためにツイン プロパティを追加してください。"
-        }
-      }
-    },
-    "loadingConnectionLabel": "時系列接続情報を読み込んでいます..."
-  },
   "clear": "クリア",
   "duplicate": "デュプリケート",
   "moveUp": "上へ移動",
@@ -1416,6 +1379,55 @@
     },
     "Common": {
       "untargeted": "ターゲットなし"
+    }
+  },
+  "dataHistoryErrorHandlingWrapper": {
+    "errors": {
+      "genericNetwork": "Azure Data Explorer インスタンスに接続できない場合は、リソースが停止していないこと、およびネットワーク接続が安定していることを確認してください。",
+      "genericBadRequest": "問題が発生しました。もう一度やり直してください。",
+      "generalBadRequestMessage": "要求は無効であり、実行できません。",
+      "entityNotFound": "データベースが見つからないため、クエリを実行できません。",
+      "forbidden": "アクセスが拒否されました。クエリのアクセス許可がありません。"
+    }
+  },
+  "dataHistoryExplorer": {
+    "title": "データ履歴エクスプローラー",
+    "loadingConnectionLabel": "データ履歴接続情報を読み込んでいます...",
+    "builder": {
+      "title": "ツインプロパティ",
+      "description": "履歴化されたプロパティの過去の値を比較するには、以下に時系列を追加します。",
+      "timeSeriesTwin": {
+        "add": "時系列の追加",
+        "edit": "時系列の編集",
+        "remove": "時系列を削除する",
+        "property": "財産",
+        "propertyTypeCastLabe": "プロパティ値を数値にキャストする",
+        "noData": "選択した時間範囲に表示するデータがありません"
+      }
+    },
+    "viewer": {
+      "chart": {
+        "title": "チャート",
+        "messages": {
+          "noData": "選択した時間範囲内に数値データが見つかりません。"
+        }
+      },
+      "table": {
+        "title": "テーブル",
+        "columns": {
+          "timestamp": "タイムスタンプ",
+          "series": "級数",
+          "value": "価値",
+          "type": "種類"
+        },
+        "messages": {
+          "noColor": "未設定",
+          "loading": "履歴化されたデータを読み込んでいます...",
+          "noData": "選択した時間範囲内にデータが見つかりません。",
+          "noSeries": "クエリするツインが選択されていません。履歴データを表示するためにツイン プロパティを追加してください。"
+        }
+      },
+      "noSeriesDescription": "このツインのデータ履歴を表示するには、表示するプロパティを選択します。"
     }
   }
 }

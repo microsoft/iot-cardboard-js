@@ -100,6 +100,10 @@
     "schemaValidationFailed": {
       "type": "Échec de la validation du schéma JSON",
       "message": "JSON n’est pas valide. Vérifiez que la syntaxe correspond au schéma requis."
+    },
+    "timeSeriesDatabaseConnectionFetchFailed": {
+      "type": "Échec de la validation de la connexion à une base de données de séries chronologiques",
+      "message": "Les informations de connexion de l'historique des données sont introuvables, assurez-vous que l'historique des données est activé pour cette instance Azure Digital Twins et que vous disposez au moins d'un accès « {{permission}} » à l'instance Azure Data Explorer."
     }
   },
   "valueRangeBuilder": {
@@ -650,14 +654,7 @@
         }
       },
       "headerMenu": "Menu du widget Historique des données",
-      "openQuery": "Ouvrir une requête dans l’Explorateur de données Azure",
-      "errors": {
-        "genericNetwork": "L’URL du cluster n’est pas valide ou une erreur réseau s’est produite.",
-        "genericBadRequest": "Une exception de demande incorrecte s’est produite.",
-        "generalBadRequestMessage": "La demande n’est pas valide et ne peut pas être exécutée.",
-        "entityNotFound": "Base de données introuvable, échec de l’exécution de la requête.",
-        "forbidden": "L’accès a été refusé, vous n’avez pas d’autorisations de requête."
-      }
+      "openQuery": "Ouvrir une requête dans l’Explorateur de données Azure"
     }
   },
   "sdkStrings": {
@@ -1354,40 +1351,6 @@
   "colorPills": {
     "unlabeled": "Sans étiquette"
   },
-  "dataHistoryExplorer": {
-    "title": "Explorateur d’historique des données",
-    "builder": {
-      "title": "Propriétés jumelles",
-      "timeSeriesTwin": {
-        "property": "Propriété",
-        "propertyTypeCastLabel": "Convertir le type de propriété en nombre",
-        "add": "Ajouter des séries chronologiques",
-        "remove": "Supprimer des séries chronologiques",
-        "edit": "Modifier des séries chronologiques"
-      },
-      "description": "Pour comparer les valeurs antérieures des propriétés historisées, ajoutez des séries chronologiques ci-dessous."
-    },
-    "viewer": {
-      "chart": "Graphique",
-      "noSeriesDescription": "Pour afficher l’historique des données de ce jumeau, sélectionnez une propriété à afficher.",
-      "table": {
-        "title": "Table",
-        "columns": {
-          "timestamp": "Horodatage",
-          "series": "Série",
-          "value": "Valeur",
-          "type": "Type"
-        },
-        "messages": {
-          "noColor": "Non défini",
-          "loading": "Chargement de données historiques...",
-          "noData": "Aucune donnée historique n’a été trouvée au cours de la période sélectionnée.",
-          "noSeries": "Aucun jumeau sélectionné pour interroger, veuillez ajouter des propriétés jumelles pour afficher les données historiques."
-        }
-      }
-    },
-    "loadingConnectionLabel": "Chargement des informations de connexion de séries chronologiques..."
-  },
   "clear": "Clair",
   "duplicate": "Dupliquer",
   "moveUp": "Monter",
@@ -1416,6 +1379,55 @@
     },
     "Common": {
       "untargeted": "Non ciblé"
+    }
+  },
+  "dataHistoryErrorHandlingWrapper": {
+    "errors": {
+      "genericNetwork": "L’instance Azure Data Explorer ne peut pas être connectée, assurez-vous que la ressource n’est pas arrêtée et que votre connectivité réseau est stable.",
+      "genericBadRequest": "Quelque chose s’est mal passé, veuillez réessayer.",
+      "generalBadRequestMessage": "La demande n’est pas valide et ne peut pas être exécutée.",
+      "entityNotFound": "Base de données introuvable, impossible d’exécuter la requête.",
+      "forbidden": "L’accès a été refusé, vous n’avez pas d’autorisations de requête."
+    }
+  },
+  "dataHistoryExplorer": {
+    "title": "Explorateur d’historique des données",
+    "loadingConnectionLabel": "Chargement des informations de connexion de l’historique des données...",
+    "builder": {
+      "title": "Propriétés jumelles",
+      "description": "Pour comparer les valeurs antérieures des propriétés historisées, ajoutez des séries chronologiques ci-dessous.",
+      "timeSeriesTwin": {
+        "add": "Ajouter des séries chronologiques",
+        "edit": "Modifier des séries chronologiques",
+        "remove": "Supprimer des séries chronologiques",
+        "property": "Propriété",
+        "propertyTypeCastLabe": "Convertir la valeur de la propriété en nombre",
+        "noData": "Aucune donnée à afficher pour la plage de temps sélectionnée"
+      }
+    },
+    "viewer": {
+      "chart": {
+        "title": "Graphique",
+        "messages": {
+          "noData": "Aucune donnée numérique trouvée dans la plage de temps sélectionnée."
+        }
+      },
+      "table": {
+        "title": "Table",
+        "columns": {
+          "timestamp": "Horodatage",
+          "series": "Série",
+          "value": "Valeur",
+          "type": "Type"
+        },
+        "messages": {
+          "noColor": "Non défini",
+          "loading": "Chargement de données historiques...",
+          "noData": "Aucune donnée trouvée dans la plage de temps sélectionnée.",
+          "noSeries": "Aucun jumeau sélectionné pour interroger, veuillez ajouter des propriétés jumelles pour afficher les données historiques."
+        }
+      },
+      "noSeriesDescription": "Pour afficher l’historique des données de ce jumeau, sélectionnez une propriété à afficher."
     }
   }
 }
