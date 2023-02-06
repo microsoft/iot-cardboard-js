@@ -100,6 +100,10 @@
     "schemaValidationFailed": {
       "type": "Sprawdzanie poprawności schematu JSON nie powiodło się",
       "message": "Kod JSON jest nieprawidłowy. Sprawdź zgodność składni z wymaganym schematem."
+    },
+    "timeSeriesDatabaseConnectionFetchFailed": {
+      "type": "Sprawdzanie poprawności połączenia z bazą danych szeregów czasowych nie powiodło się",
+      "message": "Nie można odnaleźć informacji o połączeniu historii danych, upewnij się, że historia danych jest włączona dla tego wystąpienia usługi Azure Digital Twins i że masz dostęp co najmniej \"{{permission}}\" do wystąpienia usługi Azure Data Explorer."
     }
   },
   "valueRangeBuilder": {
@@ -650,14 +654,7 @@
         }
       },
       "headerMenu": "Menu widżetu Historia danych",
-      "openQuery": "Otwieranie zapytania w usłudze Azure Data Explorer",
-      "errors": {
-        "genericNetwork": "Adres URL klastra jest nieprawidłowy lub wystąpił błąd sieci.",
-        "genericBadRequest": "Wystąpił wyjątek nieprawidłowego żądania.",
-        "generalBadRequestMessage": "Żądanie jest nieprawidłowe i nie można go wykonać.",
-        "entityNotFound": "Nie znaleziono bazy danych, nie można wykonać zapytania.",
-        "forbidden": "Odmowa dostępu, nie masz uprawnień do wykonywania zapytań."
-      }
+      "openQuery": "Otwieranie zapytania w usłudze Azure Data Explorer"
     }
   },
   "sdkStrings": {
@@ -1347,40 +1344,6 @@
   "colorPills": {
     "unlabeled": "Bez etykiety"
   },
-  "dataHistoryExplorer": {
-    "title": "Eksplorator historii danych",
-    "builder": {
-      "title": "Bliźniacze właściwości",
-      "timeSeriesTwin": {
-        "property": "Własność",
-        "propertyTypeCastLabel": "Typ właściwości rzutowania na numer",
-        "add": "Dodawanie szeregów czasowych",
-        "remove": "Usuwanie szeregów czasowych",
-        "edit": "Edytowanie szeregów czasowych"
-      },
-      "description": "Aby porównać wcześniejsze wartości historycznych właściwości, dodaj poniżej szereg czasowy."
-    },
-    "viewer": {
-      "chart": "Wykres",
-      "noSeriesDescription": "Aby wyświetlić historię danych dla tej bliźniaczej płaszczyzny, wybierz właściwość do wyświetlenia.",
-      "table": {
-        "title": "Stół",
-        "columns": {
-          "timestamp": "Sygnatury czasowej",
-          "series": "Seria",
-          "value": "Wartość",
-          "type": "Typ"
-        },
-        "messages": {
-          "noColor": "Nie ustawiono",
-          "loading": "Ładowanie danych historycznych...",
-          "noData": "Nie znaleziono historycznych danych w wybranych przedziałach czasowych.",
-          "noSeries": "Nie wybrano bliźniaka do zapytania, dodaj właściwości bliźniacze, aby wyświetlić dane historyczne."
-        }
-      }
-    },
-    "loadingConnectionLabel": "Czas ładowania szeregów informacji o połączeniu..."
-  },
   "clear": "Jasny",
   "duplicate": "Duplikat",
   "moveUp": "Przejdź w górę",
@@ -1420,6 +1383,58 @@
       "exceptionMessage": "Stało się coś nieoczekiwanego. Spróbuj ponownie.",
       "importFailedTitle": "Importowanie nie powiodło się",
       "importFailedMessage": "Wystąpił błąd podczas importu. Rozwiąż je i spróbuj ponownie.\n {{error}}"
+<<<<<<< HEAD
+=======
+    }
+  },
+  "dataHistoryErrorHandlingWrapper": {
+    "errors": {
+      "genericNetwork": "Nie można nawiązać połączenia z wystąpieniem usługi Azure Data Explorer, upewnij się, że zasób nie został zatrzymany, a łączność sieciowa jest stabilna.",
+      "genericBadRequest": "Coś poszło nie tak, spróbuj ponownie.",
+      "generalBadRequestMessage": "Żądanie jest nieprawidłowe i nie można go wykonać.",
+      "entityNotFound": "Nie znaleziono bazy danych, nie można wykonać zapytania.",
+      "forbidden": "Odmowa dostępu, nie masz uprawnień do wykonywania zapytań."
+    }
+  },
+  "dataHistoryExplorer": {
+    "title": "Eksplorator historii danych",
+    "loadingConnectionLabel": "Ładowanie historii danych informacji o połączeniu...",
+    "builder": {
+      "title": "Bliźniacze właściwości",
+      "description": "Aby porównać wcześniejsze wartości historycznych właściwości, dodaj poniżej szereg czasowy.",
+      "timeSeriesTwin": {
+        "add": "Dodawanie szeregów czasowych",
+        "edit": "Edytowanie szeregów czasowych",
+        "remove": "Usuwanie szeregów czasowych",
+        "property": "Własność",
+        "propertyTypeCastLabe": "Rzutowanie wartości właściwości na liczbę",
+        "noData": "Brak danych do wyświetlenia dla wybranego zakresu czasu"
+      }
+    },
+    "viewer": {
+      "chart": {
+        "title": "Wykres",
+        "messages": {
+          "noData": "Nie znaleziono danych liczbowych w wybranym zakresie czasu."
+        }
+      },
+      "table": {
+        "title": "Stół",
+        "columns": {
+          "timestamp": "Sygnatury czasowej",
+          "series": "Seria",
+          "value": "Wartość",
+          "type": "Typ"
+        },
+        "messages": {
+          "noColor": "Nie ustawiono",
+          "loading": "Ładowanie danych historycznych...",
+          "noData": "Nie znaleziono danych w wybranym zakresie czasu.",
+          "noSeries": "Nie wybrano bliźniaka do zapytania, dodaj właściwości bliźniacze, aby wyświetlić dane historyczne."
+        }
+      },
+      "noSeriesDescription": "Aby wyświetlić historię danych dla tej bliźniaczej płaszczyzny, wybierz właściwość do wyświetlenia."
+>>>>>>> origin/main
     }
   }
 }

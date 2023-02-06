@@ -37,13 +37,15 @@ import { TimeSeriesViewerContext } from '../../TimeSeriesViewer';
 import { DataHistoryExplorerContext } from '../../../../DataHistoryExplorer';
 import { useTimeSeriesData } from '../../../../../../Models/Hooks/useTimeSeriesData';
 import IllustrationMessage from '../../../../../IllustrationMessage/IllustrationMessage';
-import GenericErrorImg from '../../../../../../Resources/Static/noResults.svg';
+import SearchErrorImg from '../../../../../../Resources/Static/searchError.svg';
 import { DTDLPropertyIconographyMap } from '../../../../../../Models/Constants/Constants';
 import TableCommandBar from './Internal/TableCommandBar/TableCommandBar';
 import {
     getDebugLogger,
     sortAscendingOrDescending
 } from '../../../../../../Models/Services/Utils';
+import DataHistoryErrorHandlingWrapper from '../../../../../DataHistoryErrorHandlingWrapper/DataHistoryErrorHandlingWrapper';
+import { ERROR_IMAGE_HEIGHT } from '../../TimeSeriesViewer.types';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('TimeSeriesTable', debugLogging);
@@ -62,7 +64,9 @@ const TimeSeriesTable: React.FC<ITimeSeriesTableProps> = (props) => {
 
     // contexts
     const { adapter } = useContext(DataHistoryExplorerContext);
-    const { timeSeriesTwinList } = useContext(TimeSeriesViewerContext);
+    const { timeSeriesTwinList, onMissingSeriesData } = useContext(
+        TimeSeriesViewerContext
+    );
 
     // state
     const [items, setItems] = useState<Array<TimeSeriesTableRow>>([]);
@@ -77,6 +81,7 @@ const TimeSeriesTable: React.FC<ITimeSeriesTableProps> = (props) => {
     const {
         query,
         data,
+        errors,
         fetchTimeSeriesData,
         isLoading = true
     } = useTimeSeriesData({
@@ -222,6 +227,16 @@ const TimeSeriesTable: React.FC<ITimeSeriesTableProps> = (props) => {
         );
         setItems(adxTimeSeriesTableRows);
     }, [data]);
+    useEffect(() => {
+        if (data && !isLoading) {
+            const seriesWithNoData = timeSeriesTwinList
+                ?.filter((ts) => !data?.find((d) => d.seriesId === ts.seriesId))
+                .map((ts) => ts.seriesId);
+            if (onMissingSeriesData) {
+                onMissingSeriesData(seriesWithNoData);
+            }
+        }
+    }, [data, timeSeriesTwinList, isLoading]);
 
     return (
         <div className={classNames.root}>
@@ -235,6 +250,12 @@ const TimeSeriesTable: React.FC<ITimeSeriesTableProps> = (props) => {
                     ariaLive="assertive"
                     labelPosition="top"
                 />
+            ) : errors.length > 0 ? (
+                <DataHistoryErrorHandlingWrapper
+                    error={errors[0]}
+                    imgHeight={ERROR_IMAGE_HEIGHT}
+                    messageWidth="wide"
+                />
             ) : data === null || data?.length === 0 ? (
                 <IllustrationMessage
                     descriptionText={t(
@@ -245,9 +266,9 @@ const TimeSeriesTable: React.FC<ITimeSeriesTableProps> = (props) => {
                         }`
                     )}
                     type={'info'}
-                    width={'compact'}
+                    width={'wide'}
                     imageProps={{
-                        src: GenericErrorImg,
+                        src: SearchErrorImg,
                         height: 172
                     }}
                     styles={{ container: { flexGrow: 1 } }}

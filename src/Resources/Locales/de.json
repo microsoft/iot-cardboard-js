@@ -100,6 +100,10 @@
     "schemaValidationFailed": {
       "type": "JSON-Schemavalidierung fehlgeschlagen",
       "message": "JSON ist ungültig. Überprüfen Sie, ob die Syntax mit dem erforderlichen Schema übereinstimmt."
+    },
+    "timeSeriesDatabaseConnectionFetchFailed": {
+      "type": "Fehler bei der Überprüfung der Zeitreihendatenbankverbindung",
+      "message": "Verbindungsinformationen zum Datenverlauf konnten nicht gefunden werden, stellen Sie sicher, dass der Datenverlauf für diese Azure Digital Twins-Instanz aktiviert ist und dass Sie mindestens {{permission}}' Zugriff auf die Azure Data Explorer-Instanz haben."
     }
   },
   "valueRangeBuilder": {
@@ -650,14 +654,7 @@
         }
       },
       "headerMenu": "Menü des Widgets \"Datenverlauf\"",
-      "openQuery": "Abfrage im Azure-Daten-Explorer öffnen",
-      "errors": {
-        "genericNetwork": "Die Cluster-URL ist ungültig, oder es ist ein Netzwerkfehler aufgetreten.",
-        "genericBadRequest": "Eine ungültige Anforderungsausnahme ist aufgetreten.",
-        "generalBadRequestMessage": "Die Anforderung ist ungültig und kann nicht ausgeführt werden.",
-        "entityNotFound": "Datenbank nicht gefunden, Abfrage konnte nicht ausgeführt werden.",
-        "forbidden": "Der Zugriff wurde verweigert, Sie verfügen nicht über Abfrageberechtigungen."
-      }
+      "openQuery": "Abfrage im Azure-Daten-Explorer öffnen"
     }
   },
   "sdkStrings": {
@@ -1347,40 +1344,6 @@
   "colorPills": {
     "unlabeled": "Unbeschriftet"
   },
-  "dataHistoryExplorer": {
-    "title": "Datenverlaufs-Explorer",
-    "builder": {
-      "title": "Twin-Immobilien",
-      "timeSeriesTwin": {
-        "property": "Eigentum",
-        "propertyTypeCastLabel": "Eigenschaftstyp in Zahl umwandeln",
-        "add": "Zeitreihen hinzufügen",
-        "remove": "Zeitreihen entfernen",
-        "edit": "Zeitreihen bearbeiten"
-      },
-      "description": "Um vergangene Werte für historisierte Eigenschaften zu vergleichen, fügen Sie unten Zeitreihen hinzu."
-    },
-    "viewer": {
-      "chart": "Diagramm",
-      "noSeriesDescription": "Um den Datenverlauf für diesen Zwilling anzuzeigen, wählen Sie eine anzuzeigende Eigenschaft aus.",
-      "table": {
-        "title": "Tisch",
-        "columns": {
-          "timestamp": "Zeitstempel",
-          "series": "Reihe",
-          "value": "Wert",
-          "type": "Art"
-        },
-        "messages": {
-          "noColor": "Nicht festgelegt",
-          "loading": "Historisierte Daten werden geladen...",
-          "noData": "Im ausgewählten Zeitraum wurden keine historisierten Daten gefunden.",
-          "noSeries": "Kein Zwilling zur Abfrage ausgewählt, fügen Sie Zwillingseigenschaften hinzu, um historisierte Daten anzuzeigen."
-        }
-      }
-    },
-    "loadingConnectionLabel": "Zeitreihen-Verbindungsinformationen werden geladen..."
-  },
   "clear": "Klar",
   "duplicate": "Duplikat",
   "moveUp": "Aufrücken",
@@ -1420,6 +1383,58 @@
       "exceptionMessage": "Etwas Unerwartetes geschah. Bitte versuchen Sie es erneut.",
       "importFailedTitle": "Import fehlgeschlagen",
       "importFailedMessage": "Beim Import ist ein Fehler aufgetreten. Lösen Sie sie und versuchen Sie es erneut.\n {{Fehler}}"
+<<<<<<< HEAD
+=======
+    }
+  },
+  "dataHistoryErrorHandlingWrapper": {
+    "errors": {
+      "genericNetwork": "Die Azure Data Explorer-Instanz kann nicht verbunden werden, stellen Sie sicher, dass die Ressource nicht beendet wurde und Ihre Netzwerkkonnektivität stabil ist.",
+      "genericBadRequest": "Etwas ist schief gelaufen, bitte versuchen Sie es erneut.",
+      "generalBadRequestMessage": "Die Anforderung ist ungültig und kann nicht ausgeführt werden.",
+      "entityNotFound": "Datenbank nicht gefunden, kann die Abfrage nicht ausgeführt werden.",
+      "forbidden": "Der Zugriff wurde verweigert, Sie verfügen nicht über Abfrageberechtigungen."
+    }
+  },
+  "dataHistoryExplorer": {
+    "title": "Datenverlaufs-Explorer",
+    "loadingConnectionLabel": "Verbindungsinformationen zum Datenverlauf werden geladen...",
+    "builder": {
+      "title": "Twin-Immobilien",
+      "description": "Um vergangene Werte für historisierte Eigenschaften zu vergleichen, fügen Sie unten Zeitreihen hinzu.",
+      "timeSeriesTwin": {
+        "add": "Zeitreihen hinzufügen",
+        "edit": "Zeitreihen bearbeiten",
+        "remove": "Zeitreihen entfernen",
+        "property": "Eigentum",
+        "propertyTypeCastLabe": "Eigenschaftswert in Zahl umwandeln",
+        "noData": "Keine anzuzeigenden Daten für den ausgewählten Zeitraum"
+      }
+    },
+    "viewer": {
+      "chart": {
+        "title": "Diagramm",
+        "messages": {
+          "noData": "Im ausgewählten Zeitraum wurden keine numerischen Daten gefunden."
+        }
+      },
+      "table": {
+        "title": "Tisch",
+        "columns": {
+          "timestamp": "Zeitstempel",
+          "series": "Reihe",
+          "value": "Wert",
+          "type": "Art"
+        },
+        "messages": {
+          "noColor": "Nicht festgelegt",
+          "loading": "Historisierte Daten werden geladen...",
+          "noData": "Im ausgewählten Zeitraum wurden keine Daten gefunden.",
+          "noSeries": "Kein Zwilling zur Abfrage ausgewählt, fügen Sie Zwillingseigenschaften hinzu, um historisierte Daten anzuzeigen."
+        }
+      },
+      "noSeriesDescription": "Um den Datenverlauf für diesen Zwilling anzuzeigen, wählen Sie eine anzuzeigende Eigenschaft aus."
+>>>>>>> origin/main
     }
   }
 }

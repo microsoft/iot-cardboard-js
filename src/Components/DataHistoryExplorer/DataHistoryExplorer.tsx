@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {
+    ERROR_IMAGE_HEIGHT,
     IDataHistoryExplorerContext,
     IDataHistoryExplorerProps,
     IDataHistoryExplorerStyleProps,
@@ -22,6 +23,7 @@ import TimeSeriesViewer from './Internal/TimeSeriesViewer/TimeSeriesViewer';
 import useAdapter from '../../Models/Hooks/useAdapter';
 import { deepCopy } from '../../Models/Services/Utils';
 import { sendDataHistoryExplorerSystemTelemetry } from '../../Models/SharedUtils/DataHistoryUtils';
+import DataHistoryErrorHandlingWrapper from '../DataHistoryErrorHandlingWrapper/DataHistoryErrorHandlingWrapper';
 
 export const DataHistoryExplorerContext = React.createContext<IDataHistoryExplorerContext>(
     null
@@ -45,6 +47,7 @@ const DataHistoryExplorer: React.FC<IDataHistoryExplorerProps> = (props) => {
         Array<IDataHistoryTimeSeriesTwin>
     >(deepCopy(timeSeriesTwinsProp));
     const [, setConnection] = useState(adapter.getADXConnectionInformation());
+    const [missingDataSeriesIds, setMissingDataSeriesIds] = useState([]);
 
     // hooks
     const { t } = useTranslation();
@@ -97,38 +100,44 @@ const DataHistoryExplorer: React.FC<IDataHistoryExplorerProps> = (props) => {
                         </span>
                     </div>
                 )}
-                <Stack
-                    horizontal
-                    tokens={{ childrenGap: 8 }}
-                    className={classNames.contentStack}
-                >
-                    <TimeSeriesBuilder
-                        onTimeSeriesTwinListChange={(twins) => {
-                            setTimeSeriesTwins(twins);
-                            sendDataHistoryExplorerSystemTelemetry(twins);
-                        }}
-                        styles={classNames.subComponentStyles.builder}
-                        timeSeriesTwins={timeSeriesTwinsProp}
+                {updateConnectionAdapterData.adapterResult.getErrors() ? (
+                    <DataHistoryErrorHandlingWrapper
+                        error={
+                            updateConnectionAdapterData.adapterResult.getErrors()[0]
+                        }
+                        imgHeight={ERROR_IMAGE_HEIGHT}
+                        styles={classNames.subComponentStyles.errorWrapper}
                     />
-                    {updateConnectionAdapterData.isLoading ? (
-                        <Spinner
-                            styles={
-                                classNames.subComponentStyles.loadingSpinner
-                            }
-                            size={SpinnerSize.large}
-                            label={t(
-                                'dataHistoryExplorer.loadingConnectionLabel'
-                            )}
-                            ariaLive="assertive"
-                            labelPosition="top"
+                ) : updateConnectionAdapterData.isLoading ? (
+                    <Spinner
+                        styles={classNames.subComponentStyles.loadingSpinner}
+                        size={SpinnerSize.large}
+                        label={t('dataHistoryExplorer.loadingConnectionLabel')}
+                        ariaLive="assertive"
+                        labelPosition="bottom"
+                    />
+                ) : (
+                    <Stack
+                        horizontal
+                        tokens={{ childrenGap: 8 }}
+                        className={classNames.contentStack}
+                    >
+                        <TimeSeriesBuilder
+                            onTimeSeriesTwinListChange={(twins) => {
+                                setTimeSeriesTwins(twins);
+                                sendDataHistoryExplorerSystemTelemetry(twins);
+                            }}
+                            styles={classNames.subComponentStyles.builder}
+                            timeSeriesTwins={timeSeriesTwinsProp}
+                            missingDataSeriesIds={missingDataSeriesIds}
                         />
-                    ) : (
                         <TimeSeriesViewer
                             timeSeriesTwinList={timeSeriesTwins}
                             styles={classNames.subComponentStyles.viewer}
+                            onMissingSeriesData={setMissingDataSeriesIds}
                         />
-                    )}
-                </Stack>
+                    </Stack>
+                )}
             </div>
         </DataHistoryExplorerContext.Provider>
     );

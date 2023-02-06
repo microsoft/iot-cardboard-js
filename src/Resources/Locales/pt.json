@@ -100,6 +100,10 @@
     "schemaValidationFailed": {
       "type": "Falha na validação do esquema JSON",
       "message": "JSON é inválido. Verifique os jogos de sintaxe necessários."
+    },
+    "timeSeriesDatabaseConnectionFetchFailed": {
+      "type": "Falha na validação da conexão do banco de dados de série temporal",
+      "message": "Não foi possível encontrar informações de conexão de histórico de dados, verifique se o histórico de dados está habilitado para essa instância de Gêmeos Digitais do Azure e se você tem pelo menos '{{permissão}}' acesso à instância do Azure Data Explorer."
     }
   },
   "valueRangeBuilder": {
@@ -650,14 +654,7 @@
         }
       },
       "headerMenu": "Menu de widget do histórico de dados",
-      "openQuery": "Consulta aberta no Azure Data Explorer",
-      "errors": {
-        "genericNetwork": "A url do cluster é inválida ou ocorreu um erro de rede.",
-        "genericBadRequest": "A exceção do pedido foi ocorrida.",
-        "generalBadRequestMessage": "A solicitação é inválida e não pode ser executada.",
-        "entityNotFound": "Banco de dados não encontrado, falhou em executar consulta.",
-        "forbidden": "O acesso foi negado, você não tem permissões de consulta."
-      }
+      "openQuery": "Consulta aberta no Azure Data Explorer"
     }
   },
   "sdkStrings": {
@@ -1347,40 +1344,6 @@
   "colorPills": {
     "unlabeled": "Unlabeled"
   },
-  "dataHistoryExplorer": {
-    "title": "Explorador de histórico de dados",
-    "builder": {
-      "title": "Propriedades Twin",
-      "timeSeriesTwin": {
-        "property": "Propriedade",
-        "propertyTypeCastLabel": "Transmitir o tipo de propriedade para o número",
-        "add": "Adicionar séries temporais",
-        "remove": "Remover séries temporais",
-        "edit": "Editar séries temporais"
-      },
-      "description": "Para comparar valores passados para propriedades historizadas, adicione séries temporais abaixo."
-    },
-    "viewer": {
-      "chart": "Gráfico",
-      "noSeriesDescription": "Para exibir o histórico de dados desse gêmeo, selecione uma propriedade a ser exibida.",
-      "table": {
-        "title": "Mesa",
-        "columns": {
-          "timestamp": "Timestamp",
-          "series": "Série",
-          "value": "Valor",
-          "type": "Tipo"
-        },
-        "messages": {
-          "noColor": "Não definido",
-          "loading": "Carregando dados historizados...",
-          "noData": "Nenhum dado historizado encontrado no período de tempo selecionado.",
-          "noSeries": "Nenhum gêmeo selecionado para consultar, adicione propriedades gêmeas para exibir dados historiados."
-        }
-      }
-    },
-    "loadingConnectionLabel": "Carregando informações de conexão de série temporal..."
-  },
   "clear": "Claro",
   "duplicate": "Duplicar",
   "moveUp": "Mover para cima",
@@ -1420,6 +1383,58 @@
       "exceptionMessage": "Algo inesperado aconteceu. Tente novamente.",
       "importFailedTitle": "Falha na importação",
       "importFailedMessage": "Ocorreu um erro durante a importação. Resolva-os e tente novamente.\n {{erro}}"
+<<<<<<< HEAD
+=======
+    }
+  },
+  "dataHistoryErrorHandlingWrapper": {
+    "errors": {
+      "genericNetwork": "A instância do Azure Data Explorer não pode ser conectada, verifique se o recurso não está parado e se a conectividade de rede está estável.",
+      "genericBadRequest": "Algo deu errado, por favor, tente novamente.",
+      "generalBadRequestMessage": "A solicitação é inválida e não pode ser executada.",
+      "entityNotFound": "Banco de dados não encontrado, não é possível executar a consulta.",
+      "forbidden": "O acesso foi negado, você não tem permissões de consulta."
+    }
+  },
+  "dataHistoryExplorer": {
+    "title": "Explorador de histórico de dados",
+    "loadingConnectionLabel": "Carregando informações de conexão do histórico de dados...",
+    "builder": {
+      "title": "Propriedades Twin",
+      "description": "Para comparar valores passados para propriedades historizadas, adicione séries temporais abaixo.",
+      "timeSeriesTwin": {
+        "add": "Adicionar séries temporais",
+        "edit": "Editar séries temporais",
+        "remove": "Remover séries temporais",
+        "property": "Propriedade",
+        "propertyTypeCastLabe": "Transferir o valor da propriedade para o número",
+        "noData": "Nenhum dado a ser exibido para o intervalo de tempo selecionado"
+      }
+    },
+    "viewer": {
+      "chart": {
+        "title": "Gráfico",
+        "messages": {
+          "noData": "Nenhum dado numérico encontrado no intervalo de tempo selecionado."
+        }
+      },
+      "table": {
+        "title": "Mesa",
+        "columns": {
+          "timestamp": "Timestamp",
+          "series": "Série",
+          "value": "Valor",
+          "type": "Tipo"
+        },
+        "messages": {
+          "noColor": "Não definido",
+          "loading": "Carregando dados historizados...",
+          "noData": "Nenhum dado encontrado no intervalo de tempo selecionado.",
+          "noSeries": "Nenhum gêmeo selecionado para consultar, adicione propriedades gêmeas para exibir dados historiados."
+        }
+      },
+      "noSeriesDescription": "Para exibir o histórico de dados desse gêmeo, selecione uma propriedade a ser exibida."
+>>>>>>> origin/main
     }
   }
 }

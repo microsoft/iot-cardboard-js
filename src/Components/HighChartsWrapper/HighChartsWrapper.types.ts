@@ -40,6 +40,7 @@ export interface IHighChartsWrapperProps {
         xMaxInMillis?: number;
         hasLimitedSeries?: boolean;
         maxLegendHeight?: number;
+        noDataText?: string;
     };
 
     /**

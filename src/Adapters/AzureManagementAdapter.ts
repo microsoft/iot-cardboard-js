@@ -655,6 +655,8 @@ export default class AzureManagementAdapter implements IAzureManagementAdapter {
                     });
                 } catch (error) {
                     adapterMethodSandbox.pushError({
+                        type:
+                            ComponentErrorType.TimeSeriesDatabaseConnectionFetchFailed,
                         isCatastrophic: false,
                         rawError: error
                     });

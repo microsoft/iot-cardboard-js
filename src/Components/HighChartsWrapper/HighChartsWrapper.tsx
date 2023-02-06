@@ -211,7 +211,8 @@ const HighChartsWrapper: React.FC<IHighChartsWrapperProps> = (props) => {
             }
         },
         lang: {
-            noData: t('highcharts.noDataDescription'),
+            noData:
+                chartOptions.noDataText || t('highcharts.noDataDescription'),
             loading: t('loading')
         },
         tooltip: {

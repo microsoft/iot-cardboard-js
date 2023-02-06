@@ -8,6 +8,7 @@ import { MockAdapter } from '../../Adapters';
 import ADTDataHistoryAdapter from '../../Adapters/ADTDataHistoryAdapter';
 import { IDataHistoryTimeSeriesTwin } from '../../Models/Constants/Interfaces';
 import { ICardboardModalStyles } from '../CardboardModal/CardboardModal.types';
+import { IDataHistoryErrorHandlingWrapperStyles } from '../DataHistoryErrorHandlingWrapper/DataHistoryErrorHandlingWrapper.types';
 import { ITimeSeriesBuilderStyles } from './Internal/TimeSeriesBuilder/TimeSeriesBuilder.types';
 import { ITimeSeriesViewerStyles } from './Internal/TimeSeriesViewer/TimeSeriesViewer.types';
 
@@ -45,8 +46,11 @@ export interface IDataHistoryExplorerSubComponentStyles {
     builder?: ITimeSeriesBuilderStyles;
     viewer?: ITimeSeriesViewerStyles;
     loadingSpinner?: Partial<ISpinnerStyles>;
+    errorWrapper?: Partial<IDataHistoryErrorHandlingWrapperStyles>;
 }
 
 export interface IDataHistoryExplorerContext {
     adapter: ADTDataHistoryAdapter | MockAdapter;
 }
+
+export const ERROR_IMAGE_HEIGHT = 120;
