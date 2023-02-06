@@ -265,6 +265,8 @@ export const updateEnumValueSchema = (
 };
 
 // #region Validations
+export const DTMI_VALIDATION_REGEX = /^dtmi:(?:_+[A-Za-z0-9]|[A-Za-z])(?:[A-Za-z0-9_]*[A-Za-z0-9])?(?::(?:_+[A-Za-z0-9]|[A-Za-z])(?:[A-Za-z0-9_]*[A-Za-z0-9])?)*(?:;1-9][0-9]{0,8}(?:\\.[1-9][0-9]{0,5})?)?$/;
+
 const DEFAULT_NAME_REGEX = /^[a-zA-Z](?:[a-zA-Z0-9_]*[a-zA-Z0-9])?$/;
 /** allows for _ at the end when typing is in progress, should not get committed */
 const DEFAULT_NAME_REGEX_IN_PROGRESS = /^[a-zA-Z](?:[a-zA-Z0-9_]*[a-zA-Z0-9_])?$/;
@@ -277,6 +279,15 @@ const DEFAULT_PATH_REGEX = /^[a-zA-Z](?:[a-zA-Z0-9_:]*[a-zA-Z0-9])?$/;
 const DEFAULT_PATH_REGEX_IN_PROGRESS = /^[a-zA-Z](?:[a-zA-Z0-9_:]*[a-zA-Z0-9_:])?$/;
 
 const DEFAULT_MAX_NAME_LENGTH = 64;
+
+export const isValidDtmiId = (dtmiId: string): boolean => {
+    // return false if we can't get the version segment
+    if (!dtmiId?.includes(';')) {
+        return false;
+    }
+    const trimmedVersion = dtmiId.substring(0, dtmiId.lastIndexOf(';'));
+    return new RegExp(DTMI_VALIDATION_REGEX).test(trimmedVersion);
+};
 
 const defaultNameValidation = (name: string, isFinal: boolean): boolean => {
     let isValid = true;

@@ -36,6 +36,8 @@ const OATEditorPageContent: React.FC<IOATEditorPageProps> = (props) => {
             )
         );
     }, [oatPageState.currentOntologyModels, oatPageState.selection]);
+    const isPropertyEditorVisible =
+        oatPageState.currentOntologyModels?.length !== 0;
 
     // styles
     const editorPageStyles = getEditorPageStyles();
@@ -54,17 +56,21 @@ const OATEditorPageContent: React.FC<IOATEditorPageProps> = (props) => {
                     <div className={editorPageStyles.viewerContainer}>
                         <OATGraphViewer />
                     </div>
-                    <div className={editorPageStyles.propertyEditorContainer}>
-                        <OATPropertyEditor
-                            selectedItem={selectedItem}
-                            selectedThemeName={selectedThemeName}
-                            parentModelId={
-                                isDTDLReference(selectedItem)
-                                    ? oatPageState.selection.modelId
-                                    : undefined
-                            }
-                        />
-                    </div>
+                    {isPropertyEditorVisible && (
+                        <div
+                            className={editorPageStyles.propertyEditorContainer}
+                        >
+                            <OATPropertyEditor
+                                selectedItem={selectedItem}
+                                selectedThemeName={selectedThemeName}
+                                parentModelId={
+                                    isDTDLReference(selectedItem)
+                                        ? oatPageState.selection.modelId
+                                        : undefined
+                                }
+                            />
+                        </div>
+                    )}
                 </div>
                 <OATErrorHandlingModal />
                 <OATConfirmDeleteModal />

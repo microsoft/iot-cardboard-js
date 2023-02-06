@@ -70,7 +70,7 @@ export interface IOatPageContextState {
     currentOntologyModelMetadata: IOATModelsMetadata[];
     currentOntologyModelPositions: IOATModelPosition[];
     currentOntologyModels: DtdlInterface[];
-    currentOntologyNamespace: string;
+    currentOntologyDefaultPath: string;
     currentOntologyProjectName: string;
     currentOntologyTemplates: DTDLProperty[];
     languageOptions: IDropdownOption[];
@@ -83,6 +83,8 @@ export interface IOatPageContextState {
     selection?: IOATSelection;
     templatesActive?: boolean;
     selectedPropertyEditorTab: IOatPropertyEditorTabKey;
+    openUploadFileCallback: () => void | null;
+    openUploadFolderCallback: () => void | null;
 }
 
 /**
@@ -140,6 +142,8 @@ export enum OatPageContextActionType {
     SET_OAT_TEMPLATES_ACTIVE = 'SET_OAT_TEMPLATES_ACTIVE',
     DELETE_PROJECT = 'SET_OAT_DELETE_PROJECT',
     SET_OAT_ERROR = 'SET_OAT_ERROR',
+    SET_UPLOAD_FILE_CALLBACK = 'SET_UPLOAD_FILE_REF',
+    SET_UPLOAD_FOLDER_CALLBACK = 'SET_UPLOAD_FOLDER_REF',
     SET_OAT_IS_JSON_UPLOADER_OPEN = 'SET_OAT_IS_JSON_UPLOADER_OPEN'
 }
 
@@ -298,9 +302,6 @@ export type OatPageContextAction =
       }
     | {
           type: OatPageContextActionType.ADD_NEW_MODEL;
-          payload?: {
-              position: IOATNodePosition;
-          };
       }
     | {
           type: OatPageContextActionType.ADD_NEW_RELATIONSHIP;
@@ -333,5 +334,17 @@ export type OatPageContextAction =
           type: OatPageContextActionType.SET_SELECTED_PROPERTY_EDITOR_TAB;
           payload: {
               selectedTabKey: IOatPropertyEditorTabKey;
+          };
+      }
+    | {
+          type: OatPageContextActionType.SET_UPLOAD_FILE_CALLBACK;
+          payload: {
+              callback: () => void;
+          };
+      }
+    | {
+          type: OatPageContextActionType.SET_UPLOAD_FOLDER_CALLBACK;
+          payload: {
+              callback: () => void;
           };
       };

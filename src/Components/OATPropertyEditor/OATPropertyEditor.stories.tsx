@@ -106,8 +106,7 @@ const getMockFiles = () => {
 const getMockModel = () => {
     const modelId = buildModelId({
         modelName: 'model' + 345,
-        namespace: 'testNamespace',
-        path: 'folder1:folder2',
+        path: 'testNamespace:folder1:folder2',
         version: 2
     });
     const model = getMockModelItem(modelId);

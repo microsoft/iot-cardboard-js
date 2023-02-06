@@ -967,10 +967,10 @@
       "modalSubTitleLinkText": "온톨로지에 대해 자세히 알아보기",
       "nameLabel": "이름",
       "namePlaceholder": "온톨로지 이름 입력",
-      "namespaceLabel": "Namespace",
       "namespaceDescription": "모델 이름 예: {{모델 이름}}",
-      "namespacePlaceholder": "네임스페이스 입력",
-      "sampleModel": "샘플 모델"
+      "sampleModel": "샘플 모델",
+      "namespaceLabel": "기본 경로",
+      "namespacePlaceholder": "기본 경로 입력"
     },
     "newModel": "새로운 모델"
   },
@@ -1399,12 +1399,23 @@
     "defaultFileName": "새 온톨로지",
     "defaultModelNamePrefix": "모델"
   },
-  "OATModelList": {
-    "searchModels": "검색 모델",
-    "noDataMessage": "모델 없음",
-    "noMatchingItemsMessage": "해당 기준과 일치하는 모델이 없습니다.",
-    "removeModelButtonText": "모델 제거",
-    "modelListToggleAriaLabelShow": "모델 목록 표시",
-    "modelListToggleAriaLabelHide": "모델 목록 숨기기"
+  "OATErrors": {
+    "Validations": {
+      "InvalidDtmiIdFormatTitle": "잘못된 DTMI 형식",
+      "InvalidDtmiIdFormatMessage": "DTMI가 필요한 형식을 충족하지 못했기 때문에 변경 내용이 저장되지 않았습니다. \n DTMI: {{dtmi}}\n 필수 형식: {{정규식}}"
+    }
+  },
+  "OAT": {
+    "ModelList": {
+      "searchModels": "검색 모델",
+      "noMatchingItemsMessage": "해당 기준과 일치하는 모델이 없습니다.",
+      "removeModelButtonText": "모델 제거",
+      "noModelsTitle": "아직 모델이 없습니다.",
+      "noModelsMessage": "모델을 추가하거나 기존 온톨로지를 가져와 온톨로지 디자인을 시작합니다.",
+      "noModelsButtonText": "모델 추가"
+    },
+    "Common": {
+      "untargeted": "타겟팅되지 않음"
+    }
   }
 }

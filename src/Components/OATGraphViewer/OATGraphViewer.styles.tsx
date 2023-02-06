@@ -2,11 +2,7 @@ import {
     IStyle,
     mergeStyleSets,
     memoizeFunction,
-    useTheme,
     FontSizes,
-    IStyleFunctionOrObject,
-    ILabelStyleProps,
-    ILabelStyles,
     FontWeights,
     IButtonStyles
 } from '@fluentui/react';
@@ -465,9 +461,6 @@ export const getGraphViewerStyles = memoizeFunction((theme: IExtendedTheme) => {
         nodeRow: [
             classNames.nodeRow,
             {
-                alignItems: 'center',
-                display: 'grid',
-                gridTemplateColumns: '50px auto',
                 overflow: 'hidden',
                 padding: 4
             } as IStyle
@@ -492,7 +485,8 @@ export const getGraphViewerStyles = memoizeFunction((theme: IExtendedTheme) => {
         untargetedNodeContainer: [
             classNames.untargetedNodeContainer,
             {
-                paddingLeft: 4,
+                paddingLeft: 8,
+                paddingRight: 8,
                 label: {
                     overflowWrap: 'normal'
                 }
@@ -526,14 +520,4 @@ export const getGraphViewerActionButtonStyles = (
             color: theme.semanticColors.actionLink
         }
     };
-};
-
-export const getGraphViewerWarningStyles = () => {
-    const theme = useTheme();
-    return {
-        root: {
-            fontSize: FontSizes.size10,
-            color: theme.semanticColors.severeWarningIcon
-        }
-    } as IStyleFunctionOrObject<ILabelStyleProps, ILabelStyles>;
 };

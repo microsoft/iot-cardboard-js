@@ -967,10 +967,10 @@
       "modalSubTitleLinkText": "Dowiedz się więcej o ontologiach",
       "nameLabel": "Nazwa",
       "namePlaceholder": "Wprowadź nazwę ontologii",
-      "namespaceLabel": "Namespace",
       "namespaceDescription": "Przykładowa nazwa modelu: {{modelName}}",
-      "namespacePlaceholder": "Wprowadzanie przestrzeni nazw",
-      "sampleModel": "przykładowy model"
+      "sampleModel": "przykładowy model",
+      "namespaceLabel": "Domyślna ścieżka",
+      "namespacePlaceholder": "Wprowadź ścieżkę domyślną"
     },
     "newModel": "Nowy model"
   },
@@ -1399,12 +1399,23 @@
     "defaultFileName": "Nowa ontologia",
     "defaultModelNamePrefix": "Model"
   },
-  "OATModelList": {
-    "searchModels": "Szukaj modeli",
-    "noDataMessage": "Brak modeli",
-    "noMatchingItemsMessage": "Żaden model nie spełnia tych kryteriów",
-    "removeModelButtonText": "Usuń model",
-    "modelListToggleAriaLabelShow": "Pokaż listę modeli",
-    "modelListToggleAriaLabelHide": "Ukryj listę modeli"
+  "OATErrors": {
+    "Validations": {
+      "InvalidDtmiIdFormatTitle": "Nieprawidłowy format DTMI",
+      "InvalidDtmiIdFormatMessage": "Zmiany nie zostały zapisane, ponieważ DTMI nie spełnia wymaganego formatu. \n DTMI: {{dtmi}}\n Wymagany format: {{regex}}"
+    }
+  },
+  "OAT": {
+    "ModelList": {
+      "searchModels": "Szukaj modeli",
+      "noMatchingItemsMessage": "Żaden model nie spełnia tych kryteriów",
+      "removeModelButtonText": "Usuń model",
+      "noModelsTitle": "Nie masz jeszcze żadnych modeli",
+      "noModelsMessage": "Rozpocznij projektowanie ontologii, dodając model lub importując istniejącą ontologię",
+      "noModelsButtonText": "Dodawanie modelu"
+    },
+    "Common": {
+      "untargeted": "Nieukierunkowane"
+    }
   }
 }

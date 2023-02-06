@@ -967,10 +967,10 @@
       "modalSubTitleLinkText": "Erfahren Sie mehr über Ontologien",
       "nameLabel": "Name",
       "namePlaceholder": "Geben Sie einen Ontologienamen ein",
-      "namespaceLabel": "Namespace",
       "namespaceDescription": "Beispielmodellname: {{modelName}}",
-      "namespacePlaceholder": "Eingeben eines Namespaces",
-      "sampleModel": "Beispielmodell"
+      "sampleModel": "Beispielmodell",
+      "namespaceLabel": "Standardpfad",
+      "namespacePlaceholder": "Standardpfad eingeben"
     },
     "newModel": "Neues Modell"
   },
@@ -1399,12 +1399,23 @@
     "defaultFileName": "Neue Ontologie",
     "defaultModelNamePrefix": "Modell"
   },
-  "OATModelList": {
-    "searchModels": "Modelle suchen",
-    "noDataMessage": "Keine Modelle",
-    "noMatchingItemsMessage": "Kein Modell erfüllt diese Kriterien",
-    "removeModelButtonText": "Modell entfernen",
-    "modelListToggleAriaLabelShow": "Modellliste anzeigen",
-    "modelListToggleAriaLabelHide": "Modellliste ausblenden"
+  "OATErrors": {
+    "Validations": {
+      "InvalidDtmiIdFormatTitle": "Ungültiges DTMI-Format",
+      "InvalidDtmiIdFormatMessage": "Ihre Änderungen wurden nicht gespeichert, da der DTMI nicht dem erforderlichen Format entsprach. \n DTMI: {{dtmi}}\n Erforderliches Format: {{regex}}"
+    }
+  },
+  "OAT": {
+    "ModelList": {
+      "searchModels": "Modelle suchen",
+      "noMatchingItemsMessage": "Kein Modell erfüllt diese Kriterien",
+      "removeModelButtonText": "Modell entfernen",
+      "noModelsTitle": "Sie haben noch keine Modelle",
+      "noModelsMessage": "Beginnen Sie mit dem Entwurf Ihrer Ontologie, indem Sie ein Modell hinzufügen oder Ihre vorhandene Ontologie importieren",
+      "noModelsButtonText": "Hinzufügen eines Modells"
+    },
+    "Common": {
+      "untargeted": "Nicht zielgerichtet"
+    }
   }
 }

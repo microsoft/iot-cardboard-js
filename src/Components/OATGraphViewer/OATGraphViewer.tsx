@@ -7,7 +7,6 @@ import React, {
     useContext
 } from 'react';
 import {
-    Label,
     SpinnerSize,
     Spinner,
     classNamesFunction,
@@ -37,11 +36,7 @@ import {
     OatReferenceType,
     OAT_GRAPH_REFERENCE_TYPE
 } from '../../Models/Constants/Constants';
-import {
-    getGraphViewerStyles,
-    getGraphViewerWarningStyles,
-    getStyles
-} from './OATGraphViewer.styles';
+import { getGraphViewerStyles, getStyles } from './OATGraphViewer.styles';
 import { IOATNodeElement } from '../../Models/Constants/Interfaces';
 import { deepCopy, getDebugLogger } from '../../Models/Services/Utils';
 import { CommandHistoryContext } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
@@ -588,6 +583,34 @@ const OATGraphViewerContent: React.FC<IOATGraphViewerProps> = (props) => {
 
     // side effects
 
+    // hide the minimap if we don't have any models cause we hide the property inspector too
+    const previousModelCountWasZero =
+        usePrevious(oatPageState.currentOntologyModels.length) === 0;
+    useEffect(() => {
+        if (oatPageState.currentOntologyModels?.length === 0) {
+            oatGraphDispatch({
+                type: OatGraphContextActionType.MINI_MAP_VISIBLE_TOGGLE,
+                payload: {
+                    value: false
+                }
+            });
+        } else if (
+            oatPageState.currentOntologyModels?.length > 0 &&
+            previousModelCountWasZero
+        ) {
+            oatGraphDispatch({
+                type: OatGraphContextActionType.MINI_MAP_VISIBLE_TOGGLE,
+                payload: {
+                    value: true
+                }
+            });
+        }
+    }, [
+        oatGraphDispatch,
+        oatPageState.currentOntologyModels?.length,
+        previousModelCountWasZero
+    ]);
+
     // sync changes from models & positions in state onto the graph
     useEffect(() => {
         const potentialElements = getGraphNodesFromModels(
@@ -754,7 +777,7 @@ const OATGraphViewerContent: React.FC<IOATGraphViewerProps> = (props) => {
         oatPageDispatch,
         oatPageState.currentOntologyModelPositions,
         oatPageState.currentOntologyModels,
-        oatPageState.currentOntologyNamespace,
+        oatPageState.currentOntologyDefaultPath,
         oatPageState.graphUpdatesToSync,
         oatPageState.selection,
         rfInstance,
@@ -763,7 +786,6 @@ const OATGraphViewerContent: React.FC<IOATGraphViewerProps> = (props) => {
 
     // styles
     const graphViewerStyles = getGraphViewerStyles(theme);
-    const warningStyles = getGraphViewerWarningStyles();
     const classNames = getClassNames(styles, { theme });
 
     logDebugConsole(
@@ -807,11 +829,6 @@ const OATGraphViewerContent: React.FC<IOATGraphViewerProps> = (props) => {
                     snapGrid={[15, 15]}
                     snapToGrid={true}
                 >
-                    {!elements[0] && (
-                        <Label styles={warningStyles}>
-                            {t('OATGraphViewer.emptyGraph')}
-                        </Label>
-                    )}
                     {oatGraphState.isModelListVisible &&
                         !oatGraphState.isLoading && (
                             <Callout

@@ -14,10 +14,10 @@ import {
 } from './ManageOntologyModal.types';
 import { getStyles } from './ManageOntologyModal.styles';
 import { buildModelId } from '../../../../Models/Services/OatUtils';
-import OatModal from '../../../CardboardModal/CardboardModal';
+import CardboardModal from '../../../CardboardModal/CardboardModal';
 import {
     DOCUMENTATION_LINKS,
-    OAT_NAMESPACE_DEFAULT_VALUE
+    OAT_DEFAULT_PATH_VALUE
 } from '../../../../Models/Constants/Constants';
 import { useTranslation } from 'react-i18next';
 import { useOatPageContext } from '../../../../Models/Context/OatPageContext/OatPageContext';
@@ -54,8 +54,8 @@ const ManageOntologyModal: React.FC<IManageOntologyModalProps> = (props) => {
     const [name, setName] = useState<string>(
         mode === FormMode.Create ? '' : oatPageState.currentOntologyProjectName
     );
-    const [namespace, setNamespace] = useState<string>(
-        mode === FormMode.Create ? '' : oatPageState.currentOntologyNamespace
+    const [defaultPath, setNamespace] = useState<string>(
+        mode === FormMode.Create ? '' : oatPageState.currentOntologyDefaultPath
     );
 
     // hooks
@@ -85,7 +85,7 @@ const ManageOntologyModal: React.FC<IManageOntologyModalProps> = (props) => {
                 type: OatPageContextActionType.CREATE_PROJECT,
                 payload: {
                     name: name,
-                    namespace: namespace
+                    namespace: defaultPath
                 }
             });
         } else if (mode === FormMode.Edit) {
@@ -93,7 +93,7 @@ const ManageOntologyModal: React.FC<IManageOntologyModalProps> = (props) => {
                 type: OatPageContextActionType.EDIT_PROJECT,
                 payload: {
                     name: name,
-                    namespace: namespace
+                    namespace: defaultPath
                 }
             });
         }
@@ -127,13 +127,13 @@ const ManageOntologyModal: React.FC<IManageOntologyModalProps> = (props) => {
         const localNamespace =
             mode === FormMode.Create
                 ? ''
-                : oatPageState.currentOntologyNamespace;
+                : oatPageState.currentOntologyDefaultPath;
         setNamespace(localNamespace);
-    }, [isOpen, mode, oatPageState.currentOntologyNamespace]);
+    }, [isOpen, mode, oatPageState.currentOntologyDefaultPath]);
 
     // data
     const sampleModelId = buildModelId({
-        namespace: namespace || OAT_NAMESPACE_DEFAULT_VALUE,
+        path: defaultPath || OAT_DEFAULT_PATH_VALUE,
         modelName: t(LOC_KEYS.sampleModel)
     });
 
@@ -142,10 +142,10 @@ const ManageOntologyModal: React.FC<IManageOntologyModalProps> = (props) => {
         theme: useTheme()
     });
 
-    const isFormValid = name?.trim() && namespace?.trim();
+    const isFormValid = name?.trim();
 
     return (
-        <OatModal
+        <CardboardModal
             isOpen={isOpen}
             footerDangerButtonProps={
                 mode === FormMode.Create
@@ -171,20 +171,21 @@ const ManageOntologyModal: React.FC<IManageOntologyModalProps> = (props) => {
         >
             <TextField
                 label={t(LOC_KEYS.nameLabel)}
-                placeholder={t(LOC_KEYS.namePlaceholder)}
-                value={name}
                 onChange={(_e, value) => setName(value)}
+                placeholder={t(LOC_KEYS.namePlaceholder)}
+                required
+                value={name}
             />
             <TextField
-                label={t(LOC_KEYS.namespaceLabel)}
-                placeholder={t(LOC_KEYS.namespacePlaceholder)}
                 description={t(LOC_KEYS.namespaceDescription, {
                     modelName: sampleModelId
                 })}
-                value={namespace}
+                label={t(LOC_KEYS.namespaceLabel)}
                 onChange={(_e, value) => setNamespace(value.replace(/ /g, ''))}
+                placeholder={t(LOC_KEYS.namespacePlaceholder)}
+                value={defaultPath}
             />
-        </OatModal>
+        </CardboardModal>
     );
 };
 

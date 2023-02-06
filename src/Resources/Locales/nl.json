@@ -967,10 +967,10 @@
       "modalSubTitleLinkText": "Meer informatie over ontologieën",
       "nameLabel": "Naam",
       "namePlaceholder": "Voer een ontologienaam in",
-      "namespaceLabel": "Namespace",
       "namespaceDescription": "Voorbeeld modelnaam: {{modelName}}",
-      "namespacePlaceholder": "Een naamruimte invoeren",
-      "sampleModel": "voorbeeldmodel"
+      "sampleModel": "voorbeeldmodel",
+      "namespaceLabel": "Standaardpad",
+      "namespacePlaceholder": "Voer een standaardpad in"
     },
     "newModel": "Nieuw model"
   },
@@ -1399,12 +1399,23 @@
     "defaultFileName": "Nieuwe ontologie",
     "defaultModelNamePrefix": "Model"
   },
-  "OATModelList": {
-    "searchModels": "Modellen zoeken",
-    "noDataMessage": "Geen modellen",
-    "noMatchingItemsMessage": "Geen enkel model voldoet aan die criteria",
-    "removeModelButtonText": "Model verwijderen",
-    "modelListToggleAriaLabelShow": "Modellenlijst weergeven",
-    "modelListToggleAriaLabelHide": "Modellenlijst verbergen"
+  "OATErrors": {
+    "Validations": {
+      "InvalidDtmiIdFormatTitle": "OngeldigE DTMI-indeling",
+      "InvalidDtmiIdFormatMessage": "Uw wijzigingen zijn niet opgeslagen omdat de DTMI niet voldeed aan de vereiste indeling. \n DTMI: {{dtmi}}\n Vereist formaat: {{regex}}"
+    }
+  },
+  "OAT": {
+    "ModelList": {
+      "searchModels": "Modellen zoeken",
+      "noMatchingItemsMessage": "Geen enkel model voldoet aan die criteria",
+      "removeModelButtonText": "Model verwijderen",
+      "noModelsTitle": "Je hebt nog geen modellen",
+      "noModelsMessage": "Begin met het ontwerpen van uw ontologie door een model toe te voegen of uw bestaande ontologie te importeren",
+      "noModelsButtonText": "Een model toevoegen"
+    },
+    "Common": {
+      "untargeted": "Ongericht"
+    }
   }
 }
