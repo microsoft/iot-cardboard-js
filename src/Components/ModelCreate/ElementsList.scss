@@ -1,0 +1,11 @@
+.cb-elementslist-row {
+    cursor: pointer;
+}
+
+.cb-detail-list {
+    overflow: hidden;
+
+    .cb-detail-list-header-cell:hover {
+        background: transparent;
+    }
+}
