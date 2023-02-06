@@ -914,7 +914,6 @@
     "sync": "synkronisering",
     "import": "Import",
     "export": "Export",
-    "file": "Fil",
     "new": "Ny",
     "open": "Öppna",
     "saveAs": "Spara som",
@@ -931,10 +930,6 @@
     "namespace": "Namespace",
     "enterANamespace": "Ange ett namnområde",
     "settings": "Inställningar",
-    "errorInvalidJSON": "Ogiltig JSON",
-    "errorFileFormatNotSupported": "{{file}}-format stöds inte",
-    "errorFormatNoSupported": "Filformat stöds inte",
-    "errorIssueWithFile": "Problem med {{fileName}}: {{error}}",
     "errorNamespace": "Namnområdet får bara innehålla bokstäver, siffror och understreck.",
     "undo": "Ångra",
     "redo": "Göra om",
@@ -943,8 +938,6 @@
     "fileUpload": "Filuppladdning",
     "selectFile": "Välj fil",
     "errorSingleFileHoldsRelationships": "Problem med {{fileName}}: Modellen innehåller relationer som inte importeras",
-    "errorImportedModelAlreadyExists": "Problem med {{modelId}}: Modell med samma @id redan finns",
-    "errorFileInvalidJSON": "Problem med {{fileName}}: Ogiltig JSON",
     "deleteProjectMessage": "Är du säker på att du vill ta bort {{projectName}}?",
     "errorSameName": "Projekt med samma namn finns redan. Vill du skriva över det?",
     "fileOpenModal": {
@@ -1378,7 +1371,18 @@
       "noModelsButtonText": "Lägga till en modell"
     },
     "Common": {
-      "untargeted": "Oriktad"
+      "untargeted": "Oriktad",
+      "unhandledExceptionTitle": "Oväntat fel",
+      "unhandledExceptionMessage": "Något oväntat hände. Försök igen."
+    },
+    "ImportErrors": {
+      "fileFormatNotSupportedMessage": "Endast JSON-filer stöds. Det går inte att importera följande filer: \n{{fileNames}}.",
+      "fileFormatNotSupportedTitle": "Filformatet stöds inte",
+      "fileInvalidJSON": "Det går inte att importera {{fileName}}, den innehåller ogiltig JSON.",
+      "exceptionTitle": "Oväntat fel",
+      "exceptionMessage": "Något oväntat hände. Försök igen.",
+      "importFailedTitle": "Importen misslyckades",
+      "importFailedMessage": "Det uppstod ett fel under importen. Lös dem och försök igen.\n {{error}}"
     }
   },
   "dataHistoryErrorHandlingWrapper": {

@@ -919,7 +919,9 @@
     },
     "OAT": {
         "Common": {
-            "untargeted": "Untargeted"
+            "untargeted": "Untargeted",
+            "unhandledExceptionTitle": "Unexpected error",
+            "unhandledExceptionMessage": "Something unexpected happened. Please try again."
         },
         "ModelList": {
             "searchModels": "Search models",
@@ -928,6 +930,15 @@
             "noModelsTitle": "You don't have any models yet",
             "noModelsMessage": "Start designing your ontology by adding a model or importing your existing ontology",
             "noModelsButtonText": "Add a model"
+        },
+        "ImportErrors": {
+            "exceptionTitle": "Unexpected error",
+            "exceptionMessage": "Something unexpected happened. Please try again.",
+            "fileFormatNotSupportedMessage": "Only JSON files are supported. Unable to import the following files: \n{{fileNames}}.",
+            "fileFormatNotSupportedTitle": "File format not supported",
+            "fileInvalidJSON": "Unable to import '{{fileName}}', it contains invalid JSON.",
+            "importFailedTitle": "Import failed",
+            "importFailedMessage": "There was an error during import. Resolve them and try again.\n {{error}}"
         }
     },
     "OATCommon": {
@@ -941,7 +952,6 @@
         "configure": "Configure",
         "delete": "Delete",
         "export": "Export",
-        "file": "file",
         "import": "Import",
         "importFile": "Import file",
         "importFolder": "Import folder",
@@ -970,13 +980,7 @@
         "enterANamespace": "Enter a namespace",
         "errorNamespace": "The name may only contain the characters a-z, A-Z, 0-9, and underscore. The first character may not be a digit, and the last character may not be an underscore.",
         "settings": "Settings",
-        "errorInvalidJSON": "Invalid JSON",
-        "errorFileInvalidJSON": "Issue with {{fileName}}: Invalid JSON",
-        "errorFileFormatNotSupported": "Issue with {{fileName}}: Format not supported",
         "errorSingleFileHoldsRelationships": "Issue with {{fileName}}: Model holds relationships which are not being imported",
-        "errorFormatNoSupported": "File format not supported",
-        "errorIssueWithFile": "Issue with {{fileName}}: {{error}}",
-        "errorImportedModelAlreadyExists": "Issue with {{modelId}}: Model with the same @id already exists",
         "undo": "Undo",
         "redo": "Redo",
         "folderUpload": "Folder upload",

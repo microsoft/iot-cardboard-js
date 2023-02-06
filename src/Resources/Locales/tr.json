@@ -914,7 +914,6 @@
     "sync": "Eşitleme",
     "import": "Ithalat",
     "export": "Ihracat",
-    "file": "Dosya",
     "new": "Yeni",
     "open": "Açık",
     "saveAs": "Farklı kaydet",
@@ -931,10 +930,6 @@
     "namespace": "Namespace",
     "enterANamespace": "Ad alanı girme",
     "settings": "Ayarlar",
-    "errorInvalidJSON": "Geçersiz JSON",
-    "errorFileFormatNotSupported": "{{dosya}} biçimi desteklenmiyor",
-    "errorFormatNoSupported": "Dosya biçimi Desteklenmiyor",
-    "errorIssueWithFile": "{{fileName}} ile ilgili sorun: {{error}}",
     "errorNamespace": "Ad alanı yalnızca harfler, rakamlar ve alt çizgiler içerebilir.",
     "undo": "Geri almak",
     "redo": "Yinele",
@@ -943,8 +938,6 @@
     "fileUpload": "Dosya yükleme",
     "selectFile": "Dosya seç",
     "errorSingleFileHoldsRelationships": "{{fileName}} ile ilgili sorun: Model, içe aktarılmayan ilişkileri tutuyor",
-    "errorImportedModelAlreadyExists": "{{modelId}} ile ilgili sorun: Aynı @id sahip model zaten var",
-    "errorFileInvalidJSON": "{{fileName}} ile ilgili sorun: Geçersiz JSON",
     "deleteProjectMessage": "{{projectName}} silmek istediğinizden emin misiniz?",
     "errorSameName": "Aynı ada sahip proje zaten var. Üzerine yazmak ister misiniz?",
     "fileOpenModal": {
@@ -1378,7 +1371,18 @@
       "noModelsButtonText": "Model ekleme"
     },
     "Common": {
-      "untargeted": "Hedefsiz"
+      "untargeted": "Hedefsiz",
+      "unhandledExceptionTitle": "Beklenmeyen hata",
+      "unhandledExceptionMessage": "Beklenmedik bir şey oldu. Lütfen tekrar deneyin."
+    },
+    "ImportErrors": {
+      "fileFormatNotSupportedMessage": "Yalnızca JSON dosyaları desteklenir. Aşağıdaki dosyalar içe aktarılamıyor: \n{{fileNames}}.",
+      "fileFormatNotSupportedTitle": "Dosya biçimi desteklenmiyor",
+      "fileInvalidJSON": "'{{fileName}}' içe aktarılamıyor, geçersiz JSON içeriyor.",
+      "exceptionTitle": "Beklenmeyen hata",
+      "exceptionMessage": "Beklenmedik bir şey oldu. Lütfen tekrar deneyin.",
+      "importFailedTitle": "İçe aktarma başarısız oldu",
+      "importFailedMessage": "İçe aktarma sırasında bir hata oluştu. Bunları çözün ve yeniden deneyin.\n {{error}}"
     }
   },
   "dataHistoryErrorHandlingWrapper": {
