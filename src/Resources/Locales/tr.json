@@ -1383,8 +1383,6 @@
       "exceptionMessage": "Beklenmedik bir şey oldu. Lütfen tekrar deneyin.",
       "importFailedTitle": "İçe aktarma başarısız oldu",
       "importFailedMessage": "İçe aktarma sırasında bir hata oluştu. Bunları çözün ve yeniden deneyin.\n {{error}}"
-<<<<<<< HEAD
-=======
     }
   },
   "dataHistoryErrorHandlingWrapper": {
@@ -1434,7 +1432,6 @@
         }
       },
       "noSeriesDescription": "Bu ikizin veri geçmişini görüntülemek için görüntülenecek bir özellik seçin."
->>>>>>> origin/main
     }
   }
 }

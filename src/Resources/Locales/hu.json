@@ -1383,8 +1383,6 @@
       "exceptionMessage": "Valami váratlan történt. Kérjük, próbálja újra.",
       "importFailedTitle": "Az importálás sikertelen",
       "importFailedMessage": "Hiba történt az importálás során. Oldja meg őket, és próbálkozzon újra.\n {{hiba}}"
-<<<<<<< HEAD
-=======
     }
   },
   "dataHistoryErrorHandlingWrapper": {
@@ -1434,7 +1432,6 @@
         }
       },
       "noSeriesDescription": "Az ikereszköz adatelőzményeinek megtekintéséhez válassza ki a megtekinteni kívánt tulajdonságot."
->>>>>>> origin/main
     }
   }
 }

@@ -1383,8 +1383,6 @@
       "exceptionMessage": "意想不到的事情发生了。请重试。",
       "importFailedTitle": "导入失败",
       "importFailedMessage": "导入过程中出错。请解决它们，然后重试。\n {{错误}}"
-<<<<<<< HEAD
-=======
     }
   },
   "dataHistoryErrorHandlingWrapper": {
@@ -1434,7 +1432,6 @@
         }
       },
       "noSeriesDescription": "若要查看此孪生体的数据历史记录，请选择要查看的属性。"
->>>>>>> origin/main
     }
   }
 }

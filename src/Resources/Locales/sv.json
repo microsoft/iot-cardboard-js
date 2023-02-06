@@ -1383,8 +1383,6 @@
       "exceptionMessage": "Något oväntat hände. Försök igen.",
       "importFailedTitle": "Importen misslyckades",
       "importFailedMessage": "Det uppstod ett fel under importen. Lös dem och försök igen.\n {{error}}"
-<<<<<<< HEAD
-=======
     }
   },
   "dataHistoryErrorHandlingWrapper": {
@@ -1434,7 +1432,6 @@
         }
       },
       "noSeriesDescription": "Om du vill visa datahistorik för den här tvillingen väljer du en egenskap som ska visas."
->>>>>>> origin/main
     }
   }
 }

@@ -1383,8 +1383,6 @@
       "exceptionMessage": "예상치 못한 일이 일어났습니다. 다시 시도하십시오.",
       "importFailedTitle": "가져오기 실패",
       "importFailedMessage": "가져오는 동안 오류가 발생했습니다. 문제를 해결하고 다시 시도하십시오.\n {{오류}}"
-<<<<<<< HEAD
-=======
     }
   },
   "dataHistoryErrorHandlingWrapper": {
@@ -1434,7 +1432,6 @@
         }
       },
       "noSeriesDescription": "이 쌍에 대한 데이터 기록을 보려면 보려는 속성을 선택합니다."
->>>>>>> origin/main
     }
   }
 }

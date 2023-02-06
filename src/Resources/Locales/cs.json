@@ -1383,8 +1383,6 @@
       "exceptionMessage": "Stalo se něco nečekaného. Zkuste to prosím znovu.",
       "importFailedTitle": "Import se nezdařil",
       "importFailedMessage": "Během importu došlo k chybě. Vyřešte je a zkuste to znovu.\n {{chyba}}"
-<<<<<<< HEAD
-=======
     }
   },
   "dataHistoryErrorHandlingWrapper": {
@@ -1434,7 +1432,6 @@
         }
       },
       "noSeriesDescription": "Chcete-li zobrazit historii dat pro toto dvojče, vyberte vlastnost, kterou chcete zobrazit."
->>>>>>> origin/main
     }
   }
 }

@@ -1383,8 +1383,6 @@
       "exceptionMessage": "Quelque chose d’inattendu s’est produit. Veuillez réessayer.",
       "importFailedTitle": "Echec de l’importation",
       "importFailedMessage": "Une erreur s’est produite lors de l’importation. Résolvez-les et réessayez.\n {{error}}"
-<<<<<<< HEAD
-=======
     }
   },
   "dataHistoryErrorHandlingWrapper": {
@@ -1434,7 +1432,6 @@
         }
       },
       "noSeriesDescription": "Pour afficher l’historique des données de ce jumeau, sélectionnez une propriété à afficher."
->>>>>>> origin/main
     }
   }
 }

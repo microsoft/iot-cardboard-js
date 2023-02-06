@@ -1383,8 +1383,6 @@
       "exceptionMessage": "Accadde qualcosa di inaspettato. Riprova.",
       "importFailedTitle": "Importazione non riuscita",
       "importFailedMessage": "Si è verificato un errore durante l'importazione. Risolvili e riprova.\n {{errore}}"
-<<<<<<< HEAD
-=======
     }
   },
   "dataHistoryErrorHandlingWrapper": {
@@ -1434,7 +1432,6 @@
         }
       },
       "noSeriesDescription": "Per visualizzare la cronologia dei dati per questo gemello, selezionare una proprietà da visualizzare."
->>>>>>> origin/main
     }
   }
 }
