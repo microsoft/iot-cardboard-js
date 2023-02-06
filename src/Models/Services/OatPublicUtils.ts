@@ -1,8 +1,18 @@
 import { createParser, ModelParsingOption } from 'azure-iot-dtdl-parser';
 import JSZip from 'jszip';
+import { DTDLSchema } from '../Classes/DTDL';
 import { DtdlInterface } from '../Constants/dtdlInterfaces';
-import { convertModelToDtdl, safeJsonParse } from './OatUtils';
-import { getDebugLogger } from './Utils';
+import {
+    hasArraySchemaType,
+    hasGeospatialSchemaType,
+    hasMapSchemaType,
+    hasObjectSchemaType,
+    isComplexSchemaType,
+    isDTDLProperty,
+    isDTDLRelationshipReference
+} from './DtdlUtils';
+import { convertModelToDtdl, parseModelId, safeJsonParse } from './OatUtils';
+import { deepCopy, getDebugLogger, isDefined } from './Utils';
 
 const debugLogging = true;
 const logDebugConsole = getDebugLogger('OATPublicUtils', debugLogging);
@@ -202,7 +212,8 @@ const getModelsFromFiles = async (
 
     // run the parser for full validations
     const combinedModels = [...currentModels, ...newModels];
-    const error = await parseModels(combinedModels);
+
+    const error = await parseModels(stripV3Features(deepCopy(combinedModels)));
     if (error) {
         filesErrors.push(
             translate(localizationKeys.ImportFailedMessage, {
@@ -236,6 +247,137 @@ const getModelsFromFiles = async (
     }
     logDebugConsole('debug', '[IMPORT] [END] Parsing files. {files}', files);
     return result;
+};
+
+/**
+ * NOTE: Exposed only for testing purposes, not intended to be used externally
+ * Function that takes a collection of models and removes all the V3 features from them and returns that collection back.
+ * @param models Collection of models to process
+ * @returns collection of models without V3 features
+ */
+export const stripV3Features = (models: DtdlInterface[]): DtdlInterface[] => {
+    if (!models || !models.length) {
+        return models;
+    }
+    logDebugConsole(
+        'debug',
+        '[STRIP V3] [START] Stripping V3 features. {models}',
+        models
+    );
+    models.forEach((model) => {
+        // if (getDtdlVersion(model) !== '3') {
+        //     return;
+        // }
+        // remove arrays
+        filterPropertiesRecursively(model, hasArraySchemaType);
+        // remove geospatial schemas from properties
+        filterPropertiesRecursively(model, hasGeospatialSchemaType);
+        // add version if missing
+        addVersionIfNotPresent(model);
+        // relationships set minMultiplicity to 0
+        forceRelationshipMinMultiplicityTo0(model);
+    });
+
+    logDebugConsole(
+        'debug',
+        '[STRIP V3] [END] Stripping V3 features. {models}',
+        models
+    );
+    return models;
+};
+
+interface ItemWithSchema {
+    schema: DTDLSchema;
+}
+/** recursively removes properties/attributes from the properties of a model that match the comparator function */
+const filterPropertiesRecursively = (
+    model: DtdlInterface,
+    baseItemComparator: (item: ItemWithSchema) => boolean
+): DtdlInterface => {
+    logDebugConsole('debug', '[FILTER CHILDREN] [START] {models}', model);
+    const nonProperties = model.contents?.filter((x) => !isDTDLProperty(x));
+    const properties = model.contents?.filter((x) => isDTDLProperty(x));
+    if (properties?.length > 0) {
+        const filteredProperties = properties.filter((x) => {
+            if (isDTDLProperty(x)) {
+                return !doesChildHaveSchemaType(x, baseItemComparator);
+            } else {
+                return true;
+            }
+        });
+        model.contents = [...nonProperties, ...filteredProperties];
+    }
+    logDebugConsole('debug', '[FILTER CHILDREN] [END] {models}', model);
+    return model;
+};
+/** traverses the children and returns true if it finds an array item */
+const doesChildHaveSchemaType = (
+    item: ItemWithSchema,
+    baseItemComparator: (item: ItemWithSchema) => boolean
+): boolean => {
+    // root level comparison once finished drilling
+    if (baseItemComparator(item)) {
+        return true;
+    } else if (hasObjectSchemaType(item)) {
+        if (item.schema.fields?.length > 0) {
+            // check children
+            item.schema.fields = item.schema.fields.filter((objectField) => {
+                return !doesChildHaveSchemaType(
+                    objectField,
+                    baseItemComparator
+                );
+            });
+            return false;
+        }
+    } else if (hasMapSchemaType(item)) {
+        if (
+            item.schema.mapValue &&
+            isComplexSchemaType(item.schema.mapValue.schema)
+        ) {
+            // check children and modify in place,
+            doesChildHaveSchemaType(item.schema.mapValue, baseItemComparator);
+            return false;
+        }
+    }
+    return false;
+};
+
+/**
+ * Adds a version number to the model id if it's missing
+ * @param model Model to validate
+ * @returns updated model object (also updated in-place)
+ */
+const addVersionIfNotPresent = (model: DtdlInterface): DtdlInterface => {
+    const modelId = parseModelId(model['@id']);
+    if (!modelId.version) {
+        model['@id'] += '1'; // always use version 1 if missing
+    }
+    return model;
+};
+
+/**
+ * Iterates the relationships of a model and forcibly sets the minMulitplicity to 0 if it is set to anything else since in V2 it can only be 0
+ * @param model Model to validate
+ * @returns updated model reference (also updated in-place)
+ */
+const forceRelationshipMinMultiplicityTo0 = (
+    model: DtdlInterface
+): DtdlInterface => {
+    if (model.contents?.length === 0) {
+        return model;
+    }
+    model.contents.forEach((x) => {
+        if (
+            isDTDLRelationshipReference(x) &&
+            isDefined(x.minMultiplicity) &&
+            x.minMultiplicity !== 0
+        ) {
+            // cast to any to get around the readonly property
+            x.minMultiplicity = 0;
+        }
+    });
+
+    return model;
 };
 
 // #endregion

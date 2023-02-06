@@ -4,6 +4,7 @@ import {
     DTDLComplexSchema,
     DTDLEnum,
     DTDLEnumValue,
+    DTDLGeospatialSchema,
     DTDLMap,
     DTDLMapKey,
     DTDLMapValue,
@@ -14,7 +15,8 @@ import {
     DTDLSchema,
     DTDLSchemaType,
     DTDLSchemaTypes,
-    DTDLType
+    DTDLType,
+    DTDL_CONTEXT_VERSION_3
 } from '../Classes/DTDL';
 import {
     DtdlComponent,
@@ -30,6 +32,25 @@ import {
     OatReferenceType
 } from '../Constants';
 import { deepCopy, isDefined, isValueInEnum } from './Utils';
+
+export const getDtdlVersion = (model: DtdlInterface): '2' | '3' => {
+    if (!model) {
+        return '2';
+    }
+    if (Array.isArray(model['@context'])) {
+        if (model['@context'].includes(DTDL_CONTEXT_VERSION_3)) {
+            return '3';
+        } else {
+            return '2';
+        }
+    } else {
+        if (model['@context'] === DTDL_CONTEXT_VERSION_3) {
+            return '3';
+        } else {
+            return '2';
+        }
+    }
+};
 
 /** is the relationship a known DTDL relationship type */
 export const isDTDLReference = (
@@ -142,6 +163,26 @@ export const hasEnumSchemaType = <T extends { schema: DTDLSchema }>(
     return (
         hasComplexSchemaType(property) &&
         property.schema['@type'] === DTDLSchemaType.Enum
+    );
+};
+
+export const hasGeospatialSchemaType = <T extends { schema: DTDLSchema }>(
+    property: T
+): property is T & { schema: DTDLGeospatialSchema } => {
+    if (!property) {
+        return false;
+    }
+    return (
+        typeof property.schema === 'string' &&
+        // NOTE: must stay in sync with the `DTDLGeospatialSchema` union type
+        [
+            'linestring',
+            'multiLinestring',
+            'multiPoint',
+            'multiPolygon',
+            'point',
+            'polygon'
+        ].includes(property.schema)
     );
 };
 
