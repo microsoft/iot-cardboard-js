@@ -10,7 +10,7 @@ import {
     isComplexSchemaType,
     isDTDLProperty
 } from './DtdlUtils';
-import { convertModelToDtdl, safeJsonParse } from './OatUtils';
+import { convertModelToDtdl, parseModelId, safeJsonParse } from './OatUtils';
 import { deepCopy, getDebugLogger } from './Utils';
 
 const debugLogging = true;
@@ -272,6 +272,7 @@ export const stripV3Features = (models: DtdlInterface[]): DtdlInterface[] => {
         // remove geospatial schemas from properties
         filterPropertiesRecursively(model, hasGeospatialSchemaType);
         // add version if missing
+        addVersionIfNotPresent(model);
         // relationships set minMultiplicity to 0
     });
 
@@ -307,7 +308,6 @@ const filterPropertiesRecursively = (
     logDebugConsole('debug', '[FILTER CHILDREN] [END] {models}', model);
     return model;
 };
-
 /** traverses the children and returns true if it finds an array item */
 const doesChildHaveSchemaType = (
     item: ItemWithSchema,
@@ -338,6 +338,19 @@ const doesChildHaveSchemaType = (
         }
     }
     return false;
+};
+
+/**
+ * Adds a version number to the model id if it's missing
+ * @param model Model to validate
+ * @returns updated model object (also updated in-place)
+ */
+const addVersionIfNotPresent = (model: DtdlInterface): DtdlInterface => {
+    const modelId = parseModelId(model['@id']);
+    if (!modelId.version) {
+        model['@id'] += '1'; // always use version 1 if missing
+    }
+    return model;
 };
 
 // #endregion
