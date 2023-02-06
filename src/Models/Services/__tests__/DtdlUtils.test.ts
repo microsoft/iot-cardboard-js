@@ -91,7 +91,7 @@ describe('DtdlUtils', () => {
             return new DTDLProperty(name, 'double');
         };
         const getRelationship = (name: string): DTDLRelationship => {
-            return new DTDLRelationship('', name, '', '', '', false, []);
+            return new DTDLRelationship(name, '', '', '', '', false, []);
         };
 
         describe('Move up', () => {

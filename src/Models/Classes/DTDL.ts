@@ -594,24 +594,25 @@ export class DTDLRelationship implements DtdlRelationship {
     name: string;
     ['@id']?: string;
     maxMultiplicity?: number;
+    minMultiplicity?: number;
     writable?: boolean;
     target?: string;
-    readonly minMultiplicity?: number;
     properties?: DTDLProperty[];
     displayName?: string;
     description?: string;
     comment?: string;
 
     constructor(
-        id: string,
         name: string,
-        displayName: string,
-        description: string,
-        comment: string,
-        writeable: boolean,
-        properties: DTDLProperty[],
-        target: string | null = null,
-        maxMultiplicity: number | null = null
+        id?: string,
+        displayName?: string,
+        description?: string,
+        comment?: string,
+        writeable?: boolean,
+        properties?: DTDLProperty[],
+        target?: string | null,
+        maxMultiplicity?: number | null,
+        minMultiplicity?: number | null
     ) {
         this['@type'] = DTDLType.Relationship;
         this['@id'] = id;
@@ -634,7 +635,7 @@ export class DTDLRelationship implements DtdlRelationship {
             this.maxMultiplicity = maxMultiplicity;
         }
 
-        this.minMultiplicity = 0;
+        this.minMultiplicity = minMultiplicity ?? 0;
     }
 
     static getBlank() {
@@ -644,15 +645,16 @@ export class DTDLRelationship implements DtdlRelationship {
     static fromObject(obj: any): DTDLRelationship {
         //TODO: Use interface for obj
         return new DTDLRelationship(
-            obj['@id'],
             obj.name,
+            obj['@id'],
             obj.displayName,
             obj.description,
             obj.comment,
             obj.writeable,
             obj.properties?.map((p) => DTDLProperty.fromObject(p)),
             obj.target,
-            obj.maxMultiplicity
+            obj.maxMultiplicity,
+            obj.minMultiplicity
         );
     }
 }

@@ -8,9 +8,12 @@ import {
     DTDLArray,
     DTDLObjectField,
     DTDLMapKey,
-    DTDLMapValue
+    DTDLMapValue,
+    DTDLRelationship
 } from '../Classes/DTDL';
-import { DtdlMapValue } from '../Constants';
+import { DtdlInterface, DtdlMapValue, DtdlRelationship } from '../Constants';
+import { ensureIsArray } from './OatUtils';
+import { isDefined } from './Utils';
 
 interface IMockPropertyBaseArgs {
     type: DTDLSchema;
@@ -253,4 +256,18 @@ export const getMockArraySchema = (args: IMockPropertyArrayArgs): DTDLArray => {
         'test array description',
         'test array comment'
     );
+};
+
+export const addReferenceToModel = (
+    model: DtdlInterface,
+    reference?: DtdlRelationship
+): DtdlInterface => {
+    model.contents = ensureIsArray(model.contents);
+    if (isDefined(reference)) {
+        model.contents.push(reference);
+    } else {
+        const reference = new DTDLRelationship('test-relationship-1');
+        model.contents.push(reference);
+    }
+    return model;
 };

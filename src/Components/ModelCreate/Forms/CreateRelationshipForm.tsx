@@ -103,8 +103,8 @@ const CreateRelationshipForm: React.FC<CreateRelationshipFromProps> = ({
 
     const onClickCreate = () => {
         const relationship = new DTDLRelationship(
-            id,
             name,
+            id,
             displayName,
             description,
             comment,

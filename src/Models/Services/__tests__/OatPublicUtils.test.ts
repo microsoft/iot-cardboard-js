@@ -3,14 +3,19 @@ import {
     EXPORT_LOC_KEYS,
     IMPORT_LOC_KEYS
 } from '../../../Components/OATHeader/OATHeader';
-import { DTDLMapValue, DTDLObjectField } from '../../Classes/DTDL';
+import {
+    DTDLMapValue,
+    DTDLObjectField,
+    DTDLRelationship
+} from '../../Classes/DTDL';
 import {
     DtdlArray,
     DtdlEnum,
     DtdlInterface,
     DtdlMap,
     DtdlObject,
-    DtdlProperty
+    DtdlProperty,
+    DtdlRelationship
 } from '../../Constants';
 import { getMockModelItem } from '../../Context/OatPageContext/OatPageContext.mock';
 import {
@@ -19,6 +24,7 @@ import {
     stripV3Features
 } from '../OatPublicUtils';
 import {
+    addReferenceToModel,
     getMockArraySchema,
     getMockMapSchema,
     getMockObjectSchema,
@@ -460,6 +466,47 @@ describe('OatPublicUtils', () => {
                 // ASSERT
                 expect(result.length).toEqual(models.length);
                 expect(result[0]['@id']).toEqual('dtmi:mockmodel;3.2');
+            });
+        });
+        describe('ForceMinMulitplicityTo0', () => {
+            test('undefined min multiplicity is untouched', () => {
+                // ARRANGE
+                const mockModel = getMockModelItem('dtmi:mockmodel;1');
+                const relationship = new DTDLRelationship('my-relationship');
+                relationship.minMultiplicity = undefined;
+                addReferenceToModel(mockModel, relationship);
+
+                const models: DtdlInterface[] = [mockModel];
+
+                // ACT
+                const result = stripV3Features(models) as DtdlInterface[];
+
+                // ASSERT
+                expect(result.length).toEqual(models.length);
+                const relationshipAfter = result[0]
+                    .contents[0] as DtdlRelationship;
+                expect(relationshipAfter.name).toEqual('my-relationship');
+                expect(relationshipAfter.minMultiplicity).toEqual(undefined);
+            });
+
+            test('2 min multiplicity is set to 0', () => {
+                // ARRANGE
+                const mockModel = getMockModelItem('dtmi:mockmodel;1');
+                const relationship = new DTDLRelationship('my-relationship');
+                relationship.minMultiplicity = 2;
+                addReferenceToModel(mockModel, relationship);
+
+                const models: DtdlInterface[] = [mockModel];
+
+                // ACT
+                const result = stripV3Features(models) as DtdlInterface[];
+
+                // ASSERT
+                expect(result.length).toEqual(models.length);
+                const relationshipAfter = result[0]
+                    .contents[0] as DtdlRelationship;
+                expect(relationshipAfter.name).toEqual('my-relationship');
+                expect(relationshipAfter.minMultiplicity).toEqual(0);
             });
         });
     });

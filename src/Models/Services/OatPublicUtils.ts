@@ -8,10 +8,11 @@ import {
     hasMapSchemaType,
     hasObjectSchemaType,
     isComplexSchemaType,
-    isDTDLProperty
+    isDTDLProperty,
+    isDTDLRelationshipReference
 } from './DtdlUtils';
 import { convertModelToDtdl, parseModelId, safeJsonParse } from './OatUtils';
-import { deepCopy, getDebugLogger } from './Utils';
+import { deepCopy, getDebugLogger, isDefined } from './Utils';
 
 const debugLogging = true;
 const logDebugConsole = getDebugLogger('OATPublicUtils', debugLogging);
@@ -274,6 +275,7 @@ export const stripV3Features = (models: DtdlInterface[]): DtdlInterface[] => {
         // add version if missing
         addVersionIfNotPresent(model);
         // relationships set minMultiplicity to 0
+        forceRelationshipMinMultiplicityTo0(model);
     });
 
     logDebugConsole(
@@ -350,6 +352,31 @@ const addVersionIfNotPresent = (model: DtdlInterface): DtdlInterface => {
     if (!modelId.version) {
         model['@id'] += '1'; // always use version 1 if missing
     }
+    return model;
+};
+
+/**
+ * Iterates the relationships of a model and forcibly sets the minMulitplicity to 0 if it is set to anything else since in V2 it can only be 0
+ * @param model Model to validate
+ * @returns updated model reference (also updated in-place)
+ */
+const forceRelationshipMinMultiplicityTo0 = (
+    model: DtdlInterface
+): DtdlInterface => {
+    if (model.contents?.length === 0) {
+        return model;
+    }
+    model.contents.forEach((x) => {
+        if (
+            isDTDLRelationshipReference(x) &&
+            isDefined(x.minMultiplicity) &&
+            x.minMultiplicity !== 0
+        ) {
+            // cast to any to get around the readonly property
+            x.minMultiplicity = 0;
+        }
+    });
+
     return model;
 };
 

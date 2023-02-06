@@ -87,7 +87,8 @@ export function getAvailableLanguages(i18n: i18n) {
     }
 }
 
-export function ensureIsArray(property: string | string[]): string[] {
+/** takes either a single item or an array, but will always return an array object containing that single item (or just the original array, if it already was one). Will return [] if given null */
+export function ensureIsArray<T>(property: T | T[]): T[] {
     return property ? (Array.isArray(property) ? property : [property]) : [];
 }
 
