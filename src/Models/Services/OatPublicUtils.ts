@@ -278,6 +278,7 @@ export const stripV3Features = (models: DtdlInterface[]): DtdlInterface[] => {
     );
     return models;
 };
+/** recursively removes arrays from the properties of a model */
 const removeArrays = (model: DtdlInterface): DtdlInterface => {
     logDebugConsole('debug', '[REMOVE ARRAYS] [START] {models}', model);
     const nonProperties = model.contents?.filter((x) => !isDTDLProperty(x));
@@ -309,12 +310,6 @@ const isChildAnArray = (item: { schema: DTDLSchema }): boolean => {
         return false;
     }
 };
-// const removeArrays = (models: DtdlInterface[]): DtdlInterface[] =>{
-//     logDebugConsole('debug', '[REMOVE ARRAYS] [START] {models}', models);
-
-//     logDebugConsole('debug', '[REMOVE ARRAYS] [START] {models}', models);
-//     return models;
-// }
 
 // #endregion
 
