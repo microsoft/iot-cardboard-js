@@ -712,7 +712,7 @@ abstract class ViewerConfigUtility {
         selectedLayerIds: string[],
         sceneId: string
     ) {
-        if (!config) return [];
+        if (!config || !selectedLayerIds) return [];
         const localSelectedLayerIds = deepCopy(selectedLayerIds);
         const uniqueBehaviorIds = new Set<string>();
 
