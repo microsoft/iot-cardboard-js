@@ -14,7 +14,7 @@ import {
 import { convertModelToDtdl, parseModelId, safeJsonParse } from './OatUtils';
 import { deepCopy, getDebugLogger, isDefined } from './Utils';
 
-const debugLogging = false;
+const debugLogging = true;
 const logDebugConsole = getDebugLogger('OATPublicUtils', debugLogging);
 
 // #region Import
@@ -354,9 +354,19 @@ const addVersionIfNotPresent = (model: DtdlInterface): DtdlInterface => {
 const forceRelationshipMinMultiplicityTo0 = (
     model: DtdlInterface
 ): DtdlInterface => {
-    if (model.contents?.length === 0) {
+    if (!model.contents || model.contents.length === 0) {
+        logDebugConsole(
+            'debug',
+            '[FORCE RELATIONSHIP MULTIPLICITY] [SKIP] No contents to process {model}',
+            model
+        );
         return model;
     }
+    logDebugConsole(
+        'debug',
+        '[FORCE RELATIONSHIP MULTIPLICITY] [START] {model}',
+        model
+    );
     model.contents.forEach((x) => {
         if (
             isDTDLRelationshipReference(x) &&
@@ -366,6 +376,11 @@ const forceRelationshipMinMultiplicityTo0 = (
             x.minMultiplicity = 0;
         }
     });
+    logDebugConsole(
+        'debug',
+        '[FORCE RELATIONSHIP MULTIPLICITY] [END] {model}',
+        model
+    );
 
     return model;
 };
