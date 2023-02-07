@@ -1394,7 +1394,6 @@
     "title": "Gegevensgeschiedenisverkenner",
     "loadingConnectionLabel": "Verbindingsgegevens voor gegevensgeschiedenis laden...",
     "builder": {
-      "title": "Dubbele eigenschappen",
       "description": "Als u eerdere waarden voor geïrtoriseerde eigenschappen wilt vergelijken, voegt u hieronder tijdreeksen toe.",
       "timeSeriesTwin": {
         "add": "Tijdreeksen toevoegen",
@@ -1428,6 +1427,10 @@
       "messages": {
         "loading": "Historized data laden...",
         "noSeries": "Geen tweeling geselecteerd om op te vragen, voeg dubbele eigenschappen toe om geïrtoriseerde gegevens te bekijken."
+      },
+      "commandBar": {
+        "refresh": "Gegevens vernieuwen",
+        "download": "Tabelgegevens downloaden"
       }
     }
   }

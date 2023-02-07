@@ -1394,7 +1394,6 @@
     "title": "Explorador de histórico de dados",
     "loadingConnectionLabel": "Carregando informações de conexão do histórico de dados...",
     "builder": {
-      "title": "Propriedades Twin",
       "description": "Para comparar valores passados para propriedades historizadas, adicione séries temporais abaixo.",
       "timeSeriesTwin": {
         "add": "Adicionar séries temporais",
@@ -1428,6 +1427,10 @@
       "messages": {
         "loading": "Carregando dados historizados...",
         "noSeries": "Nenhum gêmeo selecionado para consultar, adicione propriedades gêmeas para exibir dados historiados."
+      },
+      "commandBar": {
+        "refresh": "Atualizar dados",
+        "download": "Baixar dados da tabela"
       }
     }
   }

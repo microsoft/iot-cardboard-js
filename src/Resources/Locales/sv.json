@@ -1394,7 +1394,6 @@
     "title": "Utforskaren för datahistorik",
     "loadingConnectionLabel": "Laddar anslutningsinformation för datahistorik...",
     "builder": {
-      "title": "Tvillingegenskaper",
       "description": "Om du vill jämföra tidigare värden för historiserade egenskaper lägger du till tidsserier nedan.",
       "timeSeriesTwin": {
         "add": "Lägg till tidsserier",
@@ -1428,6 +1427,10 @@
       "messages": {
         "loading": "Laddar historiserade data...",
         "noSeries": "Ingen tvilling har valts för att fråga, lägg till tvillingegenskaper för att visa historiserade data."
+      },
+      "commandBar": {
+        "refresh": "Uppdatera data",
+        "download": "Ladda ned tabelldata"
       }
     }
   }

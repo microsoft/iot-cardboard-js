@@ -1394,7 +1394,6 @@
     "title": "Esplora cronologia dati",
     "loadingConnectionLabel": "Caricamento delle informazioni di connessione della cronologia dei dati...",
     "builder": {
-      "title": "Proprietà gemelle",
       "description": "Per confrontare i valori passati per le proprietà cronologizzate, aggiungere le serie temporali riportate di seguito.",
       "timeSeriesTwin": {
         "add": "Aggiungere serie temporali",
@@ -1428,6 +1427,10 @@
       "messages": {
         "loading": "Caricamento dei dati storici...",
         "noSeries": "Nessun gemello selezionato per la query, aggiungere proprietà gemelle per visualizzare i dati cronologizzati."
+      },
+      "commandBar": {
+        "refresh": "Aggiornare i dati",
+        "download": "Scarica i dati della tabella"
       }
     }
   }

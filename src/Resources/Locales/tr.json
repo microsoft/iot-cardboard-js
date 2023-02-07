@@ -1394,7 +1394,6 @@
     "title": "Veri geçmişi gezgini",
     "loadingConnectionLabel": "Veri geçmişi bağlantı bilgileri yükleniyor...",
     "builder": {
-      "title": "İkiz özellikler",
       "description": "Geçmişi geçmiş özelliklerin geçmiş değerlerini karşılaştırmak için aşağıya zaman serileri ekleyin.",
       "timeSeriesTwin": {
         "add": "Zaman serisi ekleme",
@@ -1428,6 +1427,10 @@
       "messages": {
         "loading": "Geçmiş veriler yükleniyor...",
         "noSeries": "Sorgulamak için ikiz seçilmemiş, geçmiş verileri görüntülemek için lütfen ikiz özellikleri ekleyin."
+      },
+      "commandBar": {
+        "refresh": "Verileri yenileme",
+        "download": "Tablo verilerini indirme"
       }
     }
   }

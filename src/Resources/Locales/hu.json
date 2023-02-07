@@ -1394,7 +1394,6 @@
     "title": "Adatelőzmény-kezelő",
     "loadingConnectionLabel": "Adatelőzmények kapcsolati adatainak betöltése...",
     "builder": {
-      "title": "Iker tulajdonságok",
       "description": "A historizált tulajdonságok múltbeli értékeinek összehasonlításához adja hozzá az alábbi idősorokat.",
       "timeSeriesTwin": {
         "add": "Idősorok hozzáadása",
@@ -1428,6 +1427,10 @@
       "messages": {
         "loading": "Előzményadatok betöltése...",
         "noSeries": "Nincs kiválasztva iker a lekérdezéshez, kérjük, adjon hozzá ikertulajdonságokat a historizált adatok megtekintéséhez."
+      },
+      "commandBar": {
+        "refresh": "Adatok frissítése",
+        "download": "Táblaadatok letöltése"
       }
     }
   }
