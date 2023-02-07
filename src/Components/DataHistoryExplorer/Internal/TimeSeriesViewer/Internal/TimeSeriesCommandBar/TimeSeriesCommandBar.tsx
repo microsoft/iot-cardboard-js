@@ -118,6 +118,7 @@ const TimeSeriesCommandBar: React.FC<ITimeSeriesCommandBarProps> = (props) => {
     const items: ICommandBarItemProps[] =
         viewerModeProps.viewerMode === TimeSeriesViewerMode.Chart
             ? [
+                  quickTimeItem,
                   {
                       key: 'YAxisType',
                       text: capitalizeFirstLetter(chartOptions.yAxisType),
@@ -148,14 +149,20 @@ const TimeSeriesCommandBar: React.FC<ITimeSeriesCommandBarProps> = (props) => {
                                   )
                           }))
                       }
-                  },
-                  quickTimeItem
+                  }
               ]
             : [quickTimeItem];
 
     const farItems: ICommandBarItemProps[] =
         viewerModeProps.viewerMode === TimeSeriesViewerMode.Chart
             ? [
+                  {
+                      key: 'refresh',
+                      text: t('dataHistoryExplorer.viewer.commandBar.refresh'),
+                      iconOnly: true,
+                      iconProps: { iconName: 'Refresh' },
+                      onClick: viewerModeProps.onRefreshClick
+                  },
                   {
                       key: 'share',
                       text: t('widgets.dataHistory.openQuery'),
@@ -174,8 +181,16 @@ const TimeSeriesCommandBar: React.FC<ITimeSeriesCommandBarProps> = (props) => {
               ]
             : [
                   {
+                      key: 'refresh',
+                      text: t('dataHistoryExplorer.viewer.commandBar.refresh'),
+                      iconOnly: true,
+                      iconProps: { iconName: 'Refresh' },
+                      onClick: viewerModeProps.onRefreshClick
+                  },
+                  {
                       key: 'download',
-                      text: t('download'),
+                      text: t('dataHistoryExplorer.viewer.commandBar.download'),
+                      iconOnly: true,
                       iconProps: { iconName: 'Download' },
                       onClick: viewerModeProps.onDownloadClick
                   }

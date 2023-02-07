@@ -40,6 +40,7 @@ const Template: TimeSeriesCommandBarStory = (args) => {
 export const ChartCommandBar = Template.bind({}) as TimeSeriesCommandBarStory;
 ChartCommandBar.args = {
     viewerModeProps: {
+        onRefreshClick: () => console.log('Refresh clicked!'),
         viewerMode: TimeSeriesViewerMode.Chart,
         deeplink:
             "https://mockkustoclustername.westus2.kusto.windows.net/mockKustoDatabaseName?web=1&query=mockKustoTableName | where TimeStamp > ago(900000ms) | where Id == 'PasteurizationMachine_A01' and Key == 'Temperature'"
@@ -49,6 +50,7 @@ ChartCommandBar.args = {
 export const TableCommandBar = Template.bind({}) as TimeSeriesCommandBarStory;
 TableCommandBar.args = {
     viewerModeProps: {
+        onRefreshClick: () => console.log('Refresh clicked!'),
         viewerMode: TimeSeriesViewerMode.Table,
         onDownloadClick: () => console.log('Downloading table data...')
     }

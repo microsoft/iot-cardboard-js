@@ -1377,7 +1377,6 @@
         "title": "Data history explorer",
         "loadingConnectionLabel": "Loading data history connection information...",
         "builder": {
-            "title": "Twin properties",
             "description": "To compare past values for historized properties, add time series below.",
             "timeSeriesTwin": {
                 "add": "Add time series",
@@ -1389,6 +1388,10 @@
             }
         },
         "viewer": {
+            "commandBar": {
+                "refresh": "Refresh data",
+                "download": "Download table data"
+            },
             "chart": {
                 "title": "Chart",
                 "messages": {

@@ -7,15 +7,20 @@ import {
 import { IDataHistoryChartOptions } from '../../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { TimeSeriesViewerMode } from '../../TimeSeriesViewer.types';
 
-export type IChartCommandBarProps = {
+type IChartCommandBarProps = {
     viewerMode: TimeSeriesViewerMode.Chart;
     deeplink: string;
 };
 
-export type ITableCommandBarProps = {
+type ITableCommandBarProps = {
     viewerMode: TimeSeriesViewerMode.Table;
     onDownloadClick: () => void;
 };
+
+export type IViewerModeProps = { onRefreshClick: () => void } & (
+    | IChartCommandBarProps
+    | ITableCommandBarProps
+);
 
 export type ITimeSeriesCommandBarOptions = Omit<
     IDataHistoryChartOptions,
@@ -27,7 +32,7 @@ export type ITimeSeriesCommandBarOptionKeys = keyof ITimeSeriesCommandBarOptions
 export interface ITimeSeriesCommandBarProps {
     defaultChartOptions?: ITimeSeriesCommandBarOptions;
     onChartOptionsChange: (options: ITimeSeriesCommandBarOptions) => void;
-    viewerModeProps: IChartCommandBarProps | ITableCommandBarProps;
+    viewerModeProps: IViewerModeProps;
     /**
      * Call to provide customized styling that will layer on top of the variant rules.
      */

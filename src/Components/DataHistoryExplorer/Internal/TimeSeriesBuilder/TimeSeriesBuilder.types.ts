@@ -30,7 +30,6 @@ export interface ITimeSeriesBuilderStyleProps {
 }
 export interface ITimeSeriesBuilderStyles {
     root: IStyle;
-    header?: IStyle;
     description?: IStyle;
     twinPropertyList?: IStyle;
     /**

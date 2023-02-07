@@ -60,9 +60,8 @@ import {
     TimeSeriesViewerMode
 } from './Internal/TimeSeriesViewer/TimeSeriesViewer.types';
 import {
-    IChartCommandBarProps,
-    ITableCommandBarProps,
-    ITimeSeriesCommandBarOptions
+    ITimeSeriesCommandBarOptions,
+    IViewerModeProps
 } from './Internal/TimeSeriesViewer/Internal/TimeSeriesCommandBar/TimeSeriesCommandBar.types';
 import { TimeSeriesTableRow } from './Internal/TimeSeriesViewer/Internal/TimeSeriesTable/TimeSeriesTable.types';
 import { usePrevious } from '@fluentui/react-hooks';
@@ -207,7 +206,7 @@ const DataHistoryExplorer: React.FC<IDataHistoryExplorerProps> = (props) => {
                 value: nowInMillis
             }
         });
-    }, [state.explorerChartOptions.defaultQuickTimeSpanInMillis]);
+    }, [dispatch, state.explorerChartOptions.defaultQuickTimeSpanInMillis]);
 
     const handleTimeSeriesTwinCalloutPrimaryAction = useCallback(
         (timeSeriesTwin: IDataHistoryTimeSeriesTwin) => {
@@ -266,7 +265,15 @@ const DataHistoryExplorer: React.FC<IDataHistoryExplorerProps> = (props) => {
                 ]);
             }
         },
-        [state.timeSeriesTwins, state.selectedTimeSeriesTwinSeriesId]
+        [
+            isDefined,
+            dispatch,
+            sendDataHistoryExplorerUserTelemetry,
+            getDefaultSeriesLabel,
+            getHighChartColor,
+            state.timeSeriesTwins,
+            state.selectedTimeSeriesTwinSeriesId
+        ]
     );
 
     const handleOnAddSeriesClick = useCallback(
@@ -326,7 +333,7 @@ const DataHistoryExplorer: React.FC<IDataHistoryExplorerProps> = (props) => {
                 1
             );
         },
-        [state.timeSeriesTwins, dispatch]
+        [state.timeSeriesTwins, dispatch, sendDataHistoryExplorerUserTelemetry]
     );
 
     const handleOnViewModeChange = useCallback(
@@ -397,23 +404,47 @@ const DataHistoryExplorer: React.FC<IDataHistoryExplorerProps> = (props) => {
                 [telemetry.properties.numberOfRows]: data.length
             }
         ]);
-    }, [tableData]);
+    }, [tableData, downloadText, sendDataHistoryExplorerUserTelemetry]);
 
-    const viewerModeProps:
-        | IChartCommandBarProps
-        | ITableCommandBarProps = useMemo(
+    const handleOnRefreshClick = useCallback(() => {
+        dispatch({
+            type: DataHistoryExplorerActionType.SET_DATA_FETCH_FLAG,
+            payload: { dataFetchFlag: true }
+        });
+        const telemetry =
+            TelemetryEvents.Tools.DataHistoryExplorer.UserAction.ForceRefresh;
+        sendDataHistoryExplorerUserTelemetry(telemetry.eventName);
+    }, [dispatch, sendDataHistoryExplorerUserTelemetry]);
+
+    const viewerModeProps: IViewerModeProps = useMemo(
         () =>
             state.selectedViewerMode === TimeSeriesViewerMode.Chart
-                ? ({
+                ? {
                       viewerMode: TimeSeriesViewerMode.Chart,
-                      deeplink: deeplink
-                  } as IChartCommandBarProps)
-                : ({
+                      deeplink: deeplink,
+                      onRefreshClick: handleOnRefreshClick
+                  }
+                : {
                       viewerMode: TimeSeriesViewerMode.Table,
-                      onDownloadClick: handleOnDownloadTableClick
-                  } as ITableCommandBarProps),
-        [state.selectedViewerMode, handleOnDownloadTableClick]
+                      onDownloadClick: handleOnDownloadTableClick,
+                      onRefreshClick: handleOnRefreshClick
+                  },
+        [
+            state.selectedViewerMode,
+            deeplink,
+            handleOnDownloadTableClick,
+            handleOnDownloadTableClick
+        ]
     );
+
+    const refetchData = useCallback(() => {
+        logDebugConsole(
+            'debug',
+            `Query to send for ${state.selectedViewerMode}: ${query}`
+        );
+        fetchTimeSeriesData();
+        updateXMinAndMax();
+    }, [fetchTimeSeriesData, updateXMinAndMax, logDebugConsole]);
 
     // styles
     const classNames = getClassNames(styles, {
@@ -462,14 +493,23 @@ const DataHistoryExplorer: React.FC<IDataHistoryExplorerProps> = (props) => {
     const prevQuery = usePrevious(query);
     useEffect(() => {
         if (query && query !== prevQuery) {
-            logDebugConsole(
-                'debug',
-                `Query to send for ${state.selectedViewerMode}: ${query}`
-            );
-            fetchTimeSeriesData();
-            updateXMinAndMax();
+            dispatch({
+                type: DataHistoryExplorerActionType.SET_DATA_FETCH_FLAG,
+                payload: { dataFetchFlag: true }
+            });
         }
     }, [query]);
+
+    const prevDataFetch = usePrevious(state.dataFetchFlag);
+    useEffect(() => {
+        if (state.dataFetchFlag && state.dataFetchFlag !== prevDataFetch) {
+            refetchData();
+            dispatch({
+                type: DataHistoryExplorerActionType.SET_DATA_FETCH_FLAG,
+                payload: { dataFetchFlag: false }
+            });
+        }
+    }, [state.dataFetchFlag]);
 
     useEffect(() => {
         logDebugConsole(

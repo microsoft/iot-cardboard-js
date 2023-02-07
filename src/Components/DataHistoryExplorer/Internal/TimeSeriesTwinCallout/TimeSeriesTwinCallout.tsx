@@ -159,7 +159,7 @@ const TimeSeriesTwinCallout: React.FC<ITimeSeriesTwinCalloutProps> = (
                 target={`#${target}`}
                 styles={classNames.subComponentStyles.callout}
                 onDismiss={onDismiss}
-                directionalHint={DirectionalHint.rightCenter}
+                directionalHint={DirectionalHint.rightTopEdge}
             >
                 <Stack tokens={{ childrenGap: 12 }}>
                     <Stack tokens={{ childrenGap: 8 }}>

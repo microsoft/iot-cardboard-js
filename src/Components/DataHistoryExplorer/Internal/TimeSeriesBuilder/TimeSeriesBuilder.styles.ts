@@ -1,4 +1,4 @@
-import { FontSizes, FontWeights } from '@fluentui/react';
+import { FontSizes } from '@fluentui/react';
 import {
     ITimeSeriesBuilderStyleProps,
     ITimeSeriesBuilderStyles
@@ -7,7 +7,6 @@ import {
 export const classPrefix = 'cb-time-series-builder';
 const classNames = {
     root: `${classPrefix}-root`,
-    header: `${classPrefix}-header`,
     description: `${classPrefix}-description`,
     twinPropertyList: `${classPrefix}-twin-property-list`
 };
@@ -24,20 +23,13 @@ export const getStyles = (
                 height: '100%'
             }
         ],
-        header: [
-            classNames.header,
-            {
-                fontWeight: FontWeights.semibold,
-                fontSize: FontSizes.size16,
-                marginTop: '0 !important'
-            }
-        ],
         description: [
             classNames.description,
             {
                 color: props.theme.palette.neutralSecondary,
                 fontSize: FontSizes.medium,
-                marginTop: '0 !important'
+                marginTop: '0 !important',
+                paddingRight: 0
             }
         ],
         twinPropertyList: [classNames.twinPropertyList, { flexGrow: 1 }],

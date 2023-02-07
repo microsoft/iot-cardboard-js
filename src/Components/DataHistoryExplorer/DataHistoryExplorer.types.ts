@@ -73,6 +73,7 @@ export interface IDataHistoryExplorerState {
     missingDataSeriesIds: Array<string>;
     isTimeSeriesTwinCalloutVisible: boolean;
     explorerChartOptions?: IDataHistoryExplorerChartOptions;
+    dataFetchFlag: boolean;
 }
 
 export enum DataHistoryExplorerActionType {
@@ -85,7 +86,8 @@ export enum DataHistoryExplorerActionType {
     SET_COMMAND_BAR_CHART_OPTIONS,
     SET_EXPLORER_CHART_OPTION,
     SET_ADX_CONNECTION_INFORMATION,
-    SET_VIEWER_MODE
+    SET_VIEWER_MODE,
+    SET_DATA_FETCH_FLAG
 }
 
 export type IDataHistoryExplorerAction =
@@ -144,6 +146,12 @@ export type IDataHistoryExplorerAction =
           type: DataHistoryExplorerActionType.SET_VIEWER_MODE;
           payload: {
               viewerMode: TimeSeriesViewerMode;
+          };
+      }
+    | {
+          type: DataHistoryExplorerActionType.SET_DATA_FETCH_FLAG;
+          payload: {
+              dataFetchFlag: boolean;
           };
       };
 

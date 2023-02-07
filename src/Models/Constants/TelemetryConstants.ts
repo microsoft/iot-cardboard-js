@@ -250,6 +250,10 @@ export const TelemetryEvents = {
                     properties: {
                         numberOfRows: 'numberOfRows'
                     }
+                },
+                /** triggering to force refresh data fetching */
+                ForceRefresh: {
+                    eventName: 'DataHistoryExplorer.ForceRefresh'
                 }
             }
         }

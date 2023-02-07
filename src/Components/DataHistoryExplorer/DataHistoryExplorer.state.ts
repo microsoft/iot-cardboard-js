@@ -21,7 +21,8 @@ export const defaultDataHistoryExplorerState: IDataHistoryExplorerState = {
         aggregationType: 'avg',
         xMinDateInMillis: null,
         xMaxDateInMillis: null
-    }
+    },
+    dataFetchFlag: false
 };
 
 export const DataHistoryExplorerReducer = produce(
@@ -80,6 +81,11 @@ export const DataHistoryExplorerReducer = produce(
             case DataHistoryExplorerActionType.SET_VIEWER_MODE: {
                 const { viewerMode } = action.payload;
                 draft.selectedViewerMode = viewerMode;
+                break;
+            }
+            case DataHistoryExplorerActionType.SET_DATA_FETCH_FLAG: {
+                const { dataFetchFlag } = action.payload;
+                draft.dataFetchFlag = dataFetchFlag;
                 break;
             }
         }

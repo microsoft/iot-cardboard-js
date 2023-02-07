@@ -30,7 +30,6 @@ const getClassNames = classNamesFunction<
 
 const ROOT_LOC = 'dataHistoryExplorer.builder';
 const LOC_KEYS = {
-    title: `${ROOT_LOC}.title`,
     description: `${ROOT_LOC}.description`,
     addTwin: `${ROOT_LOC}.timeSeriesTwin.add`,
     editTwin: `${ROOT_LOC}.timeSeriesTwin.edit`,
@@ -79,7 +78,6 @@ const TimeSeriesBuilder: React.FC<ITimeSeriesBuilderProps> = (props) => {
     return (
         <div className={classNames.root}>
             <Stack tokens={{ childrenGap: 8 }}>
-                <h4 className={classNames.header}>{t(LOC_KEYS.title)}</h4>
                 <span className={classNames.description}>
                     {t(LOC_KEYS.description)}
                 </span>
