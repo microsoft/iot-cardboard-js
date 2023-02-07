@@ -54,6 +54,7 @@ const Template: TimeSeriesViewerStory = (args) => {
 export const Chart = Template.bind({}) as TimeSeriesViewerStory;
 Chart.args = {
     viewerModeProps: {
+        onRefreshClick: () => console.log('Refresh clicked!'),
         viewerMode: TimeSeriesViewerMode.Chart,
         deeplink:
             "https://mockkustoclustername.westus2.kusto.windows.net/mockKustoDatabaseName?web=1&query=mockKustoTableName | where TimeStamp > ago(900000ms) | where Id == 'PasteurizationMachine_A01' and Key == 'Temperature'"
@@ -63,6 +64,7 @@ Chart.args = {
 export const Table = Template.bind({}) as TimeSeriesViewerStory;
 Table.args = {
     viewerModeProps: {
+        onRefreshClick: () => console.log('Refresh clicked!'),
         viewerMode: TimeSeriesViewerMode.Table,
         onDownloadClick: () => console.log('Download clicked!')
     }
@@ -71,6 +73,7 @@ Table.args = {
 export const Empty = Template.bind({}) as TimeSeriesViewerStory;
 Empty.args = {
     viewerModeProps: {
+        onRefreshClick: () => console.log('Refresh clicked!'),
         viewerMode: TimeSeriesViewerMode.Table,
         onDownloadClick: () => console.log('Download clicked!')
     },

@@ -210,10 +210,9 @@ const DataHistoryExplorer: React.FC<IDataHistoryExplorerProps> = (props) => {
 
     const handleTimeSeriesTwinCalloutPrimaryAction = useCallback(
         (timeSeriesTwin: IDataHistoryTimeSeriesTwin) => {
-            if (isDefined(state.selectedTimeSeriesTwinSeriesId)) {
+            if (isDefined(state.selectedTimeSeriesId)) {
                 const selectedIdx = state.timeSeriesTwins.findIndex(
-                    (tsTwin) =>
-                        tsTwin.seriesId === state.selectedTimeSeriesTwinSeriesId
+                    (tsTwin) => tsTwin.seriesId === state.selectedTimeSeriesId
                 );
                 dispatch({
                     type: DataHistoryExplorerActionType.EDIT_TIME_SERIES_TWINS,
@@ -272,7 +271,7 @@ const DataHistoryExplorer: React.FC<IDataHistoryExplorerProps> = (props) => {
             getDefaultSeriesLabel,
             getHighChartColor,
             state.timeSeriesTwins,
-            state.selectedTimeSeriesTwinSeriesId
+            state.selectedTimeSeriesId
         ]
     );
 
@@ -582,11 +581,11 @@ const DataHistoryExplorer: React.FC<IDataHistoryExplorerProps> = (props) => {
                         <TimeSeriesTwinCallout
                             adapter={adapter}
                             timeSeriesTwin={
-                                state.selectedTimeSeriesTwinSeriesId !== null
+                                state.selectedTimeSeriesId !== null
                                     ? state.timeSeriesTwins.find(
                                           (t) =>
                                               t.seriesId ===
-                                              state.selectedTimeSeriesTwinSeriesId
+                                              state.selectedTimeSeriesId
                                       )
                                     : undefined
                             }

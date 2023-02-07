@@ -68,7 +68,7 @@ export interface IDataHistoryExplorerChartOptions
 export interface IDataHistoryExplorerState {
     adxConnectionInformation: IADXConnection;
     timeSeriesTwins: Array<IDataHistoryTimeSeriesTwin>;
-    selectedTimeSeriesTwinSeriesId: string;
+    selectedTimeSeriesId: string;
     selectedViewerMode: TimeSeriesViewerMode;
     missingDataSeriesIds: Array<string>;
     isTimeSeriesTwinCalloutVisible: boolean;

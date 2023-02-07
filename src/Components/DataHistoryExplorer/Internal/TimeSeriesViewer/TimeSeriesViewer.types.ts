@@ -11,10 +11,9 @@ import { IllustrationMessageStyles } from '../../../IllustrationMessage/Illustra
 import { IDataHistoryExplorerChartOptions } from '../../DataHistoryExplorer.types';
 import { ITimeSeriesChartStyles } from './Internal/TimeSeriesChart/TimeSeriesChart.types';
 import {
-    IChartCommandBarProps,
-    ITableCommandBarProps,
     ITimeSeriesCommandBarOptions,
-    ITimeSeriesCommandBarStyles
+    ITimeSeriesCommandBarStyles,
+    IViewerModeProps
 } from './Internal/TimeSeriesCommandBar/TimeSeriesCommandBar.types';
 import {
     ITimeSeriesTableStyles,
@@ -29,7 +28,7 @@ export interface ITimeSeriesViewerProps {
     timeSeriesTwins: Array<IDataHistoryTimeSeriesTwin>;
     data: TimerSeriesViewerData;
     isLoading: boolean;
-    viewerModeProps: IChartCommandBarProps | ITableCommandBarProps;
+    viewerModeProps: IViewerModeProps;
     onViewerModeChange: (viewerMode: TimeSeriesViewerMode) => void;
     explorerChartOptions: IDataHistoryExplorerChartOptions;
     onChartOptionsChange: (options: ITimeSeriesCommandBarOptions) => void;

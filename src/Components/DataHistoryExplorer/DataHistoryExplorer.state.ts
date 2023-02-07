@@ -10,7 +10,7 @@ import { TimeSeriesViewerMode } from './Internal/TimeSeriesViewer/TimeSeriesView
 export const defaultDataHistoryExplorerState: IDataHistoryExplorerState = {
     adxConnectionInformation: null,
     timeSeriesTwins: [],
-    selectedTimeSeriesTwinSeriesId: null,
+    selectedTimeSeriesId: null,
     selectedViewerMode: TimeSeriesViewerMode.Chart,
     missingDataSeriesIds: [],
     isTimeSeriesTwinCalloutVisible: false,
@@ -37,7 +37,7 @@ export const DataHistoryExplorerReducer = produce(
             case DataHistoryExplorerActionType.EDIT_TIME_SERIES_TWINS: {
                 const { seriesIdx, series } = action.payload;
                 draft.timeSeriesTwins[seriesIdx] = series;
-                draft.selectedTimeSeriesTwinSeriesId = null;
+                draft.selectedTimeSeriesId = null;
                 draft.isTimeSeriesTwinCalloutVisible = false;
                 break;
             }
@@ -49,7 +49,7 @@ export const DataHistoryExplorerReducer = produce(
             case DataHistoryExplorerActionType.SET_IS_TIME_SERIES_TWIN_CALLOUT_VISIBLE: {
                 const { isVisible, selectedSeriesId } = action.payload;
                 draft.isTimeSeriesTwinCalloutVisible = isVisible;
-                draft.selectedTimeSeriesTwinSeriesId = selectedSeriesId;
+                draft.selectedTimeSeriesId = selectedSeriesId;
                 break;
             }
             case DataHistoryExplorerActionType.SET_MISSING_SERIES: {
