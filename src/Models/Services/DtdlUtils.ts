@@ -31,24 +31,18 @@ import {
     DtdlEnumValueSchema,
     OatReferenceType
 } from '../Constants';
+import { ensureIsArray } from './OatUtils';
 import { deepCopy, isDefined, isValueInEnum } from './Utils';
 
 export const getDtdlVersion = (model: DtdlInterface): '2' | '3' => {
     if (!model) {
         return '2';
     }
-    if (Array.isArray(model['@context'])) {
-        if (model['@context'].includes(DTDL_CONTEXT_VERSION_3)) {
-            return '3';
-        } else {
-            return '2';
-        }
+    const context = ensureIsArray(model['@context']);
+    if (context.includes(DTDL_CONTEXT_VERSION_3)) {
+        return '3';
     } else {
-        if (model['@context'] === DTDL_CONTEXT_VERSION_3) {
-            return '3';
-        } else {
-            return '2';
-        }
+        return '2';
     }
 };
 

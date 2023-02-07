@@ -9,10 +9,7 @@ import {
     IOatProjectData,
     ProjectData
 } from '../../../Pages/OATEditorPage/Internal/Classes/ProjectData';
-import {
-    OAT_MODEL_ID_PREFIX,
-    OAT_DEFAULT_PATH_VALUE
-} from '../../Constants/Constants';
+import { OAT_DEFAULT_PATH_VALUE } from '../../Constants/Constants';
 import {
     getOntologiesFromStorage,
     getLastUsedProjectId,
@@ -73,26 +70,11 @@ export const OatPageContextReducer: (
                 break;
             }
             case OatPageContextActionType.EDIT_PROJECT: {
-                const previousNamespace = draft.currentOntologyDefaultPath;
                 draft.currentOntologyDefaultPath = action.payload.namespace.replace(
                     / /g,
                     ''
                 );
                 draft.currentOntologyProjectName = action.payload.name;
-                // look through the project data and update any references to the namespace when it changes
-                logDebugConsole(
-                    'debug',
-                    'Updating project namespace to: ' +
-                        draft.currentOntologyDefaultPath
-                );
-                if (previousNamespace !== draft.currentOntologyDefaultPath) {
-                    draft.currentOntologyModels.forEach((x) => {
-                        x['@id'] = x['@id'].replace(
-                            `${OAT_MODEL_ID_PREFIX}:${previousNamespace}:`,
-                            `${OAT_MODEL_ID_PREFIX}:${draft.currentOntologyProjectName}:`
-                        );
-                    });
-                }
                 saveData(draft);
                 break;
             }
