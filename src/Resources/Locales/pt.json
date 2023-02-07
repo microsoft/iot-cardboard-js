@@ -914,7 +914,6 @@
     "sync": "sincronizar",
     "import": "Importação",
     "export": "Exportação",
-    "file": "Arquivo",
     "new": "Novo",
     "open": "Abrir",
     "saveAs": "Salvar como",
@@ -931,10 +930,6 @@
     "namespace": "Namespace",
     "enterANamespace": "Digite um namespace",
     "settings": "Configurações",
-    "errorInvalidJSON": "JSON inválido",
-    "errorFileFormatNotSupported": "{{file}} formato não suportado",
-    "errorFormatNoSupported": "Formato de arquivo não suportado",
-    "errorIssueWithFile": "Problema com {{fileName}}: {{error}}",
     "errorNamespace": "O namespace só pode conter letras, dígitos e sublinhados.",
     "undo": "Desfazer",
     "redo": "Refazer",
@@ -943,8 +938,6 @@
     "fileUpload": "Upload de arquivo",
     "selectFile": "Selecione arquivo",
     "errorSingleFileHoldsRelationships": "Problema com {{fileName}}: O modelo mantém relacionamentos que não estão sendo importados",
-    "errorImportedModelAlreadyExists": "Problema com {{modelId}}: Modelo com o mesmo @id já existe",
-    "errorFileInvalidJSON": "Problema com {{fileName}}: JSON inválido",
     "deleteProjectMessage": "Tem certeza de que deseja excluir {{projectName}}?",
     "errorSameName": "Projeto com mesmo nome já existe. Gostaria de substituir?",
     "fileOpenModal": {
@@ -1378,7 +1371,18 @@
       "noModelsButtonText": "Adicionar um modelo"
     },
     "Common": {
-      "untargeted": "Não direcionado"
+      "untargeted": "Não direcionado",
+      "unhandledExceptionTitle": "Erro inesperado",
+      "unhandledExceptionMessage": "Algo inesperado aconteceu. Tente novamente."
+    },
+    "ImportErrors": {
+      "fileFormatNotSupportedMessage": "Somente arquivos JSON são suportados. Não é possível importar os seguintes arquivos: \n{{fileNames}}.",
+      "fileFormatNotSupportedTitle": "Formato de arquivo não suportado",
+      "fileInvalidJSON": "Não é possível importar '{{fileName}}', ele contém JSON inválido.",
+      "exceptionTitle": "Erro inesperado",
+      "exceptionMessage": "Algo inesperado aconteceu. Tente novamente.",
+      "importFailedTitle": "Falha na importação",
+      "importFailedMessage": "Ocorreu um erro durante a importação. Resolva-os e tente novamente.\n {{erro}}"
     }
   },
   "dataHistoryErrorHandlingWrapper": {

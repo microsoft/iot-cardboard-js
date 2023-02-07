@@ -914,7 +914,6 @@
     "sync": "synchronizovat",
     "import": "Dovoz",
     "export": "Vývoz",
-    "file": "Soubor",
     "new": "Nový",
     "open": "Otevřený",
     "saveAs": "Uložit jako",
@@ -934,17 +933,11 @@
     "enterANamespace": "Zadání oboru názvů",
     "errorNamespace": "Název může obsahovat pouze znaky a-z, A-Z, 0-9 a podtržítko. První znak nemusí být číslice a poslední znak nemusí být podtržítko.",
     "settings": "Nastavení",
-    "errorInvalidJSON": "Neplatný JSON",
-    "errorFileFormatNotSupported": "Problém s {{fileName}}: Formát není podporován",
     "errorSingleFileHoldsRelationships": "Problém s {{fileName}}: Model obsahuje relace, které nejsou importovány",
-    "errorFormatNoSupported": "Formát souboru není podporován",
-    "errorIssueWithFile": "Problém s {{fileName}}: {{error}}",
     "undo": "Odčinit",
     "redo": "Předělat",
     "folderUpload": "Nahrání složky",
     "fileUpload": "Nahrání souboru",
-    "errorImportedModelAlreadyExists": "Problém s {{modelId}}: Model se stejným @id již existuje",
-    "errorFileInvalidJSON": "Problém s {{fileName}}: Neplatný JSON",
     "deleteProjectMessage": "Opravdu chcete odstranit {{projectName}}?",
     "errorSameName": "Projekt se stejným názvem již existuje. Chcete ji přepsat?",
     "fileOpenModal": {
@@ -1378,7 +1371,18 @@
       "noModelsButtonText": "Přidání modelu"
     },
     "Common": {
-      "untargeted": "Necílené"
+      "untargeted": "Necílené",
+      "unhandledExceptionTitle": "Neočekávaná chyba",
+      "unhandledExceptionMessage": "Stalo se něco nečekaného. Zkuste to prosím znovu."
+    },
+    "ImportErrors": {
+      "fileFormatNotSupportedMessage": "Podporují se jenom soubory JSON. Nelze importovat následující soubory: \n{{fileNames}}.",
+      "fileFormatNotSupportedTitle": "Formát souboru není podporován",
+      "fileInvalidJSON": "Nelze importovat '{{fileName}}', obsahuje neplatný JSON.",
+      "exceptionTitle": "Neočekávaná chyba",
+      "exceptionMessage": "Stalo se něco nečekaného. Zkuste to prosím znovu.",
+      "importFailedTitle": "Import se nezdařil",
+      "importFailedMessage": "Během importu došlo k chybě. Vyřešte je a zkuste to znovu.\n {{chyba}}"
     }
   },
   "dataHistoryErrorHandlingWrapper": {

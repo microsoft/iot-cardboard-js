@@ -914,7 +914,6 @@
     "sync": "synchronisieren",
     "import": "Importieren",
     "export": "Exportieren",
-    "file": "Datei",
     "new": "Neu",
     "open": "Offen",
     "saveAs": "Speichern unter",
@@ -931,10 +930,6 @@
     "namespace": "Namespace",
     "enterANamespace": "Eingeben eines Namespaces",
     "settings": "Einstellungen",
-    "errorInvalidJSON": "Ungültiges JSON",
-    "errorFileFormatNotSupported": "{{file}}-Format wird nicht unterstützt",
-    "errorFormatNoSupported": "Dateiformat nicht unterstützt",
-    "errorIssueWithFile": "Problem mit {{fileName}}: {{error}}",
     "errorNamespace": "Der Namespace darf nur Buchstaben, Ziffern und Unterstriche enthalten.",
     "undo": "Aufmachen",
     "redo": "Noch einmal machen",
@@ -943,8 +938,6 @@
     "fileUpload": "Datei-Upload",
     "selectFile": "Datei auswählen",
     "errorSingleFileHoldsRelationships": "Problem mit {{fileName}}: Das Modell enthält Beziehungen, die nicht importiert werden",
-    "errorImportedModelAlreadyExists": "Problem mit {{modelId}}: Modell mit der gleichen @id bereits vorhanden",
-    "errorFileInvalidJSON": "Problem mit {{fileName}}: Ungültiges JSON",
     "deleteProjectMessage": "Möchten Sie {{projectName}} wirklich löschen?",
     "errorSameName": "Das gleichnamige Projekt existiert bereits. Möchten Sie es überschreiben?",
     "fileOpenModal": {
@@ -1378,7 +1371,18 @@
       "noModelsButtonText": "Hinzufügen eines Modells"
     },
     "Common": {
-      "untargeted": "Nicht zielgerichtet"
+      "untargeted": "Nicht zielgerichtet",
+      "unhandledExceptionTitle": "Unerwarteter Fehler",
+      "unhandledExceptionMessage": "Etwas Unerwartetes geschah. Bitte versuchen Sie es erneut."
+    },
+    "ImportErrors": {
+      "fileFormatNotSupportedMessage": "Es werden nur JSON-Dateien unterstützt. Die folgenden Dateien können nicht importiert werden: \n{{fileNames}}.",
+      "fileFormatNotSupportedTitle": "Dateiformat wird nicht unterstützt",
+      "fileInvalidJSON": "'{{fileName}}' kann nicht importiert werden, es enthält ungültiges JSON.",
+      "exceptionTitle": "Unerwarteter Fehler",
+      "exceptionMessage": "Etwas Unerwartetes geschah. Bitte versuchen Sie es erneut.",
+      "importFailedTitle": "Import fehlgeschlagen",
+      "importFailedMessage": "Beim Import ist ein Fehler aufgetreten. Lösen Sie sie und versuchen Sie es erneut.\n {{Fehler}}"
     }
   },
   "dataHistoryErrorHandlingWrapper": {

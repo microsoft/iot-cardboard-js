@@ -914,7 +914,6 @@
     "sync": "Sync",
     "import": "Importeren",
     "export": "Exporteren",
-    "file": "Bestand",
     "new": "Nieuw",
     "open": "Openen",
     "saveAs": "Opslaan als",
@@ -931,10 +930,6 @@
     "namespace": "Namespace",
     "enterANamespace": "Een naamruimte invoeren",
     "settings": "Instellingen",
-    "errorInvalidJSON": "Ongeldige JSON",
-    "errorFileFormatNotSupported": "{{file}} indeling niet ondersteund",
-    "errorFormatNoSupported": "Bestandsindeling niet ondersteund",
-    "errorIssueWithFile": "Probleem met {{bestandsnaam}}: {{error}}",
     "errorNamespace": "Naamruimte mag alleen letters, cijfers en onderstrepingstekens bevatten.",
     "undo": "Ongedaan maken",
     "redo": "Opnieuw",
@@ -943,8 +938,6 @@
     "fileUpload": "Bestand uploaden",
     "selectFile": "Selecteer bestand",
     "errorSingleFileHoldsRelationships": "Probleem met {{bestandsnaam}}: model bevat relaties die niet worden geïmporteerd",
-    "errorImportedModelAlreadyExists": "Probleem met {{modelId}}: model met dezelfde @id bestaat al",
-    "errorFileInvalidJSON": "Probleem met {{bestandsnaam}}: ongeldige JSON",
     "deleteProjectMessage": "Weet u zeker dat u {{projectName}} wilt verwijderen?",
     "errorSameName": "Project met dezelfde naam bestaat al. Wil je het overschrijven?",
     "fileOpenModal": {
@@ -1378,7 +1371,18 @@
       "noModelsButtonText": "Een model toevoegen"
     },
     "Common": {
-      "untargeted": "Ongericht"
+      "untargeted": "Ongericht",
+      "unhandledExceptionTitle": "Onverwachte fout",
+      "unhandledExceptionMessage": "Er gebeurde iets onverwachts. Probeer het opnieuw."
+    },
+    "ImportErrors": {
+      "fileFormatNotSupportedMessage": "Alleen JSON-bestanden worden ondersteund. Kan de volgende bestanden niet importeren: \n{{bestandsnaam}}.",
+      "fileFormatNotSupportedTitle": "Bestandsindeling wordt niet ondersteund",
+      "fileInvalidJSON": "Het kan '{{bestandsnaam}}' niet importeren en bevat ongeldige JSON.",
+      "exceptionTitle": "Onverwachte fout",
+      "exceptionMessage": "Er gebeurde iets onverwachts. Probeer het opnieuw.",
+      "importFailedTitle": "Importeren mislukt",
+      "importFailedMessage": "Er is een fout opgetreden tijdens het importeren. Los ze op en probeer het opnieuw.\n {{fout}}"
     }
   },
   "dataHistoryErrorHandlingWrapper": {

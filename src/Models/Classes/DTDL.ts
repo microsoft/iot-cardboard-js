@@ -16,7 +16,9 @@ import {
     IADTProperty
 } from '../Constants';
 
-export const CURRENT_CONTEXT_VERSION = 'dtmi:dtdl:context;2';
+const DTDL_CONTEXT_VERSION_PREFIX = 'dtmi:dtdl:context;';
+export const DTDL_CONTEXT_VERSION_2 = `${DTDL_CONTEXT_VERSION_PREFIX}2`;
+export const DTDL_CONTEXT_VERSION_3 = `${DTDL_CONTEXT_VERSION_PREFIX}3`;
 
 export enum DTDLType {
     Interface = 'Interface',
@@ -406,6 +408,7 @@ export type DTDLPrimitiveSchema =
     | 'string'
     | 'time';
 
+// NOTE: update `hasGeospatialSchemaType` definition if adding/removing entries to this union
 export type DTDLGeospatialSchema =
     | 'linestring'
     | 'multiLinestring'
@@ -448,7 +451,7 @@ export class DTDLModel implements DtdlInterface {
         schemas?: DtdlInterfaceSchema[]
     ) {
         this['@type'] = DTDLType.Interface;
-        this['@context'] = CURRENT_CONTEXT_VERSION;
+        this['@context'] = DTDL_CONTEXT_VERSION_2;
         this['@id'] = id;
         this.displayName = displayName;
         this.description = description;
@@ -591,24 +594,25 @@ export class DTDLRelationship implements DtdlRelationship {
     name: string;
     ['@id']?: string;
     maxMultiplicity?: number;
+    minMultiplicity?: number;
     writable?: boolean;
     target?: string;
-    readonly minMultiplicity?: number;
     properties?: DTDLProperty[];
     displayName?: string;
     description?: string;
     comment?: string;
 
     constructor(
-        id: string,
         name: string,
-        displayName: string,
-        description: string,
-        comment: string,
-        writeable: boolean,
-        properties: DTDLProperty[],
-        target: string | null = null,
-        maxMultiplicity: number | null = null
+        id?: string,
+        displayName?: string,
+        description?: string,
+        comment?: string,
+        writeable?: boolean,
+        properties?: DTDLProperty[],
+        target?: string | null,
+        maxMultiplicity?: number | null,
+        minMultiplicity?: number | null
     ) {
         this['@type'] = DTDLType.Relationship;
         this['@id'] = id;
@@ -631,7 +635,7 @@ export class DTDLRelationship implements DtdlRelationship {
             this.maxMultiplicity = maxMultiplicity;
         }
 
-        this.minMultiplicity = 0;
+        this.minMultiplicity = minMultiplicity ?? 0;
     }
 
     static getBlank() {
@@ -641,15 +645,16 @@ export class DTDLRelationship implements DtdlRelationship {
     static fromObject(obj: any): DTDLRelationship {
         //TODO: Use interface for obj
         return new DTDLRelationship(
-            obj['@id'],
             obj.name,
+            obj['@id'],
             obj.displayName,
             obj.description,
             obj.comment,
             obj.writeable,
             obj.properties?.map((p) => DTDLProperty.fromObject(p)),
             obj.target,
-            obj.maxMultiplicity
+            obj.maxMultiplicity,
+            obj.minMultiplicity
         );
     }
 }

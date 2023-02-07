@@ -914,7 +914,6 @@
     "sync": "synchronizować",
     "import": "Import",
     "export": "Eksport",
-    "file": "Plik",
     "new": "Nowy",
     "open": "Otwierać",
     "saveAs": "Zapisz jako",
@@ -931,10 +930,6 @@
     "namespace": "Namespace",
     "enterANamespace": "Wprowadzanie przestrzeni nazw",
     "settings": "Ustawienia",
-    "errorInvalidJSON": "Nieprawidłowy kod JSON",
-    "errorFileFormatNotSupported": "Format {{file}} nie jest obsługiwany",
-    "errorFormatNoSupported": "Format pliku nie jest obsługiwany",
-    "errorIssueWithFile": "Problem z {{fileName}}: {{error}}",
     "errorNamespace": "Przestrzeń nazw może zawierać tylko litery, cyfry i podkreślenia.",
     "undo": "Cofnąć",
     "redo": "Ponowić",
@@ -943,8 +938,6 @@
     "fileUpload": "Przesyłanie plików",
     "selectFile": "Wybierz plik",
     "errorSingleFileHoldsRelationships": "Problem z {{fileName}}: Model przechowuje relacje, które nie są importowane",
-    "errorImportedModelAlreadyExists": "Problem z {{modelId}}: Model z tym samym @id już istnieje",
-    "errorFileInvalidJSON": "Problem z {{fileName}}: Nieprawidłowy kod JSON",
     "deleteProjectMessage": "Czy na pewno chcesz usunąć {{projectName}}?",
     "errorSameName": "Projekt o tej samej nazwie już istnieje. Chcesz go nadpisać?",
     "fileOpenModal": {
@@ -1378,7 +1371,18 @@
       "noModelsButtonText": "Dodawanie modelu"
     },
     "Common": {
-      "untargeted": "Nieukierunkowane"
+      "untargeted": "Nieukierunkowane",
+      "unhandledExceptionTitle": "Nieoczekiwany błąd",
+      "unhandledExceptionMessage": "Stało się coś nieoczekiwanego. Spróbuj ponownie."
+    },
+    "ImportErrors": {
+      "fileFormatNotSupportedMessage": "Obsługiwane są tylko pliki JSON. Nie można zaimportować następujących plików: \n{{fileNames}}.",
+      "fileFormatNotSupportedTitle": "Format pliku nie jest obsługiwany",
+      "fileInvalidJSON": "Nie można zaimportować pliku \"{{fileName}}\", ponieważ zawiera nieprawidłowy kod JSON.",
+      "exceptionTitle": "Nieoczekiwany błąd",
+      "exceptionMessage": "Stało się coś nieoczekiwanego. Spróbuj ponownie.",
+      "importFailedTitle": "Importowanie nie powiodło się",
+      "importFailedMessage": "Wystąpił błąd podczas importu. Rozwiąż je i spróbuj ponownie.\n {{error}}"
     }
   },
   "dataHistoryErrorHandlingWrapper": {

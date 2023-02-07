@@ -526,25 +526,6 @@ export function rgbToHex(r, g, b) {
     return '#' + componentToHex(r) + componentToHex(g) + componentToHex(b);
 }
 
-export async function parseModels(models: DtdlInterface[]) {
-    const modelParser = createParser(
-        ModelParsingOption.PermitAnyTopLevelElement
-    );
-    try {
-        await modelParser.parse([JSON.stringify(models)]);
-        return '';
-    } catch (err) {
-        console.error('Error while parsing models {input, error}', models, err);
-        if (err.name === 'ParsingException') {
-            return err._parsingErrors
-                .map((e) => `${e.cause} ${e.action}`)
-                .join('\n');
-        }
-
-        return err.message;
-    }
-}
-
 /**
  * Sorts a list alphabetically ignoring casing
  * @example listItems.sort(sortCaseInsensitiveAlphabetically())
@@ -1011,4 +992,16 @@ export function capitalizeFirstLetter(str: string) {
         console.error('Failed to capitalize string', error.message);
         return str;
     }
+}
+
+/** downloads a file as a blob to the user's machine */
+export function downloadFile(blob: Blob, fileName: string) {
+    const blobURL = window.URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.setAttribute('href', blobURL);
+    link.setAttribute('download', fileName);
+    link.innerHTML = '';
+    document.body.appendChild(link);
+    link.click();
+    link.parentNode.removeChild(link);
 }

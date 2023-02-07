@@ -914,7 +914,6 @@
     "sync": "szinkronizál",
     "import": "Importál",
     "export": "Kivitel",
-    "file": "Fájl",
     "new": "Új",
     "open": "Nyitott",
     "saveAs": "Mentés másként",
@@ -931,10 +930,6 @@
     "namespace": "Namespace",
     "enterANamespace": "Névtér megadása",
     "settings": "Beállítások",
-    "errorInvalidJSON": "Érvénytelen JSON",
-    "errorFileFormatNotSupported": "{{file}} formátum nem támogatott",
-    "errorFormatNoSupported": "A fájlformátum nem támogatott",
-    "errorIssueWithFile": "Probléma a következővel: {{fileName}}: {{error}}",
     "errorNamespace": "A névtér csak betűket, számjegyeket és aláhúzásjeleket tartalmazhat.",
     "undo": "Kigombol",
     "redo": "Újra kifest",
@@ -943,8 +938,6 @@
     "fileUpload": "Fájlfeltöltés",
     "selectFile": "Fájl kiválasztása",
     "errorSingleFileHoldsRelationships": "Probléma a {{fájlnév}} sablonnal: A modell olyan kapcsolatokat tartalmaz, amelyek importálása nem történik meg",
-    "errorImportedModelAlreadyExists": "Probléma a {{modelId}} sablonnal: Az azonos @id rendelkező modell már létezik",
-    "errorFileInvalidJSON": "Probléma a következővel: {{fileName}}: Érvénytelen JSON",
     "deleteProjectMessage": "Biztosan törölni szeretnéd a {{projectName}} sablont?",
     "errorSameName": "Az azonos nevű projekt már létezik. Szeretnéd felülírni?",
     "fileOpenModal": {
@@ -1378,7 +1371,18 @@
       "noModelsButtonText": "Modell hozzáadása"
     },
     "Common": {
-      "untargeted": "Nem célzott"
+      "untargeted": "Nem célzott",
+      "unhandledExceptionTitle": "Váratlan hiba",
+      "unhandledExceptionMessage": "Valami váratlan történt. Kérjük, próbálja újra."
+    },
+    "ImportErrors": {
+      "fileFormatNotSupportedMessage": "Csak a JSON-fájlok támogatottak. Nem lehet importálni a következő fájlokat: \n{{fájlnevek}} sablont.",
+      "fileFormatNotSupportedTitle": "A fájlformátum nem támogatott",
+      "fileInvalidJSON": "A(z) \"{{fileName}}\" nem importálható, érvénytelen JSON-t tartalmaz.",
+      "exceptionTitle": "Váratlan hiba",
+      "exceptionMessage": "Valami váratlan történt. Kérjük, próbálja újra.",
+      "importFailedTitle": "Az importálás sikertelen",
+      "importFailedMessage": "Hiba történt az importálás során. Oldja meg őket, és próbálkozzon újra.\n {{hiba}}"
     }
   },
   "dataHistoryErrorHandlingWrapper": {
