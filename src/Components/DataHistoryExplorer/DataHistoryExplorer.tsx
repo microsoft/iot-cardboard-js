@@ -161,7 +161,11 @@ const DataHistoryExplorer: React.FC<IDataHistoryExplorerProps> = (props) => {
                         }
                         return acc;
                     } catch (error) {
-                        acc = [];
+                        logDebugConsole(
+                            'error',
+                            'Errors while parsing data points, {error}',
+                            error
+                        );
                     }
                 },
                 []
