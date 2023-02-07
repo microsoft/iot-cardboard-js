@@ -157,17 +157,18 @@ const PropertyList: React.FC<IPropertyListProps> = (props) => {
 
         return onReorder;
     };
-    const getUpdateNameCallback = (
-        _property: DTDLProperty,
-        propertyIndex: number
-    ) => {
+    const getUpdateNameCallback = (property: DTDLProperty) => {
         const updateName: IOnUpdateNameCallback = (
             args: IOnUpdateNameCallbackArgs
         ) => {
             if (isDTDLModel(selectedItem)) {
                 // update for model
                 const updatedContents = [...selectedItem.contents];
-                updatedContents[propertyIndex].name = args.name;
+                const index = getPropertyIndexOnModelByName(
+                    selectedItem,
+                    property.name
+                );
+                updatedContents[index].name = args.name;
                 updateModel({
                     ...selectedItem,
                     contents: updatedContents
@@ -175,7 +176,11 @@ const PropertyList: React.FC<IPropertyListProps> = (props) => {
             } else if (isDTDLRelationshipReference(selectedItem)) {
                 // update for relationships
                 const updatedProperties = [...selectedItem.properties];
-                updatedProperties[propertyIndex].name = args.name;
+                const index = getPropertyIndexOnRelationshipByName(
+                    selectedItem,
+                    property.name
+                );
+                updatedProperties[index].name = args.name;
                 updateReference({
                     ...selectedItem,
                     properties: updatedProperties
@@ -304,8 +309,7 @@ const PropertyList: React.FC<IPropertyListProps> = (props) => {
                                         index
                                     )}
                                     onUpdateName={getUpdateNameCallback(
-                                        property,
-                                        index
+                                        property
                                     )}
                                     onRemove={getRemoveCallback(property)}
                                 />

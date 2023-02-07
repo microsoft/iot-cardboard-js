@@ -40,7 +40,7 @@ import {
     deleteReferenceFromState
 } from './OatPageContextUtils';
 
-const debugLogging = true;
+const debugLogging = false;
 export const logDebugConsole = getDebugLogger('OatPageContext', debugLogging);
 
 export const OatPageContext = React.createContext<IOatPageContext>(null);
