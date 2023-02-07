@@ -43,7 +43,7 @@ import {
     deleteReferenceFromState
 } from './OatPageContextUtils';
 
-const debugLogging = false;
+const debugLogging = true;
 export const logDebugConsole = getDebugLogger('OatPageContext', debugLogging);
 
 export const OatPageContext = React.createContext<IOatPageContext>(null);
@@ -73,26 +73,11 @@ export const OatPageContextReducer: (
                 break;
             }
             case OatPageContextActionType.EDIT_PROJECT: {
-                const previousNamespace = draft.currentOntologyDefaultPath;
                 draft.currentOntologyDefaultPath = action.payload.namespace.replace(
                     / /g,
                     ''
                 );
                 draft.currentOntologyProjectName = action.payload.name;
-                // look through the project data and update any references to the namespace when it changes
-                logDebugConsole(
-                    'debug',
-                    'Updating project namespace to: ' +
-                        draft.currentOntologyDefaultPath
-                );
-                if (previousNamespace !== draft.currentOntologyDefaultPath) {
-                    draft.currentOntologyModels.forEach((x) => {
-                        x['@id'] = x['@id'].replace(
-                            `${OAT_MODEL_ID_PREFIX}:${previousNamespace}:`,
-                            `${OAT_MODEL_ID_PREFIX}:${draft.currentOntologyProjectName}:`
-                        );
-                    });
-                }
                 saveData(draft);
                 break;
             }
