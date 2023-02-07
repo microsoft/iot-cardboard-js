@@ -1381,8 +1381,8 @@
       "exceptionMessage": "Något oväntat hände. Försök igen.",
       "importFailedTitle": "Importen misslyckades",
       "importFailedMessage": "Det uppstod ett fel under importen. Lös dem och försök igen.\n {{error}}",
-      "noValidFilesMessage": "Inga modellfiler hittades att importera. Kontrollera att det finns giltiga JSON-filer i den valda mappen.",
-      "noValidFilesTitle": "Inga modeller hittades"
+      "noValidFilesTitle": "Inga modeller hittades",
+      "noValidFilesMessage1": "Inga modellfiler hittades att importera. Kontrollera att det finns giltiga JSON-filer i de valda filerna."
     }
   },
   "dataHistoryErrorHandlingWrapper": {

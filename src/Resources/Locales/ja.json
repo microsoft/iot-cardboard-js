@@ -1381,8 +1381,8 @@
       "exceptionMessage": "予期せぬことが起こりました。もう一度やり直してください。",
       "importFailedTitle": "インポートに失敗しました",
       "importFailedMessage": "インポート中にエラーが発生しました。それらを解決して、もう一度やり直してください。\n {{エラー}}",
-      "noValidFilesMessage": "インポートするモデル ファイルが見つかりません。選択したフォルダーに有効な JSON ファイルがあることを確認します。",
-      "noValidFilesTitle": "モデルが見つかりません"
+      "noValidFilesTitle": "モデルが見つかりません",
+      "noValidFilesMessage1": "インポートするモデル ファイルが見つかりません。選択したファイルに有効なJSONファイルがあることを確認してください。"
     }
   },
   "dataHistoryErrorHandlingWrapper": {

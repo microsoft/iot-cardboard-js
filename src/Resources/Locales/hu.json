@@ -1381,8 +1381,8 @@
       "exceptionMessage": "Valami váratlan történt. Kérjük, próbálja újra.",
       "importFailedTitle": "Az importálás sikertelen",
       "importFailedMessage": "Hiba történt az importálás során. Oldja meg őket, és próbálkozzon újra.\n {{hiba}}",
-      "noValidFilesMessage": "Nem található importálható modellfájl. Győződjön meg arról, hogy vannak érvényes JSON-fájlok a kiválasztott mappában.",
-      "noValidFilesTitle": "Nem található modell"
+      "noValidFilesTitle": "Nem található modell",
+      "noValidFilesMessage1": "Nem található importálható modellfájl. Győződjön meg arról, hogy vannak érvényes JSON-fájlok a kiválasztott fájl(ok)ban."
     }
   },
   "dataHistoryErrorHandlingWrapper": {

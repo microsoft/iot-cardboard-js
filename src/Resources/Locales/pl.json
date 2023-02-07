@@ -1381,8 +1381,8 @@
       "exceptionMessage": "Stało się coś nieoczekiwanego. Spróbuj ponownie.",
       "importFailedTitle": "Importowanie nie powiodło się",
       "importFailedMessage": "Wystąpił błąd podczas importu. Rozwiąż je i spróbuj ponownie.\n {{error}}",
-      "noValidFilesMessage": "Nie znaleziono plików modeli do zaimportowania. Upewnij się, że w wybranym folderze znajdują się prawidłowe pliki JSON.",
-      "noValidFilesTitle": "Nie znaleziono modeli"
+      "noValidFilesTitle": "Nie znaleziono modeli",
+      "noValidFilesMessage1": "Nie znaleziono plików modeli do zaimportowania. Upewnij się, że w wybranych plikach znajdują się prawidłowe pliki JSON."
     }
   },
   "dataHistoryErrorHandlingWrapper": {
