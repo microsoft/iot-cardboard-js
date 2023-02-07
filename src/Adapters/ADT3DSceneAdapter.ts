@@ -38,7 +38,8 @@ export default class ADT3DSceneAdapter {
         tenantId?: string,
         uniqueObjectId?: string,
         adtProxyServerPath = '/proxy/adt',
-        blobProxyServerPath = '/proxy/blob'
+        blobProxyServerPath = '/proxy/blob',
+        isCorsEnabled = false
     ) {
         this.adtHostUrl = adtHostUrl;
         this.authService = this.blobAuthService = this.adxAuthService = authService;
@@ -54,6 +55,7 @@ export default class ADT3DSceneAdapter {
         this.timeSeriesConnectionCache = new AdapterEntityCache<ADTInstanceTimeSeriesConnectionData>(
             timeSeriesConnectionRefreshMaxAge
         );
+        this.isCorsEnabled = isCorsEnabled;
 
         if (blobContainerUrl) {
             try {

@@ -26,7 +26,8 @@ export default class ADTDataHistoryAdapter {
         adxConnectionInformation?: IADXConnection,
         tenantId?: string,
         uniqueObjectId?: string,
-        adtProxyServerPath = '/proxy/adt'
+        adtProxyServerPath = '/proxy/adt',
+        isCorsEnabled = false
     ) {
         this.adtHostUrl = adtHostUrl;
         this.adxConnectionInformation = adxConnectionInformation;
@@ -43,6 +44,7 @@ export default class ADTDataHistoryAdapter {
         this.timeSeriesConnectionCache = new AdapterEntityCache<ADTInstanceTimeSeriesConnectionData>(
             timeSeriesConnectionRefreshMaxAge
         );
+        this.isCorsEnabled = isCorsEnabled;
 
         this.adtProxyServerPath = adtProxyServerPath;
         this.authService.login();
