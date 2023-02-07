@@ -100,14 +100,14 @@ export type IDataHistoryExplorerAction =
     | {
           type: DataHistoryExplorerActionType.EDIT_TIME_SERIES_TWINS;
           payload: {
-              seriesIdx: number;
+              seriesId: string;
               series: IDataHistoryTimeSeriesTwin;
           };
       }
     | {
           type: DataHistoryExplorerActionType.REMOVE_TIME_SERIES_TWINS;
           payload: {
-              seriesIdx: number;
+              seriesId: string;
           };
       }
     | {

@@ -35,14 +35,20 @@ export const DataHistoryExplorerReducer = produce(
                 break;
             }
             case DataHistoryExplorerActionType.EDIT_TIME_SERIES_TWINS: {
-                const { seriesIdx, series } = action.payload;
+                const { seriesId, series } = action.payload;
+                const seriesIdx = draft.timeSeriesTwins.findIndex(
+                    (tsTwin) => tsTwin.seriesId === seriesId
+                );
                 draft.timeSeriesTwins[seriesIdx] = series;
                 draft.selectedTimeSeriesId = null;
                 draft.isTimeSeriesTwinCalloutVisible = false;
                 break;
             }
             case DataHistoryExplorerActionType.REMOVE_TIME_SERIES_TWINS: {
-                const { seriesIdx } = action.payload;
+                const { seriesId } = action.payload;
+                const seriesIdx = draft.timeSeriesTwins.findIndex(
+                    (tsTwin) => tsTwin.seriesId === seriesId
+                );
                 draft.timeSeriesTwins.splice(seriesIdx, 1);
                 break;
             }

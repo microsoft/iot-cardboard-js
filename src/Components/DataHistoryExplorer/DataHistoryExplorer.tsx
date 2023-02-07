@@ -211,19 +211,20 @@ const DataHistoryExplorer: React.FC<IDataHistoryExplorerProps> = (props) => {
     const handleTimeSeriesTwinCalloutPrimaryAction = useCallback(
         (timeSeriesTwin: IDataHistoryTimeSeriesTwin) => {
             if (isDefined(state.selectedTimeSeriesId)) {
-                const selectedIdx = state.timeSeriesTwins.findIndex(
-                    (tsTwin) => tsTwin.seriesId === state.selectedTimeSeriesId
-                );
                 dispatch({
                     type: DataHistoryExplorerActionType.EDIT_TIME_SERIES_TWINS,
-                    payload: { seriesIdx: selectedIdx, series: timeSeriesTwin }
+                    payload: {
+                        seriesId: state.selectedTimeSeriesId,
+                        series: timeSeriesTwin
+                    }
                 });
                 const telemetry =
                     TelemetryEvents.Tools.DataHistoryExplorer.UserAction
                         .EditSeries;
                 sendDataHistoryExplorerUserTelemetry(telemetry.eventName, [
                     {
-                        [telemetry.properties.itemIndex]: selectedIdx
+                        [telemetry.properties.seriesId]:
+                            state.selectedTimeSeriesId
                     },
                     {
                         [telemetry.properties.hasCustomLabel]:
@@ -301,19 +302,16 @@ const DataHistoryExplorer: React.FC<IDataHistoryExplorerProps> = (props) => {
 
     const handleOnRemoveSeriesClick = useCallback(
         (seriesId: string) => {
-            const selectedIdx = state.timeSeriesTwins.findIndex(
-                (tsTwin) => tsTwin.seriesId === seriesId
-            );
             dispatch({
                 type: DataHistoryExplorerActionType.REMOVE_TIME_SERIES_TWINS,
-                payload: { seriesIdx: selectedIdx }
+                payload: { seriesId: seriesId }
             });
             const telemetry =
                 TelemetryEvents.Tools.DataHistoryExplorer.UserAction
                     .RemoveSeries;
             sendDataHistoryExplorerUserTelemetry(telemetry.eventName, [
                 {
-                    [telemetry.properties.itemIndex]: selectedIdx
+                    [telemetry.properties.seriesId]: seriesId
                 }
             ]);
             /**

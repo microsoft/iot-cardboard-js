@@ -208,7 +208,7 @@ export const TelemetryEvents = {
                 EditSeries: {
                     eventName: 'DataHistoryExplorer.EditSeries',
                     properties: {
-                        itemIndex: 'itemIndex',
+                        seriesId: 'seriesId',
                         hasCustomLabel: 'hasCustomLabel'
                     }
                 },
@@ -216,7 +216,7 @@ export const TelemetryEvents = {
                 RemoveSeries: {
                     eventName: 'DataHistoryExplorer.RemoveSeries',
                     properties: {
-                        itemIndex: 'itemIndex'
+                        seriesId: 'seriesId'
                     }
                 },
                 /** toggle the option to cast a property type to numeric */
