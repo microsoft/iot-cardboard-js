@@ -147,7 +147,14 @@ describe('OatPublicUtils', () => {
             });
             // ASSERT
             expect(result.status).toEqual('Failed');
-            expect(result.errors).toMatchInlineSnapshot();
+            expect(result.errors).toMatchInlineSnapshot(`
+                Array [
+                  Object {
+                    "message": "OAT.ImportErrors.noValidFilesMessage",
+                    "title": "OAT.ImportErrors.noValidFilesTitle",
+                  },
+                ]
+            `);
             expect(result.models).toEqual([]);
         });
         test('file with malformed json causes failure', async () => {
