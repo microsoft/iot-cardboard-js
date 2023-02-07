@@ -7,7 +7,8 @@ import {
     Text,
     IconButton,
     DirectionalHint,
-    Stack
+    Stack,
+    css
 } from '@fluentui/react';
 import { useId } from '@fluentui/react-hooks';
 import { useBoolean } from '@fluentui/react-hooks';
@@ -92,6 +93,7 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = (props) => {
 
     const onDelete = () => {
         const deletion = () => {
+            console.log('***Data', data);
             const dispatchDelete = () => {
                 oatPageDispatch({
                     type: OatPageContextActionType.DELETE_MODEL,
@@ -154,51 +156,65 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = (props) => {
                     ></div>
                 )}
                 <div
-                    className={
+                    className={css(
                         isSelected
                             ? graphViewerStyles.selectedNode
-                            : graphViewerStyles.node
-                    }
+                            : graphViewerStyles.node,
+                        data['@type'] !== OAT_UNTARGETED_RELATIONSHIP_NAME
+                            ? graphViewerStyles.withCloseButtonPadding
+                            : ''
+                    )}
                 >
                     {data['@type'] !== OAT_UNTARGETED_RELATIONSHIP_NAME ? (
-                        <div className={graphViewerStyles.nodeContainer}>
-                            <Stack
-                                horizontal
-                                className={graphViewerStyles.nodeRow}
-                                tokens={{ childrenGap: 8 }}
-                            >
-                                <Label
-                                    id={nameLabelId}
-                                    className={graphViewerStyles.nodeLabel}
+                        <>
+                            <div className={graphViewerStyles.nodeContainer}>
+                                <Stack
+                                    horizontal
+                                    className={graphViewerStyles.nodeRow}
+                                    tokens={{ childrenGap: 8 }}
                                 >
-                                    {t('OATGraphViewer.name')}:
-                                </Label>
-                                <Text
-                                    className={graphViewerStyles.nodeNameValue}
-                                    aria-labelledby={nameLabelId}
+                                    <Label
+                                        id={nameLabelId}
+                                        className={graphViewerStyles.nodeLabel}
+                                    >
+                                        {t('OATGraphViewer.name')}:
+                                    </Label>
+                                    <Text
+                                        className={
+                                            graphViewerStyles.nodeNameValue
+                                        }
+                                        aria-labelledby={nameLabelId}
+                                    >
+                                        {parseModelId(id)?.name ?? ''}
+                                    </Text>
+                                </Stack>
+                                <Stack
+                                    horizontal
+                                    className={graphViewerStyles.nodeRow}
+                                    tokens={{ childrenGap: 8 }}
                                 >
-                                    {parseModelId(id)?.name ?? ''}
-                                </Text>
-                            </Stack>
-                            <Stack
-                                horizontal
-                                className={graphViewerStyles.nodeRow}
-                                tokens={{ childrenGap: 8 }}
-                            >
-                                <Label
-                                    id={idLabelId}
-                                    className={graphViewerStyles.nodeLabel}
-                                >
-                                    {t('OATGraphViewer.id')}:
-                                </Label>
-                                <Text
-                                    aria-labelledby={idLabelId}
-                                    className={graphViewerStyles.nodeIdValue}
-                                >
-                                    {data['@id']}
-                                </Text>
-                            </Stack>
-                        </div>
+                                    <Label
+                                        id={idLabelId}
+                                        className={graphViewerStyles.nodeLabel}
+                                    >
+                                        {t('OATGraphViewer.id')}:
+                                    </Label>
+                                    <Text
+                                        aria-labelledby={idLabelId}
+                                        className={
+                                            graphViewerStyles.nodeIdValue
+                                        }
+                                    >
+                                        {data['@id']}
+                                    </Text>
+                                </Stack>
+                            </div>
+                            <IconButton
+                                styles={actionButtonStyles}
+                                onClick={onDelete}
+                                iconProps={{ iconName: 'Delete' }}
+                            />
+                        </>
                     ) : (
                         <div
                             className={
@@ -208,11 +224,6 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = (props) => {
                             <Label>{t('OAT.Common.untargeted')}</Label>
                         </div>
                     )}
-                    <IconButton
-                        styles={actionButtonStyles}
-                        onClick={onDelete}
-                        iconProps={{ iconName: 'Delete' }}
-                    />
                 </div>
                 {data['@type'] === OAT_INTERFACE_TYPE && (
                     <>
