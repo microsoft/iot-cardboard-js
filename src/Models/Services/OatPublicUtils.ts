@@ -3,6 +3,7 @@ import JSZip from 'jszip';
 import { DTDLSchema } from '../Classes/DTDL';
 import { DtdlInterface } from '../Constants/dtdlInterfaces';
 import {
+    getDtdlVersion,
     hasArraySchemaType,
     hasGeospatialSchemaType,
     hasMapSchemaType,
@@ -256,9 +257,9 @@ export const stripV3Features = (models: DtdlInterface[]): DtdlInterface[] => {
         models
     );
     models.forEach((model) => {
-        // if (getDtdlVersion(model) !== '3') {
-        //     return;
-        // }
+        if (getDtdlVersion(model) !== '3') {
+            return;
+        }
         // remove arrays
         filterPropertiesRecursively(model, hasArraySchemaType);
         // remove geospatial schemas from properties
