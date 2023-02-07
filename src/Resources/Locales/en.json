@@ -934,7 +934,7 @@
         "ImportErrors": {
             "exceptionTitle": "Unexpected error",
             "exceptionMessage": "Something unexpected happened. Please try again.",
-            "noValidFilesMessage1": "No model files found to import. Make sure there are valid JSON files in the selected file(s).",
+            "noValidFilesMessage": "No model files found to import. Make sure there are valid JSON files in the selected file(s).",
             "noValidFilesTitle": "No models found",
             "fileInvalidJSON": "Unable to import '{{fileName}}', it contains invalid JSON.",
             "importFailedTitle": "Import failed",
