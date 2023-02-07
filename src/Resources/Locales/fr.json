@@ -1394,7 +1394,6 @@
     "title": "Explorateur d’historique des données",
     "loadingConnectionLabel": "Chargement des informations de connexion de l’historique des données...",
     "builder": {
-      "title": "Propriétés jumelles",
       "description": "Pour comparer les valeurs antérieures des propriétés historisées, ajoutez des séries chronologiques ci-dessous.",
       "timeSeriesTwin": {
         "add": "Ajouter des séries chronologiques",
@@ -1428,6 +1427,10 @@
       "messages": {
         "loading": "Chargement de données historiques...",
         "noSeries": "Aucun jumeau sélectionné pour interroger, veuillez ajouter des propriétés jumelles pour afficher les données historiques."
+      },
+      "commandBar": {
+        "refresh": "Actualiser les données",
+        "download": "Télécharger les données de la table"
       }
     }
   }

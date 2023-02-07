@@ -1394,7 +1394,6 @@
     "title": "데이터 기록 탐색기",
     "loadingConnectionLabel": "데이터 기록 연결 정보를 로드하는 중...",
     "builder": {
-      "title": "트윈 속성",
       "description": "히스토라이즈된 속성의 과거 값을 비교하려면 아래에 시계열을 추가합니다.",
       "timeSeriesTwin": {
         "add": "시계열 추가",
@@ -1428,6 +1427,10 @@
       "messages": {
         "loading": "히스토리화된 데이터를 로드하는 중...",
         "noSeries": "쿼리할 쌍이 선택되어 있지 않으면 쌍 속성을 추가하여 히스토레이티드된 데이터를 확인하세요."
+      },
+      "commandBar": {
+        "refresh": "데이터 새로 고침",
+        "download": "테이블 데이터 다운로드"
       }
     }
   }

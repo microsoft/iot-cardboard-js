@@ -1394,7 +1394,6 @@
     "title": "Datenverlaufs-Explorer",
     "loadingConnectionLabel": "Verbindungsinformationen zum Datenverlauf werden geladen...",
     "builder": {
-      "title": "Twin-Immobilien",
       "description": "Um vergangene Werte für historisierte Eigenschaften zu vergleichen, fügen Sie unten Zeitreihen hinzu.",
       "timeSeriesTwin": {
         "add": "Zeitreihen hinzufügen",
@@ -1428,6 +1427,10 @@
       "messages": {
         "loading": "Historisierte Daten werden geladen...",
         "noSeries": "Kein Zwilling zur Abfrage ausgewählt, fügen Sie Zwillingseigenschaften hinzu, um historisierte Daten anzuzeigen."
+      },
+      "commandBar": {
+        "refresh": "Daten aktualisieren",
+        "download": "Tabellendaten herunterladen"
       }
     }
   }
