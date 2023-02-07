@@ -93,7 +93,6 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = (props) => {
 
     const onDelete = () => {
         const deletion = () => {
-            console.log('***Data', data);
             const dispatchDelete = () => {
                 oatPageDispatch({
                     type: OatPageContextActionType.DELETE_MODEL,
