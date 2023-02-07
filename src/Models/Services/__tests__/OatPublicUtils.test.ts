@@ -6,7 +6,8 @@ import {
 import {
     DTDLMapValue,
     DTDLObjectField,
-    DTDLRelationship
+    DTDLRelationship,
+    DTDL_CONTEXT_VERSION_3
 } from '../../Classes/DTDL';
 import {
     DtdlArray,
@@ -110,7 +111,7 @@ describe('OatPublicUtils', () => {
             expect(result.models.length).toEqual(1);
             expect(result.models[0]['@id']).toEqual(DEFAULT_MODEL_ID);
         });
-        test('file with non-json type causes failure', async () => {
+        test('one invalid file, one valid file. Success with valid file data', async () => {
             // ARRANGE
             const badFile = getMockFile({
                 fileName: 'bad-file',
@@ -125,15 +126,28 @@ describe('OatPublicUtils', () => {
                 translate: mockTranslate
             });
             // ASSERT
+            expect(result.status).toEqual('Success');
+            expect(result.errors).toEqual([]);
+            expect(result.models.length).toEqual(1);
+            expect(result.models[0]['@id']).toEqual(DEFAULT_MODEL_ID);
+        });
+        test('if only invalid file, reports failure ', async () => {
+            // ARRANGE
+            const badFile = getMockFile({
+                fileName: 'bad-file',
+                fileType: 'somethingBad'
+            });
+            const files = [badFile];
+            // ACT
+            const result = await parseFilesToModels({
+                files: files,
+                currentModels: [],
+                localizationKeys: IMPORT_LOC_KEYS,
+                translate: mockTranslate
+            });
+            // ASSERT
             expect(result.status).toEqual('Failed');
-            expect(result.errors).toMatchInlineSnapshot(`
-                Array [
-                  Object {
-                    "message": "OAT.ImportErrors.fileFormatNotSupportedMessage:{\\"fileNames\\":\\"'bad-file'\\"}",
-                    "title": "OAT.ImportErrors.fileFormatNotSupportedTitle",
-                  },
-                ]
-            `);
+            expect(result.errors).toMatchInlineSnapshot();
             expect(result.models).toEqual([]);
         });
         test('file with malformed json causes failure', async () => {
@@ -218,7 +232,10 @@ describe('OatPublicUtils', () => {
                     enumType: 'integer'
                 }) as EnumProperty;
 
-                const mockModel = getMockModelItem('dtmi:mockmodel;1');
+                const mockModel = getMockModelItem(
+                    'dtmi:mockmodel;1',
+                    DTDL_CONTEXT_VERSION_3
+                );
                 mockModel.contents = [arrayProperty, enumProperty];
                 const propertyCountBefore = mockModel.contents.length;
 
@@ -250,7 +267,10 @@ describe('OatPublicUtils', () => {
                     new DTDLObjectField('non-array', 'boolean')
                 ];
 
-                const mockModel = getMockModelItem('dtmi:mockmodel;1');
+                const mockModel = getMockModelItem(
+                    'dtmi:mockmodel;1',
+                    DTDL_CONTEXT_VERSION_3
+                );
                 mockModel.contents = [objectProperty];
 
                 const propertyCountBefore = mockModel.contents.length;
@@ -304,7 +324,10 @@ describe('OatPublicUtils', () => {
                 }) as MapProperty;
                 mapProperty.schema = valueSchema;
 
-                const mockModel = getMockModelItem('dtmi:mockmodel;1');
+                const mockModel = getMockModelItem(
+                    'dtmi:mockmodel;1',
+                    DTDL_CONTEXT_VERSION_3
+                );
                 mockModel.contents = [mapProperty];
 
                 const models: DtdlInterface[] = [mockModel];
@@ -335,7 +358,10 @@ describe('OatPublicUtils', () => {
                     enumType: 'integer'
                 }) as EnumProperty;
 
-                const mockModel = getMockModelItem('dtmi:mockmodel;1');
+                const mockModel = getMockModelItem(
+                    'dtmi:mockmodel;1',
+                    DTDL_CONTEXT_VERSION_3
+                );
                 mockModel.contents = [geoProperty, enumProperty];
                 const propertyCountBefore = mockModel.contents.length;
 
@@ -361,7 +387,10 @@ describe('OatPublicUtils', () => {
                     new DTDLObjectField('non-geo', 'boolean')
                 ];
 
-                const mockModel = getMockModelItem('dtmi:mockmodel;1');
+                const mockModel = getMockModelItem(
+                    'dtmi:mockmodel;1',
+                    DTDL_CONTEXT_VERSION_3
+                );
                 mockModel.contents = [objectProperty];
 
                 const propertyCountBefore = mockModel.contents.length;
@@ -407,7 +436,10 @@ describe('OatPublicUtils', () => {
                 }) as MapProperty;
                 mapProperty.schema = valueSchema;
 
-                const mockModel = getMockModelItem('dtmi:mockmodel;1');
+                const mockModel = getMockModelItem(
+                    'dtmi:mockmodel;1',
+                    DTDL_CONTEXT_VERSION_3
+                );
                 mockModel.contents = [mapProperty];
 
                 const models: DtdlInterface[] = [mockModel];
@@ -430,7 +462,10 @@ describe('OatPublicUtils', () => {
         describe('AddVersionIfNotPresent', () => {
             test('No version number, adds version', () => {
                 // ARRANGE
-                const mockModel = getMockModelItem('dtmi:mockmodel;');
+                const mockModel = getMockModelItem(
+                    'dtmi:mockmodel;',
+                    DTDL_CONTEXT_VERSION_3
+                );
 
                 const models: DtdlInterface[] = [mockModel];
 
@@ -443,7 +478,10 @@ describe('OatPublicUtils', () => {
             });
             test('Has integer version number, leaves it', () => {
                 // ARRANGE
-                const mockModel = getMockModelItem('dtmi:mockmodel;3');
+                const mockModel = getMockModelItem(
+                    'dtmi:mockmodel;3',
+                    DTDL_CONTEXT_VERSION_3
+                );
 
                 const models: DtdlInterface[] = [mockModel];
 
@@ -456,7 +494,10 @@ describe('OatPublicUtils', () => {
             });
             test('Has decimal version number, leaves it', () => {
                 // ARRANGE
-                const mockModel = getMockModelItem('dtmi:mockmodel;3.2');
+                const mockModel = getMockModelItem(
+                    'dtmi:mockmodel;3.2',
+                    DTDL_CONTEXT_VERSION_3
+                );
 
                 const models: DtdlInterface[] = [mockModel];
 
@@ -471,7 +512,10 @@ describe('OatPublicUtils', () => {
         describe('ForceMinMulitplicityTo0', () => {
             test('undefined min multiplicity is untouched', () => {
                 // ARRANGE
-                const mockModel = getMockModelItem('dtmi:mockmodel;1');
+                const mockModel = getMockModelItem(
+                    'dtmi:mockmodel;1',
+                    DTDL_CONTEXT_VERSION_3
+                );
                 const relationship = new DTDLRelationship('my-relationship');
                 relationship.minMultiplicity = undefined;
                 addReferenceToModel(mockModel, relationship);
@@ -491,7 +535,10 @@ describe('OatPublicUtils', () => {
 
             test('2 min multiplicity is set to 0', () => {
                 // ARRANGE
-                const mockModel = getMockModelItem('dtmi:mockmodel;1');
+                const mockModel = getMockModelItem(
+                    'dtmi:mockmodel;1',
+                    DTDL_CONTEXT_VERSION_3
+                );
                 const relationship = new DTDLRelationship('my-relationship');
                 relationship.minMultiplicity = 2;
                 addReferenceToModel(mockModel, relationship);
