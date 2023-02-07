@@ -1382,7 +1382,7 @@
       "importFailedTitle": "Importeren mislukt",
       "importFailedMessage": "Er is een fout opgetreden tijdens het importeren. Los ze op en probeer het opnieuw.\n {{fout}}",
       "noValidFilesTitle": "Geen modellen gevonden",
-      "noValidFilesMessage1": "Geen modelbestanden gevonden om te importeren. Zorg ervoor dat er geldige JSON-bestanden in de geselecteerde bestanden staan."
+      "noValidFilesMessage": "Geen modelbestanden gevonden om te importeren. Zorg ervoor dat er geldige JSON-bestanden in de geselecteerde bestanden staan."
     }
   },
   "dataHistoryErrorHandlingWrapper": {

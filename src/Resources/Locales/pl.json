@@ -1382,7 +1382,7 @@
       "importFailedTitle": "Importowanie nie powiodło się",
       "importFailedMessage": "Wystąpił błąd podczas importu. Rozwiąż je i spróbuj ponownie.\n {{error}}",
       "noValidFilesTitle": "Nie znaleziono modeli",
-      "noValidFilesMessage1": "Nie znaleziono plików modeli do zaimportowania. Upewnij się, że w wybranych plikach znajdują się prawidłowe pliki JSON."
+      "noValidFilesMessage": "Nie znaleziono plików modeli do zaimportowania. Upewnij się, że w wybranych plikach znajdują się prawidłowe pliki JSON."
     }
   },
   "dataHistoryErrorHandlingWrapper": {

@@ -1382,7 +1382,7 @@
       "importFailedTitle": "Importen misslyckades",
       "importFailedMessage": "Det uppstod ett fel under importen. Lös dem och försök igen.\n {{error}}",
       "noValidFilesTitle": "Inga modeller hittades",
-      "noValidFilesMessage1": "Inga modellfiler hittades att importera. Kontrollera att det finns giltiga JSON-filer i de valda filerna."
+      "noValidFilesMessage": "Inga modellfiler hittades att importera. Kontrollera att det finns giltiga JSON-filer i de valda filerna."
     }
   },
   "dataHistoryErrorHandlingWrapper": {

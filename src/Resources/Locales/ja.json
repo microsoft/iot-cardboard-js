@@ -1382,7 +1382,7 @@
       "importFailedTitle": "インポートに失敗しました",
       "importFailedMessage": "インポート中にエラーが発生しました。それらを解決して、もう一度やり直してください。\n {{エラー}}",
       "noValidFilesTitle": "モデルが見つかりません",
-      "noValidFilesMessage1": "インポートするモデル ファイルが見つかりません。選択したファイルに有効なJSONファイルがあることを確認してください。"
+      "noValidFilesMessage": "インポートするモデル ファイルが見つかりません。選択したファイルに有効なJSONファイルがあることを確認してください。"
     }
   },
   "dataHistoryErrorHandlingWrapper": {

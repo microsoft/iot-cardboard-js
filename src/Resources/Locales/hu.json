@@ -1382,7 +1382,7 @@
       "importFailedTitle": "Az importálás sikertelen",
       "importFailedMessage": "Hiba történt az importálás során. Oldja meg őket, és próbálkozzon újra.\n {{hiba}}",
       "noValidFilesTitle": "Nem található modell",
-      "noValidFilesMessage1": "Nem található importálható modellfájl. Győződjön meg arról, hogy vannak érvényes JSON-fájlok a kiválasztott fájl(ok)ban."
+      "noValidFilesMessage": "Nem található importálható modellfájl. Győződjön meg arról, hogy vannak érvényes JSON-fájlok a kiválasztott fájl(ok)ban."
     }
   },
   "dataHistoryErrorHandlingWrapper": {
