@@ -1381,8 +1381,8 @@
       "exceptionMessage": "Случилось нечто неожиданное. Повторите попытку.",
       "importFailedTitle": "Сбой импорта",
       "importFailedMessage": "Произошла ошибка при импорте. Устраните их и повторите попытку.\n {{ошибка}}",
-      "noValidFilesMessage": "Файлы модели не найдены для импорта. Убедитесь, что в выбранной папке есть допустимые файлы JSON.",
-      "noValidFilesTitle": "Модели не найдены"
+      "noValidFilesTitle": "Модели не найдены",
+      "noValidFilesMessage1": "Файлы модели не найдены для импорта. Убедитесь, что в выбранных файлах есть допустимые файлы JSON."
     }
   },
   "dataHistoryErrorHandlingWrapper": {

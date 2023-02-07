@@ -1381,8 +1381,8 @@
       "exceptionMessage": "Algo inesperado sucedió. Inténtalo de nuevo.",
       "importFailedTitle": "Error de importación",
       "importFailedMessage": "Se ha producido un error durante la importación. Resuélvelos e inténtalo de nuevo.\n {{error}}",
-      "noValidFilesMessage": "No se encontraron archivos de modelo para importar. Asegúrese de que haya archivos JSON válidos en la carpeta seleccionada.",
-      "noValidFilesTitle": "No se han encontrado modelos"
+      "noValidFilesTitle": "No se han encontrado modelos",
+      "noValidFilesMessage1": "No se encontraron archivos de modelo para importar. Asegúrese de que haya archivos JSON válidos en los archivos seleccionados."
     }
   },
   "dataHistoryErrorHandlingWrapper": {

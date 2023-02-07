@@ -1381,8 +1381,8 @@
       "exceptionMessage": "Stalo se něco nečekaného. Zkuste to prosím znovu.",
       "importFailedTitle": "Import se nezdařil",
       "importFailedMessage": "Během importu došlo k chybě. Vyřešte je a zkuste to znovu.\n {{chyba}}",
-      "noValidFilesMessage": "Nebyly nalezeny žádné soubory modelu k importu. Ujistěte se, že ve vybrané složce jsou platné soubory JSON.",
-      "noValidFilesTitle": "Nebyly nalezeny žádné modely"
+      "noValidFilesTitle": "Nebyly nalezeny žádné modely",
+      "noValidFilesMessage1": "Nebyly nalezeny žádné soubory modelu k importu. Ujistěte se, že ve vybraných souborech jsou platné soubory JSON."
     }
   },
   "dataHistoryErrorHandlingWrapper": {

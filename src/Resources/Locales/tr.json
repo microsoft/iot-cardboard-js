@@ -1381,8 +1381,8 @@
       "exceptionMessage": "Beklenmedik bir şey oldu. Lütfen tekrar deneyin.",
       "importFailedTitle": "İçe aktarma başarısız oldu",
       "importFailedMessage": "İçe aktarma sırasında bir hata oluştu. Bunları çözün ve yeniden deneyin.\n {{error}}",
-      "noValidFilesMessage": "İçe aktarılacak model dosyası bulunamadı. Seçili klasörde geçerli JSON dosyaları olduğundan emin olun.",
-      "noValidFilesTitle": "Model bulunamadı"
+      "noValidFilesTitle": "Model bulunamadı",
+      "noValidFilesMessage1": "İçe aktarılacak model dosyası bulunamadı. Seçilen dosyalarda geçerli JSON dosyaları olduğundan emin olun."
     }
   },
   "dataHistoryErrorHandlingWrapper": {

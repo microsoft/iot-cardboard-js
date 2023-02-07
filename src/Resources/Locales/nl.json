@@ -1381,8 +1381,8 @@
       "exceptionMessage": "Er gebeurde iets onverwachts. Probeer het opnieuw.",
       "importFailedTitle": "Importeren mislukt",
       "importFailedMessage": "Er is een fout opgetreden tijdens het importeren. Los ze op en probeer het opnieuw.\n {{fout}}",
-      "noValidFilesMessage": "Geen modelbestanden gevonden om te importeren. Zorg ervoor dat er geldige JSON-bestanden in de geselecteerde map staan.",
-      "noValidFilesTitle": "Geen modellen gevonden"
+      "noValidFilesTitle": "Geen modellen gevonden",
+      "noValidFilesMessage1": "Geen modelbestanden gevonden om te importeren. Zorg ervoor dat er geldige JSON-bestanden in de geselecteerde bestanden staan."
     }
   },
   "dataHistoryErrorHandlingWrapper": {
