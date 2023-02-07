@@ -9,10 +9,7 @@ import {
     IOatProjectData,
     ProjectData
 } from '../../../Pages/OATEditorPage/Internal/Classes/ProjectData';
-import {
-    OAT_MODEL_ID_PREFIX,
-    OAT_DEFAULT_PATH_VALUE
-} from '../../Constants/Constants';
+import { OAT_DEFAULT_PATH_VALUE } from '../../Constants/Constants';
 import {
     getOntologiesFromStorage,
     getLastUsedProjectId,
