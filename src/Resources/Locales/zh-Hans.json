@@ -1376,13 +1376,13 @@
       "unhandledExceptionMessage": "意想不到的事情发生了。请重试。"
     },
     "ImportErrors": {
-      "fileFormatNotSupportedMessage": "仅支持 JSON 文件。无法导入以下文件：\n{{文件名}}.",
-      "fileFormatNotSupportedTitle": "不支持文件格式",
       "fileInvalidJSON": "无法导入“{{文件名}}”，它包含无效的 JSON。",
       "exceptionTitle": "意外错误",
       "exceptionMessage": "意想不到的事情发生了。请重试。",
       "importFailedTitle": "导入失败",
-      "importFailedMessage": "导入过程中出错。请解决它们，然后重试。\n {{错误}}"
+      "importFailedMessage": "导入过程中出错。请解决它们，然后重试。\n {{错误}}",
+      "noValidFilesMessage": "未找到要导入的模型文件。确保所选文件夹中有有效的 JSON 文件。",
+      "noValidFilesTitle": "未找到型号"
     }
   },
   "dataHistoryErrorHandlingWrapper": {

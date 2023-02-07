@@ -1376,13 +1376,13 @@
       "unhandledExceptionMessage": "Случилось нечто неожиданное. Повторите попытку."
     },
     "ImportErrors": {
-      "fileFormatNotSupportedMessage": "Поддерживаются только JSON-файлы. Не удается импортировать следующие файлы: \n{{Именафайлов}}.",
-      "fileFormatNotSupportedTitle": "Формат файла не поддерживается",
       "fileInvalidJSON": "Не удается импортировать '{{имя_файла}}', он содержит недопустимый JSON.",
       "exceptionTitle": "Непредвиденная ошибка",
       "exceptionMessage": "Случилось нечто неожиданное. Повторите попытку.",
       "importFailedTitle": "Сбой импорта",
-      "importFailedMessage": "Произошла ошибка при импорте. Устраните их и повторите попытку.\n {{ошибка}}"
+      "importFailedMessage": "Произошла ошибка при импорте. Устраните их и повторите попытку.\n {{ошибка}}",
+      "noValidFilesMessage": "Файлы модели не найдены для импорта. Убедитесь, что в выбранной папке есть допустимые файлы JSON.",
+      "noValidFilesTitle": "Модели не найдены"
     }
   },
   "dataHistoryErrorHandlingWrapper": {

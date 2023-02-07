@@ -1376,13 +1376,13 @@
       "unhandledExceptionMessage": "Algo inesperado sucedió. Inténtalo de nuevo."
     },
     "ImportErrors": {
-      "fileFormatNotSupportedMessage": "Solo se admiten archivos JSON. No se pueden importar los siguientes archivos: \n{{fileNames}}.",
-      "fileFormatNotSupportedTitle": "Formato de archivo no compatible",
       "fileInvalidJSON": "No se puede importar '{{fileName}}', contiene JSON no válido.",
       "exceptionTitle": "Error inesperado",
       "exceptionMessage": "Algo inesperado sucedió. Inténtalo de nuevo.",
       "importFailedTitle": "Error de importación",
-      "importFailedMessage": "Se ha producido un error durante la importación. Resuélvelos e inténtalo de nuevo.\n {{error}}"
+      "importFailedMessage": "Se ha producido un error durante la importación. Resuélvelos e inténtalo de nuevo.\n {{error}}",
+      "noValidFilesMessage": "No se encontraron archivos de modelo para importar. Asegúrese de que haya archivos JSON válidos en la carpeta seleccionada.",
+      "noValidFilesTitle": "No se han encontrado modelos"
     }
   },
   "dataHistoryErrorHandlingWrapper": {

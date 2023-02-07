@@ -1376,13 +1376,13 @@
       "unhandledExceptionMessage": "予期せぬことが起こりました。もう一度やり直してください。"
     },
     "ImportErrors": {
-      "fileFormatNotSupportedMessage": "JSON ファイルのみがサポートされています。次のファイルをインポートできません。\n{{ファイル名}}.",
-      "fileFormatNotSupportedTitle": "サポートされていないファイル形式",
       "fileInvalidJSON": "'{{ファイル名}}' をインポートできません。無効な JSON が含まれています。",
       "exceptionTitle": "予期しないエラー",
       "exceptionMessage": "予期せぬことが起こりました。もう一度やり直してください。",
       "importFailedTitle": "インポートに失敗しました",
-      "importFailedMessage": "インポート中にエラーが発生しました。それらを解決して、もう一度やり直してください。\n {{エラー}}"
+      "importFailedMessage": "インポート中にエラーが発生しました。それらを解決して、もう一度やり直してください。\n {{エラー}}",
+      "noValidFilesMessage": "インポートするモデル ファイルが見つかりません。選択したフォルダーに有効な JSON ファイルがあることを確認します。",
+      "noValidFilesTitle": "モデルが見つかりません"
     }
   },
   "dataHistoryErrorHandlingWrapper": {
