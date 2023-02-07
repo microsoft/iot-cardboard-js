@@ -11,6 +11,7 @@ import {
     IDataHistoryTimeSeriesTwin
 } from '../../Models/Constants/Interfaces';
 import { ICardboardModalStyles } from '../CardboardModal/CardboardModal.types';
+import { IDataHistoryErrorHandlingWrapperStyles } from '../DataHistoryErrorHandlingWrapper/DataHistoryErrorHandlingWrapper.types';
 import { ITimeSeriesBuilderStyles } from './Internal/TimeSeriesBuilder/TimeSeriesBuilder.types';
 import { ITimeSeriesTwinCalloutStyles } from './Internal/TimeSeriesTwinCallout/TimeSeriesTwinCallout.types';
 import { ITimeSeriesCommandBarOptions } from './Internal/TimeSeriesViewer/Internal/TimeSeriesCommandBar/TimeSeriesCommandBar.types';
@@ -55,6 +56,7 @@ export interface IDataHistoryExplorerSubComponentStyles {
     viewer?: ITimeSeriesViewerStyles;
     timeSeriesTwinCallout?: Partial<ITimeSeriesTwinCalloutStyles>;
     loadingSpinner?: Partial<ISpinnerStyles>;
+    errorWrapper?: Partial<IDataHistoryErrorHandlingWrapperStyles>;
 }
 
 export interface IDataHistoryExplorerChartOptions

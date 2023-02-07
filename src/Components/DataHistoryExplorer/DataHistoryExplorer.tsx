@@ -89,7 +89,7 @@ const DataHistoryExplorer: React.FC<IDataHistoryExplorerProps> = (props) => {
     const [state, dispatch] = useReducer(DataHistoryExplorerReducer, {
         ...defaultDataHistoryExplorerState,
         adxConnectionInformation: adapter.getADXConnectionInformation(),
-        timeSeriesTwins: timeSeriesTwinsProp,
+        timeSeriesTwins: deepCopy(timeSeriesTwinsProp),
         explorerChartOptions: {
             ...deepCopy(
                 defaultChartOptions ||
