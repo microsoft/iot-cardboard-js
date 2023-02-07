@@ -48,9 +48,9 @@ export async function parseModels(models: DtdlInterface[]): Promise<string> {
 type TranslateFunction = (key: string, args?: Record<string, string>) => string;
 type ImportStatus = 'Success' | 'Failed';
 export interface IImportLocalizationKeys {
-    FileFormatNotSupportedMessage: string;
     FileInvalidJson: string;
-    FileFormatNotSupportedTitle: string;
+    NoValidFilesMessage: string;
+    NoValidFilesTitle: string;
     ImportFailedTitle: string;
     ImportFailedMessage: string;
     ExceptionTitle: string;
@@ -105,20 +105,11 @@ export const parseFilesToModels = async (
             files
         );
         const fileValidationResult = validateFiles(files);
-        if (fileValidationResult.failedFileNames.length > 0) {
+        if (fileValidationResult.validFiles.length === 0) {
             result.errors = [
                 {
-                    title: translate(
-                        localizationKeys.FileFormatNotSupportedTitle
-                    ),
-                    message: translate(
-                        localizationKeys.FileFormatNotSupportedMessage,
-                        {
-                            fileNames: fileValidationResult.failedFileNames
-                                .map((x) => `'${x}'`)
-                                .join('\n')
-                        }
-                    )
+                    title: translate(localizationKeys.NoValidFilesTitle),
+                    message: translate(localizationKeys.NoValidFilesMessage)
                 }
             ];
             result.status = 'Failed';
