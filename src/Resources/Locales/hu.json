@@ -1383,6 +1383,12 @@
       "importFailedMessage": "Hiba történt az importálás során. Oldja meg őket, és próbálkozzon újra.\n {{hiba}}",
       "noValidFilesTitle": "Nem található modell",
       "noValidFilesMessage": "Nem található importálható modellfájl. Győződjön meg arról, hogy vannak érvényes JSON-fájlok a kiválasztott fájl(ok)ban."
+    },
+    "PropertyEditor": {
+      "PreviewLabel": {
+        "badgeText": "Előnézet",
+        "badgeCalloutText": "Ez a modell DTDL V3-at használ, amely még előzetes verzióban érhető el. Előfordulhat, hogy egyes szolgáltatások és funkciók még folyamatban vannak."
+      }
     }
   },
   "dataHistoryErrorHandlingWrapper": {

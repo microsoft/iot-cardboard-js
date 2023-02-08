@@ -1383,6 +1383,12 @@
       "importFailedMessage": "Beim Import ist ein Fehler aufgetreten. Lösen Sie sie und versuchen Sie es erneut.\n {{Fehler}}",
       "noValidFilesTitle": "Keine Modelle gefunden",
       "noValidFilesMessage": "Es wurden keine Modelldateien zum Importieren gefunden. Stellen Sie sicher, dass die ausgewählten Dateien gültige JSON-Dateien enthalten."
+    },
+    "PropertyEditor": {
+      "PreviewLabel": {
+        "badgeText": "Vorschau",
+        "badgeCalloutText": "Dieses Modell verwendet DTDL V3, das sich noch in der Vorschau befindet. Einige Features und Funktionen sind möglicherweise noch in Bearbeitung."
+      }
     }
   },
   "dataHistoryErrorHandlingWrapper": {

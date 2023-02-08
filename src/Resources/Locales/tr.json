@@ -1383,6 +1383,12 @@
       "importFailedMessage": "İçe aktarma sırasında bir hata oluştu. Bunları çözün ve yeniden deneyin.\n {{error}}",
       "noValidFilesTitle": "Model bulunamadı",
       "noValidFilesMessage": "İçe aktarılacak model dosyası bulunamadı. Seçilen dosyalarda geçerli JSON dosyaları olduğundan emin olun."
+    },
+    "PropertyEditor": {
+      "PreviewLabel": {
+        "badgeText": "Önizleme",
+        "badgeCalloutText": "Bu model, hala önizleme aşamasında olan DTDL V3'ü kullanır. Bazı özellikler ve işlevler hala devam ediyor olabilir."
+      }
     }
   },
   "dataHistoryErrorHandlingWrapper": {
