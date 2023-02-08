@@ -9,7 +9,6 @@ import {
     CharacterWidths,
     CONNECTION_STRING_SUFFIX
 } from '../Constants/Constants';
-import { Parser } from 'expr-eval';
 import Ajv from 'ajv/dist/2020';
 import schema from '../../../schemas/3DScenesConfiguration/v1.0.0/3DScenesConfiguration.schema.json';
 import { ComponentError } from '../Classes/Errors';
@@ -382,17 +381,6 @@ export function formatTimeInRelevantUnits(
         value: value,
         displayStringKey: units
     };
-}
-
-export function parseExpression(expression: string, twins: any) {
-    let result: any = '';
-    try {
-        result = Parser.evaluate(expression, twins) as any;
-    } catch {
-        console.error(`Unable to parse expression: ${expression}`);
-    }
-
-    return result;
 }
 
 export function deepCopy<T>(object: T): T {

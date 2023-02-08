@@ -4,7 +4,6 @@ import {
     DTwinRelationship,
     IADTAdapter,
     IKeyValuePairAdapter,
-    ITsiClientChartDataAdapter,
     AzureAccessPermissionRoles,
     AzureResourceTypes,
     ADXTableColumns
@@ -68,8 +67,6 @@ export type ADTRelationship = {
     targetModel?: string;
     sourceModel?: string;
 };
-
-export type TsiClientData = any[];
 
 export type ADXTimeSeriesTableRow = {
     timestamp: string;
@@ -169,10 +166,7 @@ export type AssetsFromBIMState = {
     modelCounts: Record<string, number>;
 };
 
-export type AdapterTypes =
-    | IKeyValuePairAdapter
-    | ITsiClientChartDataAdapter
-    | IADTAdapter;
+export type AdapterTypes = IKeyValuePairAdapter | IADTAdapter;
 
 export type IIconNames = CardboardIconNames | string;
 export type CardboardIconNames =

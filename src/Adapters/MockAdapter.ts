@@ -1,7 +1,6 @@
 import {
     ADTAdapterTwinsData,
-    KeyValuePairAdapterData,
-    TsiClientAdapterData
+    KeyValuePairAdapterData
 } from '../Models/Classes';
 import ADTModelData, {
     ADTAllModelsData,
@@ -15,13 +14,11 @@ import {
     ADTRelationshipData,
     ADTRelationshipsData
 } from '../Models/Classes/AdapterDataClasses/ADTRelationshipsData';
-import { SearchSpan } from '../Models/Classes/SearchSpan';
 import {
     IADT3DViewerAdapter,
     IADTAdapter,
     IKeyValuePairAdapter,
-    IMockAdapter,
-    ITsiClientChartDataAdapter
+    IMockAdapter
 } from '../Models/Constants/Interfaces';
 import {
     AdapterMethodParamsForSearchADTTwins,
@@ -51,11 +48,7 @@ import {
     IMockError
 } from '../Models/Constants';
 import seedRandom from 'seedrandom';
-import {
-    ADTRelationship,
-    KeyValuePairData,
-    TsiClientData
-} from '../Models/Constants/Types';
+import { ADTRelationship, KeyValuePairData } from '../Models/Constants/Types';
 import { SceneVisual } from '../Models/Classes/SceneView.types';
 import mockVConfig from './__mockData__/3DScenesConfiguration.json';
 import mockTwinData from './__mockData__/MockAdapterData/MockTwinData.json';
@@ -98,7 +91,6 @@ export default class MockAdapter
     implements
         IKeyValuePairAdapter,
         IADT3DViewerAdapter,
-        ITsiClientChartDataAdapter,
         IBlobAdapter,
         Partial<IADTAdapter>,
         IPropertyInspectorAdapter,
@@ -371,39 +363,6 @@ export default class MockAdapter
         });
     }
 
-    generateMockLineChartData(
-        searchSpan: SearchSpan,
-        properties: string[]
-    ): TsiClientData {
-        const data = [];
-        const from = searchSpan.from;
-        const to = searchSpan.to;
-        const bucketSizeMillis =
-            searchSpan.bucketSizeMillis ||
-            Math.ceil((to.valueOf() - from.valueOf()) / 100);
-        for (let i = 0; i < properties.length; i++) {
-            const lines = {};
-            data.push({ [properties[i]]: lines });
-            for (let j = 0; j < 1; j++) {
-                const values = {};
-                lines[''] = values;
-                for (let k = 0; k < 60; k++) {
-                    if (!(k % 2 && k % 3)) {
-                        // if check is to create some sparseness in the data
-                        const to = new Date(
-                            from.valueOf() + bucketSizeMillis * k
-                        );
-                        const val = this.isDataStatic
-                            ? this.seededRng()
-                            : Math.random();
-                        values[to.toISOString()] = { avg: val };
-                    }
-                }
-            }
-        }
-        return data;
-    }
-
     async getRelationships(id: string) {
         const adapterMethodSandbox = new AdapterMethodSandbox();
 
@@ -542,30 +501,6 @@ export default class MockAdapter
                 errorInfo: { catastrophicError: err, errors: [err] }
             });
         }
-    }
-
-    async getTsiclientChartDataShape(
-        _id: string,
-        searchSpan: SearchSpan,
-        properties: string[]
-    ) {
-        const adapterMethodSandbox = new AdapterMethodSandbox();
-
-        return await adapterMethodSandbox.safelyFetchData(async () => {
-            const getData = (): TsiClientData => {
-                if (this.mockData !== undefined) {
-                    return this.mockData;
-                } else {
-                    return this.generateMockLineChartData(
-                        searchSpan,
-                        properties
-                    );
-                }
-            };
-
-            await this.mockNetwork();
-            return new TsiClientAdapterData(getData());
-        });
     }
 
     async getSceneData(sceneId: string, config: I3DScenesConfig) {
