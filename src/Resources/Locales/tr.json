@@ -1437,6 +1437,10 @@
         "refresh": "Verileri yenileme",
         "download": "Tablo verilerini indirme"
       }
+    },
+    "control": {
+      "title": "Açık veri geçmişi gezgini",
+      "disabledTitle": "Veri geçmişi bağlantı bilgileri bulunamadı"
     }
   }
 }

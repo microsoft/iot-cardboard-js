@@ -1437,6 +1437,10 @@
         "refresh": "Actualizar datos",
         "download": "Descargar datos de tabla"
       }
+    },
+    "control": {
+      "title": "Abrir el explorador del historial de datos",
+      "disabledTitle": "No se pudo encontrar la información de conexión del historial de datos"
     }
   }
 }

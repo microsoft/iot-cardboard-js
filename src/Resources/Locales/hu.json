@@ -1437,6 +1437,10 @@
         "refresh": "Adatok frissítése",
         "download": "Táblaadatok letöltése"
       }
+    },
+    "control": {
+      "title": "Az adatelőzmények explorerének megnyitása",
+      "disabledTitle": "Az adatelőzmények kapcsolati adatai nem találhatók"
     }
   }
 }

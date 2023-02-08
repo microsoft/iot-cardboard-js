@@ -1437,6 +1437,10 @@
         "refresh": "刷新数据",
         "download": "下载表数据"
       }
+    },
+    "control": {
+      "title": "打开数据历史记录浏览器",
+      "disabledTitle": "找不到数据历史记录连接信息"
     }
   }
 }
