@@ -45,6 +45,32 @@ const TimeSeriesTable: React.FC<ITimeSeriesTableProps> = (props) => {
         theme: useTheme()
     });
 
+    // callbacks
+    const getFormattedTimeStamp = useCallback(
+        (timeStamp: number | string) => {
+            switch (timeStampFormat) {
+                case TimeStampFormat.date:
+                    return new Date(timeStamp).toLocaleString();
+                case TimeStampFormat.iso:
+                    return new Date(timeStamp).toISOString();
+                default:
+                    return timeStamp;
+            }
+        },
+        [timeStampFormat]
+    );
+    const onRenderDetailsHeader = (
+        detailsHeaderProps: IDetailsHeaderProps,
+        defaultRender: IRenderFunction<IDetailsHeaderProps>
+    ) => (
+        <Sticky stickyPosition={StickyPositionType.Header}>
+            {defaultRender({
+                ...detailsHeaderProps,
+                styles: { root: { paddingTop: 0 } }
+            })}
+        </Sticky>
+    );
+
     // hooks
     const { t } = useTranslation();
     const getColumns: Array<IColumn> = useMemo(
@@ -122,33 +148,7 @@ const TimeSeriesTable: React.FC<ITimeSeriesTableProps> = (props) => {
                 }
             }
         ],
-        [timeSeriesTwins]
-    );
-
-    // callbacks
-    const getFormattedTimeStamp = useCallback(
-        (timeStamp: number | string) => {
-            switch (timeStampFormat) {
-                case TimeStampFormat.date:
-                    return new Date(timeStamp).toLocaleString();
-                case TimeStampFormat.iso:
-                    return new Date(timeStamp).toISOString();
-                default:
-                    return timeStamp;
-            }
-        },
-        [timeStampFormat]
-    );
-    const onRenderDetailsHeader = (
-        detailsHeaderProps: IDetailsHeaderProps,
-        defaultRender: IRenderFunction<IDetailsHeaderProps>
-    ) => (
-        <Sticky stickyPosition={StickyPositionType.Header}>
-            {defaultRender({
-                ...detailsHeaderProps,
-                styles: { root: { paddingTop: 0 } }
-            })}
-        </Sticky>
+        [timeSeriesTwins, t, getFormattedTimeStamp, classNames]
     );
 
     return (

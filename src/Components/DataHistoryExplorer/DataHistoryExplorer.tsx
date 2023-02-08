@@ -173,7 +173,13 @@ const DataHistoryExplorer: React.FC<IDataHistoryExplorerProps> = (props) => {
             filteredSeries.push(series);
         });
         return filteredSeries;
-    }, [data, state.timeSeriesTwins]);
+    }, [
+        data,
+        state.timeSeriesTwins,
+        isDefined,
+        hasOwnProperty,
+        logDebugConsole
+    ]);
 
     const tableData = useMemo(() => {
         const adxTimeSeriesTableRows: Array<TimeSeriesTableRow> = transformADXTimeSeriesToTimeSeriesTableData(
@@ -184,7 +190,7 @@ const DataHistoryExplorer: React.FC<IDataHistoryExplorerProps> = (props) => {
             `Number of rows: ${adxTimeSeriesTableRows.length}`
         );
         return adxTimeSeriesTableRows;
-    }, [data]);
+    }, [data, transformADXTimeSeriesToTimeSeriesTableData, logDebugConsole]);
 
     const viewerData: TimerSeriesViewerData = useMemo(
         () => ({ chart: chartData, table: tableData }),

@@ -76,7 +76,12 @@ const TimeSeriesViewer: React.FC<ITimeSeriesViewerProps> = (props) => {
                 />
             );
         }
-    }, [explorerChartOptions, viewerModeProps, onChartOptionsChange]);
+    }, [
+        explorerChartOptions,
+        viewerModeProps,
+        onChartOptionsChange,
+        classNames
+    ]);
 
     const SpinnerComponent = useMemo(
         () => (
@@ -88,7 +93,7 @@ const TimeSeriesViewer: React.FC<ITimeSeriesViewerProps> = (props) => {
                 labelPosition="top"
             />
         ),
-        []
+        [classNames, t]
     );
 
     return (

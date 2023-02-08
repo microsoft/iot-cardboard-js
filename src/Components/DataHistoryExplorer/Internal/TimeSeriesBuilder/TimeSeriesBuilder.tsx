@@ -66,6 +66,7 @@ const TimeSeriesBuilder: React.FC<ITimeSeriesBuilderProps> = (props) => {
                 missingTimeSeriesTwinIds
             ),
         [
+            getTimeSeriesTwinListItems,
             timeSeriesTwins,
             onEditSeriesClick,
             onRemoveSeriesClick,

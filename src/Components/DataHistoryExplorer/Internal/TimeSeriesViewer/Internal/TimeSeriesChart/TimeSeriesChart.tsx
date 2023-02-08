@@ -35,7 +35,7 @@ const TimeSeriesChart: React.FC<ITimeSeriesChartProps> = (props) => {
                       timeSeriesTwins
                   )
                 : [],
-        [data, timeSeriesTwins]
+        [data, timeSeriesTwins, transformADXTimeSeriesToHighChartsSeries]
     );
 
     // styles

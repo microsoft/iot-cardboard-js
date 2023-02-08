@@ -82,7 +82,7 @@ const TimeSeriesCommandBar: React.FC<ITimeSeriesCommandBarProps> = (props) => {
                 })
             );
         },
-        []
+        [setChartOptions]
     );
 
     // side effects

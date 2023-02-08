@@ -94,7 +94,7 @@ const TimeSeriesTwinCallout: React.FC<ITimeSeriesTwinCalloutProps> = (
                 }
             })
         );
-    }, []);
+    }, [setTimeSeriesTwinToEdit]);
     const handleTwinPropertyChange = useCallback(
         (newPropertyExpression: PropertyExpression) => {
             setTimeSeriesTwinToEdit(
@@ -119,7 +119,7 @@ const TimeSeriesTwinCallout: React.FC<ITimeSeriesTwinCalloutProps> = (
                 })
             );
         },
-        []
+        [setTimeSeriesTwinToEdit, getDefaultSeriesLabel]
     );
     const handleTwinPropertyCastingChange = useCallback(
         (_event, checked: boolean) => {
@@ -137,16 +137,19 @@ const TimeSeriesTwinCallout: React.FC<ITimeSeriesTwinCalloutProps> = (
                 }
             ]);
         },
-        []
+        [setTimeSeriesTwinToEdit, sendDataHistoryExplorerUserTelemetry]
     );
-    const handleLabelChange = useCallback((_event, label: string) => {
-        setTimeSeriesTwinToEdit(
-            produce((draft) => {
-                draft.label = label;
-                isLabelAutoPopulated.current = false;
-            })
-        );
-    }, []);
+    const handleLabelChange = useCallback(
+        (_event, label: string) => {
+            setTimeSeriesTwinToEdit(
+                produce((draft) => {
+                    draft.label = label;
+                    isLabelAutoPopulated.current = false;
+                })
+            );
+        },
+        [setTimeSeriesTwinToEdit]
+    );
 
     // styles
     const classNames = getClassNames(styles, {
