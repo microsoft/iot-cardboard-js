@@ -5,7 +5,6 @@ import '../src/Resources/Styles/BaseThemeVars.scss'; // Import BaseThemeVars to 
 import { Locale } from '../src/Models/Constants/Enums';
 import { StableGuidRngProvider } from '../src/Models/Context/StableGuidRngProvider';
 import { LoggingContextProvider } from '../src/Models/Context/LoggingContextProvider';
-import { SearchSpan } from '../src/Models/Classes/SearchSpan';
 
 // global inputs for all stories, but it is not included in args
 // so make sure to include second object parameter including 'globals' in your stories to access these inputs: https://storybook.js.org/docs/react/essentials/toolbars-and-globals#globals
@@ -52,11 +51,6 @@ export const globalTypes = {
 // Parameters are Storybook’s method of defining static metadata for stories
 // https://storybook.js.org/docs/react/writing-stories/introduction#using-parameters
 export const parameters = {
-    mockedSearchSpan: new SearchSpan(
-        new Date(1617260400000),
-        new Date(1617260500000),
-        '100ms'
-    ),
     defaultCardWrapperStyle: { width: '400px', height: '400px' },
     wideCardWrapperStyle: {
         height: '400px',
@@ -65,7 +59,14 @@ export const parameters = {
     options: {
         // Adds storybook sorting to make finding stories easier :)
         storySort: {
-            order: ['Pages', 'Components', 'Components - OAT', 'Contexts', '3DV', 'Test Stories'],
+            order: [
+                'Pages',
+                'Components',
+                'Components - OAT',
+                'Contexts',
+                '3DV',
+                'Test Stories'
+            ],
             method: 'Alphabetical'
         }
     },

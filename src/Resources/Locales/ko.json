@@ -1376,13 +1376,13 @@
       "unhandledExceptionMessage": "예상치 못한 일이 일어났습니다. 다시 시도하십시오."
     },
     "ImportErrors": {
-      "fileFormatNotSupportedMessage": "JSON 파일만 지원됩니다. 다음 파일을 가져올 수 없습니다. \n{{파일 이름}}.",
-      "fileFormatNotSupportedTitle": "지원되지 않는 파일 형식",
       "fileInvalidJSON": "'{{파일 이름}}'을 가져올 수 없으며 잘못된 JSON이 포함되어 있습니다.",
       "exceptionTitle": "예기치 않은 오류",
       "exceptionMessage": "예상치 못한 일이 일어났습니다. 다시 시도하십시오.",
       "importFailedTitle": "가져오기 실패",
-      "importFailedMessage": "가져오는 동안 오류가 발생했습니다. 문제를 해결하고 다시 시도하십시오.\n {{오류}}"
+      "importFailedMessage": "가져오는 동안 오류가 발생했습니다. 문제를 해결하고 다시 시도하십시오.\n {{오류}}",
+      "noValidFilesTitle": "모델을 찾을 수 없음",
+      "noValidFilesMessage": "가져올 모델 파일을 찾을 수 없습니다. 선택한 파일에 유효한 JSON 파일이 있는지 확인합니다."
     }
   },
   "dataHistoryErrorHandlingWrapper": {
@@ -1398,15 +1398,14 @@
     "title": "데이터 기록 탐색기",
     "loadingConnectionLabel": "데이터 기록 연결 정보를 로드하는 중...",
     "builder": {
-      "title": "트윈 속성",
       "description": "히스토라이즈된 속성의 과거 값을 비교하려면 아래에 시계열을 추가합니다.",
       "timeSeriesTwin": {
         "add": "시계열 추가",
         "edit": "시계열 편집",
         "remove": "시계열 제거",
         "property": "재산",
-        "propertyTypeCastLabe": "속성 값을 숫자로 변환",
-        "noData": "선택한 시간 범위에 대해 표시할 데이터가 없습니다."
+        "noData": "선택한 시간 범위에 대해 표시할 데이터가 없습니다.",
+        "propertyTypeCastLabel": "속성 값을 숫자로 변환"
       }
     },
     "viewer": {
@@ -1425,13 +1424,18 @@
           "type": "형"
         },
         "messages": {
-          "noColor": "설정되지 않음",
-          "loading": "히스토리화된 데이터를 로드하는 중...",
-          "noData": "선택한 시간 범위에서 데이터를 찾을 수 없습니다.",
-          "noSeries": "쿼리할 쌍이 선택되어 있지 않으면 쌍 속성을 추가하여 히스토레이티드된 데이터를 확인하세요."
-        }
+          "noData": "선택한 시간 범위에서 데이터를 찾을 수 없습니다."
+        },
+        "noColor": "설정되지 않음"
       },
-      "noSeriesDescription": "이 쌍에 대한 데이터 기록을 보려면 보려는 속성을 선택합니다."
+      "messages": {
+        "loading": "히스토리화된 데이터를 로드하는 중...",
+        "noSeries": "쿼리할 쌍이 선택되어 있지 않으면 쌍 속성을 추가하여 히스토레이티드된 데이터를 확인하세요."
+      },
+      "commandBar": {
+        "refresh": "데이터 새로 고침",
+        "download": "테이블 데이터 다운로드"
+      }
     }
   }
 }

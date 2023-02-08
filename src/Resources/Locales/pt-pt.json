@@ -1376,13 +1376,13 @@
       "unhandledExceptionMessage": "Algo inesperado aconteceu. Por favor, tente de novo."
     },
     "ImportErrors": {
-      "fileFormatNotSupportedMessage": "Apenas os ficheiros JSON são suportados. Não é possível importar os seguintes ficheiros: \n{{fileNames}} .",
-      "fileFormatNotSupportedTitle": "Formato de ficheiro não suportado",
       "fileInvalidJSON": "Incapaz de importar '{fileName}', contém JSON inválido.",
       "exceptionTitle": "Erro inesperado",
       "exceptionMessage": "Algo inesperado aconteceu. Por favor, tente de novo.",
       "importFailedTitle": "Importação falhou",
-      "importFailedMessage": "Houve um erro durante a importação. Resolva-os e tente de novo.\n {{erro}}"
+      "importFailedMessage": "Houve um erro durante a importação. Resolva-os e tente de novo.\n {{erro}}",
+      "noValidFilesTitle": "Nenhum modelo encontrado",
+      "noValidFilesMessage": "Nenhum modelo de ficheiros encontrados para importar. Certifique-se de que existem ficheiros JSON válidos nos ficheiros selecionados."
     }
   },
   "dataHistoryErrorHandlingWrapper": {
@@ -1398,15 +1398,14 @@
     "title": "Explorador de histórico de dados",
     "loadingConnectionLabel": "A carregar informações sobre a ligação do histórico de dados...",
     "builder": {
-      "title": "Propriedades gémeas",
       "description": "Para comparar valores passados para propriedades historizadas, adicione séries de tempo abaixo.",
       "timeSeriesTwin": {
         "add": "Adicionar séries de tempo",
         "edit": "Editar séries tempor feiras",
         "remove": "Remover séries de tempo",
         "property": "Propriedade",
-        "propertyTypeCastLabe": "Valor da propriedade do elenco para o número",
-        "noData": "Não há dados para visualizar para o intervalo de tempo selecionado"
+        "noData": "Não há dados para visualizar para o intervalo de tempo selecionado",
+        "propertyTypeCastLabel": "Valor da propriedade do elenco para o número"
       }
     },
     "viewer": {
@@ -1425,13 +1424,18 @@
           "type": "Tipo"
         },
         "messages": {
-          "noColor": "Não definido",
-          "loading": "A carregar dados historizados...",
-          "noData": "Não são encontrados dados no intervalo de tempo selecionado.",
-          "noSeries": "Nenhum gémeo selecionado para consulta, por favor adicione propriedades gémeas para visualizar dados historizados."
-        }
+          "noData": "Não são encontrados dados no intervalo de tempo selecionado."
+        },
+        "noColor": "Não definido"
       },
-      "noSeriesDescription": "Para ver o histórico de dados deste twin, selecione uma propriedade para visualizar."
+      "messages": {
+        "loading": "A carregar dados historizados...",
+        "noSeries": "Nenhum gémeo selecionado para consulta, por favor adicione propriedades gémeas para visualizar dados historizados."
+      },
+      "commandBar": {
+        "refresh": "Atualizar dados",
+        "download": "Baixar dados de tabela"
+      }
     }
   }
 }

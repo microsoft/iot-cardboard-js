@@ -25,6 +25,7 @@ export interface IOATHeaderStyleProps {
 export interface IOATHeaderStyles {
     root: IStyle;
     projectName: IStyle;
+    uploadInputContainer: IStyle;
 
     /**
      * SubComponent styles.

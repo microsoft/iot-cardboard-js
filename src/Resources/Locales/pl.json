@@ -1376,13 +1376,13 @@
       "unhandledExceptionMessage": "Stało się coś nieoczekiwanego. Spróbuj ponownie."
     },
     "ImportErrors": {
-      "fileFormatNotSupportedMessage": "Obsługiwane są tylko pliki JSON. Nie można zaimportować następujących plików: \n{{fileNames}}.",
-      "fileFormatNotSupportedTitle": "Format pliku nie jest obsługiwany",
       "fileInvalidJSON": "Nie można zaimportować pliku \"{{fileName}}\", ponieważ zawiera nieprawidłowy kod JSON.",
       "exceptionTitle": "Nieoczekiwany błąd",
       "exceptionMessage": "Stało się coś nieoczekiwanego. Spróbuj ponownie.",
       "importFailedTitle": "Importowanie nie powiodło się",
-      "importFailedMessage": "Wystąpił błąd podczas importu. Rozwiąż je i spróbuj ponownie.\n {{error}}"
+      "importFailedMessage": "Wystąpił błąd podczas importu. Rozwiąż je i spróbuj ponownie.\n {{error}}",
+      "noValidFilesTitle": "Nie znaleziono modeli",
+      "noValidFilesMessage": "Nie znaleziono plików modeli do zaimportowania. Upewnij się, że w wybranych plikach znajdują się prawidłowe pliki JSON."
     }
   },
   "dataHistoryErrorHandlingWrapper": {
@@ -1398,15 +1398,14 @@
     "title": "Eksplorator historii danych",
     "loadingConnectionLabel": "Ładowanie historii danych informacji o połączeniu...",
     "builder": {
-      "title": "Bliźniacze właściwości",
       "description": "Aby porównać wcześniejsze wartości historycznych właściwości, dodaj poniżej szereg czasowy.",
       "timeSeriesTwin": {
         "add": "Dodawanie szeregów czasowych",
         "edit": "Edytowanie szeregów czasowych",
         "remove": "Usuwanie szeregów czasowych",
         "property": "Własność",
-        "propertyTypeCastLabe": "Rzutowanie wartości właściwości na liczbę",
-        "noData": "Brak danych do wyświetlenia dla wybranego zakresu czasu"
+        "noData": "Brak danych do wyświetlenia dla wybranego zakresu czasu",
+        "propertyTypeCastLabel": "Rzutowanie wartości właściwości na liczbę"
       }
     },
     "viewer": {
@@ -1425,13 +1424,18 @@
           "type": "Typ"
         },
         "messages": {
-          "noColor": "Nie ustawiono",
-          "loading": "Ładowanie danych historycznych...",
-          "noData": "Nie znaleziono danych w wybranym zakresie czasu.",
-          "noSeries": "Nie wybrano bliźniaka do zapytania, dodaj właściwości bliźniacze, aby wyświetlić dane historyczne."
-        }
+          "noData": "Nie znaleziono danych w wybranym zakresie czasu."
+        },
+        "noColor": "Nie ustawiono"
       },
-      "noSeriesDescription": "Aby wyświetlić historię danych dla tej bliźniaczej płaszczyzny, wybierz właściwość do wyświetlenia."
+      "messages": {
+        "loading": "Ładowanie danych historycznych...",
+        "noSeries": "Nie wybrano bliźniaka do zapytania, dodaj właściwości bliźniacze, aby wyświetlić dane historyczne."
+      },
+      "commandBar": {
+        "refresh": "Odświeżanie danych",
+        "download": "Pobierz dane tabeli"
+      }
     }
   }
 }

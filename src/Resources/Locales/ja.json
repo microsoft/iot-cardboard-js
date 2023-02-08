@@ -1376,13 +1376,13 @@
       "unhandledExceptionMessage": "予期せぬことが起こりました。もう一度やり直してください。"
     },
     "ImportErrors": {
-      "fileFormatNotSupportedMessage": "JSON ファイルのみがサポートされています。次のファイルをインポートできません。\n{{ファイル名}}.",
-      "fileFormatNotSupportedTitle": "サポートされていないファイル形式",
       "fileInvalidJSON": "'{{ファイル名}}' をインポートできません。無効な JSON が含まれています。",
       "exceptionTitle": "予期しないエラー",
       "exceptionMessage": "予期せぬことが起こりました。もう一度やり直してください。",
       "importFailedTitle": "インポートに失敗しました",
-      "importFailedMessage": "インポート中にエラーが発生しました。それらを解決して、もう一度やり直してください。\n {{エラー}}"
+      "importFailedMessage": "インポート中にエラーが発生しました。それらを解決して、もう一度やり直してください。\n {{エラー}}",
+      "noValidFilesTitle": "モデルが見つかりません",
+      "noValidFilesMessage": "インポートするモデル ファイルが見つかりません。選択したファイルに有効なJSONファイルがあることを確認してください。"
     }
   },
   "dataHistoryErrorHandlingWrapper": {
@@ -1398,15 +1398,14 @@
     "title": "データ履歴エクスプローラー",
     "loadingConnectionLabel": "データ履歴接続情報を読み込んでいます...",
     "builder": {
-      "title": "ツインプロパティ",
       "description": "履歴化されたプロパティの過去の値を比較するには、以下に時系列を追加します。",
       "timeSeriesTwin": {
         "add": "時系列の追加",
         "edit": "時系列の編集",
         "remove": "時系列を削除する",
         "property": "財産",
-        "propertyTypeCastLabe": "プロパティ値を数値にキャストする",
-        "noData": "選択した時間範囲に表示するデータがありません"
+        "noData": "選択した時間範囲に表示するデータがありません",
+        "propertyTypeCastLabel": "プロパティ値を数値にキャストする"
       }
     },
     "viewer": {
@@ -1425,13 +1424,18 @@
           "type": "種類"
         },
         "messages": {
-          "noColor": "未設定",
-          "loading": "履歴化されたデータを読み込んでいます...",
-          "noData": "選択した時間範囲内にデータが見つかりません。",
-          "noSeries": "クエリするツインが選択されていません。履歴データを表示するためにツイン プロパティを追加してください。"
-        }
+          "noData": "選択した時間範囲内にデータが見つかりません。"
+        },
+        "noColor": "未設定"
       },
-      "noSeriesDescription": "このツインのデータ履歴を表示するには、表示するプロパティを選択します。"
+      "messages": {
+        "loading": "履歴化されたデータを読み込んでいます...",
+        "noSeries": "クエリするツインが選択されていません。履歴データを表示するためにツイン プロパティを追加してください。"
+      },
+      "commandBar": {
+        "refresh": "データの更新",
+        "download": "テーブルデータのダウンロード"
+      }
     }
   }
 }

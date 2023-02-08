@@ -1376,13 +1376,13 @@
       "unhandledExceptionMessage": "Något oväntat hände. Försök igen."
     },
     "ImportErrors": {
-      "fileFormatNotSupportedMessage": "Endast JSON-filer stöds. Det går inte att importera följande filer: \n{{fileNames}}.",
-      "fileFormatNotSupportedTitle": "Filformatet stöds inte",
       "fileInvalidJSON": "Det går inte att importera {{fileName}}, den innehåller ogiltig JSON.",
       "exceptionTitle": "Oväntat fel",
       "exceptionMessage": "Något oväntat hände. Försök igen.",
       "importFailedTitle": "Importen misslyckades",
-      "importFailedMessage": "Det uppstod ett fel under importen. Lös dem och försök igen.\n {{error}}"
+      "importFailedMessage": "Det uppstod ett fel under importen. Lös dem och försök igen.\n {{error}}",
+      "noValidFilesTitle": "Inga modeller hittades",
+      "noValidFilesMessage": "Inga modellfiler hittades att importera. Kontrollera att det finns giltiga JSON-filer i de valda filerna."
     }
   },
   "dataHistoryErrorHandlingWrapper": {
@@ -1398,15 +1398,14 @@
     "title": "Utforskaren för datahistorik",
     "loadingConnectionLabel": "Laddar anslutningsinformation för datahistorik...",
     "builder": {
-      "title": "Tvillingegenskaper",
       "description": "Om du vill jämföra tidigare värden för historiserade egenskaper lägger du till tidsserier nedan.",
       "timeSeriesTwin": {
         "add": "Lägg till tidsserier",
         "edit": "Redigera tidsserier",
         "remove": "Ta bort tidsserier",
         "property": "Egenskap",
-        "propertyTypeCastLabe": "Gjutet egenskapsvärde till antal",
-        "noData": "Inga data att visa för det valda tidsintervallet"
+        "noData": "Inga data att visa för det valda tidsintervallet",
+        "propertyTypeCastLabel": "Gjutet egenskapsvärde till antal"
       }
     },
     "viewer": {
@@ -1425,13 +1424,18 @@
           "type": "Typ"
         },
         "messages": {
-          "noColor": "Inte inställt",
-          "loading": "Laddar historiserade data...",
-          "noData": "Inga data hittades i det valda tidsintervallet.",
-          "noSeries": "Ingen tvilling har valts för att fråga, lägg till tvillingegenskaper för att visa historiserade data."
-        }
+          "noData": "Inga data hittades i det valda tidsintervallet."
+        },
+        "noColor": "Inte inställt"
       },
-      "noSeriesDescription": "Om du vill visa datahistorik för den här tvillingen väljer du en egenskap som ska visas."
+      "messages": {
+        "loading": "Laddar historiserade data...",
+        "noSeries": "Ingen tvilling har valts för att fråga, lägg till tvillingegenskaper för att visa historiserade data."
+      },
+      "commandBar": {
+        "refresh": "Uppdatera data",
+        "download": "Ladda ned tabelldata"
+      }
     }
   }
 }

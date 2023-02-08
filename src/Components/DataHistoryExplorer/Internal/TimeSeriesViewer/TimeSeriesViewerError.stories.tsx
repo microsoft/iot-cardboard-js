@@ -3,9 +3,6 @@ import { ComponentStory } from '@storybook/react';
 import { getDefaultStoryDecorator } from '../../../../Models/Services/StoryUtilities';
 import TimeSeriesViewer from './TimeSeriesViewer';
 import { ITimeSeriesViewerProps } from './TimeSeriesViewer.types';
-import MockAdapter from '../../../../Adapters/MockAdapter';
-import { DataHistoryExplorerContext } from '../../DataHistoryExplorer';
-import { createGUID } from '../../../../Models/Services/Utils';
 import { ComponentErrorType } from '../../../../Models/Constants/Enums';
 import { DataHistoryServiceErrorCodes } from '../../../DataHistoryErrorHandlingWrapper/DataHistoryErrorHandlingWrapper.types';
 import { AxiosError } from 'axios';
@@ -20,107 +17,74 @@ export default {
 
 type TimeSeriesViewerStory = ComponentStory<typeof TimeSeriesViewer>;
 
-const Template: TimeSeriesViewerStory = (args, { parameters: { adapter } }) => {
-    return (
-        <DataHistoryExplorerContext.Provider value={{ adapter }}>
-            <TimeSeriesViewer
-                {...args}
-                timeSeriesTwinList={[
-                    {
-                        seriesId: createGUID(),
-                        twinId: 'PasteurizationMachine_A01',
-                        twinPropertyName: 'Inflow',
-                        twinPropertyType: 'double',
-                        label: 'PasteurizationMachine_A01 Inflow'
-                    },
-                    {
-                        seriesId: createGUID(),
-                        twinId: 'PasteurizationMachine_A02',
-                        twinPropertyName: 'Inflow',
-                        twinPropertyType: 'double'
-                    }
-                ]}
-            />
-        </DataHistoryExplorerContext.Provider>
-    );
+const Template: TimeSeriesViewerStory = (args) => {
+    return <TimeSeriesViewer {...args} />;
 };
 
 export const ClusterUrlError = Template.bind({}) as TimeSeriesViewerStory;
-ClusterUrlError.parameters = {
-    adapter: new MockAdapter({
-        mockError: { type: ComponentErrorType.ConnectionError }
-    })
+ClusterUrlError.args = {
+    error: { type: ComponentErrorType.ConnectionError }
 };
 
 export const DatabaseError = Template.bind({}) as TimeSeriesViewerStory;
-DatabaseError.parameters = {
-    adapter: new MockAdapter({
-        mockError: {
-            type: ComponentErrorType.BadRequestException,
-            rawError: {
-                response: {
-                    data: {
-                        error: {
-                            code:
-                                DataHistoryServiceErrorCodes.BadRequest_EntityNotFound
-                        }
+DatabaseError.args = {
+    error: {
+        type: ComponentErrorType.BadRequestException,
+        rawError: {
+            response: {
+                data: {
+                    error: {
+                        code:
+                            DataHistoryServiceErrorCodes.BadRequest_EntityNotFound
                     }
                 }
-            } as AxiosError
-        }
-    })
+            }
+        } as AxiosError
+    }
 };
 
 export const TableOrQueryError = Template.bind({}) as TimeSeriesViewerStory;
-TableOrQueryError.parameters = {
-    adapter: new MockAdapter({
-        mockError: {
-            type: ComponentErrorType.BadRequestException,
-            rawError: {
-                response: {
-                    data: {
-                        error: {
-                            code:
-                                DataHistoryServiceErrorCodes.General_BadRequest,
-                            innererror: {
-                                message:
-                                    "'where' operator: Failed to resolve table or column expression named 'mockKustoTableName'"
-                            }
+TableOrQueryError.args = {
+    error: {
+        type: ComponentErrorType.BadRequestException,
+        rawError: {
+            response: {
+                data: {
+                    error: {
+                        code: DataHistoryServiceErrorCodes.General_BadRequest,
+                        innererror: {
+                            message:
+                                "'where' operator: Failed to resolve table or column expression named 'mockKustoTableName'"
                         }
                     }
                 }
-            } as AxiosError
-        }
-    })
+            }
+        } as AxiosError
+    }
 };
 
 export const UnauthorizedAccessError = Template.bind(
     {}
 ) as TimeSeriesViewerStory;
-UnauthorizedAccessError.parameters = {
-    adapter: new MockAdapter({
-        mockError: { type: ComponentErrorType.UnauthorizedAccess }
-    })
+UnauthorizedAccessError.args = {
+    error: { type: ComponentErrorType.UnauthorizedAccess }
 };
 
 export const GenericError = Template.bind({}) as TimeSeriesViewerStory;
-GenericError.parameters = {
-    adapter: new MockAdapter({
-        mockError: {
-            type: ComponentErrorType.DataFetchFailed,
-            rawError: {
-                response: {
-                    data: {
-                        error: {
-                            code:
-                                DataHistoryServiceErrorCodes.General_BadRequest,
-                            innererror: {
-                                message: 'Generic error message details'
-                            }
+GenericError.args = {
+    error: {
+        type: ComponentErrorType.DataFetchFailed,
+        rawError: {
+            response: {
+                data: {
+                    error: {
+                        code: DataHistoryServiceErrorCodes.General_BadRequest,
+                        innererror: {
+                            message: 'Generic error message details'
                         }
                     }
                 }
-            } as AxiosError
-        }
-    })
+            }
+        } as AxiosError
+    }
 };

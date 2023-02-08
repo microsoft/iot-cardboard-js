@@ -9,7 +9,6 @@ import {
     CharacterWidths,
     CONNECTION_STRING_SUFFIX
 } from '../Constants/Constants';
-import { Parser } from 'expr-eval';
 import Ajv from 'ajv/dist/2020';
 import schema from '../../../schemas/3DScenesConfiguration/v1.0.0/3DScenesConfiguration.schema.json';
 import { ComponentError } from '../Classes/Errors';
@@ -264,16 +263,22 @@ export const hasAllProcessGraphicsCardProperties = (
     );
 };
 
-export const downloadText = (text: string, fileName?: string) => {
-    const blob = new Blob([text], { type: 'text/csv;charset=utf-8;' });
+export const downloadJSON = (text: string, fileName?: string) => {
+    const blob = new Blob([text], { type: 'application/json;charset=utf-8;' });
+    downloadFile(blob, fileName ?? 'Instances.json');
+};
+
+/** downloads a file as a blob to the user's machine */
+export function downloadFile(blob: Blob, fileName: string) {
     const blobURL = window.URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.setAttribute('href', blobURL);
-    link.setAttribute('download', fileName ? fileName : 'Instances.json');
+    link.setAttribute('download', fileName);
     link.innerHTML = '';
     document.body.appendChild(link);
     link.click();
-};
+    link.parentNode.removeChild(link);
+}
 
 /** Remove the suffix or any other text after the numbers, or return undefined if not a number */
 export const getNumericPart = (value: string): number | undefined => {
@@ -382,17 +387,6 @@ export function formatTimeInRelevantUnits(
         value: value,
         displayStringKey: units
     };
-}
-
-export function parseExpression(expression: string, twins: any) {
-    let result: any = '';
-    try {
-        result = Parser.evaluate(expression, twins) as any;
-    } catch {
-        console.error(`Unable to parse expression: ${expression}`);
-    }
-
-    return result;
 }
 
 export function deepCopy<T>(object: T): T {
@@ -1004,16 +998,4 @@ export function capitalizeFirstLetter(str: string) {
         console.error('Failed to capitalize string', error.message);
         return str;
     }
-}
-
-/** downloads a file as a blob to the user's machine */
-export function downloadFile(blob: Blob, fileName: string) {
-    const blobURL = window.URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.setAttribute('href', blobURL);
-    link.setAttribute('download', fileName);
-    link.innerHTML = '';
-    document.body.appendChild(link);
-    link.click();
-    link.parentNode.removeChild(link);
 }

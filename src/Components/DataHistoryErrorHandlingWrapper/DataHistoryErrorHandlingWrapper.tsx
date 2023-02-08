@@ -76,7 +76,9 @@ const DataHistoryErrorHandlingWrapper: React.FC<IDataHistoryErrorHandlingWrapper
         switch (errorType) {
             case ComponentErrorType.ConnectionError: // status 0
                 // e.g. with network error of ERR_NAME_NOT_RESOLVED due to invalid request url (including cluster url error) or connection error
-                description = t(LOC_KEYS.genericNetwork);
+                description = t(LOC_KEYS.genericNetwork, {
+                    adxServiceName: 'Azure Data Explorer'
+                });
                 imgSrc = ConnectionErrorImg;
                 break;
             case ComponentErrorType.BadRequestException: // status 400

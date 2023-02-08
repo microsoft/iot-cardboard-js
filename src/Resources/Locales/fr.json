@@ -1376,13 +1376,13 @@
       "unhandledExceptionMessage": "Quelque chose d’inattendu s’est produit. Veuillez réessayer."
     },
     "ImportErrors": {
-      "fileFormatNotSupportedMessage": "Seuls les fichiers JSON sont pris en charge. Impossible d’importer les fichiers suivants : \n{{fileNames}}.",
-      "fileFormatNotSupportedTitle": "Format de fichier non pris en charge",
       "fileInvalidJSON": "Impossible d'importer '{{fileName}}', il contient du JSON non valide.",
       "exceptionTitle": "Erreur inattendue",
       "exceptionMessage": "Quelque chose d’inattendu s’est produit. Veuillez réessayer.",
       "importFailedTitle": "Echec de l’importation",
-      "importFailedMessage": "Une erreur s’est produite lors de l’importation. Résolvez-les et réessayez.\n {{error}}"
+      "importFailedMessage": "Une erreur s’est produite lors de l’importation. Résolvez-les et réessayez.\n {{error}}",
+      "noValidFilesTitle": "Aucun modèle trouvé",
+      "noValidFilesMessage": "Aucun fichier de modèle trouvé à importer. Assurez-vous qu’il existe des fichiers JSON valides dans le(s) fichier(s) sélectionné(s)."
     }
   },
   "dataHistoryErrorHandlingWrapper": {
@@ -1398,15 +1398,14 @@
     "title": "Explorateur d’historique des données",
     "loadingConnectionLabel": "Chargement des informations de connexion de l’historique des données...",
     "builder": {
-      "title": "Propriétés jumelles",
       "description": "Pour comparer les valeurs antérieures des propriétés historisées, ajoutez des séries chronologiques ci-dessous.",
       "timeSeriesTwin": {
         "add": "Ajouter des séries chronologiques",
         "edit": "Modifier des séries chronologiques",
         "remove": "Supprimer des séries chronologiques",
         "property": "Propriété",
-        "propertyTypeCastLabe": "Convertir la valeur de la propriété en nombre",
-        "noData": "Aucune donnée à afficher pour la plage de temps sélectionnée"
+        "noData": "Aucune donnée à afficher pour la plage de temps sélectionnée",
+        "propertyTypeCastLabel": "Convertir la valeur de la propriété en nombre"
       }
     },
     "viewer": {
@@ -1425,13 +1424,18 @@
           "type": "Type"
         },
         "messages": {
-          "noColor": "Non défini",
-          "loading": "Chargement de données historiques...",
-          "noData": "Aucune donnée trouvée dans la plage de temps sélectionnée.",
-          "noSeries": "Aucun jumeau sélectionné pour interroger, veuillez ajouter des propriétés jumelles pour afficher les données historiques."
-        }
+          "noData": "Aucune donnée trouvée dans la plage de temps sélectionnée."
+        },
+        "noColor": "Non défini"
       },
-      "noSeriesDescription": "Pour afficher l’historique des données de ce jumeau, sélectionnez une propriété à afficher."
+      "messages": {
+        "loading": "Chargement de données historiques...",
+        "noSeries": "Aucun jumeau sélectionné pour interroger, veuillez ajouter des propriétés jumelles pour afficher les données historiques."
+      },
+      "commandBar": {
+        "refresh": "Actualiser les données",
+        "download": "Télécharger les données de la table"
+      }
     }
   }
 }

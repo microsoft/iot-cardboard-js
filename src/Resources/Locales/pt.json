@@ -1376,13 +1376,13 @@
       "unhandledExceptionMessage": "Algo inesperado aconteceu. Tente novamente."
     },
     "ImportErrors": {
-      "fileFormatNotSupportedMessage": "Somente arquivos JSON são suportados. Não é possível importar os seguintes arquivos: \n{{fileNames}}.",
-      "fileFormatNotSupportedTitle": "Formato de arquivo não suportado",
       "fileInvalidJSON": "Não é possível importar '{{fileName}}', ele contém JSON inválido.",
       "exceptionTitle": "Erro inesperado",
       "exceptionMessage": "Algo inesperado aconteceu. Tente novamente.",
       "importFailedTitle": "Falha na importação",
-      "importFailedMessage": "Ocorreu um erro durante a importação. Resolva-os e tente novamente.\n {{erro}}"
+      "importFailedMessage": "Ocorreu um erro durante a importação. Resolva-os e tente novamente.\n {{erro}}",
+      "noValidFilesTitle": "Nenhum modelo encontrado",
+      "noValidFilesMessage": "Nenhum arquivo de modelo encontrado para importar. Verifique se há arquivos JSON válidos no(s) arquivo(s) selecionado(s)."
     }
   },
   "dataHistoryErrorHandlingWrapper": {
@@ -1398,15 +1398,14 @@
     "title": "Explorador de histórico de dados",
     "loadingConnectionLabel": "Carregando informações de conexão do histórico de dados...",
     "builder": {
-      "title": "Propriedades Twin",
       "description": "Para comparar valores passados para propriedades historizadas, adicione séries temporais abaixo.",
       "timeSeriesTwin": {
         "add": "Adicionar séries temporais",
         "edit": "Editar séries temporais",
         "remove": "Remover séries temporais",
         "property": "Propriedade",
-        "propertyTypeCastLabe": "Transferir o valor da propriedade para o número",
-        "noData": "Nenhum dado a ser exibido para o intervalo de tempo selecionado"
+        "noData": "Nenhum dado a ser exibido para o intervalo de tempo selecionado",
+        "propertyTypeCastLabel": "Transferir o valor da propriedade para o número"
       }
     },
     "viewer": {
@@ -1425,13 +1424,18 @@
           "type": "Tipo"
         },
         "messages": {
-          "noColor": "Não definido",
-          "loading": "Carregando dados historizados...",
-          "noData": "Nenhum dado encontrado no intervalo de tempo selecionado.",
-          "noSeries": "Nenhum gêmeo selecionado para consultar, adicione propriedades gêmeas para exibir dados historiados."
-        }
+          "noData": "Nenhum dado encontrado no intervalo de tempo selecionado."
+        },
+        "noColor": "Não definido"
       },
-      "noSeriesDescription": "Para exibir o histórico de dados desse gêmeo, selecione uma propriedade a ser exibida."
+      "messages": {
+        "loading": "Carregando dados historizados...",
+        "noSeries": "Nenhum gêmeo selecionado para consultar, adicione propriedades gêmeas para exibir dados historiados."
+      },
+      "commandBar": {
+        "refresh": "Atualizar dados",
+        "download": "Baixar dados da tabela"
+      }
     }
   }
 }

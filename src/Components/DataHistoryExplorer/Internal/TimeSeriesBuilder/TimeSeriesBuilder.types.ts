@@ -5,18 +5,17 @@ import {
     ITheme
 } from '@fluentui/react';
 import { IDataHistoryTimeSeriesTwin } from '../../../../Models/Constants';
-import { ITimeSeriesTwinCalloutStyles } from '../TimeSeriesTwinCallout/TimeSeriesTwinCallout.types';
 
 export const MAX_NUMBER_OF_TIME_SERIES_TWINS = 3;
 export const TIME_SERIES_TWIN_LIST_ITEM_ID_PREFIX =
     'cb-data-history-explorer-series';
 
 export interface ITimeSeriesBuilderProps {
-    timeSeriesTwins?: Array<IDataHistoryTimeSeriesTwin>;
-    onTimeSeriesTwinListChange?: (
-        timeSeriesTwinList: Array<IDataHistoryTimeSeriesTwin>
-    ) => void;
-    missingDataSeriesIds?: Array<string>;
+    timeSeriesTwins: Array<IDataHistoryTimeSeriesTwin>;
+    missingTimeSeriesTwinIds?: Array<string>;
+    onAddSeriesClick: (calloutTargetId: string) => void;
+    onEditSeriesClick: (seriesId: string, calloutTargetId: string) => void;
+    onRemoveSeriesClick: (seriesId: string) => void;
     /**
      * Call to provide customized styling that will layer on top of the variant rules.
      */
@@ -31,7 +30,6 @@ export interface ITimeSeriesBuilderStyleProps {
 }
 export interface ITimeSeriesBuilderStyles {
     root: IStyle;
-    header?: IStyle;
     description?: IStyle;
     twinPropertyList?: IStyle;
     /**
@@ -42,5 +40,4 @@ export interface ITimeSeriesBuilderStyles {
 
 export interface ITimeSeriesBuilderSubComponentStyles {
     addNewButton?: Partial<IButtonStyles>;
-    timeSeriesTwinCallout?: Partial<ITimeSeriesTwinCalloutStyles>;
 }
