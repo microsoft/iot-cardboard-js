@@ -65,7 +65,7 @@ export const getStyles = (props: IEditorStyleProps): IEditorStyles => {
         previewLabel: [
             {
                 position: 'absolute',
-                right: 4,
+                right: 16,
                 top: 18, // 16 container padding + 2 inner padding
                 zIndex: 1000
             }

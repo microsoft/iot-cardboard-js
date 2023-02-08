@@ -19,16 +19,14 @@ export const getStyles = (
             classNames.root,
             {
                 width: 'fit-content',
-                padding: 4,
                 borderRadius: theme.effects.roundedCorner4,
-                backgroundColor: theme.palette.neutralLighter,
-                zIndex: 1000
+                backgroundColor: theme.palette.neutralLighter
             }
         ],
         subComponentStyles: {
             badgeButton: {
                 root: {
-                    height: 'unset'
+                    height: 32
                 }
             }
         }
