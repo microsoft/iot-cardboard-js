@@ -386,11 +386,11 @@ const DataHistoryExplorer: React.FC<IDataHistoryExplorerProps> = (props) => {
         downloadJSON(
             JSON.stringify(
                 tableData.map((d) => {
-                    const { property, ...rest } = d;
-                    delete rest.seriesId;
                     return {
-                        ...rest,
-                        key: property // move the key field back to property name
+                        timestamp: d.timestamp,
+                        value: d.value,
+                        id: d.id,
+                        key: d.property // move the key field back to property name
                     } as ADXTimeSeriesTableRow;
                 }),
                 null,
