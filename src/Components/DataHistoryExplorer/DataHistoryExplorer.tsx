@@ -35,7 +35,7 @@ import TimeSeriesViewer from './Internal/TimeSeriesViewer/TimeSeriesViewer';
 import useAdapter from '../../Models/Hooks/useAdapter';
 import {
     deepCopy,
-    downloadText,
+    downloadJSON,
     getDebugLogger,
     isDefined
 } from '../../Models/Services/Utils';
@@ -383,7 +383,7 @@ const DataHistoryExplorer: React.FC<IDataHistoryExplorerProps> = (props) => {
     );
 
     const handleOnDownloadTableClick = useCallback(() => {
-        downloadText(
+        downloadJSON(
             JSON.stringify(
                 tableData.map((d) => {
                     const { property, ...rest } = d;
@@ -405,7 +405,7 @@ const DataHistoryExplorer: React.FC<IDataHistoryExplorerProps> = (props) => {
                 [telemetry.properties.numberOfRows]: data.length
             }
         ]);
-    }, [tableData, downloadText, sendDataHistoryExplorerUserTelemetry]);
+    }, [tableData, downloadJSON, sendDataHistoryExplorerUserTelemetry]);
 
     const handleOnRefreshClick = useCallback(() => {
         dispatch({

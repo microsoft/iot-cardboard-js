@@ -16,7 +16,7 @@ import {
 } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import JsonPreview from '../../Components/JsonPreview/JsonPreview';
-import { downloadText } from '../../Models/Services/Utils';
+import { downloadJSON } from '../../Models/Services/Utils';
 import { FormMode } from '../../Models/Constants/Enums';
 import './ADTModelAuthoringPage.scss';
 import { BaseCompositeCard, ADTModelListCard } from '../..';
@@ -73,7 +73,7 @@ const ADTModelAuthoringPage: React.FC<ADTModelAuthoringPageProps> = ({
     };
 
     const onDowloadClick = () => {
-        downloadText(
+        downloadJSON(
             JSON.stringify(
                 selectedModelRef.current ||
                     (modelCreateComponentRef.current as any)?.getModel(),
