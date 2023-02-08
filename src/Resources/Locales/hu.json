@@ -1376,13 +1376,13 @@
       "unhandledExceptionMessage": "Valami váratlan történt. Kérjük, próbálja újra."
     },
     "ImportErrors": {
-      "fileFormatNotSupportedMessage": "Csak a JSON-fájlok támogatottak. Nem lehet importálni a következő fájlokat: \n{{fájlnevek}} sablont.",
-      "fileFormatNotSupportedTitle": "A fájlformátum nem támogatott",
       "fileInvalidJSON": "A(z) \"{{fileName}}\" nem importálható, érvénytelen JSON-t tartalmaz.",
       "exceptionTitle": "Váratlan hiba",
       "exceptionMessage": "Valami váratlan történt. Kérjük, próbálja újra.",
       "importFailedTitle": "Az importálás sikertelen",
-      "importFailedMessage": "Hiba történt az importálás során. Oldja meg őket, és próbálkozzon újra.\n {{hiba}}"
+      "importFailedMessage": "Hiba történt az importálás során. Oldja meg őket, és próbálkozzon újra.\n {{hiba}}",
+      "noValidFilesTitle": "Nem található modell",
+      "noValidFilesMessage": "Nem található importálható modellfájl. Győződjön meg arról, hogy vannak érvényes JSON-fájlok a kiválasztott fájl(ok)ban."
     }
   },
   "dataHistoryErrorHandlingWrapper": {

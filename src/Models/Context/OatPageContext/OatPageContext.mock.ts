@@ -10,7 +10,11 @@ import {
     IOATModelPosition,
     IOATModelsMetadata
 } from '../../../Pages/OATEditorPage/OATEditorPage.types';
-import { DTDLModel, DTDLProperty } from '../../Classes/DTDL';
+import {
+    DTDLModel,
+    DTDLProperty,
+    DTDL_CONTEXT_VERSION_2
+} from '../../Classes/DTDL';
 import {
     DtdlInterface,
     DtdlInterfaceContent,
@@ -41,7 +45,10 @@ const getMockPositionItem = (id: string): IOATModelPosition => {
     };
 };
 
-export const getMockModelItem = (id: string): DtdlInterface => {
+export const getMockModelItem = (
+    id: string,
+    modelVersion?: string
+): DtdlInterface => {
     const modelName = parseModelId(id).name;
     return new DTDLModel(
         id,
@@ -51,7 +58,9 @@ export const getMockModelItem = (id: string): DtdlInterface => {
         [], // properties
         [], // relationships
         [], // components
-        [] // extends
+        [], // extends
+        [],
+        modelVersion ?? DTDL_CONTEXT_VERSION_2
     );
 };
 

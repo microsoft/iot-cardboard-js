@@ -1376,13 +1376,13 @@
       "unhandledExceptionMessage": "Beklenmedik bir şey oldu. Lütfen tekrar deneyin."
     },
     "ImportErrors": {
-      "fileFormatNotSupportedMessage": "Yalnızca JSON dosyaları desteklenir. Aşağıdaki dosyalar içe aktarılamıyor: \n{{fileNames}}.",
-      "fileFormatNotSupportedTitle": "Dosya biçimi desteklenmiyor",
       "fileInvalidJSON": "'{{fileName}}' içe aktarılamıyor, geçersiz JSON içeriyor.",
       "exceptionTitle": "Beklenmeyen hata",
       "exceptionMessage": "Beklenmedik bir şey oldu. Lütfen tekrar deneyin.",
       "importFailedTitle": "İçe aktarma başarısız oldu",
-      "importFailedMessage": "İçe aktarma sırasında bir hata oluştu. Bunları çözün ve yeniden deneyin.\n {{error}}"
+      "importFailedMessage": "İçe aktarma sırasında bir hata oluştu. Bunları çözün ve yeniden deneyin.\n {{error}}",
+      "noValidFilesTitle": "Model bulunamadı",
+      "noValidFilesMessage": "İçe aktarılacak model dosyası bulunamadı. Seçilen dosyalarda geçerli JSON dosyaları olduğundan emin olun."
     }
   },
   "dataHistoryErrorHandlingWrapper": {

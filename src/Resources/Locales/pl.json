@@ -1376,13 +1376,13 @@
       "unhandledExceptionMessage": "Stało się coś nieoczekiwanego. Spróbuj ponownie."
     },
     "ImportErrors": {
-      "fileFormatNotSupportedMessage": "Obsługiwane są tylko pliki JSON. Nie można zaimportować następujących plików: \n{{fileNames}}.",
-      "fileFormatNotSupportedTitle": "Format pliku nie jest obsługiwany",
       "fileInvalidJSON": "Nie można zaimportować pliku \"{{fileName}}\", ponieważ zawiera nieprawidłowy kod JSON.",
       "exceptionTitle": "Nieoczekiwany błąd",
       "exceptionMessage": "Stało się coś nieoczekiwanego. Spróbuj ponownie.",
       "importFailedTitle": "Importowanie nie powiodło się",
-      "importFailedMessage": "Wystąpił błąd podczas importu. Rozwiąż je i spróbuj ponownie.\n {{error}}"
+      "importFailedMessage": "Wystąpił błąd podczas importu. Rozwiąż je i spróbuj ponownie.\n {{error}}",
+      "noValidFilesTitle": "Nie znaleziono modeli",
+      "noValidFilesMessage": "Nie znaleziono plików modeli do zaimportowania. Upewnij się, że w wybranych plikach znajdują się prawidłowe pliki JSON."
     }
   },
   "dataHistoryErrorHandlingWrapper": {

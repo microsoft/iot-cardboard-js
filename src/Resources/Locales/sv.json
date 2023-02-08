@@ -1376,13 +1376,13 @@
       "unhandledExceptionMessage": "Något oväntat hände. Försök igen."
     },
     "ImportErrors": {
-      "fileFormatNotSupportedMessage": "Endast JSON-filer stöds. Det går inte att importera följande filer: \n{{fileNames}}.",
-      "fileFormatNotSupportedTitle": "Filformatet stöds inte",
       "fileInvalidJSON": "Det går inte att importera {{fileName}}, den innehåller ogiltig JSON.",
       "exceptionTitle": "Oväntat fel",
       "exceptionMessage": "Något oväntat hände. Försök igen.",
       "importFailedTitle": "Importen misslyckades",
-      "importFailedMessage": "Det uppstod ett fel under importen. Lös dem och försök igen.\n {{error}}"
+      "importFailedMessage": "Det uppstod ett fel under importen. Lös dem och försök igen.\n {{error}}",
+      "noValidFilesTitle": "Inga modeller hittades",
+      "noValidFilesMessage": "Inga modellfiler hittades att importera. Kontrollera att det finns giltiga JSON-filer i de valda filerna."
     }
   },
   "dataHistoryErrorHandlingWrapper": {

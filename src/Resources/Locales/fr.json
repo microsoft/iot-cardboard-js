@@ -1376,13 +1376,13 @@
       "unhandledExceptionMessage": "Quelque chose d’inattendu s’est produit. Veuillez réessayer."
     },
     "ImportErrors": {
-      "fileFormatNotSupportedMessage": "Seuls les fichiers JSON sont pris en charge. Impossible d’importer les fichiers suivants : \n{{fileNames}}.",
-      "fileFormatNotSupportedTitle": "Format de fichier non pris en charge",
       "fileInvalidJSON": "Impossible d'importer '{{fileName}}', il contient du JSON non valide.",
       "exceptionTitle": "Erreur inattendue",
       "exceptionMessage": "Quelque chose d’inattendu s’est produit. Veuillez réessayer.",
       "importFailedTitle": "Echec de l’importation",
-      "importFailedMessage": "Une erreur s’est produite lors de l’importation. Résolvez-les et réessayez.\n {{error}}"
+      "importFailedMessage": "Une erreur s’est produite lors de l’importation. Résolvez-les et réessayez.\n {{error}}",
+      "noValidFilesTitle": "Aucun modèle trouvé",
+      "noValidFilesMessage": "Aucun fichier de modèle trouvé à importer. Assurez-vous qu’il existe des fichiers JSON valides dans le(s) fichier(s) sélectionné(s)."
     }
   },
   "dataHistoryErrorHandlingWrapper": {

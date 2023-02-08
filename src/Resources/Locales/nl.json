@@ -1376,13 +1376,13 @@
       "unhandledExceptionMessage": "Er gebeurde iets onverwachts. Probeer het opnieuw."
     },
     "ImportErrors": {
-      "fileFormatNotSupportedMessage": "Alleen JSON-bestanden worden ondersteund. Kan de volgende bestanden niet importeren: \n{{bestandsnaam}}.",
-      "fileFormatNotSupportedTitle": "Bestandsindeling wordt niet ondersteund",
       "fileInvalidJSON": "Het kan '{{bestandsnaam}}' niet importeren en bevat ongeldige JSON.",
       "exceptionTitle": "Onverwachte fout",
       "exceptionMessage": "Er gebeurde iets onverwachts. Probeer het opnieuw.",
       "importFailedTitle": "Importeren mislukt",
-      "importFailedMessage": "Er is een fout opgetreden tijdens het importeren. Los ze op en probeer het opnieuw.\n {{fout}}"
+      "importFailedMessage": "Er is een fout opgetreden tijdens het importeren. Los ze op en probeer het opnieuw.\n {{fout}}",
+      "noValidFilesTitle": "Geen modellen gevonden",
+      "noValidFilesMessage": "Geen modelbestanden gevonden om te importeren. Zorg ervoor dat er geldige JSON-bestanden in de geselecteerde bestanden staan."
     }
   },
   "dataHistoryErrorHandlingWrapper": {

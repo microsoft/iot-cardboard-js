@@ -448,10 +448,11 @@ export class DTDLModel implements DtdlInterface {
         relationships?: DtdlInterfaceContent[],
         components?: DtdlInterfaceContent[],
         extendRelationships?: string[],
-        schemas?: DtdlInterfaceSchema[]
+        schemas?: DtdlInterfaceSchema[],
+        version?: string
     ) {
         this['@type'] = DTDLType.Interface;
-        this['@context'] = DTDL_CONTEXT_VERSION_2;
+        this['@context'] = version ?? DTDL_CONTEXT_VERSION_2;
         this['@id'] = id;
         this.displayName = displayName;
         this.description = description;
