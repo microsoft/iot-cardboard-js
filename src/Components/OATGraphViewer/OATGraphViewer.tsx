@@ -91,8 +91,12 @@ import { DTDLType } from '../../Models/Classes/DTDL';
 import { IReactFlowInstance } from '../../Pages/OATEditorPage/Internal/Classes/OatTypes';
 import { ElementEdge } from './Internal/Classes/ElementEdge';
 import { ElementNode } from './Internal/Classes/ElementNode';
+import {
+    isDTDLComponentReference,
+    isDTDLRelationshipReference
+} from '../../Models/Services/DtdlUtils';
 
-const debugLogging = false;
+const debugLogging = true;
 const logDebugConsole = getDebugLogger('OATGraphViewer', debugLogging);
 
 const getClassNames = classNamesFunction<
@@ -140,53 +144,45 @@ const OATGraphViewerContent: React.FC<IOATGraphViewerProps> = (props) => {
             // TODO: define a type here that actually works so it's not an any
             return models.reduce((elements, input) => {
                 // create the Component & Relationship edges
-                if (input.contents) {
+                input.contents?.forEach((item) => {
                     // Get the relationships
-                    input.contents.forEach((content) => {
-                        switch (content['@type']) {
-                            case OAT_COMPONENT_HANDLE_NAME: {
-                                const component = content as DtdlComponent;
-                                const foundComponentTarget = models.find(
-                                    (model) => model['@id'] === content.schema
-                                );
+                    if (isDTDLComponentReference(item)) {
+                        const component = item as DtdlComponent;
+                        const foundComponentTarget = models.find(
+                            (model) => model['@id'] === item.schema
+                        );
 
-                                if (foundComponentTarget) {
-                                    addComponentRelationship(
-                                        input['@id'],
-                                        component,
-                                        elements
-                                    );
-                                }
-                                break;
-                            }
-                            case OAT_RELATIONSHIP_HANDLE_NAME: {
-                                const relationship = content as DtdlRelationship;
-                                if (relationship.target) {
-                                    const foundRelationshipTarget = models.find(
-                                        (model) =>
-                                            model['@id'] === relationship.target
-                                    );
-
-                                    if (foundRelationshipTarget) {
-                                        addTargetedRelationship(
-                                            input['@id'],
-                                            relationship,
-                                            elements
-                                        );
-                                    }
-                                } else {
-                                    addUntargetedRelationship(
-                                        input,
-                                        relationship,
-                                        modelPositions,
-                                        elements
-                                    );
-                                }
-                                break;
-                            }
+                        if (foundComponentTarget) {
+                            addComponentRelationship(
+                                input['@id'],
+                                component,
+                                elements
+                            );
                         }
-                    });
-                }
+                    } else if (isDTDLRelationshipReference(item)) {
+                        const relationship = item as DtdlRelationship;
+                        if (relationship.target) {
+                            const foundRelationshipTarget = models.find(
+                                (model) => model['@id'] === relationship.target
+                            );
+
+                            if (foundRelationshipTarget) {
+                                addTargetedRelationship(
+                                    input['@id'],
+                                    relationship,
+                                    elements
+                                );
+                            }
+                        } else {
+                            addUntargetedRelationship(
+                                input,
+                                relationship,
+                                modelPositions,
+                                elements
+                            );
+                        }
+                    }
+                });
 
                 // create the Extend edges
                 if (input.extends) {

@@ -46,6 +46,20 @@ export const getDtdlVersion = (model: DtdlInterface): '2' | '3' => {
     }
 };
 
+export const hasType = (
+    actualType: string | string[],
+    targetType: string
+): boolean => {
+    return ensureIsArray(actualType).includes(targetType);
+};
+
+const hasSchemaType = (
+    actualSchema: DTDLSchemaType | DTDLSchemaType[],
+    targetType: DTDLSchemaType
+): boolean => {
+    return ensureIsArray(actualSchema).includes(targetType);
+};
+
 /** is the relationship a known DTDL relationship type */
 export const isDTDLReference = (
     object: DtdlRelationship | DtdlInterface | DtdlInterfaceContent | string
@@ -59,8 +73,8 @@ export const isDTDLReference = (
         );
     }
     return (
-        object['@type'] === DTDLType.Relationship ||
-        object['@type'] === DTDLType.Component
+        hasType(object['@type'], DTDLType.Relationship) ||
+        hasType(object['@type'], DTDLType.Component)
     );
 };
 
@@ -73,7 +87,7 @@ export const isDTDLExtendReference = (
     if (typeof object === 'string') {
         return object === OAT_EXTEND_HANDLE_NAME;
     }
-    return object['@type'] === OAT_EXTEND_HANDLE_NAME;
+    return hasType(object['@type'], OAT_EXTEND_HANDLE_NAME);
 };
 
 export const isDTDLRelationshipReference = (
@@ -82,7 +96,7 @@ export const isDTDLRelationshipReference = (
     if (!object) {
         return false;
     }
-    return object['@type'] === DTDLType.Relationship;
+    return hasType(object['@type'], DTDLType.Relationship);
 };
 
 export const isDTDLComponentReference = (
@@ -91,7 +105,7 @@ export const isDTDLComponentReference = (
     if (!object) {
         return false;
     }
-    return object['@type'] === DTDLType.Component;
+    return hasType(object['@type'], DTDLType.Component);
 };
 
 export const isComplexSchemaProperty = (
@@ -120,7 +134,7 @@ export const hasArraySchemaType = <T extends { schema: DTDLSchema }>(
     }
     return (
         hasComplexSchemaType(property) &&
-        property.schema['@type'] === DTDLSchemaType.Array
+        hasSchemaType(property.schema['@type'], DTDLSchemaType.Array)
     );
 };
 
@@ -132,7 +146,7 @@ export const hasMapSchemaType = <T extends { schema: DTDLSchema }>(
     }
     return (
         hasComplexSchemaType(property) &&
-        property.schema['@type'] === DTDLSchemaType.Map
+        hasSchemaType(property.schema['@type'], DTDLSchemaType.Map)
     );
 };
 
@@ -144,7 +158,7 @@ export const hasObjectSchemaType = <T extends { schema: DTDLSchema }>(
     }
     return (
         hasComplexSchemaType(property) &&
-        property.schema['@type'] === DTDLSchemaType.Object
+        hasSchemaType(property.schema['@type'], DTDLSchemaType.Object)
     );
 };
 
@@ -156,7 +170,7 @@ export const hasEnumSchemaType = <T extends { schema: DTDLSchema }>(
     }
     return (
         hasComplexSchemaType(property) &&
-        property.schema['@type'] === DTDLSchemaType.Enum
+        hasSchemaType(property.schema['@type'], DTDLSchemaType.Enum)
     );
 };
 
@@ -201,7 +215,7 @@ export const isDTDLModel = (
         return object === OAT_INTERFACE_TYPE;
     }
 
-    return object['@type'] === OAT_INTERFACE_TYPE;
+    return hasType(object['@type'], OAT_INTERFACE_TYPE);
 };
 
 export const isDTDLObject = (
@@ -210,17 +224,13 @@ export const isDTDLObject = (
     if (!object || !object.schema) {
         return false;
     }
-    return object.schema['@type'] === DTDLSchemaType.Object;
+    return hasSchemaType(object.schema['@type'], DTDLSchemaType.Object);
 };
 
 export const isDTDLProperty = (
     property: DtdlInterfaceContent
 ): property is DTDLProperty => {
-    if (typeof property['@type'] !== 'string') {
-        return (property['@type'] as string[]).includes('Property');
-    } else {
-        return property['@type'] === 'Property';
-    }
+    return hasType(property['@type'], DTDLType.Property);
 };
 
 export const isDTDLArray = (
@@ -229,7 +239,7 @@ export const isDTDLArray = (
     if (!object || !object.schema) {
         return false;
     }
-    return object.schema['@type'] === DTDLSchemaType.Array;
+    return hasSchemaType(object.schema['@type'], DTDLSchemaType.Array);
 };
 
 export const isDTDLMap = (
@@ -238,7 +248,7 @@ export const isDTDLMap = (
     if (!object || !object.schema) {
         return false;
     }
-    return object.schema['@type'] === DTDLSchemaType.Map;
+    return hasSchemaType(object.schema['@type'], DTDLSchemaType.Map);
 };
 
 export const isDTDLEnum = (
@@ -247,7 +257,7 @@ export const isDTDLEnum = (
     if (!object || !object.schema) {
         return false;
     }
-    return object.schema['@type'] === DTDLSchemaType.Enum;
+    return hasSchemaType(object.schema['@type'], DTDLSchemaType.Enum);
 };
 
 export const copyDTDLProperty = (

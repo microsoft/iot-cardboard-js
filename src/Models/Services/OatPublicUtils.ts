@@ -15,7 +15,7 @@ import {
 import { convertModelToDtdl, parseModelId, safeJsonParse } from './OatUtils';
 import { deepCopy, getDebugLogger, isDefined } from './Utils';
 
-const debugLogging = true;
+const debugLogging = false;
 const logDebugConsole = getDebugLogger('OATPublicUtils', debugLogging);
 
 // #region Import
