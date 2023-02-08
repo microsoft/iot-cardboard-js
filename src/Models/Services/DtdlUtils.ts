@@ -34,6 +34,7 @@ import {
 import { ensureIsArray } from './OatUtils';
 import { deepCopy, isDefined, isValueInEnum } from './Utils';
 
+/** returns the version number of a model (either 2 or 3) */
 export const getDtdlVersion = (model: DtdlInterface): '2' | '3' => {
     if (!model) {
         return '2';
@@ -44,6 +45,11 @@ export const getDtdlVersion = (model: DtdlInterface): '2' | '3' => {
     } else {
         return '2';
     }
+};
+
+/** is the model DTDL version 3 */
+export const isDtdlVersion3 = (model: DtdlInterface): boolean => {
+    return getDtdlVersion(model) === '3';
 };
 
 export const hasType = (
