@@ -27,6 +27,9 @@ export const getStyles = (
         ],
         notSetCell: [classNames.notSetCell, { fontStyle: 'italic' }],
         subComponentStyles: {
+            illustrationMessage: {
+                container: { flexGrow: 1 }
+            },
             detailsList: {
                 root: { overflow: 'hidden', '.ms-DetailsRow': { fontSize: 13 } }
             },

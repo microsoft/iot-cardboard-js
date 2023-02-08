@@ -83,18 +83,21 @@ const TimeSeriesTwinCallout: React.FC<ITimeSeriesTwinCalloutProps> = (
     const { t } = useTranslation();
 
     // callbacks
-    const handleTwinIdChange = useCallback((selectedTwinId: string) => {
-        setTimeSeriesTwinToEdit(
-            produce((draft) => {
-                draft.twinId = selectedTwinId;
-                draft.twinPropertyName = '';
-                draft.twinPropertyType = null;
-                if (isLabelAutoPopulated.current) {
-                    draft.label = '';
-                }
-            })
-        );
-    }, [setTimeSeriesTwinToEdit]);
+    const handleTwinIdChange = useCallback(
+        (selectedTwinId: string) => {
+            setTimeSeriesTwinToEdit(
+                produce((draft) => {
+                    draft.twinId = selectedTwinId;
+                    draft.twinPropertyName = '';
+                    draft.twinPropertyType = null;
+                    if (isLabelAutoPopulated.current) {
+                        draft.label = '';
+                    }
+                })
+            );
+        },
+        [setTimeSeriesTwinToEdit]
+    );
     const handleTwinPropertyChange = useCallback(
         (newPropertyExpression: PropertyExpression) => {
             setTimeSeriesTwinToEdit(

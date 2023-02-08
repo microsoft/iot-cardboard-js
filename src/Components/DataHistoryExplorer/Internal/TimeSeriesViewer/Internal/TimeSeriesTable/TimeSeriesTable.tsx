@@ -153,7 +153,7 @@ const TimeSeriesTable: React.FC<ITimeSeriesTableProps> = (props) => {
 
     return (
         <div className={classNames.root}>
-            {!(data.length > 0) ? (
+            {!(data?.length > 0) ? (
                 <IllustrationMessage
                     descriptionText={t(
                         'dataHistoryExplorer.viewer.table.messages.noData'
@@ -164,7 +164,7 @@ const TimeSeriesTable: React.FC<ITimeSeriesTableProps> = (props) => {
                         src: SearchErrorImg,
                         height: 172
                     }}
-                    styles={{ container: { flexGrow: 1 } }}
+                    styles={classNames.subComponentStyles.illustrationMessage}
                 />
             ) : (
                 <div className={classNames.listWrapper}>

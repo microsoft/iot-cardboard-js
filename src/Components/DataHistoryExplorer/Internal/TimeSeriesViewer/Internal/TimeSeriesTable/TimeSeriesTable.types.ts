@@ -6,6 +6,7 @@ import {
     ITheme
 } from '@fluentui/react';
 import { ADXTimeSeriesTableRow } from '../../../../../../Models/Constants/Types';
+import { IllustrationMessageStyles } from '../../../../../IllustrationMessage/IllustrationMessage.types';
 
 export interface ITimeSeriesTableProps {
     data: Array<TimeSeriesTableRow>;
@@ -37,6 +38,7 @@ interface SeriesColumnStyles {
 }
 
 export interface ITimeSeriesTableSubComponentStyles {
+    illustrationMessage?: Partial<IllustrationMessageStyles>;
     detailsList?: Partial<IDetailsListStyles>;
     seriesColumn?: IStyleFunctionOrObject<
         { color: string },

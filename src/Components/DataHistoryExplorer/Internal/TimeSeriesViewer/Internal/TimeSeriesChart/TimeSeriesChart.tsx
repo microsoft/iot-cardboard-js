@@ -45,7 +45,7 @@ const TimeSeriesChart: React.FC<ITimeSeriesChartProps> = (props) => {
 
     return (
         <div className={classNames.root}>
-            {!(data.length > 0) ? (
+            {!(data?.length > 0) ? (
                 <IllustrationMessage
                     descriptionText={t(
                         'dataHistoryExplorer.viewer.chart.messages.noData'
@@ -56,7 +56,7 @@ const TimeSeriesChart: React.FC<ITimeSeriesChartProps> = (props) => {
                         src: SearchErrorImg,
                         height: 172
                     }}
-                    styles={{ container: { flexGrow: 1 } }}
+                    styles={classNames.subComponentStyles.illustrationMessage}
                 />
             ) : (
                 <div className={classNames.chartContainer}>

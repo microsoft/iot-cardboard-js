@@ -1,5 +1,6 @@
 import { IStyle, IStyleFunctionOrObject, ITheme } from '@fluentui/react';
 import { ADXTimeSeries } from '../../../../../../Models/Constants';
+import { IllustrationMessageStyles } from '../../../../../IllustrationMessage/IllustrationMessage.types';
 import { IDataHistoryExplorerChartOptions } from '../../../../DataHistoryExplorer.types';
 export interface ITimeSeriesChartProps {
     explorerChartOptions: IDataHistoryExplorerChartOptions;
@@ -26,5 +27,6 @@ export interface ITimeSeriesChartStyles {
     subComponentStyles?: ITimeSeriesChartSubComponentStyles;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface ITimeSeriesChartSubComponentStyles {}
+export interface ITimeSeriesChartSubComponentStyles {
+    illustrationMessage?: Partial<IllustrationMessageStyles>;
+}

@@ -16,6 +16,11 @@ export const getStyles = (
         chartContainer: [
             classNames.chartContainer,
             { height: '100%', overflow: 'hidden' }
-        ]
+        ],
+        subComponentStyles: {
+            illustrationMessage: {
+                container: { flexGrow: 1 }
+            }
+        }
     };
 };
