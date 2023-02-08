@@ -96,7 +96,7 @@ import {
     isDTDLRelationshipReference
 } from '../../Models/Services/DtdlUtils';
 
-const debugLogging = true;
+const debugLogging = false;
 const logDebugConsole = getDebugLogger('OATGraphViewer', debugLogging);
 
 const getClassNames = classNamesFunction<
