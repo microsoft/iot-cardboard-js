@@ -42,6 +42,9 @@ const PreviewLabel: React.FC<IPreviewLabelProps> = (props) => {
         <div className={classNames.root}>
             <TooltipHost
                 content={t('OAT.PropertyEditor.PreviewLabel.badgeCalloutText')}
+                calloutProps={{
+                    gapSpace: 6
+                }}
             >
                 <ActionButton
                     styles={classNames.subComponentStyles.badgeButton?.()}
