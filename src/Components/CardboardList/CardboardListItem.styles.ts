@@ -42,7 +42,8 @@ export const getStyles = memoizeFunction(
             textOverflow: 'ellipsis'
         };
         const iconStyles = {
-            fontSize: StyleConstants.icons.size16
+            fontSize: StyleConstants.icons.size16,
+            marginRight: 8
         };
         return mergeStyleSets({
             alertDot: [
@@ -61,17 +62,16 @@ export const getStyles = memoizeFunction(
                 classNames.endIcon,
                 {
                     ...iconStyles,
-                    marginLeft: 8,
                     ...(iconEndColor && {
                         color: iconEndColor
-                    })
+                    }),
+                    marginLeft: 8
                 } as IStyle
             ],
             iconStart: [
                 classNames.icon,
                 {
                     ...iconStyles,
-                    marginRight: 8,
                     ...(iconStartColor && {
                         color: iconStartColor
                     })

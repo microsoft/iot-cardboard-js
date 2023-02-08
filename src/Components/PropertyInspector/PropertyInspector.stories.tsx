@@ -36,28 +36,6 @@ export const TwinMock = (_args, { globals: { theme, locale } }) => (
     </div>
 );
 
-export const TwinMockWithDataHistory = (
-    _args,
-    { globals: { theme, locale } }
-) => (
-    <div style={propertyInspectorStoryStyles}>
-        <StandalonePropertyInspector
-            inputData={{
-                twin: mockTwin,
-                expandedModels: mockExpandedModels as DtdlInterface[],
-                rootModel: mockExpandedModels[0] as DtdlInterface
-            }}
-            onCommitChanges={(patch) => console.log(patch)}
-            theme={theme}
-            locale={locale}
-            isWithDataHistory={{
-                adapter: new MockAdapter(),
-                twinId: mockTwin.$dtId
-            }}
-        />
-    </div>
-);
-
 export const SmallContainer = (_args, { globals: { theme, locale } }) => (
     <div style={{ width: 300, height: 400 }}>
         <StandalonePropertyInspector
@@ -166,6 +144,51 @@ export const PropertyInspectorErrorBoundary = (
             locale={locale}
             onErrorBoundary={(error, errorInfo) => {
                 console.log('in onErrorBoundary callback.', error, errorInfo);
+            }}
+        />
+    </div>
+);
+
+export const WithDataHistoryIconEnabled = (
+    _args,
+    { globals: { theme, locale } }
+) => (
+    <div style={propertyInspectorStoryStyles}>
+        <StandalonePropertyInspector
+            inputData={{
+                twin: mockTwin,
+                expandedModels: mockExpandedModels as DtdlInterface[],
+                rootModel: mockExpandedModels[0] as DtdlInterface
+            }}
+            onCommitChanges={(patch) => console.log(patch)}
+            theme={theme}
+            locale={locale}
+            isWithDataHistory={{
+                adapter: new MockAdapter(),
+                twinId: mockTwin.$dtId
+            }}
+        />
+    </div>
+);
+
+export const WithDataHistoryIconDisabled = (
+    _args,
+    { globals: { theme, locale } }
+) => (
+    <div style={propertyInspectorStoryStyles}>
+        <StandalonePropertyInspector
+            inputData={{
+                twin: mockTwin,
+                expandedModels: mockExpandedModels as DtdlInterface[],
+                rootModel: mockExpandedModels[0] as DtdlInterface
+            }}
+            onCommitChanges={(patch) => console.log(patch)}
+            theme={theme}
+            locale={locale}
+            isWithDataHistory={{
+                adapter: new MockAdapter(),
+                twinId: mockTwin.$dtId,
+                isEnabled: false
             }}
         />
     </div>
