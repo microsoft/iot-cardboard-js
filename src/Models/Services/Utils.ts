@@ -1005,13 +1005,9 @@ export function capitalizeFirstLetter(str: string) {
  * Validate if URL is Explorer for CORS enabling
  */
 export function validateExplorerOrigin(origin: string) {
-    if (
+    return (
         origin &&
         (origin === ADT_ALLOW_LISTED_URLS.DEV ||
             origin === ADT_ALLOW_LISTED_URLS.PROD)
-    ) {
-        return true;
-    } else {
-        return false;
-    }
+    );
 }
