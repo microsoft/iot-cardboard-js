@@ -16,6 +16,7 @@ import {
     DTDLSchemaType,
     DTDLSchemaTypes,
     DTDLType,
+    DTDL_CONTEXT_VERSION_2,
     DTDL_CONTEXT_VERSION_3
 } from '../Classes/DTDL';
 import {
@@ -50,6 +51,27 @@ export const getDtdlVersion = (model: DtdlInterface): '2' | '3' => {
 /** is the model DTDL version 3 */
 export const isDtdlVersion3 = (model: DtdlInterface): boolean => {
     return getDtdlVersion(model) === '3';
+};
+
+export const isValidDtdlVersion = (version: string): boolean => {
+    if (!version) {
+        return false;
+    }
+    [DTDL_CONTEXT_VERSION_3, DTDL_CONTEXT_VERSION_2].includes(version.trim());
+};
+
+/** takes a model and version number and updates the context in-place */
+export const updateDtdlVersion = (
+    model: DtdlInterface,
+    version: string
+): DtdlInterface => {
+    if (Array.isArray(model['@context'])) {
+        // replace the existing value with the new version
+    } else {
+        // just update the value
+        model['@context'] = version;
+    }
+    return model;
 };
 
 export const hasType = (

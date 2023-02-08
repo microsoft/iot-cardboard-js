@@ -11,8 +11,8 @@ import {
     IOATModelsMetadata
 } from '../../../Pages/OATEditorPage/OATEditorPage.types';
 import {
-    DTDLModel,
     DTDLProperty,
+    DTDLType,
     DTDL_CONTEXT_VERSION_2
 } from '../../Classes/DTDL';
 import {
@@ -50,18 +50,17 @@ export const getMockModelItem = (
     modelVersion?: string
 ): DtdlInterface => {
     const modelName = parseModelId(id).name;
-    return new DTDLModel(
-        id,
-        modelName || `mock_name_${id}`, // simplify life for places in the tests we don't care about the actual parsing.
-        'mock-description',
-        'mock-comment',
-        [], // properties
-        [], // relationships
-        [], // components
-        [], // extends
-        [],
-        modelVersion ?? DTDL_CONTEXT_VERSION_2
-    );
+    return {
+        '@id': id,
+        '@context': modelVersion ?? DTDL_CONTEXT_VERSION_2,
+        '@type': DTDLType.Interface,
+        comment: 'mock-comment',
+        contents: [],
+        description: 'mock-description',
+        displayName: modelName || `mock_name_${id}`, // simplify life for places in the tests we don't care about the actual parsing.,
+        extends: [],
+        schemas: []
+    };
 };
 
 export const getMockReference = (
