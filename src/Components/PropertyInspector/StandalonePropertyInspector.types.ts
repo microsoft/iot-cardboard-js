@@ -29,6 +29,10 @@ export interface StandalonePropertyInspectorProps {
     parentHandlesScroll?: boolean;
     customCommandBarTitleSpan?: React.ReactNode;
     isWithDataHistory?: {
+        /**
+         * if isEnabled is provided, it will be prioritized over adapter's timeSeriesConnectionCache value to
+         * decide how to show the data history modal control button like enabled or disabled
+         */
         isEnabled?: boolean;
         twinId: string;
         adapter: IADTDataHistoryAdapter | MockAdapter;
