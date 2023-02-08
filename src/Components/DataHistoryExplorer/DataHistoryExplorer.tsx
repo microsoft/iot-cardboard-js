@@ -488,7 +488,11 @@ const DataHistoryExplorer: React.FC<IDataHistoryExplorerProps> = (props) => {
     useEffect(() => {
         if (data && !isLoading) {
             const seriesIdsWithNoData = state.timeSeriesTwins
-                ?.filter((ts) => !data?.find((d) => d.seriesId === ts.seriesId))
+                ?.filter(
+                    (ts) =>
+                        ts.twinPropertyName &&
+                        !data?.find((d) => d.seriesId === ts.seriesId)
+                )
                 .map((ts) => ts.seriesId);
             dispatch({
                 type: DataHistoryExplorerActionType.SET_MISSING_SERIES,
