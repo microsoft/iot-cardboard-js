@@ -1,0 +1,58 @@
+[
+    {
+        "seriesId": "525a2458511042cd90a29f108e2b1922",
+        "twinId": "PasteurizationMachine_A01",
+        "twinPropertyName": "InFlow",
+        "twinPropertyType": "double",
+        "label": "PasteurizationMachine_A01 (InFlow)",
+        "chartProps": { "color": "#7cb5ec" }
+    },
+    {
+        "seriesId": "b97a910deacf4f4abf8e6b86981632d0",
+        "twinId": "PasteurizationMachine_A01",
+        "twinPropertyName": "OutFlow",
+        "twinPropertyType": "double",
+        "label": "PasteurizationMachine_A01 (OutFlow)",
+        "chartProps": { "color": "#434348" }
+    },
+    {
+        "seriesId": "4eb0b729538c4cba9ef03f4c34d6b2aa",
+        "twinId": "PasteurizationMachine_A01",
+        "twinPropertyName": "Temperature",
+        "twinPropertyType": "double",
+        "label": "PasteurizationMachine_A01 (Temperature)",
+        "chartProps": { "color": "#90ed7d" }
+    },
+    {
+        "seriesId": "081c56a2bd344106a1fdb3d869f13d31",
+        "twinId": "PasteurizationMachine_A02",
+        "twinPropertyName": "InFlow",
+        "twinPropertyType": "double",
+        "label": "PasteurizationMachine_A02 (InFlow)",
+        "chartProps": { "color": "#f7a35c" }
+    },
+    {
+        "seriesId": "e5612b46f76042c7bf02985423d250d6",
+        "twinId": "PasteurizationMachine_A02",
+        "twinPropertyName": "OutFlow",
+        "twinPropertyType": "double",
+        "label": "PasteurizationMachine_A02 (OutFlow)",
+        "chartProps": { "color": "#8085e9" }
+    },
+    {
+        "seriesId": "32a8fffcb98d48c7a1fa915c892629ac",
+        "twinId": "PasteurizationMachine_A02",
+        "twinPropertyName": "Temperature",
+        "twinPropertyType": "double",
+        "label": "PasteurizationMachine_A02 (Temperature)",
+        "chartProps": { "color": "#f15c80" }
+    },
+    {
+        "seriesId": "db846b9eec044bbbac348847c21855b7",
+        "twinId": "SaltMachine_C0",
+        "twinPropertyName": "Temperature",
+        "twinPropertyType": "double",
+        "label": "SaltMachine_C0 (Temperature)",
+        "chartProps": { "color": "#e4d354" }
+    }
+]

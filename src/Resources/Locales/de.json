@@ -1398,15 +1398,14 @@
     "title": "Datenverlaufs-Explorer",
     "loadingConnectionLabel": "Verbindungsinformationen zum Datenverlauf werden geladen...",
     "builder": {
-      "title": "Twin-Immobilien",
       "description": "Um vergangene Werte für historisierte Eigenschaften zu vergleichen, fügen Sie unten Zeitreihen hinzu.",
       "timeSeriesTwin": {
         "add": "Zeitreihen hinzufügen",
         "edit": "Zeitreihen bearbeiten",
         "remove": "Zeitreihen entfernen",
         "property": "Eigentum",
-        "propertyTypeCastLabe": "Eigenschaftswert in Zahl umwandeln",
-        "noData": "Keine anzuzeigenden Daten für den ausgewählten Zeitraum"
+        "noData": "Keine anzuzeigenden Daten für den ausgewählten Zeitraum",
+        "propertyTypeCastLabel": "Eigenschaftswert in Zahl umwandeln"
       }
     },
     "viewer": {
@@ -1425,13 +1424,18 @@
           "type": "Art"
         },
         "messages": {
-          "noColor": "Nicht festgelegt",
-          "loading": "Historisierte Daten werden geladen...",
-          "noData": "Im ausgewählten Zeitraum wurden keine Daten gefunden.",
-          "noSeries": "Kein Zwilling zur Abfrage ausgewählt, fügen Sie Zwillingseigenschaften hinzu, um historisierte Daten anzuzeigen."
-        }
+          "noData": "Im ausgewählten Zeitraum wurden keine Daten gefunden."
+        },
+        "noColor": "Nicht festgelegt"
       },
-      "noSeriesDescription": "Um den Datenverlauf für diesen Zwilling anzuzeigen, wählen Sie eine anzuzeigende Eigenschaft aus."
+      "messages": {
+        "loading": "Historisierte Daten werden geladen...",
+        "noSeries": "Kein Zwilling zur Abfrage ausgewählt, fügen Sie Zwillingseigenschaften hinzu, um historisierte Daten anzuzeigen."
+      },
+      "commandBar": {
+        "refresh": "Daten aktualisieren",
+        "download": "Tabellendaten herunterladen"
+      }
     }
   }
 }

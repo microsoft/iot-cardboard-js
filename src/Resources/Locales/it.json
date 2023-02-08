@@ -1398,15 +1398,14 @@
     "title": "Esplora cronologia dati",
     "loadingConnectionLabel": "Caricamento delle informazioni di connessione della cronologia dei dati...",
     "builder": {
-      "title": "Proprietà gemelle",
       "description": "Per confrontare i valori passati per le proprietà cronologizzate, aggiungere le serie temporali riportate di seguito.",
       "timeSeriesTwin": {
         "add": "Aggiungere serie temporali",
         "edit": "Modificare le serie temporali",
         "remove": "Rimuovere serie temporali",
         "property": "Proprietà",
-        "propertyTypeCastLabe": "Eseguire il cast del valore della proprietà sul numero",
-        "noData": "Nessun dato da visualizzare per l'intervallo di tempo selezionato"
+        "noData": "Nessun dato da visualizzare per l'intervallo di tempo selezionato",
+        "propertyTypeCastLabel": "Eseguire il cast del valore della proprietà sul numero"
       }
     },
     "viewer": {
@@ -1425,13 +1424,18 @@
           "type": "Digitare"
         },
         "messages": {
-          "noColor": "Non impostato",
-          "loading": "Caricamento dei dati storici...",
-          "noData": "Nessun dato trovato nell'intervallo di tempo selezionato.",
-          "noSeries": "Nessun gemello selezionato per la query, aggiungere proprietà gemelle per visualizzare i dati cronologizzati."
-        }
+          "noData": "Nessun dato trovato nell'intervallo di tempo selezionato."
+        },
+        "noColor": "Non impostato"
       },
-      "noSeriesDescription": "Per visualizzare la cronologia dei dati per questo gemello, selezionare una proprietà da visualizzare."
+      "messages": {
+        "loading": "Caricamento dei dati storici...",
+        "noSeries": "Nessun gemello selezionato per la query, aggiungere proprietà gemelle per visualizzare i dati cronologizzati."
+      },
+      "commandBar": {
+        "refresh": "Aggiornare i dati",
+        "download": "Scarica i dati della tabella"
+      }
     }
   }
 }
