@@ -1383,6 +1383,12 @@
       "importFailedMessage": "Det uppstod ett fel under importen. Lös dem och försök igen.\n {{error}}",
       "noValidFilesTitle": "Inga modeller hittades",
       "noValidFilesMessage": "Inga modellfiler hittades att importera. Kontrollera att det finns giltiga JSON-filer i de valda filerna."
+    },
+    "PropertyEditor": {
+      "PreviewLabel": {
+        "badgeText": "Förhandsvisning",
+        "badgeCalloutText": "Den här modellen använder DTDL V3 som fortfarande är i förhandsversion. Vissa funktioner kan fortfarande vara under arbete."
+      }
     }
   },
   "dataHistoryErrorHandlingWrapper": {

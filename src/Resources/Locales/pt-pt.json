@@ -1383,6 +1383,12 @@
       "importFailedMessage": "Houve um erro durante a importação. Resolva-os e tente de novo.\n {{erro}}",
       "noValidFilesTitle": "Nenhum modelo encontrado",
       "noValidFilesMessage": "Nenhum modelo de ficheiros encontrados para importar. Certifique-se de que existem ficheiros JSON válidos nos ficheiros selecionados."
+    },
+    "PropertyEditor": {
+      "PreviewLabel": {
+        "badgeText": "Previsualizar",
+        "badgeCalloutText": "Este modelo utiliza DTDL V3 que ainda está em pré-visualização. Algumas funcionalidades e funcionalidades podem ainda estar em curso."
+      }
     }
   },
   "dataHistoryErrorHandlingWrapper": {
