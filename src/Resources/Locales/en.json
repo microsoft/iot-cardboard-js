@@ -119,7 +119,7 @@
         },
         "timeSeriesDatabaseConnectionFetchFailed": {
             "type": "Time series database connection validation failed",
-            "message": "Data history is not enabled for selected instance or time series database connection could not be verified."
+            "message": "Data history connection information could not be found, make sure data history is enabled for this Azure Digital Twins instance and that you have at least '{{permission}}' access to the Azure Data Explorer instance."
         }
     },
     "valueRangeBuilder": {
@@ -917,6 +917,30 @@
         "showPanel": "Show elements panel",
         "hidePanel": "Hide elements panel"
     },
+    "OAT": {
+        "Common": {
+            "untargeted": "Untargeted",
+            "unhandledExceptionTitle": "Unexpected error",
+            "unhandledExceptionMessage": "Something unexpected happened. Please try again."
+        },
+        "ModelList": {
+            "searchModels": "Search models",
+            "noMatchingItemsMessage": "No models match that criteria",
+            "removeModelButtonText": "Remove model",
+            "noModelsTitle": "You don't have any models yet",
+            "noModelsMessage": "Start designing your ontology by adding a model or importing your existing ontology",
+            "noModelsButtonText": "Add a model"
+        },
+        "ImportErrors": {
+            "exceptionTitle": "Unexpected error",
+            "exceptionMessage": "Something unexpected happened. Please try again.",
+            "fileFormatNotSupportedMessage": "Only JSON files are supported. Unable to import the following files: \n{{fileNames}}.",
+            "fileFormatNotSupportedTitle": "File format not supported",
+            "fileInvalidJSON": "Unable to import '{{fileName}}', it contains invalid JSON.",
+            "importFailedTitle": "Import failed",
+            "importFailedMessage": "There was an error during import. Resolve them and try again.\n {{error}}"
+        }
+    },
     "OATCommon": {
         "duplicateFileNameSuffix": "copy",
         "defaultFileName": "New ontology",
@@ -928,7 +952,6 @@
         "configure": "Configure",
         "delete": "Delete",
         "export": "Export",
-        "file": "file",
         "import": "Import",
         "importFile": "Import file",
         "importFolder": "Import folder",
@@ -957,13 +980,7 @@
         "enterANamespace": "Enter a namespace",
         "errorNamespace": "The name may only contain the characters a-z, A-Z, 0-9, and underscore. The first character may not be a digit, and the last character may not be an underscore.",
         "settings": "Settings",
-        "errorInvalidJSON": "Invalid JSON",
-        "errorFileInvalidJSON": "Issue with {{fileName}}: Invalid JSON",
-        "errorFileFormatNotSupported": "Issue with {{fileName}}: Format not supported",
         "errorSingleFileHoldsRelationships": "Issue with {{fileName}}: Model holds relationships which are not being imported",
-        "errorFormatNoSupported": "File format not supported",
-        "errorIssueWithFile": "Issue with {{fileName}}: {{error}}",
-        "errorImportedModelAlreadyExists": "Issue with {{modelId}}: Model with the same @id already exists",
         "undo": "Undo",
         "redo": "Redo",
         "folderUpload": "Folder upload",
@@ -981,24 +998,16 @@
             "modalSubTitleLinkText": "Learn more about ontologies",
             "nameLabel": "Name",
             "namePlaceholder": "Enter an ontology name",
-            "namespaceLabel": "Namespace",
+            "namespaceLabel": "Default path",
             "namespaceDescription": "Example model name: {{modelName}}",
-            "namespacePlaceholder": "Enter a namespace",
+            "namespacePlaceholder": "Enter a default path",
             "sampleModel": "sample Model"
         }
-    },
-    "OATModelList": {
-        "searchModels": "Search models",
-        "noDataMessage": "No models",
-        "noMatchingItemsMessage": "No models match that criteria",
-        "removeModelButtonText": "Remove model",
-        "modelListToggleAriaLabelShow": "Show model list",
-        "modelListToggleAriaLabelHide": "Hide model list"
     },
     "OATGraphViewer": {
         "newModel": "New Model",
         "name": "Name",
-        "id": "Id",
+        "id": "ID",
         "type": "Type",
         "emptyGraph": "No models available",
         "project": "Project",
@@ -1138,16 +1147,22 @@
             }
         }
     },
-    "ErrorHandlingWrapper": {
-        "errorMessage": "Error message",
-        "errorTitle": "Error title",
-        "ok": "OK"
+    "OATErrors": {
+        "Validations": {
+            "InvalidDtmiIdFormatTitle": "Invalid DTMI format",
+            "InvalidDtmiIdFormatMessage": "Your changes were not saved because the DTMI did not meet the required format. \n DTMI: {{dtmi}}\n Required format: {{regex}}"
+        }
     },
     "OATErrorBoundary": {
         "modalHeader": "Something went wrong...",
         "messageHeader": "Message",
         "stackHeader": "Stack",
         "tryAgain": "Try again"
+    },
+    "ErrorHandlingWrapper": {
+        "errorMessage": "Error message",
+        "errorTitle": "Error title",
+        "ok": "OK"
     },
     "cameraControls": {
         "mouseControls": "Mouse Controls",
@@ -1364,25 +1379,28 @@
     },
     "dataHistoryExplorer": {
         "title": "Data history explorer",
-        "loadingConnectionLabel": "Loading time series connection information...",
+        "loadingConnectionLabel": "Loading data history connection information...",
         "builder": {
-            "title": "Twin properties",
             "description": "To compare past values for historized properties, add time series below.",
             "timeSeriesTwin": {
                 "add": "Add time series",
                 "edit": "Edit time series",
                 "remove": "Remove time series",
                 "property": "Property",
-                "propertyTypeCastLabel": "Cast property type to number",
-                "noData": "This time series contains no data to display",
+                "propertyTypeCastLabel": "Cast property value to number",
+                "noData": "No data to display for the time range selected",
                 "noProperty": "No property selected"
             }
         },
         "viewer": {
+            "commandBar": {
+                "refresh": "Refresh data",
+                "download": "Download table data"
+            },
             "chart": {
                 "title": "Chart",
                 "messages": {
-                    "noData": "No numeric historized data to display, try selecting a different time range."
+                    "noData": "No numeric data found in the selected time range."
                 }
             },
             "table": {
@@ -1393,26 +1411,23 @@
                     "value": "Value",
                     "type": "Type"
                 },
+                "noColor": "Not set",
                 "messages": {
-                    "noColor": "Not set",
-                    "loading": "Loading historized data...",
-                    "noData": "No historized data found in the selected time range.",
-                    "noSeries": "No twin selected to query, please add twin properties to view historized data."
+                    "noData": "No data found in the selected time range."
                 }
             },
-            "noSeriesDescription": "To view data history for this twin, select a property to view."
-        },
-        "control": {
-            "title": "Open Data History Explorer",
-            "disabledTitle": "Data history connection is not enabled or verified"
+            "messages": {
+                "loading": "Loading historized data...",
+                "noSeries": "No twin selected to query, please add twin properties to view historized data."
+            }
         }
     },
     "dataHistoryErrorHandlingWrapper": {
         "errors": {
-            "genericNetwork": "Cluster cannot be connected which may be due to invalid url, stopped service or a network error.",
-            "genericBadRequest": "Bad request exception occured.",
+            "genericNetwork": "{{adxServiceName}} instance cannot be connected, make sure the resource is not stopped and your network connectivity is stable.",
+            "genericBadRequest": "Something went wrong, please try again.",
             "generalBadRequestMessage": "Request is invalid and cannot be executed.",
-            "entityNotFound": "Database not found, failed to execute the query.",
+            "entityNotFound": "Database not found, cannot execute the query.",
             "forbidden": "Access was denied, you do not have query permissions."
         }
     }

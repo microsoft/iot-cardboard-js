@@ -7,7 +7,7 @@ import {
     getCancelButtonStyles,
     getSaveButtonStyles
 } from '../OATPropertyEditor.styles';
-import { deepCopy, parseModels } from '../../../Models/Services/Utils';
+import { deepCopy } from '../../../Models/Services/Utils';
 import { CommandHistoryContext } from '../../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
 import { JSONEditorProps } from './JSONEditor.types';
 import { OAT_RELATIONSHIP_HANDLE_NAME } from '../../../Models/Constants';
@@ -16,6 +16,7 @@ import { getTargetFromSelection, replaceTargetFromSelection } from '../Utils';
 import { useOatPageContext } from '../../../Models/Context/OatPageContext/OatPageContext';
 import { OatPageContextActionType } from '../../../Models/Context/OatPageContext/OatPageContext.types';
 import { APP_BACKGROUND_KRAKEN } from '../../../Models/Constants/StyleConstants';
+import { parseModels } from '../../../Models/Services/OatPublicUtils';
 
 function setEditorTheme(monaco: any) {
     monaco.editor.defineTheme('kraken', {

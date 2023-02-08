@@ -7,10 +7,19 @@ import {
     DTDLMapValue,
     DTDLObject,
     DTDLProperty,
-    DTDLRelationship
+    DTDLRelationship,
+    DTDLType,
+    DTDL_CONTEXT_VERSION_2,
+    DTDL_CONTEXT_VERSION_3
 } from '../../Classes/DTDL';
+import { getMockModelItem } from '../../Context/OatPageContext/OatPageContext.mock';
 import {
+    getDtdlVersion,
     isComplexSchemaProperty,
+    isValidDtmiId,
+    isValidDtmiPath,
+    isValidModelName,
+    isValidReferenceName,
     movePropertyInCollection
 } from '../DtdlUtils';
 
@@ -82,7 +91,7 @@ describe('DtdlUtils', () => {
             return new DTDLProperty(name, 'double');
         };
         const getRelationship = (name: string): DTDLRelationship => {
-            return new DTDLRelationship('', name, '', '', '', false, []);
+            return new DTDLRelationship(name, '', '', '', '', false, []);
         };
 
         describe('Move up', () => {
@@ -265,6 +274,478 @@ describe('DtdlUtils', () => {
                 expect(result[1].name).toEqual('prop1');
                 expect(result[2].name).toEqual('targetProperty');
                 expect(result[3].name).toEqual('rel2');
+            });
+        });
+    });
+
+    describe('getDtdlVersion', () => {
+        test('null model defaults to version 2', () => {
+            // ARRANGE
+            // ACT
+            const result = getDtdlVersion(null);
+            // ASSERT
+            expect(result).toEqual('2');
+        });
+        test('context contains version 2 in array', () => {
+            // ARRANGE
+            const context = ['other stuff', DTDL_CONTEXT_VERSION_2];
+            const model = getMockModelItem('dtmi:model1;1');
+            model['@context'] = context;
+            // ACT
+            const result = getDtdlVersion(model);
+            // ASSERT
+            expect(result).toEqual('2');
+        });
+        test('context has unknown string, default to 2', () => {
+            // ARRANGE
+            const context = ['other stuff', DTDL_CONTEXT_VERSION_2];
+            const model = getMockModelItem('dtmi:model1;1');
+            model['@context'] = context;
+            // ACT
+            const result = getDtdlVersion(model);
+            // ASSERT
+            expect(result).toEqual('2');
+        });
+        test('context contains version 3 in array', () => {
+            // ARRANGE
+            const context = ['other stuff', DTDL_CONTEXT_VERSION_3];
+            const model = getMockModelItem('dtmi:model1;1');
+            model['@context'] = context;
+            // ACT
+            const result = getDtdlVersion(model);
+            // ASSERT
+            expect(result).toEqual('3');
+        });
+        test('context has version 2 as string', () => {
+            // ARRANGE
+            const context = DTDL_CONTEXT_VERSION_2;
+            const model = getMockModelItem('dtmi:model1;1');
+            model['@context'] = context;
+            // ACT
+            const result = getDtdlVersion(model);
+            // ASSERT
+            expect(result).toEqual('2');
+        });
+        test('context has unknown string default to 2', () => {
+            // ARRANGE
+            const context = 'other stuff';
+            const model = getMockModelItem('dtmi:model1;1');
+            model['@context'] = context;
+            // ACT
+            const result = getDtdlVersion(model);
+            // ASSERT
+            expect(result).toEqual('2');
+        });
+        test('context has version 3 as string', () => {
+            // ARRANGE
+            const context = DTDL_CONTEXT_VERSION_3;
+            const model = getMockModelItem('dtmi:model1;1');
+            model['@context'] = context;
+            // ACT
+            const result = getDtdlVersion(model);
+            // ASSERT
+            expect(result).toEqual('3');
+        });
+    });
+
+    describe('Validations', () => {
+        describe('Reference names', () => {
+            describe('Relationships', () => {
+                const referenceType = DTDLType.Relationship;
+                test('length 0 is invalid', () => {
+                    // ARRANGE
+                    const testName = '';
+                    // ACT
+                    const result = isValidReferenceName(
+                        testName,
+                        referenceType,
+                        true
+                    );
+                    // ASSERT
+                    expect(result).toBeFalsy();
+                });
+                test('null is invalid', () => {
+                    // ARRANGE
+                    const testName = null;
+                    // ACT
+                    const result = isValidReferenceName(
+                        testName,
+                        referenceType,
+                        true
+                    );
+                    // ASSERT
+                    expect(result).toBeFalsy();
+                });
+                test('undefined is invalid', () => {
+                    // ARRANGE
+                    const testName = undefined;
+                    // ACT
+                    const result = isValidReferenceName(
+                        testName,
+                        referenceType,
+                        true
+                    );
+                    // ASSERT
+                    expect(result).toBeFalsy();
+                });
+                test('longer than max length is invalid', () => {
+                    // ARRANGE
+                    const testName = new Array(66).join('J');
+                    // ACT
+                    const result = isValidReferenceName(
+                        testName,
+                        referenceType,
+                        true
+                    );
+                    // ASSERT
+                    expect(result).toBeFalsy();
+                });
+                test('Non-final with trailing _ is valid', () => {
+                    // ARRANGE
+                    const testName = 'Teststring_';
+                    // ACT
+                    const result = isValidReferenceName(
+                        testName,
+                        referenceType,
+                        false
+                    );
+                    // ASSERT
+                    expect(result).toBeTruthy();
+                });
+                test('Final with trailing _ is invalid', () => {
+                    // ARRANGE
+                    const testName = 'Teststring_';
+                    // ACT
+                    const result = isValidReferenceName(
+                        testName,
+                        referenceType,
+                        true
+                    );
+                    // ASSERT
+                    expect(result).toBeFalsy();
+                });
+                test('Non-final without trailing _ is valid', () => {
+                    // ARRANGE
+                    const testName = 'Teststring';
+                    // ACT
+                    const result = isValidReferenceName(
+                        testName,
+                        referenceType,
+                        false
+                    );
+                    // ASSERT
+                    expect(result).toBeTruthy();
+                });
+                test('Final without trailing _ is valid', () => {
+                    // ARRANGE
+                    const testName = 'Teststring';
+                    // ACT
+                    const result = isValidReferenceName(
+                        testName,
+                        referenceType,
+                        true
+                    );
+                    // ASSERT
+                    expect(result).toBeTruthy();
+                });
+            });
+
+            describe('Components', () => {
+                const referenceType = DTDLType.Component;
+                test('length 0 is invalid', () => {
+                    // ARRANGE
+                    const testName = '';
+                    // ACT
+                    const result = isValidReferenceName(
+                        testName,
+                        referenceType,
+                        true
+                    );
+                    // ASSERT
+                    expect(result).toBeFalsy();
+                });
+                test('null is invalid', () => {
+                    // ARRANGE
+                    const testName = null;
+                    // ACT
+                    const result = isValidReferenceName(
+                        testName,
+                        referenceType,
+                        true
+                    );
+                    // ASSERT
+                    expect(result).toBeFalsy();
+                });
+                test('undefined is invalid', () => {
+                    // ARRANGE
+                    const testName = undefined;
+                    // ACT
+                    const result = isValidReferenceName(
+                        testName,
+                        referenceType,
+                        true
+                    );
+                    // ASSERT
+                    expect(result).toBeFalsy();
+                });
+                test('longer than max length is invalid', () => {
+                    // ARRANGE
+                    const testName = new Array(66).join('\n');
+                    // ACT
+                    const result = isValidReferenceName(
+                        testName,
+                        referenceType,
+                        true
+                    );
+                    // ASSERT
+                    expect(result).toBeFalsy();
+                });
+                test('Non-final with trailing _ is valid', () => {
+                    // ARRANGE
+                    const testName = 'Teststring_';
+                    // ACT
+                    const result = isValidReferenceName(
+                        testName,
+                        referenceType,
+                        false
+                    );
+                    // ASSERT
+                    expect(result).toBeTruthy();
+                });
+                test('Final with trailing _ is invalid', () => {
+                    // ARRANGE
+                    const testName = 'Teststring_';
+                    // ACT
+                    const result = isValidReferenceName(
+                        testName,
+                        referenceType,
+                        true
+                    );
+                    // ASSERT
+                    expect(result).toBeFalsy();
+                });
+                test('Non-final without trailing _ is valid', () => {
+                    // ARRANGE
+                    const testName = 'Teststring';
+                    // ACT
+                    const result = isValidReferenceName(
+                        testName,
+                        referenceType,
+                        false
+                    );
+                    // ASSERT
+                    expect(result).toBeTruthy();
+                });
+                test('Final without trailing _ is valid', () => {
+                    // ARRANGE
+                    const testName = 'Teststring';
+                    // ACT
+                    const result = isValidReferenceName(
+                        testName,
+                        referenceType,
+                        true
+                    );
+                    // ASSERT
+                    expect(result).toBeTruthy();
+                });
+            });
+
+            describe('Extend', () => {
+                const referenceType = 'Extend';
+                test('Always false', () => {
+                    // ARRANGE
+                    const testName = 'Teststring';
+                    // ACT
+                    const result = isValidReferenceName(
+                        testName,
+                        referenceType,
+                        true
+                    );
+                    // ASSERT
+                    expect(result).toBeFalsy();
+                });
+            });
+        });
+        describe('Model names', () => {
+            test('length 0 is invalid', () => {
+                // ARRANGE
+                const testName = '';
+                // ACT
+                const result = isValidModelName(testName, true);
+                // ASSERT
+                expect(result).toBeFalsy();
+            });
+            test('null is invalid', () => {
+                // ARRANGE
+                const testName = null;
+                // ACT
+                const result = isValidModelName(testName, true);
+                // ASSERT
+                expect(result).toBeFalsy();
+            });
+            test('undefined is invalid', () => {
+                // ARRANGE
+                const testName = undefined;
+                // ACT
+                const result = isValidModelName(testName, true);
+                // ASSERT
+                expect(result).toBeFalsy();
+            });
+            test('Non-final with trailing _ is valid', () => {
+                // ARRANGE
+                const testName = 'Teststring_';
+                // ACT
+                const result = isValidModelName(testName, false);
+                // ASSERT
+                expect(result).toBeTruthy();
+            });
+            test('Final with trailing _ is invalid', () => {
+                // ARRANGE
+                const testName = 'Teststring_';
+                // ACT
+                const result = isValidModelName(testName, true);
+                // ASSERT
+                expect(result).toBeFalsy();
+            });
+            test('Non-final without trailing _ is valid', () => {
+                // ARRANGE
+                const testName = 'Teststring';
+                // ACT
+                const result = isValidModelName(testName, false);
+                // ASSERT
+                expect(result).toBeTruthy();
+            });
+            test('Final without trailing _ is valid', () => {
+                // ARRANGE
+                const testName = 'Teststring';
+                // ACT
+                const result = isValidModelName(testName, true);
+                // ASSERT
+                expect(result).toBeTruthy();
+            });
+        });
+        describe('Model path', () => {
+            test('length 0 is valid', () => {
+                // ARRANGE
+                const testName = '';
+                // ACT
+                const result = isValidDtmiPath(testName, true);
+                // ASSERT
+                expect(result).toBeTruthy();
+            });
+            test('null is valid', () => {
+                // ARRANGE
+                const testName = null;
+                // ACT
+                const result = isValidDtmiPath(testName, true);
+                // ASSERT
+                expect(result).toBeTruthy();
+            });
+            test('undefined is valid', () => {
+                // ARRANGE
+                const testName = undefined;
+                // ACT
+                const result = isValidDtmiPath(testName, true);
+                // ASSERT
+                expect(result).toBeTruthy();
+            });
+            test('Non-final with trailing _ is valid', () => {
+                // ARRANGE
+                const testName = 'Teststring_';
+                // ACT
+                const result = isValidDtmiPath(testName, false);
+                // ASSERT
+                expect(result).toBeTruthy();
+            });
+            test('Final with trailing _ is invalid', () => {
+                // ARRANGE
+                const testName = 'Teststring_';
+                // ACT
+                const result = isValidDtmiPath(testName, true);
+                // ASSERT
+                expect(result).toBeFalsy();
+            });
+            test('Non-final without trailing _ is valid', () => {
+                // ARRANGE
+                const testName = 'Teststring';
+                // ACT
+                const result = isValidDtmiPath(testName, false);
+                // ASSERT
+                expect(result).toBeTruthy();
+            });
+            test('Final without trailing _ is valid', () => {
+                // ARRANGE
+                const testName = 'Teststring';
+                // ACT
+                const result = isValidDtmiPath(testName, true);
+                // ASSERT
+                expect(result).toBeTruthy();
+            });
+            test('Non-final with trailing : is valid', () => {
+                // ARRANGE
+                const testName = 'Teststring:';
+                // ACT
+                const result = isValidDtmiPath(testName, false);
+                // ASSERT
+                expect(result).toBeTruthy();
+            });
+            test('Final with trailing : is invalid', () => {
+                // ARRANGE
+                const testName = 'Teststring:';
+                // ACT
+                const result = isValidDtmiPath(testName, true);
+                // ASSERT
+                expect(result).toBeFalsy();
+            });
+        });
+        describe('Model id', () => {
+            test('length 0 is invalid', () => {
+                // ARRANGE
+                const testName = '';
+                // ACT
+                const result = isValidDtmiId(testName);
+                // ASSERT
+                expect(result).toBeFalsy();
+            });
+            test('null is invalid', () => {
+                // ARRANGE
+                const testName = null;
+                // ACT
+                const result = isValidDtmiId(testName);
+                // ASSERT
+                expect(result).toBeFalsy();
+            });
+            test('undefined is invalid', () => {
+                // ARRANGE
+                const testName = undefined;
+                // ACT
+                const result = isValidDtmiId(testName);
+                // ASSERT
+                expect(result).toBeFalsy();
+            });
+            test('trailing _ is invalid', () => {
+                // ARRANGE
+                const testName = 'Teststring_';
+                // ACT
+                const result = isValidDtmiId(testName);
+                // ASSERT
+                expect(result).toBeFalsy();
+            });
+            test('trailing : is invalid', () => {
+                // ARRANGE
+                const testName = 'Teststring:';
+                // ACT
+                const result = isValidDtmiId(testName);
+                // ASSERT
+                expect(result).toBeFalsy();
+            });
+            test('basic string is valid', () => {
+                // ARRANGE
+                const testName = 'dtmi:Teststring:pathSeg_2:finalName;3';
+                // ACT
+                const result = isValidDtmiId(testName);
+                // ASSERT
+                expect(result).toBeTruthy();
             });
         });
     });

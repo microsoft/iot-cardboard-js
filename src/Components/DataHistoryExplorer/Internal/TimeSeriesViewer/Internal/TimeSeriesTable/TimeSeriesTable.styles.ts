@@ -18,18 +18,18 @@ export const getStyles = (
             classNames.root,
             {
                 width: '100%',
-                height: '100%',
-                display: 'flex',
-                flexDirection: 'column'
+                height: '100%'
             }
         ],
         listWrapper: [
             classNames.listWrapper,
-            { overflow: 'auto', position: 'relative', flexGrow: 1 }
+            { overflow: 'auto', position: 'relative', height: '100%' }
         ],
         notSetCell: [classNames.notSetCell, { fontStyle: 'italic' }],
         subComponentStyles: {
-            loadingSpinner: { root: { height: '100%' } },
+            illustrationMessage: {
+                container: { flexGrow: 1 }
+            },
             detailsList: {
                 root: { overflow: 'hidden', '.ms-DetailsRow': { fontSize: 13 } }
             },

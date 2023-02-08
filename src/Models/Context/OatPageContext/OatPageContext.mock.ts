@@ -11,7 +11,11 @@ import {
     IOATModelsMetadata
 } from '../../../Pages/OATEditorPage/OATEditorPage.types';
 import { DTDLModel, DTDLProperty } from '../../Classes/DTDL';
-import { DtdlInterfaceContent, OatReferenceType } from '../../Constants';
+import {
+    DtdlInterface,
+    DtdlInterfaceContent,
+    OatReferenceType
+} from '../../Constants';
 import {
     buildModelId,
     getAvailableLanguages,
@@ -37,7 +41,7 @@ const getMockPositionItem = (id: string): IOATModelPosition => {
     };
 };
 
-export const getMockModelItem = (id: string): DTDLModel => {
+export const getMockModelItem = (id: string): DtdlInterface => {
     const modelName = parseModelId(id).name;
     return new DTDLModel(
         id,
@@ -83,14 +87,12 @@ export const getMockFile = (
     const namespace = 'test-ontology-namespace-' + index;
     const modelId1 = buildModelId({
         modelName: 'model' + subId1,
-        namespace: namespace,
-        path: 'folder1:folder2',
+        path: `${namespace}:folder1:folder2`,
         version: 2
     });
     const modelId2 = buildModelId({
         modelName: 'model' + subId2,
-        namespace: namespace,
-        path: 'folder1:folder2',
+        path: `${namespace}:folder1:folder2`,
         version: 2
     });
     return {
@@ -119,7 +121,7 @@ export const GET_MOCK_OAT_CONTEXT_STATE = (): IOatPageContextState => {
         currentOntologyModelMetadata: currentFile.modelsMetadata,
         currentOntologyModelPositions: currentFile.modelPositions,
         currentOntologyModels: currentFile.models,
-        currentOntologyNamespace: currentFile.namespace,
+        currentOntologyDefaultPath: currentFile.defaultPath,
         currentOntologyProjectName: currentFile.projectName,
         currentOntologyTemplates: currentFile.templates,
         languageOptions: getAvailableLanguages(i18n),
@@ -131,6 +133,8 @@ export const GET_MOCK_OAT_CONTEXT_STATE = (): IOatPageContextState => {
         ontologyFiles: files,
         selection: undefined,
         selectedPropertyEditorTab: IOatPropertyEditorTabKey.Properties,
-        templatesActive: false
+        templatesActive: false,
+        openUploadFileCallback: null,
+        openUploadFolderCallback: null
     };
 };

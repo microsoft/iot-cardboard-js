@@ -1,10 +1,11 @@
-import React, { createContext, useMemo, useState } from 'react';
+import React, { createContext, useMemo } from 'react';
 import {
+    ERROR_IMAGE_HEIGHT,
     ITimeSeriesViewerContext,
     ITimeSeriesViewerProps,
     ITimeSeriesViewerStyleProps,
     ITimeSeriesViewerStyles,
-    TimeSeriesViewerPivot
+    TimeSeriesViewerMode
 } from './TimeSeriesViewer.types';
 import { getStyles } from './TimeSeriesViewer.styles';
 import {
@@ -12,7 +13,9 @@ import {
     useTheme,
     styled,
     Pivot,
-    PivotItem
+    PivotItem,
+    SpinnerSize,
+    Spinner
 } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import GenericErrorImg from '../../../../Resources/Static/noResults.svg';
@@ -20,9 +23,8 @@ import IllustrationMessage from '../../../IllustrationMessage/IllustrationMessag
 import TimeSeriesChart from './Internal/TimeSeriesChart/TimeSeriesChart';
 import TimeSeriesTable from './Internal/TimeSeriesTable/TimeSeriesTable';
 import { TimeStampFormat } from './Internal/TimeSeriesTable/TimeSeriesTable.types';
-import { IDataHistoryChartOptions } from '../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
-import { sendDataHistoryExplorerUserTelemetry } from '../../../../Models/SharedUtils/DataHistoryUtils';
-import { TelemetryEvents } from '../../../../Models/Constants/TelemetryConstants';
+import DataHistoryErrorHandlingWrapper from '../../../DataHistoryErrorHandlingWrapper/DataHistoryErrorHandlingWrapper';
+import TimeSeriesCommandBar from './Internal/TimeSeriesCommandBar/TimeSeriesCommandBar';
 
 export const TimeSeriesViewerContext = createContext<ITimeSeriesViewerContext>(
     null
@@ -34,91 +36,135 @@ const getClassNames = classNamesFunction<
 >();
 
 const TimeSeriesViewer: React.FC<ITimeSeriesViewerProps> = (props) => {
-    const { timeSeriesTwinList, onMissingSeriesData, styles } = props;
-
-    //state
-    const [chartOptions, setChartOptions] = useState<IDataHistoryChartOptions>(
-        null
-    );
+    const {
+        timeSeriesTwins = [],
+        data = null,
+        isLoading = false,
+        viewerModeProps,
+        onViewerModeChange,
+        explorerChartOptions,
+        onChartOptionsChange,
+        error,
+        styles
+    } = props;
 
     // hooks
     const { t } = useTranslation();
-    const hasNoSeries = useMemo(
-        () =>
-            !timeSeriesTwinList ||
-            timeSeriesTwinList.length === 0 ||
-            timeSeriesTwinList.every(
-                (tS) => !(tS.twinId && tS.twinPropertyName)
-            ),
-        [timeSeriesTwinList]
-    );
 
     // styles
     const classNames = getClassNames(styles, {
         theme: useTheme()
     });
 
-    const handleOnChangePivot = (item: PivotItem) => {
-        const telemetry =
-            TelemetryEvents.Tools.DataHistoryExplorer.UserAction.ChangeView;
-        sendDataHistoryExplorerUserTelemetry(telemetry.eventName, [
-            {
-                property: telemetry.properties.view,
-                value: item.props.itemKey
-            }
-        ]);
-    };
+    const CommandBarComponent = useMemo(() => {
+        if (explorerChartOptions) {
+            const {
+                yAxisType,
+                aggregationType,
+                defaultQuickTimeSpanInMillis
+            } = explorerChartOptions;
+            return (
+                <TimeSeriesCommandBar
+                    defaultChartOptions={{
+                        yAxisType,
+                        aggregationType,
+                        defaultQuickTimeSpanInMillis
+                    }}
+                    viewerModeProps={viewerModeProps}
+                    onChartOptionsChange={onChartOptionsChange}
+                    styles={classNames.subComponentStyles.commandBar}
+                />
+            );
+        }
+    }, [
+        explorerChartOptions,
+        viewerModeProps,
+        onChartOptionsChange,
+        classNames
+    ]);
+
+    const SpinnerComponent = useMemo(
+        () => (
+            <Spinner
+                styles={classNames.subComponentStyles.loadingSpinner}
+                size={SpinnerSize.large}
+                label={t('dataHistoryExplorer.viewer.messages.loading')}
+                ariaLive="assertive"
+                labelPosition="top"
+            />
+        ),
+        [classNames, t]
+    );
 
     return (
         <div className={classNames.root}>
-            {hasNoSeries ? (
+            {error ? (
+                <DataHistoryErrorHandlingWrapper
+                    error={error}
+                    imgHeight={ERROR_IMAGE_HEIGHT}
+                    messageWidth="wide"
+                />
+            ) : !(timeSeriesTwins?.length > 0) ? (
                 <IllustrationMessage
                     descriptionText={t(
-                        'dataHistoryExplorer.viewer.noSeriesDescription'
+                        'dataHistoryExplorer.viewer.messages.noSeries'
                     )}
                     type={'info'}
-                    width={'compact'}
+                    width={'wide'}
                     imageProps={{
                         src: GenericErrorImg,
                         height: 172
                     }}
-                    styles={{ container: { flexGrow: 1 } }}
+                    styles={classNames.subComponentStyles.noSeriesIllustration}
                 />
             ) : (
                 <TimeSeriesViewerContext.Provider
                     value={{
-                        timeSeriesTwinList,
-                        onMissingSeriesData
+                        timeSeriesTwins
                     }}
                 >
                     <Pivot
-                        overflowBehavior={'menu'}
                         styles={classNames.subComponentStyles.pivot}
-                        onLinkClick={handleOnChangePivot}
+                        onLinkClick={(viewMode) =>
+                            onViewerModeChange(
+                                viewMode.props.itemKey as TimeSeriesViewerMode
+                            )
+                        }
+                        selectedKey={viewerModeProps.viewerMode}
                     >
                         <PivotItem
                             headerText={t(
                                 'dataHistoryExplorer.viewer.chart.title'
                             )}
-                            itemKey={TimeSeriesViewerPivot.Chart}
+                            itemKey={TimeSeriesViewerMode.Chart}
                         >
-                            <TimeSeriesChart
-                                defaultOptions={chartOptions}
-                                onChartOptionsChange={setChartOptions}
-                            />
+                            {CommandBarComponent}
+                            {isLoading ? (
+                                SpinnerComponent
+                            ) : (
+                                <TimeSeriesChart
+                                    data={data.chart}
+                                    explorerChartOptions={explorerChartOptions}
+                                    styles={classNames.subComponentStyles.chart}
+                                />
+                            )}
                         </PivotItem>
                         <PivotItem
                             headerText={t(
                                 'dataHistoryExplorer.viewer.table.title'
                             )}
-                            itemKey={TimeSeriesViewerPivot.Table}
+                            itemKey={TimeSeriesViewerMode.Table}
                         >
-                            <TimeSeriesTable
-                                quickTimeSpanInMillis={
-                                    chartOptions?.defaultQuickTimeSpanInMillis
-                                }
-                                timeStampFormat={TimeStampFormat.date}
-                            />
+                            {CommandBarComponent}
+                            {isLoading ? (
+                                SpinnerComponent
+                            ) : (
+                                <TimeSeriesTable
+                                    data={data.table}
+                                    timeStampFormat={TimeStampFormat.date}
+                                    styles={classNames.subComponentStyles.table}
+                                />
+                            )}
                         </PivotItem>
                     </Pivot>
                 </TimeSeriesViewerContext.Provider>

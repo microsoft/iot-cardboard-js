@@ -93,7 +93,7 @@ const ProviderContentRenderer: React.FC = () => {
                 <Stack horizontal styles={itemStackStyles}>
                     <Label>Namespace: </Label>
                     <Text styles={valueStyle}>
-                        {oatPageState.currentOntologyNamespace}
+                        {oatPageState.currentOntologyDefaultPath}
                     </Text>
                 </Stack>
                 <Stack horizontal styles={itemStackStyles}>

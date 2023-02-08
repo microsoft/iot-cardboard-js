@@ -67,8 +67,8 @@ const getMockModel = (properties: DTDLProperty[]) => {
 
 const getMockRelationship = (properties: DTDLProperty[]) => {
     return new DTDLRelationship(
-        '',
         'test relationship 1',
+        '',
         '',
         '',
         '',

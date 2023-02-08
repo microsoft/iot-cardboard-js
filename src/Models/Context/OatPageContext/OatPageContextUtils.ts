@@ -53,13 +53,13 @@ import {
 /**
  * Looks at the existing models and generates a new name until it finds a unique name
  * @param existingModels current set of models in the graph
- * @param namespace the namespace for the current ontology
+ * @param defaultPath the namespace for the current ontology
  * @param defaultNamePrefix the name prefix for models (ex: "Model")
  * @returns the id string for the new model
  */
 const getNextModelInfo = (
     existingModels: DtdlInterface[],
-    namespace: string,
+    defaultPath: string,
     defaultNamePrefix: string
 ) => {
     // Identifies which is the next model Id on creating new nodes
@@ -69,7 +69,7 @@ const getNextModelInfo = (
     while (index !== -1) {
         nextModelIdIndex++;
         nextModelId = buildModelId({
-            namespace,
+            path: defaultPath,
             modelName: `${defaultNamePrefix.toLowerCase()}${nextModelIdIndex}`
         });
         index = existingModels.findIndex(
@@ -97,7 +97,7 @@ export const addNewModelToState = (
 ): DtdlInterface => {
     const modelInfo = getNextModelInfo(
         state.currentOntologyModels,
-        state.currentOntologyNamespace,
+        state.currentOntologyDefaultPath,
         i18n.t('OATCommon.defaultModelNamePrefix')
     );
     const newModel: DtdlInterface = getNewModel(modelInfo.id, modelInfo.name);
@@ -129,44 +129,42 @@ export const addNewModelToState = (
 export const deleteModelFromState = (
     modelId: string,
     modelType: string,
-    models: DtdlInterface[],
-    positions: IOATModelPosition[]
+    state: IOatPageContextState
 ) => {
     if (modelType === OAT_UNTARGETED_RELATIONSHIP_NAME) {
-        const match = models.find((element) => element['@id'] === modelId);
+        const match = state.currentOntologyModels.find(
+            (element) => element['@id'] === modelId
+        );
         if (match) {
             match.contents = match.contents.filter(
                 (content) => content['@id'] !== modelId
             );
         }
     } else {
-        const index = models.findIndex((m) => m['@id'] === modelId);
-        if (index >= 0) {
-            // remove from models list
-            models.splice(index, 1);
-            models.forEach((m) => {
-                // remove from relationship list of all models
-                m.contents = m.contents.filter(
-                    (content) =>
-                        (!('target' in content) ||
-                            content.target !== modelId) &&
-                        (!('schema' in content) || content.schema !== modelId)
+        // remove from models list
+        state.currentOntologyModels = state.currentOntologyModels.filter(
+            (m) => m['@id'] !== modelId
+        );
+        state.currentOntologyModels.forEach((m) => {
+            // remove from relationship list of all models
+            m.contents = m.contents.filter(
+                (content) =>
+                    (!('target' in content) || content.target !== modelId) &&
+                    (!('schema' in content) || content.schema !== modelId)
+            );
+            // remove from extends list for all models
+            if (m.extends) {
+                m.extends = ensureIsArray(m.extends).filter(
+                    (ex) => ex !== modelId
                 );
-                // remove from extends list for all models
-                if (m.extends) {
-                    m.extends = (m.extends as string[]).filter(
-                        (ex) => ex !== modelId
-                    );
-                }
-            });
-        }
+            }
+        });
     }
 
     // remove from positions list
-    const index = positions.findIndex((x) => x['@id'] === modelId);
-    positions.splice(index, 1);
-
-    return { models: models, positions: positions };
+    state.currentOntologyModelPositions = state.currentOntologyModelPositions.filter(
+        (x) => x['@id'] !== modelId
+    );
 };
 
 type DeleteReferenceArgs = {
@@ -600,7 +598,7 @@ export function switchCurrentProject(
         const data = selectedFile.data;
         const projectToOpen = new ProjectData(
             data.projectName,
-            data.namespace,
+            data.defaultPath,
             data.models,
             data.modelPositions,
             data.modelsMetadata,
@@ -629,7 +627,7 @@ export function convertStateToProject(
         modelPositions: draft.currentOntologyModelPositions ?? [],
         models: draft.currentOntologyModels ?? [],
         modelsMetadata: draft.currentOntologyModelMetadata ?? [],
-        namespace: draft.currentOntologyNamespace || '',
+        defaultPath: draft.currentOntologyDefaultPath || '',
         projectDescription: '',
         projectName: draft.currentOntologyProjectName || '',
         templates: draft.currentOntologyTemplates ?? []
@@ -645,7 +643,7 @@ export function mapProjectOntoState(
     draft.currentOntologyModelPositions = projectToOpen.modelPositions;
     draft.currentOntologyModels = projectToOpen.models;
     draft.currentOntologyModelMetadata = projectToOpen.modelsMetadata;
-    draft.currentOntologyNamespace = projectToOpen.namespace;
+    draft.currentOntologyDefaultPath = projectToOpen.defaultPath;
     draft.currentOntologyProjectName = projectToOpen.projectName || '';
     draft.currentOntologyTemplates = projectToOpen.templates;
 }

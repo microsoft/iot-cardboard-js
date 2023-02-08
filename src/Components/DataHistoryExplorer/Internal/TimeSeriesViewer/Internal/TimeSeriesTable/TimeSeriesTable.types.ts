@@ -1,16 +1,15 @@
 import {
     IDetailsListStyles,
     IProcessedStyleSet,
-    ISpinnerStyles,
     IStyle,
     IStyleFunctionOrObject,
     ITheme
 } from '@fluentui/react';
 import { ADXTimeSeriesTableRow } from '../../../../../../Models/Constants/Types';
-import { IDataHistoryErrorHandlingWrapperStyles } from '../../../../../DataHistoryErrorHandlingWrapper/DataHistoryErrorHandlingWrapper.types';
+import { IllustrationMessageStyles } from '../../../../../IllustrationMessage/IllustrationMessage.types';
 
 export interface ITimeSeriesTableProps {
-    quickTimeSpanInMillis: number;
+    data: Array<TimeSeriesTableRow>;
     timeStampFormat?: TimeStampFormat;
     /**
      * Call to provide customized styling that will layer on top of the variant rules.
@@ -39,13 +38,12 @@ interface SeriesColumnStyles {
 }
 
 export interface ITimeSeriesTableSubComponentStyles {
-    loadingSpinner?: Partial<ISpinnerStyles>;
+    illustrationMessage?: Partial<IllustrationMessageStyles>;
     detailsList?: Partial<IDetailsListStyles>;
     seriesColumn?: IStyleFunctionOrObject<
         { color: string },
         IProcessedStyleSet<SeriesColumnStyles>
     >;
-    errorWrapper?: Partial<IDataHistoryErrorHandlingWrapperStyles>;
 }
 
 export enum TimeStampFormat {

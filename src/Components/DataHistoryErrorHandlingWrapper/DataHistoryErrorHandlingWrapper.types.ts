@@ -7,11 +7,15 @@ import {
     ITheme
 } from '@fluentui/react';
 import { IComponentError } from '../../Models/Constants/Interfaces';
-import { IllustrationMessageStyles } from '../IllustrationMessage/IllustrationMessage.types';
+import {
+    IllustrationMessageStyles,
+    IllustrationMessageWidth
+} from '../IllustrationMessage/IllustrationMessage.types';
 
 export interface IDataHistoryErrorHandlingWrapperProps {
     error: IComponentError;
     imgHeight?: number;
+    messageWidth?: IllustrationMessageWidth;
 
     /**
      * Call to provide customized styling that will layer on top of the variant rules.

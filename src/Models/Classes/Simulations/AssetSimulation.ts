@@ -12,7 +12,7 @@ import {
     ADTPatch,
     DTwinUpdateEvent
 } from '../../Constants/Interfaces';
-import { downloadText } from '../../Services/Utils';
+import { downloadJSON } from '../../Services/Utils';
 import { Asset } from './Asset';
 
 const modelTwinsRelationshipsData = {
@@ -110,7 +110,7 @@ export default class AssetSimulation implements IAdtPusherSimulation {
             return model;
         });
         if (download) {
-            downloadText(JSON.stringify(dtdlModels), 'DT_Models.json');
+            downloadJSON(JSON.stringify(dtdlModels), 'DT_Models.json');
         }
         return dtdlModels;
     }
@@ -132,7 +132,7 @@ export default class AssetSimulation implements IAdtPusherSimulation {
             });
         });
         if (download) {
-            downloadText(JSON.stringify(twins), 'DT_Twins.json');
+            downloadJSON(JSON.stringify(twins), 'DT_Twins.json');
         }
         return twins;
     }

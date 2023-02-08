@@ -9,10 +9,7 @@ import {
     IOatProjectData,
     ProjectData
 } from '../../../Pages/OATEditorPage/Internal/Classes/ProjectData';
-import {
-    OAT_MODEL_ID_PREFIX,
-    OAT_NAMESPACE_DEFAULT_VALUE
-} from '../../Constants/Constants';
+import { OAT_DEFAULT_PATH_VALUE } from '../../Constants/Constants';
 import {
     getOntologiesFromStorage,
     getLastUsedProjectId,
@@ -73,26 +70,11 @@ export const OatPageContextReducer: (
                 break;
             }
             case OatPageContextActionType.EDIT_PROJECT: {
-                const previousNamespace = draft.currentOntologyNamespace;
-                draft.currentOntologyNamespace = action.payload.namespace.replace(
+                draft.currentOntologyDefaultPath = action.payload.namespace.replace(
                     / /g,
                     ''
                 );
                 draft.currentOntologyProjectName = action.payload.name;
-                // look through the project data and update any references to the namespace when it changes
-                logDebugConsole(
-                    'debug',
-                    'Updating project namespace to: ' +
-                        draft.currentOntologyNamespace
-                );
-                if (previousNamespace !== draft.currentOntologyNamespace) {
-                    draft.currentOntologyModels.forEach((x) => {
-                        x['@id'] = x['@id'].replace(
-                            `${OAT_MODEL_ID_PREFIX}:${previousNamespace}:`,
-                            `${OAT_MODEL_ID_PREFIX}:${draft.currentOntologyProjectName}:`
-                        );
-                    });
-                }
                 saveData(draft);
                 break;
             }
@@ -115,7 +97,7 @@ export const OatPageContextReducer: (
                     } else {
                         // create a new project if none exist to switch to
                         const name = i18n.t('OATCommon.defaultFileName');
-                        const namespace = OAT_NAMESPACE_DEFAULT_VALUE;
+                        const namespace = OAT_DEFAULT_PATH_VALUE;
                         createProject(name, namespace, draft);
                     }
                 } else {
@@ -182,7 +164,8 @@ export const OatPageContextReducer: (
                 break;
             }
             case OatPageContextActionType.SET_CURRENT_NAMESPACE: {
-                draft.currentOntologyNamespace = action.payload.namespace || '';
+                draft.currentOntologyDefaultPath =
+                    action.payload.namespace || '';
                 saveData(draft);
                 break;
             }
@@ -192,7 +175,7 @@ export const OatPageContextReducer: (
                 draft.currentOntologyModels = action.payload.models;
                 draft.currentOntologyModelMetadata =
                     action.payload.modelsMetadata;
-                draft.currentOntologyNamespace = action.payload.namespace;
+                draft.currentOntologyDefaultPath = action.payload.defaultPath;
                 draft.currentOntologyProjectName =
                     action.payload.projectName || '';
                 draft.currentOntologyTemplates = action.payload.templates;
@@ -213,8 +196,7 @@ export const OatPageContextReducer: (
                 deleteModelFromState(
                     targetModel['@id'],
                     targetModel['@type'],
-                    draft.currentOntologyModels,
-                    draft.currentOntologyModelPositions
+                    draft
                 );
                 draft.graphUpdatesToSync = {
                     actionType: 'Delete',
@@ -386,6 +368,12 @@ export const OatPageContextReducer: (
             }
             case OatPageContextActionType.ADD_NEW_MODEL: {
                 const newModel = addNewModelToState(draft);
+                setSelectedModel(
+                    {
+                        modelId: newModel['@id']
+                    },
+                    draft
+                );
                 // need to send this to the graph component to figure out the relative coordinates for the new model to use
                 draft.graphUpdatesToSync = {
                     actionType: 'Add',
@@ -467,6 +455,14 @@ export const OatPageContextReducer: (
                 setSelectedModel(action.payload.selection, draft);
                 break;
             }
+            case OatPageContextActionType.SET_UPLOAD_FILE_CALLBACK: {
+                draft.openUploadFileCallback = action.payload.callback;
+                break;
+            }
+            case OatPageContextActionType.SET_UPLOAD_FOLDER_CALLBACK: {
+                draft.openUploadFolderCallback = action.payload.callback;
+                break;
+            }
             case OatPageContextActionType.SET_OAT_TEMPLATES_ACTIVE: {
                 draft.templatesActive = action.payload.isActive || false;
                 break;
@@ -519,7 +515,7 @@ const emptyState: IOatPageContextState = {
     currentOntologyModelMetadata: [],
     currentOntologyModelPositions: [],
     currentOntologyModels: [],
-    currentOntologyNamespace: '',
+    currentOntologyDefaultPath: '',
     currentOntologyProjectName: '',
     currentOntologyTemplates: [],
     // other properties
@@ -532,7 +528,9 @@ const emptyState: IOatPageContextState = {
     modified: false,
     selection: null,
     templatesActive: false,
-    selectedPropertyEditorTab: IOatPropertyEditorTabKey.Properties
+    selectedPropertyEditorTab: IOatPropertyEditorTabKey.Properties,
+    openUploadFileCallback: null,
+    openUploadFolderCallback: null
 };
 
 const getInitialState = (
@@ -565,7 +563,7 @@ const getInitialState = (
         // create a project if none exists
         project = new ProjectData(
             i18n.t('OATCommon.defaultFileName'),
-            OAT_NAMESPACE_DEFAULT_VALUE,
+            OAT_DEFAULT_PATH_VALUE,
             [],
             [],
             [],
@@ -591,7 +589,7 @@ const getInitialState = (
         currentOntologyModelMetadata: project.modelsMetadata,
         currentOntologyModelPositions: project.modelPositions,
         currentOntologyModels: project.models,
-        currentOntologyNamespace: project.namespace,
+        currentOntologyDefaultPath: project.defaultPath,
         currentOntologyProjectName: project.projectName,
         currentOntologyTemplates: project.templates,
         languageOptions: getAvailableLanguages(i18n)

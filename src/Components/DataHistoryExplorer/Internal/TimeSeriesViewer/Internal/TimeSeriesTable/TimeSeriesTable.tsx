@@ -1,10 +1,4 @@
-import React, {
-    useCallback,
-    useContext,
-    useEffect,
-    useMemo,
-    useState
-} from 'react';
+import React, { useCallback, useContext, useMemo } from 'react';
 import {
     ITimeSeriesTableProps,
     ITimeSeriesTableStyleProps,
@@ -21,34 +15,19 @@ import {
     DetailsListLayoutMode,
     SelectionMode,
     IColumn,
-    Spinner,
-    SpinnerSize,
     ConstrainMode,
     Icon,
     ScrollablePane,
     IDetailsHeaderProps,
     IRenderFunction,
-    Sticky
+    Sticky,
+    StickyPositionType
 } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
-import { usePrevious } from '@fluentui/react-hooks';
-import { transformADXTimeSeriesToADXTableData } from '../../../../../../Models/SharedUtils/DataHistoryUtils';
 import { TimeSeriesViewerContext } from '../../TimeSeriesViewer';
-import { DataHistoryExplorerContext } from '../../../../DataHistoryExplorer';
-import { useTimeSeriesData } from '../../../../../../Models/Hooks/useTimeSeriesData';
-import IllustrationMessage from '../../../../../IllustrationMessage/IllustrationMessage';
-import GenericErrorImg from '../../../../../../Resources/Static/noResults.svg';
 import { DTDLPropertyIconographyMap } from '../../../../../../Models/Constants/Constants';
-import TableCommandBar from './Internal/TableCommandBar/TableCommandBar';
-import {
-    getDebugLogger,
-    sortAscendingOrDescending
-} from '../../../../../../Models/Services/Utils';
-import DataHistoryErrorHandlingWrapper from '../../../../../DataHistoryErrorHandlingWrapper/DataHistoryErrorHandlingWrapper';
-import { ERROR_IMAGE_HEIGHT } from '../../TimeSeriesViewer.types';
-
-const debugLogging = false;
-const logDebugConsole = getDebugLogger('TimeSeriesTable', debugLogging);
+import IllustrationMessage from '../../../../../IllustrationMessage/IllustrationMessage';
+import SearchErrorImg from '../../../../../../Resources/Static/searchError.svg';
 
 const getClassNames = classNamesFunction<
     ITimeSeriesTableStyleProps,
@@ -56,48 +35,51 @@ const getClassNames = classNamesFunction<
 >();
 
 const TimeSeriesTable: React.FC<ITimeSeriesTableProps> = (props) => {
-    const {
-        quickTimeSpanInMillis,
-        timeStampFormat = TimeStampFormat.iso,
-        styles
-    } = props;
+    const { data, timeStampFormat = TimeStampFormat.iso, styles } = props;
 
     // contexts
-    const { adapter } = useContext(DataHistoryExplorerContext);
-    const { timeSeriesTwinList, onMissingSeriesData } = useContext(
-        TimeSeriesViewerContext
-    );
-
-    // state
-    const [items, setItems] = useState<Array<TimeSeriesTableRow>>([]);
+    const { timeSeriesTwins } = useContext(TimeSeriesViewerContext);
 
     // styles
     const classNames = getClassNames(styles, {
         theme: useTheme()
     });
 
+    // callbacks
+    const getFormattedTimeStamp = useCallback(
+        (timeStamp: number | string) => {
+            switch (timeStampFormat) {
+                case TimeStampFormat.date:
+                    return new Date(timeStamp).toLocaleString();
+                case TimeStampFormat.iso:
+                    return new Date(timeStamp).toISOString();
+                default:
+                    return timeStamp;
+            }
+        },
+        [timeStampFormat]
+    );
+    const onRenderDetailsHeader = (
+        detailsHeaderProps: IDetailsHeaderProps,
+        defaultRender: IRenderFunction<IDetailsHeaderProps>
+    ) => (
+        <Sticky stickyPosition={StickyPositionType.Header}>
+            {defaultRender({
+                ...detailsHeaderProps,
+                styles: { root: { paddingTop: 0 } }
+            })}
+        </Sticky>
+    );
+
     // hooks
     const { t } = useTranslation();
-    const {
-        query,
-        data,
-        errors,
-        fetchTimeSeriesData,
-        isLoading = true
-    } = useTimeSeriesData({
-        adapter,
-        connection: adapter.getADXConnectionInformation(),
-        quickTimeSpanInMillis: quickTimeSpanInMillis,
-        twins: timeSeriesTwinList,
-        queryOptions: { isNullIncluded: true, shouldCastToDouble: false }
-    });
     const getColumns: Array<IColumn> = useMemo(
         () => [
             {
                 key: 'timestamp',
                 name: t('dataHistoryExplorer.viewer.table.columns.timestamp'),
                 minWidth: 100,
-                maxWidth: 180,
+                maxWidth: 160,
                 isResizable: true,
                 onRender: (item: TimeSeriesTableRow) =>
                     getFormattedTimeStamp(item.timestamp)
@@ -108,7 +90,7 @@ const TimeSeriesTable: React.FC<ITimeSeriesTableProps> = (props) => {
                 minWidth: 100,
                 isResizable: true,
                 onRender: (item: TimeSeriesTableRow) => {
-                    const timeSeriesTwin = timeSeriesTwinList.find(
+                    const timeSeriesTwin = timeSeriesTwins.find(
                         (seriesTwin) => seriesTwin.seriesId === item?.seriesId
                     );
                     return (
@@ -147,7 +129,7 @@ const TimeSeriesTable: React.FC<ITimeSeriesTableProps> = (props) => {
                 maxWidth: 60,
                 isResizable: true,
                 onRender: (item: TimeSeriesTableRow) => {
-                    const timeSeriesTwin = timeSeriesTwinList.find(
+                    const timeSeriesTwin = timeSeriesTwins.find(
                         (seriesTwin) => seriesTwin.seriesId === item?.seriesId
                     );
                     if (timeSeriesTwin) {
@@ -166,135 +148,39 @@ const TimeSeriesTable: React.FC<ITimeSeriesTableProps> = (props) => {
                 }
             }
         ],
-        [timeSeriesTwinList]
+        [timeSeriesTwins, t, getFormattedTimeStamp, classNames]
     );
-
-    // callbacks
-    const getFormattedTimeStamp = useCallback(
-        (timeStamp: number | string) => {
-            switch (timeStampFormat) {
-                case TimeStampFormat.date:
-                    return new Date(timeStamp).toLocaleString();
-                case TimeStampFormat.iso:
-                    return new Date(timeStamp).toISOString();
-                default:
-                    return timeStamp;
-            }
-        },
-        [timeStampFormat]
-    );
-    const onRenderDetailsHeader = (
-        detailsHeaderProps: IDetailsHeaderProps,
-        defaultRender: IRenderFunction<IDetailsHeaderProps>
-    ) => (
-        <Sticky>
-            {defaultRender({
-                ...detailsHeaderProps,
-                styles: { root: { paddingTop: 0 } }
-            })}
-        </Sticky>
-    );
-
-    // side-effects
-    const prevQuery = usePrevious(query);
-    useEffect(() => {
-        if (query && query !== prevQuery) {
-            logDebugConsole('debug', `Query to send for Table: ${query}`);
-            fetchTimeSeriesData();
-        }
-    }, [query]);
-    useEffect(() => {
-        const adxTimeSeriesTableRows: Array<TimeSeriesTableRow> =
-            data?.reduce((acc, adxTs) => {
-                const transformedADXRow = transformADXTimeSeriesToADXTableData(
-                    adxTs
-                ); // flatten the adxTimeSeries to individual rows
-                transformedADXRow.map(
-                    (adxRow, idxR) =>
-                        acc.push({
-                            ...adxRow,
-                            seriesId: adxTs.seriesId,
-                            property: adxRow.key,
-                            key: adxTs.seriesId + idxR
-                        } as TimeSeriesTableRow) // cannot use the ADXTimeSeriesTableRow type since key cannot be used as a unique DOM key for rendering))
-                );
-                return acc;
-            }, []) || [];
-        adxTimeSeriesTableRows.sort(sortAscendingOrDescending('timestamp'));
-        logDebugConsole(
-            'debug',
-            `Number of rows: ${adxTimeSeriesTableRows.length}`
-        );
-        setItems(adxTimeSeriesTableRows);
-    }, [data]);
-    useEffect(() => {
-        if (data && !isLoading) {
-            const seriesWithNoData = timeSeriesTwinList
-                ?.filter((ts) => !data?.find((d) => d.seriesId === ts.seriesId))
-                .map((ts) => ts.seriesId);
-            if (onMissingSeriesData) {
-                onMissingSeriesData(seriesWithNoData);
-            }
-        }
-    }, [data, timeSeriesTwinList, isLoading]);
 
     return (
         <div className={classNames.root}>
-            {isLoading ? (
-                <Spinner
-                    styles={classNames.subComponentStyles.loadingSpinner}
-                    size={SpinnerSize.large}
-                    label={t(
-                        'dataHistoryExplorer.viewer.table.messages.loading'
-                    )}
-                    ariaLive="assertive"
-                    labelPosition="top"
-                />
-            ) : errors.length > 0 ? (
-                <DataHistoryErrorHandlingWrapper
-                    error={errors[0]}
-                    imgHeight={ERROR_IMAGE_HEIGHT}
-                    styles={classNames.subComponentStyles.errorWrapper}
-                />
-            ) : data === null || data?.length === 0 ? (
+            {!(data?.length > 0) ? (
                 <IllustrationMessage
                     descriptionText={t(
-                        `dataHistoryExplorer.viewer.table.messages.${
-                            timeSeriesTwinList.length === 0
-                                ? 'noSeries'
-                                : 'noData'
-                        }`
+                        'dataHistoryExplorer.viewer.table.messages.noData'
                     )}
                     type={'info'}
-                    width={'compact'}
+                    width={'wide'}
                     imageProps={{
-                        src: GenericErrorImg,
+                        src: SearchErrorImg,
                         height: 172
                     }}
-                    styles={{ container: { flexGrow: 1 } }}
+                    styles={classNames.subComponentStyles.illustrationMessage}
                 />
             ) : (
-                <>
-                    <TableCommandBar data={items} />
-                    <div className={classNames.listWrapper}>
-                        <ScrollablePane>
-                            <DetailsList
-                                styles={
-                                    classNames.subComponentStyles.detailsList
-                                }
-                                key={'adx-series-data'}
-                                selectionMode={SelectionMode.none}
-                                items={items}
-                                columns={getColumns}
-                                layoutMode={DetailsListLayoutMode.justified}
-                                constrainMode={
-                                    ConstrainMode.horizontalConstrained
-                                }
-                                onRenderDetailsHeader={onRenderDetailsHeader}
-                            />
-                        </ScrollablePane>
-                    </div>
-                </>
+                <div className={classNames.listWrapper}>
+                    <ScrollablePane scrollContainerFocus={true}>
+                        <DetailsList
+                            styles={classNames.subComponentStyles.detailsList}
+                            key={'adx-series-data'}
+                            selectionMode={SelectionMode.none}
+                            items={data}
+                            columns={getColumns}
+                            layoutMode={DetailsListLayoutMode.justified}
+                            constrainMode={ConstrainMode.horizontalConstrained}
+                            onRenderDetailsHeader={onRenderDetailsHeader}
+                        />
+                    </ScrollablePane>
+                </div>
             )}
         </div>
     );

@@ -48,11 +48,7 @@ const getClassNames = classNamesFunction<
 const DataHistoryErrorHandlingWrapper: React.FC<IDataHistoryErrorHandlingWrapperProps> = (
     props
 ) => {
-    const { error, imgHeight, styles } = props;
-
-    // contexts
-
-    // state
+    const { error, imgHeight, messageWidth = 'compact', styles } = props;
 
     // hooks
     const { t } = useTranslation();
@@ -80,7 +76,9 @@ const DataHistoryErrorHandlingWrapper: React.FC<IDataHistoryErrorHandlingWrapper
         switch (errorType) {
             case ComponentErrorType.ConnectionError: // status 0
                 // e.g. with network error of ERR_NAME_NOT_RESOLVED due to invalid request url (including cluster url error) or connection error
-                description = t(LOC_KEYS.genericNetwork);
+                description = t(LOC_KEYS.genericNetwork, {
+                    adxServiceName: 'Azure Data Explorer'
+                });
                 imgSrc = ConnectionErrorImg;
                 break;
             case ComponentErrorType.BadRequestException: // status 400
@@ -108,7 +106,8 @@ const DataHistoryErrorHandlingWrapper: React.FC<IDataHistoryErrorHandlingWrapper
                 break;
             case ComponentErrorType.TimeSeriesDatabaseConnectionFetchFailed: // specific adapter error
                 description = t(
-                    'errors.timeSeriesDatabaseConnectionFetchFailed.message'
+                    'errors.timeSeriesDatabaseConnectionFetchFailed.message',
+                    { permission: 'Reader' }
                 );
                 imgSrc = ConnectionErrorImg;
                 break;
@@ -164,7 +163,7 @@ const DataHistoryErrorHandlingWrapper: React.FC<IDataHistoryErrorHandlingWrapper
             <IllustrationMessage
                 descriptionText={errorObj.description}
                 type={'info'}
-                width={'compact'}
+                width={messageWidth}
                 imageProps={{
                     src: errorObj.imgSrc,
                     styles: classNames.subComponentStyles.image,
