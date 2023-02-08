@@ -37,7 +37,8 @@ import {
     deepCopy,
     downloadJSON,
     getDebugLogger,
-    isDefined
+    isDefined,
+    objectHasOwnProperty
 } from '../../Models/Services/Utils';
 import {
     getDefaultSeriesLabel,
@@ -65,7 +66,6 @@ import {
 } from './Internal/TimeSeriesViewer/Internal/TimeSeriesCommandBar/TimeSeriesCommandBar.types';
 import { TimeSeriesTableRow } from './Internal/TimeSeriesViewer/Internal/TimeSeriesTable/TimeSeriesTable.types';
 import { usePrevious } from '@fluentui/react-hooks';
-import { hasOwnProperty } from 'fast-json-patch/module/helpers';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('DataHistoryExplorer', debugLogging);
@@ -146,7 +146,7 @@ const DataHistoryExplorer: React.FC<IDataHistoryExplorerProps> = (props) => {
                             const castedNumeric = Number(current.value);
                             if (
                                 typeof current.value === 'number' ||
-                                (hasOwnProperty(
+                                (objectHasOwnProperty(
                                     seriesTwin.chartProps,
                                     'isTwinPropertyTypeCastedToNumber'
                                 ) &&
@@ -177,7 +177,7 @@ const DataHistoryExplorer: React.FC<IDataHistoryExplorerProps> = (props) => {
         data,
         state.timeSeriesTwins,
         isDefined,
-        hasOwnProperty,
+        objectHasOwnProperty,
         logDebugConsole
     ]);
 
