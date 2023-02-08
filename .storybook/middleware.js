@@ -9,7 +9,12 @@ const { createProxyMiddleware } = require('http-proxy-middleware');
 const retryNumber = 3;
 
 module.exports = function (app) {
-    const validAdtHostSuffixes = ['.digitaltwins.azure.net'];
+    // Set to true when you want to test CORS in Storybook
+    const isCorsEnabled = false;
+    const validAdtHostSuffixes = [
+        '.digitaltwins.azure.net',
+        'cc.azuredigitaltwins-test.net'
+    ];
     const isValidAdtHostUrl = (urlPrefix) =>
         /^[a-zA-z0-9]{1}[a-zA-Z0-9-]{1,60}[a-zA-Z0-9]{1}(\.api)\.[a-zA-Z0-9]{1,}$/.test(
             urlPrefix
@@ -106,7 +111,9 @@ module.exports = function (app) {
         });
     };
 
-    app.use('/proxy/adt', createAdtProxyMiddlewareObject('/proxy/adt'));
+    if (!isCorsEnabled) {
+        app.use('/proxy/adt', createAdtProxyMiddlewareObject('/proxy/adt'));
+    }
 
     const blobProxy = createProxyMiddleware({
         changeOrigin: true,

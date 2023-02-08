@@ -35,7 +35,8 @@ import {
     twinRefreshMaxAge,
     AdapterMethodParamsForSearchTwinsByQuery,
     AdapterMethodParamsForGetTwinsByQuery,
-    AxiosObjParam
+    AxiosObjParam,
+    LOCAL_STORAGE_KEYS
 } from '../Models/Constants';
 import ADTTwinData from '../Models/Classes/AdapterDataClasses/ADTTwinData';
 import ADTModelData, {
@@ -55,7 +56,8 @@ import {
     getDebugLogger,
     getModelContentType,
     getUrlFromString,
-    parseDTDLModelsAsync
+    parseDTDLModelsAsync,
+    validateExplorerOrigin
 } from '../Models/Services/Utils';
 import { DTDLType } from '../Models/Classes/DTDL';
 import ExpandedADTModelData from '../Models/Classes/AdapterDataClasses/ExpandedADTModelData';
@@ -98,7 +100,7 @@ export default class ADTAdapter implements IADTAdapter {
         tenantId?: string,
         uniqueObjectId?: string,
         adtProxyServerPath = '/proxy/adt',
-        isCorsEnabled = false
+        isCorsEnabled = true
     ) {
         this.setAdtHostUrl(adtHostUrl); // this should be the host name of the instace
         this.adtProxyServerPath = adtProxyServerPath;
@@ -115,7 +117,16 @@ export default class ADTAdapter implements IADTAdapter {
         this.adtTwinToModelMappingCache = new AdapterEntityCache<ADTTwinToModelMappingData>(
             modelRefreshMaxAge
         );
-        this.isCorsEnabled = isCorsEnabled;
+        /**
+         * Check if class has been initialized with CORS enabled or if origin matches dev or prod explorer urls,
+         * override if proxy is forced by feature flag
+         *  */
+        this.isCorsEnabled =
+            isCorsEnabled &&
+            validateExplorerOrigin(window.origin) &&
+            !localStorage.getItem(
+                LOCAL_STORAGE_KEYS.FeatureFlags.Proxy.forceProxy
+            );
 
         this.authService.login();
         this.axiosInstance = axios.create({
@@ -139,7 +150,7 @@ export default class ADTAdapter implements IADTAdapter {
 
     generateUrl(path: string) {
         if (this.isCorsEnabled) {
-            return `${this.adtHostUrl}${path}`;
+            return `https://${this.adtHostUrl}${path}`;
         } else {
             return `${this.adtProxyServerPath}${path}`;
         }
@@ -368,7 +379,6 @@ export default class ADTAdapter implements IADTAdapter {
 
     async getADTModels(params: AdapterMethodParamsForGetADTModels = null) {
         const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
-
         return adapterMethodSandbox.safelyFetchDataCancellableAxiosPromise(
             ADTAdapterModelsData,
             {

@@ -6,6 +6,7 @@ import {
     ADTModel_ImgSrc_PropertyName,
     ADTModel_InBIM_RelationshipName,
     ADTModel_ViewData_PropertyName,
+    ADT_ALLOW_LISTED_URLS,
     CharacterWidths,
     CONNECTION_STRING_SUFFIX
 } from '../Constants/Constants';
@@ -997,5 +998,20 @@ export function capitalizeFirstLetter(str: string) {
     } catch (error) {
         console.error('Failed to capitalize string', error.message);
         return str;
+    }
+}
+
+/**
+ * Validate if URL is Explorer for CORS enabling
+ */
+export function validateExplorerOrigin(origin: string) {
+    if (
+        origin &&
+        (origin === ADT_ALLOW_LISTED_URLS.DEV ||
+            origin === ADT_ALLOW_LISTED_URLS.PROD)
+    ) {
+        return true;
+    } else {
+        return false;
     }
 }
