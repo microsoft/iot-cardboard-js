@@ -23,8 +23,6 @@ const DataHistoryExplorerModalControl: React.FC<IDataHistoryExplorerModalControl
 ) => {
     const { adapter, isEnabled, initialTwinId, styles } = props;
 
-    // contexts
-
     // state
     const [isModalVisible, setIsModalVisible] = useState(false);
 
@@ -57,8 +55,6 @@ const DataHistoryExplorerModalControl: React.FC<IDataHistoryExplorerModalControl
                 : undefined,
         [initialTwinId]
     );
-
-    // side effects
 
     // styles
     const classNames = getClassNames(styles, {

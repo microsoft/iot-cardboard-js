@@ -1420,6 +1420,10 @@
                 "loading": "Loading historized data...",
                 "noSeries": "No twin selected to query, please add twin properties to view historized data."
             }
+        },
+        "control": {
+            "title": "Open data history explorer",
+            "disabledTitle": "Data history connection information could not be found"
         }
     },
     "dataHistoryErrorHandlingWrapper": {

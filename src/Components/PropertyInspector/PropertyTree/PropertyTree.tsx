@@ -47,7 +47,7 @@ const PropertyTree: React.FC<PropertyTreeProps> = ({
                 {isDataHistoryFeatureEnabled && !!isWithDataHistory && (
                     <DataHistoryExplorerModalControl
                         styles={{
-                            root: { position: 'absolute', right: 0, top: 0 }
+                            root: { position: 'absolute', right: 0, top: -4 }
                         }}
                         adapter={isWithDataHistory.adapter}
                         isEnabled={isWithDataHistory.isEnabled}
