@@ -4,9 +4,7 @@ import {
     ADTRelationshipsData,
     ADTRelationshipData,
     ADTTwinData,
-    KeyValuePairAdapterData,
-    SearchSpan,
-    TsiClientAdapterData
+    KeyValuePairAdapterData
 } from '../Classes';
 import {
     ADTAdapterModelsData,
@@ -434,15 +432,6 @@ export interface IKeyValuePairAdapter {
         properties: readonly string[],
         additionalParameters?: IGetKeyValuePairsAdditionalParameters
     ): AdapterReturnType<KeyValuePairAdapterData>;
-}
-
-export interface ITsiClientChartDataAdapter {
-    getTsiclientChartDataShape(
-        id: string,
-        searchSpan: SearchSpan,
-        properties: readonly string[],
-        additionalParameters?: Record<string, any>
-    ): AdapterReturnType<TsiClientAdapterData>;
 }
 
 export type IPropertyInspectorAdapter = Pick<

@@ -6,7 +6,6 @@ import React, {
     useReducer,
     useRef
 } from 'react';
-import BaseCard from '../BaseCard/BaseCard';
 import './DataPusher.scss';
 import {
     dataPusherReducer,
@@ -36,6 +35,7 @@ import { useTranslation } from 'react-i18next';
 import ExpandableSlideInContent from '../../Components/ExpandableContent/ExpandableContent';
 import { withErrorBoundary } from '../../Models/Context/ErrorBoundary';
 import GenerateADTAssets from '../../Components/GenerateADTAssets/GenerateADTAssets';
+import BaseComponent from '../BaseComponent/BaseComponent';
 
 const DataPusherContext = createContext<IDataPusherContext>(null);
 const useDataPusherContext = () => useContext(DataPusherContext);
@@ -45,7 +45,7 @@ const separatorStyles: Partial<ISeparatorStyles> = {
     root: { marginTop: 16 }
 };
 
-const DataPusherCard = ({
+const DataPusher = ({
     locale,
     localeStrings,
     theme,
@@ -196,16 +196,15 @@ const DataPusherCard = ({
         }
     }, [state.simulationStatus.areAssetsUploaded]);
     return (
-        <BaseCard
+        <BaseComponent
             isLoading={false}
-            adapterResult={null}
             theme={theme}
             locale={locale}
             localeStrings={localeStrings}
-            title={t('dataPusher.dataPusherTitle')}
         >
             <DataPusherContext.Provider value={{ state, dispatch }}>
                 <div className="cb-datapusher-container">
+                    <h4>{t('dataPusher.dataPusherTitle')}</h4>
                     <div className="cb-adt-data-pusher">
                         <TextField
                             label={t('dataPusher.instanceUrl')}
@@ -323,7 +322,7 @@ const DataPusherCard = ({
                     </div>
                 </div>
             </DataPusherContext.Provider>
-        </BaseCard>
+        </BaseComponent>
     );
 };
 
@@ -581,4 +580,4 @@ const FormFieldDescription = ({ children }: { children: React.ReactNode }) => {
     );
 };
 
-export default withErrorBoundary(DataPusherCard);
+export default withErrorBoundary(DataPusher);

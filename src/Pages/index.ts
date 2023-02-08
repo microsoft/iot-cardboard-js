@@ -4,6 +4,4 @@
     export { default as <page_name> } from './<path_to_component>';
 */
 export { default as ADT3DScenePage } from './ADT3DScenePage/ADT3DScenePage';
-export { default as ADTModelAuthoringPage } from './ADTModelAuthoringPage/ADTModelAuthoringPage';
-export { default as ADTTwinsPage } from './ADTTwinsPage/ADTTwinsPage';
 export { default as OatEditorPage } from './OATEditorPage/OATEditorPage';

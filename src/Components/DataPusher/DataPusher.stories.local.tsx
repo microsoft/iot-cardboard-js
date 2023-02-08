@@ -1,33 +1,28 @@
 import React from 'react';
 import useAuthParams from '../../../.storybook/useAuthParams';
-import ADTAdapter from '../../Adapters/ADTAdapter';
+import { ADTAdapter } from '../../Adapters';
 import MsalAuthService from '../../Models/Services/MsalAuthService';
-import KeyValuePairCard from './KeyValuePairCard';
+import DataPusher from './DataPusher';
 
 export default {
-    title: 'Cards/KeyValuePairCard',
-    component: KeyValuePairCard
+    title: 'Components/DataPusher',
+    component: DataPusher
 };
 
-const digitalTwins = {
-    id: 'PasteurizationMachine_A01',
-    properties: ['Temperature'] as [string]
+const wrapperStyle = {
+    height: '660px',
+    width: '100%'
 };
 
-export const ADT = (
-    _args,
-    { globals: { theme }, parameters: { defaultCardWrapperStyle } }
-) => {
+export const DataPusherStory = (_args, { globals: { theme, locale } }) => {
     const authenticationParameters = useAuthParams();
     return !authenticationParameters ? (
         <div></div>
     ) : (
-        <div style={defaultCardWrapperStyle}>
-            <KeyValuePairCard
-                id={digitalTwins.id}
-                properties={digitalTwins.properties}
+        <div style={wrapperStyle}>
+            <DataPusher
                 theme={theme}
-                pollingIntervalMillis={2000}
+                locale={locale}
                 adapter={
                     new ADTAdapter(
                         authenticationParameters.adt.hostUrl,
@@ -36,6 +31,8 @@ export const ADT = (
                         )
                     )
                 }
+                initialInstanceUrl={authenticationParameters.adt.hostUrl}
+                disablePastEvents={true}
             />
         </div>
     );
