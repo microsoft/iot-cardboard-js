@@ -1398,15 +1398,14 @@
     "title": "Gegevensgeschiedenisverkenner",
     "loadingConnectionLabel": "Verbindingsgegevens voor gegevensgeschiedenis laden...",
     "builder": {
-      "title": "Dubbele eigenschappen",
       "description": "Als u eerdere waarden voor geïrtoriseerde eigenschappen wilt vergelijken, voegt u hieronder tijdreeksen toe.",
       "timeSeriesTwin": {
         "add": "Tijdreeksen toevoegen",
         "edit": "Tijdreeksen bewerken",
         "remove": "Tijdreeksen verwijderen",
         "property": "Eigenschap",
-        "propertyTypeCastLabe": "Eigenschapswaarde naar getal casten",
-        "noData": "Geen gegevens om weer te geven voor het geselecteerde tijdsbereik"
+        "noData": "Geen gegevens om weer te geven voor het geselecteerde tijdsbereik",
+        "propertyTypeCastLabel": "Eigenschapswaarde naar getal casten"
       }
     },
     "viewer": {
@@ -1425,13 +1424,18 @@
           "type": "Type"
         },
         "messages": {
-          "noColor": "Niet ingesteld",
-          "loading": "Historized data laden...",
-          "noData": "Geen gegevens gevonden in het geselecteerde tijdsbereik.",
-          "noSeries": "Geen tweeling geselecteerd om op te vragen, voeg dubbele eigenschappen toe om geïrtoriseerde gegevens te bekijken."
-        }
+          "noData": "Geen gegevens gevonden in het geselecteerde tijdsbereik."
+        },
+        "noColor": "Niet ingesteld"
       },
-      "noSeriesDescription": "Als u de gegevensgeschiedenis voor deze tweeling wilt weergeven, selecteert u een eigenschap die u wilt weergeven."
+      "messages": {
+        "loading": "Historized data laden...",
+        "noSeries": "Geen tweeling geselecteerd om op te vragen, voeg dubbele eigenschappen toe om geïrtoriseerde gegevens te bekijken."
+      },
+      "commandBar": {
+        "refresh": "Gegevens vernieuwen",
+        "download": "Tabelgegevens downloaden"
+      }
     }
   }
 }

@@ -1398,15 +1398,14 @@
     "title": "Adatelőzmény-kezelő",
     "loadingConnectionLabel": "Adatelőzmények kapcsolati adatainak betöltése...",
     "builder": {
-      "title": "Iker tulajdonságok",
       "description": "A historizált tulajdonságok múltbeli értékeinek összehasonlításához adja hozzá az alábbi idősorokat.",
       "timeSeriesTwin": {
         "add": "Idősorok hozzáadása",
         "edit": "Idősorok szerkesztése",
         "remove": "Idősorok eltávolítása",
         "property": "Ingatlan",
-        "propertyTypeCastLabe": "Öntött tulajdonság értéke számra",
-        "noData": "Nincs megjelenítendő adat a kiválasztott időtartományban"
+        "noData": "Nincs megjelenítendő adat a kiválasztott időtartományban",
+        "propertyTypeCastLabel": "Öntött tulajdonság értéke számra"
       }
     },
     "viewer": {
@@ -1425,13 +1424,18 @@
           "type": "Típus"
         },
         "messages": {
-          "noColor": "Nincs beállítva",
-          "loading": "Előzményadatok betöltése...",
-          "noData": "Nem található adat a kiválasztott időtartományban.",
-          "noSeries": "Nincs kiválasztva iker a lekérdezéshez, kérjük, adjon hozzá ikertulajdonságokat a historizált adatok megtekintéséhez."
-        }
+          "noData": "Nem található adat a kiválasztott időtartományban."
+        },
+        "noColor": "Nincs beállítva"
       },
-      "noSeriesDescription": "Az ikereszköz adatelőzményeinek megtekintéséhez válassza ki a megtekinteni kívánt tulajdonságot."
+      "messages": {
+        "loading": "Előzményadatok betöltése...",
+        "noSeries": "Nincs kiválasztva iker a lekérdezéshez, kérjük, adjon hozzá ikertulajdonságokat a historizált adatok megtekintéséhez."
+      },
+      "commandBar": {
+        "refresh": "Adatok frissítése",
+        "download": "Táblaadatok letöltése"
+      }
     }
   }
 }

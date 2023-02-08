@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useRef, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import {
     ITimeSeriesTwinCalloutProps,
     ITimeSeriesTwinCalloutStyleProps,
@@ -28,7 +28,6 @@ import {
     PropertyExpression
 } from '../../../ModelledPropertyBuilder/ModelledPropertyBuilder.types';
 import { PRIMARY_TWIN_NAME } from '../../../../Models/Constants/Constants';
-import { DataHistoryExplorerContext } from '../../DataHistoryExplorer';
 import { createGUID, deepCopy } from '../../../../Models/Services/Utils';
 import { isNumericType } from '../../../../Models/Classes/3DVConfig';
 import {
@@ -55,6 +54,7 @@ const TimeSeriesTwinCallout: React.FC<ITimeSeriesTwinCalloutProps> = (
     props
 ) => {
     const {
+        adapter,
         timeSeriesTwin,
         target,
         onDismiss,
@@ -81,21 +81,23 @@ const TimeSeriesTwinCallout: React.FC<ITimeSeriesTwinCalloutProps> = (
 
     // hooks
     const { t } = useTranslation();
-    const { adapter } = useContext(DataHistoryExplorerContext);
 
     // callbacks
-    const handleTwinIdChange = useCallback((selectedTwinId: string) => {
-        setTimeSeriesTwinToEdit(
-            produce((draft) => {
-                draft.twinId = selectedTwinId;
-                draft.twinPropertyName = '';
-                draft.twinPropertyType = null;
-                if (isLabelAutoPopulated.current) {
-                    draft.label = '';
-                }
-            })
-        );
-    }, []);
+    const handleTwinIdChange = useCallback(
+        (selectedTwinId: string) => {
+            setTimeSeriesTwinToEdit(
+                produce((draft) => {
+                    draft.twinId = selectedTwinId;
+                    draft.twinPropertyName = '';
+                    draft.twinPropertyType = null;
+                    if (isLabelAutoPopulated.current) {
+                        draft.label = '';
+                    }
+                })
+            );
+        },
+        [setTimeSeriesTwinToEdit]
+    );
     const handleTwinPropertyChange = useCallback(
         (newPropertyExpression: PropertyExpression) => {
             setTimeSeriesTwinToEdit(
@@ -120,7 +122,7 @@ const TimeSeriesTwinCallout: React.FC<ITimeSeriesTwinCalloutProps> = (
                 })
             );
         },
-        []
+        [setTimeSeriesTwinToEdit, getDefaultSeriesLabel]
     );
     const handleTwinPropertyCastingChange = useCallback(
         (_event, checked: boolean) => {
@@ -134,21 +136,23 @@ const TimeSeriesTwinCallout: React.FC<ITimeSeriesTwinCalloutProps> = (
                     .ToggleNumericCasting;
             sendDataHistoryExplorerUserTelemetry(telemetry.eventName, [
                 {
-                    property: telemetry.properties.toggleValue,
-                    value: checked
+                    [telemetry.properties.toggleValue]: checked
                 }
             ]);
         },
-        []
+        [setTimeSeriesTwinToEdit, sendDataHistoryExplorerUserTelemetry]
     );
-    const handleLabelChange = useCallback((_event, label: string) => {
-        setTimeSeriesTwinToEdit(
-            produce((draft) => {
-                draft.label = label;
-                isLabelAutoPopulated.current = false;
-            })
-        );
-    }, []);
+    const handleLabelChange = useCallback(
+        (_event, label: string) => {
+            setTimeSeriesTwinToEdit(
+                produce((draft) => {
+                    draft.label = label;
+                    isLabelAutoPopulated.current = false;
+                })
+            );
+        },
+        [setTimeSeriesTwinToEdit]
+    );
 
     // styles
     const classNames = getClassNames(styles, {
@@ -161,7 +165,7 @@ const TimeSeriesTwinCallout: React.FC<ITimeSeriesTwinCalloutProps> = (
                 target={`#${target}`}
                 styles={classNames.subComponentStyles.callout}
                 onDismiss={onDismiss}
-                directionalHint={DirectionalHint.rightCenter}
+                directionalHint={DirectionalHint.rightTopEdge}
             >
                 <Stack tokens={{ childrenGap: 12 }}>
                     <Stack tokens={{ childrenGap: 8 }}>

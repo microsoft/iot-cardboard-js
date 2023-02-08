@@ -1398,15 +1398,14 @@
     "title": "Průzkumník historie dat",
     "loadingConnectionLabel": "Načítání informací o připojení historie dat...",
     "builder": {
-      "title": "Vlastnosti dvojčat",
       "description": "Chcete-li porovnat minulé hodnoty pro historizované vlastnosti, přidejte níže časovou řadu.",
       "timeSeriesTwin": {
         "add": "Přidat časovou řadu",
         "edit": "Úprava časové řady",
         "remove": "Odebrání časové řady",
         "property": "Vlastnost",
-        "propertyTypeCastLabe": "Přetypování hodnoty vlastnosti na číslo",
-        "noData": "Pro vybraný časový rozsah se nezobrazí žádná data"
+        "noData": "Pro vybraný časový rozsah se nezobrazí žádná data",
+        "propertyTypeCastLabel": "Přetypování hodnoty vlastnosti na číslo"
       }
     },
     "viewer": {
@@ -1425,13 +1424,18 @@
           "type": "Typ"
         },
         "messages": {
-          "noColor": "Není nastaveno",
-          "loading": "Načítání historizovaných dat...",
-          "noData": "Ve vybraném časovém rozsahu nebyla nalezena žádná data.",
-          "noSeries": "K dotazu nebylo vybráno žádné dvojče, přidejte prosím vlastnosti dvojčat pro zobrazení historizovaných dat."
-        }
+          "noData": "Ve vybraném časovém rozsahu nebyla nalezena žádná data."
+        },
+        "noColor": "Není nastaveno"
       },
-      "noSeriesDescription": "Chcete-li zobrazit historii dat pro toto dvojče, vyberte vlastnost, kterou chcete zobrazit."
+      "messages": {
+        "loading": "Načítání historizovaných dat...",
+        "noSeries": "K dotazu nebylo vybráno žádné dvojče, přidejte prosím vlastnosti dvojčat pro zobrazení historizovaných dat."
+      },
+      "commandBar": {
+        "refresh": "Aktualizace dat",
+        "download": "Stáhnout data tabulky"
+      }
     }
   }
 }
