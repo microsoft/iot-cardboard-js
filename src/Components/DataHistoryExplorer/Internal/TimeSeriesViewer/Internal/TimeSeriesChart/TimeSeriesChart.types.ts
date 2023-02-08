@@ -1,9 +1,10 @@
 import { IStyle, IStyleFunctionOrObject, ITheme } from '@fluentui/react';
-import { IDataHistoryChartOptions } from '../../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
-
+import { ADXTimeSeries } from '../../../../../../Models/Constants';
+import { IllustrationMessageStyles } from '../../../../../IllustrationMessage/IllustrationMessage.types';
+import { IDataHistoryExplorerChartOptions } from '../../../../DataHistoryExplorer.types';
 export interface ITimeSeriesChartProps {
-    defaultOptions?: IDataHistoryChartOptions;
-    onChartOptionsChange?: (options: IDataHistoryChartOptions) => void;
+    explorerChartOptions: IDataHistoryExplorerChartOptions;
+    data: Array<ADXTimeSeries>;
     /**
      * Call to provide customized styling that will layer on top of the variant rules.
      */
@@ -26,5 +27,6 @@ export interface ITimeSeriesChartStyles {
     subComponentStyles?: ITimeSeriesChartSubComponentStyles;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface ITimeSeriesChartSubComponentStyles {}
+export interface ITimeSeriesChartSubComponentStyles {
+    illustrationMessage?: Partial<IllustrationMessageStyles>;
+}

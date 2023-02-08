@@ -3,11 +3,11 @@ import { ComponentStory } from '@storybook/react';
 import TimeSeriesTable from './TimeSeriesTable';
 import { ITimeSeriesTableProps } from './TimeSeriesTable.types';
 import { getDefaultStoryDecorator } from '../../../../../../Models/Services/StoryUtilities';
-import { DataHistoryExplorerContext } from '../../../../DataHistoryExplorer';
 import { TimeSeriesViewerContext } from '../../TimeSeriesViewer';
-import MockAdapter from '../../../../../../Adapters/MockAdapter';
-import { QuickTimeSpans } from '../../../../../../Models/Constants/Constants';
-import { QuickTimeSpanKey } from '../../../../../../Models/Constants/Enums';
+import DataHistoryExplorerMockSeriesData from '../../../../__mockData__/DataHistoryExplorerMockSeriesData.json';
+import MockADXTimeSeriesData from '../../../../../../Adapters/__mockData__/MockAdapterData/MockADXTimeSeriesData.json';
+import { IDataHistoryTimeSeriesTwin } from '../../../../../../Models/Constants';
+import { transformADXTimeSeriesToTimeSeriesTableData } from '../../../../../../Models/SharedUtils/DataHistoryUtils';
 
 const wrapperStyle = { width: '800px', height: '600px', padding: 8 };
 
@@ -20,31 +20,22 @@ export default {
 
 type TableStory = ComponentStory<typeof TimeSeriesTable>;
 
+const series = DataHistoryExplorerMockSeriesData[0] as IDataHistoryTimeSeriesTwin;
 const Template: TableStory = (args) => {
     return (
-        <DataHistoryExplorerContext.Provider
-            value={{ adapter: new MockAdapter() }}
+        <TimeSeriesViewerContext.Provider
+            value={{
+                timeSeriesTwins: [series]
+            }}
         >
-            <TimeSeriesViewerContext.Provider
-                value={{
-                    timeSeriesTwinList: [
-                        {
-                            seriesId: '',
-                            twinId: 'PasteurizationMachine_A01',
-                            twinPropertyName: 'Inflow',
-                            twinPropertyType: 'double',
-                            label: 'PasteurizationMachine_A01 Inflow'
-                        }
-                    ]
-                }}
-            >
-                <TimeSeriesTable {...args} />
-            </TimeSeriesViewerContext.Provider>
-        </DataHistoryExplorerContext.Provider>
+            <TimeSeriesTable {...args} />
+        </TimeSeriesViewerContext.Provider>
     );
 };
 
-export const Base = Template.bind({}) as TableStory;
-Base.args = {
-    quickTimeSpanInMillis: QuickTimeSpans[QuickTimeSpanKey.Last15Mins]
+export const Mock = Template.bind({}) as TableStory;
+Mock.args = {
+    data: transformADXTimeSeriesToTimeSeriesTableData(
+        MockADXTimeSeriesData.filter((d) => d.seriesId === series.seriesId)
+    )
 } as ITimeSeriesTableProps;

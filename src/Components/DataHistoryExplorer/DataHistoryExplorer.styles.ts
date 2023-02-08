@@ -49,14 +49,12 @@ export const getStyles = (
         subComponentStyles: {
             builder: { root: { width: 240 } },
             viewer: { root: { flexGrow: 1, overflow: 'hidden' } },
-            loadingSpinner: { root: { flexGrow: 1 } },
-            errorWrapper: {
+            timeSeriesTwinCallout: {
                 subComponentStyles: {
-                    illustrationMessage: {
-                        descriptionContainer: { maxWidth: 400 }
-                    }
+                    callout: { calloutMain: { width: 300 } }
                 }
-            }
+            },
+            loadingSpinner: { root: { flexGrow: 1 } }
         }
     };
 };

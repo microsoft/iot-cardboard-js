@@ -1398,15 +1398,14 @@
     "title": "数据历史记录浏览器",
     "loadingConnectionLabel": "正在加载数据历史记录连接信息...",
     "builder": {
-      "title": "孪生属性",
       "description": "要比较历史化属性的过去值，请在下面添加时间序列。",
       "timeSeriesTwin": {
         "add": "添加时间序列",
         "edit": "编辑时间序列",
         "remove": "删除时间序列",
         "property": "财产",
-        "propertyTypeCastLabe": "将属性值强制转换为数字",
-        "noData": "所选时间范围内没有要显示的数据"
+        "noData": "所选时间范围内没有要显示的数据",
+        "propertyTypeCastLabel": "将属性值强制转换为数字"
       }
     },
     "viewer": {
@@ -1425,13 +1424,18 @@
           "type": "类型"
         },
         "messages": {
-          "noColor": "未设置",
-          "loading": "正在加载历史数据...",
-          "noData": "在所选时间范围内未找到数据。",
-          "noSeries": "没有选择孪生体进行查询，请添加孪生体属性以查看历史数据。"
-        }
+          "noData": "在所选时间范围内未找到数据。"
+        },
+        "noColor": "未设置"
       },
-      "noSeriesDescription": "若要查看此孪生体的数据历史记录，请选择要查看的属性。"
+      "messages": {
+        "loading": "正在加载历史数据...",
+        "noSeries": "没有选择孪生体进行查询，请添加孪生体属性以查看历史数据。"
+      },
+      "commandBar": {
+        "refresh": "刷新数据",
+        "download": "下载表数据"
+      }
     }
   }
 }

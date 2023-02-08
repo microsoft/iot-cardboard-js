@@ -1398,15 +1398,14 @@
     "title": "Explorador del historial de datos",
     "loadingConnectionLabel": "Cargando información de conexión del historial de datos...",
     "builder": {
-      "title": "Propiedades gemelas",
       "description": "Para comparar los valores pasados de las propiedades históricas, agregue las series temporales a continuación.",
       "timeSeriesTwin": {
         "add": "Agregar series temporales",
         "edit": "Editar series temporales",
         "remove": "Quitar series temporales",
         "property": "Propiedad",
-        "propertyTypeCastLabe": "Convertir el valor de la propiedad en número",
-        "noData": "No hay datos para mostrar para el rango de tiempo seleccionado"
+        "noData": "No hay datos para mostrar para el rango de tiempo seleccionado",
+        "propertyTypeCastLabel": "Convertir el valor de la propiedad en número"
       }
     },
     "viewer": {
@@ -1425,13 +1424,18 @@
           "type": "Tipo"
         },
         "messages": {
-          "noColor": "No establecido",
-          "loading": "Cargando datos históricos...",
-          "noData": "No se encontraron datos en el intervalo de tiempo seleccionado.",
-          "noSeries": "No se seleccionó ningún gemelo para consultar, agregue propiedades gemelas para ver los datos históricos."
-        }
+          "noData": "No se encontraron datos en el intervalo de tiempo seleccionado."
+        },
+        "noColor": "No establecido"
       },
-      "noSeriesDescription": "Para ver el historial de datos de este gemelo, seleccione una propiedad para ver."
+      "messages": {
+        "loading": "Cargando datos históricos...",
+        "noSeries": "No se seleccionó ningún gemelo para consultar, agregue propiedades gemelas para ver los datos históricos."
+      },
+      "commandBar": {
+        "refresh": "Actualizar datos",
+        "download": "Descargar datos de tabla"
+      }
     }
   }
 }

@@ -1381,18 +1381,21 @@
         "title": "Data history explorer",
         "loadingConnectionLabel": "Loading data history connection information...",
         "builder": {
-            "title": "Twin properties",
             "description": "To compare past values for historized properties, add time series below.",
             "timeSeriesTwin": {
                 "add": "Add time series",
                 "edit": "Edit time series",
                 "remove": "Remove time series",
                 "property": "Property",
-                "propertyTypeCastLabe": "Cast property value to number",
+                "propertyTypeCastLabel": "Cast property value to number",
                 "noData": "No data to display for the time range selected"
             }
         },
         "viewer": {
+            "commandBar": {
+                "refresh": "Refresh data",
+                "download": "Download table data"
+            },
             "chart": {
                 "title": "Chart",
                 "messages": {
@@ -1407,19 +1410,20 @@
                     "value": "Value",
                     "type": "Type"
                 },
+                "noColor": "Not set",
                 "messages": {
-                    "noColor": "Not set",
-                    "loading": "Loading historized data...",
-                    "noData": "No data found in the selected time range.",
-                    "noSeries": "No twin selected to query, please add twin properties to view historized data."
+                    "noData": "No data found in the selected time range."
                 }
             },
-            "noSeriesDescription": "To view data history for this twin, select a property to view."
+            "messages": {
+                "loading": "Loading historized data...",
+                "noSeries": "No twin selected to query, please add twin properties to view historized data."
+            }
         }
     },
     "dataHistoryErrorHandlingWrapper": {
         "errors": {
-            "genericNetwork": "Azure Data Explorer instance cannot be connected, make sure the resource is not stopped and your network connectivity is stable.",
+            "genericNetwork": "{{adxServiceName}} instance cannot be connected, make sure the resource is not stopped and your network connectivity is stable.",
             "genericBadRequest": "Something went wrong, please try again.",
             "generalBadRequestMessage": "Request is invalid and cannot be executed.",
             "entityNotFound": "Database not found, cannot execute the query.",

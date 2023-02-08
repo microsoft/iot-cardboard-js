@@ -343,8 +343,7 @@ export const getGraphViewerStyles = memoizeFunction((theme: IExtendedTheme) => {
                 border: `1px solid ${theme.semanticColors.inputBorder}`,
                 borderRadius: '5px',
                 fontSize: FontSizes.size12,
-                position: 'relative',
-                paddingRight: '20px' // Provide space for close icon
+                position: 'relative'
             } as IStyle
         ],
         selectedNode: [
@@ -354,9 +353,13 @@ export const getGraphViewerStyles = memoizeFunction((theme: IExtendedTheme) => {
                 border: `4px solid ${theme.semanticColors.inputBorder}`,
                 borderRadius: theme.effects.roundedCorner4,
                 fontSize: FontSizes.size12,
-                position: 'relative',
-                paddingRight: '20px' // Provide space for close icon
+                position: 'relative'
             } as IStyle
+        ],
+        withCloseButtonPadding: [
+            {
+                paddingRight: '20px' // Provide space for close icon
+            }
         ],
         handle: [classNames.handle],
         componentHandleFocus: [classNames.componentHandleFocus],

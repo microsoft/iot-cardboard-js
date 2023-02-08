@@ -263,8 +263,8 @@ export const hasAllProcessGraphicsCardProperties = (
     );
 };
 
-export const downloadText = (text: string, fileName?: string) => {
-    const blob = new Blob([text], { type: 'text/csv;charset=utf-8;' });
+export const downloadJSON = (text: string, fileName?: string) => {
+    const blob = new Blob([text], { type: 'application/json;charset=utf-8;' });
     const blobURL = window.URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.setAttribute('href', blobURL);

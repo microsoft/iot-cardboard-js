@@ -3,10 +3,12 @@ import { ComponentStory } from '@storybook/react';
 import TimeSeriesChart from './TimeSeriesChart';
 import { ITimeSeriesChartProps } from './TimeSeriesChart.types';
 import { getDefaultStoryDecorator } from '../../../../../../Models/Services/StoryUtilities';
-import { DataHistoryExplorerContext } from '../../../../DataHistoryExplorer';
-import MockAdapter from '../../../../../../Adapters/MockAdapter';
 import { TimeSeriesViewerContext } from '../../TimeSeriesViewer';
-import { createGUID } from '../../../../../../Models/Services/Utils';
+import { QuickTimeSpans } from '../../../../../../Models/Constants/Constants';
+import { QuickTimeSpanKey } from '../../../../../../Models/Constants/Enums';
+import DataHistoryExplorerMockSeriesData from '../../../../__mockData__/DataHistoryExplorerMockSeriesData.json';
+import MockADXTimeSeriesData from '../../../../../../Adapters/__mockData__/MockAdapterData/MockADXTimeSeriesData.json';
+import { IDataHistoryTimeSeriesTwin } from '../../../../../../Models/Constants';
 
 const wrapperStyle = { width: '100%', height: '400px' };
 
@@ -21,27 +23,26 @@ type TimeSeriesChartStory = ComponentStory<typeof TimeSeriesChart>;
 
 const Template: TimeSeriesChartStory = (args) => {
     return (
-        <DataHistoryExplorerContext.Provider
-            value={{ adapter: new MockAdapter() }}
+        <TimeSeriesViewerContext.Provider
+            value={{
+                timeSeriesTwins: [
+                    DataHistoryExplorerMockSeriesData[0] as IDataHistoryTimeSeriesTwin
+                ]
+            }}
         >
-            <TimeSeriesViewerContext.Provider
-                value={{
-                    timeSeriesTwinList: [
-                        {
-                            seriesId: createGUID(),
-                            twinId: 'PasteurizationMachine_A01',
-                            twinPropertyName: 'Inflow',
-                            twinPropertyType: 'double',
-                            label: 'PasteurizationMachine_A01 Inflow'
-                        }
-                    ]
-                }}
-            >
-                <TimeSeriesChart {...args} />
-            </TimeSeriesViewerContext.Provider>
-        </DataHistoryExplorerContext.Provider>
+            <TimeSeriesChart {...args} />
+        </TimeSeriesViewerContext.Provider>
     );
 };
-
 export const Mock = Template.bind({}) as TimeSeriesChartStory;
-Mock.args = {} as ITimeSeriesChartProps;
+Mock.args = {
+    explorerChartOptions: {
+        yAxisType: 'independent',
+        defaultQuickTimeSpanInMillis:
+            QuickTimeSpans[QuickTimeSpanKey.Last60Days],
+        aggregationType: 'avg',
+        xMinDateInMillis: Date.parse('2023-1-1'),
+        xMaxDateInMillis: Date.parse('2023-1-20')
+    },
+    data: [MockADXTimeSeriesData[0]]
+} as ITimeSeriesChartProps;

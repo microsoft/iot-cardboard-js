@@ -358,6 +358,7 @@ export const PropertiesModelSummary: React.FC<IPropertiesModelSummaryProps> = (
                                     forceUpdateId({ version: value });
                                     setModelVersion(value);
                                 }}
+                                min={1}
                                 styles={
                                     classNames.subComponentStyles.numericField
                                 }

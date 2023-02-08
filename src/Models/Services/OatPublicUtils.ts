@@ -14,7 +14,7 @@ import {
 import { convertModelToDtdl, parseModelId, safeJsonParse } from './OatUtils';
 import { deepCopy, getDebugLogger, isDefined } from './Utils';
 
-const debugLogging = true;
+const debugLogging = false;
 const logDebugConsole = getDebugLogger('OATPublicUtils', debugLogging);
 
 // #region Import
@@ -372,7 +372,6 @@ const forceRelationshipMinMultiplicityTo0 = (
             isDefined(x.minMultiplicity) &&
             x.minMultiplicity !== 0
         ) {
-            // cast to any to get around the readonly property
             x.minMultiplicity = 0;
         }
     });
