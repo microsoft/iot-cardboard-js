@@ -1437,6 +1437,10 @@
         "refresh": "Actualiser les données",
         "download": "Télécharger les données de la table"
       }
+    },
+    "control": {
+      "title": "Explorateur d’historique de données ouvertes",
+      "disabledTitle": "Les informations de connexion de l’historique des données sont introuvables"
     }
   }
 }

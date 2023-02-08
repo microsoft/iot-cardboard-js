@@ -1437,6 +1437,10 @@
         "refresh": "Daten aktualisieren",
         "download": "Tabellendaten herunterladen"
       }
+    },
+    "control": {
+      "title": "Open Data History Explorer",
+      "disabledTitle": "Verbindungsinformationen zum Datenverlauf konnten nicht gefunden werden"
     }
   }
 }

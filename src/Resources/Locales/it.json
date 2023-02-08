@@ -1437,6 +1437,10 @@
         "refresh": "Aggiornare i dati",
         "download": "Scarica i dati della tabella"
       }
+    },
+    "control": {
+      "title": "Esplora cronologia dati aperto",
+      "disabledTitle": "Impossibile trovare le informazioni di connessione alla cronologia dei dati"
     }
   }
 }

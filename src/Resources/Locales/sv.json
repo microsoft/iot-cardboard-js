@@ -1437,6 +1437,10 @@
         "refresh": "Uppdatera data",
         "download": "Ladda ned tabelldata"
       }
+    },
+    "control": {
+      "title": "Öppna datahistorikutforskaren",
+      "disabledTitle": "Det gick inte att hitta anslutningsinformation för datahistorik"
     }
   }
 }

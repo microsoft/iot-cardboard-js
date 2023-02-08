@@ -1437,6 +1437,10 @@
         "refresh": "Odświeżanie danych",
         "download": "Pobierz dane tabeli"
       }
+    },
+    "control": {
+      "title": "Otwórz eksplorator historii danych",
+      "disabledTitle": "Nie można odnaleźć informacji o połączeniu historii danych"
     }
   }
 }

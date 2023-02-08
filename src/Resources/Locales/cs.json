@@ -1437,6 +1437,10 @@
         "refresh": "Aktualizace dat",
         "download": "Stáhnout data tabulky"
       }
+    },
+    "control": {
+      "title": "Otevřít průzkumník historie dat",
+      "disabledTitle": "Informace o připojení historie dat nebyly nalezeny"
     }
   }
 }

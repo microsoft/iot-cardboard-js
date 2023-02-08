@@ -1437,6 +1437,10 @@
         "refresh": "Gegevens vernieuwen",
         "download": "Tabelgegevens downloaden"
       }
+    },
+    "control": {
+      "title": "Verkenner van gegevensgeschiedenis openen",
+      "disabledTitle": "Verbindingsgegevens voor gegevensgeschiedenis kunnen niet worden gevonden"
     }
   }
 }
