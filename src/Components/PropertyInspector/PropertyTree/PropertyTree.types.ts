@@ -1,11 +1,7 @@
-import { MockAdapter } from '../../../Adapters';
 import { DTDLType } from '../../../Models/Classes/DTDL';
-import {
-    DtdlInterfaceSchema,
-    DtdlProperty,
-    IADTDataHistoryAdapter
-} from '../../../Models/Constants';
+import { DtdlInterfaceSchema, DtdlProperty } from '../../../Models/Constants';
 import { dtdlPropertyTypesEnum } from '../../../Models/Constants/Constants';
+import { IDataHistoryExplorerModalControlProps } from '../../DataHistoryExplorerModal/DataHistoryExplorerModalControl/DataHistoryExplorerModalControl.types';
 
 type PrimitiveValueTypes = boolean | string | number | Record<string, any>;
 export interface PropertyTreeNode {
@@ -55,11 +51,7 @@ export interface PropertyTreeProps {
     onAddArrayItem: (node: PropertyTreeNode) => any;
     onRemoveArrayItem: (node: PropertyTreeNode) => any;
     onClearArray: (node: PropertyTreeNode) => any;
-    isWithDataHistory?: {
-        isEnabled?: boolean;
-        twinId: string;
-        adapter: IADTDataHistoryAdapter | MockAdapter;
-    };
+    dataHistoryControlProps?: IDataHistoryExplorerModalControlProps;
 }
 
 export interface TreeProps {

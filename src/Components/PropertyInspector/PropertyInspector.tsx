@@ -56,9 +56,11 @@ type PropertyInspectorProps = {
     };
     readonly?: boolean;
     customCommandBarTitleSpan?: React.ReactNode;
-    isWithDataHistory?: {
-        isEnabled?: boolean;
-    };
+    hasDataHistoryControl?:
+        | boolean
+        | {
+              isEnabled: boolean; // to force control if the button is enabled in UI without relying on adapter's timeSeriesConnection information
+          };
 } & (TwinPropertyInspectorProps | RelationshipPropertyInspectorProps);
 
 /** Utility method for checking PropertyInspectorProps type -- twin or relationship*/
@@ -366,13 +368,17 @@ const PropertyInspector: React.FC<PropertyInspectorProps> = (props) => {
                         });
                     }
                 }}
-                isWithDataHistory={
+                dataHistoryControlProps={
                     isTwin(props) &&
                     hasDataHistoryAdapter(props.adapter) &&
-                    props.isWithDataHistory
+                    props.hasDataHistoryControl
                         ? {
-                              isEnabled: props.isWithDataHistory.isEnabled,
-                              twinId: props.twinId,
+                              isEnabled:
+                                  typeof props.hasDataHistoryControl ===
+                                  'boolean'
+                                      ? undefined
+                                      : props.hasDataHistoryControl.isEnabled,
+                              initialTwinId: props.twinId,
                               adapter: props.adapter
                           }
                         : undefined

@@ -1,10 +1,19 @@
-import { IButtonStyles, IStyle, IStyleFunctionOrObject } from '@fluentui/react';
+import {
+    IButtonStyles,
+    ISpinnerStyles,
+    IStyle,
+    IStyleFunctionOrObject
+} from '@fluentui/react';
 import { MockAdapter } from '../../../Adapters';
 import { IADTDataHistoryAdapter } from '../../../Models/Constants';
 import { IExtendedTheme } from '../../../Theming/Theme.types';
 
 export interface IDataHistoryExplorerModalControlProps {
     adapter: IADTDataHistoryAdapter | MockAdapter;
+    /**
+     * if isEnabled is provided, it will be prioritized over adapter's timeSeriesConnectionCache value to
+     * decide how to show the data history modal control button like enabled or disabled
+     */
     isEnabled?: boolean;
     initialTwinId?: string;
     /**
@@ -30,4 +39,5 @@ export interface IDataHistoryExplorerModalControlStyles {
 
 export interface IDataHistoryExplorerModalControlSubComponentStyles {
     iconButton?: Partial<IButtonStyles>;
+    spinner?: Partial<ISpinnerStyles>;
 }

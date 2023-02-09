@@ -19,6 +19,11 @@ export const getStyles = (
                 rootDisabled: {
                     background: 'transparent'
                 }
+            },
+            spinner: {
+                root: {
+                    padding: 8
+                }
             }
         }
     };

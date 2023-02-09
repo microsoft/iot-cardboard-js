@@ -4,11 +4,10 @@ import {
     IADTRelationship,
     PropertyInspectorPatchMode,
     Theme,
-    Locale,
-    IADTDataHistoryAdapter,
-    MockAdapter
+    Locale
 } from '../..';
 import { DtdlInterface } from '../../Models/Constants/dtdlInterfaces';
+import { IDataHistoryExplorerModalControlProps } from '../DataHistoryExplorerModal/DataHistoryExplorerModalControl/DataHistoryExplorerModalControl.types';
 
 export interface OnCommitPatchParams {
     patchMode: PropertyInspectorPatchMode;
@@ -28,15 +27,7 @@ export interface StandalonePropertyInspectorProps {
     readonly?: boolean;
     parentHandlesScroll?: boolean;
     customCommandBarTitleSpan?: React.ReactNode;
-    isWithDataHistory?: {
-        /**
-         * if isEnabled is provided, it will be prioritized over adapter's timeSeriesConnectionCache value to
-         * decide how to show the data history modal control button like enabled or disabled
-         */
-        isEnabled?: boolean;
-        twinId: string;
-        adapter: IADTDataHistoryAdapter | MockAdapter;
-    };
+    dataHistoryControlProps?: IDataHistoryExplorerModalControlProps;
 }
 
 export type TwinParams = {

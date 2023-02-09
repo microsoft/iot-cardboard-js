@@ -1,17 +1,27 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import {
     IDataHistoryExplorerModalControlProps,
     IDataHistoryExplorerModalControlStyleProps,
     IDataHistoryExplorerModalControlStyles
 } from './DataHistoryExplorerModalControl.types';
 import { getStyles } from './DataHistoryExplorerModalControl.styles';
-import { classNamesFunction, IconButton, styled } from '@fluentui/react';
+import {
+    classNamesFunction,
+    IconButton,
+    Spinner,
+    SpinnerSize,
+    styled
+} from '@fluentui/react';
 import { useExtendedTheme } from '../../../Models/Hooks/useExtendedTheme';
-import { createGUID } from '../../../Models/Services/Utils';
+import { createGUID, isDefined } from '../../../Models/Services/Utils';
 import { getHighChartColor } from '../../../Models/SharedUtils/DataHistoryUtils';
 import DataHistoryExplorerModal from '../DataHistoryExplorerModal';
-import { IDataHistoryTimeSeriesTwin } from '../../../Models/Constants';
+import {
+    IADXConnection,
+    IDataHistoryTimeSeriesTwin
+} from '../../../Models/Constants';
 import { useTranslation } from 'react-i18next';
+import useAdapter from '../../../Models/Hooks/useAdapter';
 
 const getClassNames = classNamesFunction<
     IDataHistoryExplorerModalControlStyleProps,
@@ -25,16 +35,23 @@ const DataHistoryExplorerModalControl: React.FC<IDataHistoryExplorerModalControl
 
     // state
     const [isModalVisible, setIsModalVisible] = useState(false);
+    const [
+        connectionInformation,
+        setConnectionInformation
+    ] = useState<IADXConnection>(adapter.getADXConnectionInformation());
+    const [isControlEnabled, setIsControlEnabled] = useState(
+        isDefined(isEnabled) ? isEnabled : !!connectionInformation
+    );
 
     // hooks
     const { t } = useTranslation();
-    const isControlEnabled = useMemo(
-        () =>
-            isEnabled !== undefined
-                ? isEnabled
-                : adapter.getADXConnectionInformation(),
-        [isEnabled, adapter]
-    );
+    const connectionState = useAdapter({
+        adapterMethod: () => adapter.updateADXConnectionInformation(),
+        isAdapterCalledOnMount:
+            !isDefined(isEnabled) && !isDefined(connectionInformation),
+        refetchDependencies: [adapter]
+    });
+    const hasForcedControl = useMemo(() => isDefined(isEnabled), [isEnabled]);
 
     // callbacks
     const defaultTimeSeriesTwinList: Array<IDataHistoryTimeSeriesTwin> = useMemo(
@@ -56,6 +73,24 @@ const DataHistoryExplorerModalControl: React.FC<IDataHistoryExplorerModalControl
         [initialTwinId]
     );
 
+    // side-effects
+    useEffect(() => {
+        if (connectionState?.adapterResult?.result) {
+            if (!connectionState?.adapterResult.hasNoData()) {
+                const connectionData = connectionState.adapterResult.getData();
+                setConnectionInformation(connectionData);
+                if (connectionData && !hasForcedControl) {
+                    setIsControlEnabled(true);
+                }
+            } else {
+                setConnectionInformation(null);
+                if (!hasForcedControl) {
+                    setIsControlEnabled(false);
+                }
+            }
+        }
+    }, [connectionState?.adapterResult.result]);
+
     // styles
     const classNames = getClassNames(styles, {
         theme: useExtendedTheme()
@@ -67,14 +102,22 @@ const DataHistoryExplorerModalControl: React.FC<IDataHistoryExplorerModalControl
 
     return (
         <div className={classNames.root}>
-            <IconButton
-                styles={classNames.subComponentStyles.iconButton()}
-                disabled={!isControlEnabled}
-                iconProps={{ iconName: 'Chart' }}
-                ariaLabel={controlTitle}
-                title={controlTitle}
-                onClick={() => setIsModalVisible(true)}
-            />
+            {connectionState.isLoading ? (
+                <Spinner
+                    size={SpinnerSize.small}
+                    title={t('dataHistoryExplorer.loadingConnectionLabel')}
+                    styles={classNames.subComponentStyles.spinner}
+                />
+            ) : (
+                <IconButton
+                    styles={classNames.subComponentStyles.iconButton()}
+                    disabled={!isControlEnabled}
+                    iconProps={{ iconName: 'Chart' }}
+                    ariaLabel={controlTitle}
+                    title={controlTitle}
+                    onClick={() => setIsModalVisible(true)}
+                />
+            )}
             <DataHistoryExplorerModal
                 adapter={adapter}
                 isOpen={isModalVisible}

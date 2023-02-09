@@ -163,9 +163,9 @@ export const WithDataHistoryIconEnabled = (
             onCommitChanges={(patch) => console.log(patch)}
             theme={theme}
             locale={locale}
-            isWithDataHistory={{
+            dataHistoryControlProps={{
                 adapter: new MockAdapter(),
-                twinId: mockTwin.$dtId
+                initialTwinId: mockTwin.$dtId
             }}
         />
     </div>
@@ -185,9 +185,9 @@ export const WithDataHistoryIconDisabled = (
             onCommitChanges={(patch) => console.log(patch)}
             theme={theme}
             locale={locale}
-            isWithDataHistory={{
+            dataHistoryControlProps={{
                 adapter: new MockAdapter(),
-                twinId: mockTwin.$dtId,
+                initialTwinId: mockTwin.$dtId,
                 isEnabled: false
             }}
         />

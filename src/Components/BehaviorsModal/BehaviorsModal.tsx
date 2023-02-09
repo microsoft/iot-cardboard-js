@@ -231,7 +231,7 @@ const BehaviorsModal: React.FC<IBehaviorsModalProps> = (props) => {
                                                 )}
                                             </span>
                                         }
-                                        isWithDataHistory={{
+                                        hasDataHistoryControl={{
                                             isEnabled: !!adapter.getADXConnectionInformation()
                                         }}
                                     />

@@ -35,7 +35,7 @@ export const WithDataHistory = Template.bind(
 ) as PropertyInspectorCalloutStory;
 WithDataHistory.args = {
     ...Base.args,
-    isWithDataHistory: {
+    hasDataHistoryControl: {
         isEnabled: true
     }
 } as IPropertyInspectorCalloutProps;

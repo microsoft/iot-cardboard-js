@@ -26,7 +26,7 @@ const PropertyTree: React.FC<PropertyTreeProps> = ({
     onRemoveArrayItem,
     onClearArray,
     readonly = false,
-    isWithDataHistory
+    dataHistoryControlProps
 }) => {
     return (
         <PropertyTreeContext.Provider
@@ -44,14 +44,14 @@ const PropertyTree: React.FC<PropertyTreeProps> = ({
             }}
         >
             <div className="cb-property-tree-container">
-                {isDataHistoryFeatureEnabled && !!isWithDataHistory && (
+                {isDataHistoryFeatureEnabled && !!dataHistoryControlProps && (
                     <DataHistoryExplorerModalControl
                         styles={{
                             root: { position: 'absolute', right: 0, top: -4 } // will keep the styling here hardcoded until we refactor the styling change for this component
                         }}
-                        adapter={isWithDataHistory.adapter}
-                        isEnabled={isWithDataHistory.isEnabled}
-                        initialTwinId={isWithDataHistory.twinId}
+                        adapter={dataHistoryControlProps.adapter}
+                        isEnabled={dataHistoryControlProps.isEnabled}
+                        initialTwinId={dataHistoryControlProps.initialTwinId}
                     />
                 )}
                 <Tree data={data} />

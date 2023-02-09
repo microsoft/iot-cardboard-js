@@ -209,7 +209,7 @@ const StandalonePropertyInspector: React.FC<StandalonePropertyInspectorProps> = 
                         onClearArray={onClearArray}
                         readonly={!!props.readonly}
                         isTreeEdited={Object.keys(state.editStatus).length > 0}
-                        isWithDataHistory={props.isWithDataHistory}
+                        dataHistoryControlProps={props.dataHistoryControlProps}
                     />
                 </div>
             </div>

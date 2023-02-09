@@ -29,7 +29,7 @@ const PropertyInspectorCallout: React.FC<IPropertyInspectorCalloutProps> = (
         adapter,
         disabled = false,
         twinId,
-        isWithDataHistory,
+        hasDataHistoryControl,
         styles
     } = props;
 
@@ -75,7 +75,7 @@ const PropertyInspectorCallout: React.FC<IPropertyInspectorCalloutProps> = (
                         adapter={adapter}
                         twinId={twinId}
                         readonly={true}
-                        isWithDataHistory={isWithDataHistory}
+                        hasDataHistoryControl={hasDataHistoryControl}
                     />
                 </Callout>
             )}

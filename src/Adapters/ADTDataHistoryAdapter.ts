@@ -53,8 +53,6 @@ export default class ADTDataHistoryAdapter implements IADTDataHistoryAdapter {
         this.authService.login();
         // Fetch & cache models on mount (makes first use of models faster as models should already be cached)
         this.getAllAdtModels();
-        // Fetch ADX connection information on mount
-        this.updateADXConnectionInformation();
     }
 
     async updateADXConnectionInformation() {

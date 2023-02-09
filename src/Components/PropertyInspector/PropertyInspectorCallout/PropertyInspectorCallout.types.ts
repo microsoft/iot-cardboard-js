@@ -11,9 +11,11 @@ export interface IPropertyInspectorCalloutProps {
     adapter: IPropertyInspectorAdapter;
     twinId: string;
     disabled?: boolean;
-    isWithDataHistory?: {
-        isEnabled?: boolean;
-    };
+    hasDataHistoryControl?:
+        | boolean
+        | {
+              isEnabled?: boolean; // to force control if the button is enabled in UI without relying on adapter's timeSeriesConnection information
+          };
     /**
      * Call to provide customized styling that will layer on top of the variant rules.
      */
