@@ -1388,7 +1388,7 @@
     "PropertyEditor": {
       "PreviewLabel": {
         "badgeText": "Előnézet",
-        "badgeCalloutText1": "Ez a modell előzetes verzióban elérhető DTDLv3-at használ"
+        "badgeCalloutText": "Ez a modell előzetes verzióban elérhető DTDLv3-at használ"
       }
     },
     "PropertyTypes": {

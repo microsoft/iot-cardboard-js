@@ -1388,7 +1388,7 @@
     "PropertyEditor": {
       "PreviewLabel": {
         "badgeText": "Prapremiera",
-        "badgeCalloutText1": "W tym modelu jest używana wersja DTDLv3, która jest w wersji zapoznawczej"
+        "badgeCalloutText": "W tym modelu jest używana wersja DTDLv3, która jest w wersji zapoznawczej"
       }
     },
     "PropertyTypes": {

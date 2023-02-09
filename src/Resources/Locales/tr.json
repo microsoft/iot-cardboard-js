@@ -1388,7 +1388,7 @@
     "PropertyEditor": {
       "PreviewLabel": {
         "badgeText": "Önizleme",
-        "badgeCalloutText1": "Bu model, önizleme aşamasında olan DTDLv3'ü kullanır"
+        "badgeCalloutText": "Bu model, önizleme aşamasında olan DTDLv3'ü kullanır"
       }
     },
     "PropertyTypes": {

@@ -1388,7 +1388,7 @@
     "PropertyEditor": {
       "PreviewLabel": {
         "badgeText": "Previsualizar",
-        "badgeCalloutText1": "Este modelo utiliza DTDLv3 que está em pré-visualização"
+        "badgeCalloutText": "Este modelo utiliza DTDLv3 que está em pré-visualização"
       }
     },
     "PropertyTypes": {

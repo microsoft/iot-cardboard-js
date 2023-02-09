@@ -1388,7 +1388,7 @@
     "PropertyEditor": {
       "PreviewLabel": {
         "badgeText": "미리 보기",
-        "badgeCalloutText1": "이 모델은 미리 보기로 제공되는 DTDLv3을 사용합니다."
+        "badgeCalloutText": "이 모델은 미리 보기로 제공되는 DTDLv3을 사용합니다."
       }
     },
     "PropertyTypes": {

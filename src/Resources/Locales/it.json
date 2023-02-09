@@ -1388,7 +1388,7 @@
     "PropertyEditor": {
       "PreviewLabel": {
         "badgeText": "Anteprima",
-        "badgeCalloutText1": "Questo modello utilizza DTDLv3 che è in anteprima"
+        "badgeCalloutText": "Questo modello utilizza DTDLv3 che è in anteprima"
       }
     },
     "PropertyTypes": {

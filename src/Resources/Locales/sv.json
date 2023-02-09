@@ -1388,7 +1388,7 @@
     "PropertyEditor": {
       "PreviewLabel": {
         "badgeText": "Förhandsvisning",
-        "badgeCalloutText1": "Den här modellen använder DTDLv3 som är i förhandsversion"
+        "badgeCalloutText": "Den här modellen använder DTDLv3 som är i förhandsversion"
       }
     },
     "PropertyTypes": {
