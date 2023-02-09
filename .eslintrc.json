@@ -14,7 +14,7 @@
     "rules": {
         "no-debugger": "warn",
         "no-multiple-empty-lines": "error",
-        "react-hooks/exhaustive-deps": "warn",
+        "react-hooks/exhaustive-deps": "off",
         "@typescript-eslint/explicit-module-boundary-types": [
             "off"
         ],
