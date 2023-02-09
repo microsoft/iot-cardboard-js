@@ -290,7 +290,7 @@ describe('DtdlUtils', () => {
             // ACT
             const result = updateDtdlVersion(model, newVersion);
             // ASSERT
-            expect(result['@context'][1]).toEqual(newVersion);
+            expect(result['@context'][0]).toEqual(newVersion);
         });
         test('update v3 with v2 in array context', () => {
             // ARRANGE
@@ -302,7 +302,7 @@ describe('DtdlUtils', () => {
             // ACT
             const result = updateDtdlVersion(model, newVersion);
             // ASSERT
-            expect(result['@context'][1]).toEqual(newVersion);
+            expect(result['@context'][0]).toEqual(newVersion);
         });
         test('update to v2 when no existing version found in array context', () => {
             // ARRANGE
@@ -311,7 +311,7 @@ describe('DtdlUtils', () => {
             // ACT
             const result = updateDtdlVersion(model, newVersion);
             // ASSERT
-            expect(result['@context'][1]).toEqual(newVersion);
+            expect(result['@context'][0]).toEqual(newVersion);
         });
         test('update v2 with v3 in string context', () => {
             // ARRANGE

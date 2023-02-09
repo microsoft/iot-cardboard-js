@@ -71,7 +71,7 @@ export const updateDtdlVersion = (
         model['@context'] = model['@context'].filter(
             (x) => !x.startsWith(DTDL_CONTEXT_VERSION_PREFIX)
         );
-        model['@context'].push(version);
+        model['@context'].unshift(version);
     } else {
         // directly update the value
         model['@context'] = version;
