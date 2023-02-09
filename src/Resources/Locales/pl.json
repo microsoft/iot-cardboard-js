@@ -1386,7 +1386,7 @@
       "noValidFilesMessage": "Nie znaleziono plików modeli do zaimportowania. Upewnij się, że w wybranych plikach znajdują się prawidłowe pliki JSON."
     },
     "PropertyEditor": {
-      "PreviewLabel": {
+      "Version3PreviewLabel": {
         "badgeText": "Prapremiera",
         "badgeCalloutText": "W tym modelu jest używana wersja DTDLv3, która jest w wersji zapoznawczej"
       }

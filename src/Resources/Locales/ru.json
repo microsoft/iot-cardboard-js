@@ -1386,7 +1386,7 @@
       "noValidFilesMessage": "Файлы модели не найдены для импорта. Убедитесь, что в выбранных файлах есть допустимые файлы JSON."
     },
     "PropertyEditor": {
-      "PreviewLabel": {
+      "Version3PreviewLabel": {
         "badgeText": "Предварительный просмотр",
         "badgeCalloutText": "Эта модель использует DTDLv3, который находится в предварительной версии"
       }

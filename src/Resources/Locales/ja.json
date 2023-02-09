@@ -1386,7 +1386,7 @@
       "noValidFilesMessage": "インポートするモデル ファイルが見つかりません。選択したファイルに有効なJSONファイルがあることを確認してください。"
     },
     "PropertyEditor": {
-      "PreviewLabel": {
+      "Version3PreviewLabel": {
         "badgeText": "プレビュー",
         "badgeCalloutText": "このモデルでは、プレビュー段階の DTDLv3 を使用します。"
       }

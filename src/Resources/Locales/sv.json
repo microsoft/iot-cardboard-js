@@ -1386,7 +1386,7 @@
       "noValidFilesMessage": "Inga modellfiler hittades att importera. Kontrollera att det finns giltiga JSON-filer i de valda filerna."
     },
     "PropertyEditor": {
-      "PreviewLabel": {
+      "Version3PreviewLabel": {
         "badgeText": "Förhandsvisning",
         "badgeCalloutText": "Den här modellen använder DTDLv3 som är i förhandsversion"
       }

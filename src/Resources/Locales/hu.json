@@ -1386,7 +1386,7 @@
       "noValidFilesMessage": "Nem található importálható modellfájl. Győződjön meg arról, hogy vannak érvényes JSON-fájlok a kiválasztott fájl(ok)ban."
     },
     "PropertyEditor": {
-      "PreviewLabel": {
+      "Version3PreviewLabel": {
         "badgeText": "Előnézet",
         "badgeCalloutText": "Ez a modell előzetes verzióban elérhető DTDLv3-at használ"
       }

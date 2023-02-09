@@ -1386,7 +1386,7 @@
       "noValidFilesMessage": "Aucun fichier de modèle trouvé à importer. Assurez-vous qu’il existe des fichiers JSON valides dans le(s) fichier(s) sélectionné(s)."
     },
     "PropertyEditor": {
-      "PreviewLabel": {
+      "Version3PreviewLabel": {
         "badgeText": "Aperçu",
         "badgeCalloutText": "Ce modèle utilise DTDLv3 qui est en préversion"
       }
