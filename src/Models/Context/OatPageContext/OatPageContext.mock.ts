@@ -47,7 +47,7 @@ const getMockPositionItem = (id: string): IOATModelPosition => {
 
 export const getMockModelItem = (
     id: string,
-    modelVersion?: string
+    modelVersion?: string | string[]
 ): DtdlInterface => {
     const modelName = parseModelId(id).name;
     return {
