@@ -62,7 +62,7 @@ export const getStyles = (props: IEditorStyleProps): IEditorStyles => {
                 backgroundColor: 'transparent'
             }
         ],
-        previewLabel: [
+        previewLabelContainer: [
             {
                 position: 'absolute',
                 right: 16,

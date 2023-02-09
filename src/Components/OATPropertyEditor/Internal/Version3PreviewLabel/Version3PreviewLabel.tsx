@@ -3,7 +3,7 @@ import {
     IVersion3PreviewLabelProps,
     IVersion3PreviewLabelStyleProps,
     IVersion3PreviewLabelStyles
-} from './PreviewLabel.types';
+} from './Version3PreviewLabel.types';
 import { getStyles } from './Version3PreviewLabel.styles';
 import {
     ActionButton,
@@ -41,7 +41,9 @@ const PreviewLabel: React.FC<IVersion3PreviewLabelProps> = (props) => {
     return (
         <div className={classNames.root}>
             <TooltipHost
-                content={t('OAT.PropertyEditor.PreviewLabel.badgeCalloutText')}
+                content={t(
+                    'OAT.PropertyEditor.Version3PreviewLabel.badgeCalloutText'
+                )}
                 calloutProps={{
                     gapSpace: 6
                 }}
@@ -49,7 +51,7 @@ const PreviewLabel: React.FC<IVersion3PreviewLabelProps> = (props) => {
                 <ActionButton
                     styles={classNames.subComponentStyles.badgeButton?.()}
                 >
-                    {t('OAT.PropertyEditor.PreviewLabel.badgeText')}
+                    {t('OAT.PropertyEditor.Version3PreviewLabel.badgeText')}
                 </ActionButton>
             </TooltipHost>
         </div>

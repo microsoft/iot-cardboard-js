@@ -21,7 +21,7 @@ import { IOatPropertyEditorTabKey } from '../../Pages/OATEditorPage/Internal/Cla
 import { OatPageContextActionType } from '../../Models/Context/OatPageContext/OatPageContext.types';
 import { useExtendedTheme } from '../../Models/Hooks/useExtendedTheme';
 import { getStyles } from './Editor.styles';
-import PreviewLabel from './Internal/PreviewLabel/PreviewLabel';
+import Version3PreviewLabel from './Internal/Version3PreviewLabel/Version3PreviewLabel';
 import {
     isDTDLModel,
     modelHasVersion3Context
@@ -151,8 +151,8 @@ const Editor: React.FC<IEditorProps> = (props) => {
                 </Pivot>
                 {isDTDLModel(selectedItem) &&
                     modelHasVersion3Context(selectedItem) && (
-                        <div className={classNames.previewLabel}>
-                            <PreviewLabel />
+                        <div className={classNames.previewLabelContainer}>
+                            <Version3PreviewLabel />
                         </div>
                     )}
                 {oatPageState.templatesActive && (
