@@ -16,14 +16,15 @@ const getClassNames = classNamesFunction<
 >();
 
 const PropertyTypePicker: React.FC<IPropertyTypePickerProps> = (props) => {
-    const { onSelect, styles } = props;
+    const { onSelect, styles, supportsV3Properties } = props;
 
     // contexts
 
     // state
-    const menuOptions = useMemo(() => getSchemaTypeMenuOptions(onSelect), [
-        onSelect
-    ]);
+    const menuOptions = useMemo(
+        () => getSchemaTypeMenuOptions(onSelect, supportsV3Properties),
+        [onSelect]
+    );
 
     // hooks
     const { t } = useTranslation();

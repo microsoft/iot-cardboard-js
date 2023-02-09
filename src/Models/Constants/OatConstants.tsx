@@ -16,7 +16,8 @@ import i18n from '../../i18n';
 import PropertyIcon from '../../Components/OATPropertyEditor/Internal/PropertyList/Internal/PropertyListItem/Internal/PropertyIcon/PropertyIcon';
 
 export const getSchemaTypeMenuOptions = (
-    callback: (args: { schema: DTDLSchemaTypes }) => void
+    callback: (args: { schema: DTDLSchemaTypes }) => void,
+    supportsV3Properties: boolean
 ) => {
     const menuOptions: IContextualMenuItem[] = [];
 
@@ -25,9 +26,17 @@ export const getSchemaTypeMenuOptions = (
     const complexGroup: IContextualMenuItem[] = [];
     const geospatialGroup: IContextualMenuItem[] = [];
     PROPERTY_ICON_DATA.forEach((x) => {
+        const isSupportedVersion = isSupportedPropertyType(
+            supportsV3Properties,
+            x
+        );
         const item: IContextualMenuItem = {
             text: i18n.t(x.title),
             key: x.schema,
+            disabled: !isSupportedVersion,
+            title: !isSupportedVersion
+                ? i18n.t('OAT.PropertyTypes.unsupportedPropertyType')
+                : null,
             onClick: () => callback({ schema: x.schema }),
             iconProps: { iconName: x.schema }, // needed to trigger icon render, but value not used
             onRenderIcon: () => {
@@ -53,26 +62,37 @@ export const getSchemaTypeMenuOptions = (
 
     // combine the groups under each header
     menuOptions.push({
-        text: 'Complex',
+        text: i18n.t('OAT.PropertyTypes.categories.complex'),
         itemType: ContextualMenuItemType.Header,
         key: 'complex-header'
     });
     menuOptions.push(...complexGroup);
 
     menuOptions.push({
-        text: 'Primitive',
+        text: i18n.t('OAT.PropertyTypes.categories.primitive'),
         itemType: ContextualMenuItemType.Header,
         key: 'primitive-header'
     });
     menuOptions.push(...primitiveGroup);
 
     menuOptions.push({
-        text: 'Geospatial',
+        text: i18n.t('OAT.PropertyTypes.categories.geospatial'),
         itemType: ContextualMenuItemType.Header,
         key: 'geo-spatial-header'
     });
     menuOptions.push(...geospatialGroup);
     return menuOptions;
+};
+
+/** mark a property as not supported */
+const isSupportedPropertyType = (
+    v3PropertyTypesAllowed: boolean,
+    property: IIconData
+): boolean => {
+    if (v3PropertyTypesAllowed) {
+        return true;
+    }
+    return property.schema !== DTDLSchemaType.Array;
 };
 
 type IIconData = {

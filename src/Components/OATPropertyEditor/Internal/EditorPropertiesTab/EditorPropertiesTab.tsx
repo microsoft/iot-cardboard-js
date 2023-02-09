@@ -73,6 +73,9 @@ const EditorPropertiesTab: React.FC<IEditorPropertiesTabProps> = (props) => {
             isDTDLRelationshipReference(selectedItem),
         [selectedItem]
     );
+    const supportsV3Properties = useMemo(() => {
+        return false;
+    }, []);
 
     // callbacks
     const onAddType = useCallback(
@@ -181,7 +184,10 @@ const EditorPropertiesTab: React.FC<IEditorPropertiesTabProps> = (props) => {
                                 : ''
                         }`}</Label>
                         {isSupportedModelType && (
-                            <PropertyTypePicker onSelect={onAddType} />
+                            <PropertyTypePicker
+                                supportsV3Properties={supportsV3Properties}
+                                onSelect={onAddType}
+                            />
                         )}
                     </Stack>
                 </div>
