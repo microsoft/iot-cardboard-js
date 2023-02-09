@@ -1225,7 +1225,8 @@
       }
     },
     "noSelectionMessage": "Válasszon ki egy modellt vagy kapcsolatot a részletek megtekintéséhez",
-    "propertiesNotSupported": "A kijelölt elem nem támogatja a tulajdonságokat"
+    "propertiesNotSupported": "A kijelölt elem nem támogatja a tulajdonságokat",
+    "contextVersion": "Környezeti verzió"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Hibaüzenet",
@@ -1389,6 +1390,14 @@
         "badgeText": "Előnézet",
         "badgeCalloutText": "Ez a modell DTDL V3-at használ, amely még előzetes verzióban érhető el. Előfordulhat, hogy egyes szolgáltatások és funkciók még folyamatban vannak."
       }
+    },
+    "PropertyTypes": {
+      "categories": {
+        "complex": "Összetett",
+        "primitive": "Primitív",
+        "geospatial": "Térinformatikai"
+      },
+      "unsupportedPropertyType": "Ez a tulajdonságtípus nem érhető el a társított modell aktuális környezetverziójához"
     }
   },
   "dataHistoryErrorHandlingWrapper": {

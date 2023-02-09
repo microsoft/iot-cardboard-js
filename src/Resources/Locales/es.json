@@ -1225,7 +1225,8 @@
       }
     },
     "noSelectionMessage": "Seleccionar un modelo o relación para ver los detalles",
-    "propertiesNotSupported": "El elemento seleccionado no admite propiedades"
+    "propertiesNotSupported": "El elemento seleccionado no admite propiedades",
+    "contextVersion": "Versión contextual"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Mensaje de error",
@@ -1389,6 +1390,14 @@
         "badgeText": "Vista previa",
         "badgeCalloutText": "Este modelo utiliza DTDL V3 que todavía está en vista previa. Es posible que algunas características y funcionalidades aún estén en progreso."
       }
+    },
+    "PropertyTypes": {
+      "categories": {
+        "complex": "Complejo",
+        "primitive": "Primitivo",
+        "geospatial": "Geoespacial"
+      },
+      "unsupportedPropertyType": "Este tipo de propiedad no está disponible para la versión de contexto actual del modelo asociado"
     }
   },
   "dataHistoryErrorHandlingWrapper": {

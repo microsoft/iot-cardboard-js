@@ -1225,7 +1225,8 @@
       }
     },
     "noSelectionMessage": "选择模型或关系以查看详细信息",
-    "propertiesNotSupported": "所选项目不支持属性"
+    "propertiesNotSupported": "所选项目不支持属性",
+    "contextVersion": "上下文版本"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "错误信息",
@@ -1389,6 +1390,14 @@
         "badgeText": "预览",
         "badgeCalloutText": "此模型使用仍处于预览状态的 DTDL V3。某些特性和功能可能仍在进行中。"
       }
+    },
+    "PropertyTypes": {
+      "categories": {
+        "complex": "复杂",
+        "primitive": "原始",
+        "geospatial": "地理空间"
+      },
+      "unsupportedPropertyType": "此属性类型不适用于关联模型的当前上下文版本"
     }
   },
   "dataHistoryErrorHandlingWrapper": {

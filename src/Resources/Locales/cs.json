@@ -1105,7 +1105,8 @@
       }
     },
     "noSelectionMessage": "Výběr modelu nebo vztahu pro zobrazení podrobností",
-    "propertiesNotSupported": "Vybraná položka nepodporuje vlastnosti"
+    "propertiesNotSupported": "Vybraná položka nepodporuje vlastnosti",
+    "contextVersion": "Kontextová verze"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Zpráva o chybě",
@@ -1389,6 +1390,14 @@
         "badgeText": "Náhled",
         "badgeCalloutText": "Tento model používá DTDL V3, která je stále ve verzi Preview. Některé funkce mohou stále probíhat."
       }
+    },
+    "PropertyTypes": {
+      "categories": {
+        "complex": "Složitý",
+        "primitive": "Primitivní",
+        "geospatial": "Geoprostorové"
+      },
+      "unsupportedPropertyType": "Tento typ vlastnosti není k dispozici pro aktuální kontextovou verzi přidruženého modelu"
     }
   },
   "dataHistoryErrorHandlingWrapper": {

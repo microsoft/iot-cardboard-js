@@ -1225,7 +1225,8 @@
       }
     },
     "noSelectionMessage": "詳細を表示するモデルまたはリレーションシップを選択する",
-    "propertiesNotSupported": "選択した項目はプロパティをサポートしていません"
+    "propertiesNotSupported": "選択した項目はプロパティをサポートしていません",
+    "contextVersion": "コンテキストバージョン"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "エラーメッセージ",
@@ -1389,6 +1390,14 @@
         "badgeText": "プレビュー",
         "badgeCalloutText": "このモデルでは、まだプレビュー段階の DTDL V3 を使用します。一部の機能はまだ進行中である可能性があります。"
       }
+    },
+    "PropertyTypes": {
+      "categories": {
+        "complex": "コンプレックス",
+        "primitive": "原始的",
+        "geospatial": "地理空間"
+      },
+      "unsupportedPropertyType": "このプロパティタイプは、関連付けられたモデルの現在のコンテキストバージョンでは使用できません。"
     }
   },
   "dataHistoryErrorHandlingWrapper": {

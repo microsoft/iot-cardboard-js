@@ -1225,7 +1225,8 @@
       }
     },
     "noSelectionMessage": "Ayrıntıları görüntülemek için bir model veya ilişki seçin",
-    "propertiesNotSupported": "Seçili öğe özellikleri desteklemiyor"
+    "propertiesNotSupported": "Seçili öğe özellikleri desteklemiyor",
+    "contextVersion": "Bağlam sürümü"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Hata mesajı",
@@ -1389,6 +1390,14 @@
         "badgeText": "Önizleme",
         "badgeCalloutText": "Bu model, hala önizleme aşamasında olan DTDL V3'ü kullanır. Bazı özellikler ve işlevler hala devam ediyor olabilir."
       }
+    },
+    "PropertyTypes": {
+      "categories": {
+        "complex": "Karmaşık",
+        "primitive": "İlkel",
+        "geospatial": "Jeo-uzamsal"
+      },
+      "unsupportedPropertyType": "Bu özellik türü, ilişkili modelin geçerli bağlam sürümü için kullanılamaz"
     }
   },
   "dataHistoryErrorHandlingWrapper": {
