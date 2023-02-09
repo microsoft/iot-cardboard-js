@@ -6,16 +6,13 @@ import {
     ITheme
 } from '@fluentui/react';
 import { IPropertyInspectorAdapter } from '../../../Models/Constants';
+import { DataHistoryControl } from '../PropertyInspector';
 
 export interface IPropertyInspectorCalloutProps {
     adapter: IPropertyInspectorAdapter;
     twinId: string;
     disabled?: boolean;
-    hasDataHistoryControl?:
-        | boolean
-        | {
-              isEnabled?: boolean; // to force control if the button is enabled in UI without relying on adapter's timeSeriesConnection information
-          };
+    hasDataHistoryControl?: DataHistoryControl;
     /**
      * Call to provide customized styling that will layer on top of the variant rules.
      */

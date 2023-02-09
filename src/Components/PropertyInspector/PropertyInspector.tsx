@@ -43,6 +43,12 @@ type RelationshipPropertyInspectorProps = {
     resolvedTwin?: IADTTwin;
 };
 
+export type DataHistoryControl =
+    | boolean
+    | {
+          isEnabled: boolean; // to force control if the button is enabled in UI without relying on adapter's timeSeriesConnection information
+      };
+
 type PropertyInspectorProps = {
     isPropertyInspectorLoading?: boolean;
     onPatch?: (patchData: OnCommitPatchParams) => any;
@@ -56,11 +62,7 @@ type PropertyInspectorProps = {
     };
     readonly?: boolean;
     customCommandBarTitleSpan?: React.ReactNode;
-    hasDataHistoryControl?:
-        | boolean
-        | {
-              isEnabled: boolean; // to force control if the button is enabled in UI without relying on adapter's timeSeriesConnection information
-          };
+    hasDataHistoryControl?: DataHistoryControl;
 } & (TwinPropertyInspectorProps | RelationshipPropertyInspectorProps);
 
 /** Utility method for checking PropertyInspectorProps type -- twin or relationship*/
