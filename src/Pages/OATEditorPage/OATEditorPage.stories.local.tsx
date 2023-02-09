@@ -36,7 +36,7 @@ const Template: SceneBuilderStory = (
 export const SelectFirstModel = Template.bind({});
 SelectFirstModel.play = async () => {
     // Clicks the button
-    const menu = await screen.findByTestId('cardboard-list-item-models-list-6');
+    const menu = await screen.findByTestId('cardboard-list-item-models-list-0');
     menu.click();
 };
 
