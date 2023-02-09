@@ -44,6 +44,11 @@ export const getDtdlVersion = (model: DtdlInterface): '2' | '3' => {
     if (!model) {
         return '2';
     }
+    if (contextHasVersion3(model['@context'])) {
+        return '3';
+    } else {
+        return '2';
+    }
 };
 
 /** is the model DTDL version 3 */
