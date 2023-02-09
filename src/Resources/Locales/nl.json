@@ -1388,7 +1388,7 @@
     "PropertyEditor": {
       "PreviewLabel": {
         "badgeText": "Voorbeeld",
-        "badgeCalloutText": "Dit model maakt gebruik van DTDL V3 dat nog in preview is. Sommige functies en functionaliteit zijn mogelijk nog in uitvoering."
+        "badgeCalloutText1": "Dit model maakt gebruik van DTDLv3 dat in preview is"
       }
     },
     "PropertyTypes": {

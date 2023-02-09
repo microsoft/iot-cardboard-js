@@ -1388,7 +1388,7 @@
     "PropertyEditor": {
       "PreviewLabel": {
         "badgeText": "Náhled",
-        "badgeCalloutText": "Tento model používá DTDL V3, která je stále ve verzi Preview. Některé funkce mohou stále probíhat."
+        "badgeCalloutText1": "Tento model používá DTDLv3, který je ve verzi Preview"
       }
     },
     "PropertyTypes": {

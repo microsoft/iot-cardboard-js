@@ -1388,7 +1388,7 @@
     "PropertyEditor": {
       "PreviewLabel": {
         "badgeText": "Előnézet",
-        "badgeCalloutText": "Ez a modell DTDL V3-at használ, amely még előzetes verzióban érhető el. Előfordulhat, hogy egyes szolgáltatások és funkciók még folyamatban vannak."
+        "badgeCalloutText1": "Ez a modell előzetes verzióban elérhető DTDLv3-at használ"
       }
     },
     "PropertyTypes": {

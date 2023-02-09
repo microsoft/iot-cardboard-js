@@ -1388,7 +1388,7 @@
     "PropertyEditor": {
       "PreviewLabel": {
         "badgeText": "プレビュー",
-        "badgeCalloutText": "このモデルでは、まだプレビュー段階の DTDL V3 を使用します。一部の機能はまだ進行中である可能性があります。"
+        "badgeCalloutText1": "このモデルでは、プレビュー段階の DTDLv3 を使用します。"
       }
     },
     "PropertyTypes": {

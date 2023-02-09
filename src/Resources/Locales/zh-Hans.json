@@ -1388,7 +1388,7 @@
     "PropertyEditor": {
       "PreviewLabel": {
         "badgeText": "预览",
-        "badgeCalloutText": "此模型使用仍处于预览状态的 DTDL V3。某些特性和功能可能仍在进行中。"
+        "badgeCalloutText1": "此模型使用预览版的 DTDLv3"
       }
     },
     "PropertyTypes": {
