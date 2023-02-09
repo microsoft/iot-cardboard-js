@@ -112,7 +112,7 @@ export const AdtRelationship = (args, { globals: { theme, locale } }) => {
 AdtRelationship.argTypes = {
     twinId: {
         control: { type: 'text' },
-        defaultValue: 'LeoTheDog'
+        defaultValue: 'Tesla'
     },
     relationshipId: {
         control: { type: 'text' },
@@ -180,7 +180,7 @@ export const ModeToggleWithResolvedData = (
 ModeToggleWithResolvedData.argTypes = {
     twinId: {
         control: { type: 'text' },
-        defaultValue: 'LeoTheDog'
+        defaultValue: 'Tesla'
     },
     relationshipId: {
         control: { type: 'text' },
