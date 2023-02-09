@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import {
     IPropertyListProps,
     IPropertyListStyleProps,
@@ -21,6 +21,7 @@ import { OatPageContextActionType } from '../../../../Models/Context/OatPageCont
 import {
     copyDTDLProperty,
     isDTDLModel,
+    isDTDLReference,
     isDTDLRelationshipReference,
     movePropertyInCollection
 } from '../../../../Models/Services/DtdlUtils';
@@ -30,6 +31,7 @@ import {
 } from './Internal/PropertyListItem/PropertyListItem.types';
 import { DtdlInterface, DtdlReference } from '../../../../Models/Constants';
 import {
+    getModelById,
     getPropertyIndexOnModelByName,
     getPropertyIndexOnRelationshipByName
 } from '../../../../Models/Context/OatPageContext/OatPageContextUtils';
@@ -47,7 +49,7 @@ const PropertyList: React.FC<IPropertyListProps> = (props) => {
     const { parentModelId, properties, selectedItem, styles } = props;
 
     // contexts
-    const { oatPageDispatch } = useOatPageContext();
+    const { oatPageDispatch, oatPageState } = useOatPageContext();
 
     // state
 
@@ -285,6 +287,23 @@ const PropertyList: React.FC<IPropertyListProps> = (props) => {
     // only models and Relationship references support properties
     const arePropertiesSupported =
         isDTDLModel(selectedItem) || isDTDLRelationshipReference(selectedItem);
+    const modelContext = useMemo(() => {
+        if (isDTDLModel(selectedItem)) {
+            return selectedItem['@context'];
+        } else if (isDTDLReference(selectedItem)) {
+            const modelId = oatPageState.selection.modelId;
+            const parentModel = getModelById(
+                oatPageState.currentOntologyModels,
+                modelId
+            );
+            return parentModel['@context'];
+        }
+        return [];
+    }, [
+        oatPageState.currentOntologyModels,
+        oatPageState.selection.modelId,
+        selectedItem
+    ]);
 
     logDebugConsole('debug', 'Render property list. {properties}', properties);
     return (
@@ -312,6 +331,7 @@ const PropertyList: React.FC<IPropertyListProps> = (props) => {
                                         property
                                     )}
                                     onRemove={getRemoveCallback(property)}
+                                    parentModelContext={modelContext}
                                 />
                             );
                         }}

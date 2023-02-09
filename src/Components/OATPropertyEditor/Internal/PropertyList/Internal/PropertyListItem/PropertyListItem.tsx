@@ -17,6 +17,7 @@ import { useBoolean } from '@fluentui/react-hooks';
 import { useExtendedTheme } from '../../../../../../Models/Hooks/useExtendedTheme';
 import {
     addChildToSchema,
+    contextHasVersion3,
     getDefaultSchemaByType,
     hasArraySchemaType,
     hasComplexSchemaType,
@@ -49,6 +50,7 @@ const getClassNames = classNamesFunction<
 
 const PropertyListItem: React.FC<IPropertyListItemProps> = (props) => {
     const {
+        parentModelContext,
         disableInput,
         indexKey,
         item,
@@ -84,6 +86,9 @@ const PropertyListItem: React.FC<IPropertyListItemProps> = (props) => {
         [item]
     );
     const itemLevel = level ?? 1; // default to level 1 (not nested)
+    const supportsV3Properties = useMemo(() => {
+        return contextHasVersion3(parentModelContext);
+    }, [parentModelContext]);
 
     // hooks
     const { t } = useTranslation();
@@ -150,7 +155,10 @@ const PropertyListItem: React.FC<IPropertyListItemProps> = (props) => {
                 disabled: !onUpdateSchema,
                 iconProps: { iconName: 'Edit' },
                 subMenuProps: {
-                    items: getSchemaTypeMenuOptions(onChangeSchemaType),
+                    items: getSchemaTypeMenuOptions(
+                        onChangeSchemaType,
+                        supportsV3Properties
+                    ),
                     styles: {
                         subComponentStyles: {
                             menuItem: {
@@ -178,7 +186,8 @@ const PropertyListItem: React.FC<IPropertyListItemProps> = (props) => {
                 'OATPropertyEditor.PropertyListItem.ContextMenu.changeChildTypeLabelForArray'
             );
             const subItems: IContextualMenuItem[] = getSchemaTypeMenuOptions(
-                onChange
+                onChange,
+                supportsV3Properties
             );
             options.push({
                 key: 'change-child-type',
@@ -299,6 +308,7 @@ const PropertyListItem: React.FC<IPropertyListItemProps> = (props) => {
         onMoveUp,
         onRemove,
         onUpdateSchema,
+        supportsV3Properties,
         t
     ]);
 

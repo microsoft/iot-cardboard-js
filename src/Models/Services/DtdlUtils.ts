@@ -1,4 +1,5 @@
 import i18n from '../../i18n';
+import { IOATSelection } from '../../Pages/OATEditorPage/OATEditorPage.types';
 import {
     DTDLArray,
     DTDLComplexSchema,
@@ -32,26 +33,45 @@ import {
     DtdlEnumValueSchema,
     OatReferenceType
 } from '../Constants';
+import { getModelById } from '../Context/OatPageContext/OatPageContextUtils';
 import { ensureIsArray } from './OatUtils';
 import { deepCopy, isDefined, isValueInEnum } from './Utils';
+
+// #region DTDL Version
 
 /** returns the version number of a model (either 2 or 3) */
 export const getDtdlVersion = (model: DtdlInterface): '2' | '3' => {
     if (!model) {
         return '2';
     }
-    const context = ensureIsArray(model['@context']);
-    if (context.includes(DTDL_CONTEXT_VERSION_3)) {
-        return '3';
-    } else {
-        return '2';
-    }
 };
 
 /** is the model DTDL version 3 */
-export const isDtdlVersion3 = (model: DtdlInterface): boolean => {
+export const modelHasVersion3Context = (model: DtdlInterface): boolean => {
     return getDtdlVersion(model) === '3';
 };
+
+/** is the model DTDL version 3 */
+export const contextHasVersion3 = (context: string | string[]): boolean => {
+    const contextInternal = ensureIsArray(context);
+    return contextInternal.includes(DTDL_CONTEXT_VERSION_3);
+};
+
+/** takes either a model or relationship and deteremines if it is considered v3 */
+export function isModelOrParentDtdlVersion3(
+    selectedItem: DtdlInterface | DtdlInterfaceContent,
+    currentModelsList: DtdlInterface[],
+    currentSelection: IOATSelection
+): boolean {
+    if (isDTDLModel(selectedItem) && modelHasVersion3Context(selectedItem)) {
+        return true;
+    } else if (isDTDLReference(selectedItem)) {
+        const parentId = currentSelection.modelId;
+        const parentModel = getModelById(currentModelsList, parentId);
+        return isDTDLModel(parentModel) && modelHasVersion3Context(parentModel);
+    }
+    return false;
+}
 
 export const isValidDtdlVersion = (version: string): boolean => {
     if (!version) {
@@ -73,6 +93,8 @@ export const updateDtdlVersion = (
     }
     return model;
 };
+
+// #endregion
 
 export const hasType = (
     actualType: string | string[],

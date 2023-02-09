@@ -16,6 +16,8 @@ export type IOnUpdateNameCallbackArgs = {
 export type IOnUpdateNameCallback = (args: IOnUpdateNameCallbackArgs) => void;
 
 export interface IPropertyListItemProps {
+    /** the DTDL context of the model or source model (if relationship) */
+    parentModelContext: string | string[];
     /** is the first item in the list */
     isFirstItem: boolean;
     /** is the last item in list */

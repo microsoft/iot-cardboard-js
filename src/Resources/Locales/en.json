@@ -951,7 +951,7 @@
         "PropertyEditor": {
             "PreviewLabel": {
                 "badgeText": "Preview",
-                "badgeCalloutText1": "This model uses DTDLv3 which is in preview"
+                "badgeCalloutText": "This model uses DTDLv3 which is in preview"
             }
         }
     },

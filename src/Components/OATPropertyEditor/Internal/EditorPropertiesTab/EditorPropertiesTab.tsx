@@ -14,7 +14,8 @@ import {
     isDTDLModel,
     isDTDLProperty,
     isDTDLReference,
-    isDTDLRelationshipReference
+    isDTDLRelationshipReference,
+    isModelOrParentDtdlVersion3
 } from '../../../../Models/Services/DtdlUtils';
 import PropertyList from '../PropertyList/PropertyList';
 import { DTDLProperty, DTDLSchemaTypes } from '../../../../Models/Classes/DTDL';
@@ -74,8 +75,16 @@ const EditorPropertiesTab: React.FC<IEditorPropertiesTabProps> = (props) => {
         [selectedItem]
     );
     const supportsV3Properties = useMemo(() => {
-        return false;
-    }, []);
+        return isModelOrParentDtdlVersion3(
+            selectedItem,
+            oatPageState.currentOntologyModels,
+            oatPageState.selection
+        );
+    }, [
+        oatPageState.currentOntologyModels,
+        oatPageState.selection,
+        selectedItem
+    ]);
 
     // callbacks
     const onAddType = useCallback(

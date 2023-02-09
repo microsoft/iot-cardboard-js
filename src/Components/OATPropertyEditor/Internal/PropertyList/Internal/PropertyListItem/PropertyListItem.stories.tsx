@@ -15,7 +15,8 @@ import {
     DTDLMapKey,
     DTDLMapValue,
     DTDLObject,
-    DTDLObjectField
+    DTDLObjectField,
+    DTDL_CONTEXT_VERSION_3
 } from '../../../../../../Models/Classes/DTDL';
 import { userEvent, within } from '@storybook/testing-library';
 
@@ -34,6 +35,7 @@ export default {
 type PropertyListItemStory = ComponentStory<typeof PropertyListItem>;
 
 const DEFAULT_ARGS: Partial<IPropertyListItemProps> = {
+    parentModelContext: DTDL_CONTEXT_VERSION_3,
     indexKey: '0',
     isFirstItem: false,
     isLastItem: false,
