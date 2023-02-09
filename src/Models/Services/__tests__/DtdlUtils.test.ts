@@ -20,7 +20,8 @@ import {
     isValidDtmiPath,
     isValidModelName,
     isValidReferenceName,
-    movePropertyInCollection
+    movePropertyInCollection,
+    updateDtdlVersion
 } from '../DtdlUtils';
 
 afterEach(cleanup);
@@ -275,6 +276,60 @@ describe('DtdlUtils', () => {
                 expect(result[2].name).toEqual('targetProperty');
                 expect(result[3].name).toEqual('rel2');
             });
+        });
+    });
+
+    describe('updateDtdlVersion', () => {
+        test('update v2 with v3 in array context', () => {
+            // ARRANGE
+            const newVersion = DTDL_CONTEXT_VERSION_3;
+            const model = getMockModelItem('test-id', [
+                'something',
+                DTDL_CONTEXT_VERSION_2
+            ]);
+            // ACT
+            const result = updateDtdlVersion(model, newVersion);
+            // ASSERT
+            expect(result['@context'][0]).toEqual(newVersion);
+        });
+        test('update v3 with v2 in array context', () => {
+            // ARRANGE
+            const newVersion = DTDL_CONTEXT_VERSION_2;
+            const model = getMockModelItem('test-id', [
+                'something',
+                DTDL_CONTEXT_VERSION_3
+            ]);
+            // ACT
+            const result = updateDtdlVersion(model, newVersion);
+            // ASSERT
+            expect(result['@context'][0]).toEqual(newVersion);
+        });
+        test('update to v2 when no existing version found in array context', () => {
+            // ARRANGE
+            const newVersion = DTDL_CONTEXT_VERSION_3;
+            const model = getMockModelItem('test-id', ['something']);
+            // ACT
+            const result = updateDtdlVersion(model, newVersion);
+            // ASSERT
+            expect(result['@context'][0]).toEqual(newVersion);
+        });
+        test('update v2 with v3 in string context', () => {
+            // ARRANGE
+            const newVersion = DTDL_CONTEXT_VERSION_3;
+            const model = getMockModelItem('test-id', DTDL_CONTEXT_VERSION_2);
+            // ACT
+            const result = updateDtdlVersion(model, newVersion);
+            // ASSERT
+            expect(result['@context']).toEqual(newVersion);
+        });
+        test('update v3 with v2 in string context', () => {
+            // ARRANGE
+            const newVersion = DTDL_CONTEXT_VERSION_2;
+            const model = getMockModelItem('test-id', DTDL_CONTEXT_VERSION_3);
+            // ACT
+            const result = updateDtdlVersion(model, newVersion);
+            // ASSERT
+            expect(result['@context']).toEqual(newVersion);
         });
     });
 

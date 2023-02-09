@@ -6,6 +6,7 @@ import {
     Dropdown,
     IChoiceGroupOption,
     IconButton,
+    IDropdownOption,
     Label,
     SpinButton,
     styled,
@@ -32,16 +33,26 @@ import { useOatPageContext } from '../../../../../../Models/Context/OatPageConte
 import { useExtendedTheme } from '../../../../../../Models/Hooks/useExtendedTheme';
 import { getStyles } from './PropertyDetailsEditorModalContent.styles';
 import {
+    getDtdlVersion,
+    isDTDLModel,
     isDTDLReference,
-    isDTDLRelationshipReference
+    isDTDLRelationshipReference,
+    updateDtdlVersion
 } from '../../../../../../Models/Services/DtdlUtils';
-import { OAT_RELATIONSHIP_HANDLE_NAME } from '../../../../../../Models/Constants';
+import {
+    DtdlInterface,
+    OAT_RELATIONSHIP_HANDLE_NAME
+} from '../../../../../../Models/Constants';
 import TooltipCallout from '../../../../../TooltipCallout/TooltipCallout';
 import produce from 'immer';
 import {
     getDebugLogger,
     isDefined
 } from '../../../../../../Models/Services/Utils';
+import {
+    DTDL_CONTEXT_VERSION_2,
+    DTDL_CONTEXT_VERSION_3
+} from '../../../../../../Models/Classes/DTDL';
 
 const SINGLE_LANGUAGE_KEY = 'singleLanguage';
 const MULTI_LANGUAGE_KEY = 'multiLanguage';
@@ -123,6 +134,22 @@ const PropertyDetailsEditorModalContent: React.FC<IModalFormRootModelContentProp
         },
         []
     );
+    const onChangeVersion = useCallback(
+        (
+            _event: React.FormEvent<HTMLDivElement>,
+            option?: IDropdownOption<string>
+        ) => {
+            onUpdateItem(
+                produce((draft) => {
+                    return updateDtdlVersion(
+                        draft as DtdlInterface,
+                        option.data
+                    );
+                })
+            );
+        },
+        [onUpdateItem]
+    );
 
     // data
     const displayNameMultiLangOptions: IChoiceGroupOption[] = [
@@ -148,6 +175,21 @@ const PropertyDetailsEditorModalContent: React.FC<IModalFormRootModelContentProp
             text: t('OATPropertyEditor.multiLanguage')
         }
     ];
+    const versionOptions = useMemo(
+        () => [
+            {
+                key: '2',
+                text: '2',
+                data: DTDL_CONTEXT_VERSION_2
+            },
+            {
+                key: '3',
+                text: '3',
+                data: DTDL_CONTEXT_VERSION_3
+            }
+        ],
+        []
+    );
 
     // side effects
     // Update multiLanguageSelectionsDisplayNames on every new language change
@@ -525,6 +567,20 @@ const PropertyDetailsEditorModalContent: React.FC<IModalFormRootModelContentProp
                     value={selectedItem.comment}
                 />
             </div>
+
+            {/* version */}
+            {isDTDLModel(selectedItem) && (
+                <div className={propertyInspectorStyles.modalRow}>
+                    <Label className={classNames.label}>
+                        {t('OATPropertyEditor.version')}
+                    </Label>
+                    <Dropdown
+                        options={versionOptions}
+                        selectedKey={getDtdlVersion(selectedItem)}
+                        onChange={onChangeVersion}
+                    />
+                </div>
+            )}
 
             {/* reference specific properties */}
             {isReferenceSelected && isRelationshipReference && (

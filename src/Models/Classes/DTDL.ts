@@ -16,7 +16,7 @@ import {
     IADTProperty
 } from '../Constants';
 
-const DTDL_CONTEXT_VERSION_PREFIX = 'dtmi:dtdl:context;';
+export const DTDL_CONTEXT_VERSION_PREFIX = 'dtmi:dtdl:context;';
 export const DTDL_CONTEXT_VERSION_2 = `${DTDL_CONTEXT_VERSION_PREFIX}2`;
 export const DTDL_CONTEXT_VERSION_3 = `${DTDL_CONTEXT_VERSION_PREFIX}3`;
 
