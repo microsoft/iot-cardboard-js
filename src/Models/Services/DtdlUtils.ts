@@ -18,7 +18,8 @@ import {
     DTDLSchemaTypes,
     DTDLType,
     DTDL_CONTEXT_VERSION_2,
-    DTDL_CONTEXT_VERSION_3
+    DTDL_CONTEXT_VERSION_3,
+    DTDL_CONTEXT_VERSION_PREFIX
 } from '../Classes/DTDL';
 import {
     DtdlComponent,
@@ -92,8 +93,12 @@ export const updateDtdlVersion = (
 ): DtdlInterface => {
     if (Array.isArray(model['@context'])) {
         // replace the existing value with the new version
+        model['@context'] = model['@context'].filter(
+            (x) => !x.startsWith(DTDL_CONTEXT_VERSION_PREFIX)
+        );
+        model['@context'].unshift(version);
     } else {
-        // just update the value
+        // directly update the value
         model['@context'] = version;
     }
     return model;

@@ -18,16 +18,17 @@ import {
     getMockReference
 } from '../../Context/OatPageContext/OatPageContext.mock';
 import {
+    contextHasVersion3,
     getDtdlVersion,
-    modelHasVersion3Context,
     isComplexSchemaProperty,
+    isModelOrParentDtdlVersion3,
     isValidDtmiId,
     isValidDtmiPath,
     isValidModelName,
     isValidReferenceName,
+    modelHasVersion3Context,
     movePropertyInCollection,
-    contextHasVersion3,
-    isModelOrParentDtdlVersion3
+    updateDtdlVersion
 } from '../DtdlUtils';
 
 afterEach(cleanup);
@@ -546,6 +547,66 @@ describe('DtdlUtils', () => {
                     // ASSERT
                     expect(result).toBeFalsy();
                 });
+            });
+        });
+
+        describe('updateDtdlVersion', () => {
+            test('update v2 with v3 in array context', () => {
+                // ARRANGE
+                const newVersion = DTDL_CONTEXT_VERSION_3;
+                const model = getMockModelItem('test-id', [
+                    'something',
+                    DTDL_CONTEXT_VERSION_2
+                ]);
+                // ACT
+                const result = updateDtdlVersion(model, newVersion);
+                // ASSERT
+                expect(result['@context'][0]).toEqual(newVersion);
+            });
+            test('update v3 with v2 in array context', () => {
+                // ARRANGE
+                const newVersion = DTDL_CONTEXT_VERSION_2;
+                const model = getMockModelItem('test-id', [
+                    'something',
+                    DTDL_CONTEXT_VERSION_3
+                ]);
+                // ACT
+                const result = updateDtdlVersion(model, newVersion);
+                // ASSERT
+                expect(result['@context'][0]).toEqual(newVersion);
+            });
+            test('update to v2 when no existing version found in array context', () => {
+                // ARRANGE
+                const newVersion = DTDL_CONTEXT_VERSION_3;
+                const model = getMockModelItem('test-id', ['something']);
+                // ACT
+                const result = updateDtdlVersion(model, newVersion);
+                // ASSERT
+                expect(result['@context'][0]).toEqual(newVersion);
+            });
+            test('update v2 with v3 in string context', () => {
+                // ARRANGE
+                const newVersion = DTDL_CONTEXT_VERSION_3;
+                const model = getMockModelItem(
+                    'test-id',
+                    DTDL_CONTEXT_VERSION_2
+                );
+                // ACT
+                const result = updateDtdlVersion(model, newVersion);
+                // ASSERT
+                expect(result['@context']).toEqual(newVersion);
+            });
+            test('update v3 with v2 in string context', () => {
+                // ARRANGE
+                const newVersion = DTDL_CONTEXT_VERSION_2;
+                const model = getMockModelItem(
+                    'test-id',
+                    DTDL_CONTEXT_VERSION_3
+                );
+                // ACT
+                const result = updateDtdlVersion(model, newVersion);
+                // ASSERT
+                expect(result['@context']).toEqual(newVersion);
             });
         });
     });
