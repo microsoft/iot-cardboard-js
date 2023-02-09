@@ -134,10 +134,22 @@ const PropertyDetailsEditorModalContent: React.FC<IModalFormRootModelContentProp
         },
         []
     );
-    // const onChangeVersion = useCallback(
-    //     ,
-    //     []
-    // );
+    const onChangeVersion = useCallback(
+        (
+            _event: React.FormEvent<HTMLDivElement>,
+            option?: IDropdownOption<string>
+        ) => {
+            onUpdateItem(
+                produce((draft) => {
+                    return updateDtdlVersion(
+                        draft as DtdlInterface,
+                        option.data
+                    );
+                })
+            );
+        },
+        [onUpdateItem]
+    );
 
     // data
     const displayNameMultiLangOptions: IChoiceGroupOption[] = [
@@ -565,20 +577,7 @@ const PropertyDetailsEditorModalContent: React.FC<IModalFormRootModelContentProp
                     <Dropdown
                         options={versionOptions}
                         selectedKey={getDtdlVersion(selectedItem)}
-                        onChange={(
-                            _event: React.FormEvent<HTMLDivElement>,
-                            option?: IDropdownOption<string>
-                        ) => {
-                            debugger;
-                            onUpdateItem(
-                                produce((draft) => {
-                                    return updateDtdlVersion(
-                                        draft as DtdlInterface,
-                                        option.data
-                                    );
-                                })
-                            );
-                        }}
+                        onChange={onChangeVersion}
                     />
                 </div>
             )}
