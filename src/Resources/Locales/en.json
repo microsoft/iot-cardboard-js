@@ -939,6 +939,12 @@
             "fileInvalidJSON": "Unable to import '{{fileName}}', it contains invalid JSON.",
             "importFailedTitle": "Import failed",
             "importFailedMessage": "There was an error during import. Resolve them and try again.\n {{error}}"
+        },
+        "PropertyEditor": {
+            "PreviewLabel": {
+                "badgeText": "Preview",
+                "badgeCalloutText": "This model uses DTDL V3 which is still in preview. Some features and functionality may still be in-progress."
+            }
         }
     },
     "OATCommon": {

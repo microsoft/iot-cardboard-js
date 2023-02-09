@@ -31,6 +31,7 @@ export const getStyles = (props: IEditorStyleProps): IEditorStyles => {
                 height: `calc(100vh - ${PANEL_VERTICAL_SPACING}px)`,
                 justifyContent: 'center',
                 padding: 16,
+                position: 'relative',
                 width: PROPERTY_EDITOR_WIDTH
             }
         ],
@@ -59,6 +60,14 @@ export const getStyles = (props: IEditorStyleProps): IEditorStyles => {
             {
                 height: '100%',
                 backgroundColor: 'transparent'
+            }
+        ],
+        previewLabel: [
+            {
+                position: 'absolute',
+                right: 16,
+                top: 18, // 16 container padding + 2 inner padding
+                zIndex: 1000
             }
         ],
         subComponentStyles: {

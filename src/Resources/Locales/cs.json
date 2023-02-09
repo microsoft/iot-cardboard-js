@@ -1383,6 +1383,12 @@
       "importFailedMessage": "Během importu došlo k chybě. Vyřešte je a zkuste to znovu.\n {{chyba}}",
       "noValidFilesTitle": "Nebyly nalezeny žádné modely",
       "noValidFilesMessage": "Nebyly nalezeny žádné soubory modelu k importu. Ujistěte se, že ve vybraných souborech jsou platné soubory JSON."
+    },
+    "PropertyEditor": {
+      "PreviewLabel": {
+        "badgeText": "Náhled",
+        "badgeCalloutText": "Tento model používá DTDL V3, která je stále ve verzi Preview. Některé funkce mohou stále probíhat."
+      }
     }
   },
   "dataHistoryErrorHandlingWrapper": {

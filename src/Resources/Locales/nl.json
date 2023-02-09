@@ -1383,6 +1383,12 @@
       "importFailedMessage": "Er is een fout opgetreden tijdens het importeren. Los ze op en probeer het opnieuw.\n {{fout}}",
       "noValidFilesTitle": "Geen modellen gevonden",
       "noValidFilesMessage": "Geen modelbestanden gevonden om te importeren. Zorg ervoor dat er geldige JSON-bestanden in de geselecteerde bestanden staan."
+    },
+    "PropertyEditor": {
+      "PreviewLabel": {
+        "badgeText": "Voorbeeld",
+        "badgeCalloutText": "Dit model maakt gebruik van DTDL V3 dat nog in preview is. Sommige functies en functionaliteit zijn mogelijk nog in uitvoering."
+      }
     }
   },
   "dataHistoryErrorHandlingWrapper": {
