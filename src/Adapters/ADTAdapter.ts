@@ -92,7 +92,7 @@ export default class ADTAdapter implements IADTAdapter {
     protected adtTwinCache: AdapterEntityCache<ADTTwinData>;
     protected adtModelsCache: AdapterEntityCache<ADTAllModelsData>;
     protected adtTwinToModelMappingCache: AdapterEntityCache<ADTTwinToModelMappingData>;
-    protected isCorsEnabled: boolean;
+    protected useProxy: boolean;
 
     constructor(
         adtHostUrl: string,
@@ -100,7 +100,7 @@ export default class ADTAdapter implements IADTAdapter {
         tenantId?: string,
         uniqueObjectId?: string,
         adtProxyServerPath = '/proxy/adt',
-        isCorsEnabled = true
+        useProxy = true
     ) {
         this.setAdtHostUrl(adtHostUrl); // this should be the host name of the instace
         this.adtProxyServerPath = adtProxyServerPath;
@@ -121,18 +121,16 @@ export default class ADTAdapter implements IADTAdapter {
          * Check if class has been initialized with CORS enabled or if origin matches dev or prod explorer urls,
          * override if proxy is forced by feature flag
          *  */
-        this.isCorsEnabled =
-            isCorsEnabled &&
-            validateExplorerOrigin(window.origin) &&
-            !localStorage.getItem(
+        this.useProxy =
+            useProxy ||
+            !validateExplorerOrigin(window.origin) ||
+            localStorage.getItem(
                 LOCAL_STORAGE_KEYS.FeatureFlags.Proxy.forceProxy
-            );
+            ) === 'true';
 
         this.authService.login();
         this.axiosInstance = axios.create({
-            baseURL: this.isCorsEnabled
-                ? this.adtHostUrl
-                : this.adtProxyServerPath
+            baseURL: this.useProxy ? this.adtProxyServerPath : this.adtHostUrl
         });
         axiosRetry(this.axiosInstance, {
             retries: 3,
@@ -149,21 +147,21 @@ export default class ADTAdapter implements IADTAdapter {
     }
 
     generateUrl(path: string) {
-        if (this.isCorsEnabled) {
-            return `https://${this.adtHostUrl}${path}`;
-        } else {
+        if (this.useProxy) {
             return `${this.adtProxyServerPath}${path}`;
+        } else {
+            return `https://${this.adtHostUrl}${path}`;
         }
     }
 
     generateHeaders(headers: AxiosObjParam = {}) {
-        if (this.isCorsEnabled) {
-            return headers;
-        } else {
+        if (this.useProxy) {
             return {
                 ...headers,
                 'x-adt-host': this.adtHostUrl
             };
+        } else {
+            return headers;
         }
     }
 

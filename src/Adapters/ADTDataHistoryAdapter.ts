@@ -32,7 +32,7 @@ export default class ADTDataHistoryAdapter {
         tenantId?: string,
         uniqueObjectId?: string,
         adtProxyServerPath = '/proxy/adt',
-        isCorsEnabled = true
+        useProxy = true
     ) {
         this.adtHostUrl = adtHostUrl;
         this.adxConnectionInformation = adxConnectionInformation;
@@ -53,12 +53,12 @@ export default class ADTDataHistoryAdapter {
          * Check if class has been initialized with CORS enabled or if origin matches dev or prod explorer urls,
          * override if proxy is forced by feature flag
          *  */
-        this.isCorsEnabled =
-            isCorsEnabled &&
-            validateExplorerOrigin(window.origin) &&
-            !localStorage.getItem(
+        this.useProxy =
+            useProxy ||
+            !validateExplorerOrigin(window.origin) ||
+            localStorage.getItem(
                 LOCAL_STORAGE_KEYS.FeatureFlags.Proxy.forceProxy
-            );
+            ) === 'true';
 
         this.adtProxyServerPath = adtProxyServerPath;
         this.authService.login();

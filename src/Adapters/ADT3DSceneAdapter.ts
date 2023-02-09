@@ -44,7 +44,7 @@ export default class ADT3DSceneAdapter {
         uniqueObjectId?: string,
         adtProxyServerPath = '/proxy/adt',
         blobProxyServerPath = '/proxy/blob',
-        isCorsEnabled = true
+        useProxy = true
     ) {
         this.adtHostUrl = adtHostUrl;
         this.authService = this.blobAuthService = this.adxAuthService = authService;
@@ -64,12 +64,12 @@ export default class ADT3DSceneAdapter {
          * Check if class has been initialized with CORS enabled or if origin matches dev or prod explorer urls,
          * override if proxy is forced by feature flag
          *  */
-        this.isCorsEnabled =
-            isCorsEnabled &&
-            validateExplorerOrigin(window.origin) &&
-            !localStorage.getItem(
+        this.useProxy =
+            useProxy ||
+            validateExplorerOrigin(window.origin) ||
+            localStorage.getItem(
                 LOCAL_STORAGE_KEYS.FeatureFlags.Proxy.forceProxy
-            );
+            ) === 'true';
 
         if (blobContainerUrl) {
             try {
