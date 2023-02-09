@@ -63,20 +63,37 @@ export const contextHasVersion3 = (context: string | string[]): boolean => {
     return contextInternal.includes(DTDL_CONTEXT_VERSION_3);
 };
 
+export function getModelOrParentContext(
+    selectedItem: DtdlInterface | DtdlInterfaceContent,
+    currentModelsList: DtdlInterface[],
+    currentSelection: IOATSelection
+): string | string[] {
+    if (isDTDLModel(selectedItem)) {
+        return selectedItem['@context'];
+    } else if (
+        isDTDLReference(selectedItem) &&
+        currentSelection &&
+        currentModelsList
+    ) {
+        const parentId = currentSelection.modelId;
+        const parentModel = getModelById(currentModelsList, parentId);
+        return isDTDLModel(parentModel) && parentModel['@context'];
+    }
+    return '';
+}
+
 /** takes either a model or relationship and deteremines if it is considered v3 */
 export function isModelOrParentDtdlVersion3(
     selectedItem: DtdlInterface | DtdlInterfaceContent,
     currentModelsList: DtdlInterface[],
     currentSelection: IOATSelection
 ): boolean {
-    if (isDTDLModel(selectedItem) && modelHasVersion3Context(selectedItem)) {
-        return true;
-    } else if (isDTDLReference(selectedItem)) {
-        const parentId = currentSelection.modelId;
-        const parentModel = getModelById(currentModelsList, parentId);
-        return isDTDLModel(parentModel) && modelHasVersion3Context(parentModel);
-    }
-    return false;
+    const context = getModelOrParentContext(
+        selectedItem,
+        currentModelsList,
+        currentSelection
+    );
+    return contextHasVersion3(context);
 }
 
 export const isValidDtdlVersion = (version: string): boolean => {

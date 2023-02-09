@@ -20,8 +20,8 @@ import { useOatPageContext } from '../../../../Models/Context/OatPageContext/Oat
 import { OatPageContextActionType } from '../../../../Models/Context/OatPageContext/OatPageContext.types';
 import {
     copyDTDLProperty,
+    getModelOrParentContext,
     isDTDLModel,
-    isDTDLReference,
     isDTDLRelationshipReference,
     movePropertyInCollection
 } from '../../../../Models/Services/DtdlUtils';
@@ -31,7 +31,6 @@ import {
 } from './Internal/PropertyListItem/PropertyListItem.types';
 import { DtdlInterface, DtdlReference } from '../../../../Models/Constants';
 import {
-    getModelById,
     getPropertyIndexOnModelByName,
     getPropertyIndexOnRelationshipByName
 } from '../../../../Models/Context/OatPageContext/OatPageContextUtils';
@@ -288,20 +287,14 @@ const PropertyList: React.FC<IPropertyListProps> = (props) => {
     const arePropertiesSupported =
         isDTDLModel(selectedItem) || isDTDLRelationshipReference(selectedItem);
     const modelContext = useMemo(() => {
-        if (isDTDLModel(selectedItem)) {
-            return selectedItem['@context'];
-        } else if (isDTDLReference(selectedItem)) {
-            const modelId = oatPageState.selection.modelId;
-            const parentModel = getModelById(
-                oatPageState.currentOntologyModels,
-                modelId
-            );
-            return parentModel['@context'];
-        }
-        return [];
+        return getModelOrParentContext(
+            selectedItem,
+            oatPageState.currentOntologyModels,
+            oatPageState.selection
+        );
     }, [
         oatPageState.currentOntologyModels,
-        oatPageState.selection.modelId,
+        oatPageState.selection,
         selectedItem
     ]);
 
