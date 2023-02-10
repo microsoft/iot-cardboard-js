@@ -11,7 +11,14 @@ import {
     Theme,
     useTheme
 } from '@fluentui/react';
-import React, { useContext, useEffect, useMemo, useRef, useState } from 'react';
+import React, {
+    useCallback,
+    useContext,
+    useEffect,
+    useMemo,
+    useRef,
+    useState
+} from 'react';
 import { TFunction, useTranslation } from 'react-i18next';
 import ViewerConfigUtility from '../../../../Models/Classes/ViewerConfigUtility';
 import {
@@ -83,6 +90,21 @@ const SceneBehaviors: React.FC<Props> = ({
             ),
         [config, sceneId, behaviors]
     );
+
+    // callbacks
+    const onConfirmDelete = useCallback(() => {
+        onRemoveBehaviorFromScene(
+            behaviorToDeleteRef.current.id,
+            behaviorToDeleteRef.current.removeFromAllScenes
+        );
+        behaviorToDeleteRef.current = null;
+    }, [onRemoveBehaviorFromScene]);
+    const onCloseDeleteDialog = useCallback(() => {
+        setIsDeleteDialogOpen(false);
+        behaviorToDeleteRef.current = null;
+    }, []);
+
+    // side effects
 
     // add everything to the list on the first pass
     useEffect(() => {
@@ -268,17 +290,8 @@ const SceneBehaviors: React.FC<Props> = ({
             </PanelFooter>
             <ConfirmDeleteDialog
                 isOpen={isDeleteDialogOpen}
-                onConfirm={() => {
-                    onRemoveBehaviorFromScene(
-                        behaviorToDeleteRef.current.id,
-                        behaviorToDeleteRef.current.removeFromAllScenes
-                    );
-                    behaviorToDeleteRef.current = null;
-                }}
-                onClose={() => {
-                    setIsDeleteDialogOpen(false);
-                    behaviorToDeleteRef.current = null;
-                }}
+                onConfirm={onConfirmDelete}
+                onClose={onCloseDeleteDialog}
                 message={
                     behaviorToDeleteRef.current
                         ? behaviorToDeleteRef.current.removeFromAllScenes
