@@ -1386,7 +1386,7 @@
       "noValidFilesMessage": "No se encontraron archivos de modelo para importar. Asegúrese de que haya archivos JSON válidos en los archivos seleccionados."
     },
     "PropertyEditor": {
-      "PreviewLabel": {
+      "Version3PreviewLabel": {
         "badgeText": "Vista previa",
         "badgeCalloutText": "Este modelo utiliza DTDLv3 que está en vista previa"
       }
