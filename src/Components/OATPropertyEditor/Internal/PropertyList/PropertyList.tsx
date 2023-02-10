@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import {
     IPropertyListProps,
     IPropertyListStyleProps,
@@ -20,6 +20,7 @@ import { useOatPageContext } from '../../../../Models/Context/OatPageContext/Oat
 import { OatPageContextActionType } from '../../../../Models/Context/OatPageContext/OatPageContext.types';
 import {
     copyDTDLProperty,
+    getModelOrParentContext,
     isDTDLModel,
     isDTDLRelationshipReference,
     movePropertyInCollection
@@ -47,7 +48,7 @@ const PropertyList: React.FC<IPropertyListProps> = (props) => {
     const { parentModelId, properties, selectedItem, styles } = props;
 
     // contexts
-    const { oatPageDispatch } = useOatPageContext();
+    const { oatPageDispatch, oatPageState } = useOatPageContext();
 
     // state
 
@@ -285,6 +286,17 @@ const PropertyList: React.FC<IPropertyListProps> = (props) => {
     // only models and Relationship references support properties
     const arePropertiesSupported =
         isDTDLModel(selectedItem) || isDTDLRelationshipReference(selectedItem);
+    const modelContext = useMemo(() => {
+        return getModelOrParentContext(
+            selectedItem,
+            oatPageState.currentOntologyModels,
+            oatPageState.selection
+        );
+    }, [
+        oatPageState.currentOntologyModels,
+        oatPageState.selection,
+        selectedItem
+    ]);
 
     logDebugConsole('debug', 'Render property list. {properties}', properties);
     return (
@@ -312,6 +324,7 @@ const PropertyList: React.FC<IPropertyListProps> = (props) => {
                                         property
                                     )}
                                     onRemove={getRemoveCallback(property)}
+                                    parentModelContext={modelContext}
                                 />
                             );
                         }}

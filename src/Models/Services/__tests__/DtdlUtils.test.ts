@@ -12,14 +12,21 @@ import {
     DTDL_CONTEXT_VERSION_2,
     DTDL_CONTEXT_VERSION_3
 } from '../../Classes/DTDL';
-import { getMockModelItem } from '../../Context/OatPageContext/OatPageContext.mock';
+import { DtdlInterface } from '../../Constants';
 import {
+    getMockModelItem,
+    getMockReference
+} from '../../Context/OatPageContext/OatPageContext.mock';
+import {
+    contextHasVersion3,
     getDtdlVersion,
     isComplexSchemaProperty,
+    isModelOrParentDtdlVersion3,
     isValidDtmiId,
     isValidDtmiPath,
     isValidModelName,
     isValidReferenceName,
+    modelHasVersion3Context,
     movePropertyInCollection,
     updateDtdlVersion
 } from '../DtdlUtils';
@@ -279,127 +286,328 @@ describe('DtdlUtils', () => {
         });
     });
 
-    describe('updateDtdlVersion', () => {
-        test('update v2 with v3 in array context', () => {
-            // ARRANGE
-            const newVersion = DTDL_CONTEXT_VERSION_3;
-            const model = getMockModelItem('test-id', [
-                'something',
-                DTDL_CONTEXT_VERSION_2
-            ]);
-            // ACT
-            const result = updateDtdlVersion(model, newVersion);
-            // ASSERT
-            expect(result['@context'][0]).toEqual(newVersion);
+    describe('DTDL Versions', () => {
+        describe('getDtdlVersion', () => {
+            test('null model defaults to version 2', () => {
+                // ARRANGE
+                // ACT
+                const result = getDtdlVersion(null);
+                // ASSERT
+                expect(result).toEqual('2');
+            });
+            test('context contains version 2 in array', () => {
+                // ARRANGE
+                const context = ['other stuff', DTDL_CONTEXT_VERSION_2];
+                const model = getMockModelItem('dtmi:model1;1');
+                model['@context'] = context;
+                // ACT
+                const result = getDtdlVersion(model);
+                // ASSERT
+                expect(result).toEqual('2');
+            });
+            test('context has unknown string, default to 2', () => {
+                // ARRANGE
+                const context = ['other stuff', DTDL_CONTEXT_VERSION_2];
+                const model = getMockModelItem('dtmi:model1;1');
+                model['@context'] = context;
+                // ACT
+                const result = getDtdlVersion(model);
+                // ASSERT
+                expect(result).toEqual('2');
+            });
+            test('context contains version 3 in array', () => {
+                // ARRANGE
+                const context = ['other stuff', DTDL_CONTEXT_VERSION_3];
+                const model = getMockModelItem('dtmi:model1;1');
+                model['@context'] = context;
+                // ACT
+                const result = getDtdlVersion(model);
+                // ASSERT
+                expect(result).toEqual('3');
+            });
+            test('context has version 2 as string', () => {
+                // ARRANGE
+                const context = DTDL_CONTEXT_VERSION_2;
+                const model = getMockModelItem('dtmi:model1;1');
+                model['@context'] = context;
+                // ACT
+                const result = getDtdlVersion(model);
+                // ASSERT
+                expect(result).toEqual('2');
+            });
+            test('context has unknown string default to 2', () => {
+                // ARRANGE
+                const context = 'other stuff';
+                const model = getMockModelItem('dtmi:model1;1');
+                model['@context'] = context;
+                // ACT
+                const result = getDtdlVersion(model);
+                // ASSERT
+                expect(result).toEqual('2');
+            });
+            test('context has version 3 as string', () => {
+                // ARRANGE
+                const context = DTDL_CONTEXT_VERSION_3;
+                const model = getMockModelItem('dtmi:model1;1');
+                model['@context'] = context;
+                // ACT
+                const result = getDtdlVersion(model);
+                // ASSERT
+                expect(result).toEqual('3');
+            });
         });
-        test('update v3 with v2 in array context', () => {
-            // ARRANGE
-            const newVersion = DTDL_CONTEXT_VERSION_2;
-            const model = getMockModelItem('test-id', [
-                'something',
-                DTDL_CONTEXT_VERSION_3
-            ]);
-            // ACT
-            const result = updateDtdlVersion(model, newVersion);
-            // ASSERT
-            expect(result['@context'][0]).toEqual(newVersion);
-        });
-        test('update to v2 when no existing version found in array context', () => {
-            // ARRANGE
-            const newVersion = DTDL_CONTEXT_VERSION_3;
-            const model = getMockModelItem('test-id', ['something']);
-            // ACT
-            const result = updateDtdlVersion(model, newVersion);
-            // ASSERT
-            expect(result['@context'][0]).toEqual(newVersion);
-        });
-        test('update v2 with v3 in string context', () => {
-            // ARRANGE
-            const newVersion = DTDL_CONTEXT_VERSION_3;
-            const model = getMockModelItem('test-id', DTDL_CONTEXT_VERSION_2);
-            // ACT
-            const result = updateDtdlVersion(model, newVersion);
-            // ASSERT
-            expect(result['@context']).toEqual(newVersion);
-        });
-        test('update v3 with v2 in string context', () => {
-            // ARRANGE
-            const newVersion = DTDL_CONTEXT_VERSION_2;
-            const model = getMockModelItem('test-id', DTDL_CONTEXT_VERSION_3);
-            // ACT
-            const result = updateDtdlVersion(model, newVersion);
-            // ASSERT
-            expect(result['@context']).toEqual(newVersion);
-        });
-    });
 
-    describe('getDtdlVersion', () => {
-        test('null model defaults to version 2', () => {
-            // ARRANGE
-            // ACT
-            const result = getDtdlVersion(null);
-            // ASSERT
-            expect(result).toEqual('2');
+        describe('hasVersion3Context', () => {
+            test('context is array with v3, returns true', () => {
+                // ARRANGE
+                const context = ['something', DTDL_CONTEXT_VERSION_3];
+                const model = { '@context': context } as DtdlInterface;
+                // ACT
+                const result = modelHasVersion3Context(model);
+                // ASSERT
+                expect(result).toBeTruthy();
+            });
+            test('context is array without v3, returns false', () => {
+                // ARRANGE
+                const context = ['something'];
+                const model = { '@context': context } as DtdlInterface;
+                // ACT
+                const result = modelHasVersion3Context(model);
+                // ASSERT
+                expect(result).toBeFalsy();
+            });
+            test('context is string with v3, returns true', () => {
+                // ARRANGE
+                const context = DTDL_CONTEXT_VERSION_3;
+                const model = { '@context': context } as DtdlInterface;
+                // ACT
+                const result = modelHasVersion3Context(model);
+                // ASSERT
+                expect(result).toBeTruthy();
+            });
+            test('context is string without v3, returns false', () => {
+                // ARRANGE
+                const context = 'something';
+                const model = { '@context': context } as DtdlInterface;
+                // ACT
+                const result = modelHasVersion3Context(model);
+                // ASSERT
+                expect(result).toBeFalsy();
+            });
         });
-        test('context contains version 2 in array', () => {
-            // ARRANGE
-            const context = ['other stuff', DTDL_CONTEXT_VERSION_2];
-            const model = getMockModelItem('dtmi:model1;1');
-            model['@context'] = context;
-            // ACT
-            const result = getDtdlVersion(model);
-            // ASSERT
-            expect(result).toEqual('2');
+
+        describe('contextHasVersion3', () => {
+            test('context is array with v3, returns true', () => {
+                // ARRANGE
+                const context = ['something', DTDL_CONTEXT_VERSION_3];
+                // ACT
+                const result = contextHasVersion3(context);
+                // ASSERT
+                expect(result).toBeTruthy();
+            });
+            test('context is array without v3, returns false', () => {
+                // ARRANGE
+                const context = ['something'];
+                // ACT
+                const result = contextHasVersion3(context);
+                // ASSERT
+                expect(result).toBeFalsy();
+            });
+            test('context is string with v3, returns true', () => {
+                // ARRANGE
+                const context = DTDL_CONTEXT_VERSION_3;
+                // ACT
+                const result = contextHasVersion3(context);
+                // ASSERT
+                expect(result).toBeTruthy();
+            });
+            test('context is string without v3, returns false', () => {
+                // ARRANGE
+                const context = 'something';
+                // ACT
+                const result = contextHasVersion3(context);
+                // ASSERT
+                expect(result).toBeFalsy();
+            });
         });
-        test('context has unknown string, default to 2', () => {
-            // ARRANGE
-            const context = ['other stuff', DTDL_CONTEXT_VERSION_2];
-            const model = getMockModelItem('dtmi:model1;1');
-            model['@context'] = context;
-            // ACT
-            const result = getDtdlVersion(model);
-            // ASSERT
-            expect(result).toEqual('2');
+
+        describe('isModelOrParentDtdlVersion3', () => {
+            describe('model', () => {
+                test('model has v3 context in array, returns true', () => {
+                    // ARRANGE
+                    const context = ['something', DTDL_CONTEXT_VERSION_3];
+                    const model = getMockModelItem('test-id', context);
+                    // ACT
+                    const result = isModelOrParentDtdlVersion3(model, [], null);
+                    // ASSERT
+                    expect(result).toBeTruthy();
+                });
+                test('model does not have v3 context in array, returns true', () => {
+                    // ARRANGE
+                    const context = ['something'];
+                    const model = getMockModelItem('test-id', context);
+                    // ACT
+                    const result = isModelOrParentDtdlVersion3(model, [], null);
+                    // ASSERT
+                    expect(result).toBeFalsy();
+                });
+                test('model has v3 context as string, returns true', () => {
+                    // ARRANGE
+                    const context = DTDL_CONTEXT_VERSION_3;
+                    const model = getMockModelItem('test-id', context);
+                    // ACT
+                    const result = isModelOrParentDtdlVersion3(model, [], null);
+                    // ASSERT
+                    expect(result).toBeTruthy();
+                });
+                test('model does not have v3 context as string, returns true', () => {
+                    // ARRANGE
+                    const context = 'something';
+                    const model = getMockModelItem('test-id', context);
+                    // ACT
+                    const result = isModelOrParentDtdlVersion3(model, [], null);
+                    // ASSERT
+                    expect(result).toBeFalsy();
+                });
+            });
+            describe('relationships', () => {
+                test('relationship parent has v3 context in array, returns true', () => {
+                    // ARRANGE
+                    const context = ['something', DTDL_CONTEXT_VERSION_3];
+                    const model = getMockModelItem('test-id', context);
+                    const reference = getMockReference(
+                        'test-ref',
+                        DTDLType.Relationship
+                    );
+                    // ACT
+                    const result = isModelOrParentDtdlVersion3(
+                        reference,
+                        [model],
+                        {
+                            modelId: model['@id']
+                        }
+                    );
+                    // ASSERT
+                    expect(result).toBeTruthy();
+                });
+                test('relationship parent does not have v3 context in array, returns true', () => {
+                    // ARRANGE
+                    const context = ['something'];
+                    const model = getMockModelItem('test-id', context);
+                    const reference = getMockReference(
+                        'test-ref',
+                        DTDLType.Relationship
+                    );
+                    // ACT
+                    const result = isModelOrParentDtdlVersion3(
+                        reference,
+                        [model],
+                        {
+                            modelId: model['@id']
+                        }
+                    );
+                    // ASSERT
+                    expect(result).toBeFalsy();
+                });
+                test('relationship parent has v3 context as string, returns true', () => {
+                    // ARRANGE
+                    const context = DTDL_CONTEXT_VERSION_3;
+                    const model = getMockModelItem('test-id', context);
+                    const reference = getMockReference(
+                        'test-ref',
+                        DTDLType.Relationship
+                    );
+                    // ACT
+                    const result = isModelOrParentDtdlVersion3(
+                        reference,
+                        [model],
+                        {
+                            modelId: model['@id']
+                        }
+                    );
+                    // ASSERT
+                    expect(result).toBeTruthy();
+                });
+                test('relationship parent does not have v3 context as string, returns true', () => {
+                    // ARRANGE
+                    const context = 'something';
+                    const model = getMockModelItem('test-id', context);
+                    const reference = getMockReference(
+                        'test-ref',
+                        DTDLType.Relationship
+                    );
+                    // ACT
+                    const result = isModelOrParentDtdlVersion3(
+                        reference,
+                        [model],
+                        {
+                            modelId: model['@id']
+                        }
+                    );
+                    // ASSERT
+                    expect(result).toBeFalsy();
+                });
+            });
         });
-        test('context contains version 3 in array', () => {
-            // ARRANGE
-            const context = ['other stuff', DTDL_CONTEXT_VERSION_3];
-            const model = getMockModelItem('dtmi:model1;1');
-            model['@context'] = context;
-            // ACT
-            const result = getDtdlVersion(model);
-            // ASSERT
-            expect(result).toEqual('3');
-        });
-        test('context has version 2 as string', () => {
-            // ARRANGE
-            const context = DTDL_CONTEXT_VERSION_2;
-            const model = getMockModelItem('dtmi:model1;1');
-            model['@context'] = context;
-            // ACT
-            const result = getDtdlVersion(model);
-            // ASSERT
-            expect(result).toEqual('2');
-        });
-        test('context has unknown string default to 2', () => {
-            // ARRANGE
-            const context = 'other stuff';
-            const model = getMockModelItem('dtmi:model1;1');
-            model['@context'] = context;
-            // ACT
-            const result = getDtdlVersion(model);
-            // ASSERT
-            expect(result).toEqual('2');
-        });
-        test('context has version 3 as string', () => {
-            // ARRANGE
-            const context = DTDL_CONTEXT_VERSION_3;
-            const model = getMockModelItem('dtmi:model1;1');
-            model['@context'] = context;
-            // ACT
-            const result = getDtdlVersion(model);
-            // ASSERT
-            expect(result).toEqual('3');
+
+        describe('updateDtdlVersion', () => {
+            test('update v2 with v3 in array context', () => {
+                // ARRANGE
+                const newVersion = DTDL_CONTEXT_VERSION_3;
+                const model = getMockModelItem('test-id', [
+                    'something',
+                    DTDL_CONTEXT_VERSION_2
+                ]);
+                // ACT
+                const result = updateDtdlVersion(model, newVersion);
+                // ASSERT
+                expect(result['@context'][0]).toEqual(newVersion);
+            });
+            test('update v3 with v2 in array context', () => {
+                // ARRANGE
+                const newVersion = DTDL_CONTEXT_VERSION_2;
+                const model = getMockModelItem('test-id', [
+                    'something',
+                    DTDL_CONTEXT_VERSION_3
+                ]);
+                // ACT
+                const result = updateDtdlVersion(model, newVersion);
+                // ASSERT
+                expect(result['@context'][0]).toEqual(newVersion);
+            });
+            test('update to v2 when no existing version found in array context', () => {
+                // ARRANGE
+                const newVersion = DTDL_CONTEXT_VERSION_3;
+                const model = getMockModelItem('test-id', ['something']);
+                // ACT
+                const result = updateDtdlVersion(model, newVersion);
+                // ASSERT
+                expect(result['@context'][0]).toEqual(newVersion);
+            });
+            test('update v2 with v3 in string context', () => {
+                // ARRANGE
+                const newVersion = DTDL_CONTEXT_VERSION_3;
+                const model = getMockModelItem(
+                    'test-id',
+                    DTDL_CONTEXT_VERSION_2
+                );
+                // ACT
+                const result = updateDtdlVersion(model, newVersion);
+                // ASSERT
+                expect(result['@context']).toEqual(newVersion);
+            });
+            test('update v3 with v2 in string context', () => {
+                // ARRANGE
+                const newVersion = DTDL_CONTEXT_VERSION_2;
+                const model = getMockModelItem(
+                    'test-id',
+                    DTDL_CONTEXT_VERSION_3
+                );
+                // ACT
+                const result = updateDtdlVersion(model, newVersion);
+                // ASSERT
+                expect(result['@context']).toEqual(newVersion);
+            });
         });
     });
 

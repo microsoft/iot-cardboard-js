@@ -3,6 +3,7 @@ import {
     DTDLComplexSchema,
     DTDLSchema
 } from '../../../../../../../../Models/Classes/DTDL';
+import { DtdlContext } from '../../../../../../../../Models/Constants';
 import { IExtendedTheme } from '../../../../../../../../Theming/Theme.types';
 import { IOnUpdateNameCallback } from '../../PropertyListItem.types';
 
@@ -28,6 +29,8 @@ export interface IPropertyListItemChildHostProps
         IPropertyListItemChildBaseProps,
         'onReorderItem' | 'onUpdateName' | 'onRemove'
     > {
+    /** the DTDL context of the model or source model (if relationship) */
+    parentModelContext: DtdlContext;
     propertyItem: { name: string; schema: DTDLComplexSchema };
     /** callback to store an updated version of the schema */
     onUpdateSchema: (schema: DTDLSchema) => void;

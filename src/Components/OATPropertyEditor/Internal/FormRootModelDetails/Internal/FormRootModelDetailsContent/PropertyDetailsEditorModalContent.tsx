@@ -572,7 +572,7 @@ const PropertyDetailsEditorModalContent: React.FC<IModalFormRootModelContentProp
             {isDTDLModel(selectedItem) && (
                 <div className={propertyInspectorStyles.modalRow}>
                     <Label className={classNames.label}>
-                        {t('OATPropertyEditor.version')}
+                        {t('OATPropertyEditor.contextVersion')}
                     </Label>
                     <Dropdown
                         options={versionOptions}

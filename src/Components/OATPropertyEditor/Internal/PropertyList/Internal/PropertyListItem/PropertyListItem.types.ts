@@ -6,6 +6,7 @@ import {
     ITextFieldStyles
 } from '@fluentui/react';
 import { DTDLSchema } from '../../../../../../Models/Classes/DTDL';
+import { DtdlContext } from '../../../../../../Models/Constants';
 import { IExtendedTheme } from '../../../../../../Theming/Theme.types';
 import { IPropertyIconStyles } from './Internal/PropertyIcon/PropertyIcon.types';
 
@@ -16,6 +17,8 @@ export type IOnUpdateNameCallbackArgs = {
 export type IOnUpdateNameCallback = (args: IOnUpdateNameCallbackArgs) => void;
 
 export interface IPropertyListItemProps {
+    /** the DTDL context of the model or source model (if relationship) */
+    parentModelContext: DtdlContext;
     /** is the first item in the list */
     isFirstItem: boolean;
     /** is the last item in list */

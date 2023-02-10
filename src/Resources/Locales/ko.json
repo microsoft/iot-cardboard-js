@@ -1225,7 +1225,8 @@
       }
     },
     "noSelectionMessage": "세부 정보를 볼 모델 또는 관계 선택",
-    "propertiesNotSupported": "선택한 항목이 속성을 지원하지 않습니다."
+    "propertiesNotSupported": "선택한 항목이 속성을 지원하지 않습니다.",
+    "contextVersion": "컨텍스트 버전"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "오류 메시지",
@@ -1387,8 +1388,16 @@
     "PropertyEditor": {
       "PreviewLabel": {
         "badgeText": "미리 보기",
-        "badgeCalloutText": "이 모델은 아직 미리 보기 상태인 DTDL V3을 사용합니다. 일부 기능은 아직 진행 중일 수 있습니다."
+        "badgeCalloutText": "이 모델은 미리 보기로 제공되는 DTDLv3을 사용합니다."
       }
+    },
+    "PropertyTypes": {
+      "categories": {
+        "complex": "콤플렉스",
+        "primitive": "원시적인",
+        "geospatial": "지리 공간"
+      },
+      "unsupportedPropertyType": "이 속성 유형은 연결된 모델의 현재 컨텍스트 버전에 사용할 수 없습니다."
     }
   },
   "dataHistoryErrorHandlingWrapper": {

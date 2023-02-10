@@ -1225,7 +1225,8 @@
       }
     },
     "noSelectionMessage": "Välj en modell eller relation för att visa information",
-    "propertiesNotSupported": "Det markerade objektet stöder inte egenskaper"
+    "propertiesNotSupported": "Det markerade objektet stöder inte egenskaper",
+    "contextVersion": "Kontext version"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Felmeddelande",
@@ -1387,8 +1388,16 @@
     "PropertyEditor": {
       "PreviewLabel": {
         "badgeText": "Förhandsvisning",
-        "badgeCalloutText": "Den här modellen använder DTDL V3 som fortfarande är i förhandsversion. Vissa funktioner kan fortfarande vara under arbete."
+        "badgeCalloutText": "Den här modellen använder DTDLv3 som är i förhandsversion"
       }
+    },
+    "PropertyTypes": {
+      "categories": {
+        "complex": "Komplex",
+        "primitive": "Primitiv",
+        "geospatial": "Geospatialt"
+      },
+      "unsupportedPropertyType": "Den här egenskapstypen är inte tillgänglig för den aktuella kontextversionen av den associerade modellen"
     }
   },
   "dataHistoryErrorHandlingWrapper": {
