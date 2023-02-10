@@ -1,11 +1,5 @@
 import React, { useCallback, useRef } from 'react';
-import {
-    classNamesFunction,
-    Pivot,
-    PivotItem,
-    Stack,
-    styled
-} from '@fluentui/react';
+import { classNamesFunction, Pivot, PivotItem, styled } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import NoResultImg from '../../Resources/Static/emptyClipboard.svg';
 import TemplateColumn from './Internal/TemplateColumn';
@@ -156,17 +150,17 @@ const Editor: React.FC<IEditorProps> = (props) => {
                         />
                     </PivotItem>
                 </Pivot>
-                {isDTDLModel(selectedItem) &&
-                    modelHasVersion3Context(selectedItem) && (
-                        <Stack
-                            className={classNames.previewLabelContainer}
-                            horizontal
-                            tokens={{ childrenGap: 4 }}
-                        >
-                            <Version3UpgradeButton />
+                {isDTDLModel(selectedItem) && (
+                    <div className={classNames.previewLabelContainer}>
+                        {modelHasVersion3Context(selectedItem) ? (
                             <Version3PreviewLabel />
-                        </Stack>
-                    )}
+                        ) : (
+                            <Version3UpgradeButton
+                                selectedModel={selectedItem}
+                            />
+                        )}
+                    </div>
+                )}
                 {oatPageState.templatesActive && (
                     <TemplateColumn
                         enteredPropertyRef={enteredPropertyRef}

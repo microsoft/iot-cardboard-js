@@ -10,16 +10,27 @@ import { useExtendedTheme } from '../../../../Models/Hooks/useExtendedTheme';
 import { useTranslation } from 'react-i18next';
 import { useOatPageContext } from '../../../../Models/Context/OatPageContext/OatPageContext';
 import { OatPageContextActionType } from '../../../../Models/Context/OatPageContext/OatPageContext.types';
+import { updateDtdlVersion } from '../../../../Models/Services/DtdlUtils';
+import { DTDL_CONTEXT_VERSION_3 } from '../../../../Models/Classes/DTDL';
 
 const getClassNames = classNamesFunction<
     IVersion3UpgradeButtonStyleProps,
     IVersion3UpgradeButtonStyles
 >();
 
+const LOC_KEYS = {
+    dialogMessage:
+        'OAT.PropertyEditor.Version3UpgradeButton.confirmationMessage',
+    dialogTitle: 'OAT.PropertyEditor.Version3UpgradeButton.confirmationTitle',
+    dialogButtonText:
+        'OAT.PropertyEditor.Version3UpgradeButton.confirmationButtonText',
+    buttonTitle: 'OAT.PropertyEditor.Version3UpgradeButton.title'
+};
+
 const Version3UpgradeButton: React.FC<IVersion3UpgradeButtonProps> = (
     props
 ) => {
-    const { styles } = props;
+    const { selectedModel, styles } = props;
 
     // contexts
     const { oatPageDispatch } = useOatPageContext();
@@ -35,21 +46,24 @@ const Version3UpgradeButton: React.FC<IVersion3UpgradeButtonProps> = (
             type: OatPageContextActionType.SET_OAT_CONFIRM_DELETE_OPEN,
             payload: {
                 open: true,
-                message: t(
-                    'OAT.PropertyEditor.Version3UpgradeButton.confirmationMessage'
-                ),
-                title: t(
-                    'OAT.PropertyEditor.Version3UpgradeButton.confirmationTitle'
-                ),
-                primaryButtonText: t(
-                    'OAT.PropertyEditor.Version3UpgradeButton.confirmationButtonText'
-                ),
+                message: t(LOC_KEYS.dialogMessage),
+                title: t(LOC_KEYS.dialogTitle),
+                primaryButtonText: t(LOC_KEYS.dialogButtonText),
                 callback: () => {
-                    alert('set ');
+                    const updatedModel = updateDtdlVersion(
+                        selectedModel,
+                        DTDL_CONTEXT_VERSION_3
+                    );
+                    oatPageDispatch({
+                        type: OatPageContextActionType.UPDATE_MODEL,
+                        payload: {
+                            model: updatedModel
+                        }
+                    });
                 }
             }
         });
-    }, []);
+    }, [oatPageDispatch, selectedModel, t]);
 
     // side effects
 
@@ -64,7 +78,7 @@ const Version3UpgradeButton: React.FC<IVersion3UpgradeButtonProps> = (
                 iconProps={{
                     iconName: 'UpgradeAnalysis'
                 }}
-                title={t('OAT.PropertyEditor.Version3UpgradeButton.title')}
+                title={t(LOC_KEYS.buttonTitle)}
                 onClick={onClickUpgrade}
             />
         </div>

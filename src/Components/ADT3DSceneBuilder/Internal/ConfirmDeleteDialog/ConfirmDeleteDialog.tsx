@@ -21,6 +21,7 @@ interface Props {
 }
 
 const ConfirmDeleteDialog: React.FC<Props> = ({
+    children,
     title,
     message,
     primaryButtonText,
@@ -57,6 +58,7 @@ const ConfirmDeleteDialog: React.FC<Props> = ({
             dialogContentProps={confirmDeletionDialogProps}
             modalProps={confirmDeletionModalProps}
         >
+            {children}
             <DialogFooter>
                 <DefaultButton
                     onClick={onClose}
