@@ -385,32 +385,6 @@ export const PropertiesModelSummary: React.FC<IPropertiesModelSummaryProps> = (
                                 }
                                 value={modelVersion}
                             />
-                            {/* <SpinButton
-                                aria-labelledby={'oat-model-version'}
-                                decrementButtonAriaLabel={
-                                    contextHasVersion2(modelContext)
-                                        ? t('decreaseBy1')
-                                        : t('decreaseByDecimal')
-                                }
-                                incrementButtonAriaLabel={
-                                    contextHasVersion2(modelContext)
-                                        ? t('increaseBy1')
-                                        : t('increaseByDecimal')
-                                }
-                                step={
-                                    contextHasVersion2(modelContext) ? 1 : 0.1
-                                }
-                                onChange={(_ev, value) => {
-                                    // special handling because this only fires when focus is lost OR when you click the increment/decrement buttons
-                                    forceUpdateId({ version: value });
-                                    setModelVersion(value);
-                                }}
-                                min={1}
-                                styles={
-                                    classNames.subComponentStyles.numericField
-                                }
-                                value={modelVersion}
-                            /> */}
                         </div>
                     </>
                 )}
