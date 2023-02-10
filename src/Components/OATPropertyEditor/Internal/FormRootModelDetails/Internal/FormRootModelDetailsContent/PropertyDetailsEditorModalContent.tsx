@@ -39,9 +39,13 @@ import {
     getModelOrParentContext,
     isDTDLModel,
     isDTDLReference,
-    isDTDLRelationshipReference
+    isDTDLRelationshipReference,
+    updateDtdlVersion
 } from '../../../../../../Models/Services/DtdlUtils';
-import { OAT_RELATIONSHIP_HANDLE_NAME } from '../../../../../../Models/Constants';
+import {
+    DtdlInterface,
+    OAT_RELATIONSHIP_HANDLE_NAME
+} from '../../../../../../Models/Constants';
 import TooltipCallout from '../../../../../TooltipCallout/TooltipCallout';
 import produce from 'immer';
 import {
@@ -49,6 +53,7 @@ import {
     isDefined
 } from '../../../../../../Models/Services/Utils';
 import Version3UpgradeButton from '../../../Version3UpgradeButton/Version3UpgradeButton';
+import { DTDL_CONTEXT_VERSION_3 } from '../../../../../../Models/Classes/DTDL';
 
 const SINGLE_LANGUAGE_KEY = 'singleLanguage';
 const MULTI_LANGUAGE_KEY = 'multiLanguage';
@@ -142,6 +147,16 @@ const PropertyDetailsEditorModalContent: React.FC<IModalFormRootModelContentProp
         },
         []
     );
+    const onUpgradeVersion = useCallback(() => {
+        onUpdateItem(
+            produce((draft) => {
+                return updateDtdlVersion(
+                    draft as DtdlInterface,
+                    DTDL_CONTEXT_VERSION_3
+                );
+            })
+        );
+    }, [onUpdateItem]);
 
     // data
     const displayNameMultiLangOptions: IChoiceGroupOption[] = [
@@ -559,7 +574,7 @@ const PropertyDetailsEditorModalContent: React.FC<IModalFormRootModelContentProp
                         <Text>{getDtdlVersionFromContext(modelContext)}</Text>
                         {contextHasVersion2(modelContext) && (
                             <Version3UpgradeButton
-                                selectedModel={selectedItem}
+                                onUpgrade={onUpgradeVersion}
                             />
                         )}
                     </Stack>

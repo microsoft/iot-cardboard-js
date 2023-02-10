@@ -10,8 +10,6 @@ import { useExtendedTheme } from '../../../../Models/Hooks/useExtendedTheme';
 import { useTranslation } from 'react-i18next';
 import { useOatPageContext } from '../../../../Models/Context/OatPageContext/OatPageContext';
 import { OatPageContextActionType } from '../../../../Models/Context/OatPageContext/OatPageContext.types';
-import { updateDtdlVersion } from '../../../../Models/Services/DtdlUtils';
-import { DTDL_CONTEXT_VERSION_3 } from '../../../../Models/Classes/DTDL';
 
 const getClassNames = classNamesFunction<
     IVersion3UpgradeButtonStyleProps,
@@ -31,7 +29,7 @@ const LOC_KEYS = {
 const Version3UpgradeButton: React.FC<IVersion3UpgradeButtonProps> = (
     props
 ) => {
-    const { selectedModel, styles } = props;
+    const { onUpgrade, styles } = props;
 
     // contexts
     const { oatPageDispatch } = useOatPageContext();
@@ -50,21 +48,10 @@ const Version3UpgradeButton: React.FC<IVersion3UpgradeButtonProps> = (
                 message: t(LOC_KEYS.dialogMessage),
                 title: t(LOC_KEYS.dialogTitle),
                 primaryButtonText: t(LOC_KEYS.dialogButtonText),
-                callback: () => {
-                    const updatedModel = updateDtdlVersion(
-                        selectedModel,
-                        DTDL_CONTEXT_VERSION_3
-                    );
-                    oatPageDispatch({
-                        type: OatPageContextActionType.UPDATE_MODEL,
-                        payload: {
-                            model: updatedModel
-                        }
-                    });
-                }
+                callback: onUpgrade
             }
         });
-    }, [oatPageDispatch, selectedModel, t]);
+    }, [oatPageDispatch, onUpgrade, t]);
 
     // side effects
 
