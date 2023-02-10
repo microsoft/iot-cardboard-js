@@ -1390,7 +1390,7 @@
         "badgeText": "Vorschau",
         "badgeCalloutText": "Dieses Modell verwendet DTDLv3, das sich in der Vorschau befindet"
       },
-      "Version3UpgradeButton2": {
+      "Version3UpgradeButton": {
         "title": "Modell auf DTDLv3 aktualisieren",
         "confirmationTitle": "Upgrade-Modell?",
         "confirmationMessage": "Möchten Sie dieses Modell wirklich auf DTDL Version 3 aktualisieren? Alle Ihre Konfigurationen bleiben erhalten.",
