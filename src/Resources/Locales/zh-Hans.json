@@ -1389,12 +1389,15 @@
       "Version3PreviewLabel": {
         "badgeText": "预览",
         "badgeCalloutText": "此模型使用预览版的 DTDLv3"
+<<<<<<< HEAD
       },
       "Version3UpgradeButton": {
         "title": "将模型升级到 DTDLv3",
         "confirmationTitle": "升级模式？",
         "confirmationMessage": "是否确实要将此模型升级到 DTDL 版本 3？您的所有配置都将保留。",
         "confirmationButtonText": "升级"
+=======
+>>>>>>> origin/main
       }
     },
     "PropertyTypes": {

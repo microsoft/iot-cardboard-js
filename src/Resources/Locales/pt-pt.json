@@ -1389,12 +1389,15 @@
       "Version3PreviewLabel": {
         "badgeText": "Previsualizar",
         "badgeCalloutText": "Este modelo utiliza DTDLv3 que está em pré-visualização"
+<<<<<<< HEAD
       },
       "Version3UpgradeButton": {
         "title": "Modelo de upgrade para DTDLv3",
         "confirmationTitle": "Modelo de upgrade?",
         "confirmationMessage": "Tem a certeza de que pretende atualizar este modelo para a versão DTDL 3? Todas as suas configurações serão preservadas.",
         "confirmationButtonText": "Atualização"
+=======
+>>>>>>> origin/main
       }
     },
     "PropertyTypes": {
