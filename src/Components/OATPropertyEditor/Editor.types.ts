@@ -27,7 +27,7 @@ export interface IEditorStyles {
     modal: IStyle;
     pivot: IStyle;
     pivotItem: IStyle;
-    previewLabel: IStyle;
+    previewLabelContainer: IStyle;
 
     /**
      * SubComponent styles.

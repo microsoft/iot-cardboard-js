@@ -1386,9 +1386,15 @@
       "noValidFilesMessage": "Geen modelbestanden gevonden om te importeren. Zorg ervoor dat er geldige JSON-bestanden in de geselecteerde bestanden staan."
     },
     "PropertyEditor": {
-      "PreviewLabel": {
+      "Version3PreviewLabel": {
         "badgeText": "Voorbeeld",
         "badgeCalloutText": "Dit model maakt gebruik van DTDLv3 dat in preview is"
+      },
+      "Version3UpgradeButton": {
+        "title": "Upgrade model naar DTDLv3",
+        "confirmationTitle": "Upgrademodel?",
+        "confirmationMessage": "Weet u zeker dat u dit model wilt upgraden naar DTDL versie 3? Al uw configuraties blijven behouden.",
+        "confirmationButtonText": "Opwaarderen"
       }
     },
     "PropertyTypes": {

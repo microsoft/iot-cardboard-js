@@ -27,6 +27,8 @@ export interface IOATConfirmDelete {
     open: boolean;
     /** title for the dialog */
     title?: string;
+    /** button text for the primary action */
+    primaryButtonText?: string;
 }
 
 export interface IOATModelPosition {

@@ -1,28 +1,28 @@
 import { IButtonStyles, IStyle, IStyleFunctionOrObject } from '@fluentui/react';
 import { IExtendedTheme } from '../../../../Theming/Theme.types';
 
-export interface IPreviewLabelProps {
+export interface IVersion3PreviewLabelProps {
     /**
      * Call to provide customized styling that will layer on top of the variant rules.
      */
     styles?: IStyleFunctionOrObject<
-        IPreviewLabelStyleProps,
-        IPreviewLabelStyles
+        IVersion3PreviewLabelStyleProps,
+        IVersion3PreviewLabelStyles
     >;
 }
 
-export interface IPreviewLabelStyleProps {
+export interface IVersion3PreviewLabelStyleProps {
     theme: IExtendedTheme;
 }
-export interface IPreviewLabelStyles {
+export interface IVersion3PreviewLabelStyles {
     root: IStyle;
 
     /**
      * SubComponent styles.
      */
-    subComponentStyles?: IPreviewLabelSubComponentStyles;
+    subComponentStyles?: IVersion3PreviewLabelSubComponentStyles;
 }
 
-export interface IPreviewLabelSubComponentStyles {
+export interface IVersion3PreviewLabelSubComponentStyles {
     badgeButton?: IButtonStyles;
 }

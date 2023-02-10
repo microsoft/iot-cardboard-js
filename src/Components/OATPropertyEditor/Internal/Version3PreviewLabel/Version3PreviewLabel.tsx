@@ -1,10 +1,10 @@
 import React from 'react';
 import {
-    IPreviewLabelProps,
-    IPreviewLabelStyleProps,
-    IPreviewLabelStyles
-} from './PreviewLabel.types';
-import { getStyles } from './PreviewLabel.styles';
+    IVersion3PreviewLabelProps,
+    IVersion3PreviewLabelStyleProps,
+    IVersion3PreviewLabelStyles
+} from './Version3PreviewLabel.types';
+import { getStyles } from './Version3PreviewLabel.styles';
 import {
     ActionButton,
     classNamesFunction,
@@ -15,11 +15,11 @@ import { useExtendedTheme } from '../../../../Models/Hooks/useExtendedTheme';
 import { useTranslation } from 'react-i18next';
 
 const getClassNames = classNamesFunction<
-    IPreviewLabelStyleProps,
-    IPreviewLabelStyles
+    IVersion3PreviewLabelStyleProps,
+    IVersion3PreviewLabelStyles
 >();
 
-const PreviewLabel: React.FC<IPreviewLabelProps> = (props) => {
+const PreviewLabel: React.FC<IVersion3PreviewLabelProps> = (props) => {
     const { styles } = props;
 
     // contexts
@@ -41,7 +41,9 @@ const PreviewLabel: React.FC<IPreviewLabelProps> = (props) => {
     return (
         <div className={classNames.root}>
             <TooltipHost
-                content={t('OAT.PropertyEditor.PreviewLabel.badgeCalloutText')}
+                content={t(
+                    'OAT.PropertyEditor.Version3PreviewLabel.badgeCalloutText'
+                )}
                 calloutProps={{
                     gapSpace: 6
                 }}
@@ -49,7 +51,7 @@ const PreviewLabel: React.FC<IPreviewLabelProps> = (props) => {
                 <ActionButton
                     styles={classNames.subComponentStyles.badgeButton?.()}
                 >
-                    {t('OAT.PropertyEditor.PreviewLabel.badgeText')}
+                    {t('OAT.PropertyEditor.Version3PreviewLabel.badgeText')}
                 </ActionButton>
             </TooltipHost>
         </div>
@@ -57,7 +59,7 @@ const PreviewLabel: React.FC<IPreviewLabelProps> = (props) => {
 };
 
 export default styled<
-    IPreviewLabelProps,
-    IPreviewLabelStyleProps,
-    IPreviewLabelStyles
+    IVersion3PreviewLabelProps,
+    IVersion3PreviewLabelStyleProps,
+    IVersion3PreviewLabelStyles
 >(PreviewLabel, getStyles);

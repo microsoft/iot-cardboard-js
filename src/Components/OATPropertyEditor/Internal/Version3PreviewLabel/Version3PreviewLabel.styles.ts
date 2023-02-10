@@ -1,7 +1,7 @@
 import {
-    IPreviewLabelStyleProps,
-    IPreviewLabelStyles
-} from './PreviewLabel.types';
+    IVersion3PreviewLabelStyleProps,
+    IVersion3PreviewLabelStyles
+} from './Version3PreviewLabel.types';
 import { CardboardClassNamePrefix } from '../../../../Models/Constants/Constants';
 
 const classPrefix = `${CardboardClassNamePrefix}-previewlabel`;
@@ -11,8 +11,8 @@ const classNames = {
 
 // export const PREVIEWLABEL_CLASS_NAMES = classNames;
 export const getStyles = (
-    props: IPreviewLabelStyleProps
-): IPreviewLabelStyles => {
+    props: IVersion3PreviewLabelStyleProps
+): IVersion3PreviewLabelStyles => {
     const { theme } = props;
     return {
         root: [
