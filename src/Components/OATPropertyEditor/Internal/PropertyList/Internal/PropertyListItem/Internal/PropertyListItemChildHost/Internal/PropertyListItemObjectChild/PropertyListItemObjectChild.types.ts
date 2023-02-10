@@ -1,5 +1,6 @@
 import { IStyle, IStyleFunctionOrObject } from '@fluentui/react';
 import { DTDLObjectField } from '../../../../../../../../../../Models/Classes/DTDL';
+import { DtdlContext } from '../../../../../../../../../../Models/Constants';
 import { IExtendedTheme } from '../../../../../../../../../../Theming/Theme.types';
 import { IPropertyListItemChildBaseProps } from '../../PropertyListItemChildHost.types';
 
@@ -10,6 +11,8 @@ export interface IPropertyListItemObjectChildProps
     isFirstItem: boolean;
     /** is the last item in list */
     isLastItem: boolean;
+    /** context from the parent model */
+    parentModelContext: DtdlContext;
     /**
      * Call to provide customized styling that will layer on top of the variant rules.
      */

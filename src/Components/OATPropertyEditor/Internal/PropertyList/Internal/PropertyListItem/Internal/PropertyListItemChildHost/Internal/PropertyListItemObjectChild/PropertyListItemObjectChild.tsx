@@ -18,6 +18,7 @@ const PropertyListItemObjectChild: React.FC<IPropertyListItemObjectChildProps> =
     props
 ) => {
     const {
+        parentModelContext,
         indexKey,
         isFirstItem,
         isLastItem,
@@ -49,6 +50,7 @@ const PropertyListItemObjectChild: React.FC<IPropertyListItemObjectChildProps> =
     return (
         <div className={classNames.root}>
             <PropertyListItem
+                parentModelContext={parentModelContext}
                 indexKey={indexKey}
                 isFirstItem={isFirstItem}
                 isLastItem={isLastItem}
