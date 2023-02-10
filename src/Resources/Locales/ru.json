@@ -1398,11 +1398,11 @@
         "badgeText": "Предварительный просмотр",
         "badgeCalloutText": "Эта модель использует DTDL версии 3, которая находится в предварительной версии"
       },
-      "Version3UpgradeButton": {
+      "Version3UpgradeButton1": {
+        "buttonText": "Обновление до версии 3",
         "confirmationTitle": "Обновить версию DTDL?",
-        "confirmationMessage": "Вы уверены, что хотите обновить эту модель до DTDL версии 3? Все ваши конфигурации будут сохранены.",
-        "confirmationButtonText": "Модернизировать",
-        "buttonText": "Обновление до версии 3"
+        "confirmationMessage": "Вы уверены, что хотите обновить эту модель до DTDL версии 3? Все существующие конфигурации будут сохранены.",
+        "confirmationButtonText": "Модернизировать"
       }
     }
   },

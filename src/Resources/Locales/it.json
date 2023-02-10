@@ -1398,11 +1398,11 @@
         "badgeText": "Anteprima",
         "badgeCalloutText": "Questo modello utilizza DTDL versione 3 che è in anteprima"
       },
-      "Version3UpgradeButton": {
+      "Version3UpgradeButton1": {
+        "buttonText": "Aggiornamento alla versione 3",
         "confirmationTitle": "Aggiornare la versione DTDL?",
-        "confirmationMessage": "Aggiornare questo modello alla versione 3 DTDL? Tutte le configurazioni verranno mantenute.",
-        "confirmationButtonText": "Aggiornamento",
-        "buttonText": "Aggiornamento alla versione 3"
+        "confirmationMessage": "Aggiornare questo modello alla versione 3 DTDL? Tutte le configurazioni esistenti verranno mantenute.",
+        "confirmationButtonText": "Aggiornamento"
       }
     }
   },
