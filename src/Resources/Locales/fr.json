@@ -1402,7 +1402,7 @@
         "confirmationTitle": "Mettre à niveau la version DTDL ?",
         "confirmationMessage": "Voulez-vous vraiment mettre à niveau ce modèle vers DTDL version 3 ? Toutes vos configurations seront conservées.",
         "confirmationButtonText": "Mise à niveau",
-        "buttonText1": "Mise à niveau vers DTDL version 3"
+        "buttonText": "Mise à niveau vers la version 3"
       }
     }
   },

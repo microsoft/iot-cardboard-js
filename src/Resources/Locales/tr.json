@@ -1402,7 +1402,7 @@
         "confirmationTitle": "DTDL sürümünü yükseltmek?",
         "confirmationMessage": "Bu modeli DTDL sürüm 3'e yükseltmek istediğinizden emin misiniz? Tüm yapılandırmalarınız korunur.",
         "confirmationButtonText": "Yükseltmek",
-        "buttonText1": "DTDL sürüm 3'e yükseltme"
+        "buttonText": "Sürüm 3'e yükseltme"
       }
     }
   },

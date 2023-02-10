@@ -1402,7 +1402,7 @@
         "confirmationTitle": "DTDLバージョンをアップグレードしますか?",
         "confirmationMessage": "このモデルを DTDL バージョン 3 にアップグレードしてもよろしいですか?すべての構成が保持されます。",
         "confirmationButtonText": "アップグレード",
-        "buttonText1": "DTDL バージョン 3 へのアップグレード"
+        "buttonText": "バージョン 3 へのアップグレード"
       }
     }
   },

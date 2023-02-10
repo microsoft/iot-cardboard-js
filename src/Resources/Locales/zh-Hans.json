@@ -1402,7 +1402,7 @@
         "confirmationTitle": "升级DTDL版本？",
         "confirmationMessage": "是否确实要将此模型升级到 DTDL 版本 3？您的所有配置都将保留。",
         "confirmationButtonText": "升级",
-        "buttonText1": "升级到 DTDL 版本 3"
+        "buttonText": "升级到版本 3"
       }
     }
   },

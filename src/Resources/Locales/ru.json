@@ -1402,7 +1402,7 @@
         "confirmationTitle": "Обновить версию DTDL?",
         "confirmationMessage": "Вы уверены, что хотите обновить эту модель до DTDL версии 3? Все ваши конфигурации будут сохранены.",
         "confirmationButtonText": "Модернизировать",
-        "buttonText1": "Обновление до DTDL версии 3"
+        "buttonText": "Обновление до версии 3"
       }
     }
   },
