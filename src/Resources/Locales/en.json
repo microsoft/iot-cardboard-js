@@ -956,8 +956,7 @@
                 "badgeCalloutText": "This model uses DTDL version 3 which is in preview"
             },
             "Version3UpgradeButton": {
-                "buttonText": "Upgrade",
-                "buttonTitle": "Upgrade model to DTDL version 3",
+                "buttonText1": "Upgrade to DTDL version 3",
                 "confirmationTitle": "Upgrade DTDL version?",
                 "confirmationMessage": "Are you sure you want to upgrade this model to DTDL version 3? All of your configurations will be preserved.",
                 "confirmationButtonText": "Upgrade"

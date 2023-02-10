@@ -22,7 +22,6 @@ const LOC_KEYS = {
     dialogTitle: 'OAT.PropertyEditor.Version3UpgradeButton.confirmationTitle',
     dialogButtonText:
         'OAT.PropertyEditor.Version3UpgradeButton.confirmationButtonText',
-    buttonTitle: 'OAT.PropertyEditor.Version3UpgradeButton.buttonTitle',
     buttonText: 'OAT.PropertyEditor.Version3UpgradeButton.buttonText'
 };
 
@@ -67,7 +66,6 @@ const Version3UpgradeButton: React.FC<IVersion3UpgradeButtonProps> = (
                     iconName: 'UpgradeAnalysis'
                 }}
                 text={t(LOC_KEYS.buttonText)}
-                title={t(LOC_KEYS.buttonTitle)}
                 onClick={onClickUpgrade}
             />
         </div>
