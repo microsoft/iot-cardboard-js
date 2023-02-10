@@ -1226,7 +1226,7 @@
     },
     "noSelectionMessage": "세부 정보를 볼 모델 또는 관계 선택",
     "propertiesNotSupported": "선택한 항목이 속성을 지원하지 않습니다.",
-    "contextVersion": "컨텍스트 버전"
+    "contextVersion1": "DTDL 버전"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "오류 메시지",
@@ -1398,7 +1398,7 @@
         "badgeText": "미리 보기",
         "badgeCalloutText": "이 모델은 미리 보기로 제공되는 DTDL 버전 3을 사용합니다."
       },
-      "Version3UpgradeButton1": {
+      "Version3UpgradeButton": {
         "buttonText": "업그레이드",
         "buttonTitle": "모델을 DTDL 버전 3으로 업그레이드",
         "confirmationTitle": "DTDL 버전을 업그레이드하시겠습니까?",

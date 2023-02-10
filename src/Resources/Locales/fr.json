@@ -1226,7 +1226,7 @@
     },
     "noSelectionMessage": "Sélectionnez un modèle ou une relation pour afficher les détails",
     "propertiesNotSupported": "L’élément sélectionné ne prend pas en charge les propriétés",
-    "contextVersion": "Version contextuelle"
+    "contextVersion1": "Version DTDL"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Message d'erreur",
@@ -1398,7 +1398,7 @@
         "badgeText": "Aperçu",
         "badgeCalloutText": "Ce modèle utilise DTDL version 3 qui est en préversion"
       },
-      "Version3UpgradeButton1": {
+      "Version3UpgradeButton": {
         "buttonText": "Mise à niveau",
         "buttonTitle": "Mise à niveau du modèle vers DTDL version 3",
         "confirmationTitle": "Mettre à niveau la version DTDL ?",

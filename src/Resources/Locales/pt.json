@@ -1226,7 +1226,7 @@
     },
     "noSelectionMessage": "Selecione um modelo ou relação para exibir detalhes",
     "propertiesNotSupported": "O item selecionado não oferece suporte a propriedades",
-    "contextVersion": "Versão de contexto"
+    "contextVersion1": "Versão DTDL"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Mensagem de erro",
@@ -1398,7 +1398,7 @@
         "badgeText": "Visualizar",
         "badgeCalloutText": "Este modelo usa DTDL versão 3 que está em pré-visualização"
       },
-      "Version3UpgradeButton1": {
+      "Version3UpgradeButton": {
         "buttonText": "Melhoramento",
         "buttonTitle": "Atualizar o modelo para DTDL versão 3",
         "confirmationTitle": "Atualizar a versão DTDL?",

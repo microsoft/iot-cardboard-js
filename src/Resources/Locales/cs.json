@@ -1106,7 +1106,7 @@
     },
     "noSelectionMessage": "Výběr modelu nebo vztahu pro zobrazení podrobností",
     "propertiesNotSupported": "Vybraná položka nepodporuje vlastnosti",
-    "contextVersion": "Kontextová verze"
+    "contextVersion1": "Verze DTDL"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Zpráva o chybě",
@@ -1398,7 +1398,7 @@
         "badgeText": "Náhled",
         "badgeCalloutText": "Tento model používá DTDL verze 3, která je ve verzi Preview"
       },
-      "Version3UpgradeButton1": {
+      "Version3UpgradeButton": {
         "buttonText": "Upgrade",
         "buttonTitle": "Upgrade modelu na DTDL verze 3",
         "confirmationTitle": "Upgradovat verzi DTDL?",

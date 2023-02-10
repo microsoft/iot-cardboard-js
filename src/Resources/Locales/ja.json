@@ -1226,7 +1226,7 @@
     },
     "noSelectionMessage": "詳細を表示するモデルまたはリレーションシップを選択する",
     "propertiesNotSupported": "選択した項目はプロパティをサポートしていません",
-    "contextVersion": "コンテキストバージョン"
+    "contextVersion1": "DTDL バージョン"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "エラーメッセージ",
@@ -1398,7 +1398,7 @@
         "badgeText": "プレビュー",
         "badgeCalloutText": "このモデルは、プレビュー段階の DTDL バージョン 3 を使用します。"
       },
-      "Version3UpgradeButton1": {
+      "Version3UpgradeButton": {
         "buttonText": "アップグレード",
         "buttonTitle": "モデルを DTDL バージョン 3 にアップグレードする",
         "confirmationTitle": "DTDLバージョンをアップグレードしますか?",
