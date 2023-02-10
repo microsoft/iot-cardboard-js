@@ -1398,7 +1398,7 @@
         "badgeText": "Náhled",
         "badgeCalloutText": "Tento model používá DTDL verze 3, která je ve verzi Preview"
       },
-      "Version3UpgradeButton1": {
+      "Version3UpgradeButton": {
         "buttonText": "Upgrade na verzi 3",
         "confirmationTitle": "Upgradovat verzi DTDL?",
         "confirmationMessage": "Opravdu chcete upgradovat tento model na DTDL verzi 3? Všechny existující konfigurace budou zachovány.",

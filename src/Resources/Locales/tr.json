@@ -1398,7 +1398,7 @@
         "badgeText": "Önizleme",
         "badgeCalloutText": "Bu model, önizleme aşamasında olan DTDL sürüm 3'ü kullanır"
       },
-      "Version3UpgradeButton1": {
+      "Version3UpgradeButton": {
         "buttonText": "Sürüm 3'e yükseltme",
         "confirmationTitle": "DTDL sürümünü yükseltmek?",
         "confirmationMessage": "Bu modeli DTDL sürüm 3'e yükseltmek istediğinizden emin misiniz? Mevcut tüm yapılandırmalar korunur.",
