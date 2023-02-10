@@ -129,6 +129,7 @@ const PropertyListItemChildHost: React.FC<IPropertyListItemChildHostProps> = (
                     indexKey={`${indexKey}.0`}
                     item={propertyItem.schema}
                     level={level}
+                    parentModelContext={parentModelContext}
                 />
             ) : hasObjectSchemaType(propertyItem) ? (
                 <List

@@ -11,7 +11,7 @@ export interface IPropertyListItemObjectChildProps
     isFirstItem: boolean;
     /** is the last item in list */
     isLastItem: boolean;
-    /** context from the parent model */
+    /** the DTDL context of the model or source model (if relationship) */
     parentModelContext: DtdlContext;
     /**
      * Call to provide customized styling that will layer on top of the variant rules.
