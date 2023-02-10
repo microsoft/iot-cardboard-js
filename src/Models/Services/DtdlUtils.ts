@@ -46,7 +46,14 @@ export const getDtdlVersion = (model: DtdlInterface): '2' | '3' => {
     if (!model) {
         return '2';
     }
-    if (contextHasVersion3(model['@context'])) {
+    return getDtdlVersionFromContext(model['@context']);
+};
+/** returns the DTDL version number of a model (either 2 or 3) */
+export const getDtdlVersionFromContext = (context: DtdlContext): '2' | '3' => {
+    if (!context) {
+        return '2';
+    }
+    if (contextHasVersion3(context)) {
         return '3';
     } else {
         return '2';
@@ -67,6 +74,12 @@ export const modelHasVersion2Context = (model: DtdlInterface): boolean => {
 export const contextHasVersion3 = (context: DtdlContext): boolean => {
     const contextInternal = ensureIsArray(context);
     return contextInternal.includes(DTDL_CONTEXT_VERSION_3);
+};
+
+/** is the model DTDL version 2 */
+export const contextHasVersion2 = (context: DtdlContext): boolean => {
+    const contextInternal = ensureIsArray(context);
+    return contextInternal.includes(DTDL_CONTEXT_VERSION_2);
 };
 
 export function getModelOrParentContext(

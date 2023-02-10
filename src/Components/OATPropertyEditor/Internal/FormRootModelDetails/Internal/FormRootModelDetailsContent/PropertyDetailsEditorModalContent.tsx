@@ -34,11 +34,12 @@ import { useOatPageContext } from '../../../../../../Models/Context/OatPageConte
 import { useExtendedTheme } from '../../../../../../Models/Hooks/useExtendedTheme';
 import { getStyles } from './PropertyDetailsEditorModalContent.styles';
 import {
-    getDtdlVersion,
+    contextHasVersion2,
+    getDtdlVersionFromContext,
+    getModelOrParentContext,
     isDTDLModel,
     isDTDLReference,
-    isDTDLRelationshipReference,
-    modelHasVersion2Context
+    isDTDLRelationshipReference
 } from '../../../../../../Models/Services/DtdlUtils';
 import { OAT_RELATIONSHIP_HANDLE_NAME } from '../../../../../../Models/Constants';
 import TooltipCallout from '../../../../../TooltipCallout/TooltipCallout';
@@ -87,6 +88,18 @@ const PropertyDetailsEditorModalContent: React.FC<IModalFormRootModelContentProp
     const isDescriptionMultiLanguage =
         selectedItem.description &&
         typeof selectedItem.description === 'object';
+
+    const modelContext = useMemo(() => {
+        return getModelOrParentContext(
+            selectedItem,
+            oatPageState.currentOntologyModels,
+            oatPageState.selection
+        );
+    }, [
+        oatPageState.currentOntologyModels,
+        oatPageState.selection,
+        selectedItem
+    ]);
 
     const [
         isAMultiLanguageDisplayNameEmpty,
@@ -543,8 +556,8 @@ const PropertyDetailsEditorModalContent: React.FC<IModalFormRootModelContentProp
                         horizontal
                         tokens={{ childrenGap: 8 }}
                     >
-                        <Text>{getDtdlVersion(selectedItem)}</Text>
-                        {modelHasVersion2Context(selectedItem) && (
+                        <Text>{getDtdlVersionFromContext(modelContext)}</Text>
+                        {contextHasVersion2(modelContext) && (
                             <Version3UpgradeButton
                                 selectedModel={selectedItem}
                             />
@@ -561,16 +574,18 @@ const PropertyDetailsEditorModalContent: React.FC<IModalFormRootModelContentProp
                             <Label id={'minMultiplicityLabel'}>
                                 {t('OATPropertyEditor.minMultiplicityLabel')}
                             </Label>
-                            <TooltipCallout
-                                content={{
-                                    calloutContent: t(
-                                        'OATPropertyEditor.minMultiplicityMessage'
-                                    ),
-                                    buttonAriaLabel: t(
-                                        'OATPropertyEditor.minMultiplicityMessage'
-                                    )
-                                }}
-                            />
+                            {contextHasVersion2(modelContext) && (
+                                <TooltipCallout
+                                    content={{
+                                        calloutContent: t(
+                                            'OATPropertyEditor.minMultiplicityMessage'
+                                        ),
+                                        buttonAriaLabel: t(
+                                            'OATPropertyEditor.minMultiplicityMessage'
+                                        )
+                                    }}
+                                />
+                            )}
                         </div>
                         <div className={classNames.splitInputColumn}>
                             <SpinButton
@@ -578,7 +593,7 @@ const PropertyDetailsEditorModalContent: React.FC<IModalFormRootModelContentProp
                                 decrementButtonAriaLabel={t('decreaseBy1')}
                                 incrementButtonAriaLabel={t('increaseBy1')}
                                 min={0}
-                                disabled // this is always 0 in V2 so just lock it for now
+                                disabled={contextHasVersion2(modelContext)} // this is always 0 in V2
                                 onValidate={(value) =>
                                     onValidateNumber(
                                         isDTDLRelationshipReference(
@@ -594,7 +609,7 @@ const PropertyDetailsEditorModalContent: React.FC<IModalFormRootModelContentProp
                                         value
                                     )
                                 }
-                                onChange={(_ev, _value) => {
+                                onChange={(_ev, value) => {
                                     onUpdateItem(
                                         produce((draft) => {
                                             if (
@@ -602,9 +617,9 @@ const PropertyDetailsEditorModalContent: React.FC<IModalFormRootModelContentProp
                                                     draft
                                                 )
                                             ) {
-                                                // draft.minMultiplicity = Number(
-                                                //     value
-                                                // );
+                                                draft.minMultiplicity = Number(
+                                                    value
+                                                );
                                             }
                                         })
                                     );
@@ -618,7 +633,7 @@ const PropertyDetailsEditorModalContent: React.FC<IModalFormRootModelContentProp
                             />
                             <ActionButton
                                 text={t('clear')}
-                                disabled // this is always 0 in V2 so just lock it for now
+                                disabled={contextHasVersion2(modelContext)} // this is always 0 in V2
                                 onClick={() => {
                                     onUpdateItem(
                                         produce((draft) => {
@@ -627,7 +642,7 @@ const PropertyDetailsEditorModalContent: React.FC<IModalFormRootModelContentProp
                                                     draft
                                                 )
                                             ) {
-                                                // delete draft.minMultiplicity;
+                                                delete draft.minMultiplicity;
                                                 return draft;
                                             }
                                         })
