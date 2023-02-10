@@ -1390,10 +1390,10 @@
         "badgeText": "Prapremiera",
         "badgeCalloutText": "W tym modelu jest używana wersja DTDLv3, która jest w wersji zapoznawczej"
       },
-      "Version3UpgradeButton": {
-        "title": "Uaktualnij model do wersji V3",
+      "Version3UpgradeButton2": {
+        "title": "Uaktualnij model do DTDLv3",
         "confirmationTitle": "Model uaktualnienia?",
-        "confirmationMessage": "Czy na pewno chcesz uaktualnić ten model do wersji 3?",
+        "confirmationMessage": "Czy na pewno chcesz uaktualnić ten model do wersji DTDL 3? Wszystkie konfiguracje zostaną zachowane.",
         "confirmationButtonText": "Upgrade"
       }
     },

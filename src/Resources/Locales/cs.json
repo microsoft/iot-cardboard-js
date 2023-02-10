@@ -1390,10 +1390,10 @@
         "badgeText": "Náhled",
         "badgeCalloutText": "Tento model používá DTDLv3, který je ve verzi Preview"
       },
-      "Version3UpgradeButton": {
-        "title": "Upgradujte model na verzi V3",
+      "Version3UpgradeButton2": {
+        "title": "Aktualizace modelu na DTDLv3",
         "confirmationTitle": "Upgradovat model?",
-        "confirmationMessage": "Opravdu chcete upgradovat tento model na verzi 3?",
+        "confirmationMessage": "Opravdu chcete upgradovat tento model na DTDL verzi 3? Všechny vaše konfigurace budou zachovány.",
         "confirmationButtonText": "Upgrade"
       }
     },
