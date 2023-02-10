@@ -1388,12 +1388,21 @@
     "PropertyEditor": {
       "Version3PreviewLabel": {
         "badgeText": "Aperçu",
+<<<<<<< HEAD
         "badgeCalloutText": "Ce modèle utilise DTDL version 3 qui est en préversion"
       },
       "Version3UpgradeButton": {
         "buttonText": "Mise à niveau vers la version 3",
         "confirmationTitle": "Mettre à niveau la version DTDL ?",
         "confirmationMessage": "Voulez-vous vraiment mettre à niveau ce modèle vers DTDL version 3 ? Toutes les configurations existantes seront conservées.",
+=======
+        "badgeCalloutText": "Ce modèle utilise DTDLv3 qui est en préversion"
+      },
+      "Version3UpgradeButton": {
+        "title": "Mise à niveau du modèle vers DTDLv3",
+        "confirmationTitle": "Modèle de mise à niveau ?",
+        "confirmationMessage": "Voulez-vous vraiment mettre à niveau ce modèle vers DTDL version 3 ? Toutes vos configurations seront conservées.",
+>>>>>>> msnyder-upgrade
         "confirmationButtonText": "Mise à niveau"
       }
     },

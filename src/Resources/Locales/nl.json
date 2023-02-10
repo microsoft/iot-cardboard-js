@@ -1388,12 +1388,21 @@
     "PropertyEditor": {
       "Version3PreviewLabel": {
         "badgeText": "Voorbeeld",
+<<<<<<< HEAD
         "badgeCalloutText": "Dit model maakt gebruik van DTDL versie 3 die in preview is"
       },
       "Version3UpgradeButton": {
         "buttonText": "Upgrade naar versie 3",
         "confirmationTitle": "DTDL-versie upgraden?",
         "confirmationMessage": "Weet u zeker dat u dit model wilt upgraden naar DTDL versie 3? Alle bestaande configuraties blijven behouden.",
+=======
+        "badgeCalloutText": "Dit model maakt gebruik van DTDLv3 dat in preview is"
+      },
+      "Version3UpgradeButton": {
+        "title": "Upgrade model naar DTDLv3",
+        "confirmationTitle": "Upgrademodel?",
+        "confirmationMessage": "Weet u zeker dat u dit model wilt upgraden naar DTDL versie 3? Al uw configuraties blijven behouden.",
+>>>>>>> msnyder-upgrade
         "confirmationButtonText": "Opwaarderen"
       }
     },

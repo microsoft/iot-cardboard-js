@@ -1388,12 +1388,21 @@
     "PropertyEditor": {
       "Version3PreviewLabel": {
         "badgeText": "Előnézet",
+<<<<<<< HEAD
         "badgeCalloutText": "Ez a modell a DTDL 3-as verzióját használja, amely előzetes verzióban érhető el"
       },
       "Version3UpgradeButton": {
         "buttonText": "Frissítés a 3-as verzióra",
         "confirmationTitle": "Frissítse a DTDL verziót?",
         "confirmationMessage": "Biztosan frissíteni szeretné ezt a modellt a DTDL 3-as verziójára? Az összes meglévő konfiguráció megmarad.",
+=======
+        "badgeCalloutText": "Ez a modell előzetes verzióban elérhető DTDLv3-at használ"
+      },
+      "Version3UpgradeButton": {
+        "title": "Modell frissítése DTDLv3-ra",
+        "confirmationTitle": "Frissítse a modellt?",
+        "confirmationMessage": "Biztosan frissíteni szeretné ezt a modellt a DTDL 3-as verziójára? Az összes konfiguráció megmarad.",
+>>>>>>> msnyder-upgrade
         "confirmationButtonText": "Feljavít"
       }
     },
