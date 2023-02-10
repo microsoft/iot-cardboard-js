@@ -8,7 +8,7 @@ import { OatPageContextProvider } from '../../../../Models/Context/OatPageContex
 const wrapperStyle = { width: '100%', height: '600px', padding: 8 };
 
 export default {
-    title: 'Components - OAT/OATPropertyEditor//Version3UpgradeButton',
+    title: 'Components - OAT/OATPropertyEditor/Version3UpgradeButton',
     component: Version3UpgradeButton,
     decorators: [
         getDefaultStoryDecorator<IVersion3UpgradeButtonProps>(wrapperStyle)
