@@ -6,11 +6,12 @@ import {
     Dropdown,
     IChoiceGroupOption,
     IconButton,
-    IDropdownOption,
     Label,
     SpinButton,
     styled,
-    TextField
+    TextField,
+    Text,
+    Stack
 } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import {
@@ -37,22 +38,16 @@ import {
     isDTDLModel,
     isDTDLReference,
     isDTDLRelationshipReference,
-    updateDtdlVersion
+    modelHasVersion2Context
 } from '../../../../../../Models/Services/DtdlUtils';
-import {
-    DtdlInterface,
-    OAT_RELATIONSHIP_HANDLE_NAME
-} from '../../../../../../Models/Constants';
+import { OAT_RELATIONSHIP_HANDLE_NAME } from '../../../../../../Models/Constants';
 import TooltipCallout from '../../../../../TooltipCallout/TooltipCallout';
 import produce from 'immer';
 import {
     getDebugLogger,
     isDefined
 } from '../../../../../../Models/Services/Utils';
-import {
-    DTDL_CONTEXT_VERSION_2,
-    DTDL_CONTEXT_VERSION_3
-} from '../../../../../../Models/Classes/DTDL';
+import Version3UpgradeButton from '../../../Version3UpgradeButton/Version3UpgradeButton';
 
 const SINGLE_LANGUAGE_KEY = 'singleLanguage';
 const MULTI_LANGUAGE_KEY = 'multiLanguage';
@@ -134,22 +129,6 @@ const PropertyDetailsEditorModalContent: React.FC<IModalFormRootModelContentProp
         },
         []
     );
-    const onChangeVersion = useCallback(
-        (
-            _event: React.FormEvent<HTMLDivElement>,
-            option?: IDropdownOption<string>
-        ) => {
-            onUpdateItem(
-                produce((draft) => {
-                    return updateDtdlVersion(
-                        draft as DtdlInterface,
-                        option.data
-                    );
-                })
-            );
-        },
-        [onUpdateItem]
-    );
 
     // data
     const displayNameMultiLangOptions: IChoiceGroupOption[] = [
@@ -175,21 +154,6 @@ const PropertyDetailsEditorModalContent: React.FC<IModalFormRootModelContentProp
             text: t('OATPropertyEditor.multiLanguage')
         }
     ];
-    const versionOptions = useMemo(
-        () => [
-            {
-                key: '2',
-                text: '2',
-                data: DTDL_CONTEXT_VERSION_2
-            },
-            {
-                key: '3',
-                text: '3',
-                data: DTDL_CONTEXT_VERSION_3
-            }
-        ],
-        []
-    );
 
     // side effects
     // Update multiLanguageSelectionsDisplayNames on every new language change
@@ -574,11 +538,18 @@ const PropertyDetailsEditorModalContent: React.FC<IModalFormRootModelContentProp
                     <Label className={classNames.label}>
                         {t('OATPropertyEditor.contextVersion')}
                     </Label>
-                    <Dropdown
-                        options={versionOptions}
-                        selectedKey={getDtdlVersion(selectedItem)}
-                        onChange={onChangeVersion}
-                    />
+                    <Stack
+                        className={classNames.contextVersionValue}
+                        horizontal
+                        tokens={{ childrenGap: 8 }}
+                    >
+                        <Text>{getDtdlVersion(selectedItem)}</Text>
+                        {modelHasVersion2Context(selectedItem) && (
+                            <Version3UpgradeButton
+                                selectedModel={selectedItem}
+                            />
+                        )}
+                    </Stack>
                 </div>
             )}
 

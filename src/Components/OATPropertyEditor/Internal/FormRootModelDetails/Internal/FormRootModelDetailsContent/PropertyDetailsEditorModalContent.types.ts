@@ -32,6 +32,7 @@ export interface IPropertyDetailsEditorModalContentStyles {
     label: IStyle;
     labelWithTooltip: IStyle;
     splitInputColumn: IStyle;
+    contextVersionValue: IStyle;
 
     /**
      * SubComponent styles.

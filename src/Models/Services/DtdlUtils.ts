@@ -58,6 +58,11 @@ export const modelHasVersion3Context = (model: DtdlInterface): boolean => {
     return getDtdlVersion(model) === '3';
 };
 
+/** is the model DTDL version 2 */
+export const modelHasVersion2Context = (model: DtdlInterface): boolean => {
+    return getDtdlVersion(model) === '2';
+};
+
 /** is the model DTDL version 3 */
 export const contextHasVersion3 = (context: DtdlContext): boolean => {
     const contextInternal = ensureIsArray(context);
