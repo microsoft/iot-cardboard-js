@@ -1398,9 +1398,10 @@
         "badgeText": "Előnézet",
         "badgeCalloutText": "Ez a modell a DTDL 3-as verzióját használja, amely előzetes verzióban érhető el"
       },
-      "Version3UpgradeButton": {
-        "title": "Modell frissítése a DTDL 3-as verziójára",
-        "confirmationTitle": "Frissítse a modellt?",
+      "Version3UpgradeButton1": {
+        "buttonText": "Feljavít",
+        "buttonTitle": "Modell frissítése a DTDL 3-as verziójára",
+        "confirmationTitle": "Frissítse a DTDL verziót?",
         "confirmationMessage": "Biztosan frissíteni szeretné ezt a modellt a DTDL 3-as verziójára? Az összes konfiguráció megmarad.",
         "confirmationButtonText": "Feljavít"
       }

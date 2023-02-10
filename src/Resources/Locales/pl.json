@@ -1398,9 +1398,10 @@
         "badgeText": "Prapremiera",
         "badgeCalloutText": "Ten model korzysta z protokołu DTDL w wersji 3, który jest dostępny w wersji zapoznawczej"
       },
-      "Version3UpgradeButton": {
-        "title": "Uaktualnij model do wersji DTDL 3",
-        "confirmationTitle": "Model uaktualnienia?",
+      "Version3UpgradeButton1": {
+        "buttonText": "Upgrade",
+        "buttonTitle": "Uaktualnij model do wersji DTDL 3",
+        "confirmationTitle": "Uaktualnić wersję DTDL?",
         "confirmationMessage": "Czy na pewno chcesz uaktualnić ten model do wersji DTDL 3? Wszystkie konfiguracje zostaną zachowane.",
         "confirmationButtonText": "Upgrade"
       }

@@ -1398,9 +1398,10 @@
         "badgeText": "Aperçu",
         "badgeCalloutText": "Ce modèle utilise DTDL version 3 qui est en préversion"
       },
-      "Version3UpgradeButton": {
-        "title": "Mise à niveau du modèle vers DTDL version 3",
-        "confirmationTitle": "Modèle de mise à niveau ?",
+      "Version3UpgradeButton1": {
+        "buttonText": "Mise à niveau",
+        "buttonTitle": "Mise à niveau du modèle vers DTDL version 3",
+        "confirmationTitle": "Mettre à niveau la version DTDL ?",
         "confirmationMessage": "Voulez-vous vraiment mettre à niveau ce modèle vers DTDL version 3 ? Toutes vos configurations seront conservées.",
         "confirmationButtonText": "Mise à niveau"
       }
