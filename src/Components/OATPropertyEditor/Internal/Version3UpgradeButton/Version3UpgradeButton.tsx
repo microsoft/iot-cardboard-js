@@ -5,7 +5,7 @@ import {
     IVersion3UpgradeButtonStyles
 } from './Version3UpgradeButton.types';
 import { getStyles } from './Version3UpgradeButton.styles';
-import { classNamesFunction, IconButton, styled } from '@fluentui/react';
+import { ActionButton, classNamesFunction, styled } from '@fluentui/react';
 import { useExtendedTheme } from '../../../../Models/Hooks/useExtendedTheme';
 import { useTranslation } from 'react-i18next';
 import { useOatPageContext } from '../../../../Models/Context/OatPageContext/OatPageContext';
@@ -24,7 +24,8 @@ const LOC_KEYS = {
     dialogTitle: 'OAT.PropertyEditor.Version3UpgradeButton.confirmationTitle',
     dialogButtonText:
         'OAT.PropertyEditor.Version3UpgradeButton.confirmationButtonText',
-    buttonTitle: 'OAT.PropertyEditor.Version3UpgradeButton.title'
+    buttonTitle: 'OAT.PropertyEditor.Version3UpgradeButton.buttonTitle',
+    buttonText: 'OAT.PropertyEditor.Version3UpgradeButton.buttonText'
 };
 
 const Version3UpgradeButton: React.FC<IVersion3UpgradeButtonProps> = (
@@ -74,10 +75,11 @@ const Version3UpgradeButton: React.FC<IVersion3UpgradeButtonProps> = (
 
     return (
         <div className={classNames.root}>
-            <IconButton
+            <ActionButton
                 iconProps={{
                     iconName: 'UpgradeAnalysis'
                 }}
+                text={t(LOC_KEYS.buttonText)}
                 title={t(LOC_KEYS.buttonTitle)}
                 onClick={onClickUpgrade}
             />

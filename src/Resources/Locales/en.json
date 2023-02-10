@@ -1063,7 +1063,7 @@
         "comment": "Comment",
         "commentPlaceholder": "Comment for model authors",
         "complex": "Complex",
-        "contextVersion1": "DTDL version",
+        "contextVersion": "DTDL version",
         "copy": "copy",
         "data": "data",
         "date": "date",
