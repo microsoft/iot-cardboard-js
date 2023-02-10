@@ -23,7 +23,7 @@ import { useExtendedTheme } from '../../Models/Hooks/useExtendedTheme';
 import { getStyles } from './Editor.styles';
 import Version3PreviewLabel from './Internal/Version3PreviewLabel/Version3PreviewLabel';
 import {
-    isDTDLModel,
+    isDTDLMo del,
     modelHasVersion3Context
 } from '../../Models/Services/DtdlUtils';
 
