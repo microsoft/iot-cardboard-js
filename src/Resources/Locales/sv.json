@@ -1389,6 +1389,12 @@
       "Version3PreviewLabel": {
         "badgeText": "Förhandsvisning",
         "badgeCalloutText": "Den här modellen använder DTDLv3 som är i förhandsversion"
+      },
+      "Version3UpgradeButton": {
+        "title": "Uppgradera modell till V3",
+        "confirmationTitle": "Uppgradera modell?",
+        "confirmationMessage": "Är du säker på att du vill uppgradera den här modellen till version 3?",
+        "confirmationButtonText": "Uppgradera"
       }
     },
     "PropertyTypes": {

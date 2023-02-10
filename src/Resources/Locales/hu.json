@@ -1389,6 +1389,12 @@
       "Version3PreviewLabel": {
         "badgeText": "Előnézet",
         "badgeCalloutText": "Ez a modell előzetes verzióban elérhető DTDLv3-at használ"
+      },
+      "Version3UpgradeButton": {
+        "title": "Modell frissítése V3-ra",
+        "confirmationTitle": "Frissítse a modellt?",
+        "confirmationMessage": "Biztosan frissíti ezt a modellt a 3-as verzióra?",
+        "confirmationButtonText": "Feljavít"
       }
     },
     "PropertyTypes": {

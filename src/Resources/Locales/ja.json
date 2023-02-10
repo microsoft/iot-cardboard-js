@@ -1389,6 +1389,12 @@
       "Version3PreviewLabel": {
         "badgeText": "プレビュー",
         "badgeCalloutText": "このモデルでは、プレビュー段階の DTDLv3 を使用します。"
+      },
+      "Version3UpgradeButton": {
+        "title": "モデルをV3にアップグレード",
+        "confirmationTitle": "アップグレードモデル?",
+        "confirmationMessage": "このモデルをバージョン 3 にアップグレードしてもよろしいですか?",
+        "confirmationButtonText": "アップグレード"
       }
     },
     "PropertyTypes": {

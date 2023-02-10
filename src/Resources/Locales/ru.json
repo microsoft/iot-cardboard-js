@@ -1389,6 +1389,12 @@
       "Version3PreviewLabel": {
         "badgeText": "Предварительный просмотр",
         "badgeCalloutText": "Эта модель использует DTDLv3, который находится в предварительной версии"
+      },
+      "Version3UpgradeButton": {
+        "title": "Обновление модели до версии V3",
+        "confirmationTitle": "Обновить модель?",
+        "confirmationMessage": "Вы уверены, что хотите обновить эту модель до версии 3?",
+        "confirmationButtonText": "Модернизировать"
       }
     },
     "PropertyTypes": {

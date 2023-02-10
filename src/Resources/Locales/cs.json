@@ -1389,6 +1389,12 @@
       "Version3PreviewLabel": {
         "badgeText": "Náhled",
         "badgeCalloutText": "Tento model používá DTDLv3, který je ve verzi Preview"
+      },
+      "Version3UpgradeButton": {
+        "title": "Upgradujte model na verzi V3",
+        "confirmationTitle": "Upgradovat model?",
+        "confirmationMessage": "Opravdu chcete upgradovat tento model na verzi 3?",
+        "confirmationButtonText": "Upgrade"
       }
     },
     "PropertyTypes": {

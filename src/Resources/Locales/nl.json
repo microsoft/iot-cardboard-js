@@ -1389,6 +1389,12 @@
       "Version3PreviewLabel": {
         "badgeText": "Voorbeeld",
         "badgeCalloutText": "Dit model maakt gebruik van DTDLv3 dat in preview is"
+      },
+      "Version3UpgradeButton": {
+        "title": "Model upgraden naar V3",
+        "confirmationTitle": "Upgrademodel?",
+        "confirmationMessage": "Weet u zeker dat u dit model wilt upgraden naar versie 3?",
+        "confirmationButtonText": "Opwaarderen"
       }
     },
     "PropertyTypes": {

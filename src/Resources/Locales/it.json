@@ -1389,6 +1389,12 @@
       "Version3PreviewLabel": {
         "badgeText": "Anteprima",
         "badgeCalloutText": "Questo modello utilizza DTDLv3 che è in anteprima"
+      },
+      "Version3UpgradeButton": {
+        "title": "Aggiorna il modello alla V3",
+        "confirmationTitle": "Modello di aggiornamento?",
+        "confirmationMessage": "Sei sicuro di voler aggiornare questo modello alla versione 3?",
+        "confirmationButtonText": "Aggiornamento"
       }
     },
     "PropertyTypes": {
