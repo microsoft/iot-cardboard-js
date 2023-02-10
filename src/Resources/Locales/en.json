@@ -955,7 +955,7 @@
                 "badgeText": "Preview",
                 "badgeCalloutText": "This model uses DTDL version 3 which is in preview"
             },
-            "Version3UpgradeButton1": {
+            "Version3UpgradeButton": {
                 "buttonText": "Upgrade",
                 "buttonTitle": "Upgrade model to DTDL version 3",
                 "confirmationTitle": "Upgrade DTDL version?",
@@ -1063,7 +1063,7 @@
         "comment": "Comment",
         "commentPlaceholder": "Comment for model authors",
         "complex": "Complex",
-        "contextVersion": "Context version",
+        "contextVersion1": "DTDL version",
         "copy": "copy",
         "data": "data",
         "date": "date",
