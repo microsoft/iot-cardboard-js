@@ -1,9 +1,11 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useReducer, useState } from 'react';
 import produce from 'immer';
 import {
+    defaultPowerBIWidgetBuilderState,
     IPowerBIWidgetBuilderProps,
     IPowerBIWidgetBuilderStyleProps,
-    IPowerBIWidgetBuilderStyles
+    IPowerBIWidgetBuilderStyles,
+    PowerBIWidgetBuilderActionType
 } from './PowerBIWidgetBuilder.types';
 import { getStyles } from './PowerBIWidgetBuilder.styles';
 import {
@@ -16,6 +18,7 @@ import {
 } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { getWidgetFormStyles } from '../../../ADT3DSceneBuilder/Internal/Behaviors/Widgets/WidgetForm/WidgetForm.styles';
+import { PowerBIWidgetBuilderReducer } from './PowerBIWidgetBuilder.state';
 
 const getClassNames = classNamesFunction<
     IPowerBIWidgetBuilderStyleProps,
@@ -37,11 +40,16 @@ const PowerBIWidgetBuilder: React.FC<IPowerBIWidgetBuilderProps> = ({
     const [reportUrl, setReportUrl] = useState(
         formData?.widgetConfiguration?.reportId || ''
     );
-    const [pageName, setPageName] = useState(
+    const [, setPageName] = useState(
         formData?.widgetConfiguration?.pageName || ''
     );
-    const [visualName, setVisualName] = useState(
+    const [, setVisualName] = useState(
         formData?.widgetConfiguration?.visualName || ''
+    );
+
+    const [state, dispatch] = useReducer(
+        PowerBIWidgetBuilderReducer,
+        defaultPowerBIWidgetBuilderState
     );
 
     // hooks
@@ -52,39 +60,51 @@ const PowerBIWidgetBuilder: React.FC<IPowerBIWidgetBuilderProps> = ({
         (_ev, type) => {
             setSelectedType(type.key);
         },
-        [formData.widgetConfiguration.type]
+        [formData?.widgetConfiguration?.type]
     );
     const onReportUrlChange = useCallback(
         (_ev, value) => {
+            dispatch({
+                type: PowerBIWidgetBuilderActionType.GET_PAGES_IN_REPORT,
+                payload: { embedUrl: value }
+            });
             setReportUrl(value);
         },
-        [formData.widgetConfiguration.reportId]
+        [formData?.widgetConfiguration?.reportId]
     );
     const onPageNameChange = useCallback(
         (_ev, value) => {
+            dispatch({
+                type: PowerBIWidgetBuilderActionType.GET_VISUALS_ON_PAGE,
+                payload: {
+                    embedUrl: reportUrl,
+                    pageName: value
+                }
+            });
             setPageName(value);
         },
-        [formData.widgetConfiguration.pageName]
+        [formData?.widgetConfiguration?.pageName]
     );
     const onVisualNameChange = useCallback(
         (_ev, value) => {
             setVisualName(value);
         },
-        [formData.widgetConfiguration.visualName]
+        [formData?.widgetConfiguration?.visualName]
     );
 
     // side effects
     useEffect(() => {
         let hasRequiredSubConfiguration = false;
         switch (formData?.widgetConfiguration?.type) {
-            case 'report':
-                hasRequiredSubConfiguration = !!formData?.widgetConfiguration
-                    ?.reportId;
-                break;
-            case 'dashboard':
-                hasRequiredSubConfiguration = !!formData?.widgetConfiguration
-                    ?.reportId;
-                break;
+            // Not yet supported
+            // case 'report':
+            //     hasRequiredSubConfiguration = !!formData?.widgetConfiguration
+            //         ?.reportId;
+            //     break;
+            // case 'dashboard':
+            //     hasRequiredSubConfiguration = !!formData?.widgetConfiguration
+            //         ?.reportId;
+            //     break;
             case 'tile':
                 hasRequiredSubConfiguration = !!(
                     formData?.widgetConfiguration?.reportId &&
@@ -101,11 +121,13 @@ const PowerBIWidgetBuilder: React.FC<IPowerBIWidgetBuilderProps> = ({
                 hasRequiredSubConfiguration = false;
                 break;
         }
-        setIsWidgetConfigValid(
-            formData?.widgetConfiguration?.label &&
-                formData?.widgetConfiguration.reportId &&
-                hasRequiredSubConfiguration
-        );
+        if (setIsWidgetConfigValid) {
+            setIsWidgetConfigValid(
+                formData?.widgetConfiguration?.label &&
+                    formData?.widgetConfiguration.reportId &&
+                    hasRequiredSubConfiguration
+            );
+        }
     }, [formData, setIsWidgetConfigValid]);
 
     // styles
@@ -124,7 +146,7 @@ const PowerBIWidgetBuilder: React.FC<IPowerBIWidgetBuilderProps> = ({
                 <TextField
                     label={t('label')}
                     placeholder={t('labelPlaceholder')}
-                    value={formData.widgetConfiguration.label}
+                    value={formData?.widgetConfiguration?.label}
                     onChange={(_ev, newVal) =>
                         updateWidgetData(
                             produce(formData, (draft) => {
@@ -160,6 +182,7 @@ const PowerBIWidgetBuilder: React.FC<IPowerBIWidgetBuilderProps> = ({
                     ]}
                     onChange={onTypeChange}
                     defaultSelectedKey={selectedType}
+                    useComboBoxAsMenuWidth={true}
                 />
                 {/** Report Url */}
                 <TextField
@@ -168,25 +191,32 @@ const PowerBIWidgetBuilder: React.FC<IPowerBIWidgetBuilderProps> = ({
                     value={reportUrl}
                     onChange={onReportUrlChange}
                     required={true}
+                    description={t('widgets.powerBI.reportUrl.description')}
                 />
                 {/** Page Name */}
-                <TextField
+                <ComboBox
+                    allowFreeform={true}
                     label={t('widgets.powerBI.pageName.label')}
                     placeholder={t('widgets.powerBI.pageName.placeholder')}
-                    value={pageName}
                     onChange={onPageNameChange}
+                    required={true}
+                    options={state.isPagesLoaded ? reportPages : []}
+                    disabled={!state.isPagesLoaded}
+                    useComboBoxAsMenuWidth={true}
                 />
                 {/** Visual Name */}
                 {(selectedType === 'tile' || selectedType === 'visual') && (
-                    <TextField
+                    <ComboBox
+                        allowFreeform={true}
                         label={t('widgets.powerBI.visualName.label')}
                         placeholder={t(
                             'widgets.powerBI.visualName.placeholder'
                         )}
-                        value={visualName}
                         onChange={onVisualNameChange}
-                        description={t('widgets.powerBI.visualName.suffix')}
                         required={true}
+                        options={state.isVisualsLoaded ? reportVisuals : []}
+                        disabled={!state.isVisualsLoaded}
+                        useComboBoxAsMenuWidth={true}
                     />
                 )}
                 {/** Data Filters */}
