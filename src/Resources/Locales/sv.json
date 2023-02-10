@@ -1388,12 +1388,21 @@
     "PropertyEditor": {
       "Version3PreviewLabel": {
         "badgeText": "Förhandsvisning",
+<<<<<<< HEAD
         "badgeCalloutText": "Denna modell använder DTDL version 3 som är i förhandsgranskning"
       },
       "Version3UpgradeButton": {
         "buttonText": "Uppgradera till version 3",
         "confirmationTitle": "Uppgradera DTDL-versionen?",
         "confirmationMessage": "Är du säker på att du vill uppgradera den här modellen till DTDL version 3? Alla befintliga konfigurationer bevaras.",
+=======
+        "badgeCalloutText": "Den här modellen använder DTDLv3 som är i förhandsversion"
+      },
+      "Version3UpgradeButton": {
+        "title": "Uppgradera modell till DTDLv3",
+        "confirmationTitle": "Uppgradera modell?",
+        "confirmationMessage": "Är du säker på att du vill uppgradera den här modellen till DTDL version 3? Alla dina konfigurationer bevaras.",
+>>>>>>> origin/main
         "confirmationButtonText": "Uppgradera"
       }
     },

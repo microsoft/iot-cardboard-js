@@ -1388,12 +1388,21 @@
     "PropertyEditor": {
       "Version3PreviewLabel": {
         "badgeText": "Предварительный просмотр",
+<<<<<<< HEAD
         "badgeCalloutText": "Эта модель использует DTDL версии 3, которая находится в предварительной версии"
       },
       "Version3UpgradeButton": {
         "buttonText": "Обновление до версии 3",
         "confirmationTitle": "Обновить версию DTDL?",
         "confirmationMessage": "Вы уверены, что хотите обновить эту модель до DTDL версии 3? Все существующие конфигурации будут сохранены.",
+=======
+        "badgeCalloutText": "Эта модель использует DTDLv3, который находится в предварительной версии"
+      },
+      "Version3UpgradeButton": {
+        "title": "Обновление модели до DTDLv3",
+        "confirmationTitle": "Обновить модель?",
+        "confirmationMessage": "Вы уверены, что хотите обновить эту модель до DTDL версии 3? Все ваши конфигурации будут сохранены.",
+>>>>>>> origin/main
         "confirmationButtonText": "Модернизировать"
       }
     },

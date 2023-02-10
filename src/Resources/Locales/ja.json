@@ -1388,12 +1388,21 @@
     "PropertyEditor": {
       "Version3PreviewLabel": {
         "badgeText": "プレビュー",
+<<<<<<< HEAD
         "badgeCalloutText": "このモデルは、プレビュー段階の DTDL バージョン 3 を使用します。"
       },
       "Version3UpgradeButton": {
         "buttonText": "バージョン 3 へのアップグレード",
         "confirmationTitle": "DTDLバージョンをアップグレードしますか?",
         "confirmationMessage": "このモデルを DTDL バージョン 3 にアップグレードしてもよろしいですか?既存の構成はすべて保持されます。",
+=======
+        "badgeCalloutText": "このモデルでは、プレビュー段階の DTDLv3 を使用します。"
+      },
+      "Version3UpgradeButton": {
+        "title": "モデルを DTDLv3 にアップグレードする",
+        "confirmationTitle": "アップグレードモデル?",
+        "confirmationMessage": "このモデルを DTDL バージョン 3 にアップグレードしてもよろしいですか?すべての構成が保持されます。",
+>>>>>>> origin/main
         "confirmationButtonText": "アップグレード"
       }
     },
