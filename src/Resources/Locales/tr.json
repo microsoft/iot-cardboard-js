@@ -1385,18 +1385,6 @@
       "noValidFilesTitle": "Model bulunamadı",
       "noValidFilesMessage": "İçe aktarılacak model dosyası bulunamadı. Seçilen dosyalarda geçerli JSON dosyaları olduğundan emin olun."
     },
-    "PropertyEditor": {
-      "Version3PreviewLabel": {
-        "badgeText": "Önizleme",
-        "badgeCalloutText": "Bu model, önizleme aşamasında olan DTDLv3'ü kullanır"
-      },
-      "Version3UpgradeButton": {
-        "title": "Modeli DTDLv3'e yükseltme",
-        "confirmationTitle": "Yükseltme modeli?",
-        "confirmationMessage": "Bu modeli DTDL sürüm 3'e yükseltmek istediğinizden emin misiniz? Tüm yapılandırmalarınız korunur.",
-        "confirmationButtonText": "Yükseltmek"
-      }
-    },
     "PropertyTypes": {
       "categories": {
         "complex": "Karmaşık",
@@ -1404,6 +1392,18 @@
         "geospatial": "Jeo-uzamsal"
       },
       "unsupportedPropertyType": "Bu özellik türü, ilişkili modelin geçerli bağlam sürümü için kullanılamaz"
+    },
+    "PropertyEditor1": {
+      "Version3PreviewLabel": {
+        "badgeText": "Önizleme",
+        "badgeCalloutText": "Bu model, önizleme aşamasında olan DTDL sürüm 3'ü kullanır"
+      },
+      "Version3UpgradeButton": {
+        "title": "Modeli DTDL sürüm 3'e yükseltme",
+        "confirmationTitle": "Yükseltme modeli?",
+        "confirmationMessage": "Bu modeli DTDL sürüm 3'e yükseltmek istediğinizden emin misiniz? Tüm yapılandırmalarınız korunur.",
+        "confirmationButtonText": "Yükseltmek"
+      }
     }
   },
   "dataHistoryErrorHandlingWrapper": {
@@ -1458,5 +1458,7 @@
         "download": "Tablo verilerini indirme"
       }
     }
-  }
+  },
+  "increaseByDecimal": "Değeri 0,1 artır",
+  "decreaseByDecimal": "Değeri 0,1 azalt"
 }

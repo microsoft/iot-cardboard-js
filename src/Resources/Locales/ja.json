@@ -1385,18 +1385,6 @@
       "noValidFilesTitle": "モデルが見つかりません",
       "noValidFilesMessage": "インポートするモデル ファイルが見つかりません。選択したファイルに有効なJSONファイルがあることを確認してください。"
     },
-    "PropertyEditor": {
-      "Version3PreviewLabel": {
-        "badgeText": "プレビュー",
-        "badgeCalloutText": "このモデルでは、プレビュー段階の DTDLv3 を使用します。"
-      },
-      "Version3UpgradeButton": {
-        "title": "モデルを DTDLv3 にアップグレードする",
-        "confirmationTitle": "アップグレードモデル?",
-        "confirmationMessage": "このモデルを DTDL バージョン 3 にアップグレードしてもよろしいですか?すべての構成が保持されます。",
-        "confirmationButtonText": "アップグレード"
-      }
-    },
     "PropertyTypes": {
       "categories": {
         "complex": "コンプレックス",
@@ -1404,6 +1392,18 @@
         "geospatial": "地理空間"
       },
       "unsupportedPropertyType": "このプロパティタイプは、関連付けられたモデルの現在のコンテキストバージョンでは使用できません。"
+    },
+    "PropertyEditor1": {
+      "Version3PreviewLabel": {
+        "badgeText": "プレビュー",
+        "badgeCalloutText": "このモデルは、プレビュー段階の DTDL バージョン 3 を使用します。"
+      },
+      "Version3UpgradeButton": {
+        "title": "モデルを DTDL バージョン 3 にアップグレードする",
+        "confirmationTitle": "アップグレードモデル?",
+        "confirmationMessage": "このモデルを DTDL バージョン 3 にアップグレードしてもよろしいですか?すべての構成が保持されます。",
+        "confirmationButtonText": "アップグレード"
+      }
     }
   },
   "dataHistoryErrorHandlingWrapper": {
@@ -1458,5 +1458,7 @@
         "download": "テーブルデータのダウンロード"
       }
     }
-  }
+  },
+  "increaseByDecimal": "値を 0.1 増やす",
+  "decreaseByDecimal": "値を 0.1 減らす"
 }

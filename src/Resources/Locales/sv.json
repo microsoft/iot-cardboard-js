@@ -1385,18 +1385,6 @@
       "noValidFilesTitle": "Inga modeller hittades",
       "noValidFilesMessage": "Inga modellfiler hittades att importera. Kontrollera att det finns giltiga JSON-filer i de valda filerna."
     },
-    "PropertyEditor": {
-      "Version3PreviewLabel": {
-        "badgeText": "Förhandsvisning",
-        "badgeCalloutText": "Den här modellen använder DTDLv3 som är i förhandsversion"
-      },
-      "Version3UpgradeButton": {
-        "title": "Uppgradera modell till DTDLv3",
-        "confirmationTitle": "Uppgradera modell?",
-        "confirmationMessage": "Är du säker på att du vill uppgradera den här modellen till DTDL version 3? Alla dina konfigurationer bevaras.",
-        "confirmationButtonText": "Uppgradera"
-      }
-    },
     "PropertyTypes": {
       "categories": {
         "complex": "Komplex",
@@ -1404,6 +1392,18 @@
         "geospatial": "Geospatialt"
       },
       "unsupportedPropertyType": "Den här egenskapstypen är inte tillgänglig för den aktuella kontextversionen av den associerade modellen"
+    },
+    "PropertyEditor1": {
+      "Version3PreviewLabel": {
+        "badgeText": "Förhandsvisning",
+        "badgeCalloutText": "Denna modell använder DTDL version 3 som är i förhandsgranskning"
+      },
+      "Version3UpgradeButton": {
+        "title": "Uppgradera modell till DTDL version 3",
+        "confirmationTitle": "Uppgradera modell?",
+        "confirmationMessage": "Är du säker på att du vill uppgradera den här modellen till DTDL version 3? Alla dina konfigurationer bevaras.",
+        "confirmationButtonText": "Uppgradera"
+      }
     }
   },
   "dataHistoryErrorHandlingWrapper": {
@@ -1458,5 +1458,7 @@
         "download": "Ladda ned tabelldata"
       }
     }
-  }
+  },
+  "increaseByDecimal": "Öka värdet med 0,1",
+  "decreaseByDecimal": "Minska värdet med 0,1"
 }

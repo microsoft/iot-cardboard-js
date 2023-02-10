@@ -1385,18 +1385,6 @@
       "noValidFilesTitle": "Nebyly nalezeny žádné modely",
       "noValidFilesMessage": "Nebyly nalezeny žádné soubory modelu k importu. Ujistěte se, že ve vybraných souborech jsou platné soubory JSON."
     },
-    "PropertyEditor": {
-      "Version3PreviewLabel": {
-        "badgeText": "Náhled",
-        "badgeCalloutText": "Tento model používá DTDLv3, který je ve verzi Preview"
-      },
-      "Version3UpgradeButton": {
-        "title": "Aktualizace modelu na DTDLv3",
-        "confirmationTitle": "Upgradovat model?",
-        "confirmationMessage": "Opravdu chcete upgradovat tento model na DTDL verzi 3? Všechny vaše konfigurace budou zachovány.",
-        "confirmationButtonText": "Upgrade"
-      }
-    },
     "PropertyTypes": {
       "categories": {
         "complex": "Složitý",
@@ -1404,6 +1392,18 @@
         "geospatial": "Geoprostorové"
       },
       "unsupportedPropertyType": "Tento typ vlastnosti není k dispozici pro aktuální kontextovou verzi přidruženého modelu"
+    },
+    "PropertyEditor1": {
+      "Version3PreviewLabel": {
+        "badgeText": "Náhled",
+        "badgeCalloutText": "Tento model používá DTDL verze 3, která je ve verzi Preview"
+      },
+      "Version3UpgradeButton": {
+        "title": "Upgrade modelu na DTDL verze 3",
+        "confirmationTitle": "Upgradovat model?",
+        "confirmationMessage": "Opravdu chcete upgradovat tento model na DTDL verzi 3? Všechny vaše konfigurace budou zachovány.",
+        "confirmationButtonText": "Upgrade"
+      }
     }
   },
   "dataHistoryErrorHandlingWrapper": {
@@ -1458,5 +1458,7 @@
         "download": "Stáhnout data tabulky"
       }
     }
-  }
+  },
+  "increaseByDecimal": "Zvýšení hodnoty o 0,1",
+  "decreaseByDecimal": "Snížení hodnoty o 0,1"
 }

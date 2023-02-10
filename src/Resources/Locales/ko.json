@@ -1385,18 +1385,6 @@
       "noValidFilesTitle": "모델을 찾을 수 없음",
       "noValidFilesMessage": "가져올 모델 파일을 찾을 수 없습니다. 선택한 파일에 유효한 JSON 파일이 있는지 확인합니다."
     },
-    "PropertyEditor": {
-      "Version3PreviewLabel": {
-        "badgeText": "미리 보기",
-        "badgeCalloutText": "이 모델은 미리 보기로 제공되는 DTDLv3을 사용합니다."
-      },
-      "Version3UpgradeButton": {
-        "title": "모델을 DTDLv3로 업그레이드",
-        "confirmationTitle": "업그레이드 모델?",
-        "confirmationMessage": "이 모델을 DTDL 버전 3으로 업그레이드하시겠습니까? 모든 구성이 유지됩니다.",
-        "confirmationButtonText": "업그레이드"
-      }
-    },
     "PropertyTypes": {
       "categories": {
         "complex": "콤플렉스",
@@ -1404,6 +1392,18 @@
         "geospatial": "지리 공간"
       },
       "unsupportedPropertyType": "이 속성 유형은 연결된 모델의 현재 컨텍스트 버전에 사용할 수 없습니다."
+    },
+    "PropertyEditor1": {
+      "Version3PreviewLabel": {
+        "badgeText": "미리 보기",
+        "badgeCalloutText": "이 모델은 미리 보기로 제공되는 DTDL 버전 3을 사용합니다."
+      },
+      "Version3UpgradeButton": {
+        "title": "모델을 DTDL 버전 3으로 업그레이드",
+        "confirmationTitle": "업그레이드 모델?",
+        "confirmationMessage": "이 모델을 DTDL 버전 3으로 업그레이드하시겠습니까? 모든 구성이 유지됩니다.",
+        "confirmationButtonText": "업그레이드"
+      }
     }
   },
   "dataHistoryErrorHandlingWrapper": {
@@ -1458,5 +1458,7 @@
         "download": "테이블 데이터 다운로드"
       }
     }
-  }
+  },
+  "increaseByDecimal": "값을 0.1씩 늘립니다.",
+  "decreaseByDecimal": "값 0.1 감소"
 }
