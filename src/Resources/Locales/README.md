@@ -21,7 +21,7 @@ i18n-auto-translation-msnyder -t de -k SUBSCRIPTION_KEY -p ./src/Resources/Local
 ```
 
 To translate all languages
- 
+
 ```ts
 i18n-auto-translation-msnyder -a azure-official -k SUBSCRIPTION_KEY -p ./src/Resources/Locales/en.json -l westus2 -f en -t cs
 i18n-auto-translation-msnyder -a azure-official -k SUBSCRIPTION_KEY -p ./src/Resources/Locales/en.json -l westus2 -f en -t de
