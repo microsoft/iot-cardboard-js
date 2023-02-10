@@ -1386,18 +1386,9 @@
       "noValidFilesMessage": "İçe aktarılacak model dosyası bulunamadı. Seçilen dosyalarda geçerli JSON dosyaları olduğundan emin olun."
     },
     "PropertyEditor": {
-      "Version3PreviewLabel": {
+      "PreviewLabel": {
         "badgeText": "Önizleme",
         "badgeCalloutText": "Bu model, önizleme aşamasında olan DTDLv3'ü kullanır"
-<<<<<<< HEAD
-      },
-      "Version3UpgradeButton": {
-        "title": "Modeli DTDLv3'e yükseltme",
-        "confirmationTitle": "Yükseltme modeli?",
-        "confirmationMessage": "Bu modeli DTDL sürüm 3'e yükseltmek istediğinizden emin misiniz? Tüm yapılandırmalarınız korunur.",
-        "confirmationButtonText": "Yükseltmek"
-=======
->>>>>>> origin/main
       }
     },
     "PropertyTypes": {
