@@ -1388,21 +1388,12 @@
     "PropertyEditor": {
       "Version3PreviewLabel": {
         "badgeText": "미리 보기",
-<<<<<<< HEAD
-        "badgeCalloutText": "이 모델은 미리 보기로 제공되는 DTDL 버전 3을 사용합니다."
-      },
-      "Version3UpgradeButton": {
-        "buttonText": "버전 3으로 업그레이드",
-        "confirmationTitle": "DTDL 버전을 업그레이드하시겠습니까?",
-        "confirmationMessage": "이 모델을 DTDL 버전 3으로 업그레이드하시겠습니까? 모든 기존 구성이 유지됩니다.",
-=======
         "badgeCalloutText": "이 모델은 미리 보기로 제공되는 DTDLv3을 사용합니다."
       },
       "Version3UpgradeButton": {
         "title": "모델을 DTDLv3로 업그레이드",
         "confirmationTitle": "업그레이드 모델?",
         "confirmationMessage": "이 모델을 DTDL 버전 3으로 업그레이드하시겠습니까? 모든 구성이 유지됩니다.",
->>>>>>> origin/main
         "confirmationButtonText": "업그레이드"
       }
     },
@@ -1467,7 +1458,5 @@
         "download": "테이블 데이터 다운로드"
       }
     }
-  },
-  "increaseByDecimal": "값을 0.1씩 늘립니다.",
-  "decreaseByDecimal": "값 0.1 감소"
+  }
 }
