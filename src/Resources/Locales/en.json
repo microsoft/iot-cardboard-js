@@ -110,6 +110,8 @@
     "to": "to",
     "increaseBy1": "Increase value by 1",
     "decreaseBy1": "Decrease value by 1",
+    "increaseByDecimal": "Increase value by 0.1",
+    "decreaseByDecimal": "Decrease value by 0.1",
     "errors": {
         "errorBoundary": "Error boundary",
         "unkownError": "Unknown error occurred",
@@ -948,13 +950,13 @@
             },
             "unsupportedPropertyType": "This property type is not available for the current context version of the associated model"
         },
-        "PropertyEditor": {
+        "PropertyEditor1": {
             "Version3PreviewLabel": {
                 "badgeText": "Preview",
-                "badgeCalloutText": "This model uses DTDLv3 which is in preview"
+                "badgeCalloutText": "This model uses DTDL version 3 which is in preview"
             },
             "Version3UpgradeButton": {
-                "title": "Upgrade model to DTDLv3",
+                "title": "Upgrade model to DTDL version 3",
                 "confirmationTitle": "Upgrade model?",
                 "confirmationMessage": "Are you sure you want to upgrade this model to DTDL version 3? All of your configurations will be preserved.",
                 "confirmationButtonText": "Upgrade"
