@@ -1391,10 +1391,10 @@
         "badgeCalloutText": "Tento model používá DTDLv3, který je ve verzi Preview"
       },
       "Version3UpgradeButton": {
-        "title": "Aktualizace modelu na DTDLv3",
         "confirmationTitle": "Upgradovat model?",
         "confirmationMessage": "Opravdu chcete upgradovat tento model na DTDL verzi 3? Všechny vaše konfigurace budou zachovány.",
-        "confirmationButtonText": "Upgrade"
+        "confirmationButtonText": "Upgrade",
+        "buttonText": "Upgrade na verzi 3"
       }
     },
     "PropertyTypes": {
@@ -1458,5 +1458,7 @@
         "download": "Stáhnout data tabulky"
       }
     }
-  }
+  },
+  "increaseByDecimal": "Zvýšení hodnoty o 0,1",
+  "decreaseByDecimal": "Snížení hodnoty o 0,1"
 }

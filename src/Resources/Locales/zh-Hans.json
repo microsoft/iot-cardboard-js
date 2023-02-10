@@ -1391,10 +1391,10 @@
         "badgeCalloutText": "此模型使用预览版的 DTDLv3"
       },
       "Version3UpgradeButton": {
-        "title": "将模型升级到 DTDLv3",
         "confirmationTitle": "升级模式？",
         "confirmationMessage": "是否确实要将此模型升级到 DTDL 版本 3？您的所有配置都将保留。",
-        "confirmationButtonText": "升级"
+        "confirmationButtonText": "升级",
+        "buttonText": "升级到版本 3"
       }
     },
     "PropertyTypes": {
@@ -1458,5 +1458,7 @@
         "download": "下载表数据"
       }
     }
-  }
+  },
+  "increaseByDecimal": "增加 0.1 的值",
+  "decreaseByDecimal": "减少值 0.1"
 }

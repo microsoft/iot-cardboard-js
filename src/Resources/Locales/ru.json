@@ -1391,10 +1391,10 @@
         "badgeCalloutText": "Эта модель использует DTDLv3, который находится в предварительной версии"
       },
       "Version3UpgradeButton": {
-        "title": "Обновление модели до DTDLv3",
         "confirmationTitle": "Обновить модель?",
         "confirmationMessage": "Вы уверены, что хотите обновить эту модель до DTDL версии 3? Все ваши конфигурации будут сохранены.",
-        "confirmationButtonText": "Модернизировать"
+        "confirmationButtonText": "Модернизировать",
+        "buttonText": "Обновление до версии 3"
       }
     },
     "PropertyTypes": {
@@ -1458,5 +1458,7 @@
         "download": "Загрузка табличных данных"
       }
     }
-  }
+  },
+  "increaseByDecimal": "Увеличение значения на 0,1",
+  "decreaseByDecimal": "Уменьшение значения на 0,1"
 }
