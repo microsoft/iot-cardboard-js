@@ -9,7 +9,7 @@ import {
     IOATSelection,
     IOATError,
     IOATModelPosition,
-    IOATConfirmDelete,
+    IOATConfirmDialogProps,
     IOATModelsMetadata
 } from '../../../Pages/OATEditorPage/OATEditorPage.types';
 import { DTDLProperty } from '../../Classes/DTDL';
@@ -65,7 +65,7 @@ type GraphUpdateDeletePayload = {
  * The state of the context
  */
 export interface IOatPageContextState {
-    confirmDeleteOpen?: IOATConfirmDelete;
+    confirmDialog?: IOATConfirmDialogProps;
     currentOntologyId: string;
     currentOntologyModelMetadata: IOATModelsMetadata[];
     currentOntologyModelPositions: IOATModelPosition[];
@@ -238,7 +238,7 @@ export type OatPageContextAction =
       }
     | {
           type: OatPageContextActionType.SET_OAT_CONFIRM_DELETE_OPEN;
-          payload: IOATConfirmDelete;
+          payload: IOATConfirmDialogProps;
       }
     | {
           type: OatPageContextActionType.SET_OAT_ERROR;

@@ -5,13 +5,11 @@ import {
     IVersion3UpgradeButtonStyles
 } from './Version3UpgradeButton.types';
 import { getStyles } from './Version3UpgradeButton.styles';
-import { classNamesFunction, IconButton, styled } from '@fluentui/react';
+import { ActionButton, classNamesFunction, styled } from '@fluentui/react';
 import { useExtendedTheme } from '../../../../Models/Hooks/useExtendedTheme';
 import { useTranslation } from 'react-i18next';
 import { useOatPageContext } from '../../../../Models/Context/OatPageContext/OatPageContext';
 import { OatPageContextActionType } from '../../../../Models/Context/OatPageContext/OatPageContext.types';
-import { updateDtdlVersion } from '../../../../Models/Services/DtdlUtils';
-import { DTDL_CONTEXT_VERSION_3 } from '../../../../Models/Classes/DTDL';
 
 const getClassNames = classNamesFunction<
     IVersion3UpgradeButtonStyleProps,
@@ -24,13 +22,13 @@ const LOC_KEYS = {
     dialogTitle: 'OAT.PropertyEditor.Version3UpgradeButton.confirmationTitle',
     dialogButtonText:
         'OAT.PropertyEditor.Version3UpgradeButton.confirmationButtonText',
-    buttonTitle: 'OAT.PropertyEditor.Version3UpgradeButton.title'
+    buttonText: 'OAT.PropertyEditor.Version3UpgradeButton.buttonText'
 };
 
 const Version3UpgradeButton: React.FC<IVersion3UpgradeButtonProps> = (
     props
 ) => {
-    const { selectedModel, styles } = props;
+    const { onUpgrade, styles } = props;
 
     // contexts
     const { oatPageDispatch } = useOatPageContext();
@@ -49,21 +47,10 @@ const Version3UpgradeButton: React.FC<IVersion3UpgradeButtonProps> = (
                 message: t(LOC_KEYS.dialogMessage),
                 title: t(LOC_KEYS.dialogTitle),
                 primaryButtonText: t(LOC_KEYS.dialogButtonText),
-                callback: () => {
-                    const updatedModel = updateDtdlVersion(
-                        selectedModel,
-                        DTDL_CONTEXT_VERSION_3
-                    );
-                    oatPageDispatch({
-                        type: OatPageContextActionType.UPDATE_MODEL,
-                        payload: {
-                            model: updatedModel
-                        }
-                    });
-                }
+                callback: onUpgrade
             }
         });
-    }, [oatPageDispatch, selectedModel, t]);
+    }, [oatPageDispatch, onUpgrade, t]);
 
     // side effects
 
@@ -74,11 +61,11 @@ const Version3UpgradeButton: React.FC<IVersion3UpgradeButtonProps> = (
 
     return (
         <div className={classNames.root}>
-            <IconButton
+            <ActionButton
                 iconProps={{
                     iconName: 'UpgradeAnalysis'
                 }}
-                title={t(LOC_KEYS.buttonTitle)}
+                text={t(LOC_KEYS.buttonText)}
                 onClick={onClickUpgrade}
             />
         </div>

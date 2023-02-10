@@ -17,6 +17,9 @@ export const getStyles = (
 ): IPropertyDetailsEditorModalContentStyles => {
     return {
         root: [classNames.root, {}],
+        contextVersionValue: {
+            alignItems: 'center'
+        },
         label: [
             classNames.label,
             {

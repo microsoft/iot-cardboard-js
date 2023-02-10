@@ -1391,10 +1391,10 @@
         "badgeCalloutText": "このモデルでは、プレビュー段階の DTDLv3 を使用します。"
       },
       "Version3UpgradeButton": {
-        "title": "モデルを DTDLv3 にアップグレードする",
         "confirmationTitle": "アップグレードモデル?",
         "confirmationMessage": "このモデルを DTDL バージョン 3 にアップグレードしてもよろしいですか?すべての構成が保持されます。",
-        "confirmationButtonText": "アップグレード"
+        "confirmationButtonText": "アップグレード",
+        "buttonText": "バージョン 3 へのアップグレード"
       }
     },
     "PropertyTypes": {
@@ -1458,5 +1458,7 @@
         "download": "テーブルデータのダウンロード"
       }
     }
-  }
+  },
+  "increaseByDecimal": "値を 0.1 増やす",
+  "decreaseByDecimal": "値を 0.1 減らす"
 }

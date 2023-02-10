@@ -1391,10 +1391,10 @@
         "badgeCalloutText": "Dit model maakt gebruik van DTDLv3 dat in preview is"
       },
       "Version3UpgradeButton": {
-        "title": "Upgrade model naar DTDLv3",
         "confirmationTitle": "Upgrademodel?",
         "confirmationMessage": "Weet u zeker dat u dit model wilt upgraden naar DTDL versie 3? Al uw configuraties blijven behouden.",
-        "confirmationButtonText": "Opwaarderen"
+        "confirmationButtonText": "Opwaarderen",
+        "buttonText": "Upgrade naar versie 3"
       }
     },
     "PropertyTypes": {
@@ -1458,5 +1458,7 @@
         "download": "Tabelgegevens downloaden"
       }
     }
-  }
+  },
+  "increaseByDecimal": "Waarde verhogen met 0,1",
+  "decreaseByDecimal": "Waarde verlagen met 0,1"
 }

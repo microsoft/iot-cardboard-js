@@ -1,9 +1,8 @@
 import { IStyle, IStyleFunctionOrObject } from '@fluentui/react';
-import { DtdlInterface } from '../../../../Models/Constants';
 import { IExtendedTheme } from '../../../../Theming/Theme.types';
 
 export interface IVersion3UpgradeButtonProps {
-    selectedModel: DtdlInterface;
+    onUpgrade: () => void;
     /**
      * Call to provide customized styling that will layer on top of the variant rules.
      */

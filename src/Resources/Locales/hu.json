@@ -1391,10 +1391,10 @@
         "badgeCalloutText": "Ez a modell előzetes verzióban elérhető DTDLv3-at használ"
       },
       "Version3UpgradeButton": {
-        "title": "Modell frissítése DTDLv3-ra",
         "confirmationTitle": "Frissítse a modellt?",
         "confirmationMessage": "Biztosan frissíteni szeretné ezt a modellt a DTDL 3-as verziójára? Az összes konfiguráció megmarad.",
-        "confirmationButtonText": "Feljavít"
+        "confirmationButtonText": "Feljavít",
+        "buttonText": "Frissítés a 3-as verzióra"
       }
     },
     "PropertyTypes": {
@@ -1458,5 +1458,7 @@
         "download": "Táblaadatok letöltése"
       }
     }
-  }
+  },
+  "increaseByDecimal": "Növelje az értéket 0,1-gyel",
+  "decreaseByDecimal": "Érték csökkentése 0,1-gyel"
 }

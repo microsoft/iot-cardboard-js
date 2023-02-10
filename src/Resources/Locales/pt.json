@@ -1391,10 +1391,10 @@
         "badgeCalloutText": "Este modelo usa DTDLv3 que está em pré-visualização"
       },
       "Version3UpgradeButton": {
-        "title": "Atualizar modelo para DTDLv3",
         "confirmationTitle": "Atualizar modelo?",
         "confirmationMessage": "Tem certeza de que deseja atualizar este modelo para DTDL versão 3? Todas as suas configurações serão preservadas.",
-        "confirmationButtonText": "Melhoramento"
+        "confirmationButtonText": "Melhoramento",
+        "buttonText": "Atualizar para a versão 3"
       }
     },
     "PropertyTypes": {
@@ -1458,5 +1458,7 @@
         "download": "Baixar dados da tabela"
       }
     }
-  }
+  },
+  "increaseByDecimal": "Aumentar o valor em 0,1",
+  "decreaseByDecimal": "Diminuir o valor em 0,1"
 }

@@ -128,7 +128,7 @@ interface IBuildModelIdArgs {
     /** the sub path for the model (optional) */
     path?: string;
     /** version number for the model. If omitted, will use the default value */
-    version?: number;
+    version?: number | undefined;
 }
 /**
  * builds out the version id string for a model
@@ -148,7 +148,12 @@ export function buildModelId({
     if (pathValue) {
         uniqueName = pathValue + ':' + nameValue;
     }
-    return `${prefix}:${uniqueName};${versionNumber}`;
+    let id = `${prefix}:${uniqueName};`;
+    if (isDefined(versionNumber)) {
+        // add id on if it is provided. In V3 it is not required
+        id += versionNumber;
+    }
+    return id;
 }
 
 export function parseModelId(

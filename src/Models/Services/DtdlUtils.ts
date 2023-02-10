@@ -33,7 +33,8 @@ import {
     DtdlObject,
     DtdlEnumValueSchema,
     OatReferenceType,
-    DtdlContext
+    DtdlContext,
+    DtdlVersion
 } from '../Constants';
 import { getModelById } from '../Context/OatPageContext/OatPageContextUtils';
 import { ensureIsArray } from './OatUtils';
@@ -42,11 +43,20 @@ import { deepCopy, isDefined, isValueInEnum } from './Utils';
 // #region DTDL Version
 
 /** returns the version number of a model (either 2 or 3) */
-export const getDtdlVersion = (model: DtdlInterface): '2' | '3' => {
+export const getDtdlVersion = (model: DtdlInterface): DtdlVersion => {
     if (!model) {
         return '2';
     }
-    if (contextHasVersion3(model['@context'])) {
+    return getDtdlVersionFromContext(model['@context']);
+};
+/** returns the DTDL version number of a model (either 2 or 3) */
+export const getDtdlVersionFromContext = (
+    context: DtdlContext
+): DtdlVersion => {
+    if (!context) {
+        return '2';
+    }
+    if (contextHasVersion3(context)) {
         return '3';
     } else {
         return '2';
@@ -58,10 +68,21 @@ export const modelHasVersion3Context = (model: DtdlInterface): boolean => {
     return getDtdlVersion(model) === '3';
 };
 
+/** is the model DTDL version 2 */
+export const modelHasVersion2Context = (model: DtdlInterface): boolean => {
+    return getDtdlVersion(model) === '2';
+};
+
 /** is the model DTDL version 3 */
 export const contextHasVersion3 = (context: DtdlContext): boolean => {
     const contextInternal = ensureIsArray(context);
     return contextInternal.includes(DTDL_CONTEXT_VERSION_3);
+};
+
+/** is the model DTDL version 2 */
+export const contextHasVersion2 = (context: DtdlContext): boolean => {
+    const contextInternal = ensureIsArray(context);
+    return contextInternal.includes(DTDL_CONTEXT_VERSION_2);
 };
 
 export function getModelOrParentContext(
@@ -401,6 +422,11 @@ const DEFAULT_NAME_REGEX_IN_PROGRESS = /^[a-zA-Z](?:[a-zA-Z0-9_]*[a-zA-Z0-9_])?$
 const DEFAULT_PATH_REGEX = /^[a-zA-Z](?:[a-zA-Z0-9_:]*[a-zA-Z0-9])?$/;
 const DEFAULT_PATH_REGEX_IN_PROGRESS = /^[a-zA-Z](?:[a-zA-Z0-9_:]*[a-zA-Z0-9_:])?$/;
 
+// integers only
+const INTEGER_VERSION_REGEX = /^\d+$/;
+// allow numerics only, can include . (ex: 31.1, 32)
+const DECIMAL_VERSION_REGEX = /^\d+(\.\d+)?$/;
+
 const DEFAULT_MAX_NAME_LENGTH = 64;
 
 export const isValidDtmiId = (dtmiId: string): boolean => {
@@ -434,6 +460,27 @@ const defaultNameValidation = (name: string, isFinal: boolean): boolean => {
 /** performs the necessary checks to determine if a given name is valid */
 export const isValidModelName = (name: string, isFinal: boolean): boolean => {
     return defaultNameValidation(name, isFinal);
+};
+/** performs the necessary checks to determine if a given version is valid */
+export const isValidModelVersion = (
+    version: string,
+    dtdlVersion: DtdlVersion,
+    isFinal: boolean
+): boolean => {
+    if (dtdlVersion === '2') {
+        // doesn't matter if it's final or not since it's always only numbers
+        return RegExp(INTEGER_VERSION_REGEX).test(version);
+    }
+
+    if (isFinal) {
+        return RegExp(DECIMAL_VERSION_REGEX).test(version);
+    } else {
+        if (version.endsWith('.')) {
+            return RegExp(INTEGER_VERSION_REGEX).test(version.replace('.', ''));
+        } else {
+            return RegExp(DECIMAL_VERSION_REGEX).test(version);
+        }
+    }
 };
 
 /** performs the necessary checks to determine if a given name is valid */

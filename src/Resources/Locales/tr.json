@@ -1391,10 +1391,10 @@
         "badgeCalloutText": "Bu model, önizleme aşamasında olan DTDLv3'ü kullanır"
       },
       "Version3UpgradeButton": {
-        "title": "Modeli DTDLv3'e yükseltme",
         "confirmationTitle": "Yükseltme modeli?",
         "confirmationMessage": "Bu modeli DTDL sürüm 3'e yükseltmek istediğinizden emin misiniz? Tüm yapılandırmalarınız korunur.",
-        "confirmationButtonText": "Yükseltmek"
+        "confirmationButtonText": "Yükseltmek",
+        "buttonText": "Sürüm 3'e yükseltme"
       }
     },
     "PropertyTypes": {
@@ -1458,5 +1458,7 @@
         "download": "Tablo verilerini indirme"
       }
     }
-  }
+  },
+  "increaseByDecimal": "Değeri 0,1 artır",
+  "decreaseByDecimal": "Değeri 0,1 azalt"
 }

@@ -26,7 +26,6 @@ import {
     isDTDLModel,
     modelHasVersion3Context
 } from '../../Models/Services/DtdlUtils';
-import Version3UpgradeButton from './Internal/Version3UpgradeButton/Version3UpgradeButton';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('Editor', debugLogging);
@@ -150,17 +149,12 @@ const Editor: React.FC<IEditorProps> = (props) => {
                         />
                     </PivotItem>
                 </Pivot>
-                {isDTDLModel(selectedItem) && (
-                    <div className={classNames.previewLabelContainer}>
-                        {modelHasVersion3Context(selectedItem) ? (
+                {isDTDLModel(selectedItem) &&
+                    modelHasVersion3Context(selectedItem) && (
+                        <div className={classNames.previewLabelContainer}>
                             <Version3PreviewLabel />
-                        ) : (
-                            <Version3UpgradeButton
-                                selectedModel={selectedItem}
-                            />
-                        )}
-                    </div>
-                )}
+                        </div>
+                    )}
                 {oatPageState.templatesActive && (
                     <TemplateColumn
                         enteredPropertyRef={enteredPropertyRef}
