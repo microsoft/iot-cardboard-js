@@ -1402,7 +1402,7 @@
         "confirmationTitle": "Uppgradera DTDL-versionen?",
         "confirmationMessage": "Är du säker på att du vill uppgradera den här modellen till DTDL version 3? Alla dina konfigurationer bevaras.",
         "confirmationButtonText": "Uppgradera",
-        "buttonText1": "Uppgradera till DTDL version 3"
+        "buttonText": "Uppgradera till version 3"
       }
     }
   },

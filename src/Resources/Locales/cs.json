@@ -1402,7 +1402,7 @@
         "confirmationTitle": "Upgradovat verzi DTDL?",
         "confirmationMessage": "Opravdu chcete upgradovat tento model na DTDL verzi 3? Všechny vaše konfigurace budou zachovány.",
         "confirmationButtonText": "Upgrade",
-        "buttonText1": "Upgrade na DTDL verze 3"
+        "buttonText": "Upgrade na verzi 3"
       }
     }
   },

@@ -1402,7 +1402,7 @@
         "confirmationTitle": "Frissítse a DTDL verziót?",
         "confirmationMessage": "Biztosan frissíteni szeretné ezt a modellt a DTDL 3-as verziójára? Az összes konfiguráció megmarad.",
         "confirmationButtonText": "Feljavít",
-        "buttonText1": "Frissítés a DTDL 3-as verziójára"
+        "buttonText": "Frissítés a 3-as verzióra"
       }
     }
   },

@@ -1402,7 +1402,7 @@
         "confirmationTitle": "Uaktualnić wersję DTDL?",
         "confirmationMessage": "Czy na pewno chcesz uaktualnić ten model do wersji DTDL 3? Wszystkie konfiguracje zostaną zachowane.",
         "confirmationButtonText": "Upgrade",
-        "buttonText1": "Aktualizacja do wersji 3 DTDL"
+        "buttonText": "Aktualizacja do wersji 3"
       }
     }
   },
