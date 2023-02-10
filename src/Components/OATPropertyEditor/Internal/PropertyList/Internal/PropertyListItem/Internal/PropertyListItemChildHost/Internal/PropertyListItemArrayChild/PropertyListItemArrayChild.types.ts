@@ -8,6 +8,8 @@ export interface IPropertyListItemArrayChildProps
         IPropertyListItemChildBaseProps,
         'onDuplicate' | 'onReorderItem' | 'onUpdateName' | 'onRemove'
     > {
+    /** the DTDL context of the model or source model (if relationship) */
+    parentModelContext: string | string[];
     item: DTDLSchema;
     /**
      * Call to provide customized styling that will layer on top of the variant rules.

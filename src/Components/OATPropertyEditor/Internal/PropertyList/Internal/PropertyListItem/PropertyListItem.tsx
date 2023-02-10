@@ -384,6 +384,7 @@ const PropertyListItem: React.FC<IPropertyListItemProps> = (props) => {
             </Stack>
             {isExpanded && hasComplexSchemaType(item) && (
                 <PropertyListItemChildHost
+                    parentModelContext={parentModelContext}
                     indexKey={indexKey}
                     level={itemLevel}
                     propertyItem={item}

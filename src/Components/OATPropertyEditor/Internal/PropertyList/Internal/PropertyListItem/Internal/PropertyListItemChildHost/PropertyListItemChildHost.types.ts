@@ -28,6 +28,8 @@ export interface IPropertyListItemChildHostProps
         IPropertyListItemChildBaseProps,
         'onReorderItem' | 'onUpdateName' | 'onRemove'
     > {
+    /** the DTDL context of the model or source model (if relationship) */
+    parentModelContext: string | string[];
     propertyItem: { name: string; schema: DTDLComplexSchema };
     /** callback to store an updated version of the schema */
     onUpdateSchema: (schema: DTDLSchema) => void;

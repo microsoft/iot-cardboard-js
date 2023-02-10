@@ -35,6 +35,7 @@ const PropertyListItemChildHost: React.FC<IPropertyListItemChildHostProps> = (
         level,
         onDuplicate,
         onUpdateSchema,
+        parentModelContext,
         propertyItem,
         styles
     } = props;
@@ -117,6 +118,7 @@ const PropertyListItemChildHost: React.FC<IPropertyListItemChildHostProps> = (
                 />
             ) : hasArraySchemaType(propertyItem) ? (
                 <PropertyListItemArrayChild
+                    parentModelContext={parentModelContext}
                     indexKey={`${indexKey}.0`}
                     item={propertyItem.schema.elementSchema}
                     level={level}
