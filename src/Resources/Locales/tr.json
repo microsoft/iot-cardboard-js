@@ -1386,9 +1386,15 @@
       "noValidFilesMessage": "İçe aktarılacak model dosyası bulunamadı. Seçilen dosyalarda geçerli JSON dosyaları olduğundan emin olun."
     },
     "PropertyEditor": {
-      "PreviewLabel": {
+      "Version3PreviewLabel": {
         "badgeText": "Önizleme",
-        "badgeCalloutText": "Bu model, önizleme aşamasında olan DTDLv3'ü kullanır"
+        "badgeCalloutText": "Bu model, önizleme aşamasında olan DTDL sürüm 3'ü kullanır"
+      },
+      "Version3UpgradeButton": {
+        "buttonText": "Sürüm 3'e yükseltme",
+        "confirmationTitle": "DTDL sürümünü yükseltmek?",
+        "confirmationMessage": "Bu modeli DTDL sürüm 3'e yükseltmek istediğinizden emin misiniz? Mevcut tüm yapılandırmalar korunur.",
+        "confirmationButtonText": "Yükseltmek"
       }
     },
     "PropertyTypes": {
@@ -1452,5 +1458,7 @@
         "download": "Tablo verilerini indirme"
       }
     }
-  }
+  },
+  "increaseByDecimal": "Değeri 0,1 artır",
+  "decreaseByDecimal": "Değeri 0,1 azalt"
 }
