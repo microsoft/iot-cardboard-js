@@ -17,7 +17,7 @@ const getClassNames = classNamesFunction<
 const PropertyListItemMapChild: React.FC<IPropertyListItemMapChildProps> = (
     props
 ) => {
-    const { item, indexKey, level, styles } = props;
+    const { item, indexKey, level, parentModelContext, styles } = props;
 
     // contexts
 
@@ -47,6 +47,7 @@ const PropertyListItemMapChild: React.FC<IPropertyListItemMapChildProps> = (
                 onReorderItem={undefined}
                 onUpdateName={undefined}
                 onUpdateSchema={undefined}
+                parentModelContext={parentModelContext}
             />
             <PropertyListItem
                 indexKey={`${indexKey}.0`}
@@ -59,6 +60,7 @@ const PropertyListItemMapChild: React.FC<IPropertyListItemMapChildProps> = (
                 onReorderItem={undefined}
                 onUpdateName={undefined}
                 onUpdateSchema={undefined}
+                parentModelContext={parentModelContext}
             />
         </div>
     );

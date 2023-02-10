@@ -1,5 +1,6 @@
 import { IStyle, IStyleFunctionOrObject } from '@fluentui/react';
 import { DTDLMap } from '../../../../../../../../../../Models/Classes/DTDL';
+import { DtdlContext } from '../../../../../../../../../../Models/Constants';
 import { IExtendedTheme } from '../../../../../../../../../../Theming/Theme.types';
 import { IPropertyListItemChildBaseProps } from '../../PropertyListItemChildHost.types';
 
@@ -13,6 +14,8 @@ export interface IPropertyListItemMapChildProps
         | 'onRemove'
     > {
     item: DTDLMap;
+    /** the DTDL context of the model or source model (if relationship) */
+    parentModelContext: DtdlContext;
     /**
      * Call to provide customized styling that will layer on top of the variant rules.
      */
