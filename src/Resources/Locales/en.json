@@ -953,10 +953,10 @@
                 "badgeText": "Preview",
                 "badgeCalloutText": "This model uses DTDLv3 which is in preview"
             },
-            "Version3UpgradeButton": {
-                "title": "Upgrade model to V3",
+            "Version3UpgradeButton1": {
+                "title": "Upgrade model to DTDL v3",
                 "confirmationTitle": "Upgrade model?",
-                "confirmationMessage": "Are you sure you want to upgrade this model to version 3?",
+                "confirmationMessage": "Are you sure you want to upgrade this model to DTDL version 3? All of your configurations will be preserved.",
                 "confirmationButtonText": "Upgrade"
             }
         }
