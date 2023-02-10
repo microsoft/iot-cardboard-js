@@ -1,5 +1,6 @@
 import { DTDLSchema, DTDLSchemaType, DTDLType } from '../Classes/DTDL';
 
+export type DtdlContext = string | string[];
 export type DtdlReference = DtdlComponent | DtdlRelationship;
 
 export type DtdlInterfaceContent =
@@ -11,7 +12,7 @@ export type DtdlInterfaceContent =
 export interface DtdlInterface {
     '@id': string;
     '@type': string;
-    '@context': string | string[];
+    '@context': DtdlContext;
     comment?: string;
     contents?: DtdlInterfaceContent[];
     // supports single or multiple languages. key is lang code, value is string for that lang

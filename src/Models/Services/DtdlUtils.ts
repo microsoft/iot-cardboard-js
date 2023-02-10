@@ -32,7 +32,8 @@ import {
     DtdlEnum,
     DtdlObject,
     DtdlEnumValueSchema,
-    OatReferenceType
+    OatReferenceType,
+    DtdlContext
 } from '../Constants';
 import { getModelById } from '../Context/OatPageContext/OatPageContextUtils';
 import { ensureIsArray } from './OatUtils';
@@ -58,7 +59,7 @@ export const modelHasVersion3Context = (model: DtdlInterface): boolean => {
 };
 
 /** is the model DTDL version 3 */
-export const contextHasVersion3 = (context: string | string[]): boolean => {
+export const contextHasVersion3 = (context: DtdlContext): boolean => {
     const contextInternal = ensureIsArray(context);
     return contextInternal.includes(DTDL_CONTEXT_VERSION_3);
 };
@@ -67,7 +68,7 @@ export function getModelOrParentContext(
     selectedItem: DtdlInterface | DtdlInterfaceContent,
     currentModelsList: DtdlInterface[],
     currentSelection: IOATSelection
-): string | string[] {
+): DtdlContext {
     if (isDTDLModel(selectedItem)) {
         return selectedItem['@context'];
     } else if (
