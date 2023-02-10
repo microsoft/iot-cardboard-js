@@ -1385,6 +1385,15 @@
       "noValidFilesTitle": "Model bulunamadı",
       "noValidFilesMessage": "İçe aktarılacak model dosyası bulunamadı. Seçilen dosyalarda geçerli JSON dosyaları olduğundan emin olun."
     },
+<<<<<<< HEAD
+=======
+    "PropertyEditor": {
+      "PreviewLabel": {
+        "badgeText": "Önizleme",
+        "badgeCalloutText": "Bu model, önizleme aşamasında olan DTDLv3'ü kullanır"
+      }
+    },
+>>>>>>> msnyder-upgrade
     "PropertyTypes": {
       "categories": {
         "complex": "Karmaşık",

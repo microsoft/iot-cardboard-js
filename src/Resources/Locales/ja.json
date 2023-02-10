@@ -1385,6 +1385,15 @@
       "noValidFilesTitle": "モデルが見つかりません",
       "noValidFilesMessage": "インポートするモデル ファイルが見つかりません。選択したファイルに有効なJSONファイルがあることを確認してください。"
     },
+<<<<<<< HEAD
+=======
+    "PropertyEditor": {
+      "PreviewLabel": {
+        "badgeText": "プレビュー",
+        "badgeCalloutText": "このモデルでは、プレビュー段階の DTDLv3 を使用します。"
+      }
+    },
+>>>>>>> msnyder-upgrade
     "PropertyTypes": {
       "categories": {
         "complex": "コンプレックス",

@@ -1385,6 +1385,15 @@
       "noValidFilesTitle": "Nenhum modelo encontrado",
       "noValidFilesMessage": "Nenhum arquivo de modelo encontrado para importar. Verifique se há arquivos JSON válidos no(s) arquivo(s) selecionado(s)."
     },
+<<<<<<< HEAD
+=======
+    "PropertyEditor": {
+      "PreviewLabel": {
+        "badgeText": "Visualizar",
+        "badgeCalloutText": "Este modelo usa DTDLv3 que está em pré-visualização"
+      }
+    },
+>>>>>>> msnyder-upgrade
     "PropertyTypes": {
       "categories": {
         "complex": "Complexo",

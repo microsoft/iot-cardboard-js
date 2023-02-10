@@ -1385,6 +1385,15 @@
       "noValidFilesTitle": "Nebyly nalezeny žádné modely",
       "noValidFilesMessage": "Nebyly nalezeny žádné soubory modelu k importu. Ujistěte se, že ve vybraných souborech jsou platné soubory JSON."
     },
+<<<<<<< HEAD
+=======
+    "PropertyEditor": {
+      "PreviewLabel": {
+        "badgeText": "Náhled",
+        "badgeCalloutText": "Tento model používá DTDLv3, který je ve verzi Preview"
+      }
+    },
+>>>>>>> msnyder-upgrade
     "PropertyTypes": {
       "categories": {
         "complex": "Složitý",

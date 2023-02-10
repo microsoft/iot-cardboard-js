@@ -1385,6 +1385,15 @@
       "noValidFilesTitle": "Nem található modell",
       "noValidFilesMessage": "Nem található importálható modellfájl. Győződjön meg arról, hogy vannak érvényes JSON-fájlok a kiválasztott fájl(ok)ban."
     },
+<<<<<<< HEAD
+=======
+    "PropertyEditor": {
+      "PreviewLabel": {
+        "badgeText": "Előnézet",
+        "badgeCalloutText": "Ez a modell előzetes verzióban elérhető DTDLv3-at használ"
+      }
+    },
+>>>>>>> msnyder-upgrade
     "PropertyTypes": {
       "categories": {
         "complex": "Összetett",

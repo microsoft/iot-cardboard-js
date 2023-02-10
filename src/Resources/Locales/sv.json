@@ -1385,6 +1385,15 @@
       "noValidFilesTitle": "Inga modeller hittades",
       "noValidFilesMessage": "Inga modellfiler hittades att importera. Kontrollera att det finns giltiga JSON-filer i de valda filerna."
     },
+<<<<<<< HEAD
+=======
+    "PropertyEditor": {
+      "PreviewLabel": {
+        "badgeText": "Förhandsvisning",
+        "badgeCalloutText": "Den här modellen använder DTDLv3 som är i förhandsversion"
+      }
+    },
+>>>>>>> msnyder-upgrade
     "PropertyTypes": {
       "categories": {
         "complex": "Komplex",

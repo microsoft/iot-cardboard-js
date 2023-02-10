@@ -34,7 +34,9 @@ import {
     modelRefreshMaxAge,
     twinRefreshMaxAge,
     AdapterMethodParamsForSearchTwinsByQuery,
-    AdapterMethodParamsForGetTwinsByQuery
+    AdapterMethodParamsForGetTwinsByQuery,
+    AxiosObjParam,
+    LOCAL_STORAGE_KEYS
 } from '../Models/Constants';
 import ADTTwinData from '../Models/Classes/AdapterDataClasses/ADTTwinData';
 import ADTModelData, {
@@ -48,13 +50,14 @@ import {
     ADTAdapterTwinsData
 } from '../Models/Classes/AdapterDataClasses/ADTAdapterData';
 import ADTTwinLookupData from '../Models/Classes/AdapterDataClasses/ADTTwinLookupData';
-import axios, { AxiosError, AxiosInstance } from 'axios';
+import axios, { AxiosError, AxiosInstance, AxiosRequestConfig } from 'axios';
 import { DtdlInterface } from '../Models/Constants/dtdlInterfaces';
 import {
     getDebugLogger,
     getModelContentType,
     getUrlFromString,
-    parseDTDLModelsAsync
+    parseDTDLModelsAsync,
+    validateExplorerOrigin
 } from '../Models/Services/Utils';
 import { DTDLType } from '../Models/Classes/DTDL';
 import ExpandedADTModelData from '../Models/Classes/AdapterDataClasses/ExpandedADTModelData';
@@ -89,13 +92,15 @@ export default class ADTAdapter implements IADTAdapter {
     protected adtTwinCache: AdapterEntityCache<ADTTwinData>;
     protected adtModelsCache: AdapterEntityCache<ADTAllModelsData>;
     protected adtTwinToModelMappingCache: AdapterEntityCache<ADTTwinToModelMappingData>;
+    protected useProxy: boolean;
 
     constructor(
         adtHostUrl: string,
         authService: IAuthService,
         tenantId?: string,
         uniqueObjectId?: string,
-        adtProxyServerPath = '/proxy/adt'
+        adtProxyServerPath = '/proxy/adt',
+        useProxy = true
     ) {
         this.setAdtHostUrl(adtHostUrl); // this should be the host name of the instace
         this.adtProxyServerPath = adtProxyServerPath;
@@ -112,9 +117,21 @@ export default class ADTAdapter implements IADTAdapter {
         this.adtTwinToModelMappingCache = new AdapterEntityCache<ADTTwinToModelMappingData>(
             modelRefreshMaxAge
         );
+        /**
+         * Check if class has been initialized with CORS enabled or if origin matches dev or prod explorer urls,
+         * override if proxy is forced by feature flag
+         *  */
+        this.useProxy =
+            useProxy ||
+            !validateExplorerOrigin(window.origin) ||
+            localStorage.getItem(
+                LOCAL_STORAGE_KEYS.FeatureFlags.Proxy.forceProxy
+            ) === 'true';
 
         this.authService.login();
-        this.axiosInstance = axios.create({ baseURL: this.adtProxyServerPath });
+        this.axiosInstance = axios.create({
+            baseURL: this.useProxy ? this.adtProxyServerPath : this.adtHostUrl
+        });
         axiosRetry(this.axiosInstance, {
             retries: 3,
             retryCondition: (axiosError: AxiosError) => {
@@ -127,6 +144,25 @@ export default class ADTAdapter implements IADTAdapter {
                 return (Math.pow(2, retryCount) - Math.random()) * 1000;
             }
         });
+    }
+
+    generateUrl(path: string) {
+        if (this.useProxy) {
+            return `${this.adtProxyServerPath}${path}`;
+        } else {
+            return `https://${this.adtHostUrl}${path}`;
+        }
+    }
+
+    generateHeaders(headers: AxiosObjParam = {}) {
+        if (this.useProxy) {
+            return {
+                ...headers,
+                'x-adt-host': this.adtHostUrl
+            };
+        } else {
+            return headers;
+        }
     }
 
     getAdtHostUrl() {
@@ -166,12 +202,10 @@ export default class ADTAdapter implements IADTAdapter {
             ADTRelationshipsData,
             {
                 method: 'get',
-                url: `${
-                    this.adtProxyServerPath
-                }/digitaltwins/${encodeURIComponent(id)}/relationships`,
-                headers: {
-                    'x-adt-host': this.adtHostUrl
-                },
+                url: this.generateUrl(
+                    `/digitaltwins/${encodeURIComponent(id)}/relationships`
+                ),
+                headers: this.generateHeaders(),
                 params: {
                     'api-version': ADT_ApiVersion
                 }
@@ -187,12 +221,10 @@ export default class ADTAdapter implements IADTAdapter {
                 ADTTwinData,
                 {
                     method: 'get',
-                    url: `${
-                        this.adtProxyServerPath
-                    }/digitaltwins/${encodeURIComponent(twinId)}`,
-                    headers: {
-                        'x-adt-host': this.adtHostUrl
-                    },
+                    url: this.generateUrl(
+                        `/digitaltwins/${encodeURIComponent(twinId)}`
+                    ),
+                    headers: this.generateHeaders(),
                     params: {
                         'api-version': ADT_ApiVersion
                     }
@@ -302,10 +334,8 @@ export default class ADTAdapter implements IADTAdapter {
             ADTModelData,
             {
                 method: 'get',
-                url: `${this.adtProxyServerPath}/models/${modelId}`,
-                headers: {
-                    'x-adt-host': this.adtHostUrl
-                },
+                url: this.generateUrl(`/models/${modelId}`),
+                headers: this.generateHeaders(),
                 params: {
                     'api-version': ADT_ApiVersion
                 }
@@ -320,10 +350,8 @@ export default class ADTAdapter implements IADTAdapter {
             ADTModelData,
             {
                 method: 'delete',
-                url: `${this.adtProxyServerPath}/models/${modelId}`,
-                headers: {
-                    'x-adt-host': this.adtHostUrl
-                },
+                url: this.generateUrl(`/models/${modelId}`),
+                headers: this.generateHeaders(),
                 params: {
                     'api-version': ADT_ApiVersion
                 }
@@ -338,10 +366,8 @@ export default class ADTAdapter implements IADTAdapter {
             ADTTwinData,
             {
                 method: 'delete',
-                url: `${this.adtProxyServerPath}/digitaltwins/${twinId}`,
-                headers: {
-                    'x-adt-host': this.adtHostUrl
-                },
+                url: this.generateUrl(`/digitaltwins/${twinId}`),
+                headers: this.generateHeaders(),
                 params: {
                     'api-version': ADT_ApiVersion
                 }
@@ -351,19 +377,18 @@ export default class ADTAdapter implements IADTAdapter {
 
     async getADTModels(params: AdapterMethodParamsForGetADTModels = null) {
         const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
-
         return adapterMethodSandbox.safelyFetchDataCancellableAxiosPromise(
             ADTAdapterModelsData,
             {
                 method: 'get',
-                url: `${this.adtProxyServerPath}/models${
-                    params?.shouldIncludeDefinitions
-                        ? '?includeModelDefinition=True'
-                        : ''
-                }`,
-                headers: {
-                    'x-adt-host': this.adtHostUrl
-                },
+                url: this.generateUrl(
+                    `/models${
+                        params?.shouldIncludeDefinitions
+                            ? '?includeModelDefinition=True'
+                            : ''
+                    }`
+                ),
+                headers: this.generateHeaders(),
                 params: {
                     'api-version': ADT_ApiVersion,
                     ...(params?.continuationToken && {
@@ -381,11 +406,9 @@ export default class ADTAdapter implements IADTAdapter {
             ADTAdapterModelsData,
             {
                 method: 'post',
-                url: `${this.adtProxyServerPath}/models`,
+                url: this.generateUrl(`/models`),
+                headers: this.generateHeaders(),
                 data: models,
-                headers: {
-                    'x-adt-host': this.adtHostUrl
-                },
                 params: {
                     'api-version': ADT_ApiVersion
                 }
@@ -400,19 +423,19 @@ export default class ADTAdapter implements IADTAdapter {
             const data = await Promise.all(
                 events.map((event) => {
                     const id = event.dtId;
-                    return axios({
+                    const config: AxiosRequestConfig = {
                         method: 'patch',
-                        url: `${this.adtProxyServerPath}/digitaltwins/${id}`,
+                        url: this.generateUrl(`/digitaltiwns/${id}`),
                         data: event.patchJSON,
-                        headers: {
+                        headers: this.generateHeaders({
                             'Content-Type': 'application/json',
-                            authorization: 'Bearer ' + token,
-                            'x-adt-host': this.adtHostUrl
-                        },
+                            authorization: 'Bearer ' + token
+                        }),
                         params: {
                             'api-version': ADT_ApiVersion
                         }
-                    }).catch((err) => {
+                    };
+                    return axios(config).catch((err) => {
                         return err.response.data;
                     });
                 })
@@ -428,10 +451,8 @@ export default class ADTAdapter implements IADTAdapter {
             ADTAdapterTwinsData,
             {
                 method: 'post',
-                url: `${this.adtProxyServerPath}/query`,
-                headers: {
-                    'x-adt-host': this.adtHostUrl
-                },
+                url: this.generateUrl(`/query`),
+                headers: this.generateHeaders(),
                 params: {
                     'api-version': ADT_ApiVersion
                 },
@@ -451,10 +472,8 @@ export default class ADTAdapter implements IADTAdapter {
             ADTAdapterTwinsData,
             {
                 method: 'post',
-                url: `${this.adtProxyServerPath}/query`,
-                headers: {
-                    'x-adt-host': this.adtHostUrl
-                },
+                url: this.generateUrl(`/query`),
+                headers: this.generateHeaders(),
                 params: {
                     'api-version': ADT_ApiVersion
                 },
@@ -480,10 +499,8 @@ export default class ADTAdapter implements IADTAdapter {
             ADTAdapterSearchByQueryData,
             {
                 method: 'post',
-                url: `${this.adtProxyServerPath}/query`,
-                headers: {
-                    'x-adt-host': this.adtHostUrl
-                },
+                url: this.generateUrl(`/query`),
+                headers: this.generateHeaders(),
                 params: {
                     'api-version': ADT_ApiVersion
                 },
@@ -548,13 +565,12 @@ export default class ADTAdapter implements IADTAdapter {
         return await adapterMethodSandbox.safelyFetchData(async (token) => {
             const axiosResult = await this.axiosInstance({
                 method: 'post',
-                url: `/models`,
+                url: this.generateUrl(`/models`),
                 data: models,
-                headers: {
+                headers: this.generateHeaders({
                     'Content-Type': 'application/json',
-                    authorization: 'Bearer ' + token,
-                    'x-adt-host': this.adtHostUrl
-                },
+                    authorization: 'Bearer ' + token
+                }),
                 params: {
                     'api-version': ADT_ApiVersion
                 }
@@ -584,13 +600,14 @@ export default class ADTAdapter implements IADTAdapter {
                     delete twinCopy['$dtId'];
                     const axiosResponse = await this.axiosInstance({
                         method: 'put',
-                        url: `/digitaltwins/${encodeURIComponent(twin.$dtId)}`,
+                        url: this.generateUrl(
+                            `/digitaltwins/${encodeURIComponent(twin.$dtId)}`
+                        ),
                         data: twinCopy,
-                        headers: {
+                        headers: this.generateHeaders({
                             'Content-Type': 'application/json',
-                            authorization: 'Bearer ' + token,
-                            'x-adt-host': this.adtHostUrl
-                        },
+                            authorization: 'Bearer ' + token
+                        }),
                         params: {
                             'api-version': ADT_ApiVersion
                         }
@@ -633,17 +650,18 @@ export default class ADTAdapter implements IADTAdapter {
                     };
                     const axiosResponse = await this.axiosInstance({
                         method: 'put',
-                        url: `/digitaltwins/${encodeURIComponent(
-                            relationship.$dtId
-                        )}/relationships/${encodeURIComponent(
-                            relationship.$relId
-                        )}`,
+                        url: this.generateUrl(
+                            `/digitaltwins/${encodeURIComponent(
+                                relationship.$dtId
+                            )}/relationships/${encodeURIComponent(
+                                relationship.$relId
+                            )}`
+                        ),
                         data: payload,
-                        headers: {
+                        headers: this.generateHeaders({
                             'Content-Type': 'application/json',
-                            authorization: 'Bearer ' + token,
-                            'x-adt-host': this.adtHostUrl
-                        },
+                            authorization: 'Bearer ' + token
+                        }),
                         params: {
                             'api-version': ADT_ApiVersion
                         }
@@ -753,12 +771,10 @@ export default class ADTAdapter implements IADTAdapter {
             KeyValuePairAdapterData,
             {
                 method: 'get',
-                url: `${
-                    this.adtProxyServerPath
-                }/digitaltwins/${encodeURIComponent(id)}`,
-                headers: {
-                    'x-adt-host': this.adtHostUrl
-                },
+                url: this.generateUrl(
+                    `/digitaltwins/${encodeURIComponent(id)}`
+                ),
+                headers: this.generateHeaders(),
                 params: {
                     'api-version': ADT_ApiVersion
                 }
@@ -784,16 +800,15 @@ export default class ADTAdapter implements IADTAdapter {
             const fetchFullModel = async (targetModelId: string) => {
                 return axios({
                     method: 'get',
-                    url: `${
-                        this.adtProxyServerPath
-                    }/models/${encodeURIComponent(
-                        targetModelId
-                    )}?includeModelDefinition=True`,
-                    headers: {
+                    url: this.generateUrl(
+                        `${this.adtProxyServerPath}/models/${encodeURIComponent(
+                            targetModelId
+                        )}?includeModelDefinition=True`
+                    ),
+                    headers: this.generateHeaders({
                         'Content-Type': 'application/json',
-                        authorization: 'Bearer ' + token,
-                        'x-adt-host': this.adtHostUrl
-                    },
+                        authorization: 'Bearer ' + token
+                    }),
                     params: {
                         'api-version': ADT_ApiVersion
                     }
@@ -895,15 +910,14 @@ export default class ADTAdapter implements IADTAdapter {
         return await adapterMethodSandbox.safelyFetchData(async (token) => {
             const axiosResponse = await axios({
                 method: 'patch',
-                url: `${
-                    this.adtProxyServerPath
-                }/digitaltwins/${encodeURIComponent(twinId)}`,
+                url: this.generateUrl(
+                    `/digitaltwins/${encodeURIComponent(twinId)}`
+                ),
                 data: patches,
-                headers: {
+                headers: this.generateHeaders({
                     'Content-Type': 'application/json',
-                    authorization: 'Bearer ' + token,
-                    'x-adt-host': this.adtHostUrl
-                },
+                    authorization: 'Bearer ' + token
+                }),
                 params: {
                     'api-version': ADT_ApiVersion
                 }
@@ -923,16 +937,15 @@ export default class ADTAdapter implements IADTAdapter {
         return await adapterMethodSandbox.safelyFetchData(async (token) => {
             const axiosResponse = await axios({
                 method: 'get',
-                url: `${
-                    this.adtProxyServerPath
-                }/digitaltwins/${encodeURIComponent(
-                    twinId
-                )}/relationships/${encodeURIComponent(relationshipId)}`,
-                headers: {
+                url: this.generateUrl(
+                    `/digitaltwins/${encodeURIComponent(
+                        twinId
+                    )}/relationships/${encodeURIComponent(relationshipId)}`
+                ),
+                headers: this.generateHeaders({
                     'Content-Type': 'application/json',
-                    authorization: 'Bearer ' + token,
-                    'x-adt-host': this.adtHostUrl
-                },
+                    authorization: 'Bearer ' + token
+                }),
                 params: {
                     'api-version': ADT_ApiVersion
                 }
@@ -952,17 +965,16 @@ export default class ADTAdapter implements IADTAdapter {
         return await adapterMethodSandbox.safelyFetchData(async (token) => {
             const axiosResponse = await axios({
                 method: 'patch',
-                url: `${
-                    this.adtProxyServerPath
-                }/digitaltwins/${encodeURIComponent(
-                    twinId
-                )}/relationships/${encodeURIComponent(relationshipId)}`,
+                url: this.generateUrl(
+                    `/digitaltwins/${encodeURIComponent(
+                        twinId
+                    )}/relationships/${encodeURIComponent(relationshipId)}`
+                ),
                 data: patches,
-                headers: {
+                headers: this.generateHeaders({
                     'Content-Type': 'application/json',
-                    authorization: 'Bearer ' + token,
-                    'x-adt-host': this.adtHostUrl
-                },
+                    authorization: 'Bearer ' + token
+                }),
                 params: {
                     'api-version': ADT_ApiVersion
                 }
@@ -995,15 +1007,14 @@ export default class ADTAdapter implements IADTAdapter {
             ADTRelationshipsData,
             {
                 method: 'get',
-                url: `${
-                    this.adtProxyServerPath
-                }/digitaltwins/${encodeURIComponent(
-                    twinId
-                )}/incomingrelationships`,
-                headers: {
-                    'Content-Type': 'application/json',
-                    'x-adt-host': this.adtHostUrl
-                },
+                url: this.generateUrl(
+                    `/digitaltwins/${encodeURIComponent(
+                        twinId
+                    )}/incomingrelationships`
+                ),
+                headers: this.generateHeaders({
+                    'Content-Type': 'application/json'
+                }),
                 params: {
                     'api-version': ADT_ApiVersion
                 }

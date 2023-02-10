@@ -1385,6 +1385,15 @@
       "noValidFilesTitle": "未找到型号",
       "noValidFilesMessage": "未找到要导入的模型文件。确保所选文件中存在有效的 JSON 文件。"
     },
+<<<<<<< HEAD
+=======
+    "PropertyEditor": {
+      "PreviewLabel": {
+        "badgeText": "预览",
+        "badgeCalloutText": "此模型使用预览版的 DTDLv3"
+      }
+    },
+>>>>>>> msnyder-upgrade
     "PropertyTypes": {
       "categories": {
         "complex": "复杂",
