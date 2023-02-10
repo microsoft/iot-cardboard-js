@@ -1386,9 +1386,15 @@
       "noValidFilesMessage": "Nem található importálható modellfájl. Győződjön meg arról, hogy vannak érvényes JSON-fájlok a kiválasztott fájl(ok)ban."
     },
     "PropertyEditor": {
-      "PreviewLabel": {
+      "Version3PreviewLabel": {
         "badgeText": "Előnézet",
-        "badgeCalloutText": "Ez a modell előzetes verzióban elérhető DTDLv3-at használ"
+        "badgeCalloutText": "Ez a modell a DTDL 3-as verzióját használja, amely előzetes verzióban érhető el"
+      },
+      "Version3UpgradeButton": {
+        "buttonText": "Frissítés a 3-as verzióra",
+        "confirmationTitle": "Frissítse a DTDL verziót?",
+        "confirmationMessage": "Biztosan frissíteni szeretné ezt a modellt a DTDL 3-as verziójára? Az összes meglévő konfiguráció megmarad.",
+        "confirmationButtonText": "Feljavít"
       }
     },
     "PropertyTypes": {
@@ -1452,5 +1458,7 @@
         "download": "Táblaadatok letöltése"
       }
     }
-  }
+  },
+  "increaseByDecimal": "Növelje az értéket 0,1-gyel",
+  "decreaseByDecimal": "Érték csökkentése 0,1-gyel"
 }

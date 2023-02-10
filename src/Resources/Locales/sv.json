@@ -1386,9 +1386,15 @@
       "noValidFilesMessage": "Inga modellfiler hittades att importera. Kontrollera att det finns giltiga JSON-filer i de valda filerna."
     },
     "PropertyEditor": {
-      "PreviewLabel": {
+      "Version3PreviewLabel": {
         "badgeText": "Förhandsvisning",
-        "badgeCalloutText": "Den här modellen använder DTDLv3 som är i förhandsversion"
+        "badgeCalloutText": "Denna modell använder DTDL version 3 som är i förhandsgranskning"
+      },
+      "Version3UpgradeButton": {
+        "buttonText": "Uppgradera till version 3",
+        "confirmationTitle": "Uppgradera DTDL-versionen?",
+        "confirmationMessage": "Är du säker på att du vill uppgradera den här modellen till DTDL version 3? Alla befintliga konfigurationer bevaras.",
+        "confirmationButtonText": "Uppgradera"
       }
     },
     "PropertyTypes": {
@@ -1452,5 +1458,7 @@
         "download": "Ladda ned tabelldata"
       }
     }
-  }
+  },
+  "increaseByDecimal": "Öka värdet med 0,1",
+  "decreaseByDecimal": "Minska värdet med 0,1"
 }
