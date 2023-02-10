@@ -1393,7 +1393,7 @@
       },
       "unsupportedPropertyType": "このプロパティタイプは、関連付けられたモデルの現在のコンテキストバージョンでは使用できません。"
     },
-    "PropertyEditor1": {
+    "PropertyEditor": {
       "Version3PreviewLabel": {
         "badgeText": "プレビュー",
         "badgeCalloutText": "このモデルは、プレビュー段階の DTDL バージョン 3 を使用します。"

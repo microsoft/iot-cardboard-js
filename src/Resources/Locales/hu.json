@@ -1393,7 +1393,7 @@
       },
       "unsupportedPropertyType": "Ez a tulajdonságtípus nem érhető el a társított modell aktuális környezetverziójához"
     },
-    "PropertyEditor1": {
+    "PropertyEditor": {
       "Version3PreviewLabel": {
         "badgeText": "Előnézet",
         "badgeCalloutText": "Ez a modell a DTDL 3-as verzióját használja, amely előzetes verzióban érhető el"
