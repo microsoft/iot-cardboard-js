@@ -655,6 +655,39 @@
       },
       "headerMenu": "Menü des Widgets \"Datenverlauf\"",
       "openQuery": "Abfrage im Azure-Daten-Explorer öffnen"
+    },
+    "powerBI": {
+      "title": "Power BI-Widget",
+      "libraryName": "Power BI-Visualisierung",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
+      "type": {
+        "label": "Art",
+        "options": {
+          "report": "Bericht",
+          "dashboard": "Instrumententafel",
+          "tile": "Fliese",
+          "visual": "Visuell"
+        }
+      },
+      "reportUrl": {
+        "label": "URL des Berichts",
+        "placeholder": "https://powerbi.com/groups/me/reports/{reportId}"
+      },
+      "pageName": {
+        "label": "Seitenname",
+        "placeholder": "Seitenname"
+      },
+      "visualName": {
+        "label": "Visueller Name",
+        "placeholder": "Visueller Name",
+        "suffix": "Geben Sie den Namen des spezifischen Elements aus dem Bericht ein, das in diesem Widget angezeigt werden soll."
+      },
+      "dataFilters": {
+        "label": "Datenfilter"
+      },
+      "errors": {
+        "missingReportConfiguration": "Bitte stellen Sie sicher, dass Ihr Widget richtig konfiguriert ist"
+      }
     }
   },
   "sdkStrings": {

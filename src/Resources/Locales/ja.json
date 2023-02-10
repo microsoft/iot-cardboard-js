@@ -655,6 +655,39 @@
       },
       "headerMenu": "データ履歴ウィジェットメニュー",
       "openQuery": "Azure データ エクスプローラーでクエリを開く"
+    },
+    "powerBI": {
+      "title": "Power BI ウィジェット",
+      "libraryName": "Power BI Visual",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
+      "type": {
+        "label": "種類",
+        "options": {
+          "report": "報告",
+          "dashboard": "ダッシュボード",
+          "tile": "瓦",
+          "visual": "ビジュアル"
+        }
+      },
+      "reportUrl": {
+        "label": "レポートの URL",
+        "placeholder": "https://powerbi.com/groups/me/reports/{レポートID}"
+      },
+      "pageName": {
+        "label": "ページ名",
+        "placeholder": "ページ名"
+      },
+      "visualName": {
+        "label": "ビジュアル名",
+        "placeholder": "ビジュアル名",
+        "suffix": "このウィジェットに表示するレポートの特定の要素の名前を入力します。"
+      },
+      "dataFilters": {
+        "label": "データフィルタ"
+      },
+      "errors": {
+        "missingReportConfiguration": "ウィジェットが正しく構成されていることを確認してください"
+      }
     }
   },
   "sdkStrings": {

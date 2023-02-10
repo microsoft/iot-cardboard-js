@@ -655,6 +655,39 @@
       },
       "headerMenu": "Menu widget de histórico de dados",
       "openQuery": "Consulta aberta no Azure Data Explorer"
+    },
+    "powerBI": {
+      "title": "Widget Power BI",
+      "libraryName": "Power BI Visual",
+      "description": "Lorem ipsum dolor senta-se amet, consectetur adipiscing elit, sed do eiusmod tempor",
+      "type": {
+        "label": "Tipo",
+        "options": {
+          "report": "Relatório",
+          "dashboard": "Painel de instrumentos",
+          "tile": "Azulejo",
+          "visual": "Visual"
+        }
+      },
+      "reportUrl": {
+        "label": "URL de relatório",
+        "placeholder": "https://powerbi.com/groups/me/reports/{reportId}"
+      },
+      "pageName": {
+        "label": "Nome da página",
+        "placeholder": "Nome da página"
+      },
+      "visualName": {
+        "label": "Nome visual",
+        "placeholder": "Nome visual",
+        "suffix": "Introduza o nome do elemento específico do relatório para mostrar neste widget"
+      },
+      "dataFilters": {
+        "label": "Filtros de dados"
+      },
+      "errors": {
+        "missingReportConfiguration": "Certifique-se de que o seu widget está devidamente configurado"
+      }
     }
   },
   "sdkStrings": {

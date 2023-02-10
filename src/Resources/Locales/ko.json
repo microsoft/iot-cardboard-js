@@ -655,6 +655,39 @@
       },
       "headerMenu": "데이터 기록 위젯 메뉴",
       "openQuery": "Azure 데이터 탐색기에서 쿼리 열기"
+    },
+    "powerBI": {
+      "title": "Power BI 위젯",
+      "libraryName": "Power BI Visual",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
+      "type": {
+        "label": "형",
+        "options": {
+          "report": "보고서",
+          "dashboard": "대시보드",
+          "tile": "타일",
+          "visual": "시각의"
+        }
+      },
+      "reportUrl": {
+        "label": "보고서 URL",
+        "placeholder": "https://powerbi.com/groups/me/reports/{보고서 ID}"
+      },
+      "pageName": {
+        "label": "페이지 이름",
+        "placeholder": "페이지 이름"
+      },
+      "visualName": {
+        "label": "시각적 개체 이름",
+        "placeholder": "시각적 개체 이름",
+        "suffix": "이 위젯에 표시할 보고서의 특정 요소 이름을 입력합니다."
+      },
+      "dataFilters": {
+        "label": "데이터 필터"
+      },
+      "errors": {
+        "missingReportConfiguration": "위젯이 올바르게 구성되었는지 확인하십시오."
+      }
     }
   },
   "sdkStrings": {

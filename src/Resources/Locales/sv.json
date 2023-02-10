@@ -655,6 +655,39 @@
       },
       "headerMenu": "Widgetmenyn Datahistorik",
       "openQuery": "Öppna frågan i Azure Data Explorer"
+    },
+    "powerBI": {
+      "title": "Power BI-widget",
+      "libraryName": "Visuellt Power BI-objekt",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
+      "type": {
+        "label": "Typ",
+        "options": {
+          "report": "Rapport",
+          "dashboard": "Instrumentbräda",
+          "tile": "Kakel",
+          "visual": "Visuell"
+        }
+      },
+      "reportUrl": {
+        "label": "Url för rapport",
+        "placeholder": "https://powerbi.com/groups/me/reports/{reportId}"
+      },
+      "pageName": {
+        "label": "Sidans namn",
+        "placeholder": "Sidans namn"
+      },
+      "visualName": {
+        "label": "Visuellt namn",
+        "placeholder": "Visuellt namn",
+        "suffix": "Ange namnet på det specifika elementet från rapporten som ska visas i den här widgeten"
+      },
+      "dataFilters": {
+        "label": "Datafilter"
+      },
+      "errors": {
+        "missingReportConfiguration": "Se till att din widget är korrekt konfigurerad"
+      }
     }
   },
   "sdkStrings": {

@@ -655,6 +655,39 @@
       },
       "headerMenu": "Меню виджета истории данных",
       "openQuery": "Открытие запроса в обозревателе данных Azure"
+    },
+    "powerBI": {
+      "title": "Виджет Power BI",
+      "libraryName": "Визуальный элемент Power BI",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
+      "type": {
+        "label": "Тип",
+        "options": {
+          "report": "Сообщать",
+          "dashboard": "Щиток",
+          "tile": "Кафель",
+          "visual": "Зрительный"
+        }
+      },
+      "reportUrl": {
+        "label": "URL-адрес отчета",
+        "placeholder": "https://powerbi.com/groups/me/reports/{reportId}"
+      },
+      "pageName": {
+        "label": "Название страницы",
+        "placeholder": "Название страницы"
+      },
+      "visualName": {
+        "label": "Визуальное имя",
+        "placeholder": "Визуальное имя",
+        "suffix": "Введите имя конкретного элемента из отчета, который будет отображаться в этом виджете"
+      },
+      "dataFilters": {
+        "label": "Фильтры данных"
+      },
+      "errors": {
+        "missingReportConfiguration": "Пожалуйста, убедитесь, что ваш виджет правильно настроен"
+      }
     }
   },
   "sdkStrings": {

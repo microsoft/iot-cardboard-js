@@ -655,6 +655,39 @@
       },
       "headerMenu": "Menu widget Cronologia dati",
       "openQuery": "Aprire query in Esplora dati di Azure"
+    },
+    "powerBI": {
+      "title": "Widget Power BI",
+      "libraryName": "Oggetto visivo di Power BI",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
+      "type": {
+        "label": "Digitare",
+        "options": {
+          "report": "Rapporto",
+          "dashboard": "Cruscotto",
+          "tile": "Tegola",
+          "visual": "Visivo"
+        }
+      },
+      "reportUrl": {
+        "label": "Report URL",
+        "placeholder": "https://powerbi.com/groups/me/reports/{reportId}"
+      },
+      "pageName": {
+        "label": "Nome della pagina",
+        "placeholder": "Nome della pagina"
+      },
+      "visualName": {
+        "label": "Nome visivo",
+        "placeholder": "Nome visivo",
+        "suffix": "Immettere il nome dell'elemento specifico del report da visualizzare in questo widget"
+      },
+      "dataFilters": {
+        "label": "Filtri dati"
+      },
+      "errors": {
+        "missingReportConfiguration": "Assicurati che il tuo widget sia configurato correttamente"
+      }
     }
   },
   "sdkStrings": {

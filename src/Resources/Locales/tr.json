@@ -655,6 +655,39 @@
       },
       "headerMenu": "Veri geçmişi widget menüsü",
       "openQuery": "Azure Veri Gezgini'nde sorgu açma"
+    },
+    "powerBI": {
+      "title": "Power BI pencere öğesi",
+      "libraryName": "Power BI Görsel",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
+      "type": {
+        "label": "Tür",
+        "options": {
+          "report": "Rapor",
+          "dashboard": "Tablo",
+          "tile": "Kiremit",
+          "visual": "Görsel"
+        }
+      },
+      "reportUrl": {
+        "label": "Rapor URL'si",
+        "placeholder": "https://powerbi.com/groups/me/reports/{reportId}"
+      },
+      "pageName": {
+        "label": "Sayfa Adı",
+        "placeholder": "Sayfa adı"
+      },
+      "visualName": {
+        "label": "Görsel Adı",
+        "placeholder": "Görsel ad",
+        "suffix": "Bu widget'ta gösterilecek rapordaki belirli öğenin adını girin"
+      },
+      "dataFilters": {
+        "label": "Veri Filtreleri"
+      },
+      "errors": {
+        "missingReportConfiguration": "Lütfen widget'ınızın doğru yapılandırıldığından emin olun"
+      }
     }
   },
   "sdkStrings": {

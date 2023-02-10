@@ -655,6 +655,39 @@
       },
       "headerMenu": "Widgetmenu gegevensgeschiedenis",
       "openQuery": "Query openen in Azure Data Explorer"
+    },
+    "powerBI": {
+      "title": "Power BI-widget",
+      "libraryName": "Power BI-visual",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
+      "type": {
+        "label": "Type",
+        "options": {
+          "report": "Rapport",
+          "dashboard": "Dashboard",
+          "tile": "Tegel",
+          "visual": "Visueel"
+        }
+      },
+      "reportUrl": {
+        "label": "URL van rapport",
+        "placeholder": "https://powerbi.com/groups/me/reports/{reportId}"
+      },
+      "pageName": {
+        "label": "Paginanaam",
+        "placeholder": "Paginanaam"
+      },
+      "visualName": {
+        "label": "Visuele naam",
+        "placeholder": "Visuele naam",
+        "suffix": "Voer de naam in van het specifieke element uit het rapport dat in deze widget moet worden weergegeven"
+      },
+      "dataFilters": {
+        "label": "Gegevensfilters"
+      },
+      "errors": {
+        "missingReportConfiguration": "Zorg ervoor dat uw widget correct is geconfigureerd"
+      }
     }
   },
   "sdkStrings": {
