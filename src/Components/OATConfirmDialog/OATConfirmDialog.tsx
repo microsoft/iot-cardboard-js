@@ -6,7 +6,7 @@ import { OatPageContextActionType } from '../../Models/Context/OatPageContext/Oa
 const OATConfirmDialog: React.FC = () => {
     // contexts
     const { oatPageState, oatPageDispatch } = useOatPageContext();
-    const dialogData = oatPageState.confirmDeleteOpen;
+    const dialogData = oatPageState.confirmDialog;
 
     // callbacks
     const closeDialog = () => {

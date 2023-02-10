@@ -124,7 +124,7 @@ export const GET_MOCK_OAT_CONTEXT_STATE = (): IOatPageContextState => {
     ];
     const currentFile = files[0].data;
     return {
-        confirmDeleteOpen: { open: false },
+        confirmDialog: { open: false },
         currentOntologyId: files[0].id,
         currentOntologyModelMetadata: currentFile.modelsMetadata,
         currentOntologyModelPositions: currentFile.modelPositions,
