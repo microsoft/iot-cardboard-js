@@ -8,7 +8,6 @@ import { getEditorPageStyles } from './OATEditorPage.styles';
 import OATErrorHandlingModal from './Internal/OATErrorHandlingModal';
 import OATErrorPage from './Internal/OATErrorPage';
 import { CommandHistoryContextProvider } from './Internal/Context/CommandHistoryContext';
-import OATConfirmDeleteModal from './Internal/OATConfirmDeleteModal';
 import { IOATEditorPageProps } from './OATEditorPage.types';
 import {
     OatPageContextProvider,
@@ -73,7 +72,6 @@ const OATEditorPageContent: React.FC<IOATEditorPageProps> = (props) => {
                     )}
                 </div>
                 <OATErrorHandlingModal />
-                <OATConfirmDeleteModal />
             </BaseComponent>
         </>
     );

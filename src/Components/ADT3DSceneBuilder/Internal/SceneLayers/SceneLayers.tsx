@@ -173,7 +173,7 @@ const SceneLayers: React.FC<ISceneLayersProps> = (props) => {
                     setConfirmDeleteLayerData(null);
                     calloutRef.current.focus();
                 }}
-                onConfirmDeletion={() => onDeleteLayer(confirmDeleteLayerData)}
+                onConfirm={() => onDeleteLayer(confirmDeleteLayerData)}
                 title={t('sceneLayers.deleteConfirmationTitle')}
                 message={t('sceneLayers.deleteConfirmationMessage')}
             />

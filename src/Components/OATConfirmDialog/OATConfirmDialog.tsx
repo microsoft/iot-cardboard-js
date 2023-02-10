@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { useOatPageContext } from '../../Models/Context/OatPageContext/OatPageContext';
 import ConfirmDeleteDialog from '../ADT3DSceneBuilder/Internal/ConfirmDeleteDialog/ConfirmDeleteDialog';
 import { OatPageContextActionType } from '../../Models/Context/OatPageContext/OatPageContext.types';
@@ -6,6 +6,7 @@ import { OatPageContextActionType } from '../../Models/Context/OatPageContext/Oa
 const OATConfirmDialog: React.FC = () => {
     // contexts
     const { oatPageState, oatPageDispatch } = useOatPageContext();
+    const dialogData = oatPageState.confirmDeleteOpen;
 
     // callbacks
     const closeDialog = () => {
@@ -14,17 +15,20 @@ const OATConfirmDialog: React.FC = () => {
             payload: { open: false }
         });
     };
+    const confirm = useCallback(() => {
+        if (dialogData.callback) {
+            dialogData.callback();
+        }
+    }, [dialogData]);
 
     return (
         <ConfirmDeleteDialog
-            isOpen={oatPageState.confirmDeleteOpen.open}
-            message={oatPageState.confirmDeleteOpen.message}
+            isOpen={dialogData.open}
+            message={dialogData.message}
             onClose={closeDialog}
-            onConfirmDeletion={() => {
-                oatPageState.confirmDeleteOpen.callback?.();
-                closeDialog();
-            }}
-            title={oatPageState.confirmDeleteOpen.title}
+            onConfirm={confirm}
+            title={dialogData.title}
+            primaryButtonText={dialogData.primaryButtonText}
         ></ConfirmDeleteDialog>
     );
 };

@@ -952,6 +952,12 @@
             "Version3PreviewLabel": {
                 "badgeText": "Preview",
                 "badgeCalloutText": "This model uses DTDLv3 which is in preview"
+            },
+            "Version3UpgradeButton": {
+                "title": "Upgrade model to V3",
+                "confirmationTitle": "Upgrade model?",
+                "confirmationMessage": "Are you sure you want to upgrade this model to version 3?",
+                "confirmationButtonText": "Upgrade"
             }
         }
     },

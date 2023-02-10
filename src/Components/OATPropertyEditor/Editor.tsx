@@ -1,5 +1,11 @@
 import React, { useCallback, useRef } from 'react';
-import { classNamesFunction, Pivot, PivotItem, styled } from '@fluentui/react';
+import {
+    classNamesFunction,
+    Pivot,
+    PivotItem,
+    Stack,
+    styled
+} from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import NoResultImg from '../../Resources/Static/emptyClipboard.svg';
 import TemplateColumn from './Internal/TemplateColumn';
@@ -26,6 +32,7 @@ import {
     isDTDLModel,
     modelHasVersion3Context
 } from '../../Models/Services/DtdlUtils';
+import Version3UpgradeButton from './Internal/Version3UpgradeButton/Version3UpgradeButton';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('Editor', debugLogging);
@@ -151,9 +158,14 @@ const Editor: React.FC<IEditorProps> = (props) => {
                 </Pivot>
                 {isDTDLModel(selectedItem) &&
                     modelHasVersion3Context(selectedItem) && (
-                        <div className={classNames.previewLabelContainer}>
+                        <Stack
+                            className={classNames.previewLabelContainer}
+                            horizontal
+                            tokens={{ childrenGap: 4 }}
+                        >
+                            <Version3UpgradeButton />
                             <Version3PreviewLabel />
-                        </div>
+                        </Stack>
                     )}
                 {oatPageState.templatesActive && (
                     <TemplateColumn
