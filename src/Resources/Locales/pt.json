@@ -1386,24 +1386,9 @@
       "noValidFilesMessage": "Nenhum arquivo de modelo encontrado para importar. Verifique se há arquivos JSON válidos no(s) arquivo(s) selecionado(s)."
     },
     "PropertyEditor": {
-      "Version3PreviewLabel": {
+      "PreviewLabel": {
         "badgeText": "Visualizar",
-<<<<<<< HEAD
-        "badgeCalloutText": "Este modelo usa DTDL versão 3 que está em pré-visualização"
-      },
-      "Version3UpgradeButton": {
-        "buttonText": "Atualizar para a versão 3",
-        "confirmationTitle": "Atualizar a versão DTDL?",
-        "confirmationMessage": "Tem certeza de que deseja atualizar este modelo para DTDL versão 3? Todas as configurações existentes serão preservadas.",
-=======
         "badgeCalloutText": "Este modelo usa DTDLv3 que está em pré-visualização"
-      },
-      "Version3UpgradeButton": {
-        "title": "Atualizar modelo para DTDLv3",
-        "confirmationTitle": "Atualizar modelo?",
-        "confirmationMessage": "Tem certeza de que deseja atualizar este modelo para DTDL versão 3? Todas as suas configurações serão preservadas.",
->>>>>>> msnyder-upgrade
-        "confirmationButtonText": "Melhoramento"
       }
     },
     "PropertyTypes": {
@@ -1467,7 +1452,5 @@
         "download": "Baixar dados da tabela"
       }
     }
-  },
-  "increaseByDecimal": "Aumentar o valor em 0,1",
-  "decreaseByDecimal": "Diminuir o valor em 0,1"
+  }
 }

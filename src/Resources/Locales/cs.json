@@ -1386,24 +1386,9 @@
       "noValidFilesMessage": "Nebyly nalezeny žádné soubory modelu k importu. Ujistěte se, že ve vybraných souborech jsou platné soubory JSON."
     },
     "PropertyEditor": {
-      "Version3PreviewLabel": {
+      "PreviewLabel": {
         "badgeText": "Náhled",
-<<<<<<< HEAD
-        "badgeCalloutText": "Tento model používá DTDL verze 3, která je ve verzi Preview"
-      },
-      "Version3UpgradeButton": {
-        "buttonText": "Upgrade na verzi 3",
-        "confirmationTitle": "Upgradovat verzi DTDL?",
-        "confirmationMessage": "Opravdu chcete upgradovat tento model na DTDL verzi 3? Všechny existující konfigurace budou zachovány.",
-=======
         "badgeCalloutText": "Tento model používá DTDLv3, který je ve verzi Preview"
-      },
-      "Version3UpgradeButton": {
-        "title": "Aktualizace modelu na DTDLv3",
-        "confirmationTitle": "Upgradovat model?",
-        "confirmationMessage": "Opravdu chcete upgradovat tento model na DTDL verzi 3? Všechny vaše konfigurace budou zachovány.",
->>>>>>> msnyder-upgrade
-        "confirmationButtonText": "Upgrade"
       }
     },
     "PropertyTypes": {
@@ -1467,7 +1452,5 @@
         "download": "Stáhnout data tabulky"
       }
     }
-  },
-  "increaseByDecimal": "Zvýšení hodnoty o 0,1",
-  "decreaseByDecimal": "Snížení hodnoty o 0,1"
+  }
 }

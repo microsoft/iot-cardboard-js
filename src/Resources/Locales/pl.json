@@ -1386,24 +1386,9 @@
       "noValidFilesMessage": "Nie znaleziono plików modeli do zaimportowania. Upewnij się, że w wybranych plikach znajdują się prawidłowe pliki JSON."
     },
     "PropertyEditor": {
-      "Version3PreviewLabel": {
+      "PreviewLabel": {
         "badgeText": "Prapremiera",
-<<<<<<< HEAD
-        "badgeCalloutText": "Ten model korzysta z protokołu DTDL w wersji 3, który jest dostępny w wersji zapoznawczej"
-      },
-      "Version3UpgradeButton": {
-        "buttonText": "Aktualizacja do wersji 3",
-        "confirmationTitle": "Uaktualnić wersję DTDL?",
-        "confirmationMessage": "Czy na pewno chcesz uaktualnić ten model do wersji DTDL 3? Wszystkie istniejące konfiguracje zostaną zachowane.",
-=======
         "badgeCalloutText": "W tym modelu jest używana wersja DTDLv3, która jest w wersji zapoznawczej"
-      },
-      "Version3UpgradeButton": {
-        "title": "Uaktualnij model do DTDLv3",
-        "confirmationTitle": "Model uaktualnienia?",
-        "confirmationMessage": "Czy na pewno chcesz uaktualnić ten model do wersji DTDL 3? Wszystkie konfiguracje zostaną zachowane.",
->>>>>>> msnyder-upgrade
-        "confirmationButtonText": "Upgrade"
       }
     },
     "PropertyTypes": {
@@ -1467,7 +1452,5 @@
         "download": "Pobierz dane tabeli"
       }
     }
-  },
-  "increaseByDecimal": "Zwiększ wartość o 0,1",
-  "decreaseByDecimal": "Zmniejsz wartość o 0,1"
+  }
 }

@@ -1386,24 +1386,9 @@
       "noValidFilesMessage": "未找到要导入的模型文件。确保所选文件中存在有效的 JSON 文件。"
     },
     "PropertyEditor": {
-      "Version3PreviewLabel": {
+      "PreviewLabel": {
         "badgeText": "预览",
-<<<<<<< HEAD
-        "badgeCalloutText": "此模型使用预览版的 DTDL 版本 3"
-      },
-      "Version3UpgradeButton": {
-        "buttonText": "升级到版本 3",
-        "confirmationTitle": "升级DTDL版本？",
-        "confirmationMessage": "是否确实要将此模型升级到 DTDL 版本 3？将保留所有现有配置。",
-=======
         "badgeCalloutText": "此模型使用预览版的 DTDLv3"
-      },
-      "Version3UpgradeButton": {
-        "title": "将模型升级到 DTDLv3",
-        "confirmationTitle": "升级模式？",
-        "confirmationMessage": "是否确实要将此模型升级到 DTDL 版本 3？您的所有配置都将保留。",
->>>>>>> msnyder-upgrade
-        "confirmationButtonText": "升级"
       }
     },
     "PropertyTypes": {
@@ -1467,7 +1452,5 @@
         "download": "下载表数据"
       }
     }
-  },
-  "increaseByDecimal": "增加 0.1 的值",
-  "decreaseByDecimal": "减少值 0.1"
+  }
 }

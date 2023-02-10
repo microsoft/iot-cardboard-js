@@ -1386,24 +1386,9 @@
       "noValidFilesMessage": "Файлы модели не найдены для импорта. Убедитесь, что в выбранных файлах есть допустимые файлы JSON."
     },
     "PropertyEditor": {
-      "Version3PreviewLabel": {
+      "PreviewLabel": {
         "badgeText": "Предварительный просмотр",
-<<<<<<< HEAD
-        "badgeCalloutText": "Эта модель использует DTDL версии 3, которая находится в предварительной версии"
-      },
-      "Version3UpgradeButton": {
-        "buttonText": "Обновление до версии 3",
-        "confirmationTitle": "Обновить версию DTDL?",
-        "confirmationMessage": "Вы уверены, что хотите обновить эту модель до DTDL версии 3? Все существующие конфигурации будут сохранены.",
-=======
         "badgeCalloutText": "Эта модель использует DTDLv3, который находится в предварительной версии"
-      },
-      "Version3UpgradeButton": {
-        "title": "Обновление модели до DTDLv3",
-        "confirmationTitle": "Обновить модель?",
-        "confirmationMessage": "Вы уверены, что хотите обновить эту модель до DTDL версии 3? Все ваши конфигурации будут сохранены.",
->>>>>>> msnyder-upgrade
-        "confirmationButtonText": "Модернизировать"
       }
     },
     "PropertyTypes": {
@@ -1467,7 +1452,5 @@
         "download": "Загрузка табличных данных"
       }
     }
-  },
-  "increaseByDecimal": "Увеличение значения на 0,1",
-  "decreaseByDecimal": "Уменьшение значения на 0,1"
+  }
 }
