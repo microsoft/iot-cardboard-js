@@ -1399,11 +1399,10 @@
         "badgeCalloutText": "이 모델은 미리 보기로 제공되는 DTDL 버전 3을 사용합니다."
       },
       "Version3UpgradeButton": {
-        "buttonText": "업그레이드",
-        "buttonTitle": "모델을 DTDL 버전 3으로 업그레이드",
         "confirmationTitle": "DTDL 버전을 업그레이드하시겠습니까?",
         "confirmationMessage": "이 모델을 DTDL 버전 3으로 업그레이드하시겠습니까? 모든 구성이 유지됩니다.",
-        "confirmationButtonText": "업그레이드"
+        "confirmationButtonText": "업그레이드",
+        "buttonText1": "DTDL 버전 3으로 업그레이드"
       }
     }
   },

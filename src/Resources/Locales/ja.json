@@ -1399,11 +1399,10 @@
         "badgeCalloutText": "このモデルは、プレビュー段階の DTDL バージョン 3 を使用します。"
       },
       "Version3UpgradeButton": {
-        "buttonText": "アップグレード",
-        "buttonTitle": "モデルを DTDL バージョン 3 にアップグレードする",
         "confirmationTitle": "DTDLバージョンをアップグレードしますか?",
         "confirmationMessage": "このモデルを DTDL バージョン 3 にアップグレードしてもよろしいですか?すべての構成が保持されます。",
-        "confirmationButtonText": "アップグレード"
+        "confirmationButtonText": "アップグレード",
+        "buttonText1": "DTDL バージョン 3 へのアップグレード"
       }
     }
   },

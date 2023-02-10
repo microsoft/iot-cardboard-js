@@ -1399,11 +1399,10 @@
         "badgeCalloutText": "Denna modell använder DTDL version 3 som är i förhandsgranskning"
       },
       "Version3UpgradeButton": {
-        "buttonText": "Uppgradera",
-        "buttonTitle": "Uppgradera modell till DTDL version 3",
         "confirmationTitle": "Uppgradera DTDL-versionen?",
         "confirmationMessage": "Är du säker på att du vill uppgradera den här modellen till DTDL version 3? Alla dina konfigurationer bevaras.",
-        "confirmationButtonText": "Uppgradera"
+        "confirmationButtonText": "Uppgradera",
+        "buttonText1": "Uppgradera till DTDL version 3"
       }
     }
   },

@@ -1399,11 +1399,10 @@
         "badgeCalloutText": "此模型使用预览版的 DTDL 版本 3"
       },
       "Version3UpgradeButton": {
-        "buttonText": "升级",
-        "buttonTitle": "将模型升级到 DTDL 版本 3",
         "confirmationTitle": "升级DTDL版本？",
         "confirmationMessage": "是否确实要将此模型升级到 DTDL 版本 3？您的所有配置都将保留。",
-        "confirmationButtonText": "升级"
+        "confirmationButtonText": "升级",
+        "buttonText1": "升级到 DTDL 版本 3"
       }
     }
   },

@@ -1399,11 +1399,10 @@
         "badgeCalloutText": "Dit model maakt gebruik van DTDL versie 3 die in preview is"
       },
       "Version3UpgradeButton": {
-        "buttonText": "Opwaarderen",
-        "buttonTitle": "Upgrade model naar DTDL versie 3",
         "confirmationTitle": "DTDL-versie upgraden?",
         "confirmationMessage": "Weet u zeker dat u dit model wilt upgraden naar DTDL versie 3? Al uw configuraties blijven behouden.",
-        "confirmationButtonText": "Opwaarderen"
+        "confirmationButtonText": "Opwaarderen",
+        "buttonText1": "Upgrade naar DTDL versie 3"
       }
     }
   },

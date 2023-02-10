@@ -1399,11 +1399,10 @@
         "badgeCalloutText": "Este modelo utiliza DTDL versión 3 que está en vista previa"
       },
       "Version3UpgradeButton": {
-        "buttonText": "Actualizar",
-        "buttonTitle": "Actualizar modelo a DTDL versión 3",
         "confirmationTitle": "¿Actualizar la versión DTDL?",
         "confirmationMessage": "¿Está seguro de que desea actualizar este modelo a DTDL versión 3? Se conservarán todas las configuraciones.",
-        "confirmationButtonText": "Actualizar"
+        "confirmationButtonText": "Actualizar",
+        "buttonText1": "Actualizar a DTDL versión 3"
       }
     }
   },

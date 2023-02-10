@@ -1399,11 +1399,10 @@
         "badgeCalloutText": "Ez a modell a DTDL 3-as verzióját használja, amely előzetes verzióban érhető el"
       },
       "Version3UpgradeButton": {
-        "buttonText": "Feljavít",
-        "buttonTitle": "Modell frissítése a DTDL 3-as verziójára",
         "confirmationTitle": "Frissítse a DTDL verziót?",
         "confirmationMessage": "Biztosan frissíteni szeretné ezt a modellt a DTDL 3-as verziójára? Az összes konfiguráció megmarad.",
-        "confirmationButtonText": "Feljavít"
+        "confirmationButtonText": "Feljavít",
+        "buttonText1": "Frissítés a DTDL 3-as verziójára"
       }
     }
   },
