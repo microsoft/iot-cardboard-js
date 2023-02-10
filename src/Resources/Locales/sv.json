@@ -1226,7 +1226,7 @@
     },
     "noSelectionMessage": "Välj en modell eller relation för att visa information",
     "propertiesNotSupported": "Det markerade objektet stöder inte egenskaper",
-    "contextVersion1": "DTDL-version"
+    "contextVersion": "DTDL-version"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Felmeddelande",

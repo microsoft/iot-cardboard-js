@@ -1226,7 +1226,7 @@
     },
     "noSelectionMessage": "Selecione um modelo ou relação para ver detalhes",
     "propertiesNotSupported": "O item selecionado não suporta propriedades",
-    "contextVersion1": "Versão DTDL"
+    "contextVersion": "Versão DTDL"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Mensagem de erro",
