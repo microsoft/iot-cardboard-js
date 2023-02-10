@@ -85,12 +85,20 @@ export const LOCAL_STORAGE_KEYS = {
         },
         DataHistory: {
             showDataHistoryWidget: 'cardboard.feature.dataHistoryWidget' // shows data history widget widget library
+        },
+        Proxy: {
+            forceProxy: 'cardboard.feature.forceProxy' // force proxy to run instead of CORS
         }
     },
     Environment: {
         Configuration: 'cb-environment-configuration',
         Options: 'cb-environment-options'
     }
+};
+
+export const ADT_ALLOW_LISTED_URLS = {
+    DEV: 'https://dev.explorer.azuredigitaltwins-test.net',
+    PROD: 'https://explorer.digitaltwins.azure.net'
 };
 
 export const dtdlPrimitiveTypesList = [
