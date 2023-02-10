@@ -1,4 +1,10 @@
-import React, { useContext, useState, useCallback, useEffect } from 'react';
+import React, {
+    useContext,
+    useState,
+    useCallback,
+    useEffect,
+    useMemo
+} from 'react';
 import {
     Stack,
     Text,
@@ -25,7 +31,9 @@ import { OatPageContextActionType } from '../../../Models/Context/OatPageContext
 import { getStyles } from './PropertiesModelSummary.styles';
 import { useExtendedTheme } from '../../../Models/Hooks/useExtendedTheme';
 import {
+    contextHasVersion2,
     DTMI_VALIDATION_REGEX,
+    getModelOrParentContext,
     isDTDLModel,
     isDTDLReference,
     isValidDtmiId,
@@ -77,6 +85,18 @@ export const PropertiesModelSummary: React.FC<IPropertiesModelSummaryProps> = (
         path: modelPath,
         version: Number(modelVersion)
     });
+
+    const modelContext = useMemo(() => {
+        return getModelOrParentContext(
+            selectedItem,
+            oatPageState.currentOntologyModels,
+            oatPageState.selection
+        );
+    }, [
+        oatPageState.currentOntologyModels,
+        oatPageState.selection,
+        selectedItem
+    ]);
 
     // callbacks
     const initializeIdFields = useCallback(
@@ -153,11 +173,13 @@ export const PropertiesModelSummary: React.FC<IPropertiesModelSummaryProps> = (
         },
         [
             execute,
+            initializeIdFields,
             oatPageDispatch,
             oatPageState.currentOntologyModelPositions,
             oatPageState.currentOntologyModels,
             oatPageState.selection,
-            selectedItem
+            selectedItem,
+            t
         ]
     );
     const commitReferenceNameChange = useCallback(
@@ -219,15 +241,18 @@ export const PropertiesModelSummary: React.FC<IPropertiesModelSummaryProps> = (
             setModelPath(value.trim());
         }
     }, []);
-    const onChangeRelationshipName = useCallback((_ev, value: string) => {
-        if (
-            selectedItem &&
-            isDTDLReference(selectedItem) &&
-            isValidReferenceName(value.trim(), selectedItem['@type'], false)
-        ) {
-            setRelationshipName(value.trim());
-        }
-    }, []);
+    const onChangeRelationshipName = useCallback(
+        (_ev, value: string) => {
+            if (
+                selectedItem &&
+                isDTDLReference(selectedItem) &&
+                isValidReferenceName(value.trim(), selectedItem['@type'], false)
+            ) {
+                setRelationshipName(value.trim());
+            }
+        },
+        [selectedItem]
+    );
 
     // needed primarly for the version spinner since it behaves differently and you don't have to set focus
     const forceUpdateId = useCallback(
@@ -246,7 +271,7 @@ export const PropertiesModelSummary: React.FC<IPropertiesModelSummaryProps> = (
     // when selected item changes, update all the states
     useEffect(() => {
         initializeIdFields(selectedItem);
-    }, [selectedItem]);
+    }, [initializeIdFields, selectedItem]);
 
     // styles
     const classNames = getClassNames(styles, {
@@ -353,6 +378,19 @@ export const PropertiesModelSummary: React.FC<IPropertiesModelSummaryProps> = (
                             </Text>
                             <SpinButton
                                 aria-labelledby={'oat-model-version'}
+                                decrementButtonAriaLabel={
+                                    contextHasVersion2(modelContext)
+                                        ? t('decreaseBy1')
+                                        : t('decreaseByDecimal')
+                                }
+                                incrementButtonAriaLabel={
+                                    contextHasVersion2(modelContext)
+                                        ? t('increaseBy1')
+                                        : t('increaseByDecimal')
+                                }
+                                step={
+                                    contextHasVersion2(modelContext) ? 1 : 0.1
+                                }
                                 onChange={(_ev, value) => {
                                     // special handling because this only fires when focus is lost OR when you click the increment/decrement buttons
                                     forceUpdateId({ version: value });
