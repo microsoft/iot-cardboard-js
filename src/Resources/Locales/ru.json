@@ -1385,18 +1385,6 @@
       "noValidFilesTitle": "Модели не найдены",
       "noValidFilesMessage": "Файлы модели не найдены для импорта. Убедитесь, что в выбранных файлах есть допустимые файлы JSON."
     },
-    "PropertyEditor": {
-      "Version3PreviewLabel": {
-        "badgeText": "Предварительный просмотр",
-        "badgeCalloutText": "Эта модель использует DTDLv3, который находится в предварительной версии"
-      },
-      "Version3UpgradeButton": {
-        "title": "Обновление модели до DTDLv3",
-        "confirmationTitle": "Обновить модель?",
-        "confirmationMessage": "Вы уверены, что хотите обновить эту модель до DTDL версии 3? Все ваши конфигурации будут сохранены.",
-        "confirmationButtonText": "Модернизировать"
-      }
-    },
     "PropertyTypes": {
       "categories": {
         "complex": "Сложный",
@@ -1404,6 +1392,18 @@
         "geospatial": "Геопространственные"
       },
       "unsupportedPropertyType": "Этот тип свойства недоступен для текущей контекстной версии связанной модели"
+    },
+    "PropertyEditor1": {
+      "Version3PreviewLabel": {
+        "badgeText": "Предварительный просмотр",
+        "badgeCalloutText": "Эта модель использует DTDL версии 3, которая находится в предварительной версии"
+      },
+      "Version3UpgradeButton": {
+        "title": "Обновление модели до DTDL версии 3",
+        "confirmationTitle": "Обновить модель?",
+        "confirmationMessage": "Вы уверены, что хотите обновить эту модель до DTDL версии 3? Все ваши конфигурации будут сохранены.",
+        "confirmationButtonText": "Модернизировать"
+      }
     }
   },
   "dataHistoryErrorHandlingWrapper": {
@@ -1458,5 +1458,7 @@
         "download": "Загрузка табличных данных"
       }
     }
-  }
+  },
+  "increaseByDecimal": "Увеличение значения на 0,1",
+  "decreaseByDecimal": "Уменьшение значения на 0,1"
 }

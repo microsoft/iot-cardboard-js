@@ -1385,18 +1385,6 @@
       "noValidFilesTitle": "Nessun modello trovato",
       "noValidFilesMessage": "Nessun file di modello trovato da importare. Assicurarsi che ci siano file JSON validi nei file selezionati."
     },
-    "PropertyEditor": {
-      "Version3PreviewLabel": {
-        "badgeText": "Anteprima",
-        "badgeCalloutText": "Questo modello utilizza DTDLv3 che è in anteprima"
-      },
-      "Version3UpgradeButton": {
-        "title": "Aggiornare il modello a DTDLv3",
-        "confirmationTitle": "Modello di aggiornamento?",
-        "confirmationMessage": "Aggiornare questo modello alla versione 3 DTDL? Tutte le configurazioni verranno mantenute.",
-        "confirmationButtonText": "Aggiornamento"
-      }
-    },
     "PropertyTypes": {
       "categories": {
         "complex": "Complesso",
@@ -1404,6 +1392,18 @@
         "geospatial": "Geospaziale"
       },
       "unsupportedPropertyType": "Questo tipo di proprietà non è disponibile per la versione di contesto corrente del modello associato"
+    },
+    "PropertyEditor1": {
+      "Version3PreviewLabel": {
+        "badgeText": "Anteprima",
+        "badgeCalloutText": "Questo modello utilizza DTDL versione 3 che è in anteprima"
+      },
+      "Version3UpgradeButton": {
+        "title": "Aggiornare il modello a DTDL versione 3",
+        "confirmationTitle": "Modello di aggiornamento?",
+        "confirmationMessage": "Aggiornare questo modello alla versione 3 DTDL? Tutte le configurazioni verranno mantenute.",
+        "confirmationButtonText": "Aggiornamento"
+      }
     }
   },
   "dataHistoryErrorHandlingWrapper": {
@@ -1458,5 +1458,7 @@
         "download": "Scarica i dati della tabella"
       }
     }
-  }
+  },
+  "increaseByDecimal": "Aumentare il valore di 0,1",
+  "decreaseByDecimal": "Diminuire il valore di 0,1"
 }
