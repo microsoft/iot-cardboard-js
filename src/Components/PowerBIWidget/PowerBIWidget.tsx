@@ -1,4 +1,6 @@
 import React from 'react';
+import { PowerBIEmbed } from 'powerbi-client-react';
+import { BackgroundType } from 'powerbi-models';
 import {
     IPowerBIWidgetProps,
     IPowerBIWidgetStyleProps,
@@ -14,7 +16,8 @@ const getClassNames = classNamesFunction<
 >();
 
 const PowerBIWidget: React.FC<IPowerBIWidgetProps> = (props) => {
-    const { styles } = props;
+    const { styles, widget } = props;
+    const { widgetConfiguration } = widget || {};
 
     // contexts
 
@@ -32,7 +35,43 @@ const PowerBIWidget: React.FC<IPowerBIWidgetProps> = (props) => {
         theme: useTheme()
     });
 
-    return <div className={classNames.root}>{t('greeting')}</div>;
+    if (
+        widgetConfiguration?.reportId &&
+        (widgetConfiguration.type === 'visual' ||
+            widgetConfiguration.type === 'tile')
+    ) {
+        return (
+            <div className={classNames.root}>
+                <div className={classNames.header}>
+                    {widgetConfiguration.label}
+                </div>
+                <PowerBIEmbed
+                    embedConfig={{
+                        type: widgetConfiguration?.type || 'visual',
+                        id: widgetConfiguration.reportId,
+                        visualName: widgetConfiguration?.visualName,
+                        settings: {
+                            panes: {
+                                filters: {
+                                    expanded: false,
+                                    visible: false
+                                }
+                            },
+                            background: BackgroundType.Transparent
+                        },
+                        filters: {}
+                    }}
+                />
+            </div>
+        );
+    }
+    return (
+        <div className={classNames.root}>
+            <div className={classNames.header}>
+                {t('widgets.powerBI.errors.missingReportConfiguration')}
+            </div>
+        </div>
+    );
 };
 
 export default styled<

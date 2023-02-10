@@ -650,6 +650,9 @@
             },
             "dataFilters": {
                 "label": "Data Filters"
+            },
+            "errors": {
+                "missingReportConfiguration": "Please ensure that your widget is properly configured"
             }
         },
         "dataHistory": {

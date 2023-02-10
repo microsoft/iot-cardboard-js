@@ -648,19 +648,29 @@
                 "type": {
                     "description": "Supported types: report, dashboard, tile, visual",
                     "type": "string",
-                    "enum": ["report", "dashboard", "tile", "visual"]
+                    "enum": ["tile", "visual"]
                 },
                 "label": {
                     "type": "string"
                 },
+                "embedUrl": {
+                    "type": "string",
+                    "description": "The URL of the report that contains the visual that you're embedding. This URL becomes the source of the HTML iframe element that contains the embedded visual. Specifically, the API assigns the URL to the src attribute of the iframe. Similar to \"https://app.powerbi.com/reportEmbed?reportId=<report ID>&groupId=<group ID>\" or \"https://app.powerbi.com/groups/<group ID>/reports/<report ID>\""
+                },
                 "reportId": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "The ID of the Power BI report that contains the visual that you're embedding"
                 },
                 "pageName": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "The name of the page that contains the visual that you're embedding"
                 },
                 "visualName": {
                     "type": "string"
+                },
+                "dataFilterExpression": {
+                    "type": "string",
+                    "description": "Template string which evalues to data filter"
                 }
             },
             "required": ["type", "label", "reportId"]

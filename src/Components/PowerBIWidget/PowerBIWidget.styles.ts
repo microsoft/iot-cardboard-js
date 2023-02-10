@@ -1,4 +1,4 @@
-import { FontSizes, FontWeights } from '@fluentui/react';
+import { FontSizes } from '@fluentui/react';
 import {
     IPowerBIWidgetStyleProps,
     IPowerBIWidgetStyles
@@ -20,15 +20,18 @@ export const getStyles = (
                 borderRight: `1px solid ${props.theme.palette.neutralLight}`,
                 display: 'flex',
                 flexDirection: 'column',
-                height: '100%'
+                height: '100%',
+                width: '100%'
             }
         ],
         header: [
             classNames.header,
             {
-                fontWeight: FontWeights.semibold,
-                fontSize: FontSizes.size16,
-                marginTop: '0 !important'
+                width: '100%',
+                padding: 8,
+                height: 36,
+                display: 'flex',
+                justifyContent: 'space-between'
             }
         ],
         description: [

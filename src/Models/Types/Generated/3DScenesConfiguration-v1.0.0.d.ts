@@ -304,11 +304,25 @@ export interface IPowerBIWidgetConfiguration {
     /**
      * Supported types: report, dashboard, tile, visual
      */
-    type: 'report' | 'dashboard' | 'tile' | 'visual';
+    type: 'tile' | 'visual';
     label: string;
+    /**
+     * The URL of the report that contains the visual that you're embedding. This URL becomes the source of the HTML iframe element that contains the embedded visual. Specifically, the API assigns the URL to the src attribute of the iframe. Similar to "https://app.powerbi.com/reportEmbed?reportId=<report ID>&groupId=<group ID>" or "https://app.powerbi.com/groups/<group ID>/reports/<report ID>"
+     */
+    embedUrl?: string;
+    /**
+     * The ID of the Power BI report that contains the visual that you're embedding
+     */
     reportId: string;
+    /**
+     * The name of the page that contains the visual that you're embedding
+     */
     pageName?: string;
     visualName?: string;
+    /**
+     * Template string which evalues to data filter
+     */
+    dataFilterExpression?: string;
 }
 /**
  * objectIDs specify the objects in the scene that a visual pertains to
