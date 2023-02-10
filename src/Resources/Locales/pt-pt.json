@@ -1226,7 +1226,7 @@
     },
     "noSelectionMessage": "Selecione um modelo ou relação para ver detalhes",
     "propertiesNotSupported": "O item selecionado não suporta propriedades",
-    "contextVersion": "Versão DTDL"
+    "contextVersion": "Versão de contexto"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Mensagem de erro",
@@ -1385,15 +1385,12 @@
       "noValidFilesTitle": "Nenhum modelo encontrado",
       "noValidFilesMessage": "Nenhum modelo de ficheiros encontrados para importar. Certifique-se de que existem ficheiros JSON válidos nos ficheiros selecionados."
     },
-<<<<<<< HEAD
-=======
     "PropertyEditor": {
       "PreviewLabel": {
         "badgeText": "Previsualizar",
         "badgeCalloutText": "Este modelo utiliza DTDLv3 que está em pré-visualização"
       }
     },
->>>>>>> msnyder-upgrade
     "PropertyTypes": {
       "categories": {
         "complex": "Complexo",
@@ -1401,18 +1398,6 @@
         "geospatial": "Geoespacial"
       },
       "unsupportedPropertyType": "Este tipo de propriedade não está disponível para a versão de contexto atual do modelo associado"
-    },
-    "PropertyEditor": {
-      "Version3PreviewLabel": {
-        "badgeText": "Previsualizar",
-        "badgeCalloutText": "Este modelo utiliza a versão DTDL 3 que está em pré-visualização"
-      },
-      "Version3UpgradeButton": {
-        "buttonText": "Upgrade para a versão 3",
-        "confirmationTitle": "Atualizar a versão DTDL?",
-        "confirmationMessage": "Tem a certeza de que pretende atualizar este modelo para a versão DTDL 3? Todas as configurações existentes serão preservadas.",
-        "confirmationButtonText": "Atualização"
-      }
     }
   },
   "dataHistoryErrorHandlingWrapper": {
@@ -1467,7 +1452,5 @@
         "download": "Baixar dados de tabela"
       }
     }
-  },
-  "increaseByDecimal": "Valor de aumento em 0.1",
-  "decreaseByDecimal": "Valor de diminuição de 0,1"
+  }
 }

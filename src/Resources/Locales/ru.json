@@ -1226,7 +1226,7 @@
     },
     "noSelectionMessage": "Выбор модели или связи для просмотра сведений",
     "propertiesNotSupported": "Выбранный элемент не поддерживает свойства",
-    "contextVersion": "Версия DTDL"
+    "contextVersion": "Контекстная версия"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Сообщение об ошибке",
@@ -1385,15 +1385,12 @@
       "noValidFilesTitle": "Модели не найдены",
       "noValidFilesMessage": "Файлы модели не найдены для импорта. Убедитесь, что в выбранных файлах есть допустимые файлы JSON."
     },
-<<<<<<< HEAD
-=======
     "PropertyEditor": {
       "PreviewLabel": {
         "badgeText": "Предварительный просмотр",
         "badgeCalloutText": "Эта модель использует DTDLv3, который находится в предварительной версии"
       }
     },
->>>>>>> msnyder-upgrade
     "PropertyTypes": {
       "categories": {
         "complex": "Сложный",
@@ -1401,18 +1398,6 @@
         "geospatial": "Геопространственные"
       },
       "unsupportedPropertyType": "Этот тип свойства недоступен для текущей контекстной версии связанной модели"
-    },
-    "PropertyEditor": {
-      "Version3PreviewLabel": {
-        "badgeText": "Предварительный просмотр",
-        "badgeCalloutText": "Эта модель использует DTDL версии 3, которая находится в предварительной версии"
-      },
-      "Version3UpgradeButton": {
-        "buttonText": "Обновление до версии 3",
-        "confirmationTitle": "Обновить версию DTDL?",
-        "confirmationMessage": "Вы уверены, что хотите обновить эту модель до DTDL версии 3? Все существующие конфигурации будут сохранены.",
-        "confirmationButtonText": "Модернизировать"
-      }
     }
   },
   "dataHistoryErrorHandlingWrapper": {
@@ -1467,7 +1452,5 @@
         "download": "Загрузка табличных данных"
       }
     }
-  },
-  "increaseByDecimal": "Увеличение значения на 0,1",
-  "decreaseByDecimal": "Уменьшение значения на 0,1"
+  }
 }
