@@ -1226,7 +1226,7 @@
     },
     "noSelectionMessage": "Válasszon ki egy modellt vagy kapcsolatot a részletek megtekintéséhez",
     "propertiesNotSupported": "A kijelölt elem nem támogatja a tulajdonságokat",
-    "contextVersion1": "DTDL verzió"
+    "contextVersion": "DTDL verzió"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Hibaüzenet",

@@ -1106,7 +1106,7 @@
     },
     "noSelectionMessage": "Výběr modelu nebo vztahu pro zobrazení podrobností",
     "propertiesNotSupported": "Vybraná položka nepodporuje vlastnosti",
-    "contextVersion1": "Verze DTDL"
+    "contextVersion": "Verze DTDL"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Zpráva o chybě",

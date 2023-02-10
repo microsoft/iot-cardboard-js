@@ -1226,7 +1226,7 @@
     },
     "noSelectionMessage": "Wybierz model lub relację, aby wyświetlić szczegóły",
     "propertiesNotSupported": "Wybrany element nie obsługuje właściwości",
-    "contextVersion1": "Wersja DTDL"
+    "contextVersion": "Wersja DTDL"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Komunikat o błędzie",

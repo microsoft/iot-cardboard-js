@@ -1226,7 +1226,7 @@
     },
     "noSelectionMessage": "Выбор модели или связи для просмотра сведений",
     "propertiesNotSupported": "Выбранный элемент не поддерживает свойства",
-    "contextVersion1": "Версия DTDL"
+    "contextVersion": "Версия DTDL"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Сообщение об ошибке",

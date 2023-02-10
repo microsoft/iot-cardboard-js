@@ -1226,7 +1226,7 @@
     },
     "noSelectionMessage": "Ayrıntıları görüntülemek için bir model veya ilişki seçin",
     "propertiesNotSupported": "Seçili öğe özellikleri desteklemiyor",
-    "contextVersion1": "DTDL sürümü"
+    "contextVersion": "DTDL sürümü"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Hata mesajı",

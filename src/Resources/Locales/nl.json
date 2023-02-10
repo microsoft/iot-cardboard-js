@@ -1226,7 +1226,7 @@
     },
     "noSelectionMessage": "Een model of relatie selecteren om details weer te geven",
     "propertiesNotSupported": "Het geselecteerde item ondersteunt geen eigenschappen",
-    "contextVersion1": "DTDL-versie"
+    "contextVersion": "DTDL-versie"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Foutmelding",

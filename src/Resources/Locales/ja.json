@@ -1226,7 +1226,7 @@
     },
     "noSelectionMessage": "詳細を表示するモデルまたはリレーションシップを選択する",
     "propertiesNotSupported": "選択した項目はプロパティをサポートしていません",
-    "contextVersion1": "DTDL バージョン"
+    "contextVersion": "DTDL バージョン"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "エラーメッセージ",

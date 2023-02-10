@@ -1226,7 +1226,7 @@
     },
     "noSelectionMessage": "选择模型或关系以查看详细信息",
     "propertiesNotSupported": "所选项目不支持属性",
-    "contextVersion1": "DTDL 版本"
+    "contextVersion": "DTDL 版本"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "错误信息",
