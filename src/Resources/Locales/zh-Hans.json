@@ -1393,7 +1393,7 @@
       },
       "unsupportedPropertyType": "此属性类型不适用于关联模型的当前上下文版本"
     },
-    "PropertyEditor1": {
+    "PropertyEditor": {
       "Version3PreviewLabel": {
         "badgeText": "预览",
         "badgeCalloutText": "此模型使用预览版的 DTDL 版本 3"

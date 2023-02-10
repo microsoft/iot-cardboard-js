@@ -1393,7 +1393,7 @@
       },
       "unsupportedPropertyType": "Ten typ właściwości nie jest dostępny dla bieżącej wersji kontekstowej skojarzonego modelu"
     },
-    "PropertyEditor1": {
+    "PropertyEditor": {
       "Version3PreviewLabel": {
         "badgeText": "Prapremiera",
         "badgeCalloutText": "Ten model korzysta z protokołu DTDL w wersji 3, który jest dostępny w wersji zapoznawczej"

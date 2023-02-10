@@ -1393,7 +1393,7 @@
       },
       "unsupportedPropertyType": "Bu özellik türü, ilişkili modelin geçerli bağlam sürümü için kullanılamaz"
     },
-    "PropertyEditor1": {
+    "PropertyEditor": {
       "Version3PreviewLabel": {
         "badgeText": "Önizleme",
         "badgeCalloutText": "Bu model, önizleme aşamasında olan DTDL sürüm 3'ü kullanır"

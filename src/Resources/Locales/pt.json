@@ -1393,7 +1393,7 @@
       },
       "unsupportedPropertyType": "Esse tipo de propriedade não está disponível para a versão de contexto atual do modelo associado"
     },
-    "PropertyEditor1": {
+    "PropertyEditor": {
       "Version3PreviewLabel": {
         "badgeText": "Visualizar",
         "badgeCalloutText": "Este modelo usa DTDL versão 3 que está em pré-visualização"

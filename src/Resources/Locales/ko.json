@@ -1393,7 +1393,7 @@
       },
       "unsupportedPropertyType": "이 속성 유형은 연결된 모델의 현재 컨텍스트 버전에 사용할 수 없습니다."
     },
-    "PropertyEditor1": {
+    "PropertyEditor": {
       "Version3PreviewLabel": {
         "badgeText": "미리 보기",
         "badgeCalloutText": "이 모델은 미리 보기로 제공되는 DTDL 버전 3을 사용합니다."

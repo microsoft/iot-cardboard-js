@@ -1393,7 +1393,7 @@
       },
       "unsupportedPropertyType": "Этот тип свойства недоступен для текущей контекстной версии связанной модели"
     },
-    "PropertyEditor1": {
+    "PropertyEditor": {
       "Version3PreviewLabel": {
         "badgeText": "Предварительный просмотр",
         "badgeCalloutText": "Эта модель использует DTDL версии 3, которая находится в предварительной версии"

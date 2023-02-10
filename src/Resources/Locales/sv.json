@@ -1393,7 +1393,7 @@
       },
       "unsupportedPropertyType": "Den här egenskapstypen är inte tillgänglig för den aktuella kontextversionen av den associerade modellen"
     },
-    "PropertyEditor1": {
+    "PropertyEditor": {
       "Version3PreviewLabel": {
         "badgeText": "Förhandsvisning",
         "badgeCalloutText": "Denna modell använder DTDL version 3 som är i förhandsgranskning"
