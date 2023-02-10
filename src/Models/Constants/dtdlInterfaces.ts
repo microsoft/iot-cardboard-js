@@ -1,5 +1,6 @@
 import { DTDLSchema, DTDLSchemaType, DTDLType } from '../Classes/DTDL';
 
+export type DtdlVersion = '2' | '3';
 export type DtdlContext = string | string[];
 export type DtdlReference = DtdlComponent | DtdlRelationship;
 

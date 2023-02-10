@@ -11,8 +11,7 @@ import {
     Separator,
     TextField,
     classNamesFunction,
-    styled,
-    SpinButton
+    styled
 } from '@fluentui/react';
 import { useBoolean } from '@fluentui/react-hooks';
 import { useTranslation } from 'react-i18next';
@@ -20,7 +19,6 @@ import { deepCopy, getDebugLogger } from '../../../Models/Services/Utils';
 
 import { CommandHistoryContext } from '../../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
 import {
-    IPartialModelId,
     IPropertiesModelSummaryProps,
     IPropertiesModelSummaryStyleProps,
     IPropertiesModelSummaryStyles
@@ -31,14 +29,15 @@ import { OatPageContextActionType } from '../../../Models/Context/OatPageContext
 import { getStyles } from './PropertiesModelSummary.styles';
 import { useExtendedTheme } from '../../../Models/Hooks/useExtendedTheme';
 import {
-    contextHasVersion2,
     DTMI_VALIDATION_REGEX,
+    getDtdlVersionFromContext,
     getModelOrParentContext,
     isDTDLModel,
     isDTDLReference,
     isValidDtmiId,
     isValidDtmiPath,
     isValidModelName,
+    isValidModelVersion,
     isValidReferenceName
 } from '../../../Models/Services/DtdlUtils';
 import { getTargetFromSelection } from '../Utils';
@@ -241,6 +240,20 @@ export const PropertiesModelSummary: React.FC<IPropertiesModelSummaryProps> = (
             setModelPath(value.trim());
         }
     }, []);
+    const onChangeVersion = useCallback(
+        (_ev, value: string) => {
+            if (
+                isValidModelVersion(
+                    value.trim(),
+                    getDtdlVersionFromContext(modelContext),
+                    false
+                )
+            ) {
+                setModelVersion(value.trim());
+            }
+        },
+        [modelContext]
+    );
     const onChangeRelationshipName = useCallback(
         (_ev, value: string) => {
             if (
@@ -252,19 +265,6 @@ export const PropertiesModelSummary: React.FC<IPropertiesModelSummaryProps> = (
             }
         },
         [selectedItem]
-    );
-
-    // needed primarly for the version spinner since it behaves differently and you don't have to set focus
-    const forceUpdateId = useCallback(
-        ({ modelName, path, version }: IPartialModelId) => {
-            const newId = buildModelId({
-                modelName: modelName || modelUniqueName,
-                path: path || modelPath,
-                version: Number(version || modelVersion)
-            });
-            commitModelIdChange(newId);
-        },
-        [commitModelIdChange, modelPath, modelUniqueName, modelVersion]
     );
 
     // side effects
@@ -376,7 +376,16 @@ export const PropertiesModelSummary: React.FC<IPropertiesModelSummaryProps> = (
                             >
                                 {t('OATPropertyEditor.version')}
                             </Text>
-                            <SpinButton
+                            <TextField
+                                aria-labelledby={'oat-model-path'}
+                                onBlur={() => commitModelIdChange(itemId)}
+                                onChange={onChangeVersion}
+                                styles={
+                                    classNames.subComponentStyles.stringField
+                                }
+                                value={modelVersion}
+                            />
+                            {/* <SpinButton
                                 aria-labelledby={'oat-model-version'}
                                 decrementButtonAriaLabel={
                                     contextHasVersion2(modelContext)
@@ -401,7 +410,7 @@ export const PropertiesModelSummary: React.FC<IPropertiesModelSummaryProps> = (
                                     classNames.subComponentStyles.numericField
                                 }
                                 value={modelVersion}
-                            />
+                            /> */}
                         </div>
                     </>
                 )}

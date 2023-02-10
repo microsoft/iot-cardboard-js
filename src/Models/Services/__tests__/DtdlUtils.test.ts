@@ -25,6 +25,7 @@ import {
     isValidDtmiId,
     isValidDtmiPath,
     isValidModelName,
+    isValidModelVersion,
     isValidReferenceName,
     modelHasVersion3Context,
     movePropertyInCollection,
@@ -959,6 +960,144 @@ describe('DtdlUtils', () => {
                 const result = isValidDtmiPath(testName, true);
                 // ASSERT
                 expect(result).toBeFalsy();
+            });
+        });
+        describe('Model version', () => {
+            describe('version 2', () => {
+                test('includes alpha characters, returns false', () => {
+                    // ARRANGE
+                    const version = '123a';
+                    const isFinal = false;
+
+                    // ACT
+                    const result = isValidModelVersion(version, '2', isFinal);
+
+                    // ASSERT
+                    expect(result).toBeFalsy();
+                });
+                test('ends with ., returns false', () => {
+                    // ARRANGE
+                    const version = '123.';
+                    const isFinal = false;
+
+                    // ACT
+                    const result = isValidModelVersion(version, '2', isFinal);
+
+                    // ASSERT
+                    expect(result).toBeFalsy();
+                });
+                test('includes only numbers, returns true', () => {
+                    // ARRANGE
+                    const version = '123';
+                    const isFinal = false;
+
+                    // ACT
+                    const result = isValidModelVersion(version, '2', isFinal);
+
+                    // ASSERT
+                    expect(result).toBeTruthy();
+                });
+            });
+            describe('version 3', () => {
+                test('includes alpha characters, returns false', () => {
+                    // ARRANGE
+                    const version = '123a';
+                    const isFinal = false;
+
+                    // ACT
+                    const result = isValidModelVersion(version, '3', isFinal);
+
+                    // ASSERT
+                    expect(result).toBeFalsy();
+                });
+                test('ends with . & in progress, returns true', () => {
+                    // ARRANGE
+                    const version = '123.';
+                    const isFinal = false;
+
+                    // ACT
+                    const result = isValidModelVersion(version, '3', isFinal);
+
+                    // ASSERT
+                    expect(result).toBeTruthy();
+                });
+                test('ends with . & NOT in progress, returns false', () => {
+                    // ARRANGE
+                    const version = '123.';
+                    const isFinal = true;
+
+                    // ACT
+                    const result = isValidModelVersion(version, '3', isFinal);
+
+                    // ASSERT
+                    expect(result).toBeFalsy();
+                });
+                test('has multiple . and ends with ., returns false', () => {
+                    // ARRANGE
+                    const version = '123.234.';
+                    const isFinal = false;
+
+                    // ACT
+                    const result = isValidModelVersion(version, '3', isFinal);
+
+                    // ASSERT
+                    expect(result).toBeFalsy();
+                });
+                test('has multiple . and ends with #, returns false', () => {
+                    // ARRANGE
+                    const version = '123.234.3';
+                    const isFinal = false;
+
+                    // ACT
+                    const result = isValidModelVersion(version, '3', isFinal);
+
+                    // ASSERT
+                    expect(result).toBeFalsy();
+                });
+                test('includes decimal & NOT is final, returns true', () => {
+                    // ARRANGE
+                    const version = '123.3';
+                    const isFinal = false;
+
+                    // ACT
+                    const result = isValidModelVersion(version, '3', isFinal);
+
+                    // ASSERT
+                    expect(result).toBeTruthy();
+                });
+                test('includes decimal & is final, returns true', () => {
+                    // ARRANGE
+                    const version = '123.3';
+                    const isFinal = true;
+
+                    // ACT
+                    const result = isValidModelVersion(version, '3', isFinal);
+
+                    // ASSERT
+                    expect(result).toBeTruthy();
+                });
+                test('includes only numbers & NOT is final, returns true', () => {
+                    // ARRANGE
+                    const version = '123';
+                    const isFinal = false;
+
+                    // ACT
+                    const result = isValidModelVersion(version, '3', isFinal);
+
+                    // ASSERT
+                    expect(result).toBeTruthy();
+                });
+                test('includes only numbers & is final, returns true', () => {
+                    // ARRANGE
+                    const version = '123';
+                    const isFinal = true;
+
+                    // ACT
+                    const result = isValidModelVersion(version, '3', isFinal);
+
+                    // ASSERT
+                    expect(result).toBeTruthy();
+                });
             });
         });
         describe('Model id', () => {
