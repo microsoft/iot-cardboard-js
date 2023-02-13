@@ -94,7 +94,6 @@ const ManageOntologyModal: React.FC<IManageOntologyModalProps> = (props) => {
         });
     };
     const onSubmit = () => {
-        //
         if (mode === FormMode.Create) {
             oatPageDispatch({
                 type: OatPageContextActionType.CREATE_PROJECT,
