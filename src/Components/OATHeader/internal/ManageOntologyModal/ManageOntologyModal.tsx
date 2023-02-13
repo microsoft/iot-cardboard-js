@@ -152,8 +152,10 @@ const ManageOntologyModal: React.FC<IManageOntologyModalProps> = (props) => {
     }, [isOpen, mode, oatPageState.currentOntologyDefaultPath]);
     useEffect(() => {
         const isV3 =
-            oatPageState.currentOntologyDefaultContext ===
-            DTDL_CONTEXT_VERSION_3;
+            mode === FormMode.Create
+                ? false
+                : oatPageState.currentOntologyDefaultContext ===
+                  DTDL_CONTEXT_VERSION_3;
         setIsV3Default(isV3);
     }, [isOpen, mode, oatPageState.currentOntologyDefaultContext]);
 
