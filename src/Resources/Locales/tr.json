@@ -1407,7 +1407,7 @@
         "sampleModel": "örnek Model",
         "version2": "Sürüm 2",
         "version3": "Sürüm 3",
-        "defaultVersionLabel1": "Yeni modeller için varsayılan DTDL sürümü"
+        "defaultVersionLabel": "Yeni modeller için varsayılan DTDL sürümü"
       }
     }
   },

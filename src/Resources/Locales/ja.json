@@ -1407,7 +1407,7 @@
         "sampleModel": "サンプルモデル",
         "version2": "バージョン2",
         "version3": "バージョン3",
-        "defaultVersionLabel1": "新しいモデルの既定の DTDL バージョン"
+        "defaultVersionLabel": "新しいモデルの既定の DTDL バージョン"
       }
     }
   },
