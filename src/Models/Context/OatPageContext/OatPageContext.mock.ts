@@ -108,7 +108,6 @@ export const getMockFile = (
         data: new ProjectData(
             'test-ontology-name-' + index,
             namespace,
-            null,
             [getMockModelItem(modelId1), getMockModelItem(modelId2)],
             [getMockPositionItem(modelId1), getMockPositionItem(modelId2)],
             [getMockMetadataItem(modelId1), getMockMetadataItem(modelId2)],
@@ -131,7 +130,6 @@ export const GET_MOCK_OAT_CONTEXT_STATE = (): IOatPageContextState => {
         currentOntologyModelPositions: currentFile.modelPositions,
         currentOntologyModels: currentFile.models,
         currentOntologyDefaultPath: currentFile.defaultPath,
-        currentOntologyDefaultContext: currentFile.defaultContext,
         currentOntologyProjectName: currentFile.projectName,
         currentOntologyTemplates: currentFile.templates,
         languageOptions: getAvailableLanguages(i18n),

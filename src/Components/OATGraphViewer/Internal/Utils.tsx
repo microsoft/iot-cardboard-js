@@ -28,6 +28,7 @@ import { ElementPosition } from './Classes/ElementPosition';
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('OatGraphViewerUtils', debugLogging);
 
+export const CONTEXT_CLASS_BASE = 'dtmi:dtdl:context;2';
 export const DEFAULT_NODE_POSITION = 25;
 
 //#region Add relationships
@@ -75,8 +76,7 @@ export const addUntargetedRelationship = (
     sourceModel: DtdlInterface,
     relationship: DtdlRelationship,
     modelPositions: IOATModelPosition[],
-    elements: (ElementNode | ElementEdge)[],
-    defaultContext: string
+    elements: (ElementNode | ElementEdge)[]
 ) => {
     // logDebugConsole(
     //     'debug',
@@ -102,7 +102,7 @@ export const addUntargetedRelationship = (
         {
             '@id': sourceModel['@id'],
             '@type': OAT_UNTARGETED_RELATIONSHIP_NAME,
-            '@context': defaultContext,
+            '@context': CONTEXT_CLASS_BASE,
             displayName: '',
             contents: []
         } // data

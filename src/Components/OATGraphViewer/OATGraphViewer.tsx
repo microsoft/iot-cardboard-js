@@ -178,8 +178,7 @@ const OATGraphViewerContent: React.FC<IOATGraphViewerProps> = (props) => {
                                 input,
                                 relationship,
                                 modelPositions,
-                                elements,
-                                oatPageState.currentOntologyDefaultContext
+                                elements
                             );
                         }
                     }
@@ -212,7 +211,7 @@ const OATGraphViewerContent: React.FC<IOATGraphViewerProps> = (props) => {
                 return elements;
             }, []);
         },
-        [oatPageState.currentOntologyDefaultContext]
+        []
     );
 
     // state

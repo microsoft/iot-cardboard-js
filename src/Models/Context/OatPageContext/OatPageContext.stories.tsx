@@ -22,7 +22,6 @@ import {
 } from './OatPageContext.types';
 import { userEvent, within } from '@storybook/testing-library';
 import { GET_MOCK_OAT_CONTEXT_STATE } from './OatPageContext.mock';
-import { OAT_DEFAULT_CONTEXT } from '../../Constants/Constants';
 
 const itemStackStyles: { root: IStyle } = {
     root: {
@@ -138,6 +137,12 @@ const ProviderContentRenderer: React.FC = () => {
                     <Label>Selection: </Label>
                     <Text styles={valueStyle}>
                         {stringify(oatPageState.selection)}
+                    </Text>
+                </Stack>
+                <Stack horizontal styles={itemStackStyles}>
+                    <Label>Selected model target: </Label>
+                    <Text styles={valueStyle}>
+                        {stringify(oatPageState.selectedModelTarget)}
                     </Text>
                 </Stack>
             </Stack>
@@ -320,8 +325,7 @@ const ProviderUpdater: React.FC = () => {
                                 type: OatPageContextActionType.CREATE_PROJECT,
                                 payload: {
                                     name: `Test-Project-${newValue}`,
-                                    defaultPath: `TestNamespace${newValue}`,
-                                    defaultContext: OAT_DEFAULT_CONTEXT
+                                    namespace: `TestNamespace${newValue}`
                                 }
                             });
                             setCreateIncrementor(newValue);
@@ -337,8 +341,7 @@ const ProviderUpdater: React.FC = () => {
                                 type: OatPageContextActionType.EDIT_PROJECT,
                                 payload: {
                                     name: `Test-Project-${newValue}`,
-                                    defaultPath: `TestNamespace${newValue}`,
-                                    defaultContext: OAT_DEFAULT_CONTEXT
+                                    namespace: `TestNamespace${newValue}`
                                 }
                             });
                             setEditIncrementor(newValue);

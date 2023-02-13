@@ -17,7 +17,7 @@ export const getStyles = (
                 subComponentStyles: {
                     modal: {
                         main: {
-                            height: 400
+                            height: 370
                         }
                     }
                 }

@@ -1,4 +1,3 @@
-import { DTDL_CONTEXT_VERSION_2 } from '../../../../Models/Classes/DTDL';
 import { DtdlInterface } from '../../../../Models/Constants';
 import {
     IOATModelPosition,
@@ -10,7 +9,6 @@ export interface IOatProjectData {
     modelPositions: IOATModelPosition[];
     modelsMetadata: IOATModelsMetadata[];
     defaultPath: string;
-    defaultContext: string;
     projectDescription: string;
     projectName: string;
     templates: any[];
@@ -20,7 +18,6 @@ export class ProjectData implements IOatProjectData {
     modelPositions: IOATModelPosition[];
     modelsMetadata: IOATModelsMetadata[];
     defaultPath: string;
-    defaultContext: string;
     projectDescription: string;
     projectName: string;
     templates: any[];
@@ -28,7 +25,6 @@ export class ProjectData implements IOatProjectData {
     constructor(
         projectName: string,
         defaultPath: string,
-        defaultContext: string,
         models?: DtdlInterface[],
         modelPositions?: IOATModelPosition[],
         modelsMetadata?: IOATModelsMetadata[],
@@ -36,7 +32,6 @@ export class ProjectData implements IOatProjectData {
     ) {
         this.projectName = projectName || '';
         this.defaultPath = defaultPath || '';
-        this.defaultContext = defaultContext || DTDL_CONTEXT_VERSION_2;
         this.projectDescription = '';
         this.models = models ? Array.from(models) : [];
         this.modelPositions = modelPositions ? Array.from(modelPositions) : [];

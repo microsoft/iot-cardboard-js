@@ -9,10 +9,7 @@ import {
     IOatProjectData,
     ProjectData
 } from '../../../Pages/OATEditorPage/Internal/Classes/ProjectData';
-import {
-    OAT_DEFAULT_CONTEXT,
-    OAT_DEFAULT_PATH_VALUE
-} from '../../Constants/Constants';
+import { OAT_DEFAULT_PATH_VALUE } from '../../Constants/Constants';
 import {
     getOntologiesFromStorage,
     getLastUsedProjectId,
@@ -67,20 +64,17 @@ export const OatPageContextReducer: (
             case OatPageContextActionType.CREATE_PROJECT: {
                 createProject(
                     action.payload.name,
-                    action.payload.defaultPath,
-                    action.payload.defaultContext,
+                    action.payload.namespace,
                     draft
                 );
                 break;
             }
             case OatPageContextActionType.EDIT_PROJECT: {
-                draft.currentOntologyDefaultPath = action.payload.defaultPath.replace(
+                draft.currentOntologyDefaultPath = action.payload.namespace.replace(
                     / /g,
                     ''
                 );
                 draft.currentOntologyProjectName = action.payload.name;
-                draft.currentOntologyDefaultContext =
-                    action.payload.defaultContext;
                 saveData(draft);
                 break;
             }
@@ -103,9 +97,8 @@ export const OatPageContextReducer: (
                     } else {
                         // create a new project if none exist to switch to
                         const name = i18n.t('OATCommon.defaultFileName');
-                        const path = OAT_DEFAULT_PATH_VALUE;
-                        const context = OAT_DEFAULT_CONTEXT;
-                        createProject(name, path, context, draft);
+                        const namespace = OAT_DEFAULT_PATH_VALUE;
+                        createProject(name, namespace, draft);
                     }
                 } else {
                     logDebugConsole(
@@ -523,7 +516,6 @@ const emptyState: IOatPageContextState = {
     currentOntologyModelPositions: [],
     currentOntologyModels: [],
     currentOntologyDefaultPath: '',
-    currentOntologyDefaultContext: '',
     currentOntologyProjectName: '',
     currentOntologyTemplates: [],
     // other properties
@@ -572,7 +564,6 @@ const getInitialState = (
         project = new ProjectData(
             i18n.t('OATCommon.defaultFileName'),
             OAT_DEFAULT_PATH_VALUE,
-            OAT_DEFAULT_CONTEXT,
             [],
             [],
             [],
@@ -599,8 +590,6 @@ const getInitialState = (
         currentOntologyModelPositions: project.modelPositions,
         currentOntologyModels: project.models,
         currentOntologyDefaultPath: project.defaultPath,
-        currentOntologyDefaultContext:
-            project.defaultContext || OAT_DEFAULT_CONTEXT, // backfill any old projects
         currentOntologyProjectName: project.projectName,
         currentOntologyTemplates: project.templates,
         languageOptions: getAvailableLanguages(i18n)
