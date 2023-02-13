@@ -11,7 +11,11 @@ import {
     modelRefreshMaxAge,
     timeSeriesConnectionRefreshMaxAge
 } from '../Models/Constants/Constants';
-import { IADXConnection, IAuthService } from '../Models/Constants/Interfaces';
+import {
+    IADTDataHistoryAdapter,
+    IADXConnection,
+    IAuthService
+} from '../Models/Constants/Interfaces';
 import {
     applyMixins,
     getDebugLogger,
@@ -24,7 +28,7 @@ import AzureManagementAdapter from './AzureManagementAdapter';
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('ADTDataHistoryAdapter', debugLogging);
 
-export default class ADTDataHistoryAdapter {
+export default class ADTDataHistoryAdapter implements IADTDataHistoryAdapter {
     constructor(
         authService: IAuthService,
         adtHostUrl: string,
@@ -39,6 +43,8 @@ export default class ADTDataHistoryAdapter {
         this.authService = this.adxAuthService = authService;
         this.tenantId = tenantId;
         this.uniqueObjectId = uniqueObjectId;
+        this.adtProxyServerPath = adtProxyServerPath;
+
         this.adtTwinCache = new AdapterEntityCache<ADTTwinData>(9000);
         this.adtModelsCache = new AdapterEntityCache<ADTAllModelsData>(
             modelRefreshMaxAge
@@ -60,13 +66,12 @@ export default class ADTDataHistoryAdapter {
                 LOCAL_STORAGE_KEYS.FeatureFlags.Proxy.forceProxy
             ) === 'true';
 
-        this.adtProxyServerPath = adtProxyServerPath;
         this.authService.login();
         // Fetch & cache models on mount (makes first use of models faster as models should already be cached)
         this.getAllAdtModels();
     }
 
-    updateADXConnectionInformation = async () => {
+    async updateADXConnectionInformation() {
         if (this.adtHostUrl) {
             logDebugConsole(
                 'debug',
@@ -78,7 +83,7 @@ export default class ADTDataHistoryAdapter {
                 true,
                 true
             );
-            this.adxConnectionInformation = connectionInformation.getData();
+            this.setADXConnectionInformation(connectionInformation.getData());
             logDebugConsole(
                 'debug',
                 '[END] Fetched time series connection information of ADT instance: ',
@@ -95,14 +100,14 @@ export default class ADTDataHistoryAdapter {
                 errorInfo: null
             });
         }
-    };
+    }
 }
 
 export default interface ADTDataHistoryAdapter
     extends ADTAdapter,
         ADXAdapter,
         AzureManagementAdapter {
-    updateADXConnectionInformation: () => Promise<
+    updateADXConnectionInformation(): Promise<
         AdapterResult<ADTInstanceTimeSeriesConnectionData>
     >;
 }

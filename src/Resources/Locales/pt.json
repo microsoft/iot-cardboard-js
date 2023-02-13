@@ -1426,7 +1426,8 @@
         "remove": "Remover séries temporais",
         "property": "Propriedade",
         "noData": "Nenhum dado a ser exibido para o intervalo de tempo selecionado",
-        "propertyTypeCastLabel": "Transferir o valor da propriedade para o número"
+        "propertyTypeCastLabel": "Transferir o valor da propriedade para o número",
+        "noProperty": "Nenhuma propriedade selecionada"
       }
     },
     "viewer": {
@@ -1457,6 +1458,10 @@
         "refresh": "Atualizar dados",
         "download": "Baixar dados da tabela"
       }
+    },
+    "control": {
+      "title": "Abrir o explorador de histórico de dados",
+      "disabledTitle": "Não foi possível encontrar informações de conexão do histórico de dados"
     }
   },
   "increaseByDecimal": "Aumentar o valor em 0,1",

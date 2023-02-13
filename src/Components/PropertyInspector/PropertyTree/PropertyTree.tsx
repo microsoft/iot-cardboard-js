@@ -2,10 +2,17 @@ import React, { createContext } from 'react';
 import { TreeProps, PropertyTreeProps } from './PropertyTree.types';
 import './PropertyTree.scss';
 import TreeNode from './TreeComponents/TreeNode';
+import { LOCAL_STORAGE_KEYS } from '../../../Models/Constants/Constants';
+import DataHistoryExplorerModalControl from '../../DataHistoryExplorerModal/DataHistoryExplorerModalControl/DataHistoryExplorerModalControl';
 
 export const PropertyTreeContext = createContext<
     Omit<PropertyTreeProps, 'data'>
 >(null);
+
+const isDataHistoryFeatureEnabled =
+    localStorage.getItem(
+        LOCAL_STORAGE_KEYS.FeatureFlags.DataHistoryExplorer.showExplorer
+    ) === 'true';
 
 const PropertyTree: React.FC<PropertyTreeProps> = ({
     data,
@@ -18,7 +25,8 @@ const PropertyTree: React.FC<PropertyTreeProps> = ({
     onAddArrayItem,
     onRemoveArrayItem,
     onClearArray,
-    readonly = false
+    readonly = false,
+    dataHistoryControlProps
 }) => {
     return (
         <PropertyTreeContext.Provider
@@ -36,6 +44,16 @@ const PropertyTree: React.FC<PropertyTreeProps> = ({
             }}
         >
             <div className="cb-property-tree-container">
+                {isDataHistoryFeatureEnabled && !!dataHistoryControlProps && (
+                    <DataHistoryExplorerModalControl
+                        styles={{
+                            root: { position: 'absolute', right: 0, top: -4 } // will keep the styling here hardcoded until we refactor the styling change for this component
+                        }}
+                        adapter={dataHistoryControlProps.adapter}
+                        isEnabled={dataHistoryControlProps.isEnabled}
+                        initialTwinId={dataHistoryControlProps.initialTwinId}
+                    />
+                )}
                 <Tree data={data} />
             </div>
         </PropertyTreeContext.Provider>

@@ -1426,7 +1426,8 @@
         "remove": "Idősorok eltávolítása",
         "property": "Ingatlan",
         "noData": "Nincs megjelenítendő adat a kiválasztott időtartományban",
-        "propertyTypeCastLabel": "Öntött tulajdonság értéke számra"
+        "propertyTypeCastLabel": "Öntött tulajdonság értéke számra",
+        "noProperty": "Nincs kijelölt szállás"
       }
     },
     "viewer": {
@@ -1457,6 +1458,10 @@
         "refresh": "Adatok frissítése",
         "download": "Táblaadatok letöltése"
       }
+    },
+    "control": {
+      "title": "Az adatelőzmények explorerének megnyitása",
+      "disabledTitle": "Az adatelőzmények kapcsolati adatai nem találhatók"
     }
   },
   "increaseByDecimal": "Növelje az értéket 0,1-gyel",

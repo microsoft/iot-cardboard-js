@@ -1426,7 +1426,8 @@
         "remove": "Rimuovere serie temporali",
         "property": "Proprietà",
         "noData": "Nessun dato da visualizzare per l'intervallo di tempo selezionato",
-        "propertyTypeCastLabel": "Eseguire il cast del valore della proprietà sul numero"
+        "propertyTypeCastLabel": "Eseguire il cast del valore della proprietà sul numero",
+        "noProperty": "Nessuna proprietà selezionata"
       }
     },
     "viewer": {
@@ -1457,6 +1458,10 @@
         "refresh": "Aggiornare i dati",
         "download": "Scarica i dati della tabella"
       }
+    },
+    "control": {
+      "title": "Esplora cronologia dati aperto",
+      "disabledTitle": "Impossibile trovare le informazioni di connessione alla cronologia dei dati"
     }
   },
   "increaseByDecimal": "Aumentare il valore di 0,1",

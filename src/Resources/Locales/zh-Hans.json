@@ -1426,7 +1426,8 @@
         "remove": "删除时间序列",
         "property": "财产",
         "noData": "所选时间范围内没有要显示的数据",
-        "propertyTypeCastLabel": "将属性值强制转换为数字"
+        "propertyTypeCastLabel": "将属性值强制转换为数字",
+        "noProperty": "未选择任何属性"
       }
     },
     "viewer": {
@@ -1457,6 +1458,10 @@
         "refresh": "刷新数据",
         "download": "下载表数据"
       }
+    },
+    "control": {
+      "title": "打开数据历史记录浏览器",
+      "disabledTitle": "找不到数据历史记录连接信息"
     }
   },
   "increaseByDecimal": "增加 0.1 的值",

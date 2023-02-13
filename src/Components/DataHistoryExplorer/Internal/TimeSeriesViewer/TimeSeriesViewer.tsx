@@ -96,6 +96,14 @@ const TimeSeriesViewer: React.FC<ITimeSeriesViewerProps> = (props) => {
         [classNames, t]
     );
 
+    const hasNoSeries = useMemo(
+        () =>
+            !timeSeriesTwins ||
+            timeSeriesTwins.length === 0 ||
+            timeSeriesTwins.every((tS) => !(tS.twinId && tS.twinPropertyName)),
+        [timeSeriesTwins]
+    );
+
     return (
         <div className={classNames.root}>
             {error ? (
@@ -104,7 +112,7 @@ const TimeSeriesViewer: React.FC<ITimeSeriesViewerProps> = (props) => {
                     imgHeight={ERROR_IMAGE_HEIGHT}
                     messageWidth="wide"
                 />
-            ) : !(timeSeriesTwins?.length > 0) ? (
+            ) : hasNoSeries ? (
                 <IllustrationMessage
                     descriptionText={t(
                         'dataHistoryExplorer.viewer.messages.noSeries'

@@ -1426,7 +1426,8 @@
         "remove": "Usuwanie szeregów czasowych",
         "property": "Własność",
         "noData": "Brak danych do wyświetlenia dla wybranego zakresu czasu",
-        "propertyTypeCastLabel": "Rzutowanie wartości właściwości na liczbę"
+        "propertyTypeCastLabel": "Rzutowanie wartości właściwości na liczbę",
+        "noProperty": "Nie wybrano właściwości"
       }
     },
     "viewer": {
@@ -1457,6 +1458,10 @@
         "refresh": "Odświeżanie danych",
         "download": "Pobierz dane tabeli"
       }
+    },
+    "control": {
+      "title": "Otwórz eksplorator historii danych",
+      "disabledTitle": "Nie można odnaleźć informacji o połączeniu historii danych"
     }
   },
   "increaseByDecimal": "Zwiększ wartość o 0,1",

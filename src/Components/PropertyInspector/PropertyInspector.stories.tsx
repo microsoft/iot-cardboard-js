@@ -8,7 +8,7 @@ import {
 } from './__mockdata__/mockData';
 import mockExpandedModel from './__mockdata__/TeslaExampleModels.json';
 import StandalonePropertyInspector from './StandalonePropertyInspector';
-import { DtdlInterface } from '../..';
+import { DtdlInterface, MockAdapter } from '../..';
 
 export default {
     title: 'Components/Property Inspector/Standalone',
@@ -144,6 +144,51 @@ export const PropertyInspectorErrorBoundary = (
             locale={locale}
             onErrorBoundary={(error, errorInfo) => {
                 console.log('in onErrorBoundary callback.', error, errorInfo);
+            }}
+        />
+    </div>
+);
+
+export const WithDataHistoryIconEnabled = (
+    _args,
+    { globals: { theme, locale } }
+) => (
+    <div style={propertyInspectorStoryStyles}>
+        <StandalonePropertyInspector
+            inputData={{
+                twin: mockTwin,
+                expandedModels: mockExpandedModels as DtdlInterface[],
+                rootModel: mockExpandedModels[0] as DtdlInterface
+            }}
+            onCommitChanges={(patch) => console.log(patch)}
+            theme={theme}
+            locale={locale}
+            dataHistoryControlProps={{
+                adapter: new MockAdapter(),
+                initialTwinId: mockTwin.$dtId
+            }}
+        />
+    </div>
+);
+
+export const WithDataHistoryIconDisabled = (
+    _args,
+    { globals: { theme, locale } }
+) => (
+    <div style={propertyInspectorStoryStyles}>
+        <StandalonePropertyInspector
+            inputData={{
+                twin: mockTwin,
+                expandedModels: mockExpandedModels as DtdlInterface[],
+                rootModel: mockExpandedModels[0] as DtdlInterface
+            }}
+            onCommitChanges={(patch) => console.log(patch)}
+            theme={theme}
+            locale={locale}
+            dataHistoryControlProps={{
+                adapter: new MockAdapter(),
+                initialTwinId: mockTwin.$dtId,
+                isEnabled: false
             }}
         />
     </div>

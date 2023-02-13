@@ -13,9 +13,6 @@ import {
     getUrlFromString,
     validateExplorerOrigin
 } from '../Models/Services/Utils';
-import ADTAdapter from './ADTAdapter';
-import ADXAdapter from './ADXAdapter';
-import AzureManagementAdapter from './AzureManagementAdapter';
 import BlobAdapter from './BlobAdapter';
 import {
     ADTAllModelsData,
@@ -34,6 +31,7 @@ import {
     AzureResourcesData
 } from '../Models/Classes/AdapterDataClasses/AzureManagementData';
 import ADTInstanceTimeSeriesConnectionData from '../Models/Classes/AdapterDataClasses/ADTInstanceTimeSeriesConnectionData';
+import ADTDataHistoryAdapter from './ADTDataHistoryAdapter';
 
 export default class ADT3DSceneAdapter {
     constructor(
@@ -244,10 +242,8 @@ export default class ADT3DSceneAdapter {
 }
 
 export default interface ADT3DSceneAdapter
-    extends ADTAdapter,
-        BlobAdapter,
-        AzureManagementAdapter,
-        ADXAdapter {
+    extends BlobAdapter,
+        ADTDataHistoryAdapter {
     getMissingStorageContainerAccessRoles: (
         containerURLString?: string
     ) => Promise<AdapterResult<AzureMissingRoleDefinitionsData>>;
@@ -255,9 +251,4 @@ export default interface ADT3DSceneAdapter
         missingRoleDefinitionIds: AzureAccessPermissionRoleGroups
     ) => Promise<AdapterResult<AzureResourcesData>>;
 }
-applyMixins(ADT3DSceneAdapter, [
-    ADTAdapter,
-    BlobAdapter,
-    AzureManagementAdapter,
-    ADXAdapter
-]);
+applyMixins(ADT3DSceneAdapter, [BlobAdapter, ADTDataHistoryAdapter]);

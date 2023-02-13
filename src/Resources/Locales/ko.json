@@ -1426,7 +1426,8 @@
         "remove": "시계열 제거",
         "property": "재산",
         "noData": "선택한 시간 범위에 대해 표시할 데이터가 없습니다.",
-        "propertyTypeCastLabel": "속성 값을 숫자로 변환"
+        "propertyTypeCastLabel": "속성 값을 숫자로 변환",
+        "noProperty": "선택한 속성 없음"
       }
     },
     "viewer": {
@@ -1457,6 +1458,10 @@
         "refresh": "데이터 새로 고침",
         "download": "테이블 데이터 다운로드"
       }
+    },
+    "control": {
+      "title": "데이터 기록 탐색기 열기",
+      "disabledTitle": "데이터 기록 연결 정보를 찾을 수 없습니다."
     }
   },
   "increaseByDecimal": "값을 0.1씩 늘립니다.",

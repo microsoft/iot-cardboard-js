@@ -5,6 +5,7 @@ import MsalAuthService from '../../Models/Services/MsalAuthService';
 import { mockRelationship, mockTwin } from './__mockdata__/mockData';
 import PropertyInspector from './PropertyInspector';
 import { getDefaultStoryDecorator } from '../../Models/Services/StoryUtilities';
+import ADTDataHistoryAdapter from '../../Adapters/ADTDataHistoryAdapter';
 
 const propertyInspectorStoryStyles = {
     maxWidth: '428px',
@@ -40,6 +41,33 @@ export const AdtTwin = (args, { globals: { theme, locale } }) => {
     );
 };
 
+export const AdtTwinWithDataHistory = (
+    args,
+    { globals: { theme, locale } }
+) => {
+    const authenticationParameters = useAuthParams();
+    return !authenticationParameters ? (
+        <div></div>
+    ) : (
+        <div style={propertyInspectorStoryStyles}>
+            <PropertyInspector
+                adapter={
+                    new ADTDataHistoryAdapter(
+                        new MsalAuthService(
+                            authenticationParameters.adt.aadParameters
+                        ),
+                        authenticationParameters.adt.hostUrl
+                    )
+                }
+                twinId={args.twinId}
+                theme={theme}
+                locale={locale}
+                hasDataHistoryControl={true}
+            />
+        </div>
+    );
+};
+
 AdtTwin.argTypes = {
     twinId: {
         control: { type: 'text' },
@@ -47,6 +75,13 @@ AdtTwin.argTypes = {
         // Array testing
         // defaultValue: 'widget1' //revert this
         // defaultValue: 'ezArray' //revert this
+    }
+};
+
+AdtTwinWithDataHistory.argTypes = {
+    twinId: {
+        control: { type: 'text' },
+        defaultValue: 'PasteurizationMachine_A01'
     }
 };
 
@@ -77,7 +112,7 @@ export const AdtRelationship = (args, { globals: { theme, locale } }) => {
 AdtRelationship.argTypes = {
     twinId: {
         control: { type: 'text' },
-        defaultValue: 'LeoTheDog'
+        defaultValue: 'Tesla'
     },
     relationshipId: {
         control: { type: 'text' },
@@ -145,7 +180,7 @@ export const ModeToggleWithResolvedData = (
 ModeToggleWithResolvedData.argTypes = {
     twinId: {
         control: { type: 'text' },
-        defaultValue: 'LeoTheDog'
+        defaultValue: 'Tesla'
     },
     relationshipId: {
         control: { type: 'text' },

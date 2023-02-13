@@ -29,3 +29,13 @@ Base.args = {
     twinId: mockTwin[0].$dtId,
     adapter: new MockAdapter({ mockData: mockTwin })
 } as IPropertyInspectorCalloutProps;
+
+export const WithDataHistory = Template.bind(
+    {}
+) as PropertyInspectorCalloutStory;
+WithDataHistory.args = {
+    ...Base.args,
+    hasDataHistoryControl: {
+        isEnabled: true
+    }
+} as IPropertyInspectorCalloutProps;

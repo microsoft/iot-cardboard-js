@@ -34,7 +34,8 @@ const LOC_KEYS = {
     addTwin: `${ROOT_LOC}.timeSeriesTwin.add`,
     editTwin: `${ROOT_LOC}.timeSeriesTwin.edit`,
     removeTwin: `${ROOT_LOC}.timeSeriesTwin.remove`,
-    noDataMessage: `${ROOT_LOC}.timeSeriesTwin.noData`
+    noDataMessage: `${ROOT_LOC}.timeSeriesTwin.noData`,
+    noPropertyLabel: `${ROOT_LOC}.timeSeriesTwin.noProperty`
 };
 
 const TimeSeriesBuilder: React.FC<ITimeSeriesBuilderProps> = (props) => {
@@ -160,7 +161,8 @@ const getTimeSeriesTwinListItems = (
                 );
             },
             textPrimary: timeSeriesTwin.label || timeSeriesTwin.twinId,
-            textSecondary: timeSeriesTwin.twinPropertyName,
+            textSecondary:
+                timeSeriesTwin.twinPropertyName || t(LOC_KEYS.noPropertyLabel),
             overflowMenuItems: getMenuItems(timeSeriesTwin.seriesId)
         };
 

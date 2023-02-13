@@ -1426,7 +1426,8 @@
         "remove": "Remover séries de tempo",
         "property": "Propriedade",
         "noData": "Não há dados para visualizar para o intervalo de tempo selecionado",
-        "propertyTypeCastLabel": "Valor da propriedade do elenco para o número"
+        "propertyTypeCastLabel": "Valor da propriedade do elenco para o número",
+        "noProperty": "Nenhum imóvel selecionado"
       }
     },
     "viewer": {
@@ -1457,6 +1458,10 @@
         "refresh": "Atualizar dados",
         "download": "Baixar dados de tabela"
       }
+    },
+    "control": {
+      "title": "Explorador de histórico de dados aberto",
+      "disabledTitle": "Informações de ligação de histórico de dados não foram encontradas"
     }
   },
   "increaseByDecimal": "Valor de aumento em 0.1",

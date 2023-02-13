@@ -1426,7 +1426,8 @@
         "remove": "Supprimer des séries chronologiques",
         "property": "Propriété",
         "noData": "Aucune donnée à afficher pour la plage de temps sélectionnée",
-        "propertyTypeCastLabel": "Convertir la valeur de la propriété en nombre"
+        "propertyTypeCastLabel": "Convertir la valeur de la propriété en nombre",
+        "noProperty": "Aucune propriété sélectionnée"
       }
     },
     "viewer": {
@@ -1457,6 +1458,10 @@
         "refresh": "Actualiser les données",
         "download": "Télécharger les données de la table"
       }
+    },
+    "control": {
+      "title": "Explorateur d’historique de données ouvertes",
+      "disabledTitle": "Les informations de connexion de l’historique des données sont introuvables"
     }
   },
   "increaseByDecimal": "Augmenter la valeur de 0,1",

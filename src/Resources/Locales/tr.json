@@ -1426,7 +1426,8 @@
         "remove": "Zaman serilerini kaldırma",
         "property": "Mülk",
         "noData": "Seçilen zaman aralığı için görüntülenecek veri yok",
-        "propertyTypeCastLabel": "Özellik değerini sayıya dökme"
+        "propertyTypeCastLabel": "Özellik değerini sayıya dökme",
+        "noProperty": "Hiçbir mülk seçilmedi"
       }
     },
     "viewer": {
@@ -1457,6 +1458,10 @@
         "refresh": "Verileri yenileme",
         "download": "Tablo verilerini indirme"
       }
+    },
+    "control": {
+      "title": "Açık veri geçmişi gezgini",
+      "disabledTitle": "Veri geçmişi bağlantı bilgileri bulunamadı"
     }
   },
   "increaseByDecimal": "Değeri 0,1 artır",

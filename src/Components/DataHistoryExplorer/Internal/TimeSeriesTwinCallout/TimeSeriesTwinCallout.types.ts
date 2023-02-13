@@ -6,12 +6,14 @@ import {
     ITheme,
     IToggleStyles
 } from '@fluentui/react';
-import ADTDataHistoryAdapter from '../../../../Adapters/ADTDataHistoryAdapter';
 import MockAdapter from '../../../../Adapters/MockAdapter';
-import { IDataHistoryTimeSeriesTwin } from '../../../../Models/Constants';
+import {
+    IADTDataHistoryAdapter,
+    IDataHistoryTimeSeriesTwin
+} from '../../../../Models/Constants';
 
 export interface ITimeSeriesTwinCalloutProps {
-    adapter: ADTDataHistoryAdapter | MockAdapter;
+    adapter: IADTDataHistoryAdapter | MockAdapter;
     timeSeriesTwin?: IDataHistoryTimeSeriesTwin;
     target: string;
     onDismiss?: () => void;

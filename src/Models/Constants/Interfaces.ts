@@ -79,7 +79,6 @@ import {
     IADT3DViewerStyles
 } from '../../Components/ADT3DViewer/ADT3DViewer.types';
 import { BaseComponentProps } from '../../Components/BaseComponent/BaseComponent.types';
-import ADTAdapter from '../../Adapters/ADTAdapter';
 import ADTInstanceTimeSeriesConnectionData from '../Classes/AdapterDataClasses/ADTInstanceTimeSeriesConnectionData';
 import ADXTimeSeriesData from '../Classes/AdapterDataClasses/ADXTimeSeriesData';
 import { IOATNodeData } from '../../Components/OATGraphViewer/OATGraphViewer.types';
@@ -452,7 +451,7 @@ export interface IModelledPropertyBuilderAdapter {
     ): Promise<AdapterResult<ADTTwinToModelMappingData>>;
 }
 
-export type IQueryBuilderAdapter = ADTAdapter | MockAdapter;
+export type IQueryBuilderAdapter = IADTAdapter | MockAdapter;
 
 export interface IADT3DViewerAdapter {
     getSceneData(
@@ -565,6 +564,13 @@ export interface IADXAdapter {
         query: string,
         connection?: IADXConnection
     ) => AdapterReturnType<ADXTimeSeriesData>;
+}
+
+export interface IADTDataHistoryAdapter
+    extends IADTAdapter,
+        IADXAdapter,
+        IAzureManagementAdapter {
+    updateADXConnectionInformation: () => AdapterReturnType<ADTInstanceTimeSeriesConnectionData>;
 }
 
 export interface IBaseStandardModelSearchAdapter {
@@ -787,7 +793,9 @@ export interface ISceneViewWrapperProps {
 export interface IADT3DViewerProps extends BaseComponentProps {
     adapter:
         | IADT3DViewerAdapter
-        | (IADT3DViewerAdapter & IPropertyInspectorAdapter & IADXAdapter);
+        | (IADT3DViewerAdapter &
+              IPropertyInspectorAdapter &
+              IADTDataHistoryAdapter);
     sceneId: string;
     scenesConfig: I3DScenesConfig;
     title?: string;

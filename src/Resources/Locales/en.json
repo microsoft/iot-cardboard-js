@@ -1411,7 +1411,8 @@
                 "remove": "Remove time series",
                 "property": "Property",
                 "propertyTypeCastLabel": "Cast property value to number",
-                "noData": "No data to display for the time range selected"
+                "noData": "No data to display for the time range selected",
+                "noProperty": "No property selected"
             }
         },
         "viewer": {
@@ -1442,6 +1443,10 @@
                 "loading": "Loading historized data...",
                 "noSeries": "No twin selected to query, please add twin properties to view historized data."
             }
+        },
+        "control": {
+            "title": "Open data history explorer",
+            "disabledTitle": "Data history connection information could not be found"
         }
     },
     "dataHistoryErrorHandlingWrapper": {

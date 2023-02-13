@@ -1426,7 +1426,8 @@
         "remove": "Ta bort tidsserier",
         "property": "Egenskap",
         "noData": "Inga data att visa för det valda tidsintervallet",
-        "propertyTypeCastLabel": "Gjutet egenskapsvärde till antal"
+        "propertyTypeCastLabel": "Gjutet egenskapsvärde till antal",
+        "noProperty": "Ingen egenskap markerad"
       }
     },
     "viewer": {
@@ -1457,6 +1458,10 @@
         "refresh": "Uppdatera data",
         "download": "Ladda ned tabelldata"
       }
+    },
+    "control": {
+      "title": "Öppna datahistorikutforskaren",
+      "disabledTitle": "Det gick inte att hitta anslutningsinformation för datahistorik"
     }
   },
   "increaseByDecimal": "Öka värdet med 0,1",

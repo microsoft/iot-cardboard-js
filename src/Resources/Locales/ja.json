@@ -1426,7 +1426,8 @@
         "remove": "時系列を削除する",
         "property": "財産",
         "noData": "選択した時間範囲に表示するデータがありません",
-        "propertyTypeCastLabel": "プロパティ値を数値にキャストする"
+        "propertyTypeCastLabel": "プロパティ値を数値にキャストする",
+        "noProperty": "プロパティが選択されていません"
       }
     },
     "viewer": {
@@ -1457,6 +1458,10 @@
         "refresh": "データの更新",
         "download": "テーブルデータのダウンロード"
       }
+    },
+    "control": {
+      "title": "データ履歴エクスプローラーを開く",
+      "disabledTitle": "データ履歴の接続情報が見つかりませんでした"
     }
   },
   "increaseByDecimal": "値を 0.1 増やす",

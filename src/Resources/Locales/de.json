@@ -1426,7 +1426,8 @@
         "remove": "Zeitreihen entfernen",
         "property": "Eigentum",
         "noData": "Keine anzuzeigenden Daten für den ausgewählten Zeitraum",
-        "propertyTypeCastLabel": "Eigenschaftswert in Zahl umwandeln"
+        "propertyTypeCastLabel": "Eigenschaftswert in Zahl umwandeln",
+        "noProperty": "Keine Eigenschaft ausgewählt"
       }
     },
     "viewer": {
@@ -1457,6 +1458,10 @@
         "refresh": "Daten aktualisieren",
         "download": "Tabellendaten herunterladen"
       }
+    },
+    "control": {
+      "title": "Open Data History Explorer",
+      "disabledTitle": "Verbindungsinformationen zum Datenverlauf konnten nicht gefunden werden"
     }
   },
   "increaseByDecimal": "Wert um 0,1 erhöhen",

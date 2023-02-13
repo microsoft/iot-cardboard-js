@@ -7,6 +7,7 @@ import {
     Locale
 } from '../..';
 import { DtdlInterface } from '../../Models/Constants/dtdlInterfaces';
+import { IDataHistoryExplorerModalControlProps } from '../DataHistoryExplorerModal/DataHistoryExplorerModalControl/DataHistoryExplorerModalControl.types';
 
 export interface OnCommitPatchParams {
     patchMode: PropertyInspectorPatchMode;
@@ -26,6 +27,7 @@ export interface StandalonePropertyInspectorProps {
     readonly?: boolean;
     parentHandlesScroll?: boolean;
     customCommandBarTitleSpan?: React.ReactNode;
+    dataHistoryControlProps?: IDataHistoryExplorerModalControlProps;
 }
 
 export type TwinParams = {

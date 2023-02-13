@@ -5,8 +5,8 @@ import {
     ITheme
 } from '@fluentui/react';
 import { MockAdapter } from '../../Adapters';
-import ADTDataHistoryAdapter from '../../Adapters/ADTDataHistoryAdapter';
 import {
+    IADTDataHistoryAdapter,
     IADXConnection,
     IDataHistoryTimeSeriesTwin
 } from '../../Models/Constants/Interfaces';
@@ -21,7 +21,7 @@ import {
 } from './Internal/TimeSeriesViewer/TimeSeriesViewer.types';
 
 export interface IDataHistoryExplorerProps {
-    adapter: ADTDataHistoryAdapter | MockAdapter;
+    adapter: IADTDataHistoryAdapter | MockAdapter;
     hasTitle?: boolean;
     timeSeriesTwins?: Array<IDataHistoryTimeSeriesTwin>;
     defaultChartOptions?: ITimeSeriesCommandBarOptions;

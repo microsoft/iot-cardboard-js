@@ -1426,7 +1426,8 @@
         "remove": "Odebrání časové řady",
         "property": "Vlastnost",
         "noData": "Pro vybraný časový rozsah se nezobrazí žádná data",
-        "propertyTypeCastLabel": "Přetypování hodnoty vlastnosti na číslo"
+        "propertyTypeCastLabel": "Přetypování hodnoty vlastnosti na číslo",
+        "noProperty": "Není vybrána žádná vlastnost"
       }
     },
     "viewer": {
@@ -1457,6 +1458,10 @@
         "refresh": "Aktualizace dat",
         "download": "Stáhnout data tabulky"
       }
+    },
+    "control": {
+      "title": "Otevřít průzkumník historie dat",
+      "disabledTitle": "Informace o připojení historie dat nebyly nalezeny"
     }
   },
   "increaseByDecimal": "Zvýšení hodnoty o 0,1",

@@ -1,5 +1,5 @@
 export const mockTwin = {
-    $dtId: 'LeoTheDog',
+    $dtId: 'Tesla',
     $etag: 'W/"7cece777-dbf3-47ca-947e-5842ff8021fb"',
     CarName: 'Slaaaa',
     CarPackage: 'Basic',
@@ -46,7 +46,7 @@ export const mockTwin = {
 export const mockRelationship = {
     $relationshipId: '4690c125-aac8-4456-9203-298c93f5fcf0',
     $etag: 'W/"4215f07a-ed6e-4c8d-a516-d65715f207d9"',
-    $sourceId: 'LeoTheDog',
+    $sourceId: 'Tesla',
     $relationshipName: 'chargedBy',
     $targetId: 'Windmill_1'
 };
