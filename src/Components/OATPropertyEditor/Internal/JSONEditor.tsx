@@ -191,7 +191,8 @@ const JSONEditor: React.FC<JSONEditorProps> = (props) => {
                 options={{
                     minimap: {
                         enabled: false
-                    }
+                    },
+                    readOnly: true
                 }}
             />
             {oatPageState.modified && (

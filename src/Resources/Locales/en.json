@@ -925,13 +925,24 @@
             "unhandledExceptionTitle": "Unexpected error",
             "unhandledExceptionMessage": "Something unexpected happened. Please try again."
         },
-        "ModelList": {
-            "searchModels": "Search models",
-            "noMatchingItemsMessage": "No models match that criteria",
-            "removeModelButtonText": "Remove model",
-            "noModelsTitle": "You don't have any models yet",
-            "noModelsMessage": "Start designing your ontology by adding a model or importing your existing ontology",
-            "noModelsButtonText": "Add a model"
+        "Header": {
+            "ManageOntologyModal": {
+                "deleteButtonText": "Delete ontology",
+                "modalTitleCreate": "New ontology",
+                "modalTitleEdit": "Edit ontology",
+                "modalSubTitleCreate": "Create a new ontology to give structure to your digitial twin.",
+                "modalSubTitleEdit": "Edit your ontology to give structure to your digitial twin.",
+                "modalSubTitleLinkText": "Learn more about ontologies",
+                "nameLabel": "Name",
+                "namePlaceholder": "Enter an ontology name",
+                "namespaceLabel": "Default path",
+                "namespaceDescription": "Example model name: {{modelName}}",
+                "namespacePlaceholder": "Enter a default path",
+                "sampleModel": "sample Model",
+                "defaultVersionLabel": "Default DTDL version for new models",
+                "version2": "Version 2",
+                "version3": "Version 3"
+            }
         },
         "ImportErrors": {
             "exceptionTitle": "Unexpected error",
@@ -941,6 +952,14 @@
             "fileInvalidJSON": "Unable to import '{{fileName}}', it contains invalid JSON.",
             "importFailedTitle": "Import failed",
             "importFailedMessage": "There was an error during import. Resolve them and try again.\n {{error}}"
+        },
+        "ModelList": {
+            "searchModels": "Search models",
+            "noMatchingItemsMessage": "No models match that criteria",
+            "removeModelButtonText": "Remove model",
+            "noModelsTitle": "You don't have any models yet",
+            "noModelsMessage": "Start designing your ontology by adding a model or importing your existing ontology",
+            "noModelsButtonText": "Add a model"
         },
         "PropertyTypes": {
             "categories": {
@@ -1010,20 +1029,6 @@
         "fileOpenModal": {
             "dropdownLabel": "Ontology",
             "dropdownPlaceholder": "Select an ontology"
-        },
-        "manageOntologyModal": {
-            "deleteButtonText": "Delete ontology",
-            "modalTitleCreate": "New ontology",
-            "modalTitleEdit": "Edit ontology",
-            "modalSubTitleCreate": "Create a new ontology to give structure to your digitial twin.",
-            "modalSubTitleEdit": "Edit your ontology to give structure to your digitial twin.",
-            "modalSubTitleLinkText": "Learn more about ontologies",
-            "nameLabel": "Name",
-            "namePlaceholder": "Enter an ontology name",
-            "namespaceLabel": "Default path",
-            "namespaceDescription": "Example model name: {{modelName}}",
-            "namespacePlaceholder": "Enter a default path",
-            "sampleModel": "sample Model"
         }
     },
     "OATGraphViewer": {

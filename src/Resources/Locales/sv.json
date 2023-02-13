@@ -948,20 +948,6 @@
     "importFile": "Importera fil",
     "importFolder": "Importera mapp",
     "ontology": "Ontologi",
-    "manageOntologyModal": {
-      "deleteButtonText": "Ta bort ontologi",
-      "modalTitleCreate": "Ny ontologi",
-      "modalTitleEdit": "Redigera ontologi",
-      "modalSubTitleCreate": "Skapa en ny ontologi för att ge struktur till din digitala tvilling.",
-      "modalSubTitleEdit": "Redigera din ontologi för att ge struktur till din digitala tvilling.",
-      "modalSubTitleLinkText": "Läs mer om ontologier",
-      "nameLabel": "Namn",
-      "namePlaceholder": "Ange ett ontologinamn",
-      "namespaceDescription": "Exempel på modellnamn: {{modelName}}",
-      "sampleModel": "exempel modell",
-      "namespaceLabel": "Standardsökväg",
-      "namespacePlaceholder": "Ange en standardsökväg"
-    },
     "newModel": "Ny modell"
   },
   "cameraControls": {
@@ -1404,6 +1390,25 @@
         "geospatial": "Geospatialt"
       },
       "unsupportedPropertyType": "Den här egenskapstypen är inte tillgänglig för den aktuella kontextversionen av den associerade modellen"
+    },
+    "Header": {
+      "ManageOntologyModal": {
+        "deleteButtonText": "Ta bort ontologi",
+        "modalTitleCreate": "Ny ontologi",
+        "modalTitleEdit": "Redigera ontologi",
+        "modalSubTitleCreate": "Skapa en ny ontologi för att ge struktur till din digitala tvilling.",
+        "modalSubTitleEdit": "Redigera din ontologi för att ge struktur till din digitala tvilling.",
+        "modalSubTitleLinkText": "Läs mer om ontologier",
+        "nameLabel": "Namn",
+        "namePlaceholder": "Ange ett ontologinamn",
+        "namespaceLabel": "Standardsökväg",
+        "namespaceDescription": "Exempel på modellnamn: {{modelName}}",
+        "namespacePlaceholder": "Ange en standardsökväg",
+        "sampleModel": "exempel modell",
+        "version2": "Version 2",
+        "version3": "Version 3",
+        "defaultVersionLabel": "Standard DTDL-version för nya modeller"
+      }
     }
   },
   "dataHistoryErrorHandlingWrapper": {

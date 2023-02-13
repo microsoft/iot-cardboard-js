@@ -948,20 +948,6 @@
     "importFile": "ファイルのインポート",
     "importFolder": "インポートフォルダ",
     "ontology": "オントロジー",
-    "manageOntologyModal": {
-      "deleteButtonText": "オントロジーの削除",
-      "modalTitleCreate": "新しいオントロジー",
-      "modalTitleEdit": "オントロジーの編集",
-      "modalSubTitleCreate": "新しいオントロジーを作成して、デジタルツインに構造を与えます。",
-      "modalSubTitleEdit": "オントロジーを編集して、デジタルツインに構造を与えます。",
-      "modalSubTitleLinkText": "オントロジーの詳細",
-      "nameLabel": "名前",
-      "namePlaceholder": "オントロジー名を入力する",
-      "namespaceDescription": "モデル名の例: {{モデル名}}",
-      "sampleModel": "サンプルモデル",
-      "namespaceLabel": "既定のパス",
-      "namespacePlaceholder": "既定のパスを入力"
-    },
     "newModel": "新型"
   },
   "cameraControls": {
@@ -1404,6 +1390,25 @@
         "geospatial": "地理空間"
       },
       "unsupportedPropertyType": "このプロパティタイプは、関連付けられたモデルの現在のコンテキストバージョンでは使用できません。"
+    },
+    "Header": {
+      "ManageOntologyModal": {
+        "deleteButtonText": "オントロジーの削除",
+        "modalTitleCreate": "新しいオントロジー",
+        "modalTitleEdit": "オントロジーの編集",
+        "modalSubTitleCreate": "新しいオントロジーを作成して、デジタルツインに構造を与えます。",
+        "modalSubTitleEdit": "オントロジーを編集して、デジタルツインに構造を与えます。",
+        "modalSubTitleLinkText": "オントロジーの詳細",
+        "nameLabel": "名前",
+        "namePlaceholder": "オントロジー名を入力する",
+        "namespaceLabel": "既定のパス",
+        "namespaceDescription": "モデル名の例: {{モデル名}}",
+        "namespacePlaceholder": "既定のパスを入力",
+        "sampleModel": "サンプルモデル",
+        "version2": "バージョン2",
+        "version3": "バージョン3",
+        "defaultVersionLabel": "新しいモデルの既定の DTDL バージョン"
+      }
     }
   },
   "dataHistoryErrorHandlingWrapper": {

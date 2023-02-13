@@ -948,20 +948,6 @@
     "importFile": "Importar arquivo",
     "importFolder": "Importar pasta",
     "ontology": "Ontologia",
-    "manageOntologyModal": {
-      "deleteButtonText": "Excluir ontologia",
-      "modalTitleCreate": "Nova ontologia",
-      "modalTitleEdit": "Editar ontologia",
-      "modalSubTitleCreate": "Crie uma nova ontologia para dar estrutura ao seu gêmeo digital.",
-      "modalSubTitleEdit": "Edite sua ontologia para dar estrutura ao seu gêmeo digital.",
-      "modalSubTitleLinkText": "Saiba mais sobre ontologias",
-      "nameLabel": "Nome",
-      "namePlaceholder": "Digite um nome de ontologia",
-      "namespaceDescription": "Nome do modelo de exemplo: {{modelName}}",
-      "sampleModel": "modelo de exemplo",
-      "namespaceLabel": "Caminho padrão",
-      "namespacePlaceholder": "Inserir um caminho padrão"
-    },
     "newModel": "Novo modelo"
   },
   "cameraControls": {
@@ -1404,6 +1390,25 @@
         "geospatial": "Geoespacial"
       },
       "unsupportedPropertyType": "Esse tipo de propriedade não está disponível para a versão de contexto atual do modelo associado"
+    },
+    "Header": {
+      "ManageOntologyModal": {
+        "deleteButtonText": "Excluir ontologia",
+        "modalTitleCreate": "Nova ontologia",
+        "modalTitleEdit": "Editar ontologia",
+        "modalSubTitleCreate": "Crie uma nova ontologia para dar estrutura ao seu gêmeo digital.",
+        "modalSubTitleEdit": "Edite sua ontologia para dar estrutura ao seu gêmeo digital.",
+        "modalSubTitleLinkText": "Saiba mais sobre ontologias",
+        "nameLabel": "Nome",
+        "namePlaceholder": "Digite um nome de ontologia",
+        "namespaceLabel": "Caminho padrão",
+        "namespaceDescription": "Nome do modelo de exemplo: {{modelName}}",
+        "namespacePlaceholder": "Inserir um caminho padrão",
+        "sampleModel": "modelo de exemplo",
+        "version2": "Versão 2",
+        "version3": "Versão 3",
+        "defaultVersionLabel": "Versão DTDL padrão para novos modelos"
+      }
     }
   },
   "dataHistoryErrorHandlingWrapper": {

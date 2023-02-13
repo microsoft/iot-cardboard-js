@@ -948,20 +948,6 @@
     "importFile": "Dosyayı içe aktar",
     "importFolder": "Klasörü içe aktar",
     "ontology": "Ontoloji",
-    "manageOntologyModal": {
-      "deleteButtonText": "Ontolojiyi silme",
-      "modalTitleCreate": "Yeni ontoloji",
-      "modalTitleEdit": "Ontolojiyi düzenleme",
-      "modalSubTitleCreate": "Sayısal ikizinize yapı kazandırmak için yeni bir ontoloji oluşturun.",
-      "modalSubTitleEdit": "Sayısal ikizinize yapı kazandırmak için ontolojinizi düzenleyin.",
-      "modalSubTitleLinkText": "Ontolojiler hakkında daha fazla bilgi edinin",
-      "nameLabel": "Ad",
-      "namePlaceholder": "Ontoloji adı girin",
-      "namespaceDescription": "Örnek model adı: {{modelName}}",
-      "sampleModel": "örnek Model",
-      "namespaceLabel": "Varsayılan yol",
-      "namespacePlaceholder": "Varsayılan bir yol girin"
-    },
     "newModel": "Yeni model"
   },
   "cameraControls": {
@@ -1404,6 +1390,25 @@
         "geospatial": "Jeo-uzamsal"
       },
       "unsupportedPropertyType": "Bu özellik türü, ilişkili modelin geçerli bağlam sürümü için kullanılamaz"
+    },
+    "Header": {
+      "ManageOntologyModal": {
+        "deleteButtonText": "Ontolojiyi silme",
+        "modalTitleCreate": "Yeni ontoloji",
+        "modalTitleEdit": "Ontolojiyi düzenleme",
+        "modalSubTitleCreate": "Sayısal ikizinize yapı kazandırmak için yeni bir ontoloji oluşturun.",
+        "modalSubTitleEdit": "Sayısal ikizinize yapı kazandırmak için ontolojinizi düzenleyin.",
+        "modalSubTitleLinkText": "Ontolojiler hakkında daha fazla bilgi edinin",
+        "nameLabel": "Ad",
+        "namePlaceholder": "Ontoloji adı girin",
+        "namespaceLabel": "Varsayılan yol",
+        "namespaceDescription": "Örnek model adı: {{modelName}}",
+        "namespacePlaceholder": "Varsayılan bir yol girin",
+        "sampleModel": "örnek Model",
+        "version2": "Sürüm 2",
+        "version3": "Sürüm 3",
+        "defaultVersionLabel": "Yeni modeller için varsayılan DTDL sürümü"
+      }
     }
   },
   "dataHistoryErrorHandlingWrapper": {

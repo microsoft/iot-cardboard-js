@@ -948,20 +948,6 @@
     "importFile": "Arquivo de importação",
     "importFolder": "Pasta de importação",
     "ontology": "Ontologia",
-    "manageOntologyModal": {
-      "deleteButtonText": "Eliminar a ontologia",
-      "modalTitleCreate": "Nova ontologia",
-      "modalTitleEdit": "Editar ontologia",
-      "modalSubTitleCreate": "Crie uma nova ontologia para dar estrutura ao seu gémeo digital.",
-      "modalSubTitleEdit": "Edite a sua ontologia para dar estrutura ao seu gémeo digital.",
-      "modalSubTitleLinkText": "Saiba mais sobre os totologias",
-      "nameLabel": "Nome",
-      "namePlaceholder": "Insira um nome de ontologia",
-      "namespaceDescription": "Nome do modelo exemplo: {{modelName}}",
-      "sampleModel": "modelo de amostra",
-      "namespaceLabel": "Caminho padrão",
-      "namespacePlaceholder": "Insira um caminho padrão"
-    },
     "newModel": "Novo modelo"
   },
   "cameraControls": {
@@ -1404,6 +1390,25 @@
         "geospatial": "Geoespacial"
       },
       "unsupportedPropertyType": "Este tipo de propriedade não está disponível para a versão de contexto atual do modelo associado"
+    },
+    "Header": {
+      "ManageOntologyModal": {
+        "deleteButtonText": "Eliminar a ontologia",
+        "modalTitleCreate": "Nova ontologia",
+        "modalTitleEdit": "Editar ontologia",
+        "modalSubTitleCreate": "Crie uma nova ontologia para dar estrutura ao seu gémeo digital.",
+        "modalSubTitleEdit": "Edite a sua ontologia para dar estrutura ao seu gémeo digital.",
+        "modalSubTitleLinkText": "Saiba mais sobre os totologias",
+        "nameLabel": "Nome",
+        "namePlaceholder": "Insira um nome de ontologia",
+        "namespaceLabel": "Caminho padrão",
+        "namespaceDescription": "Nome do modelo exemplo: {{modelName}}",
+        "namespacePlaceholder": "Insira um caminho padrão",
+        "sampleModel": "modelo de amostra",
+        "version2": "Versão 2",
+        "version3": "Versão 3",
+        "defaultVersionLabel": "Versão DTDL padrão para novos modelos"
+      }
     }
   },
   "dataHistoryErrorHandlingWrapper": {

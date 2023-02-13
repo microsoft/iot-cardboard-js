@@ -948,20 +948,6 @@
     "importFile": "导入文件",
     "importFolder": "导入文件夹",
     "ontology": "本体",
-    "manageOntologyModal": {
-      "deleteButtonText": "删除本体",
-      "modalTitleCreate": "新本体",
-      "modalTitleEdit": "编辑本体",
-      "modalSubTitleCreate": "创建一个新的本体，为数字孪生体提供结构。",
-      "modalSubTitleEdit": "编辑本体，为数字孪生提供结构。",
-      "modalSubTitleLinkText": "了解有关本体的更多信息",
-      "nameLabel": "名字",
-      "namePlaceholder": "输入本体名称",
-      "namespaceDescription": "示例模型名称：{{模型名称}}",
-      "sampleModel": "示例模型",
-      "namespaceLabel": "默认路径",
-      "namespacePlaceholder": "输入默认路径"
-    },
     "newModel": "新型号"
   },
   "cameraControls": {
@@ -1404,6 +1390,25 @@
         "geospatial": "地理空间"
       },
       "unsupportedPropertyType": "此属性类型不适用于关联模型的当前上下文版本"
+    },
+    "Header": {
+      "ManageOntologyModal": {
+        "deleteButtonText": "删除本体",
+        "modalTitleCreate": "新本体",
+        "modalTitleEdit": "编辑本体",
+        "modalSubTitleCreate": "创建一个新的本体，为数字孪生体提供结构。",
+        "modalSubTitleEdit": "编辑本体，为数字孪生提供结构。",
+        "modalSubTitleLinkText": "了解有关本体的更多信息",
+        "nameLabel": "名字",
+        "namePlaceholder": "输入本体名称",
+        "namespaceLabel": "默认路径",
+        "namespaceDescription": "示例模型名称：{{模型名称}}",
+        "namespacePlaceholder": "输入默认路径",
+        "sampleModel": "示例模型",
+        "version2": "版本 2",
+        "version3": "版本 3",
+        "defaultVersionLabel": "新型号的默认 DTDL 版本"
+      }
     }
   },
   "dataHistoryErrorHandlingWrapper": {

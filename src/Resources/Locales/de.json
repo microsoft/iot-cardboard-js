@@ -948,20 +948,6 @@
     "importFile": "Datei importieren",
     "importFolder": "Ordner importieren",
     "ontology": "Ontologie",
-    "manageOntologyModal": {
-      "deleteButtonText": "Etologie löschen",
-      "modalTitleCreate": "Neue Ontologie",
-      "modalTitleEdit": "Initologie bearbeiten",
-      "modalSubTitleCreate": "Erstellen Sie eine neue Ontologie, um Ihrem digitalen Zwilling eine Struktur zu geben.",
-      "modalSubTitleEdit": "Bearbeiten Sie Ihre Ontologie, um Ihrem digitalen Zwilling Struktur zu geben.",
-      "modalSubTitleLinkText": "Erfahren Sie mehr über Ontologien",
-      "nameLabel": "Name",
-      "namePlaceholder": "Geben Sie einen Ontologienamen ein",
-      "namespaceDescription": "Beispielmodellname: {{modelName}}",
-      "sampleModel": "Beispielmodell",
-      "namespaceLabel": "Standardpfad",
-      "namespacePlaceholder": "Standardpfad eingeben"
-    },
     "newModel": "Neues Modell"
   },
   "cameraControls": {
@@ -1404,6 +1390,25 @@
         "geospatial": "Geodaten"
       },
       "unsupportedPropertyType": "Dieser Eigenschaftstyp ist für die aktuelle Kontextversion des zugeordneten Modells nicht verfügbar."
+    },
+    "Header": {
+      "ManageOntologyModal": {
+        "deleteButtonText": "Etologie löschen",
+        "modalTitleCreate": "Neue Ontologie",
+        "modalTitleEdit": "Initologie bearbeiten",
+        "modalSubTitleCreate": "Erstellen Sie eine neue Ontologie, um Ihrem digitalen Zwilling eine Struktur zu geben.",
+        "modalSubTitleEdit": "Bearbeiten Sie Ihre Ontologie, um Ihrem digitalen Zwilling Struktur zu geben.",
+        "modalSubTitleLinkText": "Erfahren Sie mehr über Ontologien",
+        "nameLabel": "Name",
+        "namePlaceholder": "Geben Sie einen Ontologienamen ein",
+        "namespaceLabel": "Standardpfad",
+        "namespaceDescription": "Beispielmodellname: {{modelName}}",
+        "namespacePlaceholder": "Standardpfad eingeben",
+        "sampleModel": "Beispielmodell",
+        "version2": "Version 2",
+        "version3": "Version 3",
+        "defaultVersionLabel": "Standard-DTDL-Version für neue Modelle"
+      }
     }
   },
   "dataHistoryErrorHandlingWrapper": {
