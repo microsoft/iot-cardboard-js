@@ -1405,9 +1405,9 @@
         "namespaceDescription": "Exempel på modellnamn: {{modelName}}",
         "namespacePlaceholder": "Ange en standardsökväg",
         "sampleModel": "exempel modell",
-        "defaultVersionLabel": "Standardversion för nya modeller",
         "version2": "Version 2",
-        "version3": "Version 3"
+        "version3": "Version 3",
+        "defaultVersionLabel1": "Standard DTDL-version för nya modeller"
       }
     }
   },

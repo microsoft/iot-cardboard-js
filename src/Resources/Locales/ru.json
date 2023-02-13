@@ -1405,9 +1405,9 @@
         "namespaceDescription": "Пример имени модели: {{имя_модели}}",
         "namespacePlaceholder": "Введите путь по умолчанию",
         "sampleModel": "Образец модели",
-        "defaultVersionLabel": "Версия по умолчанию для новых моделей",
         "version2": "Версия 2",
-        "version3": "Версия 3"
+        "version3": "Версия 3",
+        "defaultVersionLabel1": "Версия DTDL по умолчанию для новых моделей"
       }
     }
   },

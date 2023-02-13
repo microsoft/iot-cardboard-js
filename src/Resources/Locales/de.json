@@ -1405,9 +1405,9 @@
         "namespaceDescription": "Beispielmodellname: {{modelName}}",
         "namespacePlaceholder": "Standardpfad eingeben",
         "sampleModel": "Beispielmodell",
-        "defaultVersionLabel": "Standardversion für neue Modelle",
         "version2": "Version 2",
-        "version3": "Version 3"
+        "version3": "Version 3",
+        "defaultVersionLabel1": "Standard-DTDL-Version für neue Modelle"
       }
     }
   },

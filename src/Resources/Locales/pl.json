@@ -1405,9 +1405,9 @@
         "namespaceDescription": "Przykładowa nazwa modelu: {{modelName}}",
         "namespacePlaceholder": "Wprowadź ścieżkę domyślną",
         "sampleModel": "przykładowy model",
-        "defaultVersionLabel": "Domyślna wersja dla nowych modeli",
         "version2": "Wersja 2",
-        "version3": "Wersja 3"
+        "version3": "Wersja 3",
+        "defaultVersionLabel1": "Domyślna wersja DTDL dla nowych modeli"
       }
     }
   },

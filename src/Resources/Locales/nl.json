@@ -1405,9 +1405,9 @@
         "namespaceDescription": "Voorbeeld modelnaam: {{modelName}}",
         "namespacePlaceholder": "Voer een standaardpad in",
         "sampleModel": "voorbeeldmodel",
-        "defaultVersionLabel": "Standaardversie voor nieuwe modellen",
         "version2": "Versie 2",
-        "version3": "Versie 3"
+        "version3": "Versie 3",
+        "defaultVersionLabel1": "Standaard DTDL-versie voor nieuwe modellen"
       }
     }
   },
