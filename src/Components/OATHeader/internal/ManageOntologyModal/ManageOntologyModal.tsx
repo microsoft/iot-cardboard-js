@@ -66,7 +66,10 @@ const ManageOntologyModal: React.FC<IManageOntologyModalProps> = (props) => {
         mode === FormMode.Create ? '' : oatPageState.currentOntologyDefaultPath
     );
     const [isV3Default, setIsV3Default] = useState<boolean>(
-        oatPageState.currentOntologyDefaultContext === DTDL_CONTEXT_VERSION_3
+        mode === FormMode.Create
+            ? false
+            : oatPageState.currentOntologyDefaultContext ===
+                  DTDL_CONTEXT_VERSION_3
     );
 
     // hooks
