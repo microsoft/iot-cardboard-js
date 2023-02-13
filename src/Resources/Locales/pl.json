@@ -948,20 +948,6 @@
     "importFile": "Importuj plik",
     "importFolder": "Folder importu",
     "ontology": "Ontologia",
-    "manageOntologyModal": {
-      "deleteButtonText": "Usuń ontologię",
-      "modalTitleCreate": "Nowa ontologia",
-      "modalTitleEdit": "Edytuj ontologię",
-      "modalSubTitleCreate": "Stwórz nową ontologię, aby nadać strukturę swojemu cyfrowemu bliźniakowi.",
-      "modalSubTitleEdit": "Edytuj swoją ontologię, aby nadać strukturę swojemu cyfrowemu bliźniakowi.",
-      "modalSubTitleLinkText": "Dowiedz się więcej o ontologiach",
-      "nameLabel": "Nazwa",
-      "namePlaceholder": "Wprowadź nazwę ontologii",
-      "namespaceDescription": "Przykładowa nazwa modelu: {{modelName}}",
-      "sampleModel": "przykładowy model",
-      "namespaceLabel": "Domyślna ścieżka",
-      "namespacePlaceholder": "Wprowadź ścieżkę domyślną"
-    },
     "newModel": "Nowy model"
   },
   "cameraControls": {
@@ -1404,6 +1390,25 @@
         "geospatial": "Dane geograficzne"
       },
       "unsupportedPropertyType": "Ten typ właściwości nie jest dostępny dla bieżącej wersji kontekstowej skojarzonego modelu"
+    },
+    "Header": {
+      "ManageOntologyModal": {
+        "deleteButtonText": "Usuń ontologię",
+        "modalTitleCreate": "Nowa ontologia",
+        "modalTitleEdit": "Edytuj ontologię",
+        "modalSubTitleCreate": "Stwórz nową ontologię, aby nadać strukturę swojemu cyfrowemu bliźniakowi.",
+        "modalSubTitleEdit": "Edytuj swoją ontologię, aby nadać strukturę swojemu cyfrowemu bliźniakowi.",
+        "modalSubTitleLinkText": "Dowiedz się więcej o ontologiach",
+        "nameLabel": "Nazwa",
+        "namePlaceholder": "Wprowadź nazwę ontologii",
+        "namespaceLabel": "Domyślna ścieżka",
+        "namespaceDescription": "Przykładowa nazwa modelu: {{modelName}}",
+        "namespacePlaceholder": "Wprowadź ścieżkę domyślną",
+        "sampleModel": "przykładowy model",
+        "defaultVersionLabel": "Domyślna wersja dla nowych modeli",
+        "version2": "Wersja 2",
+        "version3": "Wersja 3"
+      }
     }
   },
   "dataHistoryErrorHandlingWrapper": {

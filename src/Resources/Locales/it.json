@@ -948,20 +948,6 @@
     "importFile": "Importa file",
     "importFolder": "Importa cartella",
     "ontology": "Ontologia",
-    "manageOntologyModal": {
-      "deleteButtonText": "Eliminare ontologia",
-      "modalTitleCreate": "Nuova ontologia",
-      "modalTitleEdit": "Modifica ontologia",
-      "modalSubTitleCreate": "Crea una nuova ontologia per dare struttura al tuo gemello digitale.",
-      "modalSubTitleEdit": "Modifica la tua ontologia per dare struttura al tuo gemello digitale.",
-      "modalSubTitleLinkText": "Scopri di più sulle ontologie",
-      "nameLabel": "Nome",
-      "namePlaceholder": "Immettere un nome di ontologia",
-      "namespaceDescription": "Esempio di nome modello: {{modelName}}",
-      "sampleModel": "Modello di esempio",
-      "namespaceLabel": "Percorso predefinito",
-      "namespacePlaceholder": "Immettere un percorso predefinito"
-    },
     "newModel": "Nuovo modello"
   },
   "cameraControls": {
@@ -1404,6 +1390,25 @@
         "geospatial": "Geospaziale"
       },
       "unsupportedPropertyType": "Questo tipo di proprietà non è disponibile per la versione di contesto corrente del modello associato"
+    },
+    "Header": {
+      "ManageOntologyModal": {
+        "deleteButtonText": "Eliminare ontologia",
+        "modalTitleCreate": "Nuova ontologia",
+        "modalTitleEdit": "Modifica ontologia",
+        "modalSubTitleCreate": "Crea una nuova ontologia per dare struttura al tuo gemello digitale.",
+        "modalSubTitleEdit": "Modifica la tua ontologia per dare struttura al tuo gemello digitale.",
+        "modalSubTitleLinkText": "Scopri di più sulle ontologie",
+        "nameLabel": "Nome",
+        "namePlaceholder": "Immettere un nome di ontologia",
+        "namespaceLabel": "Percorso predefinito",
+        "namespaceDescription": "Esempio di nome modello: {{modelName}}",
+        "namespacePlaceholder": "Immettere un percorso predefinito",
+        "sampleModel": "Modello di esempio",
+        "defaultVersionLabel": "Versione predefinita per i nuovi modelli",
+        "version2": "Versione 2",
+        "version3": "Versione 3"
+      }
     }
   },
   "dataHistoryErrorHandlingWrapper": {

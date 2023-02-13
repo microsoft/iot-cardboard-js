@@ -948,20 +948,6 @@
     "importFile": "파일 가져오기",
     "importFolder": "폴더 가져오기",
     "ontology": "존재론",
-    "manageOntologyModal": {
-      "deleteButtonText": "온톨로지 삭제",
-      "modalTitleCreate": "새 온톨로지",
-      "modalTitleEdit": "온톨로지 편집",
-      "modalSubTitleCreate": "새 온톨로지를 만들어 디지털 트윈에 구조를 부여합니다.",
-      "modalSubTitleEdit": "온톨로지를 편집하여 디지털 트윈에 구조를 제공합니다.",
-      "modalSubTitleLinkText": "온톨로지에 대해 자세히 알아보기",
-      "nameLabel": "이름",
-      "namePlaceholder": "온톨로지 이름 입력",
-      "namespaceDescription": "모델 이름 예: {{모델 이름}}",
-      "sampleModel": "샘플 모델",
-      "namespaceLabel": "기본 경로",
-      "namespacePlaceholder": "기본 경로 입력"
-    },
     "newModel": "새로운 모델"
   },
   "cameraControls": {
@@ -1404,6 +1390,25 @@
         "geospatial": "지리 공간"
       },
       "unsupportedPropertyType": "이 속성 유형은 연결된 모델의 현재 컨텍스트 버전에 사용할 수 없습니다."
+    },
+    "Header": {
+      "ManageOntologyModal": {
+        "deleteButtonText": "온톨로지 삭제",
+        "modalTitleCreate": "새 온톨로지",
+        "modalTitleEdit": "온톨로지 편집",
+        "modalSubTitleCreate": "새 온톨로지를 만들어 디지털 트윈에 구조를 부여합니다.",
+        "modalSubTitleEdit": "온톨로지를 편집하여 디지털 트윈에 구조를 제공합니다.",
+        "modalSubTitleLinkText": "온톨로지에 대해 자세히 알아보기",
+        "nameLabel": "이름",
+        "namePlaceholder": "온톨로지 이름 입력",
+        "namespaceLabel": "기본 경로",
+        "namespaceDescription": "모델 이름 예: {{모델 이름}}",
+        "namespacePlaceholder": "기본 경로 입력",
+        "sampleModel": "샘플 모델",
+        "defaultVersionLabel": "새 모델의 기본 버전",
+        "version2": "버전 2",
+        "version3": "버전 3"
+      }
     }
   },
   "dataHistoryErrorHandlingWrapper": {
