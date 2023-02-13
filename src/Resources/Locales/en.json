@@ -939,7 +939,7 @@
                 "namespaceDescription": "Example model name: {{modelName}}",
                 "namespacePlaceholder": "Enter a default path",
                 "sampleModel": "sample Model",
-                "defaultVersionLabel1": "Default DTDL version for new models",
+                "defaultVersionLabel": "Default DTDL version for new models",
                 "version2": "Version 2",
                 "version3": "Version 3"
             }

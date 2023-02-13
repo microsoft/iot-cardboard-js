@@ -5,7 +5,7 @@ import {
     styled,
     Link,
     TextField,
-    Toggle
+    ChoiceGroup
 } from '@fluentui/react';
 import {
     IManageOntologyModalStyleProps,
@@ -18,6 +18,7 @@ import { buildModelId } from '../../../../Models/Services/OatUtils';
 import CardboardModal from '../../../CardboardModal/CardboardModal';
 import {
     DOCUMENTATION_LINKS,
+    OAT_DEFAULT_CONTEXT,
     OAT_DEFAULT_PATH_VALUE
 } from '../../../../Models/Constants/Constants';
 import { useTranslation } from 'react-i18next';
@@ -65,11 +66,10 @@ const ManageOntologyModal: React.FC<IManageOntologyModalProps> = (props) => {
     const [defaultPath, setDefaultPath] = useState<string>(
         mode === FormMode.Create ? '' : oatPageState.currentOntologyDefaultPath
     );
-    const [isV3Default, setIsV3Default] = useState<boolean>(
+    const [defaultContext, setDefaultContext] = useState<string>(
         mode === FormMode.Create
-            ? false
-            : oatPageState.currentOntologyDefaultContext ===
-                  DTDL_CONTEXT_VERSION_3
+            ? OAT_DEFAULT_CONTEXT
+            : oatPageState.currentOntologyDefaultContext ?? OAT_DEFAULT_CONTEXT
     );
 
     // hooks
@@ -100,9 +100,7 @@ const ManageOntologyModal: React.FC<IManageOntologyModalProps> = (props) => {
                 payload: {
                     name: name,
                     defaultPath: defaultPath,
-                    defaultContext: isV3Default
-                        ? DTDL_CONTEXT_VERSION_3
-                        : DTDL_CONTEXT_VERSION_2
+                    defaultContext: defaultContext
                 }
             });
         } else if (mode === FormMode.Edit) {
@@ -111,9 +109,7 @@ const ManageOntologyModal: React.FC<IManageOntologyModalProps> = (props) => {
                 payload: {
                     name: name,
                     defaultPath: defaultPath,
-                    defaultContext: isV3Default
-                        ? DTDL_CONTEXT_VERSION_3
-                        : DTDL_CONTEXT_VERSION_2
+                    defaultContext: defaultContext
                 }
             });
         }
@@ -151,12 +147,12 @@ const ManageOntologyModal: React.FC<IManageOntologyModalProps> = (props) => {
         setDefaultPath(localPath);
     }, [isOpen, mode, oatPageState.currentOntologyDefaultPath]);
     useEffect(() => {
-        const isV3 =
+        const localContext =
             mode === FormMode.Create
-                ? false
-                : oatPageState.currentOntologyDefaultContext ===
-                  DTDL_CONTEXT_VERSION_3;
-        setIsV3Default(isV3);
+                ? OAT_DEFAULT_CONTEXT
+                : oatPageState.currentOntologyDefaultContext ??
+                  OAT_DEFAULT_CONTEXT;
+        setDefaultContext(localContext);
     }, [isOpen, mode, oatPageState.currentOntologyDefaultContext]);
 
     // data
@@ -215,13 +211,21 @@ const ManageOntologyModal: React.FC<IManageOntologyModalProps> = (props) => {
                 placeholder={t(LOC_KEYS.namespacePlaceholder)}
                 value={defaultPath}
             />
-            <Toggle
+            <ChoiceGroup
                 label={t(LOC_KEYS.toggleLabel)}
-                defaultChecked={isV3Default}
-                offText={t(LOC_KEYS.toggleVersion2)}
-                onText={t(LOC_KEYS.toggleVersion3)}
-                onChange={(_ev, checked) => {
-                    setIsV3Default(checked);
+                selectedKey={defaultContext}
+                options={[
+                    {
+                        key: DTDL_CONTEXT_VERSION_2,
+                        text: t(LOC_KEYS.toggleVersion2)
+                    },
+                    {
+                        key: DTDL_CONTEXT_VERSION_3,
+                        text: t(LOC_KEYS.toggleVersion3)
+                    }
+                ]}
+                onChange={(_ev, option) => {
+                    setDefaultContext(option.key);
                 }}
             />
         </CardboardModal>
