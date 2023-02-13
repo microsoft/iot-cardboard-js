@@ -1405,9 +1405,9 @@
         "namespaceDescription": "모델 이름 예: {{모델 이름}}",
         "namespacePlaceholder": "기본 경로 입력",
         "sampleModel": "샘플 모델",
-        "defaultVersionLabel": "새 모델의 기본 버전",
         "version2": "버전 2",
-        "version3": "버전 3"
+        "version3": "버전 3",
+        "defaultVersionLabel1": "새 모델의 기본 DTDL 버전"
       }
     }
   },

@@ -1405,9 +1405,9 @@
         "namespaceDescription": "モデル名の例: {{モデル名}}",
         "namespacePlaceholder": "既定のパスを入力",
         "sampleModel": "サンプルモデル",
-        "defaultVersionLabel": "新しいモデルのデフォルトバージョン",
         "version2": "バージョン2",
-        "version3": "バージョン3"
+        "version3": "バージョン3",
+        "defaultVersionLabel1": "新しいモデルの既定の DTDL バージョン"
       }
     }
   },

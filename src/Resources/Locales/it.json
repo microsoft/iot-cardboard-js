@@ -1405,9 +1405,9 @@
         "namespaceDescription": "Esempio di nome modello: {{modelName}}",
         "namespacePlaceholder": "Immettere un percorso predefinito",
         "sampleModel": "Modello di esempio",
-        "defaultVersionLabel": "Versione predefinita per i nuovi modelli",
         "version2": "Versione 2",
-        "version3": "Versione 3"
+        "version3": "Versione 3",
+        "defaultVersionLabel1": "Versione DTDL predefinita per i nuovi modelli"
       }
     }
   },

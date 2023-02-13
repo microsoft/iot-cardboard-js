@@ -1405,9 +1405,9 @@
         "namespaceDescription": "Példa modellnévre: {{modelName}}",
         "namespacePlaceholder": "Adjon meg egy alapértelmezett elérési utat",
         "sampleModel": "minta modell",
-        "defaultVersionLabel": "Az új modellek alapértelmezett verziója",
         "version2": "2-es verzió",
-        "version3": "3-as verzió"
+        "version3": "3-as verzió",
+        "defaultVersionLabel1": "Alapértelmezett DTDL-verzió új modellekhez"
       }
     }
   },

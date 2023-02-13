@@ -1405,9 +1405,9 @@
         "namespaceDescription": "Örnek model adı: {{modelName}}",
         "namespacePlaceholder": "Varsayılan bir yol girin",
         "sampleModel": "örnek Model",
-        "defaultVersionLabel": "Yeni modeller için varsayılan sürüm",
         "version2": "Sürüm 2",
-        "version3": "Sürüm 3"
+        "version3": "Sürüm 3",
+        "defaultVersionLabel1": "Yeni modeller için varsayılan DTDL sürümü"
       }
     }
   },

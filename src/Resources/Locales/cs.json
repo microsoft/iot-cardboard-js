@@ -1405,9 +1405,9 @@
         "namespaceDescription": "Příklad názvu modelu: {{modelName}}",
         "namespacePlaceholder": "Zadejte výchozí cestu",
         "sampleModel": "Vzorový model",
-        "defaultVersionLabel": "Výchozí verze pro nové modely",
         "version2": "Verze 2",
-        "version3": "Verze 3"
+        "version3": "Verze 3",
+        "defaultVersionLabel1": "Výchozí verze DTDL pro nové modely"
       }
     }
   },

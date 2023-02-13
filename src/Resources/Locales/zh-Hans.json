@@ -1405,9 +1405,9 @@
         "namespaceDescription": "示例模型名称：{{模型名称}}",
         "namespacePlaceholder": "输入默认路径",
         "sampleModel": "示例模型",
-        "defaultVersionLabel": "新模型的默认版本",
         "version2": "版本 2",
-        "version3": "版本 3"
+        "version3": "版本 3",
+        "defaultVersionLabel1": "新型号的默认 DTDL 版本"
       }
     }
   },
