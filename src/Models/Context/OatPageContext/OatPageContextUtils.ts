@@ -12,7 +12,11 @@ import {
     IOATModelPosition,
     IOATSelection
 } from '../../../Pages/OATEditorPage/OATEditorPage.types';
-import { DTDLSchema, DTDLType } from '../../Classes/DTDL';
+import {
+    DTDLSchema,
+    DTDLType,
+    DTDL_CONTEXT_VERSION_2
+} from '../../Classes/DTDL';
 import {
     DtdlComponent,
     DtdlInterface,
@@ -40,7 +44,6 @@ import {
 } from '../../Services/Utils';
 import { isOatContextStorageEnabled, logDebugConsole } from './OatPageContext';
 import { IOatPageContextState } from './OatPageContext.types';
-import { CONTEXT_CLASS_BASE } from '../../../Components/OATGraphViewer/Internal/Utils';
 import {
     hasType,
     isDTDLComponentReference,
@@ -81,9 +84,9 @@ const getNextModelInfo = (
     const name = `${defaultNamePrefix}${nextModelIdIndex}`;
     return { id: nextModelId, name: name };
 };
-const getNewModel = (id: string, modelName: string) => {
+const getNewModel = (id: string, modelName: string, contextVersion: string) => {
     const model: DtdlInterface = {
-        '@context': CONTEXT_CLASS_BASE,
+        '@context': contextVersion,
         '@id': id,
         '@type': OAT_INTERFACE_TYPE,
         contents: [],
@@ -101,7 +104,11 @@ export const addNewModelToState = (
         state.currentOntologyDefaultPath,
         i18n.t('OATCommon.defaultModelNamePrefix')
     );
-    const newModel: DtdlInterface = getNewModel(modelInfo.id, modelInfo.name);
+    const newModel: DtdlInterface = getNewModel(
+        modelInfo.id,
+        modelInfo.name,
+        state.currentOntologyDefaultContext
+    );
 
     // add to the models list
     if (!state.currentOntologyModels) {
@@ -563,12 +570,14 @@ export const addUntargetedRelationship = (
 export function createProject(
     name: string,
     namespace: string,
+    defaultContext: string,
     draft: IOatPageContextState
 ) {
     const id = createGUID();
     const project = new ProjectData(
         name,
         namespace.replace(/ /g, ''),
+        defaultContext,
         [],
         [],
         [],
@@ -601,6 +610,7 @@ export function switchCurrentProject(
         const projectToOpen = new ProjectData(
             data.projectName,
             data.defaultPath,
+            data.defaultContext,
             data.models,
             data.modelPositions,
             data.modelsMetadata,
@@ -630,6 +640,8 @@ export function convertStateToProject(
         models: draft.currentOntologyModels ?? [],
         modelsMetadata: draft.currentOntologyModelMetadata ?? [],
         defaultPath: draft.currentOntologyDefaultPath || '',
+        defaultContext:
+            draft.currentOntologyDefaultContext || DTDL_CONTEXT_VERSION_2,
         projectDescription: '',
         projectName: draft.currentOntologyProjectName || '',
         templates: draft.currentOntologyTemplates ?? []
