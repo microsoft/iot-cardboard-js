@@ -12,3 +12,4 @@ export { default as ADT3DBuilder } from './ADT3DBuilder/ADT3DBuilder';
 export { default as ADT3DSceneBuilder } from './ADT3DSceneBuilder/ADT3DSceneBuilder';
 export { default as SceneView } from './3DV/SceneView';
 export { default as TutorialModal } from './TutorialModal/TutorialModal';
+export { default as DataPusher } from './DataPusher/DataPusher';
