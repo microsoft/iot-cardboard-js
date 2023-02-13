@@ -21,6 +21,11 @@ import { IOatPropertyEditorTabKey } from '../../Pages/OATEditorPage/Internal/Cla
 import { OatPageContextActionType } from '../../Models/Context/OatPageContext/OatPageContext.types';
 import { useExtendedTheme } from '../../Models/Hooks/useExtendedTheme';
 import { getStyles } from './Editor.styles';
+import Version3PreviewLabel from './Internal/Version3PreviewLabel/Version3PreviewLabel';
+import {
+    isDTDLModel,
+    modelHasVersion3Context
+} from '../../Models/Services/DtdlUtils';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('Editor', debugLogging);
@@ -144,6 +149,12 @@ const Editor: React.FC<IEditorProps> = (props) => {
                         />
                     </PivotItem>
                 </Pivot>
+                {isDTDLModel(selectedItem) &&
+                    modelHasVersion3Context(selectedItem) && (
+                        <div className={classNames.previewLabelContainer}>
+                            <Version3PreviewLabel />
+                        </div>
+                    )}
                 {oatPageState.templatesActive && (
                     <TemplateColumn
                         enteredPropertyRef={enteredPropertyRef}

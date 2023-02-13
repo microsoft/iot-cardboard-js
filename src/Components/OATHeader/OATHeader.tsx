@@ -47,10 +47,9 @@ const getClassNames = classNamesFunction<
 
 /** localization keys for error messages in the Import flow */
 export const IMPORT_LOC_KEYS: IImportLocalizationKeys = {
-    FileFormatNotSupportedMessage:
-        'OAT.ImportErrors.fileFormatNotSupportedMessage',
     FileInvalidJson: 'OAT.ImportErrors.fileInvalidJSON',
-    FileFormatNotSupportedTitle: 'OAT.ImportErrors.fileFormatNotSupportedTitle',
+    NoValidFilesMessage: 'OAT.ImportErrors.noValidFilesMessage',
+    NoValidFilesTitle: 'OAT.ImportErrors.noValidFilesTitle',
     ImportFailedTitle: 'OAT.ImportErrors.importFailedTitle',
     ImportFailedMessage: 'OAT.ImportErrors.importFailedMessage',
     ExceptionTitle: 'OAT.Common.unhandledExceptionTitle',
@@ -425,10 +424,7 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
             </div>
 
             {/* Hidden inputs for file imports */}
-            <div
-                aria-hidden={true}
-                style={{ display: 'none', visibility: 'hidden' }}
-            >
+            <div aria-hidden="true" className={classNames.uploadInputContainer}>
                 {/* file upload */}
                 <input
                     title={t('OATHeader.importFile')}

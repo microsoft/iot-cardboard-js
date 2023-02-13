@@ -3,6 +3,7 @@ import JSZip from 'jszip';
 import { DTDLSchema } from '../Classes/DTDL';
 import { DtdlInterface } from '../Constants/dtdlInterfaces';
 import {
+    getDtdlVersion,
     hasArraySchemaType,
     hasGeospatialSchemaType,
     hasMapSchemaType,
@@ -48,9 +49,9 @@ export async function parseModels(models: DtdlInterface[]): Promise<string> {
 type TranslateFunction = (key: string, args?: Record<string, string>) => string;
 type ImportStatus = 'Success' | 'Failed';
 export interface IImportLocalizationKeys {
-    FileFormatNotSupportedMessage: string;
     FileInvalidJson: string;
-    FileFormatNotSupportedTitle: string;
+    NoValidFilesMessage: string;
+    NoValidFilesTitle: string;
     ImportFailedTitle: string;
     ImportFailedMessage: string;
     ExceptionTitle: string;
@@ -105,20 +106,11 @@ export const parseFilesToModels = async (
             files
         );
         const fileValidationResult = validateFiles(files);
-        if (fileValidationResult.failedFileNames.length > 0) {
+        if (fileValidationResult.validFiles.length === 0) {
             result.errors = [
                 {
-                    title: translate(
-                        localizationKeys.FileFormatNotSupportedTitle
-                    ),
-                    message: translate(
-                        localizationKeys.FileFormatNotSupportedMessage,
-                        {
-                            fileNames: fileValidationResult.failedFileNames
-                                .map((x) => `'${x}'`)
-                                .join('\n')
-                        }
-                    )
+                    title: translate(localizationKeys.NoValidFilesTitle),
+                    message: translate(localizationKeys.NoValidFilesMessage)
                 }
             ];
             result.status = 'Failed';
@@ -265,9 +257,9 @@ export const stripV3Features = (models: DtdlInterface[]): DtdlInterface[] => {
         models
     );
     models.forEach((model) => {
-        // if (getDtdlVersion(model) !== '3') {
-        //     return;
-        // }
+        if (getDtdlVersion(model) !== '3') {
+            return;
+        }
         // remove arrays
         filterPropertiesRecursively(model, hasArraySchemaType);
         // remove geospatial schemas from properties
@@ -363,9 +355,19 @@ const addVersionIfNotPresent = (model: DtdlInterface): DtdlInterface => {
 const forceRelationshipMinMultiplicityTo0 = (
     model: DtdlInterface
 ): DtdlInterface => {
-    if (model.contents?.length === 0) {
+    if (!model.contents || model.contents.length === 0) {
+        logDebugConsole(
+            'debug',
+            '[FORCE RELATIONSHIP MULTIPLICITY] [SKIP] No contents to process {model}',
+            model
+        );
         return model;
     }
+    logDebugConsole(
+        'debug',
+        '[FORCE RELATIONSHIP MULTIPLICITY] [START] {model}',
+        model
+    );
     model.contents.forEach((x) => {
         if (
             isDTDLRelationshipReference(x) &&
@@ -375,6 +377,11 @@ const forceRelationshipMinMultiplicityTo0 = (
             x.minMultiplicity = 0;
         }
     });
+    logDebugConsole(
+        'debug',
+        '[FORCE RELATIONSHIP MULTIPLICITY] [END] {model}',
+        model
+    );
 
     return model;
 };

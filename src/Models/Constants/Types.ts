@@ -209,7 +209,8 @@ export type OatIconNames =
     | 'GroupList'
     | 'TextField'
     | 'ToggleRight'
-    | 'Up';
+    | 'Up'
+    | 'UpgradeAnalysis';
 
 export enum DurationUnits {
     milliseconds = 0,

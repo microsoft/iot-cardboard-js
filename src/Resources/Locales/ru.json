@@ -1225,7 +1225,8 @@
       }
     },
     "noSelectionMessage": "Выбор модели или связи для просмотра сведений",
-    "propertiesNotSupported": "Выбранный элемент не поддерживает свойства"
+    "propertiesNotSupported": "Выбранный элемент не поддерживает свойства",
+    "contextVersion": "Контекстная версия"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Сообщение об ошибке",
@@ -1376,13 +1377,33 @@
       "unhandledExceptionMessage": "Случилось нечто неожиданное. Повторите попытку."
     },
     "ImportErrors": {
-      "fileFormatNotSupportedMessage": "Поддерживаются только JSON-файлы. Не удается импортировать следующие файлы: \n{{Именафайлов}}.",
-      "fileFormatNotSupportedTitle": "Формат файла не поддерживается",
       "fileInvalidJSON": "Не удается импортировать '{{имя_файла}}', он содержит недопустимый JSON.",
       "exceptionTitle": "Непредвиденная ошибка",
       "exceptionMessage": "Случилось нечто неожиданное. Повторите попытку.",
       "importFailedTitle": "Сбой импорта",
-      "importFailedMessage": "Произошла ошибка при импорте. Устраните их и повторите попытку.\n {{ошибка}}"
+      "importFailedMessage": "Произошла ошибка при импорте. Устраните их и повторите попытку.\n {{ошибка}}",
+      "noValidFilesTitle": "Модели не найдены",
+      "noValidFilesMessage": "Файлы модели не найдены для импорта. Убедитесь, что в выбранных файлах есть допустимые файлы JSON."
+    },
+    "PropertyEditor": {
+      "Version3PreviewLabel": {
+        "badgeText": "Предварительный просмотр",
+        "badgeCalloutText": "Эта модель использует DTDLv3, который находится в предварительной версии"
+      },
+      "Version3UpgradeButton": {
+        "confirmationTitle": "Обновить модель?",
+        "confirmationMessage": "Вы уверены, что хотите обновить эту модель до DTDL версии 3? Все ваши конфигурации будут сохранены.",
+        "confirmationButtonText": "Модернизировать",
+        "buttonText": "Обновление до версии 3"
+      }
+    },
+    "PropertyTypes": {
+      "categories": {
+        "complex": "Сложный",
+        "primitive": "Примитивный",
+        "geospatial": "Геопространственные"
+      },
+      "unsupportedPropertyType": "Этот тип свойства недоступен для текущей контекстной версии связанной модели"
     }
   },
   "dataHistoryErrorHandlingWrapper": {
@@ -1442,5 +1463,7 @@
       "title": "Открытый обозреватель истории данных",
       "disabledTitle": "Не удалось найти сведения о подключении к журналу данных"
     }
-  }
+  },
+  "increaseByDecimal": "Увеличение значения на 0,1",
+  "decreaseByDecimal": "Уменьшение значения на 0,1"
 }

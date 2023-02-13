@@ -358,7 +358,7 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
                     setElementToDelete(null);
                     setIsDeleteDialogOpen(false);
                 }}
-                onConfirmDeletion={handleDeleteElement}
+                onConfirm={handleDeleteElement}
             />
         </div>
     );

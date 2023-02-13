@@ -1225,7 +1225,8 @@
       }
     },
     "noSelectionMessage": "Seleccionar un modelo o relación para ver los detalles",
-    "propertiesNotSupported": "El elemento seleccionado no admite propiedades"
+    "propertiesNotSupported": "El elemento seleccionado no admite propiedades",
+    "contextVersion": "Versión contextual"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Mensaje de error",
@@ -1376,13 +1377,33 @@
       "unhandledExceptionMessage": "Algo inesperado sucedió. Inténtalo de nuevo."
     },
     "ImportErrors": {
-      "fileFormatNotSupportedMessage": "Solo se admiten archivos JSON. No se pueden importar los siguientes archivos: \n{{fileNames}}.",
-      "fileFormatNotSupportedTitle": "Formato de archivo no compatible",
       "fileInvalidJSON": "No se puede importar '{{fileName}}', contiene JSON no válido.",
       "exceptionTitle": "Error inesperado",
       "exceptionMessage": "Algo inesperado sucedió. Inténtalo de nuevo.",
       "importFailedTitle": "Error de importación",
-      "importFailedMessage": "Se ha producido un error durante la importación. Resuélvelos e inténtalo de nuevo.\n {{error}}"
+      "importFailedMessage": "Se ha producido un error durante la importación. Resuélvelos e inténtalo de nuevo.\n {{error}}",
+      "noValidFilesTitle": "No se han encontrado modelos",
+      "noValidFilesMessage": "No se encontraron archivos de modelo para importar. Asegúrese de que haya archivos JSON válidos en los archivos seleccionados."
+    },
+    "PropertyEditor": {
+      "Version3PreviewLabel": {
+        "badgeText": "Vista previa",
+        "badgeCalloutText": "Este modelo utiliza DTDLv3 que está en vista previa"
+      },
+      "Version3UpgradeButton": {
+        "confirmationTitle": "¿Modelo de actualización?",
+        "confirmationMessage": "¿Está seguro de que desea actualizar este modelo a DTDL versión 3? Se conservarán todas las configuraciones.",
+        "confirmationButtonText": "Actualizar",
+        "buttonText": "Actualizar a la versión 3"
+      }
+    },
+    "PropertyTypes": {
+      "categories": {
+        "complex": "Complejo",
+        "primitive": "Primitivo",
+        "geospatial": "Geoespacial"
+      },
+      "unsupportedPropertyType": "Este tipo de propiedad no está disponible para la versión de contexto actual del modelo asociado"
     }
   },
   "dataHistoryErrorHandlingWrapper": {
@@ -1442,5 +1463,7 @@
       "title": "Abrir el explorador del historial de datos",
       "disabledTitle": "No se pudo encontrar la información de conexión del historial de datos"
     }
-  }
+  },
+  "increaseByDecimal": "Aumentar el valor en 0.1",
+  "decreaseByDecimal": "Disminuir el valor en 0,1"
 }

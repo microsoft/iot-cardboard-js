@@ -21,7 +21,11 @@ import {
     DtdlRelationship,
     OAT_RELATIONSHIP_HANDLE_NAME
 } from '../../Models/Constants';
-import { DTDLProperty, DTDLType } from '../../Models/Classes/DTDL';
+import {
+    DTDLProperty,
+    DTDLType,
+    DTDL_CONTEXT_VERSION_3
+} from '../../Models/Classes/DTDL';
 import {
     OatPageContextProvider,
     useOatPageContext
@@ -187,3 +191,14 @@ ModelSelectedJson.play = async ({ canvasElement }) => {
     // wait for the menu
     await sleep(10);
 };
+
+export const ModelSelectedEditorV3Preview = Template.bind({});
+ModelSelectedEditorV3Preview.args = (() => {
+    const files = getMockFiles();
+    files[0].data.models[0]['@context'] = DTDL_CONTEXT_VERSION_3;
+    const args: StoryProps = {
+        files: files,
+        selection: { modelId: files[0].data.models[0]['@id'] }
+    };
+    return args;
+})();

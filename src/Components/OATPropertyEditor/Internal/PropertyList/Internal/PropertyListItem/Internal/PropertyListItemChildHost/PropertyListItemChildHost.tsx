@@ -35,6 +35,7 @@ const PropertyListItemChildHost: React.FC<IPropertyListItemChildHostProps> = (
         level,
         onDuplicate,
         onUpdateSchema,
+        parentModelContext,
         propertyItem,
         styles
     } = props;
@@ -121,12 +122,14 @@ const PropertyListItemChildHost: React.FC<IPropertyListItemChildHostProps> = (
                     item={propertyItem.schema.elementSchema}
                     level={level}
                     onUpdateSchema={onUpdateSchema}
+                    parentModelContext={parentModelContext}
                 />
             ) : hasMapSchemaType(propertyItem) ? (
                 <PropertyListItemMapChild
                     indexKey={`${indexKey}.0`}
                     item={propertyItem.schema}
                     level={level}
+                    parentModelContext={parentModelContext}
                 />
             ) : hasObjectSchemaType(propertyItem) ? (
                 <List
@@ -192,6 +195,7 @@ const PropertyListItemChildHost: React.FC<IPropertyListItemChildHostProps> = (
                                 // dispatch the child update
                                 onUpdateSchema(schemaCopy);
                             }}
+                            parentModelContext={parentModelContext}
                         />
                     )}
                 />

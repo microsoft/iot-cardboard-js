@@ -9,7 +9,9 @@ import {
     Label,
     SpinButton,
     styled,
-    TextField
+    TextField,
+    Text,
+    Stack
 } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import {
@@ -32,16 +34,26 @@ import { useOatPageContext } from '../../../../../../Models/Context/OatPageConte
 import { useExtendedTheme } from '../../../../../../Models/Hooks/useExtendedTheme';
 import { getStyles } from './PropertyDetailsEditorModalContent.styles';
 import {
+    contextHasVersion2,
+    getDtdlVersionFromContext,
+    getModelOrParentContext,
+    isDTDLModel,
     isDTDLReference,
-    isDTDLRelationshipReference
+    isDTDLRelationshipReference,
+    updateDtdlVersion
 } from '../../../../../../Models/Services/DtdlUtils';
-import { OAT_RELATIONSHIP_HANDLE_NAME } from '../../../../../../Models/Constants';
+import {
+    DtdlInterface,
+    OAT_RELATIONSHIP_HANDLE_NAME
+} from '../../../../../../Models/Constants';
 import TooltipCallout from '../../../../../TooltipCallout/TooltipCallout';
 import produce from 'immer';
 import {
     getDebugLogger,
     isDefined
 } from '../../../../../../Models/Services/Utils';
+import Version3UpgradeButton from '../../../Version3UpgradeButton/Version3UpgradeButton';
+import { DTDL_CONTEXT_VERSION_3 } from '../../../../../../Models/Classes/DTDL';
 
 const SINGLE_LANGUAGE_KEY = 'singleLanguage';
 const MULTI_LANGUAGE_KEY = 'multiLanguage';
@@ -81,6 +93,18 @@ const PropertyDetailsEditorModalContent: React.FC<IModalFormRootModelContentProp
     const isDescriptionMultiLanguage =
         selectedItem.description &&
         typeof selectedItem.description === 'object';
+
+    const modelContext = useMemo(() => {
+        return getModelOrParentContext(
+            selectedItem,
+            oatPageState.currentOntologyModels,
+            oatPageState.selection
+        );
+    }, [
+        oatPageState.currentOntologyModels,
+        oatPageState.selection,
+        selectedItem
+    ]);
 
     const [
         isAMultiLanguageDisplayNameEmpty,
@@ -123,6 +147,16 @@ const PropertyDetailsEditorModalContent: React.FC<IModalFormRootModelContentProp
         },
         []
     );
+    const onUpgradeVersion = useCallback(() => {
+        onUpdateItem(
+            produce((draft) => {
+                return updateDtdlVersion(
+                    draft as DtdlInterface,
+                    DTDL_CONTEXT_VERSION_3
+                );
+            })
+        );
+    }, [onUpdateItem]);
 
     // data
     const displayNameMultiLangOptions: IChoiceGroupOption[] = [
@@ -526,6 +560,27 @@ const PropertyDetailsEditorModalContent: React.FC<IModalFormRootModelContentProp
                 />
             </div>
 
+            {/* version */}
+            {isDTDLModel(selectedItem) && (
+                <div className={propertyInspectorStyles.modalRow}>
+                    <Label className={classNames.label}>
+                        {t('OATPropertyEditor.contextVersion')}
+                    </Label>
+                    <Stack
+                        className={classNames.contextVersionValue}
+                        horizontal
+                        tokens={{ childrenGap: 8 }}
+                    >
+                        <Text>{getDtdlVersionFromContext(modelContext)}</Text>
+                        {contextHasVersion2(modelContext) && (
+                            <Version3UpgradeButton
+                                onUpgrade={onUpgradeVersion}
+                            />
+                        )}
+                    </Stack>
+                </div>
+            )}
+
             {/* reference specific properties */}
             {isReferenceSelected && isRelationshipReference && (
                 <>
@@ -534,16 +589,18 @@ const PropertyDetailsEditorModalContent: React.FC<IModalFormRootModelContentProp
                             <Label id={'minMultiplicityLabel'}>
                                 {t('OATPropertyEditor.minMultiplicityLabel')}
                             </Label>
-                            <TooltipCallout
-                                content={{
-                                    calloutContent: t(
-                                        'OATPropertyEditor.minMultiplicityMessage'
-                                    ),
-                                    buttonAriaLabel: t(
-                                        'OATPropertyEditor.minMultiplicityMessage'
-                                    )
-                                }}
-                            />
+                            {contextHasVersion2(modelContext) && (
+                                <TooltipCallout
+                                    content={{
+                                        calloutContent: t(
+                                            'OATPropertyEditor.minMultiplicityMessage'
+                                        ),
+                                        buttonAriaLabel: t(
+                                            'OATPropertyEditor.minMultiplicityMessage'
+                                        )
+                                    }}
+                                />
+                            )}
                         </div>
                         <div className={classNames.splitInputColumn}>
                             <SpinButton
@@ -551,7 +608,7 @@ const PropertyDetailsEditorModalContent: React.FC<IModalFormRootModelContentProp
                                 decrementButtonAriaLabel={t('decreaseBy1')}
                                 incrementButtonAriaLabel={t('increaseBy1')}
                                 min={0}
-                                disabled // this is always 0 in V2 so just lock it for now
+                                disabled={contextHasVersion2(modelContext)} // this is always 0 in V2
                                 onValidate={(value) =>
                                     onValidateNumber(
                                         isDTDLRelationshipReference(
@@ -567,7 +624,7 @@ const PropertyDetailsEditorModalContent: React.FC<IModalFormRootModelContentProp
                                         value
                                     )
                                 }
-                                onChange={(_ev, _value) => {
+                                onChange={(_ev, value) => {
                                     onUpdateItem(
                                         produce((draft) => {
                                             if (
@@ -575,9 +632,9 @@ const PropertyDetailsEditorModalContent: React.FC<IModalFormRootModelContentProp
                                                     draft
                                                 )
                                             ) {
-                                                // draft.minMultiplicity = Number(
-                                                //     value
-                                                // );
+                                                draft.minMultiplicity = Number(
+                                                    value
+                                                );
                                             }
                                         })
                                     );
@@ -591,7 +648,7 @@ const PropertyDetailsEditorModalContent: React.FC<IModalFormRootModelContentProp
                             />
                             <ActionButton
                                 text={t('clear')}
-                                disabled // this is always 0 in V2 so just lock it for now
+                                disabled={contextHasVersion2(modelContext)} // this is always 0 in V2
                                 onClick={() => {
                                     onUpdateItem(
                                         produce((draft) => {
@@ -600,7 +657,7 @@ const PropertyDetailsEditorModalContent: React.FC<IModalFormRootModelContentProp
                                                     draft
                                                 )
                                             ) {
-                                                // delete draft.minMultiplicity;
+                                                delete draft.minMultiplicity;
                                                 return draft;
                                             }
                                         })

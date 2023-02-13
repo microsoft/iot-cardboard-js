@@ -1225,7 +1225,8 @@
       }
     },
     "noSelectionMessage": "세부 정보를 볼 모델 또는 관계 선택",
-    "propertiesNotSupported": "선택한 항목이 속성을 지원하지 않습니다."
+    "propertiesNotSupported": "선택한 항목이 속성을 지원하지 않습니다.",
+    "contextVersion": "컨텍스트 버전"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "오류 메시지",
@@ -1376,13 +1377,33 @@
       "unhandledExceptionMessage": "예상치 못한 일이 일어났습니다. 다시 시도하십시오."
     },
     "ImportErrors": {
-      "fileFormatNotSupportedMessage": "JSON 파일만 지원됩니다. 다음 파일을 가져올 수 없습니다. \n{{파일 이름}}.",
-      "fileFormatNotSupportedTitle": "지원되지 않는 파일 형식",
       "fileInvalidJSON": "'{{파일 이름}}'을 가져올 수 없으며 잘못된 JSON이 포함되어 있습니다.",
       "exceptionTitle": "예기치 않은 오류",
       "exceptionMessage": "예상치 못한 일이 일어났습니다. 다시 시도하십시오.",
       "importFailedTitle": "가져오기 실패",
-      "importFailedMessage": "가져오는 동안 오류가 발생했습니다. 문제를 해결하고 다시 시도하십시오.\n {{오류}}"
+      "importFailedMessage": "가져오는 동안 오류가 발생했습니다. 문제를 해결하고 다시 시도하십시오.\n {{오류}}",
+      "noValidFilesTitle": "모델을 찾을 수 없음",
+      "noValidFilesMessage": "가져올 모델 파일을 찾을 수 없습니다. 선택한 파일에 유효한 JSON 파일이 있는지 확인합니다."
+    },
+    "PropertyEditor": {
+      "Version3PreviewLabel": {
+        "badgeText": "미리 보기",
+        "badgeCalloutText": "이 모델은 미리 보기로 제공되는 DTDLv3을 사용합니다."
+      },
+      "Version3UpgradeButton": {
+        "confirmationTitle": "업그레이드 모델?",
+        "confirmationMessage": "이 모델을 DTDL 버전 3으로 업그레이드하시겠습니까? 모든 구성이 유지됩니다.",
+        "confirmationButtonText": "업그레이드",
+        "buttonText": "버전 3으로 업그레이드"
+      }
+    },
+    "PropertyTypes": {
+      "categories": {
+        "complex": "콤플렉스",
+        "primitive": "원시적인",
+        "geospatial": "지리 공간"
+      },
+      "unsupportedPropertyType": "이 속성 유형은 연결된 모델의 현재 컨텍스트 버전에 사용할 수 없습니다."
     }
   },
   "dataHistoryErrorHandlingWrapper": {
@@ -1442,5 +1463,7 @@
       "title": "데이터 기록 탐색기 열기",
       "disabledTitle": "데이터 기록 연결 정보를 찾을 수 없습니다."
     }
-  }
+  },
+  "increaseByDecimal": "값을 0.1씩 늘립니다.",
+  "decreaseByDecimal": "값 0.1 감소"
 }

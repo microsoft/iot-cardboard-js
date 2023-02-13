@@ -110,6 +110,8 @@
     "to": "to",
     "increaseBy1": "Increase value by 1",
     "decreaseBy1": "Decrease value by 1",
+    "increaseByDecimal": "Increase value by 0.1",
+    "decreaseByDecimal": "Decrease value by 0.1",
     "errors": {
         "errorBoundary": "Error boundary",
         "unkownError": "Unknown error occurred",
@@ -934,11 +936,31 @@
         "ImportErrors": {
             "exceptionTitle": "Unexpected error",
             "exceptionMessage": "Something unexpected happened. Please try again.",
-            "fileFormatNotSupportedMessage": "Only JSON files are supported. Unable to import the following files: \n{{fileNames}}.",
-            "fileFormatNotSupportedTitle": "File format not supported",
+            "noValidFilesMessage": "No model files found to import. Make sure there are valid JSON files in the selected file(s).",
+            "noValidFilesTitle": "No models found",
             "fileInvalidJSON": "Unable to import '{{fileName}}', it contains invalid JSON.",
             "importFailedTitle": "Import failed",
             "importFailedMessage": "There was an error during import. Resolve them and try again.\n {{error}}"
+        },
+        "PropertyTypes": {
+            "categories": {
+                "complex": "Complex",
+                "primitive": "Primitive",
+                "geospatial": "Geospatial"
+            },
+            "unsupportedPropertyType": "This property type is not available for the current context version of the associated model"
+        },
+        "PropertyEditor": {
+            "Version3PreviewLabel": {
+                "badgeText": "Preview",
+                "badgeCalloutText": "This model uses DTDL version 3 which is in preview"
+            },
+            "Version3UpgradeButton": {
+                "buttonText": "Upgrade to version 3",
+                "confirmationTitle": "Upgrade DTDL version?",
+                "confirmationMessage": "Are you sure you want to upgrade this model to DTDL version 3? All existing configurations will be preserved.",
+                "confirmationButtonText": "Upgrade"
+            }
         }
     },
     "OATCommon": {
@@ -1040,6 +1062,7 @@
         "comment": "Comment",
         "commentPlaceholder": "Comment for model authors",
         "complex": "Complex",
+        "contextVersion": "DTDL version",
         "copy": "copy",
         "data": "data",
         "date": "date",

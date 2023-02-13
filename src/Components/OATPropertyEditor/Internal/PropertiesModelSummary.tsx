@@ -1,12 +1,17 @@
-import React, { useContext, useState, useCallback, useEffect } from 'react';
+import React, {
+    useContext,
+    useState,
+    useCallback,
+    useEffect,
+    useMemo
+} from 'react';
 import {
     Stack,
     Text,
     Separator,
     TextField,
     classNamesFunction,
-    styled,
-    SpinButton
+    styled
 } from '@fluentui/react';
 import { useBoolean } from '@fluentui/react-hooks';
 import { useTranslation } from 'react-i18next';
@@ -14,7 +19,6 @@ import { deepCopy, getDebugLogger } from '../../../Models/Services/Utils';
 
 import { CommandHistoryContext } from '../../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
 import {
-    IPartialModelId,
     IPropertiesModelSummaryProps,
     IPropertiesModelSummaryStyleProps,
     IPropertiesModelSummaryStyles
@@ -26,11 +30,14 @@ import { getStyles } from './PropertiesModelSummary.styles';
 import { useExtendedTheme } from '../../../Models/Hooks/useExtendedTheme';
 import {
     DTMI_VALIDATION_REGEX,
+    getDtdlVersionFromContext,
+    getModelOrParentContext,
     isDTDLModel,
     isDTDLReference,
     isValidDtmiId,
     isValidDtmiPath,
     isValidModelName,
+    isValidModelVersion,
     isValidReferenceName
 } from '../../../Models/Services/DtdlUtils';
 import { getTargetFromSelection } from '../Utils';
@@ -77,6 +84,18 @@ export const PropertiesModelSummary: React.FC<IPropertiesModelSummaryProps> = (
         path: modelPath,
         version: Number(modelVersion)
     });
+
+    const modelContext = useMemo(() => {
+        return getModelOrParentContext(
+            selectedItem,
+            oatPageState.currentOntologyModels,
+            oatPageState.selection
+        );
+    }, [
+        oatPageState.currentOntologyModels,
+        oatPageState.selection,
+        selectedItem
+    ]);
 
     // callbacks
     const initializeIdFields = useCallback(
@@ -153,11 +172,13 @@ export const PropertiesModelSummary: React.FC<IPropertiesModelSummaryProps> = (
         },
         [
             execute,
+            initializeIdFields,
             oatPageDispatch,
             oatPageState.currentOntologyModelPositions,
             oatPageState.currentOntologyModels,
             oatPageState.selection,
-            selectedItem
+            selectedItem,
+            t
         ]
     );
     const commitReferenceNameChange = useCallback(
@@ -219,34 +240,38 @@ export const PropertiesModelSummary: React.FC<IPropertiesModelSummaryProps> = (
             setModelPath(value.trim());
         }
     }, []);
-    const onChangeRelationshipName = useCallback((_ev, value: string) => {
-        if (
-            selectedItem &&
-            isDTDLReference(selectedItem) &&
-            isValidReferenceName(value.trim(), selectedItem['@type'], false)
-        ) {
-            setRelationshipName(value.trim());
-        }
-    }, []);
-
-    // needed primarly for the version spinner since it behaves differently and you don't have to set focus
-    const forceUpdateId = useCallback(
-        ({ modelName, path, version }: IPartialModelId) => {
-            const newId = buildModelId({
-                modelName: modelName || modelUniqueName,
-                path: path || modelPath,
-                version: Number(version || modelVersion)
-            });
-            commitModelIdChange(newId);
+    const onChangeVersion = useCallback(
+        (_ev, value: string) => {
+            if (
+                isValidModelVersion(
+                    value.trim(),
+                    getDtdlVersionFromContext(modelContext),
+                    false
+                )
+            ) {
+                setModelVersion(value.trim());
+            }
         },
-        [commitModelIdChange, modelPath, modelUniqueName, modelVersion]
+        [modelContext]
+    );
+    const onChangeRelationshipName = useCallback(
+        (_ev, value: string) => {
+            if (
+                selectedItem &&
+                isDTDLReference(selectedItem) &&
+                isValidReferenceName(value.trim(), selectedItem['@type'], false)
+            ) {
+                setRelationshipName(value.trim());
+            }
+        },
+        [selectedItem]
     );
 
     // side effects
     // when selected item changes, update all the states
     useEffect(() => {
         initializeIdFields(selectedItem);
-    }, [selectedItem]);
+    }, [initializeIdFields, selectedItem]);
 
     // styles
     const classNames = getClassNames(styles, {
@@ -351,16 +376,12 @@ export const PropertiesModelSummary: React.FC<IPropertiesModelSummaryProps> = (
                             >
                                 {t('OATPropertyEditor.version')}
                             </Text>
-                            <SpinButton
-                                aria-labelledby={'oat-model-version'}
-                                onChange={(_ev, value) => {
-                                    // special handling because this only fires when focus is lost OR when you click the increment/decrement buttons
-                                    forceUpdateId({ version: value });
-                                    setModelVersion(value);
-                                }}
-                                min={1}
+                            <TextField
+                                aria-labelledby={'oat-model-path'}
+                                onBlur={() => commitModelIdChange(itemId)}
+                                onChange={onChangeVersion}
                                 styles={
-                                    classNames.subComponentStyles.numericField
+                                    classNames.subComponentStyles.stringField
                                 }
                                 value={modelVersion}
                             />

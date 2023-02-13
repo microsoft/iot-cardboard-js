@@ -18,7 +18,7 @@ export interface IOATError {
     type?: string;
 }
 
-export interface IOATConfirmDelete {
+export interface IOATConfirmDialogProps {
     /** callback to fire onConfirm */
     callback?: () => void;
     /** message body to show in the dialog */
@@ -27,6 +27,8 @@ export interface IOATConfirmDelete {
     open: boolean;
     /** title for the dialog */
     title?: string;
+    /** button text for the primary action */
+    primaryButtonText?: string;
 }
 
 export interface IOATModelPosition {
@@ -56,6 +58,6 @@ export interface IOATEditorState {
     error?: IOATError;
     modelPositions: IOATModelPosition[];
     namespace?: string;
-    confirmDeleteOpen?: IOATConfirmDelete;
+    confirmDeleteOpen?: IOATConfirmDialogProps;
     modelsMetadata?: IOATModelsMetadata[];
 }

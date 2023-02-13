@@ -10,7 +10,11 @@ import {
     IOATModelPosition,
     IOATModelsMetadata
 } from '../../../Pages/OATEditorPage/OATEditorPage.types';
-import { DTDLModel, DTDLProperty } from '../../Classes/DTDL';
+import {
+    DTDLProperty,
+    DTDLType,
+    DTDL_CONTEXT_VERSION_2
+} from '../../Classes/DTDL';
 import {
     DtdlInterface,
     DtdlInterfaceContent,
@@ -41,18 +45,22 @@ const getMockPositionItem = (id: string): IOATModelPosition => {
     };
 };
 
-export const getMockModelItem = (id: string): DtdlInterface => {
+export const getMockModelItem = (
+    id: string,
+    modelVersion?: string | string[]
+): DtdlInterface => {
     const modelName = parseModelId(id).name;
-    return new DTDLModel(
-        id,
-        modelName || `mock_name_${id}`, // simplify life for places in the tests we don't care about the actual parsing.
-        'mock-description',
-        'mock-comment',
-        [], // properties
-        [], // relationships
-        [], // components
-        [] // extends
-    );
+    return {
+        '@id': id,
+        '@context': modelVersion ?? DTDL_CONTEXT_VERSION_2,
+        '@type': DTDLType.Interface,
+        comment: 'mock-comment',
+        contents: [],
+        description: 'mock-description',
+        displayName: modelName || `mock_name_${id}`, // simplify life for places in the tests we don't care about the actual parsing.,
+        extends: [],
+        schemas: []
+    };
 };
 
 export const getMockReference = (
@@ -116,7 +124,7 @@ export const GET_MOCK_OAT_CONTEXT_STATE = (): IOatPageContextState => {
     ];
     const currentFile = files[0].data;
     return {
-        confirmDeleteOpen: { open: false },
+        confirmDialog: { open: false },
         currentOntologyId: files[0].id,
         currentOntologyModelMetadata: currentFile.modelsMetadata,
         currentOntologyModelPositions: currentFile.modelPositions,

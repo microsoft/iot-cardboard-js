@@ -42,6 +42,7 @@ import { isOatContextStorageEnabled, logDebugConsole } from './OatPageContext';
 import { IOatPageContextState } from './OatPageContext.types';
 import { CONTEXT_CLASS_BASE } from '../../../Components/OATGraphViewer/Internal/Utils';
 import {
+    hasType,
     isDTDLComponentReference,
     isDTDLProperty,
     isDTDLReference,
@@ -384,7 +385,8 @@ function getNextName(
         sourceModel.contents &&
         sourceModel.contents.some(
             (rel) =>
-                rel['@type'] === type && rel.name === `${namePrefix}_${index}`
+                hasType(rel['@type'], type) &&
+                rel.name === `${namePrefix}_${index}`
         )
     ) {
         index++;

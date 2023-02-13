@@ -6,6 +6,7 @@ import {
     ADTModel_ImgSrc_PropertyName,
     ADTModel_InBIM_RelationshipName,
     ADTModel_ViewData_PropertyName,
+    ADT_ALLOW_LISTED_URLS,
     CharacterWidths,
     CONNECTION_STRING_SUFFIX
 } from '../Constants/Constants';
@@ -265,14 +266,20 @@ export const hasAllProcessGraphicsCardProperties = (
 
 export const downloadJSON = (text: string, fileName?: string) => {
     const blob = new Blob([text], { type: 'application/json;charset=utf-8;' });
+    downloadFile(blob, fileName ?? 'Instances.json');
+};
+
+/** downloads a file as a blob to the user's machine */
+export function downloadFile(blob: Blob, fileName: string) {
     const blobURL = window.URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.setAttribute('href', blobURL);
-    link.setAttribute('download', fileName ? fileName : 'Instances.json');
+    link.setAttribute('download', fileName);
     link.innerHTML = '';
     document.body.appendChild(link);
     link.click();
-};
+    link.parentNode.removeChild(link);
+}
 
 /** Remove the suffix or any other text after the numbers, or return undefined if not a number */
 export const getNumericPart = (value: string): number | undefined => {
@@ -994,14 +1001,13 @@ export function capitalizeFirstLetter(str: string) {
     }
 }
 
-/** downloads a file as a blob to the user's machine */
-export function downloadFile(blob: Blob, fileName: string) {
-    const blobURL = window.URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.setAttribute('href', blobURL);
-    link.setAttribute('download', fileName);
-    link.innerHTML = '';
-    document.body.appendChild(link);
-    link.click();
-    link.parentNode.removeChild(link);
+/**
+ * Validate if URL is Explorer for CORS enabling
+ */
+export function validateExplorerOrigin(origin: string) {
+    return (
+        origin &&
+        (origin === ADT_ALLOW_LISTED_URLS.DEV ||
+            origin === ADT_ALLOW_LISTED_URLS.PROD)
+    );
 }

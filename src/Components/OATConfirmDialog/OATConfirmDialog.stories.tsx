@@ -18,7 +18,7 @@ const Template: OATConfirmDialogStory = (args) => {
     return (
         <OatPageContextProvider
             initialState={{
-                confirmDeleteOpen: {
+                confirmDialog: {
                     open: true,
                     callback: () => console.log('confirm clicked'),
                     message:

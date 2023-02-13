@@ -448,7 +448,7 @@ export const OatPageContextReducer: (
                 break;
             }
             case OatPageContextActionType.SET_OAT_CONFIRM_DELETE_OPEN: {
-                draft.confirmDeleteOpen = action.payload;
+                draft.confirmDialog = action.payload;
                 break;
             }
             case OatPageContextActionType.SET_OAT_SELECTED_MODEL: {
@@ -520,7 +520,7 @@ const emptyState: IOatPageContextState = {
     currentOntologyTemplates: [],
     // other properties
     triggerGraphLayout: false,
-    confirmDeleteOpen: { open: false },
+    confirmDialog: { open: false },
     languageOptions: [],
     error: null,
     graphUpdatesToSync: { actionType: 'None' },

@@ -32,6 +32,10 @@ export const getStyles = (props: IOATHeaderStyleProps): IOATHeaderStyles => {
                 whiteSpace: 'nowrap'
             }
         ],
+        uploadInputContainer: {
+            display: 'none',
+            visibility: 'hidden'
+        },
         subComponentStyles: {
             commandBar: {
                 root: {

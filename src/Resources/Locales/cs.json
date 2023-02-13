@@ -1105,7 +1105,8 @@
       }
     },
     "noSelectionMessage": "Výběr modelu nebo vztahu pro zobrazení podrobností",
-    "propertiesNotSupported": "Vybraná položka nepodporuje vlastnosti"
+    "propertiesNotSupported": "Vybraná položka nepodporuje vlastnosti",
+    "contextVersion": "Kontextová verze"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Zpráva o chybě",
@@ -1376,13 +1377,33 @@
       "unhandledExceptionMessage": "Stalo se něco nečekaného. Zkuste to prosím znovu."
     },
     "ImportErrors": {
-      "fileFormatNotSupportedMessage": "Podporují se jenom soubory JSON. Nelze importovat následující soubory: \n{{fileNames}}.",
-      "fileFormatNotSupportedTitle": "Formát souboru není podporován",
       "fileInvalidJSON": "Nelze importovat '{{fileName}}', obsahuje neplatný JSON.",
       "exceptionTitle": "Neočekávaná chyba",
       "exceptionMessage": "Stalo se něco nečekaného. Zkuste to prosím znovu.",
       "importFailedTitle": "Import se nezdařil",
-      "importFailedMessage": "Během importu došlo k chybě. Vyřešte je a zkuste to znovu.\n {{chyba}}"
+      "importFailedMessage": "Během importu došlo k chybě. Vyřešte je a zkuste to znovu.\n {{chyba}}",
+      "noValidFilesTitle": "Nebyly nalezeny žádné modely",
+      "noValidFilesMessage": "Nebyly nalezeny žádné soubory modelu k importu. Ujistěte se, že ve vybraných souborech jsou platné soubory JSON."
+    },
+    "PropertyEditor": {
+      "Version3PreviewLabel": {
+        "badgeText": "Náhled",
+        "badgeCalloutText": "Tento model používá DTDLv3, který je ve verzi Preview"
+      },
+      "Version3UpgradeButton": {
+        "confirmationTitle": "Upgradovat model?",
+        "confirmationMessage": "Opravdu chcete upgradovat tento model na DTDL verzi 3? Všechny vaše konfigurace budou zachovány.",
+        "confirmationButtonText": "Upgrade",
+        "buttonText": "Upgrade na verzi 3"
+      }
+    },
+    "PropertyTypes": {
+      "categories": {
+        "complex": "Složitý",
+        "primitive": "Primitivní",
+        "geospatial": "Geoprostorové"
+      },
+      "unsupportedPropertyType": "Tento typ vlastnosti není k dispozici pro aktuální kontextovou verzi přidruženého modelu"
     }
   },
   "dataHistoryErrorHandlingWrapper": {
@@ -1442,5 +1463,7 @@
       "title": "Otevřít průzkumník historie dat",
       "disabledTitle": "Informace o připojení historie dat nebyly nalezeny"
     }
-  }
+  },
+  "increaseByDecimal": "Zvýšení hodnoty o 0,1",
+  "decreaseByDecimal": "Snížení hodnoty o 0,1"
 }

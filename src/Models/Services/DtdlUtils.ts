@@ -1,4 +1,5 @@
 import i18n from '../../i18n';
+import { IOATSelection } from '../../Pages/OATEditorPage/OATEditorPage.types';
 import {
     DTDLArray,
     DTDLComplexSchema,
@@ -16,7 +17,9 @@ import {
     DTDLSchemaType,
     DTDLSchemaTypes,
     DTDLType,
-    DTDL_CONTEXT_VERSION_3
+    DTDL_CONTEXT_VERSION_2,
+    DTDL_CONTEXT_VERSION_3,
+    DTDL_CONTEXT_VERSION_PREFIX
 } from '../Classes/DTDL';
 import {
     DtdlComponent,
@@ -29,21 +32,131 @@ import {
     DtdlEnum,
     DtdlObject,
     DtdlEnumValueSchema,
-    OatReferenceType
+    OatReferenceType,
+    DtdlContext,
+    DtdlVersion
 } from '../Constants';
+import { getModelById } from '../Context/OatPageContext/OatPageContextUtils';
 import { ensureIsArray } from './OatUtils';
 import { deepCopy, isDefined, isValueInEnum } from './Utils';
 
-export const getDtdlVersion = (model: DtdlInterface): '2' | '3' => {
+// #region DTDL Version
+
+/** returns the version number of a model (either 2 or 3) */
+export const getDtdlVersion = (model: DtdlInterface): DtdlVersion => {
     if (!model) {
         return '2';
     }
-    const context = ensureIsArray(model['@context']);
-    if (context.includes(DTDL_CONTEXT_VERSION_3)) {
+    return getDtdlVersionFromContext(model['@context']);
+};
+/** returns the DTDL version number of a model (either 2 or 3) */
+export const getDtdlVersionFromContext = (
+    context: DtdlContext
+): DtdlVersion => {
+    if (!context) {
+        return '2';
+    }
+    if (contextHasVersion3(context)) {
         return '3';
     } else {
         return '2';
     }
+};
+
+/** is the model DTDL version 3 */
+export const modelHasVersion3Context = (model: DtdlInterface): boolean => {
+    return getDtdlVersion(model) === '3';
+};
+
+/** is the model DTDL version 2 */
+export const modelHasVersion2Context = (model: DtdlInterface): boolean => {
+    return getDtdlVersion(model) === '2';
+};
+
+/** is the model DTDL version 3 */
+export const contextHasVersion3 = (context: DtdlContext): boolean => {
+    const contextInternal = ensureIsArray(context);
+    return contextInternal.includes(DTDL_CONTEXT_VERSION_3);
+};
+
+/** is the model DTDL version 2 */
+export const contextHasVersion2 = (context: DtdlContext): boolean => {
+    const contextInternal = ensureIsArray(context);
+    return contextInternal.includes(DTDL_CONTEXT_VERSION_2);
+};
+
+export function getModelOrParentContext(
+    selectedItem: DtdlInterface | DtdlInterfaceContent,
+    currentModelsList: DtdlInterface[],
+    currentSelection: IOATSelection
+): DtdlContext {
+    if (isDTDLModel(selectedItem)) {
+        return selectedItem['@context'];
+    } else if (
+        isDTDLReference(selectedItem) &&
+        currentSelection &&
+        currentModelsList
+    ) {
+        const parentId = currentSelection.modelId;
+        const parentModel = getModelById(currentModelsList, parentId);
+        return isDTDLModel(parentModel) && parentModel['@context'];
+    }
+    return '';
+}
+
+/** takes either a model or relationship and deteremines if it is considered v3 */
+export function isModelOrParentDtdlVersion3(
+    selectedItem: DtdlInterface | DtdlInterfaceContent,
+    currentModelsList: DtdlInterface[],
+    currentSelection: IOATSelection
+): boolean {
+    const context = getModelOrParentContext(
+        selectedItem,
+        currentModelsList,
+        currentSelection
+    );
+    return contextHasVersion3(context);
+}
+
+export const isValidDtdlVersion = (version: string): boolean => {
+    if (!version) {
+        return false;
+    }
+    [DTDL_CONTEXT_VERSION_3, DTDL_CONTEXT_VERSION_2].includes(version.trim());
+};
+
+/** takes a model and version number and updates the context in-place */
+export const updateDtdlVersion = (
+    model: DtdlInterface,
+    version: string
+): DtdlInterface => {
+    if (Array.isArray(model['@context'])) {
+        // replace the existing value with the new version
+        model['@context'] = model['@context'].filter(
+            (x) => !x.startsWith(DTDL_CONTEXT_VERSION_PREFIX)
+        );
+        model['@context'].unshift(version);
+    } else {
+        // directly update the value
+        model['@context'] = version;
+    }
+    return model;
+};
+
+// #endregion
+
+export const hasType = (
+    actualType: string | string[],
+    targetType: string
+): boolean => {
+    return ensureIsArray(actualType).includes(targetType);
+};
+
+const hasSchemaType = (
+    actualSchema: DTDLSchemaType | DTDLSchemaType[],
+    targetType: DTDLSchemaType
+): boolean => {
+    return ensureIsArray(actualSchema).includes(targetType);
 };
 
 /** is the relationship a known DTDL relationship type */
@@ -59,8 +172,8 @@ export const isDTDLReference = (
         );
     }
     return (
-        object['@type'] === DTDLType.Relationship ||
-        object['@type'] === DTDLType.Component
+        hasType(object['@type'], DTDLType.Relationship) ||
+        hasType(object['@type'], DTDLType.Component)
     );
 };
 
@@ -73,7 +186,7 @@ export const isDTDLExtendReference = (
     if (typeof object === 'string') {
         return object === OAT_EXTEND_HANDLE_NAME;
     }
-    return object['@type'] === OAT_EXTEND_HANDLE_NAME;
+    return hasType(object['@type'], OAT_EXTEND_HANDLE_NAME);
 };
 
 export const isDTDLRelationshipReference = (
@@ -82,7 +195,7 @@ export const isDTDLRelationshipReference = (
     if (!object) {
         return false;
     }
-    return object['@type'] === DTDLType.Relationship;
+    return hasType(object['@type'], DTDLType.Relationship);
 };
 
 export const isDTDLComponentReference = (
@@ -91,7 +204,7 @@ export const isDTDLComponentReference = (
     if (!object) {
         return false;
     }
-    return object['@type'] === DTDLType.Component;
+    return hasType(object['@type'], DTDLType.Component);
 };
 
 export const isComplexSchemaProperty = (
@@ -120,7 +233,7 @@ export const hasArraySchemaType = <T extends { schema: DTDLSchema }>(
     }
     return (
         hasComplexSchemaType(property) &&
-        property.schema['@type'] === DTDLSchemaType.Array
+        hasSchemaType(property.schema['@type'], DTDLSchemaType.Array)
     );
 };
 
@@ -132,7 +245,7 @@ export const hasMapSchemaType = <T extends { schema: DTDLSchema }>(
     }
     return (
         hasComplexSchemaType(property) &&
-        property.schema['@type'] === DTDLSchemaType.Map
+        hasSchemaType(property.schema['@type'], DTDLSchemaType.Map)
     );
 };
 
@@ -144,7 +257,7 @@ export const hasObjectSchemaType = <T extends { schema: DTDLSchema }>(
     }
     return (
         hasComplexSchemaType(property) &&
-        property.schema['@type'] === DTDLSchemaType.Object
+        hasSchemaType(property.schema['@type'], DTDLSchemaType.Object)
     );
 };
 
@@ -156,7 +269,7 @@ export const hasEnumSchemaType = <T extends { schema: DTDLSchema }>(
     }
     return (
         hasComplexSchemaType(property) &&
-        property.schema['@type'] === DTDLSchemaType.Enum
+        hasSchemaType(property.schema['@type'], DTDLSchemaType.Enum)
     );
 };
 
@@ -201,7 +314,7 @@ export const isDTDLModel = (
         return object === OAT_INTERFACE_TYPE;
     }
 
-    return object['@type'] === OAT_INTERFACE_TYPE;
+    return hasType(object['@type'], OAT_INTERFACE_TYPE);
 };
 
 export const isDTDLObject = (
@@ -210,17 +323,13 @@ export const isDTDLObject = (
     if (!object || !object.schema) {
         return false;
     }
-    return object.schema['@type'] === DTDLSchemaType.Object;
+    return hasSchemaType(object.schema['@type'], DTDLSchemaType.Object);
 };
 
 export const isDTDLProperty = (
     property: DtdlInterfaceContent
 ): property is DTDLProperty => {
-    if (typeof property['@type'] !== 'string') {
-        return (property['@type'] as string[]).includes('Property');
-    } else {
-        return property['@type'] === 'Property';
-    }
+    return hasType(property['@type'], DTDLType.Property);
 };
 
 export const isDTDLArray = (
@@ -229,7 +338,7 @@ export const isDTDLArray = (
     if (!object || !object.schema) {
         return false;
     }
-    return object.schema['@type'] === DTDLSchemaType.Array;
+    return hasSchemaType(object.schema['@type'], DTDLSchemaType.Array);
 };
 
 export const isDTDLMap = (
@@ -238,7 +347,7 @@ export const isDTDLMap = (
     if (!object || !object.schema) {
         return false;
     }
-    return object.schema['@type'] === DTDLSchemaType.Map;
+    return hasSchemaType(object.schema['@type'], DTDLSchemaType.Map);
 };
 
 export const isDTDLEnum = (
@@ -247,7 +356,7 @@ export const isDTDLEnum = (
     if (!object || !object.schema) {
         return false;
     }
-    return object.schema['@type'] === DTDLSchemaType.Enum;
+    return hasSchemaType(object.schema['@type'], DTDLSchemaType.Enum);
 };
 
 export const copyDTDLProperty = (
@@ -313,6 +422,11 @@ const DEFAULT_NAME_REGEX_IN_PROGRESS = /^[a-zA-Z](?:[a-zA-Z0-9_]*[a-zA-Z0-9_])?$
 const DEFAULT_PATH_REGEX = /^[a-zA-Z](?:[a-zA-Z0-9_:]*[a-zA-Z0-9])?$/;
 const DEFAULT_PATH_REGEX_IN_PROGRESS = /^[a-zA-Z](?:[a-zA-Z0-9_:]*[a-zA-Z0-9_:])?$/;
 
+// integers only
+const INTEGER_VERSION_REGEX = /^\d+$/;
+// allow numerics only, can include . (ex: 31.1, 32)
+const DECIMAL_VERSION_REGEX = /^\d+(\.\d+)?$/;
+
 const DEFAULT_MAX_NAME_LENGTH = 64;
 
 export const isValidDtmiId = (dtmiId: string): boolean => {
@@ -346,6 +460,27 @@ const defaultNameValidation = (name: string, isFinal: boolean): boolean => {
 /** performs the necessary checks to determine if a given name is valid */
 export const isValidModelName = (name: string, isFinal: boolean): boolean => {
     return defaultNameValidation(name, isFinal);
+};
+/** performs the necessary checks to determine if a given version is valid */
+export const isValidModelVersion = (
+    version: string,
+    dtdlVersion: DtdlVersion,
+    isFinal: boolean
+): boolean => {
+    if (dtdlVersion === '2') {
+        // doesn't matter if it's final or not since it's always only numbers
+        return RegExp(INTEGER_VERSION_REGEX).test(version);
+    }
+
+    if (isFinal) {
+        return RegExp(DECIMAL_VERSION_REGEX).test(version);
+    } else {
+        if (version.endsWith('.')) {
+            return RegExp(INTEGER_VERSION_REGEX).test(version.replace('.', ''));
+        } else {
+            return RegExp(DECIMAL_VERSION_REGEX).test(version);
+        }
+    }
 };
 
 /** performs the necessary checks to determine if a given name is valid */

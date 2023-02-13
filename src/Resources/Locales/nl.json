@@ -1225,7 +1225,8 @@
       }
     },
     "noSelectionMessage": "Een model of relatie selecteren om details weer te geven",
-    "propertiesNotSupported": "Het geselecteerde item ondersteunt geen eigenschappen"
+    "propertiesNotSupported": "Het geselecteerde item ondersteunt geen eigenschappen",
+    "contextVersion": "Context versie"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Foutmelding",
@@ -1376,13 +1377,33 @@
       "unhandledExceptionMessage": "Er gebeurde iets onverwachts. Probeer het opnieuw."
     },
     "ImportErrors": {
-      "fileFormatNotSupportedMessage": "Alleen JSON-bestanden worden ondersteund. Kan de volgende bestanden niet importeren: \n{{bestandsnaam}}.",
-      "fileFormatNotSupportedTitle": "Bestandsindeling wordt niet ondersteund",
       "fileInvalidJSON": "Het kan '{{bestandsnaam}}' niet importeren en bevat ongeldige JSON.",
       "exceptionTitle": "Onverwachte fout",
       "exceptionMessage": "Er gebeurde iets onverwachts. Probeer het opnieuw.",
       "importFailedTitle": "Importeren mislukt",
-      "importFailedMessage": "Er is een fout opgetreden tijdens het importeren. Los ze op en probeer het opnieuw.\n {{fout}}"
+      "importFailedMessage": "Er is een fout opgetreden tijdens het importeren. Los ze op en probeer het opnieuw.\n {{fout}}",
+      "noValidFilesTitle": "Geen modellen gevonden",
+      "noValidFilesMessage": "Geen modelbestanden gevonden om te importeren. Zorg ervoor dat er geldige JSON-bestanden in de geselecteerde bestanden staan."
+    },
+    "PropertyEditor": {
+      "Version3PreviewLabel": {
+        "badgeText": "Voorbeeld",
+        "badgeCalloutText": "Dit model maakt gebruik van DTDLv3 dat in preview is"
+      },
+      "Version3UpgradeButton": {
+        "confirmationTitle": "Upgrademodel?",
+        "confirmationMessage": "Weet u zeker dat u dit model wilt upgraden naar DTDL versie 3? Al uw configuraties blijven behouden.",
+        "confirmationButtonText": "Opwaarderen",
+        "buttonText": "Upgrade naar versie 3"
+      }
+    },
+    "PropertyTypes": {
+      "categories": {
+        "complex": "Complex",
+        "primitive": "Primitief",
+        "geospatial": "Geospatiaal"
+      },
+      "unsupportedPropertyType": "Dit eigenschapstype is niet beschikbaar voor de huidige contextversie van het gekoppelde model"
     }
   },
   "dataHistoryErrorHandlingWrapper": {
@@ -1442,5 +1463,7 @@
       "title": "Verkenner van gegevensgeschiedenis openen",
       "disabledTitle": "Verbindingsgegevens voor gegevensgeschiedenis kunnen niet worden gevonden"
     }
-  }
+  },
+  "increaseByDecimal": "Waarde verhogen met 0,1",
+  "decreaseByDecimal": "Waarde verlagen met 0,1"
 }

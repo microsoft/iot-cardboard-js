@@ -7,6 +7,7 @@ import ADTTwinData from '../Models/Classes/AdapterDataClasses/ADTTwinData';
 import AdapterEntityCache from '../Models/Classes/AdapterEntityCache';
 import AdapterResult from '../Models/Classes/AdapterResult';
 import {
+    LOCAL_STORAGE_KEYS,
     modelRefreshMaxAge,
     timeSeriesConnectionRefreshMaxAge
 } from '../Models/Constants/Constants';
@@ -15,7 +16,11 @@ import {
     IADXConnection,
     IAuthService
 } from '../Models/Constants/Interfaces';
-import { applyMixins, getDebugLogger } from '../Models/Services/Utils';
+import {
+    applyMixins,
+    getDebugLogger,
+    validateExplorerOrigin
+} from '../Models/Services/Utils';
 import ADTAdapter from './ADTAdapter';
 import ADXAdapter from './ADXAdapter';
 import AzureManagementAdapter from './AzureManagementAdapter';
@@ -30,7 +35,8 @@ export default class ADTDataHistoryAdapter implements IADTDataHistoryAdapter {
         adxConnectionInformation?: IADXConnection,
         tenantId?: string,
         uniqueObjectId?: string,
-        adtProxyServerPath = '/proxy/adt'
+        adtProxyServerPath = '/proxy/adt',
+        useProxy = true
     ) {
         this.adtHostUrl = adtHostUrl;
         this.adxConnectionInformation = adxConnectionInformation;
@@ -49,6 +55,16 @@ export default class ADTDataHistoryAdapter implements IADTDataHistoryAdapter {
         this.timeSeriesConnectionCache = new AdapterEntityCache<ADTInstanceTimeSeriesConnectionData>(
             timeSeriesConnectionRefreshMaxAge
         );
+        /**
+         * Check if class has been initialized with CORS enabled or if origin matches dev or prod explorer urls,
+         * override if proxy is forced by feature flag
+         *  */
+        this.useProxy =
+            useProxy ||
+            !validateExplorerOrigin(window.origin) ||
+            localStorage.getItem(
+                LOCAL_STORAGE_KEYS.FeatureFlags.Proxy.forceProxy
+            ) === 'true';
 
         this.authService.login();
         // Fetch & cache models on mount (makes first use of models faster as models should already be cached)

@@ -1225,7 +1225,8 @@
       }
     },
     "noSelectionMessage": "詳細を表示するモデルまたはリレーションシップを選択する",
-    "propertiesNotSupported": "選択した項目はプロパティをサポートしていません"
+    "propertiesNotSupported": "選択した項目はプロパティをサポートしていません",
+    "contextVersion": "コンテキストバージョン"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "エラーメッセージ",
@@ -1376,13 +1377,33 @@
       "unhandledExceptionMessage": "予期せぬことが起こりました。もう一度やり直してください。"
     },
     "ImportErrors": {
-      "fileFormatNotSupportedMessage": "JSON ファイルのみがサポートされています。次のファイルをインポートできません。\n{{ファイル名}}.",
-      "fileFormatNotSupportedTitle": "サポートされていないファイル形式",
       "fileInvalidJSON": "'{{ファイル名}}' をインポートできません。無効な JSON が含まれています。",
       "exceptionTitle": "予期しないエラー",
       "exceptionMessage": "予期せぬことが起こりました。もう一度やり直してください。",
       "importFailedTitle": "インポートに失敗しました",
-      "importFailedMessage": "インポート中にエラーが発生しました。それらを解決して、もう一度やり直してください。\n {{エラー}}"
+      "importFailedMessage": "インポート中にエラーが発生しました。それらを解決して、もう一度やり直してください。\n {{エラー}}",
+      "noValidFilesTitle": "モデルが見つかりません",
+      "noValidFilesMessage": "インポートするモデル ファイルが見つかりません。選択したファイルに有効なJSONファイルがあることを確認してください。"
+    },
+    "PropertyEditor": {
+      "Version3PreviewLabel": {
+        "badgeText": "プレビュー",
+        "badgeCalloutText": "このモデルでは、プレビュー段階の DTDLv3 を使用します。"
+      },
+      "Version3UpgradeButton": {
+        "confirmationTitle": "アップグレードモデル?",
+        "confirmationMessage": "このモデルを DTDL バージョン 3 にアップグレードしてもよろしいですか?すべての構成が保持されます。",
+        "confirmationButtonText": "アップグレード",
+        "buttonText": "バージョン 3 へのアップグレード"
+      }
+    },
+    "PropertyTypes": {
+      "categories": {
+        "complex": "コンプレックス",
+        "primitive": "原始的",
+        "geospatial": "地理空間"
+      },
+      "unsupportedPropertyType": "このプロパティタイプは、関連付けられたモデルの現在のコンテキストバージョンでは使用できません。"
     }
   },
   "dataHistoryErrorHandlingWrapper": {
@@ -1442,5 +1463,7 @@
       "title": "データ履歴エクスプローラーを開く",
       "disabledTitle": "データ履歴の接続情報が見つかりませんでした"
     }
-  }
+  },
+  "increaseByDecimal": "値を 0.1 増やす",
+  "decreaseByDecimal": "値を 0.1 減らす"
 }

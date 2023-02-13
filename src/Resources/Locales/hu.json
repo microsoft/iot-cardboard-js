@@ -1225,7 +1225,8 @@
       }
     },
     "noSelectionMessage": "Válasszon ki egy modellt vagy kapcsolatot a részletek megtekintéséhez",
-    "propertiesNotSupported": "A kijelölt elem nem támogatja a tulajdonságokat"
+    "propertiesNotSupported": "A kijelölt elem nem támogatja a tulajdonságokat",
+    "contextVersion": "Környezeti verzió"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Hibaüzenet",
@@ -1376,13 +1377,33 @@
       "unhandledExceptionMessage": "Valami váratlan történt. Kérjük, próbálja újra."
     },
     "ImportErrors": {
-      "fileFormatNotSupportedMessage": "Csak a JSON-fájlok támogatottak. Nem lehet importálni a következő fájlokat: \n{{fájlnevek}} sablont.",
-      "fileFormatNotSupportedTitle": "A fájlformátum nem támogatott",
       "fileInvalidJSON": "A(z) \"{{fileName}}\" nem importálható, érvénytelen JSON-t tartalmaz.",
       "exceptionTitle": "Váratlan hiba",
       "exceptionMessage": "Valami váratlan történt. Kérjük, próbálja újra.",
       "importFailedTitle": "Az importálás sikertelen",
-      "importFailedMessage": "Hiba történt az importálás során. Oldja meg őket, és próbálkozzon újra.\n {{hiba}}"
+      "importFailedMessage": "Hiba történt az importálás során. Oldja meg őket, és próbálkozzon újra.\n {{hiba}}",
+      "noValidFilesTitle": "Nem található modell",
+      "noValidFilesMessage": "Nem található importálható modellfájl. Győződjön meg arról, hogy vannak érvényes JSON-fájlok a kiválasztott fájl(ok)ban."
+    },
+    "PropertyEditor": {
+      "Version3PreviewLabel": {
+        "badgeText": "Előnézet",
+        "badgeCalloutText": "Ez a modell előzetes verzióban elérhető DTDLv3-at használ"
+      },
+      "Version3UpgradeButton": {
+        "confirmationTitle": "Frissítse a modellt?",
+        "confirmationMessage": "Biztosan frissíteni szeretné ezt a modellt a DTDL 3-as verziójára? Az összes konfiguráció megmarad.",
+        "confirmationButtonText": "Feljavít",
+        "buttonText": "Frissítés a 3-as verzióra"
+      }
+    },
+    "PropertyTypes": {
+      "categories": {
+        "complex": "Összetett",
+        "primitive": "Primitív",
+        "geospatial": "Térinformatikai"
+      },
+      "unsupportedPropertyType": "Ez a tulajdonságtípus nem érhető el a társított modell aktuális környezetverziójához"
     }
   },
   "dataHistoryErrorHandlingWrapper": {
@@ -1442,5 +1463,7 @@
       "title": "Az adatelőzmények explorerének megnyitása",
       "disabledTitle": "Az adatelőzmények kapcsolati adatai nem találhatók"
     }
-  }
+  },
+  "increaseByDecimal": "Növelje az értéket 0,1-gyel",
+  "decreaseByDecimal": "Érték csökkentése 0,1-gyel"
 }
