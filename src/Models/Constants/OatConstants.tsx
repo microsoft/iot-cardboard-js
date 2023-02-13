@@ -61,12 +61,6 @@ export const getSchemaTypeMenuOptions = (
     });
 
     // combine the groups under each header
-    menuOptions.push({
-        text: i18n.t('OAT.PropertyTypes.categories.complex'),
-        itemType: ContextualMenuItemType.Header,
-        key: 'complex-header'
-    });
-    menuOptions.push(...complexGroup);
 
     menuOptions.push({
         text: i18n.t('OAT.PropertyTypes.categories.primitive'),
@@ -74,6 +68,13 @@ export const getSchemaTypeMenuOptions = (
         key: 'primitive-header'
     });
     menuOptions.push(...primitiveGroup);
+
+    menuOptions.push({
+        text: i18n.t('OAT.PropertyTypes.categories.complex'),
+        itemType: ContextualMenuItemType.Header,
+        key: 'complex-header'
+    });
+    menuOptions.push(...complexGroup);
 
     menuOptions.push({
         text: i18n.t('OAT.PropertyTypes.categories.geospatial'),
