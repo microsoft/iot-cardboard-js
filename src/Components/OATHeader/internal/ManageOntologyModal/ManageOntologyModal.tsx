@@ -42,9 +42,9 @@ const LOC_KEYS = {
     namespaceLabel: 'OAT.Header.ManageOntologyModal.namespaceLabel',
     namespacePlaceholder: 'OAT.Header.ManageOntologyModal.namespacePlaceholder',
     sampleModel: 'OAT.Header.ManageOntologyModal.sampleModel',
-    toggleLabel: 'OAT.Header.ManageOntologyModal.defaultVersionLabel',
-    toggleVersion2: 'OAT.Header.ManageOntologyModal.version2',
-    toggleVersion3: 'OAT.Header.ManageOntologyModal.version3'
+    choidLabel: 'OAT.Header.ManageOntologyModal.defaultVersionLabel',
+    choiceOptionVersion2: 'OAT.Header.ManageOntologyModal.version2',
+    choiceOptionVersion3: 'OAT.Header.ManageOntologyModal.version3'
 };
 
 const getClassNames = classNamesFunction<
@@ -212,16 +212,16 @@ const ManageOntologyModal: React.FC<IManageOntologyModalProps> = (props) => {
                 value={defaultPath}
             />
             <ChoiceGroup
-                label={t(LOC_KEYS.toggleLabel)}
+                label={t(LOC_KEYS.choidLabel)}
                 selectedKey={defaultContext}
                 options={[
                     {
                         key: DTDL_CONTEXT_VERSION_2,
-                        text: t(LOC_KEYS.toggleVersion2)
+                        text: t(LOC_KEYS.choiceOptionVersion2)
                     },
                     {
                         key: DTDL_CONTEXT_VERSION_3,
-                        text: t(LOC_KEYS.toggleVersion3)
+                        text: t(LOC_KEYS.choiceOptionVersion3)
                     }
                 ]}
                 onChange={(_ev, option) => {
