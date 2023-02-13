@@ -948,20 +948,6 @@
     "importFile": "Импорт файла",
     "importFolder": "Папка импорта",
     "ontology": "Онтология",
-    "manageOntologyModal": {
-      "deleteButtonText": "Удалить онтологию",
-      "modalTitleCreate": "Новая онтология",
-      "modalTitleEdit": "Редактирование онтологии",
-      "modalSubTitleCreate": "Создайте новую онтологию, чтобы придать структуру вашему цифровому близнецу.",
-      "modalSubTitleEdit": "Отредактируйте свою онтологию, чтобы придать структуру вашему цифровому близнецу.",
-      "modalSubTitleLinkText": "Подробнее об онтологиях",
-      "nameLabel": "Имя",
-      "namePlaceholder": "Введите имя онтологии",
-      "namespaceDescription": "Пример имени модели: {{имя_модели}}",
-      "sampleModel": "Образец модели",
-      "namespaceLabel": "Путь по умолчанию",
-      "namespacePlaceholder": "Введите путь по умолчанию"
-    },
     "newModel": "Новая модель"
   },
   "cameraControls": {
@@ -1404,6 +1390,25 @@
         "geospatial": "Геопространственные"
       },
       "unsupportedPropertyType": "Этот тип свойства недоступен для текущей контекстной версии связанной модели"
+    },
+    "Header": {
+      "ManageOntologyModal": {
+        "deleteButtonText": "Удалить онтологию",
+        "modalTitleCreate": "Новая онтология",
+        "modalTitleEdit": "Редактирование онтологии",
+        "modalSubTitleCreate": "Создайте новую онтологию, чтобы придать структуру вашему цифровому близнецу.",
+        "modalSubTitleEdit": "Отредактируйте свою онтологию, чтобы придать структуру вашему цифровому близнецу.",
+        "modalSubTitleLinkText": "Подробнее об онтологиях",
+        "nameLabel": "Имя",
+        "namePlaceholder": "Введите имя онтологии",
+        "namespaceLabel": "Путь по умолчанию",
+        "namespaceDescription": "Пример имени модели: {{имя_модели}}",
+        "namespacePlaceholder": "Введите путь по умолчанию",
+        "sampleModel": "Образец модели",
+        "defaultVersionLabel": "Версия по умолчанию для новых моделей",
+        "version2": "Версия 2",
+        "version3": "Версия 3"
+      }
     }
   },
   "dataHistoryErrorHandlingWrapper": {

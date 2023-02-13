@@ -948,20 +948,6 @@
     "importFile": "Importar archivo",
     "importFolder": "Importar carpeta",
     "ontology": "Ontología",
-    "manageOntologyModal": {
-      "deleteButtonText": "Eliminar ontología",
-      "modalTitleCreate": "Nueva ontología",
-      "modalTitleEdit": "Editar ontología",
-      "modalSubTitleCreate": "Crea una nueva ontología para dar estructura a tu gemelo digital.",
-      "modalSubTitleEdit": "Edita tu ontología para dar estructura a tu gemelo digital.",
-      "modalSubTitleLinkText": "Más información sobre las ontologías",
-      "nameLabel": "Nombre",
-      "namePlaceholder": "Introducir un nombre de ontología",
-      "namespaceDescription": "Nombre de modelo de ejemplo: {{modelName}}",
-      "sampleModel": "modelo de muestra",
-      "namespaceLabel": "Ruta predeterminada",
-      "namespacePlaceholder": "Introduzca una ruta predeterminada"
-    },
     "newModel": "Nuevo modelo"
   },
   "cameraControls": {
@@ -1404,6 +1390,25 @@
         "geospatial": "Geoespacial"
       },
       "unsupportedPropertyType": "Este tipo de propiedad no está disponible para la versión de contexto actual del modelo asociado"
+    },
+    "Header": {
+      "ManageOntologyModal": {
+        "deleteButtonText": "Eliminar ontología",
+        "modalTitleCreate": "Nueva ontología",
+        "modalTitleEdit": "Editar ontología",
+        "modalSubTitleCreate": "Crea una nueva ontología para dar estructura a tu gemelo digital.",
+        "modalSubTitleEdit": "Edita tu ontología para dar estructura a tu gemelo digital.",
+        "modalSubTitleLinkText": "Más información sobre las ontologías",
+        "nameLabel": "Nombre",
+        "namePlaceholder": "Introducir un nombre de ontología",
+        "namespaceLabel": "Ruta predeterminada",
+        "namespaceDescription": "Nombre de modelo de ejemplo: {{modelName}}",
+        "namespacePlaceholder": "Introduzca una ruta predeterminada",
+        "sampleModel": "modelo de muestra",
+        "defaultVersionLabel": "Versión predeterminada para los nuevos modelos",
+        "version2": "Versión 2",
+        "version3": "Versión 3"
+      }
     }
   },
   "dataHistoryErrorHandlingWrapper": {
