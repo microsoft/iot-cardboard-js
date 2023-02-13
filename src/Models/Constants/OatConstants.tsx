@@ -48,14 +48,14 @@ export const getSchemaTypeMenuOptions = (
             }
         };
         switch (x.category) {
+            case 'primitive':
+                primitiveGroup.push(item);
+                break;
             case 'complex':
                 complexGroup.push(item);
                 break;
             case 'geospatial':
                 geospatialGroup.push(item);
-                break;
-            case 'primitive':
-                primitiveGroup.push(item);
                 break;
         }
     });
