@@ -1407,7 +1407,7 @@
         "sampleModel": "샘플 모델",
         "version2": "버전 2",
         "version3": "버전 3",
-        "defaultVersionLabel1": "새 모델의 기본 DTDL 버전"
+        "defaultVersionLabel": "새 모델의 기본 DTDL 버전"
       }
     }
   },

@@ -1407,7 +1407,7 @@
         "sampleModel": "modelo de muestra",
         "version2": "Versión 2",
         "version3": "Versión 3",
-        "defaultVersionLabel1": "Versión DTDL predeterminada para nuevos modelos"
+        "defaultVersionLabel": "Versión DTDL predeterminada para nuevos modelos"
       }
     }
   },

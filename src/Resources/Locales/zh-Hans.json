@@ -1407,7 +1407,7 @@
         "sampleModel": "示例模型",
         "version2": "版本 2",
         "version3": "版本 3",
-        "defaultVersionLabel1": "新型号的默认 DTDL 版本"
+        "defaultVersionLabel": "新型号的默认 DTDL 版本"
       }
     }
   },

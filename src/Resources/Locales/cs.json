@@ -1407,7 +1407,7 @@
         "sampleModel": "Vzorový model",
         "version2": "Verze 2",
         "version3": "Verze 3",
-        "defaultVersionLabel1": "Výchozí verze DTDL pro nové modely"
+        "defaultVersionLabel": "Výchozí verze DTDL pro nové modely"
       }
     }
   },
