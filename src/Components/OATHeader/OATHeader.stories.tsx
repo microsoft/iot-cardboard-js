@@ -89,7 +89,7 @@ const DEFAULT_PROJECT_NAME_2 = 'test-name-2';
 const makeTestProjects = (): IOATFile[] => {
     const defaultProject: IOATFile = {
         id: DEFAULT_PROJECT_ID,
-        data: new ProjectData(DEFAULT_PROJECT_NAME_1, 'test-namespace', [
+        data: new ProjectData(DEFAULT_PROJECT_NAME_1, 'test-namespace', null, [
             new DTDLModel(
                 'id-1',
                 'model-1',
@@ -114,28 +114,33 @@ const makeTestProjects = (): IOATFile[] => {
     };
     const project2: IOATFile = {
         id: 'test-project-2',
-        data: new ProjectData(DEFAULT_PROJECT_NAME_2, 'test-namespace-2', [
-            new DTDLModel(
-                'id-2',
-                'model-2',
-                'description-2',
-                'comment-2',
-                [],
-                [],
-                [],
-                []
-            ),
-            new DTDLModel(
-                'id-3',
-                'model-3',
-                'description-3',
-                'comment-3',
-                [],
-                [],
-                [],
-                []
-            )
-        ])
+        data: new ProjectData(
+            DEFAULT_PROJECT_NAME_2,
+            'test-namespace-2',
+            null,
+            [
+                new DTDLModel(
+                    'id-2',
+                    'model-2',
+                    'description-2',
+                    'comment-2',
+                    [],
+                    [],
+                    [],
+                    []
+                ),
+                new DTDLModel(
+                    'id-3',
+                    'model-3',
+                    'description-3',
+                    'comment-3',
+                    [],
+                    [],
+                    [],
+                    []
+                )
+            ]
+        )
     };
     return [defaultProject, project2];
 };
@@ -244,6 +249,7 @@ LongName.args = {
             data: new ProjectData(
                 'Super long project name - Super long project name - Super long project name - Super long project name - Super long project name - Super long project name - Super long project name - Super long project name - Super long project name - Super long project name - ',
                 'test-namespace',
+                null,
                 [
                     new DTDLModel(
                         'id-1',

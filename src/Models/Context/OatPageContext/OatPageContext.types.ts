@@ -71,6 +71,7 @@ export interface IOatPageContextState {
     currentOntologyModelPositions: IOATModelPosition[];
     currentOntologyModels: DtdlInterface[];
     currentOntologyDefaultPath: string;
+    currentOntologyDefaultContext: string;
     currentOntologyProjectName: string;
     currentOntologyTemplates: DTDLProperty[];
     languageOptions: IDropdownOption[];
@@ -151,11 +152,19 @@ export enum OatPageContextActionType {
 export type OatPageContextAction =
     | {
           type: OatPageContextActionType.CREATE_PROJECT;
-          payload: { name: string; namespace: string };
+          payload: {
+              name: string;
+              defaultPath: string;
+              defaultContext: string;
+          };
       }
     | {
           type: OatPageContextActionType.EDIT_PROJECT;
-          payload: { name: string; namespace: string };
+          payload: {
+              name: string;
+              defaultPath: string;
+              defaultContext: string;
+          };
       }
     | {
           type: OatPageContextActionType.DUPLICATE_PROJECT;
