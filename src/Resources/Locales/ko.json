@@ -1298,6 +1298,12 @@
     "ImportLimits": {
       "message": "현재 온톨로지의 모델 수는 {{count}}로 제한됩니다. 불편을 끼쳐 드려 죄송합니다.",
       "title": "모델 한계에 도달했습니다."
+    },
+    "GraphControls": {
+      "modelListTitle": "모델 목록 토글",
+      "legendTitle": "연결 전환",
+      "autoLayoutTitle": "자동 레이아웃",
+      "miniMapTitle": "미니맵 전환"
     }
   },
   "dataHistoryErrorHandlingWrapper": {

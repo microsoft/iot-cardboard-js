@@ -1298,6 +1298,12 @@
     "ImportLimits": {
       "message": "Jelenleg az ontológiában a modellszám a következőre korlátozódik: {{count}}. Elnézést kérünk a kellemetlenségekért.",
       "title": "Elérte a modellkorlátot"
+    },
+    "GraphControls": {
+      "modelListTitle": "Modelllista váltása",
+      "legendTitle": "Társítások váltása",
+      "autoLayoutTitle": "Automatikus elrendezés",
+      "miniMapTitle": "Váltás a minitérképre"
     }
   },
   "dataHistoryErrorHandlingWrapper": {

@@ -1298,6 +1298,12 @@
     "ImportLimits": {
       "message": "現在、オントロジーのモデル数は{{count}}に制限されています。ご迷惑をおかけして申し訳ございません。",
       "title": "モデル制限に達しました"
+    },
+    "GraphControls": {
+      "modelListTitle": "モデルリストの切り替え",
+      "legendTitle": "関連付けの切り替え",
+      "autoLayoutTitle": "自動レイアウト",
+      "miniMapTitle": "ミニマップの切り替え"
     }
   },
   "dataHistoryErrorHandlingWrapper": {

@@ -1298,6 +1298,12 @@
     "ImportLimits": {
       "message": "Actuellement, le nombre de modèles dans une ontologie est limité à {{count}}. Nous nous excusons pour la gêne occasionnée.",
       "title": "Limite de modèle atteinte"
+    },
+    "GraphControls": {
+      "modelListTitle": "Basculer la liste des modèles",
+      "legendTitle": "Basculer les associations",
+      "autoLayoutTitle": "Disposition automatique",
+      "miniMapTitle": "Basculer la mini-carte"
     }
   },
   "dataHistoryErrorHandlingWrapper": {

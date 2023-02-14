@@ -1298,6 +1298,12 @@
     "ImportLimits": {
       "message": "Derzeit ist die Modellanzahl in einer Ontologie auf {{count}} beschränkt. Wir entschuldigen uns für die Unannehmlichkeiten.",
       "title": "Modelllimit erreicht"
+    },
+    "GraphControls": {
+      "modelListTitle": "Modellliste ein-/ausblenden",
+      "legendTitle": "Zuordnungen umschalten",
+      "autoLayoutTitle": "Automatisches Layout",
+      "miniMapTitle": "Minikarte umschalten"
     }
   },
   "dataHistoryErrorHandlingWrapper": {

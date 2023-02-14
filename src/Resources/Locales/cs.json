@@ -1298,6 +1298,12 @@
     "ImportLimits": {
       "message": "V současné době je počet modelů v ontologii omezen na {{count}}. Omlouváme se za nepříjemnosti.",
       "title": "Dosažen limit modelu"
+    },
+    "GraphControls": {
+      "modelListTitle": "Přepnout seznam modelů",
+      "legendTitle": "Přepnout přidružení",
+      "autoLayoutTitle": "Automatické rozložení",
+      "miniMapTitle": "Přepnout minimapu"
     }
   },
   "dataHistoryErrorHandlingWrapper": {

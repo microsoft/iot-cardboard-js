@@ -1298,6 +1298,12 @@
     "ImportLimits": {
       "message": "Atualmente, a contagem de modelos numa ontologia está limitada a {{count}}} Nós aplicamos pelo inconveniente.",
       "title": "Limite de modelo atingido"
+    },
+    "GraphControls": {
+      "modelListTitle": "Lista de modelos toggle",
+      "legendTitle": "Associações toggle",
+      "autoLayoutTitle": "Layout automático",
+      "miniMapTitle": "Mini-mapa de alternância"
     }
   },
   "dataHistoryErrorHandlingWrapper": {

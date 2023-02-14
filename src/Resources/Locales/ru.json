@@ -1298,6 +1298,12 @@
     "ImportLimits": {
       "message": "В настоящее время количество моделей в онтологии ограничено {{count}}. Приносим извинения за доставленные неудобства.",
       "title": "Достигнут предел модели"
+    },
+    "GraphControls": {
+      "modelListTitle": "Переключение списка моделей",
+      "legendTitle": "Переключение ассоциаций",
+      "autoLayoutTitle": "Автоматическая компоновка",
+      "miniMapTitle": "Переключить мини-карту"
     }
   },
   "dataHistoryErrorHandlingWrapper": {

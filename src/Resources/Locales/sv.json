@@ -1298,6 +1298,12 @@
     "ImportLimits": {
       "message": "För närvarande är modellantalet i en ontologi begränsat till {{count}}. Vi applåderar för besväret.",
       "title": "Modellgränsen uppnådd"
+    },
+    "GraphControls": {
+      "modelListTitle": "Växla modelllista",
+      "legendTitle": "Växla associationer",
+      "autoLayoutTitle": "Automatisk layout",
+      "miniMapTitle": "Växla minikarta"
     }
   },
   "dataHistoryErrorHandlingWrapper": {
