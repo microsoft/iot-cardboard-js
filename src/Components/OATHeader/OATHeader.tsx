@@ -45,7 +45,7 @@ const getClassNames = classNamesFunction<
     IOATHeaderStyles
 >();
 
-/** localization keys for error messages in the Import flow */
+/** localization keys for error messages  in the Import flow */
 export const IMPORT_LOC_KEYS: IImportLocalizationKeys = {
     FileInvalidJson: 'OAT.ImportErrors.fileInvalidJSON',
     NoValidFilesMessage: 'OAT.ImportErrors.noValidFilesMessage',
