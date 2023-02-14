@@ -946,6 +946,12 @@
                 "version3": "Version 3 (preview)"
             }
         },
+        "GraphControls": {
+            "modelListTitle": "Toggle model list",
+            "legendTitle": "Toggle associations",
+            "autoLayoutTitle": "Auto layout",
+            "miniMapTitle": "Toggle mini-map"
+        },
         "ImportLimits": {
             "message": "Currently the model count in an ontology is limited to {{count}}. We appologize for the inconvenience.",
             "title": "Model limit reached"
