@@ -1238,7 +1238,8 @@
     "Common": {
       "untargeted": "Necílené",
       "unhandledExceptionTitle": "Neočekávaná chyba",
-      "unhandledExceptionMessage": "Stalo se něco nečekaného. Zkuste to prosím znovu."
+      "unhandledExceptionMessage": "Stalo se něco nečekaného. Zkuste to prosím znovu.",
+      "versionDocumentationLink": "Další informace o DTDL verze 3"
     },
     "ImportErrors": {
       "fileInvalidJSON": "Nelze importovat '{{fileName}}', obsahuje neplatný JSON.",
@@ -1285,8 +1286,7 @@
         "sampleModel": "Vzorový model",
         "defaultVersionLabel": "Výchozí verze DTDL pro nové modely",
         "version2": "Verze 2",
-        "version3": "Verze 3 (Preview)",
-        "versionDocumentationLink": "Další informace o DTDL verze 3"
+        "version3": "Verze 3 (Preview)"
       }
     },
     "ImportProgress": {
@@ -1361,7 +1361,7 @@
   "increaseByDecimal": "Zvýšení hodnoty o 0,1",
   "decreaseByDecimal": "Snížení hodnoty o 0,1",
   "ok": "Ok",
-  "OATPropertyEditor1": {
+  "OATPropertyEditor": {
     "addEnumValue": "Přidat hodnotu výčtu",
     "addProperty": "Přidat vlastnost",
     "addToPropertyList": "Přidat do seznamu vlastností",

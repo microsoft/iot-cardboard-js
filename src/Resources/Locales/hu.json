@@ -1238,7 +1238,8 @@
     "Common": {
       "untargeted": "Nem célzott",
       "unhandledExceptionTitle": "Váratlan hiba",
-      "unhandledExceptionMessage": "Valami váratlan történt. Kérjük, próbálja újra."
+      "unhandledExceptionMessage": "Valami váratlan történt. Kérjük, próbálja újra.",
+      "versionDocumentationLink": "További információ a DTDL 3-as verziójáról"
     },
     "ImportErrors": {
       "fileInvalidJSON": "A(z) \"{{fileName}}\" nem importálható, érvénytelen JSON-t tartalmaz.",
@@ -1285,8 +1286,7 @@
         "sampleModel": "minta modell",
         "defaultVersionLabel": "Alapértelmezett DTDL-verzió új modellekhez",
         "version2": "2-es verzió",
-        "version3": "3-as verzió (előzetes verzió)",
-        "versionDocumentationLink": "További információ a DTDL 3-as verziójáról"
+        "version3": "3-as verzió (előzetes verzió)"
       }
     },
     "ImportProgress": {
@@ -1361,7 +1361,7 @@
   "increaseByDecimal": "Növelje az értéket 0,1-gyel",
   "decreaseByDecimal": "Érték csökkentése 0,1-gyel",
   "ok": "Oké",
-  "OATPropertyEditor1": {
+  "OATPropertyEditor": {
     "addEnumValue": "Enum érték hozzáadása",
     "addProperty": "Tulajdonság hozzáadása",
     "addToPropertyList": "Hozzáadás a tulajdonságlistához",

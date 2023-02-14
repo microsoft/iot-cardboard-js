@@ -1238,7 +1238,8 @@
     "Common": {
       "untargeted": "ターゲットなし",
       "unhandledExceptionTitle": "予期しないエラー",
-      "unhandledExceptionMessage": "予期せぬことが起こりました。もう一度やり直してください。"
+      "unhandledExceptionMessage": "予期せぬことが起こりました。もう一度やり直してください。",
+      "versionDocumentationLink": "DTDL バージョン 3 の詳細"
     },
     "ImportErrors": {
       "fileInvalidJSON": "'{{ファイル名}}' をインポートできません。無効な JSON が含まれています。",
@@ -1285,8 +1286,7 @@
         "sampleModel": "サンプルモデル",
         "defaultVersionLabel": "新しいモデルの既定の DTDL バージョン",
         "version2": "バージョン2",
-        "version3": "バージョン 3 (プレビュー)",
-        "versionDocumentationLink": "DTDL バージョン 3 の詳細"
+        "version3": "バージョン 3 (プレビュー)"
       }
     },
     "ImportProgress": {
@@ -1361,7 +1361,7 @@
   "increaseByDecimal": "値を 0.1 増やす",
   "decreaseByDecimal": "値を 0.1 減らす",
   "ok": "わかりました",
-  "OATPropertyEditor1": {
+  "OATPropertyEditor": {
     "addEnumValue": "列挙値の追加",
     "addProperty": "プロパティの追加",
     "addToPropertyList": "物件リストに追加",

@@ -1238,7 +1238,8 @@
     "Common": {
       "untargeted": "Oriktad",
       "unhandledExceptionTitle": "Oväntat fel",
-      "unhandledExceptionMessage": "Något oväntat hände. Försök igen."
+      "unhandledExceptionMessage": "Något oväntat hände. Försök igen.",
+      "versionDocumentationLink": "Läs mer om DTDL version 3"
     },
     "ImportErrors": {
       "fileInvalidJSON": "Det går inte att importera {{fileName}}, den innehåller ogiltig JSON.",
@@ -1285,8 +1286,7 @@
         "sampleModel": "exempel modell",
         "defaultVersionLabel": "Standard DTDL-version för nya modeller",
         "version2": "Version 2",
-        "version3": "Version 3 (förhandsversion)",
-        "versionDocumentationLink": "Läs mer om DTDL version 3"
+        "version3": "Version 3 (förhandsversion)"
       }
     },
     "ImportProgress": {
@@ -1361,7 +1361,7 @@
   "increaseByDecimal": "Öka värdet med 0,1",
   "decreaseByDecimal": "Minska värdet med 0,1",
   "ok": "Okej",
-  "OATPropertyEditor1": {
+  "OATPropertyEditor": {
     "addEnumValue": "Lägg till uppräkningsvärde",
     "addProperty": "Lägg till egenskap",
     "addToPropertyList": "Lägg till i egenskapslista",
