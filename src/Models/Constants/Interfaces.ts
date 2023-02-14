@@ -363,6 +363,21 @@ export interface IADTTwin {
     [propertyName: string]: any;
 }
 
+export interface IADTJobs {
+    id: string;
+    inputBlobUri: string;
+    outputBlobUri: string;
+    createdDateTime: string;
+    lastActionDateTime: string;
+    finishedDateTime: string;
+    purgeDateTime: string;
+    status: string;
+    error: {
+        code: string;
+        message: string;
+    };
+}
+
 export interface IADTRelationship {
     $etag: string;
     $relationshipId: string;

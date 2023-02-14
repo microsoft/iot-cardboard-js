@@ -1183,4 +1183,45 @@ export default class MockAdapter
             });
         }
     }
+    /**TO-DO */
+    async addJob(
+        inputBlobUri?: string,
+        outputBlobUri?: string,
+        jobId?: string
+    ) {
+        /**
+         * FILL THIS IN
+         */
+        inputBlobUri;
+        outputBlobUri;
+        jobId;
+        return null;
+    }
+
+    /**TO-DO */
+    async deleteJob(jobId: string) {
+        /**
+         * FILL THIS IN
+         */
+        jobId;
+        return null;
+    }
+
+    /**TO-DO */
+    async cancelJob(jobId: string) {
+        /**
+         * FILL THIS IN
+         */
+        jobId;
+        return null;
+    }
+
+    /**TO-DO */
+    async getAllJobs(jobId: string) {
+        /**
+         * FILL THIS IN
+         */
+        jobId;
+        return null;
+    }
 }

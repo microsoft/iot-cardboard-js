@@ -71,6 +71,7 @@ import { I3DScenesConfig } from '../Models/Types/Generated/3DScenesConfiguration
 import { ModelDict } from 'azure-iot-dtdl-parser/dist/parser/modelDict';
 import AdapterEntityCache from '../Models/Classes/AdapterEntityCache';
 import queryString from 'query-string';
+import ADTJobsData from '../Models/Classes/AdapterDataClasses/ADTJobsData';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('ADTAdapter', debugLogging);
@@ -1156,5 +1157,79 @@ export default class ADTAdapter implements IADTAdapter {
             );
             return result;
         });
+    }
+
+    async addJob(inputBlobUri: string, outputBlobUri: string, jobId: string) {
+        const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
+
+        return adapterMethodSandbox.safelyFetchDataCancellableAxiosPromise(
+            ADTJobsData,
+            {
+                method: 'put',
+                url: `${this.adtProxyServerPath}/jobs/import/${jobId}`,
+                headers: {
+                    'x-adt-host': this.adtHostUrl
+                },
+                params: {
+                    'api-version': ADT_ApiVersion,
+                    inputbloburi: inputBlobUri,
+                    outputbloburi: outputBlobUri
+                }
+            }
+        );
+    }
+
+    async deleteJob(jobId: string) {
+        const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
+
+        return adapterMethodSandbox.safelyFetchDataCancellableAxiosPromise(
+            ADTJobsData,
+            {
+                method: 'delete',
+                url: `${this.adtProxyServerPath}/jobs/import/${jobId}`,
+                headers: {
+                    'x-adt-host': this.adtHostUrl
+                },
+                params: {
+                    'api-version': ADT_ApiVersion
+                }
+            }
+        );
+    }
+
+    async cancelJob(jobId: string) {
+        const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
+
+        return adapterMethodSandbox.safelyFetchDataCancellableAxiosPromise(
+            ADTJobsData,
+            {
+                method: 'post',
+                url: `${this.adtProxyServerPath}/jobs/imports/${jobId}/cancel`,
+                headers: {
+                    'x-adt-host': this.adtHostUrl
+                },
+                params: {
+                    'api-version': ADT_ApiVersion
+                }
+            }
+        );
+    }
+    //TO-DO: this is definitely wrong
+    async getAllJobs() {
+        const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
+
+        return adapterMethodSandbox.safelyFetchDataCancellableAxiosPromise(
+            ADTJobsData,
+            {
+                method: 'get',
+                url: `${this.adtProxyServerPath}/jobs/imports`,
+                headers: {
+                    'x-adt-host': this.adtHostUrl
+                },
+                params: {
+                    'api-version': ADT_ApiVersion
+                }
+            }
+        );
     }
 }
