@@ -1409,6 +1409,12 @@
         "version3": "バージョン3",
         "defaultVersionLabel": "新しいモデルの既定の DTDL バージョン"
       }
+    },
+    "ImportProgress": {
+      "loadingTitle": "モデルのインポート",
+      "loadingSpinnerLabel": "{{カウント}} ファイルのインポート",
+      "successTitle": "インポート成功",
+      "successMessage": "オントロジーに{{count}}モデルが正常に追加されました"
     }
   },
   "dataHistoryErrorHandlingWrapper": {
@@ -1470,5 +1476,6 @@
     }
   },
   "increaseByDecimal": "値を 0.1 増やす",
-  "decreaseByDecimal": "値を 0.1 減らす"
+  "decreaseByDecimal": "値を 0.1 減らす",
+  "ok": "わかりました"
 }
