@@ -11,7 +11,8 @@ import {
 } from '../../../Pages/OATEditorPage/Internal/Classes/ProjectData';
 import {
     OAT_DEFAULT_CONTEXT,
-    OAT_DEFAULT_PATH_VALUE
+    OAT_DEFAULT_PATH_VALUE,
+    OAT_ONTOLOGY_MAX_REFERENCE_LIMIT
 } from '../../Constants/Constants';
 import {
     getOntologiesFromStorage,
@@ -27,20 +28,21 @@ import {
     OatPageContextActionType
 } from './OatPageContext.types';
 import {
-    createProject,
-    saveData,
-    switchCurrentProject,
-    convertStateToProject,
-    deleteModelFromState,
-    setSelectedModel,
-    updateModelId,
-    addTargetedRelationship,
     addNewModelToState,
+    addTargetedRelationship,
     addUntargetedRelationship,
-    getModelIndexById,
+    convertStateToProject,
+    createProject,
+    deleteModelFromState,
+    deleteReferenceFromState,
     getModelById,
+    getModelIndexById,
     getReferenceIndexByName,
-    deleteReferenceFromState
+    getTotalReferenceCount,
+    saveData,
+    setSelectedModel,
+    switchCurrentProject,
+    updateModelId
 } from './OatPageContextUtils';
 
 const debugLogging = false;
@@ -52,8 +54,6 @@ export const useOatPageContext = () => useContext(OatPageContext);
 /** used exclusively for storybook, should always be true in production */
 export let isOatContextStorageEnabled =
     true || process.env.NODE_ENV === 'production';
-
-export const MAX_MODEL_COUNT = 70;
 
 export const OatPageContextReducer: (
     draft: IOatPageContextState,
@@ -380,15 +380,15 @@ export const OatPageContextReducer: (
                 break;
             }
             case OatPageContextActionType.ADD_NEW_MODEL: {
-                if (draft.currentOntologyModels?.length >= MAX_MODEL_COUNT) {
-                    draft.error = {
-                        title: i18n.t('OAT.ImportLimits.title'),
-                        message: i18n.t('OAT.ImportLimits.message', {
-                            count: MAX_MODEL_COUNT
-                        })
-                    };
-                    break;
-                }
+                // if (draft.currentOntologyModels?.length >= MAX_MODEL_COUNT) {
+                //     draft.error = {
+                //         title: i18n.t('OAT.ImportLimits.title'),
+                //         message: i18n.t('OAT.ImportLimits.message', {
+                //             count: MAX_MODEL_COUNT
+                //         })
+                //     };
+                //     break;
+                // }
                 const newModel = addNewModelToState(draft);
                 setSelectedModel(
                     {
@@ -405,6 +405,17 @@ export const OatPageContextReducer: (
                 break;
             }
             case OatPageContextActionType.ADD_NEW_RELATIONSHIP: {
+                if (
+                    getTotalReferenceCount(draft.currentOntologyModels) >
+                    OAT_ONTOLOGY_MAX_REFERENCE_LIMIT
+                ) {
+                    draft.error = {
+                        title: i18n.t('OAT.ImportLimits.title'),
+                        message: i18n.t('OAT.ImportLimits.message', {
+                            count: OAT_ONTOLOGY_MAX_REFERENCE_LIMIT
+                        })
+                    };
+                }
                 if (action.payload.type === 'Targeted') {
                     const {
                         relationshipType,
@@ -425,19 +436,16 @@ export const OatPageContextReducer: (
                 break;
             }
             case OatPageContextActionType.ADD_NEW_MODEL_WITH_RELATIONSHIP: {
-                if (draft.currentOntologyModels?.length >= MAX_MODEL_COUNT) {
-                    draft.error = {
-                        title: 'Model limit reached',
-                        message: `Currently the model count in an ontology is limited to ${MAX_MODEL_COUNT}. We appologize for the incovenience`
-                    };
-                    break;
-                }
                 const {
                     position,
                     relationshipType,
                     sourceModelId
                 } = action.payload;
                 const targetModel = addNewModelToState(draft, position);
+                const existingReferenceCount = getTotalReferenceCount(
+                    draft.currentOntologyModels
+                );
+                console.log('****Ref count', existingReferenceCount);
                 addTargetedRelationship(
                     draft,
                     sourceModelId,
