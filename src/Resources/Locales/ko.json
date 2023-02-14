@@ -1409,12 +1409,15 @@
         "version3": "버전 3",
         "defaultVersionLabel": "새 모델의 기본 DTDL 버전"
       }
+<<<<<<< HEAD
     },
     "ImportProgress": {
       "loadingTitle": "모델 가져오기",
       "loadingSpinnerLabel": "{{개수}} 파일 가져오기",
       "successTitle": "가져오기 성공",
       "successMessage": "온톨로지에 {{count}} 모델을 성공적으로 추가했습니다."
+=======
+>>>>>>> origin/main
     }
   },
   "dataHistoryErrorHandlingWrapper": {

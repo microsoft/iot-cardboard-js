@@ -1409,12 +1409,15 @@
         "version3": "Version 3",
         "defaultVersionLabel": "Standard-DTDL-Version für neue Modelle"
       }
+<<<<<<< HEAD
     },
     "ImportProgress": {
       "loadingTitle": "Importieren von Modellen",
       "loadingSpinnerLabel": "Importieren von {{count}}-Dateien",
       "successTitle": "Import erfolgreich",
       "successMessage": "Erfolgreiches Hinzufügen von {{count}}-Modellen zur Ontologie"
+=======
+>>>>>>> origin/main
     }
   },
   "dataHistoryErrorHandlingWrapper": {

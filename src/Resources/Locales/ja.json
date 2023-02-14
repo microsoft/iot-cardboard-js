@@ -1409,12 +1409,15 @@
         "version3": "バージョン3",
         "defaultVersionLabel": "新しいモデルの既定の DTDL バージョン"
       }
+<<<<<<< HEAD
     },
     "ImportProgress": {
       "loadingTitle": "モデルのインポート",
       "loadingSpinnerLabel": "{{カウント}} ファイルのインポート",
       "successTitle": "インポート成功",
       "successMessage": "オントロジーに{{count}}モデルが正常に追加されました"
+=======
+>>>>>>> origin/main
     }
   },
   "dataHistoryErrorHandlingWrapper": {

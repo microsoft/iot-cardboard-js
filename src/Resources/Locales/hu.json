@@ -1409,12 +1409,15 @@
         "version3": "3-as verzió",
         "defaultVersionLabel": "Alapértelmezett DTDL-verzió új modellekhez"
       }
+<<<<<<< HEAD
     },
     "ImportProgress": {
       "loadingTitle": "Modellek importálása",
       "loadingSpinnerLabel": "{{count}} fájlok importálása",
       "successTitle": "Sikeres importálás",
       "successMessage": "Sikeresen hozzáadta a {{count}} modelleket az ontológiához"
+=======
+>>>>>>> origin/main
     }
   },
   "dataHistoryErrorHandlingWrapper": {
