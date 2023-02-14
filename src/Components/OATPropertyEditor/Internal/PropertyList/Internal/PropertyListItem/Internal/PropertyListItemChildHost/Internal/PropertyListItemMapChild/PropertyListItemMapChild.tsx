@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import {
     IPropertyListItemMapChildProps,
     IPropertyListItemMapChildStyleProps,
@@ -8,10 +8,6 @@ import { getStyles } from './PropertyListItemMapChild.styles';
 import { classNamesFunction, styled } from '@fluentui/react';
 import { useExtendedTheme } from '../../../../../../../../../../Models/Hooks/useExtendedTheme';
 import PropertyListItem from '../../../../PropertyListItem';
-import {
-    DtdlMapKey,
-    DtdlMapValue
-} from '../../../../../../../../../../Models/Constants';
 import { deepCopy } from '../../../../../../../../../../Models/Services/Utils';
 
 const getClassNames = classNamesFunction<
@@ -39,20 +35,6 @@ const PropertyListItemMapChild: React.FC<IPropertyListItemMapChildProps> = (
     // hooks
 
     // callbacks
-    const onUpdateKeyInternal = useCallback(
-        (key: DtdlMapKey) => {
-            //
-            onUpdateKey(key);
-        },
-        [onUpdateKey]
-    );
-    const onUpdateValueInternal = useCallback(
-        (value: DtdlMapValue) => {
-            //
-            onUpdateValue(value);
-        },
-        [onUpdateValue]
-    );
 
     // side effects
 
@@ -75,7 +57,7 @@ const PropertyListItemMapChild: React.FC<IPropertyListItemMapChildProps> = (
                 onUpdateName={(args) => {
                     const keyCopy = deepCopy(item.mapKey);
                     keyCopy.name = args.name;
-                    onUpdateKeyInternal(keyCopy);
+                    onUpdateKey(keyCopy);
                 }}
                 onUpdateSchema={undefined} // not allowed to change, always string
                 parentModelContext={parentModelContext}
@@ -92,12 +74,12 @@ const PropertyListItemMapChild: React.FC<IPropertyListItemMapChildProps> = (
                 onUpdateName={(args) => {
                     const valueCopy = deepCopy(item.mapValue);
                     valueCopy.name = args.name;
-                    onUpdateValueInternal(valueCopy);
+                    onUpdateValue(valueCopy);
                 }}
                 onUpdateSchema={(args) => {
                     const keyCopy = deepCopy(item.mapValue);
                     keyCopy.schema = args;
-                    onUpdateValueInternal(keyCopy);
+                    onUpdateValue(keyCopy);
                 }}
                 parentModelContext={parentModelContext}
             />
