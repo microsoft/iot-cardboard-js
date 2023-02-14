@@ -1238,7 +1238,8 @@
     "Common": {
       "untargeted": "Nieukierunkowane",
       "unhandledExceptionTitle": "Nieoczekiwany błąd",
-      "unhandledExceptionMessage": "Stało się coś nieoczekiwanego. Spróbuj ponownie."
+      "unhandledExceptionMessage": "Stało się coś nieoczekiwanego. Spróbuj ponownie.",
+      "versionDocumentationLink": "Dowiedz się więcej o DTDL w wersji 3"
     },
     "ImportErrors": {
       "fileInvalidJSON": "Nie można zaimportować pliku \"{{fileName}}\", ponieważ zawiera nieprawidłowy kod JSON.",
@@ -1285,8 +1286,7 @@
         "sampleModel": "przykładowy model",
         "defaultVersionLabel": "Domyślna wersja DTDL dla nowych modeli",
         "version2": "Wersja 2",
-        "version3": "Wersja 3 (wersja zapoznawcza)",
-        "versionDocumentationLink": "Dowiedz się więcej o DTDL w wersji 3"
+        "version3": "Wersja 3 (wersja zapoznawcza)"
       }
     },
     "ImportProgress": {
@@ -1361,7 +1361,7 @@
   "increaseByDecimal": "Zwiększ wartość o 0,1",
   "decreaseByDecimal": "Zmniejsz wartość o 0,1",
   "ok": "Ok",
-  "OATPropertyEditor1": {
+  "OATPropertyEditor": {
     "addEnumValue": "Dodaj wartość wyliczenia",
     "addProperty": "Dodaj obiekt",
     "addToPropertyList": "Dodaj do listy obiektów",
@@ -1414,7 +1414,7 @@
     "info": "Informacji",
     "integer": "liczba całkowita",
     "json": "JSON",
-    "key": "Mnie?",
+    "key": "Klucz",
     "linestring": "Ciąg liniowy",
     "long": "długi",
     "map": "mapa",

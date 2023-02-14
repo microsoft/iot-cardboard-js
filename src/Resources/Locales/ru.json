@@ -1238,7 +1238,8 @@
     "Common": {
       "untargeted": "Нецелевой",
       "unhandledExceptionTitle": "Непредвиденная ошибка",
-      "unhandledExceptionMessage": "Случилось нечто неожиданное. Повторите попытку."
+      "unhandledExceptionMessage": "Случилось нечто неожиданное. Повторите попытку.",
+      "versionDocumentationLink": "Подробнее о DTDL версии 3"
     },
     "ImportErrors": {
       "fileInvalidJSON": "Не удается импортировать '{{имя_файла}}', он содержит недопустимый JSON.",
@@ -1285,8 +1286,7 @@
         "sampleModel": "Образец модели",
         "defaultVersionLabel": "Версия DTDL по умолчанию для новых моделей",
         "version2": "Версия 2",
-        "version3": "Версия 3 (предварительная версия)",
-        "versionDocumentationLink": "Подробнее о DTDL версии 3"
+        "version3": "Версия 3 (предварительная версия)"
       }
     },
     "ImportProgress": {
@@ -1361,7 +1361,7 @@
   "increaseByDecimal": "Увеличение значения на 0,1",
   "decreaseByDecimal": "Уменьшение значения на 0,1",
   "ok": "Хорошо",
-  "OATPropertyEditor1": {
+  "OATPropertyEditor": {
     "addEnumValue": "Добавление значения перечисления",
     "addProperty": "Добавить свойство",
     "addToPropertyList": "Добавить в список свойств",

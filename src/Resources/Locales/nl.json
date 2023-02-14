@@ -1238,7 +1238,8 @@
     "Common": {
       "untargeted": "Ongericht",
       "unhandledExceptionTitle": "Onverwachte fout",
-      "unhandledExceptionMessage": "Er gebeurde iets onverwachts. Probeer het opnieuw."
+      "unhandledExceptionMessage": "Er gebeurde iets onverwachts. Probeer het opnieuw.",
+      "versionDocumentationLink": "Meer informatie over DTDL versie 3"
     },
     "ImportErrors": {
       "fileInvalidJSON": "Het kan '{{bestandsnaam}}' niet importeren en bevat ongeldige JSON.",
@@ -1285,8 +1286,7 @@
         "sampleModel": "voorbeeldmodel",
         "defaultVersionLabel": "Standaard DTDL-versie voor nieuwe modellen",
         "version2": "Versie 2",
-        "version3": "Versie 3 (preview)",
-        "versionDocumentationLink": "Meer informatie over DTDL versie 3"
+        "version3": "Versie 3 (preview)"
       }
     },
     "ImportProgress": {
@@ -1361,7 +1361,7 @@
   "increaseByDecimal": "Waarde verhogen met 0,1",
   "decreaseByDecimal": "Waarde verlagen met 0,1",
   "ok": "OK",
-  "OATPropertyEditor1": {
+  "OATPropertyEditor": {
     "addEnumValue": "Opsommingswaarde toevoegen",
     "addProperty": "Eigenschap toevoegen",
     "addToPropertyList": "Toevoegen aan eigenschappenlijst",
@@ -1457,10 +1457,10 @@
     "time": "Tijd",
     "type": "Type",
     "unit": "Eenheid",
-    "uniqueModelName": "Unieke modelnaam",
-    "update": "Update",
+    "uniqueModelName": "",
+    "update": "",
     "value": "Waarde",
-    "valueSchema": "",
+    "valueSchema": "Waardeschema",
     "version": "Versie",
     "viewTemplates": "Sjablonen weergeven",
     "writable": "Beschrijfbare",

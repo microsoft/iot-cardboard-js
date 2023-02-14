@@ -1238,7 +1238,8 @@
     "Common": {
       "untargeted": "Non mirato",
       "unhandledExceptionTitle": "Errore imprevisto",
-      "unhandledExceptionMessage": "Accadde qualcosa di inaspettato. Riprova."
+      "unhandledExceptionMessage": "Accadde qualcosa di inaspettato. Riprova.",
+      "versionDocumentationLink": "Ulteriori informazioni su DTDL versione 3"
     },
     "ImportErrors": {
       "fileInvalidJSON": "Impossibile importare '{{fileName}}', contiene JSON non valido.",
@@ -1285,8 +1286,7 @@
         "sampleModel": "Modello di esempio",
         "defaultVersionLabel": "Versione DTDL predefinita per i nuovi modelli",
         "version2": "Versione 2",
-        "version3": "Versione 3 (anteprima)",
-        "versionDocumentationLink": "Ulteriori informazioni su DTDL versione 3"
+        "version3": "Versione 3 (anteprima)"
       }
     },
     "ImportProgress": {
@@ -1361,7 +1361,7 @@
   "increaseByDecimal": "Aumentare il valore di 0,1",
   "decreaseByDecimal": "Diminuire il valore di 0,1",
   "ok": "Ok",
-  "OATPropertyEditor1": {
+  "OATPropertyEditor": {
     "addEnumValue": "Aggiungi valore enum",
     "addProperty": "Aggiungi proprietà",
     "addToPropertyList": "Aggiungi all'elenco delle proprietà",

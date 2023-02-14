@@ -1238,7 +1238,8 @@
     "Common": {
       "untargeted": "Hedefsiz",
       "unhandledExceptionTitle": "Beklenmeyen hata",
-      "unhandledExceptionMessage": "Beklenmedik bir şey oldu. Lütfen tekrar deneyin."
+      "unhandledExceptionMessage": "Beklenmedik bir şey oldu. Lütfen tekrar deneyin.",
+      "versionDocumentationLink": "DTDL sürüm 3 hakkında daha fazla bilgi edinin"
     },
     "ImportErrors": {
       "fileInvalidJSON": "'{{fileName}}' içe aktarılamıyor, geçersiz JSON içeriyor.",
@@ -1285,8 +1286,7 @@
         "sampleModel": "örnek Model",
         "defaultVersionLabel": "Yeni modeller için varsayılan DTDL sürümü",
         "version2": "Sürüm 2",
-        "version3": "Sürüm 3 (önizleme)",
-        "versionDocumentationLink": "DTDL sürüm 3 hakkında daha fazla bilgi edinin"
+        "version3": "Sürüm 3 (önizleme)"
       }
     },
     "ImportProgress": {
@@ -1361,7 +1361,7 @@
   "increaseByDecimal": "Değeri 0,1 artır",
   "decreaseByDecimal": "Değeri 0,1 azalt",
   "ok": "Tamam",
-  "OATPropertyEditor1": {
+  "OATPropertyEditor": {
     "addEnumValue": "Enum değeri ekleme",
     "addProperty": "Özellik ekle",
     "addToPropertyList": "Özellik listesine ekle",

@@ -1238,7 +1238,8 @@
     "Common": {
       "untargeted": "非目标",
       "unhandledExceptionTitle": "意外错误",
-      "unhandledExceptionMessage": "意想不到的事情发生了。请重试。"
+      "unhandledExceptionMessage": "意想不到的事情发生了。请重试。",
+      "versionDocumentationLink": "了解有关 DTDL 版本 3 的更多信息"
     },
     "ImportErrors": {
       "fileInvalidJSON": "无法导入“{{文件名}}”，它包含无效的 JSON。",
@@ -1285,8 +1286,7 @@
         "sampleModel": "示例模型",
         "defaultVersionLabel": "新型号的默认 DTDL 版本",
         "version2": "版本 2",
-        "version3": "版本 3（预览版）",
-        "versionDocumentationLink": "了解有关 DTDL 版本 3 的更多信息"
+        "version3": "版本 3（预览版）"
       }
     },
     "ImportProgress": {
@@ -1361,7 +1361,7 @@
   "increaseByDecimal": "增加 0.1 的值",
   "decreaseByDecimal": "减少值 0.1",
   "ok": "还行",
-  "OATPropertyEditor1": {
+  "OATPropertyEditor": {
     "addEnumValue": "添加枚举值",
     "addProperty": "添加属性",
     "addToPropertyList": "添加到属性列表",
