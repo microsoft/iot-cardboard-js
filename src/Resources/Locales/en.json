@@ -982,9 +982,9 @@
             "unsupportedPropertyType": "This property type is not available for the current context version of the associated model"
         },
         "PropertyEditor": {
-            "Version3PreviewLabel": {
+            "Version3PreviewLabel1": {
                 "badgeText": "Preview",
-                "badgeCalloutText": "This model uses DTDL version 3 which is in preview"
+                "badgeCalloutText": "This model uses DTDL version 3. Click to learn more"
             },
             "Version3UpgradeButton": {
                 "buttonText": "Upgrade to version 3",
