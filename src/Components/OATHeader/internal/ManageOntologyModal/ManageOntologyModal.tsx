@@ -45,8 +45,7 @@ const LOC_KEYS = {
     choidLabel: 'OAT.Header.ManageOntologyModal.defaultVersionLabel',
     choiceOptionVersion2: 'OAT.Header.ManageOntologyModal.version2',
     choiceOptionVersion3: 'OAT.Header.ManageOntologyModal.version3',
-    versionDocumentationLink:
-        'OAT.Header.ManageOntologyModal.versionDocumentationLink'
+    versionDocumentationLink: 'OAT.Common.versionDocumentationLink'
 };
 
 const getClassNames = classNamesFunction<

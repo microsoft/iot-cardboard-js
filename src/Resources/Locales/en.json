@@ -924,7 +924,8 @@
         "Common": {
             "untargeted": "Untargeted",
             "unhandledExceptionTitle": "Unexpected error",
-            "unhandledExceptionMessage": "Something unexpected happened. Please try again."
+            "unhandledExceptionMessage": "Something unexpected happened. Please try again.",
+            "versionDocumentationLink": "Learn more about DTDL version 3"
         },
         "Header": {
             "ManageOntologyModal": {
@@ -942,8 +943,7 @@
                 "sampleModel": "sample Model",
                 "defaultVersionLabel": "Default DTDL version for new models",
                 "version2": "Version 2",
-                "version3": "Version 3 (preview)",
-                "versionDocumentationLink": "Learn more about DTDL version 3"
+                "version3": "Version 3 (preview)"
             }
         },
         "ImportLimits": {
@@ -988,8 +988,8 @@
             },
             "Version3UpgradeButton": {
                 "buttonText": "Upgrade to version 3",
-                "confirmationTitle": "Upgrade DTDL version?",
-                "confirmationMessage": "Are you sure you want to upgrade this model to DTDL version 3? All existing configurations will be preserved.",
+                "confirmationTitle": "Upgrade to DTDL version 3 (in preview)?",
+                "confirmationMessage": "DTDL version 3 is in preview, are you sure you want to upgrade this model? All existing metadata and properties will be preserved.",
                 "confirmationButtonText": "Upgrade"
             }
         }
