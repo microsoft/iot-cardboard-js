@@ -9,7 +9,6 @@ const classNames = {
     root: `${classPrefix}-root`
 };
 
-// export const CONFIRMDIALOG_CLASS_NAMES = classNames;
 export const getStyles = (
     _props: IConfirmDialogStyleProps
 ): IConfirmDialogStyles => {
