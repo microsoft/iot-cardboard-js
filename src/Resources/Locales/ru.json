@@ -1392,7 +1392,7 @@
       "unsupportedPropertyType": "Этот тип свойства недоступен для текущей контекстной версии связанной модели"
     },
     "Header": {
-      "ManageOntologyModal1": {
+      "ManageOntologyModal": {
         "deleteButtonText": "Удалить онтологию",
         "modalTitleCreate": "Новая онтология",
         "modalTitleEdit": "Редактирование онтологии",
@@ -1407,7 +1407,8 @@
         "sampleModel": "Образец модели",
         "defaultVersionLabel": "Версия DTDL по умолчанию для новых моделей",
         "version2": "Версия 2",
-        "version3": "Версия 3 (предварительная версия)"
+        "version3": "Версия 3 (предварительная версия)",
+        "versionDocumentationLink": "Подробнее о DTDL версии 3"
       }
     },
     "ImportProgress": {

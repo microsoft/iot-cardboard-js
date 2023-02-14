@@ -1392,7 +1392,7 @@
       "unsupportedPropertyType": "此属性类型不适用于关联模型的当前上下文版本"
     },
     "Header": {
-      "ManageOntologyModal1": {
+      "ManageOntologyModal": {
         "deleteButtonText": "删除本体",
         "modalTitleCreate": "新本体",
         "modalTitleEdit": "编辑本体",
@@ -1407,7 +1407,8 @@
         "sampleModel": "示例模型",
         "defaultVersionLabel": "新型号的默认 DTDL 版本",
         "version2": "版本 2",
-        "version3": "版本 3（预览版）"
+        "version3": "版本 3（预览版）",
+        "versionDocumentationLink": "了解有关 DTDL 版本 3 的更多信息"
       }
     },
     "ImportProgress": {

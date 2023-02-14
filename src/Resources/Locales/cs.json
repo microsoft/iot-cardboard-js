@@ -1392,7 +1392,7 @@
       "unsupportedPropertyType": "Tento typ vlastnosti není k dispozici pro aktuální kontextovou verzi přidruženého modelu"
     },
     "Header": {
-      "ManageOntologyModal1": {
+      "ManageOntologyModal": {
         "deleteButtonText": "Odstranit ontologii",
         "modalTitleCreate": "Nová ontologie",
         "modalTitleEdit": "Upravit ontologii",
@@ -1407,7 +1407,8 @@
         "sampleModel": "Vzorový model",
         "defaultVersionLabel": "Výchozí verze DTDL pro nové modely",
         "version2": "Verze 2",
-        "version3": "Verze 3 (Preview)"
+        "version3": "Verze 3 (Preview)",
+        "versionDocumentationLink": "Další informace o DTDL verze 3"
       }
     },
     "ImportProgress": {
