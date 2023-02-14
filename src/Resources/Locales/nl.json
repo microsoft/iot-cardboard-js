@@ -1415,13 +1415,6 @@
       "loadingSpinnerLabel": "{{count}}-bestanden importeren",
       "successTitle": "Importeren gelukt",
       "successMessage": "{{count}} modellen toegevoegd aan de ontologie"
-<<<<<<< HEAD
-    },
-    "ImportLimits": {
-      "message": "Momenteel is het aantal modellen in een ontologie beperkt tot {{count}}. Onze excuses voor het ongemak.",
-      "title": "Modellimiet bereikt"
-=======
->>>>>>> origin/main
     }
   },
   "dataHistoryErrorHandlingWrapper": {

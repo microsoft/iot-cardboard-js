@@ -1415,13 +1415,6 @@
       "loadingSpinnerLabel": "Import souborů {{count}}",
       "successTitle": "Import proběhl úspěšně",
       "successMessage": "Úspěšně přidané modely {{count}} do ontologie"
-<<<<<<< HEAD
-    },
-    "ImportLimits": {
-      "message": "V současné době je počet modelů v ontologii omezen na {{count}}. Omlouváme se za nepříjemnosti.",
-      "title": "Dosažen limit modelu"
-=======
->>>>>>> origin/main
     }
   },
   "dataHistoryErrorHandlingWrapper": {
