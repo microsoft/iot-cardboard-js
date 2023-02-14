@@ -53,6 +53,8 @@ export const useOatPageContext = () => useContext(OatPageContext);
 export let isOatContextStorageEnabled =
     true || process.env.NODE_ENV === 'production';
 
+export const MAX_MODEL_COUNT = 70;
+
 export const OatPageContextReducer: (
     draft: IOatPageContextState,
     action: OatPageContextAction
@@ -378,6 +380,15 @@ export const OatPageContextReducer: (
                 break;
             }
             case OatPageContextActionType.ADD_NEW_MODEL: {
+                if (draft.currentOntologyModels?.length >= MAX_MODEL_COUNT) {
+                    draft.error = {
+                        title: i18n.t('OAT.ImportLimits.title'),
+                        message: i18n.t('OAT.ImportLimits.message', {
+                            count: MAX_MODEL_COUNT
+                        })
+                    };
+                    break;
+                }
                 const newModel = addNewModelToState(draft);
                 setSelectedModel(
                     {
@@ -414,6 +425,13 @@ export const OatPageContextReducer: (
                 break;
             }
             case OatPageContextActionType.ADD_NEW_MODEL_WITH_RELATIONSHIP: {
+                if (draft.currentOntologyModels?.length >= MAX_MODEL_COUNT) {
+                    draft.error = {
+                        title: 'Model limit reached',
+                        message: `Currently the model count in an ontology is limited to ${MAX_MODEL_COUNT}. We appologize for the incovenience`
+                    };
+                    break;
+                }
                 const {
                     position,
                     relationshipType,
