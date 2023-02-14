@@ -136,6 +136,7 @@ export const GET_MOCK_OAT_CONTEXT_STATE = (): IOatPageContextState => {
         currentOntologyTemplates: currentFile.templates,
         languageOptions: getAvailableLanguages(i18n),
         triggerGraphLayout: false,
+        importState: { state: 'closed' },
         error: undefined,
         graphUpdatesToSync: { actionType: 'None' },
         isJsonUploaderOpen: false,

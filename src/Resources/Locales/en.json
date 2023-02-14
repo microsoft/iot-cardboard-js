@@ -61,6 +61,7 @@
     "create": "Create",
     "save": "Save",
     "add": "Add",
+    "ok": "Ok",
     "addNew": "Add new",
     "remove": "Remove",
     "update": "Update",
@@ -943,6 +944,12 @@
                 "version2": "Version 2",
                 "version3": "Version 3"
             }
+        },
+        "ImportProgress": {
+            "loadingTitle": "Importing models",
+            "loadingSpinnerLabel": "Importing {{count}} files",
+            "successTitle": "Import successful",
+            "successMessage": "Successfully added {{count}} models to the ontology"
         },
         "ImportErrors": {
             "exceptionTitle": "Unexpected error",

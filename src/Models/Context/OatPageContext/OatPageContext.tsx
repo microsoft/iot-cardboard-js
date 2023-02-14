@@ -355,6 +355,10 @@ export const OatPageContextReducer: (
                 saveData(draft);
                 break;
             }
+            case OatPageContextActionType.UPDATE_IMPORT_PROGRESS: {
+                draft.importState = action.payload;
+                break;
+            }
             case OatPageContextActionType.IMPORT_MODELS: {
                 const { models } = action.payload;
                 if (models?.length > 0) {
@@ -432,6 +436,10 @@ export const OatPageContextReducer: (
             }
             case OatPageContextActionType.CLEAR_GRAPH_LAYOUT: {
                 draft.triggerGraphLayout = false;
+                break;
+            }
+            case OatPageContextActionType.PERFORM_GRAPH_LAYOUT: {
+                draft.triggerGraphLayout = true;
                 break;
             }
             case OatPageContextActionType.GRAPH_CLEAR_MODELS_TO_SYNC: {
@@ -527,6 +535,7 @@ const emptyState: IOatPageContextState = {
     currentOntologyProjectName: '',
     currentOntologyTemplates: [],
     // other properties
+    importState: { state: 'closed' },
     triggerGraphLayout: false,
     confirmDialog: { open: false },
     languageOptions: [],
