@@ -122,8 +122,8 @@ export interface DtdlArray {
 export interface DtdlMapKey {
     /** The "programming" name of the map's value. The name may only contain the characters a-z, A-Z, 0-9, and underscore, and must match this regular expression `^[a-zA-Z](?:[a-zA-Z0-9_]*[a-zA-Z0-9])?$.` */
     name: string;
-    /** The data type of the map's key */
-    schema: DTDLSchema;
+    /** The data type of the map's key. Always `string` */
+    schema: 'string';
     /** The ID of the map key. If no @id is provided, the digital twin interface processor will assign one. */
     ['@id']?: string;
     /** A comment for model authors */

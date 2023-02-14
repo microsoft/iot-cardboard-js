@@ -95,7 +95,7 @@ const PropertyListItemEnumChild: React.FC<IPropertyListItemEnumChildProps> = (
                 onClick: onRemove
             }
         ],
-        [isFirstItem, isLastItem, onMoveDown, onMoveUp, onRemove]
+        [isFirstItem, isLastItem, onMoveDown, onMoveUp, onRemove, t]
     );
 
     // styles
