@@ -1392,22 +1392,22 @@
       "unsupportedPropertyType": "Ten typ właściwości nie jest dostępny dla bieżącej wersji kontekstowej skojarzonego modelu"
     },
     "Header": {
-      "ManageOntologyModal": {
+      "ManageOntologyModal1": {
         "deleteButtonText": "Usuń ontologię",
         "modalTitleCreate": "Nowa ontologia",
         "modalTitleEdit": "Edytuj ontologię",
-        "modalSubTitleCreate": "Stwórz nową ontologię, aby nadać strukturę swojemu cyfrowemu bliźniakowi.",
-        "modalSubTitleEdit": "Edytuj swoją ontologię, aby nadać strukturę swojemu cyfrowemu bliźniakowi.",
+        "modalSubTitleCreate": "Stwórz nową ontologię, aby nadać strukturę cyfrowemu bliźniakowi.",
+        "modalSubTitleEdit": "Edytuj ontologię, aby nadać strukturę cyfrowemu bliźniakowi.",
         "modalSubTitleLinkText": "Dowiedz się więcej o ontologiach",
         "nameLabel": "Nazwa",
         "namePlaceholder": "Wprowadź nazwę ontologii",
         "namespaceLabel": "Domyślna ścieżka",
-        "namespaceDescription": "Przykładowa nazwa modelu: {{modelName}}",
+        "namespaceDescription": "Przykładowy identyfikator modelu: {{modelName}}",
         "namespacePlaceholder": "Wprowadź ścieżkę domyślną",
         "sampleModel": "przykładowy model",
+        "defaultVersionLabel": "Domyślna wersja DTDL dla nowych modeli",
         "version2": "Wersja 2",
-        "version3": "Wersja 3",
-        "defaultVersionLabel": "Domyślna wersja DTDL dla nowych modeli"
+        "version3": "Wersja 3 (wersja zapoznawcza)"
       }
     },
     "ImportProgress": {

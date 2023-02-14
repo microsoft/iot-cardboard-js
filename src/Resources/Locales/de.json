@@ -1392,22 +1392,22 @@
       "unsupportedPropertyType": "Dieser Eigenschaftstyp ist für die aktuelle Kontextversion des zugeordneten Modells nicht verfügbar."
     },
     "Header": {
-      "ManageOntologyModal": {
+      "ManageOntologyModal1": {
         "deleteButtonText": "Etologie löschen",
         "modalTitleCreate": "Neue Ontologie",
         "modalTitleEdit": "Initologie bearbeiten",
-        "modalSubTitleCreate": "Erstellen Sie eine neue Ontologie, um Ihrem digitalen Zwilling eine Struktur zu geben.",
+        "modalSubTitleCreate": "Erstellen Sie eine neue Ontologie, um Ihren digitalen Zwilling zu strukturieren.",
         "modalSubTitleEdit": "Bearbeiten Sie Ihre Ontologie, um Ihrem digitalen Zwilling Struktur zu geben.",
         "modalSubTitleLinkText": "Erfahren Sie mehr über Ontologien",
         "nameLabel": "Name",
         "namePlaceholder": "Geben Sie einen Ontologienamen ein",
         "namespaceLabel": "Standardpfad",
-        "namespaceDescription": "Beispielmodellname: {{modelName}}",
+        "namespaceDescription": "Beispiel Modell-ID: {{modelName}}",
         "namespacePlaceholder": "Standardpfad eingeben",
         "sampleModel": "Beispielmodell",
+        "defaultVersionLabel": "Standard-DTDL-Version für neue Modelle",
         "version2": "Version 2",
-        "version3": "Version 3",
-        "defaultVersionLabel": "Standard-DTDL-Version für neue Modelle"
+        "version3": "Version 3 (Vorschau)"
       }
     },
     "ImportProgress": {

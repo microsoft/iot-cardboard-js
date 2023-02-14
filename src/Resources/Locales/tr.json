@@ -1392,22 +1392,22 @@
       "unsupportedPropertyType": "Bu özellik türü, ilişkili modelin geçerli bağlam sürümü için kullanılamaz"
     },
     "Header": {
-      "ManageOntologyModal": {
+      "ManageOntologyModal1": {
         "deleteButtonText": "Ontolojiyi silme",
         "modalTitleCreate": "Yeni ontoloji",
         "modalTitleEdit": "Ontolojiyi düzenleme",
-        "modalSubTitleCreate": "Sayısal ikizinize yapı kazandırmak için yeni bir ontoloji oluşturun.",
-        "modalSubTitleEdit": "Sayısal ikizinize yapı kazandırmak için ontolojinizi düzenleyin.",
+        "modalSubTitleCreate": "Dijital ikizinize yapı kazandırmak için yeni bir ontoloji oluşturun.",
+        "modalSubTitleEdit": "Dijital ikizinize yapı kazandırmak için ontolojinizi düzenleyin.",
         "modalSubTitleLinkText": "Ontolojiler hakkında daha fazla bilgi edinin",
         "nameLabel": "Ad",
         "namePlaceholder": "Ontoloji adı girin",
         "namespaceLabel": "Varsayılan yol",
-        "namespaceDescription": "Örnek model adı: {{modelName}}",
+        "namespaceDescription": "Örnek model kimliği: {{modelName}}",
         "namespacePlaceholder": "Varsayılan bir yol girin",
         "sampleModel": "örnek Model",
+        "defaultVersionLabel": "Yeni modeller için varsayılan DTDL sürümü",
         "version2": "Sürüm 2",
-        "version3": "Sürüm 3",
-        "defaultVersionLabel": "Yeni modeller için varsayılan DTDL sürümü"
+        "version3": "Sürüm 3 (önizleme)"
       }
     },
     "ImportProgress": {

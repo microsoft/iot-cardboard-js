@@ -1392,22 +1392,22 @@
       "unsupportedPropertyType": "Tento typ vlastnosti není k dispozici pro aktuální kontextovou verzi přidruženého modelu"
     },
     "Header": {
-      "ManageOntologyModal": {
+      "ManageOntologyModal1": {
         "deleteButtonText": "Odstranit ontologii",
         "modalTitleCreate": "Nová ontologie",
         "modalTitleEdit": "Upravit ontologii",
         "modalSubTitleCreate": "Vytvořte novou ontologii, která dá strukturu vašemu digitálnímu dvojčeti.",
-        "modalSubTitleEdit": "Upravte svou ontologii tak, aby dala strukturu vašemu digitálnímu dvojčeti.",
+        "modalSubTitleEdit": "Upravte svou ontologii tak, aby vaše digitální dvojče mělo strukturu.",
         "modalSubTitleLinkText": "Další informace o ontologiích",
         "nameLabel": "Jméno",
         "namePlaceholder": "Zadejte název ontologie",
         "namespaceLabel": "Výchozí cesta",
-        "namespaceDescription": "Příklad názvu modelu: {{modelName}}",
+        "namespaceDescription": "Příklad id modelu: {{modelName}}",
         "namespacePlaceholder": "Zadejte výchozí cestu",
         "sampleModel": "Vzorový model",
+        "defaultVersionLabel": "Výchozí verze DTDL pro nové modely",
         "version2": "Verze 2",
-        "version3": "Verze 3",
-        "defaultVersionLabel": "Výchozí verze DTDL pro nové modely"
+        "version3": "Verze 3 (Preview)"
       }
     },
     "ImportProgress": {

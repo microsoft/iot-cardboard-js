@@ -1392,22 +1392,22 @@
       "unsupportedPropertyType": "Ez a tulajdonságtípus nem érhető el a társított modell aktuális környezetverziójához"
     },
     "Header": {
-      "ManageOntologyModal": {
+      "ManageOntologyModal1": {
         "deleteButtonText": "Ontológia törlése",
         "modalTitleCreate": "Új ontológia",
         "modalTitleEdit": "Ontológia szerkesztése",
-        "modalSubTitleCreate": "Hozzon létre egy új ontológiát, hogy struktúrát adjon a digitiális ikertestvérének.",
-        "modalSubTitleEdit": "Szerkeszd az ontológiádat, hogy struktúrát adj a digitális ikertestvérednek.",
+        "modalSubTitleCreate": "Hozzon létre egy új ontológiát, hogy struktúrát adjon digitális ikertestvérének.",
+        "modalSubTitleEdit": "Szerkessze ontológiáját, hogy struktúrát adjon digitális ikertestvérének.",
         "modalSubTitleLinkText": "Tudjon meg többet az ontológiákról",
         "nameLabel": "Név",
         "namePlaceholder": "Adjon meg egy ontológiai nevet",
         "namespaceLabel": "Alapértelmezett elérési út",
-        "namespaceDescription": "Példa modellnévre: {{modelName}}",
+        "namespaceDescription": "Példa modellazonosítóra: {{modelName}}",
         "namespacePlaceholder": "Adjon meg egy alapértelmezett elérési utat",
         "sampleModel": "minta modell",
+        "defaultVersionLabel": "Alapértelmezett DTDL-verzió új modellekhez",
         "version2": "2-es verzió",
-        "version3": "3-as verzió",
-        "defaultVersionLabel": "Alapértelmezett DTDL-verzió új modellekhez"
+        "version3": "3-as verzió (előzetes verzió)"
       }
     },
     "ImportProgress": {

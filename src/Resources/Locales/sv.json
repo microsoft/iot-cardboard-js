@@ -1392,22 +1392,22 @@
       "unsupportedPropertyType": "Den här egenskapstypen är inte tillgänglig för den aktuella kontextversionen av den associerade modellen"
     },
     "Header": {
-      "ManageOntologyModal": {
+      "ManageOntologyModal1": {
         "deleteButtonText": "Ta bort ontologi",
         "modalTitleCreate": "Ny ontologi",
         "modalTitleEdit": "Redigera ontologi",
-        "modalSubTitleCreate": "Skapa en ny ontologi för att ge struktur till din digitala tvilling.",
-        "modalSubTitleEdit": "Redigera din ontologi för att ge struktur till din digitala tvilling.",
+        "modalSubTitleCreate": "Skapa en ny ontologi för att ge struktur åt din digitala tvilling.",
+        "modalSubTitleEdit": "Redigera ontologin för att ge struktur åt din digitala tvilling.",
         "modalSubTitleLinkText": "Läs mer om ontologier",
         "nameLabel": "Namn",
         "namePlaceholder": "Ange ett ontologinamn",
         "namespaceLabel": "Standardsökväg",
-        "namespaceDescription": "Exempel på modellnamn: {{modelName}}",
+        "namespaceDescription": "Exempel på modell-id: {{modelName}}",
         "namespacePlaceholder": "Ange en standardsökväg",
         "sampleModel": "exempel modell",
+        "defaultVersionLabel": "Standard DTDL-version för nya modeller",
         "version2": "Version 2",
-        "version3": "Version 3",
-        "defaultVersionLabel": "Standard DTDL-version för nya modeller"
+        "version3": "Version 3 (förhandsversion)"
       }
     },
     "ImportProgress": {

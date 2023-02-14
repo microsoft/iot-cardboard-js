@@ -1392,7 +1392,7 @@
       "unsupportedPropertyType": "Esse tipo de propriedade não está disponível para a versão de contexto atual do modelo associado"
     },
     "Header": {
-      "ManageOntologyModal": {
+      "ManageOntologyModal1": {
         "deleteButtonText": "Excluir ontologia",
         "modalTitleCreate": "Nova ontologia",
         "modalTitleEdit": "Editar ontologia",
@@ -1402,12 +1402,12 @@
         "nameLabel": "Nome",
         "namePlaceholder": "Digite um nome de ontologia",
         "namespaceLabel": "Caminho padrão",
-        "namespaceDescription": "Nome do modelo de exemplo: {{modelName}}",
+        "namespaceDescription": "ID do modelo de exemplo: {{modelName}}",
         "namespacePlaceholder": "Inserir um caminho padrão",
         "sampleModel": "modelo de exemplo",
+        "defaultVersionLabel": "Versão DTDL padrão para novos modelos",
         "version2": "Versão 2",
-        "version3": "Versão 3",
-        "defaultVersionLabel": "Versão DTDL padrão para novos modelos"
+        "version3": "Versão 3 (pré-visualização)"
       }
     },
     "ImportProgress": {

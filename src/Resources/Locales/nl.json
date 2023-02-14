@@ -1392,22 +1392,22 @@
       "unsupportedPropertyType": "Dit eigenschapstype is niet beschikbaar voor de huidige contextversie van het gekoppelde model"
     },
     "Header": {
-      "ManageOntologyModal": {
+      "ManageOntologyModal1": {
         "deleteButtonText": "Ontologie verwijderen",
         "modalTitleCreate": "Nieuwe ontologie",
         "modalTitleEdit": "Ontologie bewerken",
-        "modalSubTitleCreate": "Creëer een nieuwe ontologie om structuur te geven aan je digitial twin.",
-        "modalSubTitleEdit": "Bewerk je ontologie om structuur te geven aan je digitial twin.",
+        "modalSubTitleCreate": "Maak een nieuwe ontologie om structuur te geven aan je digitale tweeling.",
+        "modalSubTitleEdit": "Bewerk je ontologie om structuur te geven aan je digitale tweeling.",
         "modalSubTitleLinkText": "Meer informatie over ontologieën",
         "nameLabel": "Naam",
         "namePlaceholder": "Voer een ontologienaam in",
         "namespaceLabel": "Standaardpad",
-        "namespaceDescription": "Voorbeeld modelnaam: {{modelName}}",
+        "namespaceDescription": "Voorbeeld model-id: {{modelName}}",
         "namespacePlaceholder": "Voer een standaardpad in",
         "sampleModel": "voorbeeldmodel",
+        "defaultVersionLabel": "Standaard DTDL-versie voor nieuwe modellen",
         "version2": "Versie 2",
-        "version3": "Versie 3",
-        "defaultVersionLabel": "Standaard DTDL-versie voor nieuwe modellen"
+        "version3": "Versie 3 (preview)"
       }
     },
     "ImportProgress": {
