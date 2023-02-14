@@ -1415,10 +1415,13 @@
       "loadingSpinnerLabel": "Импорт файлов {{count}}",
       "successTitle": "Импорт выполнен успешно",
       "successMessage": "Успешно добавлены модели {{count}} в онтологию"
+<<<<<<< HEAD
     },
     "ImportLimits": {
       "message": "В настоящее время количество моделей в онтологии ограничено {{count}}. Приносим извинения за доставленные неудобства.",
       "title": "Достигнут предел модели"
+=======
+>>>>>>> origin/main
     }
   },
   "dataHistoryErrorHandlingWrapper": {

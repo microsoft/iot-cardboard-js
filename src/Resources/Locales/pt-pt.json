@@ -1415,10 +1415,13 @@
       "loadingSpinnerLabel": "Importar ficheiros {{count}}",
       "successTitle": "Importação bem sucedida",
       "successMessage": "Adicionou com sucesso os modelos {{count}} à ontologia"
+<<<<<<< HEAD
     },
     "ImportLimits": {
       "message": "Atualmente, a contagem de modelos numa ontologia está limitada a {{count}}} Nós aplicamos pelo inconveniente.",
       "title": "Limite de modelo atingido"
+=======
+>>>>>>> origin/main
     }
   },
   "dataHistoryErrorHandlingWrapper": {

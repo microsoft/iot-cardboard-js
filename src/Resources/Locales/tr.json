@@ -1415,10 +1415,13 @@
       "loadingSpinnerLabel": "{{count}} dosyalarını içe aktarma",
       "successTitle": "İçe aktarma başarılı",
       "successMessage": "{{count}} modelleri ontolojiye başarıyla eklendi"
+<<<<<<< HEAD
     },
     "ImportLimits": {
       "message": "Şu anda bir ontolojideki model sayısı {{count}} ile sınırlıdır. Verdiğimiz rahatsızlıktan dolayı özür dileriz.",
       "title": "Model sınırına ulaşıldı"
+=======
+>>>>>>> origin/main
     }
   },
   "dataHistoryErrorHandlingWrapper": {

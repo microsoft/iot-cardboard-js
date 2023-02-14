@@ -1415,10 +1415,13 @@
       "loadingSpinnerLabel": "{{count}} fájlok importálása",
       "successTitle": "Sikeres importálás",
       "successMessage": "Sikeresen hozzáadta a {{count}} modelleket az ontológiához"
+<<<<<<< HEAD
     },
     "ImportLimits": {
       "message": "Jelenleg az ontológiában a modellszám a következőre korlátozódik: {{count}}. Elnézést kérünk a kellemetlenségekért.",
       "title": "Elérte a modellkorlátot"
+=======
+>>>>>>> origin/main
     }
   },
   "dataHistoryErrorHandlingWrapper": {
