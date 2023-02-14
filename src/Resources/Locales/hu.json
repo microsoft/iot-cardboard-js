@@ -1409,6 +1409,12 @@
         "version3": "3-as verzió",
         "defaultVersionLabel": "Alapértelmezett DTDL-verzió új modellekhez"
       }
+    },
+    "ImportProgress": {
+      "loadingTitle": "Modellek importálása",
+      "loadingSpinnerLabel": "{{count}} fájlok importálása",
+      "successTitle": "Sikeres importálás",
+      "successMessage": "Sikeresen hozzáadta a {{count}} modelleket az ontológiához"
     }
   },
   "dataHistoryErrorHandlingWrapper": {
@@ -1470,5 +1476,6 @@
     }
   },
   "increaseByDecimal": "Növelje az értéket 0,1-gyel",
-  "decreaseByDecimal": "Érték csökkentése 0,1-gyel"
+  "decreaseByDecimal": "Érték csökkentése 0,1-gyel",
+  "ok": "Oké"
 }
