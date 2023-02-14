@@ -982,7 +982,7 @@
             "unsupportedPropertyType": "This property type is not available for the current context version of the associated model"
         },
         "PropertyEditor": {
-            "Version3PreviewLabel1": {
+            "Version3PreviewLabel": {
                 "badgeText": "Preview",
                 "badgeCalloutText": "This model uses DTDL version 3. Click to learn more"
             },
@@ -1065,7 +1065,7 @@
         "errorNameLength": "Name may not exceed 64 characters",
         "loadingText": "Computing layout positions"
     },
-    "OATPropertyEditor": {
+    "OATPropertyEditor1": {
         "addEnumValue": "Add enum value",
         "addProperty": "Add property",
         "addToPropertyList": "Add to property list",
@@ -1080,6 +1080,7 @@
         "commentPlaceholder": "Comment for model authors",
         "complex": "Complex",
         "contextVersion": "DTDL version",
+        "contextVersion3Description": "DTDL version 3 is in preview.",
         "copy": "copy",
         "data": "data",
         "date": "date",
