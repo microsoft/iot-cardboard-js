@@ -1065,7 +1065,7 @@
         "errorNameLength": "Name may not exceed 64 characters",
         "loadingText": "Computing layout positions"
     },
-    "OATPropertyEditor1": {
+    "OATPropertyEditor": {
         "addEnumValue": "Add enum value",
         "addProperty": "Add property",
         "addToPropertyList": "Add to property list",
