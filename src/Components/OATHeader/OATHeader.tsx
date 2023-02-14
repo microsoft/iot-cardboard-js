@@ -26,7 +26,10 @@ import {
     IOATHeaderStyles
 } from './OATHeader.types';
 import { getStyles } from './OATHeader.styles';
-import { useOatPageContext } from '../../Models/Context/OatPageContext/OatPageContext';
+import {
+    MAX_MODEL_COUNT,
+    useOatPageContext
+} from '../../Models/Context/OatPageContext/OatPageContext';
 import { OatPageContextActionType } from '../../Models/Context/OatPageContext/OatPageContext.types';
 import ManageOntologyModal from './internal/ManageOntologyModal/ManageOntologyModal';
 import OATConfirmDialog from '../OATConfirmDialog/OATConfirmDialog';
@@ -104,6 +107,18 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
                 localizationKeys: IMPORT_LOC_KEYS,
                 translate: t
             });
+            // temporarily force an error while we resolve the performance issues
+            if (result.data.length > MAX_MODEL_COUNT) {
+                (result.status = 'Failed'),
+                    (result.errors = [
+                        {
+                            title: t('OAT.ImportLimits.title'),
+                            message: t('OAT.ImportLimits.message', {
+                                count: MAX_MODEL_COUNT
+                            })
+                        }
+                    ]);
+            }
             if (result.status === 'Success') {
                 oatPageDispatch({
                     type: OatPageContextActionType.UPDATE_IMPORT_PROGRESS,

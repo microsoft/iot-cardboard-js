@@ -945,6 +945,10 @@
                 "version3": "Version 3"
             }
         },
+        "ImportLimits": {
+            "message": "Currently the model count in an ontology is limited to {{count}}. We appologize for the inconvenience.",
+            "title": "Model limit reached"
+        },
         "ImportProgress": {
             "loadingTitle": "Importing models",
             "loadingSpinnerLabel": "Importing {{count}} files",

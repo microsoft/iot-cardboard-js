@@ -1415,6 +1415,10 @@
       "loadingSpinnerLabel": "Importera {{count}}-filer",
       "successTitle": "Importen lyckades",
       "successMessage": "Modeller för {{count}} har lagts till i ontologin"
+    },
+    "ImportLimits": {
+      "message": "För närvarande är modellantalet i en ontologi begränsat till {{count}}. Vi applåderar för besväret.",
+      "title": "Modellgränsen uppnådd"
     }
   },
   "dataHistoryErrorHandlingWrapper": {
