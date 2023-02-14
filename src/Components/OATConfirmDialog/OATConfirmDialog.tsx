@@ -29,7 +29,9 @@ const OATConfirmDialog: React.FC = () => {
             onConfirm={confirm}
             title={dialogData.title}
             primaryButtonText={dialogData.primaryButtonText}
-        ></ConfirmDeleteDialog>
+        >
+            {dialogData.additionalContent?.()}
+        </ConfirmDeleteDialog>
     );
 };
 

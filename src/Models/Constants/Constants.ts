@@ -73,6 +73,8 @@ export const DOCUMENTATION_LINKS = {
     howToWidgets: `${HOW_TO_DOC}#widgets`,
     // https://learn.microsoft.com/azure/digital-twins/concepts-ontologies
     ontologyConcepts: 'https://go.microsoft.com/fwlink/?linkid=2209943',
+    // https://learn.microsoft.com/azure/digital-twins/concepts-models#supported-dtdl-versions
+    ontologyConceptsVersions: 'https://go.microsoft.com/fwlink/?linkid=2225628',
     dataHistory: ADT_DATA_HISTORY_WITH_ADX
 };
 

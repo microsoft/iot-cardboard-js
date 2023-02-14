@@ -924,26 +924,33 @@
         "Common": {
             "untargeted": "Untargeted",
             "unhandledExceptionTitle": "Unexpected error",
-            "unhandledExceptionMessage": "Something unexpected happened. Please try again."
+            "unhandledExceptionMessage": "Something unexpected happened. Please try again.",
+            "versionDocumentationLink": "Learn more about DTDL version 3"
         },
         "Header": {
             "ManageOntologyModal": {
                 "deleteButtonText": "Delete ontology",
                 "modalTitleCreate": "New ontology",
                 "modalTitleEdit": "Edit ontology",
-                "modalSubTitleCreate": "Create a new ontology to give structure to your digitial twin.",
-                "modalSubTitleEdit": "Edit your ontology to give structure to your digitial twin.",
+                "modalSubTitleCreate": "Create a new ontology to give structure to your digital twin.",
+                "modalSubTitleEdit": "Edit your ontology to give structure to your digital twin.",
                 "modalSubTitleLinkText": "Learn more about ontologies",
                 "nameLabel": "Name",
                 "namePlaceholder": "Enter an ontology name",
                 "namespaceLabel": "Default path",
-                "namespaceDescription": "Example model name: {{modelName}}",
+                "namespaceDescription": "Example model id: {{modelName}}",
                 "namespacePlaceholder": "Enter a default path",
                 "sampleModel": "sample Model",
                 "defaultVersionLabel": "Default DTDL version for new models",
                 "version2": "Version 2",
-                "version3": "Version 3"
+                "version3": "Version 3 (preview)"
             }
+        },
+        "GraphControls": {
+            "modelListTitle": "Toggle model list",
+            "legendTitle": "Toggle associations",
+            "autoLayoutTitle": "Auto layout",
+            "miniMapTitle": "Toggle mini-map"
         },
         "ImportLimits": {
             "message": "Currently the model count in an ontology is limited to {{count}}. We appologize for the inconvenience.",
@@ -983,12 +990,12 @@
         "PropertyEditor": {
             "Version3PreviewLabel": {
                 "badgeText": "Preview",
-                "badgeCalloutText": "This model uses DTDL version 3 which is in preview"
+                "badgeCalloutText": "This model uses DTDL version 3. Click to learn more"
             },
             "Version3UpgradeButton": {
                 "buttonText": "Upgrade to version 3",
-                "confirmationTitle": "Upgrade DTDL version?",
-                "confirmationMessage": "Are you sure you want to upgrade this model to DTDL version 3? All existing configurations will be preserved.",
+                "confirmationTitle": "Upgrade to DTDL version 3 (in preview)?",
+                "confirmationMessage": "DTDL version 3 is in preview, are you sure you want to upgrade this model? All existing metadata and properties will be preserved.",
                 "confirmationButtonText": "Upgrade"
             }
         }
@@ -1079,6 +1086,7 @@
         "commentPlaceholder": "Comment for model authors",
         "complex": "Complex",
         "contextVersion": "DTDL version",
+        "contextVersion3Description": "DTDL version 3 is in preview.",
         "copy": "copy",
         "data": "data",
         "date": "date",

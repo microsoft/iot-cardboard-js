@@ -19,11 +19,19 @@ import {
 import { getStyles } from './GraphViewerControls.styles';
 import { useOatGraphContext } from '../../../../Models/Context/OatGraphContext/OatGraphContext';
 import { useExtendedTheme } from '../../../../Models/Hooks/useExtendedTheme';
+import { useTranslation } from 'react-i18next';
 
 const getClassNames = classNamesFunction<
     IGraphViewerControlsStyleProps,
     IGraphViewerControlsStyles
 >();
+
+const LOC_KEYS = {
+    modelListTitle: 'OAT.GraphControls.modelListTitle',
+    legendTitle: 'OAT.GraphControls.legendTitle',
+    autoLayoutTitle: 'OAT.GraphControls.autoLayoutTitle',
+    miniMapTitle: 'OAT.GraphControls.miniMapTitle'
+};
 
 const GraphViewerControls: React.FC<IGraphViewerControlsProps> = (props) => {
     const {
@@ -33,6 +41,9 @@ const GraphViewerControls: React.FC<IGraphViewerControlsProps> = (props) => {
         onApplyAutoLayoutClick,
         styles
     } = props;
+
+    // hooks
+    const { t } = useTranslation();
 
     // contexts
     const { oatGraphDispatch, oatGraphState } = useOatGraphContext();
@@ -58,6 +69,7 @@ const GraphViewerControls: React.FC<IGraphViewerControlsProps> = (props) => {
                     }
                     isActive={oatGraphState.isModelListVisible}
                     styles={classNames.subComponentStyles.controlButton}
+                    title={t(LOC_KEYS.modelListTitle)}
                 />
             </HeaderControlGroup>
             <FocusZone style={{ zIndex: CONTROLS_Z_INDEX }}>
@@ -77,11 +89,15 @@ const GraphViewerControls: React.FC<IGraphViewerControlsProps> = (props) => {
                             }
                             isActive={oatGraphState.isLegendVisible}
                             styles={classNames.subComponentStyles.controlButton}
+                            title={t(LOC_KEYS.legendTitle)}
                         />
                     </HeaderControlGroup>
                     {/* built in controls for the graph */}
                     <Controls className={classNames.graphBuiltInControls}>
-                        <ControlButton onClick={onApplyAutoLayoutClick}>
+                        <ControlButton
+                            onClick={onApplyAutoLayoutClick}
+                            title={t(LOC_KEYS.autoLayoutTitle)}
+                        >
                             <Icon iconName={'GridViewMedium'} />
                         </ControlButton>
                     </Controls>
@@ -96,6 +112,7 @@ const GraphViewerControls: React.FC<IGraphViewerControlsProps> = (props) => {
                             }
                             isActive={oatGraphState.isMiniMapVisible}
                             styles={classNames.subComponentStyles.controlButton}
+                            title={t(LOC_KEYS.miniMapTitle)}
                         />
                     </HeaderControlGroup>
                 </Stack>
