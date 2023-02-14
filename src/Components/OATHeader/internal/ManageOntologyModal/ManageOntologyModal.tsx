@@ -44,7 +44,9 @@ const LOC_KEYS = {
     sampleModel: 'OAT.Header.ManageOntologyModal.sampleModel',
     choidLabel: 'OAT.Header.ManageOntologyModal.defaultVersionLabel',
     choiceOptionVersion2: 'OAT.Header.ManageOntologyModal.version2',
-    choiceOptionVersion3: 'OAT.Header.ManageOntologyModal.version3'
+    choiceOptionVersion3: 'OAT.Header.ManageOntologyModal.version3',
+    versionDocumentationLink:
+        'OAT.Header.ManageOntologyModal.versionDocumentationLink'
 };
 
 const getClassNames = classNamesFunction<
@@ -199,6 +201,7 @@ const ManageOntologyModal: React.FC<IManageOntologyModalProps> = (props) => {
                 placeholder={t(LOC_KEYS.namePlaceholder)}
                 required
                 value={name}
+                autoFocus
             />
             <TextField
                 description={t(LOC_KEYS.namespaceDescription, {
@@ -228,6 +231,12 @@ const ManageOntologyModal: React.FC<IManageOntologyModalProps> = (props) => {
                     setDefaultContext(option.key);
                 }}
             />
+            <Link
+                target="_blank"
+                href={DOCUMENTATION_LINKS.ontologyConceptsVersions}
+            >
+                {t(LOC_KEYS.versionDocumentationLink)}
+            </Link>
         </CardboardModal>
     );
 };

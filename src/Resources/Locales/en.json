@@ -927,7 +927,7 @@
             "unhandledExceptionMessage": "Something unexpected happened. Please try again."
         },
         "Header": {
-            "ManageOntologyModal1": {
+            "ManageOntologyModal": {
                 "deleteButtonText": "Delete ontology",
                 "modalTitleCreate": "New ontology",
                 "modalTitleEdit": "Edit ontology",
@@ -942,7 +942,8 @@
                 "sampleModel": "sample Model",
                 "defaultVersionLabel": "Default DTDL version for new models",
                 "version2": "Version 2",
-                "version3": "Version 3 (preview)"
+                "version3": "Version 3 (preview)",
+                "versionDocumentationLink": "Learn more about DTDL version 3"
             }
         },
         "ImportLimits": {
