@@ -91,6 +91,13 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
                 `[IMPORT] [START] Files upload. (${files.length} files) {files}`,
                 files
             );
+            oatPageDispatch({
+                type: OatPageContextActionType.UPDATE_IMPORT_PROGRESS,
+                payload: {
+                    state: 'loading',
+                    fileCount: files.length
+                }
+            });
             const result = await parseFilesToModels({
                 files: files,
                 currentModels: oatPageState.currentOntologyModels,
@@ -99,8 +106,15 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
             });
             if (result.status === 'Success') {
                 oatPageDispatch({
+                    type: OatPageContextActionType.UPDATE_IMPORT_PROGRESS,
+                    payload: {
+                        state: 'success',
+                        modelCount: result.stats.newModelCount
+                    }
+                });
+                oatPageDispatch({
                     type: OatPageContextActionType.IMPORT_MODELS,
-                    payload: { models: result.models }
+                    payload: { models: result.data }
                 });
             } else if (result.status === 'Failed') {
                 // show error
@@ -116,6 +130,12 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
                     payload: {
                         title: error.title,
                         message: error.message
+                    }
+                });
+                oatPageDispatch({
+                    type: OatPageContextActionType.UPDATE_IMPORT_PROGRESS,
+                    payload: {
+                        state: 'closed'
                     }
                 });
             }

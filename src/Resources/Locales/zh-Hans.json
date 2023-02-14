@@ -1409,6 +1409,12 @@
         "version3": "版本 3",
         "defaultVersionLabel": "新型号的默认 DTDL 版本"
       }
+    },
+    "ImportProgress": {
+      "loadingTitle": "导入模型",
+      "loadingSpinnerLabel": "导入 {{计数}} 文件",
+      "successTitle": "导入成功",
+      "successMessage": "已成功将 {{count}} 模型添加到本体"
     }
   },
   "dataHistoryErrorHandlingWrapper": {
@@ -1470,5 +1476,6 @@
     }
   },
   "increaseByDecimal": "增加 0.1 的值",
-  "decreaseByDecimal": "减少值 0.1"
+  "decreaseByDecimal": "减少值 0.1",
+  "ok": "还行"
 }

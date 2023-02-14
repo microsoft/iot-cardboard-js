@@ -1409,6 +1409,12 @@
         "version3": "Version 3",
         "defaultVersionLabel": "Version DTDL par défaut pour les nouveaux modèles"
       }
+    },
+    "ImportProgress": {
+      "loadingTitle": "Importation de modèles",
+      "loadingSpinnerLabel": "Importation de fichiers {{count}}",
+      "successTitle": "Importation réussie",
+      "successMessage": "Ajout réussi des modèles {{count}} à l’ontologie"
     }
   },
   "dataHistoryErrorHandlingWrapper": {
@@ -1470,5 +1476,6 @@
     }
   },
   "increaseByDecimal": "Augmenter la valeur de 0,1",
-  "decreaseByDecimal": "Diminuer la valeur de 0,1"
+  "decreaseByDecimal": "Diminuer la valeur de 0,1",
+  "ok": "D’accord"
 }

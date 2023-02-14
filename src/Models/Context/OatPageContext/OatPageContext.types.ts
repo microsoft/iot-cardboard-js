@@ -61,6 +61,24 @@ type GraphUpdateDeletePayload = {
     models: DtdlInterface[];
 };
 
+export type IImportState =
+    | {
+          state: 'closed';
+      }
+    | {
+          state: 'loading';
+          fileCount: number;
+      }
+    | {
+          state: 'success';
+          modelCount: number;
+      }
+    | {
+          state: 'failed';
+          title: string;
+          message: string;
+      };
+
 /**
  * The state of the context
  */
@@ -83,7 +101,9 @@ export interface IOatPageContextState {
     ontologyFiles: IOATFile[];
     selection?: IOATSelection;
     templatesActive?: boolean;
+    importState: IImportState;
     selectedPropertyEditorTab: IOatPropertyEditorTabKey;
+
     openUploadFileCallback: () => void | null;
     openUploadFolderCallback: () => void | null;
 }
@@ -92,7 +112,7 @@ export interface IOatPageContextState {
  * The actions to update the state
  */
 export enum OatPageContextActionType {
-    SET_OAT_CONFIRM_DELETE_OPEN = 'SET_OAT_CONFIRM_DELETE_OPEN',
+    SET_OAT_CONFIRM_DELETE_OPEN = 'SET_OAT_CONFIRM_DIALOG',
     /** creates a new project, switches to that project */
     CREATE_PROJECT = 'CREATE_PROJECT',
     /** updates properties of an existing project */
@@ -127,10 +147,12 @@ export enum OatPageContextActionType {
     /** updates the model positions for the given models */
     UPDATE_MODEL_POSTIONS = 'UPDATE_MODEL_POSTIONS',
     IMPORT_MODELS = 'IMPORT_MODELS',
+    UPDATE_IMPORT_PROGRESS = 'UPDATE_IMPORT_PROGRESS',
     ADD_NEW_MODEL = 'ADD_NEW_MODEL',
     ADD_NEW_RELATIONSHIP = 'ADD_NEW_RELATIONSHIP',
     ADD_NEW_MODEL_WITH_RELATIONSHIP = 'ADD_NEW_MODEL_WITH_RELATIONSHIP',
 
+    PERFORM_GRAPH_LAYOUT = 'PERFORM_GRAPH_LAYOUT',
     CLEAR_GRAPH_LAYOUT = 'CLEAR_GRAPH_LAYOUT',
     SET_CURRENT_PROJECT = 'SET_OAT_PROJECT',
     SET_SELECTED_PROPERTY_EDITOR_TAB = 'SET_SELECTED_PROPERTY_EDITOR_TAB',
@@ -236,6 +258,9 @@ export type OatPageContextAction =
           payload: IOatProjectData;
       }
     | {
+          type: OatPageContextActionType.PERFORM_GRAPH_LAYOUT;
+      }
+    | {
           type: OatPageContextActionType.CLEAR_GRAPH_LAYOUT;
       }
     | {
@@ -258,6 +283,10 @@ export type OatPageContextAction =
           payload: {
               models: DtdlInterface[];
           };
+      }
+    | {
+          type: OatPageContextActionType.UPDATE_IMPORT_PROGRESS;
+          payload: IImportState;
       }
     | {
           type: OatPageContextActionType.SET_OAT_IS_JSON_UPLOADER_OPEN;

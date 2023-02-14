@@ -93,7 +93,7 @@ describe('OatPublicUtils', () => {
             // ASSERT
             expect(result.status).toEqual('Success');
             expect(result.errors).toEqual([]);
-            expect(result.models).toEqual([]);
+            expect(result.data).toEqual([]);
         });
         test('single file parses successfully', async () => {
             // ARRANGE
@@ -108,8 +108,8 @@ describe('OatPublicUtils', () => {
             // ASSERT
             expect(result.status).toEqual('Success');
             expect(result.errors).toEqual([]);
-            expect(result.models.length).toEqual(1);
-            expect(result.models[0]['@id']).toEqual(DEFAULT_MODEL_ID);
+            expect(result.data.length).toEqual(1);
+            expect(result.data[0]['@id']).toEqual(DEFAULT_MODEL_ID);
         });
         test('one invalid file, one valid file. Success with valid file data', async () => {
             // ARRANGE
@@ -128,8 +128,8 @@ describe('OatPublicUtils', () => {
             // ASSERT
             expect(result.status).toEqual('Success');
             expect(result.errors).toEqual([]);
-            expect(result.models.length).toEqual(1);
-            expect(result.models[0]['@id']).toEqual(DEFAULT_MODEL_ID);
+            expect(result.data.length).toEqual(1);
+            expect(result.data[0]['@id']).toEqual(DEFAULT_MODEL_ID);
         });
         test('if only invalid file, reports failure ', async () => {
             // ARRANGE
@@ -155,7 +155,7 @@ describe('OatPublicUtils', () => {
                   },
                 ]
             `);
-            expect(result.models).toEqual([]);
+            expect(result.data).toEqual([]);
         });
         test('file with malformed json causes failure', async () => {
             // ARRANGE
@@ -182,7 +182,7 @@ describe('OatPublicUtils', () => {
                   },
                 ]
             `);
-            expect(result.models).toEqual([]);
+            expect(result.data).toEqual([]);
         });
     });
     describe('createZipFileFromModels', () => {
