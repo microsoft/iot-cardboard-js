@@ -1409,15 +1409,6 @@
         "version3": "Versie 3",
         "defaultVersionLabel": "Standaard DTDL-versie voor nieuwe modellen"
       }
-<<<<<<< HEAD
-    },
-    "ImportProgress": {
-      "loadingTitle": "Modellen importeren",
-      "loadingSpinnerLabel": "{{count}}-bestanden importeren",
-      "successTitle": "Importeren gelukt",
-      "successMessage": "{{count}} modellen toegevoegd aan de ontologie"
-=======
->>>>>>> origin/main
     }
   },
   "dataHistoryErrorHandlingWrapper": {
@@ -1479,6 +1470,5 @@
     }
   },
   "increaseByDecimal": "Waarde verhogen met 0,1",
-  "decreaseByDecimal": "Waarde verlagen met 0,1",
-  "ok": "OK"
+  "decreaseByDecimal": "Waarde verlagen met 0,1"
 }

@@ -1409,15 +1409,6 @@
         "version3": "Verze 3",
         "defaultVersionLabel": "Výchozí verze DTDL pro nové modely"
       }
-<<<<<<< HEAD
-    },
-    "ImportProgress": {
-      "loadingTitle": "Import modelů",
-      "loadingSpinnerLabel": "Import souborů {{count}}",
-      "successTitle": "Import proběhl úspěšně",
-      "successMessage": "Úspěšně přidané modely {{count}} do ontologie"
-=======
->>>>>>> origin/main
     }
   },
   "dataHistoryErrorHandlingWrapper": {
@@ -1479,6 +1470,5 @@
     }
   },
   "increaseByDecimal": "Zvýšení hodnoty o 0,1",
-  "decreaseByDecimal": "Snížení hodnoty o 0,1",
-  "ok": "Ok"
+  "decreaseByDecimal": "Snížení hodnoty o 0,1"
 }

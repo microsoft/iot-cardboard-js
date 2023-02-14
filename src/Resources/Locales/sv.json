@@ -1409,15 +1409,6 @@
         "version3": "Version 3",
         "defaultVersionLabel": "Standard DTDL-version för nya modeller"
       }
-<<<<<<< HEAD
-    },
-    "ImportProgress": {
-      "loadingTitle": "Importera modeller",
-      "loadingSpinnerLabel": "Importera {{count}}-filer",
-      "successTitle": "Importen lyckades",
-      "successMessage": "Modeller för {{count}} har lagts till i ontologin"
-=======
->>>>>>> origin/main
     }
   },
   "dataHistoryErrorHandlingWrapper": {
@@ -1479,6 +1470,5 @@
     }
   },
   "increaseByDecimal": "Öka värdet med 0,1",
-  "decreaseByDecimal": "Minska värdet med 0,1",
-  "ok": "Okej"
+  "decreaseByDecimal": "Minska värdet med 0,1"
 }

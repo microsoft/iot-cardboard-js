@@ -1409,15 +1409,6 @@
         "version3": "Sürüm 3",
         "defaultVersionLabel": "Yeni modeller için varsayılan DTDL sürümü"
       }
-<<<<<<< HEAD
-    },
-    "ImportProgress": {
-      "loadingTitle": "Modelleri içe aktarma",
-      "loadingSpinnerLabel": "{{count}} dosyalarını içe aktarma",
-      "successTitle": "İçe aktarma başarılı",
-      "successMessage": "{{count}} modelleri ontolojiye başarıyla eklendi"
-=======
->>>>>>> origin/main
     }
   },
   "dataHistoryErrorHandlingWrapper": {
@@ -1479,6 +1470,5 @@
     }
   },
   "increaseByDecimal": "Değeri 0,1 artır",
-  "decreaseByDecimal": "Değeri 0,1 azalt",
-  "ok": "Tamam"
+  "decreaseByDecimal": "Değeri 0,1 azalt"
 }
