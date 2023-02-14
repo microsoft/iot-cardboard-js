@@ -1372,15 +1372,15 @@
       "noValidFilesMessage": "インポートするモデル ファイルが見つかりません。選択したファイルに有効なJSONファイルがあることを確認してください。"
     },
     "PropertyEditor": {
-      "Version3PreviewLabel": {
-        "badgeText": "プレビュー",
-        "badgeCalloutText": "このモデルでは、プレビュー段階の DTDLv3 を使用します。"
-      },
       "Version3UpgradeButton": {
         "confirmationTitle": "アップグレードモデル?",
         "confirmationMessage": "このモデルを DTDL バージョン 3 にアップグレードしてもよろしいですか?すべての構成が保持されます。",
         "confirmationButtonText": "アップグレード",
         "buttonText": "バージョン 3 へのアップグレード"
+      },
+      "Version3PreviewLabel1": {
+        "badgeText": "プレビュー",
+        "badgeCalloutText": "このモデルは DTDL バージョン 3 を使用します。クリックして詳細をご覧ください"
       }
     },
     "PropertyTypes": {

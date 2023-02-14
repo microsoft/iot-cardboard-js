@@ -1372,15 +1372,15 @@
       "noValidFilesMessage": "未找到要导入的模型文件。确保所选文件中存在有效的 JSON 文件。"
     },
     "PropertyEditor": {
-      "Version3PreviewLabel": {
-        "badgeText": "预览",
-        "badgeCalloutText": "此模型使用预览版的 DTDLv3"
-      },
       "Version3UpgradeButton": {
         "confirmationTitle": "升级模式？",
         "confirmationMessage": "是否确实要将此模型升级到 DTDL 版本 3？您的所有配置都将保留。",
         "confirmationButtonText": "升级",
         "buttonText": "升级到版本 3"
+      },
+      "Version3PreviewLabel1": {
+        "badgeText": "预览",
+        "badgeCalloutText": "此模型使用 DTDL 版本 3。点击了解更多"
       }
     },
     "PropertyTypes": {

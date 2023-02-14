@@ -1372,15 +1372,15 @@
       "noValidFilesMessage": "Aucun fichier de modèle trouvé à importer. Assurez-vous qu’il existe des fichiers JSON valides dans le(s) fichier(s) sélectionné(s)."
     },
     "PropertyEditor": {
-      "Version3PreviewLabel": {
-        "badgeText": "Aperçu",
-        "badgeCalloutText": "Ce modèle utilise DTDLv3 qui est en préversion"
-      },
       "Version3UpgradeButton": {
         "confirmationTitle": "Modèle de mise à niveau ?",
         "confirmationMessage": "Voulez-vous vraiment mettre à niveau ce modèle vers DTDL version 3 ? Toutes vos configurations seront conservées.",
         "confirmationButtonText": "Mise à niveau",
         "buttonText": "Mise à niveau vers la version 3"
+      },
+      "Version3PreviewLabel1": {
+        "badgeText": "Aperçu",
+        "badgeCalloutText": "Ce modèle utilise DTDL version 3. Cliquez pour en savoir plus"
       }
     },
     "PropertyTypes": {
