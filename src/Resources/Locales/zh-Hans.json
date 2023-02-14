@@ -1415,6 +1415,10 @@
       "loadingSpinnerLabel": "导入 {{计数}} 文件",
       "successTitle": "导入成功",
       "successMessage": "已成功将 {{count}} 模型添加到本体"
+    },
+    "ImportLimits": {
+      "message": "目前，本体中的模型计数仅限于 {{count}}。对于给您带来的不便，我们深表歉意。",
+      "title": "已达到模型限制"
     }
   },
   "dataHistoryErrorHandlingWrapper": {
