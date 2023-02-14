@@ -53,7 +53,7 @@ export const useOatPageContext = () => useContext(OatPageContext);
 export let isOatContextStorageEnabled =
     true || process.env.NODE_ENV === 'production';
 
-export const MAX_MODEL_COUNT = 54;
+export const MAX_MODEL_COUNT = 70;
 
 export const OatPageContextReducer: (
     draft: IOatPageContextState,
