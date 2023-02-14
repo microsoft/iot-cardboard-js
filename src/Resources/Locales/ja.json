@@ -1392,7 +1392,7 @@
       "unsupportedPropertyType": "このプロパティタイプは、関連付けられたモデルの現在のコンテキストバージョンでは使用できません。"
     },
     "Header": {
-      "ManageOntologyModal1": {
+      "ManageOntologyModal": {
         "deleteButtonText": "オントロジーの削除",
         "modalTitleCreate": "新しいオントロジー",
         "modalTitleEdit": "オントロジーの編集",
@@ -1407,7 +1407,8 @@
         "sampleModel": "サンプルモデル",
         "defaultVersionLabel": "新しいモデルの既定の DTDL バージョン",
         "version2": "バージョン2",
-        "version3": "バージョン 3 (プレビュー)"
+        "version3": "バージョン 3 (プレビュー)",
+        "versionDocumentationLink": "DTDL バージョン 3 の詳細"
       }
     },
     "ImportProgress": {

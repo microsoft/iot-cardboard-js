@@ -1392,7 +1392,7 @@
       "unsupportedPropertyType": "Ten typ właściwości nie jest dostępny dla bieżącej wersji kontekstowej skojarzonego modelu"
     },
     "Header": {
-      "ManageOntologyModal1": {
+      "ManageOntologyModal": {
         "deleteButtonText": "Usuń ontologię",
         "modalTitleCreate": "Nowa ontologia",
         "modalTitleEdit": "Edytuj ontologię",
@@ -1407,7 +1407,8 @@
         "sampleModel": "przykładowy model",
         "defaultVersionLabel": "Domyślna wersja DTDL dla nowych modeli",
         "version2": "Wersja 2",
-        "version3": "Wersja 3 (wersja zapoznawcza)"
+        "version3": "Wersja 3 (wersja zapoznawcza)",
+        "versionDocumentationLink": "Dowiedz się więcej o DTDL w wersji 3"
       }
     },
     "ImportProgress": {

@@ -1392,7 +1392,7 @@
       "unsupportedPropertyType": "Ez a tulajdonságtípus nem érhető el a társított modell aktuális környezetverziójához"
     },
     "Header": {
-      "ManageOntologyModal1": {
+      "ManageOntologyModal": {
         "deleteButtonText": "Ontológia törlése",
         "modalTitleCreate": "Új ontológia",
         "modalTitleEdit": "Ontológia szerkesztése",
@@ -1407,7 +1407,8 @@
         "sampleModel": "minta modell",
         "defaultVersionLabel": "Alapértelmezett DTDL-verzió új modellekhez",
         "version2": "2-es verzió",
-        "version3": "3-as verzió (előzetes verzió)"
+        "version3": "3-as verzió (előzetes verzió)",
+        "versionDocumentationLink": "További információ a DTDL 3-as verziójáról"
       }
     },
     "ImportProgress": {
