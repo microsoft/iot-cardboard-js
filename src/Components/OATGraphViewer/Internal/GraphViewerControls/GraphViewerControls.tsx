@@ -25,7 +25,7 @@ const getClassNames = classNamesFunction<
     IGraphViewerControlsStyles
 >();
 
-const GraphVie werControls: React.FC<IGraphViewerControlsProps> = (props) => {
+const GraphViewerControls: React.FC<IGraphViewerControlsProps> = (props) => {
     const {
         legendButtonId,
         miniMapButtonId,
