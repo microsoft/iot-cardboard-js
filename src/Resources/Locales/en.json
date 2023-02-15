@@ -1123,7 +1123,6 @@
         "id": "Id",
         "info": "Info",
         "integer": "integer",
-        "json": "JSON",
         "jsonEditorTabName": "DTDL",
         "key": "Key",
         "linestring": "linestring",
