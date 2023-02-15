@@ -7,7 +7,7 @@ import { IJobsPageProps } from './JobsPage.types';
 const wrapperStyle = { width: '100%', height: '600px', padding: 8 };
 
 export default {
-    title: 'Components/JobsPage',
+    title: 'Pages/JobsPage',
     component: JobsPage,
     decorators: [getDefaultStoryDecorator<IJobsPageProps>(wrapperStyle)]
 };

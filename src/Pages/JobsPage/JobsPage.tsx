@@ -7,10 +7,10 @@ import {
 import { getStyles } from './JobsPage.styles';
 import { classNamesFunction, styled } from '@fluentui/react';
 import { useExtendedTheme } from '../../Models/Hooks/useExtendedTheme';
-import EnvironmentPicker from '../EnvironmentPicker/EnvironmentPicker';
-import BaseComponent from '../BaseComponent/BaseComponent';
+import EnvironmentPicker from '../../Components/EnvironmentPicker/EnvironmentPicker';
+import BaseComponent from '../../Components/BaseComponent/BaseComponent';
 import { IADTInstance, IJob } from '../../Models/Constants';
-import JobsWrapper from '../JobsWrapper/JobsWrapper';
+import JobsWrapper from '../../Components/JobsWrapper/JobsWrapper';
 import useAdapter from '../../Models/Hooks/useAdapter';
 
 const getClassNames = classNamesFunction<
@@ -74,7 +74,7 @@ const JobsPage: React.FC<IJobsPageProps> = ({
                 adapter={adapter}
                 adtInstanceUrl={adtInstanceUrl}
                 onAdtInstanceChange={handleADTInstanceChange}
-                isLocalStorageEnabled={false}
+                isLocalStorageEnabled={true}
             />
             <JobsWrapper adapter={adapter} listOfJobs={listOfJobs} />
         </BaseComponent>

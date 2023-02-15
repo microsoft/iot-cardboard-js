@@ -224,7 +224,7 @@ const EnvironmentPicker = ({
             storageAccounts = [storageAccountToEdit];
         }
         let selectedStorageAccountResourceId;
-        if (storage.isLocalStorageEnabled) {
+        if (storage?.isLocalStorageEnabled) {
             const selectedStorageAccountInLocalStorage = getSelectedStorageAccountFromLocalStorage();
             storageAccountToEdit =
                 storageAccountToEdit ??
@@ -260,7 +260,7 @@ const EnvironmentPicker = ({
             containerToEdit = getContainerNameFromUrl(storage?.containerUrl); // passed prop has precedence over the localstorage, if enabled
             containers = [containerToEdit];
         }
-        if (storage.isLocalStorageEnabled) {
+        if (storage?.isLocalStorageEnabled) {
             containerToEdit =
                 containerToEdit ??
                 getSelectedStorageContainerFromLocalStorage()?.name;
