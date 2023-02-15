@@ -1295,15 +1295,15 @@
       "successTitle": "Importowanie powiodło się",
       "successMessage": "Pomyślnie dodano modele {{count}} do ontologii"
     },
-    "ImportLimits": {
-      "message": "Obecnie liczba modeli w ontologii jest ograniczona do {{count}}. Przepraszamy za niedogodności.",
-      "title": "Osiągnięto limit modelu"
-    },
     "GraphControls": {
       "modelListTitle": "Przełącz listę modeli",
       "legendTitle": "Przełączanie skojarzeń",
       "autoLayoutTitle": "Układ automatyczny",
       "miniMapTitle": "Przełącz mini-mapę"
+    },
+    "ImportLimits1": {
+      "message": "Obecnie całkowita liczba relacji, składników i dziedziczeń w ontologii jest ograniczona do {{count}} w Ontology Designer. Przepraszamy za niedogodności.",
+      "title": "Osiągnięta granica odniesienia"
     }
   },
   "dataHistoryErrorHandlingWrapper": {

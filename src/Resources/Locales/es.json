@@ -1295,15 +1295,15 @@
       "successTitle": "Importación correcta",
       "successMessage": "Se agregaron correctamente {{count}} modelos a la ontología"
     },
-    "ImportLimits": {
-      "message": "Actualmente, el recuento de modelos en una ontología se limita a {{count}}. Agradecemos las molestias.",
-      "title": "Límite de modelo alcanzado"
-    },
     "GraphControls": {
       "modelListTitle": "Alternar lista de modelos",
       "legendTitle": "Alternar asociaciones",
       "autoLayoutTitle": "Diseño automático",
       "miniMapTitle": "Alternar minimapa"
+    },
+    "ImportLimits1": {
+      "message": "Actualmente, el número total de relaciones, componentes y herencias en una ontología está limitado a {{count}} en el Diseñador de ontologías. Agradecemos las molestias.",
+      "title": "Límite de referencia alcanzado"
     }
   },
   "dataHistoryErrorHandlingWrapper": {

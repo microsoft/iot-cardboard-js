@@ -1295,15 +1295,15 @@
       "successTitle": "İçe aktarma başarılı",
       "successMessage": "{{count}} modelleri ontolojiye başarıyla eklendi"
     },
-    "ImportLimits": {
-      "message": "Şu anda bir ontolojideki model sayısı {{count}} ile sınırlıdır. Verdiğimiz rahatsızlıktan dolayı özür dileriz.",
-      "title": "Model sınırına ulaşıldı"
-    },
     "GraphControls": {
       "modelListTitle": "Model listesini değiştir",
       "legendTitle": "İlişkilendirmeleri değiştirme",
       "autoLayoutTitle": "Otomatik düzen",
       "miniMapTitle": "Mini haritayı değiştir"
+    },
+    "ImportLimits1": {
+      "message": "Şu anda bir ontolojideki toplam ilişki, bileşen ve devralma sayısı, Ontoloji Tasarımcısı'ndaki {{count}} ile sınırlıdır. Verdiğimiz rahatsızlıktan dolayı özür dileriz.",
+      "title": "Referans sınırına ulaşıldı"
     }
   },
   "dataHistoryErrorHandlingWrapper": {

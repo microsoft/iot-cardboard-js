@@ -1295,15 +1295,15 @@
       "successTitle": "Importeren gelukt",
       "successMessage": "{{count}} modellen toegevoegd aan de ontologie"
     },
-    "ImportLimits": {
-      "message": "Momenteel is het aantal modellen in een ontologie beperkt tot {{count}}. Onze excuses voor het ongemak.",
-      "title": "Modellimiet bereikt"
-    },
     "GraphControls": {
       "modelListTitle": "Lijst met modellen in-/uitschakelen",
       "legendTitle": "Schakel associaties in",
       "autoLayoutTitle": "Automatische lay-out",
       "miniMapTitle": "Minikaart in-/uitschakelen"
+    },
+    "ImportLimits1": {
+      "message": "Momenteel is het totale aantal relaties, componenten en overervingen in een ontologie beperkt tot {{count}} in de Ontology Designer. Onze excuses voor het ongemak.",
+      "title": "Referentiegrens bereikt"
     }
   },
   "dataHistoryErrorHandlingWrapper": {
