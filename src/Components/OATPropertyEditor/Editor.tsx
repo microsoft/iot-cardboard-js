@@ -50,7 +50,8 @@ const Editor: React.FC<IEditorProps> = (props) => {
 
     // styles
     const classNames = getClassNames(styles, {
-        theme: useExtendedTheme()
+        theme: useExtendedTheme(),
+        selectedTab: oatPageState.selectedPropertyEditorTab
     });
 
     // state
@@ -137,7 +138,7 @@ const Editor: React.FC<IEditorProps> = (props) => {
                     <PivotItem
                         headerText={t('OATPropertyEditor.jsonEditorTabName')}
                         className={classNames.pivotItem}
-                        itemKey={IOatPropertyEditorTabKey.Json}
+                        itemKey={IOatPropertyEditorTabKey.DTDL}
                         // remove pivot height - padding
                         style={{
                             height: `calc(100vh - ${PANEL_VERTICAL_SPACING}px - 32px - 36px)` // 32px=padding, 36px=tab headers

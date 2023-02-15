@@ -8,7 +8,7 @@ export interface IOATFile {
 }
 export enum IOatPropertyEditorTabKey {
     Properties = 'PROPERTIES',
-    Json = 'JSON'
+    DTDL = 'JSON'
 }
 
 interface ViewportHelperFunctionOptions {

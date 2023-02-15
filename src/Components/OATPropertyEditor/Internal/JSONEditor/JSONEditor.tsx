@@ -1,22 +1,38 @@
-import React, { useState, useEffect, useRef, useContext, useMemo } from 'react';
-import Editor from '@monaco-editor/react';
-import { useLibTheme } from '../../../Theming/ThemeProvider';
-import { useTranslation } from 'react-i18next';
-import { PrimaryButton, DefaultButton } from '@fluentui/react';
+import React, { useContext, useEffect, useMemo, useRef, useState } from 'react';
 import {
-    getCancelButtonStyles,
-    getSaveButtonStyles
-} from '../OATPropertyEditor.styles';
-import { deepCopy } from '../../../Models/Services/Utils';
-import { CommandHistoryContext } from '../../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
-import { JSONEditorProps } from './JSONEditor.types';
-import { OAT_RELATIONSHIP_HANDLE_NAME } from '../../../Models/Constants';
-import { DTDLModel } from '../../../Models/Classes/DTDL';
-import { getTargetFromSelection, replaceTargetFromSelection } from '../Utils';
-import { useOatPageContext } from '../../../Models/Context/OatPageContext/OatPageContext';
-import { OatPageContextActionType } from '../../../Models/Context/OatPageContext/OatPageContext.types';
-import { APP_BACKGROUND_KRAKEN } from '../../../Models/Constants/StyleConstants';
-import { parseModels } from '../../../Models/Services/OatPublicUtils';
+    IJSONEditorProps,
+    IJSONEditorStyleProps,
+    IJSONEditorStyles
+} from './JSONEditor.types';
+import { getStyles } from './JSONEditor.styles';
+import {
+    classNamesFunction,
+    DefaultButton,
+    DialogFooter,
+    PrimaryButton,
+    styled
+} from '@fluentui/react';
+import { useExtendedTheme } from '../../../../Models/Hooks/useExtendedTheme';
+import { useTranslation } from 'react-i18next';
+import { useOatPageContext } from '../../../../Models/Context/OatPageContext/OatPageContext';
+import { CommandHistoryContext } from '../../../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
+import { APP_BACKGROUND_KRAKEN } from '../../../../Models/Constants/StyleConstants';
+import { useLibTheme } from '../../../../Theming/ThemeProvider';
+import {
+    getTargetFromSelection,
+    replaceTargetFromSelection
+} from '../../Utils';
+import { OatPageContextActionType } from '../../../../Models/Context/OatPageContext/OatPageContext.types';
+import { isDTDLRelationshipReference } from '../../../../Models/Services/DtdlUtils';
+import { DtdlInterface } from '../../../../Models/Constants';
+import { parseModels } from '../../../../Models/Services/OatPublicUtils';
+import { deepCopy } from '../../../../Models/Services/Utils';
+import Editor from '@monaco-editor/react';
+
+const getClassNames = classNamesFunction<
+    IJSONEditorStyleProps,
+    IJSONEditorStyles
+>();
 
 function setEditorTheme(monaco: any) {
     monaco.editor.defineTheme('kraken', {
@@ -29,13 +45,8 @@ function setEditorTheme(monaco: any) {
     });
 }
 
-const JSONEditor: React.FC<JSONEditorProps> = (props) => {
-    const { theme } = props;
-
-    // hooks
-    const { t } = useTranslation();
-    const libTheme = useLibTheme();
-    const themeToUse = libTheme || theme;
+const JSONEditor: React.FC<IJSONEditorProps> = (props) => {
+    const { selectedTheme, styles } = props;
 
     // contexts
     const { execute } = useContext(CommandHistoryContext);
@@ -43,7 +54,12 @@ const JSONEditor: React.FC<JSONEditorProps> = (props) => {
 
     // state
     const editorRef = useRef(null);
-    const [content, setContent] = useState(null);
+    const [content, setContent] = useState<string>(null);
+
+    // hooks
+    const { t } = useTranslation();
+    const libTheme = useLibTheme();
+    const themeToUse = libTheme || selectedTheme;
 
     // data
     const model = useMemo(
@@ -56,16 +72,10 @@ const JSONEditor: React.FC<JSONEditorProps> = (props) => {
         [oatPageState.currentOntologyModels, oatPageState.selection]
     );
 
-    // side effects
-    useEffect(() => {
-        setContent(JSON.stringify(model, null, 2));
-    }, [model]);
-
     // callbacks
     const onHandleEditorDidMount = (editor: any) => {
         editorRef.current = editor;
     };
-
     const isJsonStringValid = (value: string) => {
         try {
             return JSON.parse(value);
@@ -92,8 +102,8 @@ const JSONEditor: React.FC<JSONEditorProps> = (props) => {
         });
     };
 
-    const checkDuplicateId = (modelValue: DTDLModel) => {
-        if (modelValue['@type'] === OAT_RELATIONSHIP_HANDLE_NAME) {
+    const checkDuplicateId = (modelValue: DtdlInterface) => {
+        if (isDTDLRelationshipReference(modelValue)) {
             const repeatedIdOnRelationship = oatPageState.currentOntologyModels.find(
                 (queryModel) =>
                     queryModel.contents &&
@@ -170,47 +180,52 @@ const JSONEditor: React.FC<JSONEditorProps> = (props) => {
         }
     };
 
+    // side effects
+    useEffect(() => {
+        setContent(JSON.stringify(model, null, 2));
+    }, [model]);
+
     // styles
-    const cancelButtonStyles = getCancelButtonStyles();
-    const saveButtonStyles = getSaveButtonStyles();
+    const classNames = getClassNames(styles, {
+        theme: useExtendedTheme()
+    });
 
     return (
-        <>
+        <div className={classNames.root}>
             <Editor
                 defaultLanguage="json"
                 value={content}
                 onMount={onHandleEditorDidMount}
                 onChange={onHandleEditorChange}
                 theme={
-                    themeToUse === 'dark' || theme === 'explorer'
+                    themeToUse === 'dark' || selectedTheme === 'explorer'
                         ? 'vs-dark'
                         : themeToUse
                 }
                 beforeMount={setEditorTheme}
                 height={'100%'}
+                // className={}
                 options={{
                     minimap: {
                         enabled: false
-                    },
-                    readOnly: true
+                    }
                 }}
             />
             {oatPageState.modified && (
-                <>
-                    <PrimaryButton
-                        styles={saveButtonStyles}
-                        onClick={onSaveClick}
-                        text={t('save')}
-                    ></PrimaryButton>
+                <DialogFooter>
+                    <PrimaryButton onClick={onSaveClick} text={t('save')} />
                     <DefaultButton
-                        styles={cancelButtonStyles}
                         onClick={onCancelClick}
-                        text={t('cancel')}
-                    ></DefaultButton>
-                </>
+                        text={t('discard')}
+                    />
+                </DialogFooter>
             )}
-        </>
+        </div>
     );
 };
 
-export default JSONEditor;
+export default styled<
+    IJSONEditorProps,
+    IJSONEditorStyleProps,
+    IJSONEditorStyles
+>(JSONEditor, getStyles);

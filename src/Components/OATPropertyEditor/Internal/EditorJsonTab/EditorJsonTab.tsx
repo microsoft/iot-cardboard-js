@@ -7,11 +7,11 @@ import {
 import { getStyles } from './EditorJsonTab.styles';
 import { classNamesFunction, styled } from '@fluentui/react';
 import { useExtendedTheme } from '../../../../Models/Hooks/useExtendedTheme';
-import JSONEditor from '../JSONEditor';
 import {
     isDTDLModel,
     isDTDLRelationshipReference
 } from '../../../../Models/Services/DtdlUtils';
+import JSONEditor from '../JSONEditor/JSONEditor';
 
 const getClassNames = classNamesFunction<
     IEditorJsonTabStyleProps,
@@ -45,7 +45,9 @@ const EditorJsonTab: React.FC<IEditorJsonTabProps> = (props) => {
 
     return (
         <div className={classNames.root}>
-            {isSupportedModelType && <JSONEditor theme={selectedThemeName} />}
+            {isSupportedModelType && (
+                <JSONEditor selectedTheme={selectedThemeName} />
+            )}
         </div>
     );
 };

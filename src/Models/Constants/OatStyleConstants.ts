@@ -3,6 +3,7 @@ import { IExtendedTheme } from '../../Theming/Theme.types';
 
 export const OAT_HEADER_HEIGHT = 84;
 export const PROPERTY_EDITOR_WIDTH = 400;
+export const PROPERTY_EDITOR_WIDTH_EXPANDED = 500;
 
 export const CONTROLS_SIDE_OFFSET = 16;
 export const CONTROLS_BOTTOM_OFFSET = 30;
