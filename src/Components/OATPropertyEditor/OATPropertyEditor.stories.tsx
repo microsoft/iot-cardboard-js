@@ -172,8 +172,8 @@ ModelSelectedEditorRelationship.args = (() => {
     return args;
 })();
 
-export const ModelSelectedJson = Template.bind({});
-ModelSelectedJson.args = (() => {
+export const ModelSelectedJsonTab = Template.bind({});
+ModelSelectedJsonTab.args = (() => {
     const files = getMockFiles();
     const args: StoryProps = {
         files: files,
@@ -181,7 +181,7 @@ ModelSelectedJson.args = (() => {
     };
     return args;
 })();
-ModelSelectedJson.play = async ({ canvasElement }) => {
+ModelSelectedJsonTab.play = async ({ canvasElement }) => {
     const canvas = within(canvasElement);
 
     // Finds the menu and opens it

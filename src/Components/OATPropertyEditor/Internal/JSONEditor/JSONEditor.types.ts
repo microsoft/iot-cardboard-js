@@ -15,6 +15,7 @@ export interface IJSONEditorStyleProps {
 }
 export interface IJSONEditorStyles {
     root: IStyle;
+    editor: IStyle;
 
     /**
      * SubComponent styles.

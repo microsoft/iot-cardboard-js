@@ -54,7 +54,7 @@ export const getStyles = (props: IEditorStyleProps): IEditorStyles => {
             {
                 width: '100%',
                 '[role="tabpanel"]': {
-                    height: `calc(100% - ${OatEditorPivotHeaderHeight}px)`
+                    height: `calc(100% - ${OatEditorPivotHeaderHeight + 8}px)` // add the padding
                 },
                 overflowX: 'hidden',
                 zIndex: '201'
