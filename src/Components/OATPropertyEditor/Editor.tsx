@@ -135,7 +135,7 @@ const Editor: React.FC<IEditorProps> = (props) => {
                         />
                     </PivotItem>
                     <PivotItem
-                        headerText={t('OATPropertyEditor.json')}
+                        headerText={t('OATPropertyEditor.jsonEditorTabName')}
                         className={classNames.pivotItem}
                         itemKey={IOatPropertyEditorTabKey.Json}
                         // remove pivot height - padding
