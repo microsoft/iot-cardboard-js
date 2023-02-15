@@ -154,6 +154,10 @@ export type AdapterMethodParamsForGetScenes = {
     continuationToken?: string;
 };
 
+export type AdapterMethodParamsForJobs = {
+    jobId: string;
+};
+
 export type ADTRelationshipsApiData = {
     value: IADTRelationship[];
     nextLink: string;

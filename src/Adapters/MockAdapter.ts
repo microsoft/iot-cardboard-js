@@ -45,7 +45,8 @@ import {
     AdapterMethodParamsForSearchTwinsByQuery,
     IADXConnection,
     ADXTimeSeries,
-    IMockError
+    IMockError,
+    AdapterMethodParamsForJobs
 } from '../Models/Constants';
 import seedRandom from 'seedrandom';
 import { ADTRelationship, KeyValuePairData } from '../Models/Constants/Types';
@@ -1117,5 +1118,45 @@ export default class MockAdapter
                 errorInfo: { catastrophicError: err, errors: [err] }
             });
         }
+    }
+    /**TO-DO */
+    async createJob(
+        inputBlobUri: string,
+        outputBlobUri: string,
+        jobId: string
+    ) {
+        /**
+         * FILL THIS IN
+         */
+        inputBlobUri;
+        outputBlobUri;
+        jobId;
+        return null;
+    }
+
+    /**TO-DO */
+    async deleteJob(params: AdapterMethodParamsForJobs) {
+        /**
+         * FILL THIS IN
+         */
+        params.jobId;
+        return null;
+    }
+
+    /**TO-DO */
+    async cancelJob(params: AdapterMethodParamsForJobs) {
+        /**
+         * FILL THIS IN
+         */
+        params.jobId;
+        return null;
+    }
+
+    /**TO-DO */
+    async getAllJobs() {
+        /**
+         * FILL THIS IN
+         */
+        return null;
     }
 }

@@ -39,7 +39,8 @@ import {
     AdapterMethodParamsForSearchADTTwins,
     AdapterMethodParamsForGetAzureResources,
     AzureAccessPermissionRoleGroups,
-    AdapterMethodParamsForSearchTwinsByQuery
+    AdapterMethodParamsForSearchTwinsByQuery,
+    AdapterMethodParamsForJobs
 } from './Types';
 import {
     ADTModel_ImgPropertyPositions_PropertyName,
@@ -82,6 +83,7 @@ import { BaseComponentProps } from '../../Components/BaseComponent/BaseComponent
 import ADTInstanceTimeSeriesConnectionData from '../Classes/AdapterDataClasses/ADTInstanceTimeSeriesConnectionData';
 import ADXTimeSeriesData from '../Classes/AdapterDataClasses/ADXTimeSeriesData';
 import { IOATNodeData } from '../../Components/OATGraphViewer/OATGraphViewer.types';
+import ADTJobsData from '../Classes/AdapterDataClasses/ADTJobsData';
 
 export interface IAction {
     type: string;
@@ -355,6 +357,20 @@ export interface IADTTwin {
     };
     [propertyName: string]: any;
 }
+export interface IJob {
+    id: string;
+    inputBlobUri: string;
+    outputBlobUri: string;
+    createdDateTime: string;
+    lastActionDateTime: string;
+    finishedDateTime: string;
+    purgeDateTime: string;
+    status: string;
+    error: {
+        code: string;
+        message: string;
+    };
+}
 
 export interface IADTRelationship {
     $etag: string;
@@ -513,6 +529,21 @@ export interface IADTAdapter
     ): Promise<AdapterResult<ADTRelationshipsData>>;
 }
 
+export interface IJobsAdapter {
+    /** TO-DO: Need to properly set the return types  */
+    createJob(
+        inputBlobUri: string,
+        outputBlobUri: string,
+        jobId: string
+    ): AdapterReturnType<ADTJobsData>;
+    deleteJob(
+        params: AdapterMethodParamsForJobs
+    ): AdapterReturnType<ADTJobsData>;
+    cancelJob(
+        params: AdapterMethodParamsForJobs
+    ): AdapterReturnType<ADTJobsData>;
+    getAllJobs(): AdapterReturnType<ADTJobsData>;
+}
 export interface IAzureManagementAdapter {
     getRoleAssignments: (
         resourceId: string,
