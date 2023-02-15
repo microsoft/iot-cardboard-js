@@ -1419,7 +1419,6 @@
     "id": "Id",
     "info": "Information",
     "integer": "heltal",
-    "json": "JSON",
     "key": "Nyckel",
     "linestring": "linjesträng",
     "long": "lång",
@@ -1488,6 +1487,7 @@
         "changeChildTypeLabelForEnum": "Ändra uppräkningsvärdetyp",
         "editMetadataLabel": "Redigera metadata"
       }
-    }
+    },
+    "jsonEditorTabName": "DTDL"
   }
 }

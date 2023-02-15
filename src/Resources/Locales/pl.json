@@ -1419,7 +1419,6 @@
     "id": "Id",
     "info": "Informacji",
     "integer": "liczba całkowita",
-    "json": "JSON",
     "key": "Klucz",
     "linestring": "Ciąg liniowy",
     "long": "długi",
@@ -1488,6 +1487,7 @@
         "changeChildTypeLabelForEnum": "Zmienianie typu wartości wyliczenia",
         "editMetadataLabel": "Edytowanie metadanych"
       }
-    }
+    },
+    "jsonEditorTabName": "DTDL"
   }
 }

@@ -1419,7 +1419,6 @@
     "id": "Legitimatiebewijs",
     "info": "Info",
     "integer": "geheel getal",
-    "json": "JSON",
     "key": "Sleutel",
     "linestring": "lijnenring",
     "long": "lang",
@@ -1488,6 +1487,7 @@
         "changeChildTypeLabelForEnum": "Type opsommingswaarde wijzigen",
         "editMetadataLabel": "Metagegevens bewerken"
       }
-    }
+    },
+    "jsonEditorTabName": "DTDL"
   }
 }

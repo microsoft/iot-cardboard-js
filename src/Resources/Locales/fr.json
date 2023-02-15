@@ -1419,7 +1419,6 @@
     "id": "Id",
     "info": "Info",
     "integer": "entier",
-    "json": "JSON",
     "key": "Me?",
     "linestring": "chaîne de ligne",
     "long": "long",
@@ -1488,6 +1487,7 @@
         "changeChildTypeLabelForEnum": "Modifier le type de valeur énumération",
         "editMetadataLabel": "Modifier les métadonnées"
       }
-    }
+    },
+    "jsonEditorTabName": "DTDL"
   }
 }
