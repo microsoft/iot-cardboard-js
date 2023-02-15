@@ -952,7 +952,7 @@
             "autoLayoutTitle": "Auto layout",
             "miniMapTitle": "Toggle mini-map"
         },
-        "ImportLimits1": {
+        "ImportLimits": {
             "message": "Currently the total number of relationships, components and inheritances in an ontology is limited to {{count}} in the Ontology Designer. We appologize for the inconvenience.",
             "title": "Reference limit reached"
         },
