@@ -1301,8 +1301,8 @@
       "autoLayoutTitle": "Automatisches Layout",
       "miniMapTitle": "Minikarte umschalten"
     },
-    "ImportLimits": {
-      "message": "Derzeit ist die Gesamtzahl der Beziehungen, Komponenten und Vererbungen in einer Ontologie im Ontology Designer auf {{count}} beschränkt. Wir entschuldigen uns für die Unannehmlichkeiten.",
+    "ImportLimits1": {
+      "message": "Derzeit ist die Gesamtzahl der Beziehungen, Komponenten und Vererbungen in einer Ontologie im Ontology Designer auf {{count}} beschränkt.",
       "title": "Referenzgrenzwert erreicht"
     }
   },

@@ -1301,8 +1301,8 @@
       "autoLayoutTitle": "Automatikus elrendezés",
       "miniMapTitle": "Váltás a minitérképre"
     },
-    "ImportLimits": {
-      "message": "Jelenleg egy ontológia kapcsolatainak, összetevőinek és öröklődéseinek teljes száma az Ontology Designerben {{count}} értékre korlátozódik. Elnézést kérünk a kellemetlenségekért.",
+    "ImportLimits1": {
+      "message": "Jelenleg egy ontológia kapcsolatainak, összetevőinek és öröklődéseinek teljes száma az Ontology Designerben {{count}} értékre korlátozódik.",
       "title": "Elérte a referenciakorlátot"
     }
   },

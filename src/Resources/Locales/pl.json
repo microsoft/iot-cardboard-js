@@ -1301,8 +1301,8 @@
       "autoLayoutTitle": "Układ automatyczny",
       "miniMapTitle": "Przełącz mini-mapę"
     },
-    "ImportLimits": {
-      "message": "Obecnie całkowita liczba relacji, składników i dziedziczeń w ontologii jest ograniczona do {{count}} w Ontology Designer. Przepraszamy za niedogodności.",
+    "ImportLimits1": {
+      "message": "Obecnie całkowita liczba relacji, składników i dziedziczeń w ontologii jest ograniczona do {{count}} w Ontology Designer.",
       "title": "Osiągnięta granica odniesienia"
     }
   },
