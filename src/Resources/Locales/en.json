@@ -953,8 +953,8 @@
             "miniMapTitle": "Toggle mini-map"
         },
         "ImportLimits": {
-            "message": "Currently the model count in an ontology is limited to {{count}}. We appologize for the inconvenience.",
-            "title": "Model limit reached"
+            "message": "Currently the total number of relationships, components and inheritances in an ontology is limited to {{count}} in the Ontology Designer.",
+            "title": "Reference limit reached"
         },
         "ImportProgress": {
             "loadingTitle": "Importing models",

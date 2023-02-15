@@ -26,10 +26,7 @@ import {
     IOATHeaderStyles
 } from './OATHeader.types';
 import { getStyles } from './OATHeader.styles';
-import {
-    MAX_MODEL_COUNT,
-    useOatPageContext
-} from '../../Models/Context/OatPageContext/OatPageContext';
+import { useOatPageContext } from '../../Models/Context/OatPageContext/OatPageContext';
 import { OatPageContextActionType } from '../../Models/Context/OatPageContext/OatPageContext.types';
 import ManageOntologyModal from './internal/ManageOntologyModal/ManageOntologyModal';
 import OATConfirmDialog from '../OATConfirmDialog/OATConfirmDialog';
@@ -39,6 +36,8 @@ import {
     IImportLocalizationKeys,
     parseFilesToModels
 } from '../../Models/Services/OatPublicUtils';
+import { getTotalReferenceCount } from '../../Models/Context/OatPageContext/OatPageContextUtils';
+import { OAT_ONTOLOGY_MAX_REFERENCE_LIMIT } from '../../Models/Constants/Constants';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('OATHeader', debugLogging);
@@ -108,13 +107,16 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
                 translate: t
             });
             // temporarily force an error while we resolve the performance issues
-            if (result.data.length > MAX_MODEL_COUNT) {
+            if (
+                getTotalReferenceCount(result.data) >=
+                OAT_ONTOLOGY_MAX_REFERENCE_LIMIT
+            ) {
                 (result.status = 'Failed'),
                     (result.errors = [
                         {
                             title: t('OAT.ImportLimits.title'),
                             message: t('OAT.ImportLimits.message', {
-                                count: MAX_MODEL_COUNT
+                                count: OAT_ONTOLOGY_MAX_REFERENCE_LIMIT
                             })
                         }
                     ]);

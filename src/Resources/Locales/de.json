@@ -1295,15 +1295,15 @@
       "successTitle": "Import erfolgreich",
       "successMessage": "Erfolgreiches Hinzufügen von {{count}}-Modellen zur Ontologie"
     },
-    "ImportLimits": {
-      "message": "Derzeit ist die Modellanzahl in einer Ontologie auf {{count}} beschränkt. Wir entschuldigen uns für die Unannehmlichkeiten.",
-      "title": "Modelllimit erreicht"
-    },
     "GraphControls": {
       "modelListTitle": "Modellliste ein-/ausblenden",
       "legendTitle": "Zuordnungen umschalten",
       "autoLayoutTitle": "Automatisches Layout",
       "miniMapTitle": "Minikarte umschalten"
+    },
+    "ImportLimits": {
+      "message": "Derzeit ist die Gesamtzahl der Beziehungen, Komponenten und Vererbungen in einer Ontologie im Ontology Designer auf {{count}} beschränkt.",
+      "title": "Referenzgrenzwert erreicht"
     }
   },
   "dataHistoryErrorHandlingWrapper": {

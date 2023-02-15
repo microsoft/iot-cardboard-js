@@ -1295,15 +1295,15 @@
       "successTitle": "Importen lyckades",
       "successMessage": "Modeller för {{count}} har lagts till i ontologin"
     },
-    "ImportLimits": {
-      "message": "För närvarande är modellantalet i en ontologi begränsat till {{count}}. Vi applåderar för besväret.",
-      "title": "Modellgränsen uppnådd"
-    },
     "GraphControls": {
       "modelListTitle": "Växla modelllista",
       "legendTitle": "Växla associationer",
       "autoLayoutTitle": "Automatisk layout",
       "miniMapTitle": "Växla minikarta"
+    },
+    "ImportLimits": {
+      "message": "För närvarande är det totala antalet relationer, komponenter och arv i en ontologi begränsat till {{count}} i Ontology Designer.",
+      "title": "Referensgränsen uppnådd"
     }
   },
   "dataHistoryErrorHandlingWrapper": {

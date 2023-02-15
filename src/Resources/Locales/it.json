@@ -1295,15 +1295,15 @@
       "successTitle": "Importazione riuscita",
       "successMessage": "Aggiunti con successo i modelli {{count}} all'ontologia"
     },
-    "ImportLimits": {
-      "message": "Attualmente il conteggio dei modelli in un'ontologia è limitato a {{count}}. Ci scusiamo per l'inconveniente.",
-      "title": "Limite di modello raggiunto"
-    },
     "GraphControls": {
       "modelListTitle": "Attiva/disattiva elenco modelli",
       "legendTitle": "Attiva/disattiva le associazioni",
       "autoLayoutTitle": "Layout automatico",
       "miniMapTitle": "Attiva/disattiva la minimappa"
+    },
+    "ImportLimits": {
+      "message": "Attualmente il numero totale di relazioni, componenti ed ereditarietà in un'ontologia è limitato a {{count}} in Ontology Designer.",
+      "title": "Limite di riferimento raggiunto"
     }
   },
   "dataHistoryErrorHandlingWrapper": {
