@@ -40,7 +40,8 @@ import {
     AdapterMethodParamsForGetAzureResources,
     AzureAccessPermissionRoleGroups,
     AdapterMethodParamsForSearchTwinsByQuery,
-    AdapterMethodParamsForJobs
+    AdapterMethodParamsForJobs,
+    AdapterMethodParamForCreateJobs
 } from './Types';
 import {
     ADTModel_ImgPropertyPositions_PropertyName,
@@ -529,12 +530,10 @@ export interface IADTAdapter
     ): Promise<AdapterResult<ADTRelationshipsData>>;
 }
 
-export interface IJobsAdapter {
+export interface IJobsAdapter extends ADT3DSceneAdapter {
     /** TO-DO: Need to properly set the return types  */
     createJob(
-        inputBlobUri: string,
-        outputBlobUri: string,
-        jobId: string
+        params: AdapterMethodParamForCreateJobs
     ): AdapterReturnType<ADTJobsData>;
     deleteJob(
         params: AdapterMethodParamsForJobs

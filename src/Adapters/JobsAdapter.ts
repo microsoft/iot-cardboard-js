@@ -1,6 +1,8 @@
 import ADTJobsData from '../Models/Classes/AdapterDataClasses/ADTJobsData';
 import AdapterMethodSandbox from '../Models/Classes/AdapterMethodSandbox';
+import AdapterResult from '../Models/Classes/AdapterResult';
 import {
+    AdapterMethodParamForCreateJobs,
     AdapterMethodParamsForJobs,
     ADT_ApiVersion,
     AxiosObjParam,
@@ -67,61 +69,63 @@ export default class JobsAdapter implements IJobsAdapter {
         return this.adtHostUrl;
     }
 
-    async createJob(
-        inputBlobUri: string,
-        outputBlobUri: string,
-        jobId: string
-    ) {
+    createJob = async (params: AdapterMethodParamForCreateJobs) => {
         const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
 
         return adapterMethodSandbox.safelyFetchDataCancellableAxiosPromise(
             ADTJobsData,
             {
                 method: 'put',
-                url: this.generateUrl(`/jobs/${encodeURIComponent(jobId)}`),
+                url: this.generateUrl(
+                    `/jobs/${encodeURIComponent(params.jobId)}`
+                ),
                 headers: this.generateHeaders(),
                 params: {
                     'api-version': ADT_ApiVersion,
-                    inputbloburi: inputBlobUri,
-                    outputbloburi: outputBlobUri
+                    inputbloburi: params.inputBlobUri,
+                    outputbloburi: params.outputBlobUri
                 }
             }
         );
-    }
+    };
 
-    async deleteJob(params: AdapterMethodParamsForJobs) {
+    deleteJob = async (params: AdapterMethodParamsForJobs) => {
         const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
 
         return adapterMethodSandbox.safelyFetchDataCancellableAxiosPromise(
             ADTJobsData,
             {
                 method: 'delete',
-                url: this.generateUrl(`/jobs/${encodeURIComponent(params.jobId)}`),
+                url: this.generateUrl(
+                    `/jobs/${encodeURIComponent(params.jobId)}`
+                ),
                 headers: this.generateHeaders(),
                 params: {
                     'api-version': ADT_ApiVersion
                 }
             }
         );
-    }
+    };
 
-    async cancelJob(params: AdapterMethodParamsForJobs) {
+    cancelJob = async (params: AdapterMethodParamsForJobs) => {
         const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
 
         return adapterMethodSandbox.safelyFetchDataCancellableAxiosPromise(
             ADTJobsData,
             {
                 method: 'post',
-                url: this.generateUrl(`/jobs/${encodeURIComponent(params.jobId)}`),
+                url: this.generateUrl(
+                    `/jobs/${encodeURIComponent(params.jobId)}`
+                ),
                 headers: this.generateHeaders(),
                 params: {
                     'api-version': ADT_ApiVersion
                 }
             }
         );
-    }
+    };
 
-    async getAllJobs() {
+    getAllJobs = async () => {
         const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
 
         return adapterMethodSandbox.safelyFetchDataCancellableAxiosPromise(
@@ -135,12 +139,18 @@ export default class JobsAdapter implements IJobsAdapter {
                 }
             }
         );
-    }
+    };
 }
-export default interface JobsAdapter
-    extends ADTAdapter,
-    ADT3DSceneAdapter
-applyMixins(JobsAdapter, [
-    ADTAdapter,
-    ADT3DSceneAdapter 
-]);
+export default interface JobsAdapter extends ADTAdapter, ADT3DSceneAdapter {
+    getAllJobs: () => Promise<AdapterResult<any>>;
+    cancelJob: (
+        params: AdapterMethodParamsForJobs
+    ) => Promise<AdapterResult<any>>;
+    deleteJob: (
+        params: AdapterMethodParamsForJobs
+    ) => Promise<AdapterResult<any>>;
+    createJob: (
+        params: AdapterMethodParamForCreateJobs
+    ) => Promise<AdapterResult<any>>;
+}
+applyMixins(JobsAdapter, [ADT3DSceneAdapter]);

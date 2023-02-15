@@ -158,6 +158,12 @@ export type AdapterMethodParamsForJobs = {
     jobId: string;
 };
 
+export type AdapterMethodParamForCreateJobs = {
+    outputBlobUri: string;
+    inputBlobUri: string;
+    jobId: string;
+};
+
 export type ADTRelationshipsApiData = {
     value: IADTRelationship[];
     nextLink: string;
