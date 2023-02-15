@@ -66,6 +66,7 @@ import {
 } from './Internal/TimeSeriesViewer/Internal/TimeSeriesCommandBar/TimeSeriesCommandBar.types';
 import { TimeSeriesTableRow } from './Internal/TimeSeriesViewer/Internal/TimeSeriesTable/TimeSeriesTable.types';
 import { usePrevious } from '@fluentui/react-hooks';
+import useMaxDateInMillis from '../../Models/Hooks/useMaxDateInMillis';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('DataHistoryExplorer', debugLogging);
@@ -114,6 +115,7 @@ const DataHistoryExplorer: React.FC<IDataHistoryExplorerProps> = (props) => {
         refetchDependencies: [adapter]
     });
 
+    const staticMaxDateInMillis = useMaxDateInMillis();
     const {
         query,
         data,
@@ -127,7 +129,8 @@ const DataHistoryExplorer: React.FC<IDataHistoryExplorerProps> = (props) => {
         quickTimeSpanInMillis:
             state.explorerChartOptions.defaultQuickTimeSpanInMillis,
         twins: state.timeSeriesTwins,
-        queryOptions: { isNullIncluded: true, shouldCastToDouble: false } // fetch all raw data, do filtering later based on selected viewer mode later
+        queryOptions: { isNullIncluded: true, shouldCastToDouble: false }, // fetch all raw data, do filtering later based on selected viewer mode later
+        useStaticData: !!staticMaxDateInMillis
     });
 
     const chartData = useMemo(() => {
@@ -199,7 +202,7 @@ const DataHistoryExplorer: React.FC<IDataHistoryExplorerProps> = (props) => {
 
     //callbacks
     const updateXMinAndMax = useCallback(() => {
-        const nowInMillis = Date.now();
+        const nowInMillis = staticMaxDateInMillis || Date.now();
         dispatch({
             type: DataHistoryExplorerActionType.SET_EXPLORER_CHART_OPTION,
             payload: {
@@ -216,7 +219,11 @@ const DataHistoryExplorer: React.FC<IDataHistoryExplorerProps> = (props) => {
                 value: nowInMillis
             }
         });
-    }, [dispatch, state.explorerChartOptions.defaultQuickTimeSpanInMillis]);
+    }, [
+        dispatch,
+        state.explorerChartOptions.defaultQuickTimeSpanInMillis,
+        staticMaxDateInMillis
+    ]);
 
     const handleTimeSeriesTwinCalloutPrimaryAction = useCallback(
         (timeSeriesTwin: IDataHistoryTimeSeriesTwin) => {

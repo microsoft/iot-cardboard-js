@@ -24,6 +24,7 @@ import {
     IDataHistoryTimeSeriesTwin,
     TimeSeriesData
 } from '../../../../../Models/Constants';
+import useMaxDateInMillis from '../../../../../Models/Hooks/useMaxDateInMillis';
 import { useTimeSeriesData } from '../../../../../Models/Hooks/useTimeSeriesData';
 import { createGUID } from '../../../../../Models/Services/Utils';
 import {
@@ -86,6 +87,7 @@ const DataHistoryWidget: React.FC<IDataHistoryWidgetProps> = ({
                 : null,
         [connection]
     );
+    const staticMaxDateInMillis = useMaxDateInMillis();
     const {
         query,
         deeplink,
@@ -97,7 +99,8 @@ const DataHistoryWidget: React.FC<IDataHistoryWidgetProps> = ({
         adapter,
         connection: connectionToQuery,
         quickTimeSpanInMillis: selectedQuickTimeSpanInMillis,
-        twins: twinIdPropertyMap
+        twins: twinIdPropertyMap,
+        useStaticData: !!staticMaxDateInMillis
     });
 
     const { t } = useTranslation();
@@ -106,11 +109,13 @@ const DataHistoryWidget: React.FC<IDataHistoryWidgetProps> = ({
     const xMaxDateInMillisRef = useRef<number>(null);
 
     const updateXMinAndMax = useCallback(() => {
-        const nowInMillis = Date.now();
+        const nowInMillis = staticMaxDateInMillis
+            ? staticMaxDateInMillis
+            : Date.now();
         xMinDateInMillisRef.current =
             nowInMillis - selectedQuickTimeSpanInMillis;
         xMaxDateInMillisRef.current = nowInMillis;
-    }, [selectedQuickTimeSpanInMillis]);
+    }, [selectedQuickTimeSpanInMillis, staticMaxDateInMillis]);
 
     const prevQuery = usePrevious(query);
     useEffect(() => {
@@ -127,9 +132,14 @@ const DataHistoryWidget: React.FC<IDataHistoryWidgetProps> = ({
             getMockTimeSeriesDataArrayInLocalTime(
                 timeSeries.length,
                 5,
-                chartOptions.defaultQuickTimeSpanInMillis
+                chartOptions.defaultQuickTimeSpanInMillis,
+                !!staticMaxDateInMillis
             ),
-        [chartOptions.defaultQuickTimeSpanInMillis, timeSeries.length]
+        [
+            chartOptions.defaultQuickTimeSpanInMillis,
+            timeSeries.length,
+            staticMaxDateInMillis
+        ]
     );
 
     const highChartSeriesData: Array<IHighChartSeriesData> = useMemo(

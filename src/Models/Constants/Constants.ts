@@ -600,3 +600,5 @@ export const AggregationTypeDropdownOptions: Array<IChartOption> = [
         text: 'max'
     }
 ];
+
+export const DataHistoryStaticMaxDateInMillis = new Date(2023, 0, 1).getTime();

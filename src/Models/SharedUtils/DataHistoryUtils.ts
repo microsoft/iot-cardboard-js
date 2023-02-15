@@ -2,7 +2,10 @@ import Highcharts, { ColorString } from 'highcharts';
 import { TFunction } from 'react-i18next';
 import { TimeSeriesTableRow } from '../../Components/DataHistoryExplorer/Internal/TimeSeriesViewer/Internal/TimeSeriesTable/TimeSeriesTable.types';
 import { IHighChartSeriesData } from '../../Components/HighChartsWrapper/HighChartsWrapper.types';
-import { QuickTimeSpans } from '../Constants/Constants';
+import {
+    DataHistoryStaticMaxDateInMillis,
+    QuickTimeSpans
+} from '../Constants/Constants';
 import { QuickTimeSpanKey } from '../Constants/Enums';
 import {
     IChartOption,
@@ -29,19 +32,47 @@ import { IDataHistoryChartYAxisType } from '../Types/Generated/3DScenesConfigura
 export const getMockTimeSeriesDataArrayInLocalTime = (
     lengthOfSeries = 1,
     numberOfDataPoints = 5,
-    agoInMillis = 1 * 60 * 60 * 1000
+    agoInMillis = 1 * 60 * 60 * 1000,
+    isStaticData = false
 ): Array<Array<TimeSeriesData>> => {
-    const toInMillis = Date.now();
-    const fromInMillis = toInMillis - agoInMillis;
-    return Array.from({ length: lengthOfSeries }).map(() => {
-        const maxLimitVariance = Math.floor(Math.random() * 500); // pick a max value between 0-500 as this timeseries value range to add more variance for values of different timeseries in independent y axes
-        return Array.from({ length: numberOfDataPoints }, () => ({
-            timestamp: Math.floor(
-                Math.random() * (toInMillis - fromInMillis + 1) + fromInMillis
-            ),
-            value: Math.floor(Math.random() * maxLimitVariance)
-        })).sort((a, b) => (a.timestamp as number) - (b.timestamp as number));
-    });
+    if (isStaticData) {
+        const varianceSet = [115, 23, 188, 213, 45];
+        const toInMillis = DataHistoryStaticMaxDateInMillis;
+        const fromInMillis = toInMillis - agoInMillis;
+        const stepInMillis = Math.floor(
+            (toInMillis - fromInMillis) / numberOfDataPoints
+        );
+        return Array.from({ length: lengthOfSeries }).map(
+            (_value, idxSeries) => {
+                return Array.from(
+                    { length: numberOfDataPoints },
+                    (_value, idxDataPoint) => ({
+                        timestamp: fromInMillis + stepInMillis * idxDataPoint,
+                        value:
+                            (idxSeries + 1) *
+                            varianceSet[idxDataPoint % varianceSet.length]
+                    })
+                ).sort(
+                    (a, b) => (a.timestamp as number) - (b.timestamp as number)
+                );
+            }
+        );
+    } else {
+        const toInMillis = Date.now();
+        const fromInMillis = toInMillis - agoInMillis;
+        return Array.from({ length: lengthOfSeries }).map(() => {
+            const maxLimitVariance = Math.floor(Math.random() * 500); // pick a max value between 0-500 as this timeseries value range to add more variance for values of different timeseries in independent y axes
+            return Array.from({ length: numberOfDataPoints }, () => ({
+                timestamp: Math.floor(
+                    Math.random() * (toInMillis - fromInMillis + 1) +
+                        fromInMillis
+                ),
+                value: Math.floor(Math.random() * maxLimitVariance)
+            })).sort(
+                (a, b) => (a.timestamp as number) - (b.timestamp as number)
+            );
+        });
+    }
 };
 
 export const getHighChartColorByIdx = (idx: number): ColorString =>
