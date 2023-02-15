@@ -384,7 +384,7 @@ export const updateModelId = (
 
 /** gets the number of references in the ontology. Today this is used for perf managements since references are expensive for rendering the graph */
 export const getTotalReferenceCount = (models: DtdlInterface[]): number => {
-    const getReferencesForModel = (m odel: DtdlInterface) => {
+    const getReferencesForModel = (model: DtdlInterface) => {
         if (!model.contents) {
             return [];
         }
