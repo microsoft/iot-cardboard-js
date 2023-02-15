@@ -442,16 +442,25 @@ export const OatPageContextReducer: (
                     sourceModelId
                 } = action.payload;
                 const targetModel = addNewModelToState(draft, position);
-                const existingReferenceCount = getTotalReferenceCount(
-                    draft.currentOntologyModels
-                );
-                console.log('****Ref count', existingReferenceCount);
-                addTargetedRelationship(
-                    draft,
-                    sourceModelId,
-                    targetModel['@id'],
-                    relationshipType
-                );
+                if (
+                    getTotalReferenceCount(draft.currentOntologyModels) >
+                    OAT_ONTOLOGY_MAX_REFERENCE_LIMIT
+                ) {
+                    draft.error = {
+                        title: i18n.t('OAT.ImportLimits.title'),
+                        message: i18n.t('OAT.ImportLimits.message', {
+                            count: OAT_ONTOLOGY_MAX_REFERENCE_LIMIT
+                        })
+                    };
+                    saveData(draft);
+                } else {
+                    addTargetedRelationship(
+                        draft,
+                        sourceModelId,
+                        targetModel['@id'],
+                        relationshipType
+                    );
+                }
                 saveData(draft);
 
                 break;
