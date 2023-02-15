@@ -1301,7 +1301,7 @@
       "autoLayoutTitle": "Diseño automático",
       "miniMapTitle": "Alternar minimapa"
     },
-    "ImportLimits1": {
+    "ImportLimits": {
       "message": "Actualmente, el número total de relaciones, componentes y herencias en una ontología está limitado a {{count}} en el Diseñador de ontologías. Agradecemos las molestias.",
       "title": "Límite de referencia alcanzado"
     }

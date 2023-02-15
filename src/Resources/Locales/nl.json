@@ -1301,7 +1301,7 @@
       "autoLayoutTitle": "Automatische lay-out",
       "miniMapTitle": "Minikaart in-/uitschakelen"
     },
-    "ImportLimits1": {
+    "ImportLimits": {
       "message": "Momenteel is het totale aantal relaties, componenten en overervingen in een ontologie beperkt tot {{count}} in de Ontology Designer. Onze excuses voor het ongemak.",
       "title": "Referentiegrens bereikt"
     }
