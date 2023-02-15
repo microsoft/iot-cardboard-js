@@ -1301,7 +1301,7 @@
       "autoLayoutTitle": "Automatické rozložení",
       "miniMapTitle": "Přepnout minimapu"
     },
-    "ImportLimits1": {
+    "ImportLimits": {
       "message": "V současné době je celkový počet vztahů, komponent a dědičností v ontologii omezen na {{count}} v Ontology Designer.",
       "title": "Dosažený referenční limit"
     }

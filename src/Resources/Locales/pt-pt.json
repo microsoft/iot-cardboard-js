@@ -1301,7 +1301,7 @@
       "autoLayoutTitle": "Layout automático",
       "miniMapTitle": "Mini-mapa de alternância"
     },
-    "ImportLimits1": {
+    "ImportLimits": {
       "message": "Atualmente, o número total de relações, componentes e heranças numa ontologia é limitado a {{count}} no Onlogy Designer.",
       "title": "Limite de referência atingido"
     }
