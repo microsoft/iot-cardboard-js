@@ -1295,15 +1295,15 @@
       "successTitle": "Importação bem sucedida",
       "successMessage": "Adicionou com sucesso os modelos {{count}} à ontologia"
     },
-    "ImportLimits": {
-      "message": "Atualmente, a contagem de modelos numa ontologia está limitada a {{count}}} Nós aplicamos pelo inconveniente.",
-      "title": "Limite de modelo atingido"
-    },
     "GraphControls": {
       "modelListTitle": "Lista de modelos toggle",
       "legendTitle": "Associações toggle",
       "autoLayoutTitle": "Layout automático",
       "miniMapTitle": "Mini-mapa de alternância"
+    },
+    "ImportLimits1": {
+      "message": "Atualmente, o número total de relações, componentes e heranças numa ontologia é limitado a {{count}} no Onlogy Designer. Nós aplicamos pelo inconveniente.",
+      "title": "Limite de referência atingido"
     }
   },
   "dataHistoryErrorHandlingWrapper": {

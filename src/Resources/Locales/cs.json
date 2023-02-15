@@ -1295,15 +1295,15 @@
       "successTitle": "Import proběhl úspěšně",
       "successMessage": "Úspěšně přidané modely {{count}} do ontologie"
     },
-    "ImportLimits": {
-      "message": "V současné době je počet modelů v ontologii omezen na {{count}}. Omlouváme se za nepříjemnosti.",
-      "title": "Dosažen limit modelu"
-    },
     "GraphControls": {
       "modelListTitle": "Přepnout seznam modelů",
       "legendTitle": "Přepnout přidružení",
       "autoLayoutTitle": "Automatické rozložení",
       "miniMapTitle": "Přepnout minimapu"
+    },
+    "ImportLimits1": {
+      "message": "V současné době je celkový počet vztahů, komponent a dědičností v ontologii omezen na {{count}} v Ontology Designer. Omlouváme se za nepříjemnosti.",
+      "title": "Dosažený referenční limit"
     }
   },
   "dataHistoryErrorHandlingWrapper": {

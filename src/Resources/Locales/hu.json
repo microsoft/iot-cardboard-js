@@ -1295,15 +1295,15 @@
       "successTitle": "Sikeres importálás",
       "successMessage": "Sikeresen hozzáadta a {{count}} modelleket az ontológiához"
     },
-    "ImportLimits": {
-      "message": "Jelenleg az ontológiában a modellszám a következőre korlátozódik: {{count}}. Elnézést kérünk a kellemetlenségekért.",
-      "title": "Elérte a modellkorlátot"
-    },
     "GraphControls": {
       "modelListTitle": "Modelllista váltása",
       "legendTitle": "Társítások váltása",
       "autoLayoutTitle": "Automatikus elrendezés",
       "miniMapTitle": "Váltás a minitérképre"
+    },
+    "ImportLimits1": {
+      "message": "Jelenleg egy ontológia kapcsolatainak, összetevőinek és öröklődéseinek teljes száma az Ontology Designerben {{count}} értékre korlátozódik. Elnézést kérünk a kellemetlenségekért.",
+      "title": "Elérte a referenciakorlátot"
     }
   },
   "dataHistoryErrorHandlingWrapper": {

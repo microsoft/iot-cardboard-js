@@ -1295,15 +1295,15 @@
       "successTitle": "가져오기 성공",
       "successMessage": "온톨로지에 {{count}} 모델을 성공적으로 추가했습니다."
     },
-    "ImportLimits": {
-      "message": "현재 온톨로지의 모델 수는 {{count}}로 제한됩니다. 불편을 끼쳐 드려 죄송합니다.",
-      "title": "모델 한계에 도달했습니다."
-    },
     "GraphControls": {
       "modelListTitle": "모델 목록 토글",
       "legendTitle": "연결 전환",
       "autoLayoutTitle": "자동 레이아웃",
       "miniMapTitle": "미니맵 전환"
+    },
+    "ImportLimits1": {
+      "message": "현재 온톨로지의 관계, 구성 요소 및 상속의 총 수는 온톨로지 디자이너에서 {{count}}로 제한됩니다. 불편을 끼쳐 드려 죄송합니다.",
+      "title": "참조 한계에 도달했습니다."
     }
   },
   "dataHistoryErrorHandlingWrapper": {
