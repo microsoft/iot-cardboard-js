@@ -1301,7 +1301,7 @@
       "autoLayoutTitle": "Otomatik düzen",
       "miniMapTitle": "Mini haritayı değiştir"
     },
-    "ImportLimits1": {
+    "ImportLimits": {
       "message": "Şu anda bir ontolojideki toplam ilişki, bileşen ve devralma sayısı, Ontoloji Tasarımcısı'ndaki {{count}} ile sınırlıdır. Verdiğimiz rahatsızlıktan dolayı özür dileriz.",
       "title": "Referans sınırına ulaşıldı"
     }

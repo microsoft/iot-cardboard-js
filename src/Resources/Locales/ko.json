@@ -1301,7 +1301,7 @@
       "autoLayoutTitle": "자동 레이아웃",
       "miniMapTitle": "미니맵 전환"
     },
-    "ImportLimits1": {
+    "ImportLimits": {
       "message": "현재 온톨로지의 관계, 구성 요소 및 상속의 총 수는 온톨로지 디자이너에서 {{count}}로 제한됩니다. 불편을 끼쳐 드려 죄송합니다.",
       "title": "참조 한계에 도달했습니다."
     }

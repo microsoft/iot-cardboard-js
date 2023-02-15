@@ -1301,7 +1301,7 @@
       "autoLayoutTitle": "Automatisk layout",
       "miniMapTitle": "Växla minikarta"
     },
-    "ImportLimits1": {
+    "ImportLimits": {
       "message": "För närvarande är det totala antalet relationer, komponenter och arv i en ontologi begränsat till {{count}} i Ontology Designer. Vi applåderar för besväret.",
       "title": "Referensgränsen uppnådd"
     }
