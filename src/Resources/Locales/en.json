@@ -952,8 +952,8 @@
             "autoLayoutTitle": "Auto layout",
             "miniMapTitle": "Toggle mini-map"
         },
-        "ImportLimits": {
-            "message": "Currently the reference count in an ontology is limited to {{count}}. We appologize for the inconvenience.",
+        "ImportLimits1": {
+            "message": "Currently the total number of relationships, components and inheritances in an ontology is limited to {{count}} in the Ontology Designer. We appologize for the inconvenience.",
             "title": "Reference limit reached"
         },
         "ImportProgress": {
