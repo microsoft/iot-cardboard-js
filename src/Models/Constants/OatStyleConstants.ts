@@ -1,7 +1,7 @@
 import { IStyle } from '@fluentui/react';
 import { IExtendedTheme } from '../../Theming/Theme.types';
 
-export const OAT_HEADER_HEIGHT = 76;
+export const OAT_HEADER_HEIGHT = 84;
 export const PROPERTY_EDITOR_WIDTH = 400;
 
 export const CONTROLS_SIDE_OFFSET = 16;
