@@ -1049,7 +1049,7 @@ export default class MockAdapter
         useStaticData?: boolean
     ) {
         let mockData: Array<ADXTimeSeries> = [];
-        let mockTimeSeriesData: Array<Array<TimeSeriesData>>;
+        let mockTimeSeriesData: Array<Array<TimeSeriesData>> = this.mockData;
         try {
             await this.mockNetwork();
             try {

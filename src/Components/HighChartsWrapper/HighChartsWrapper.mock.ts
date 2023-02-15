@@ -42,7 +42,7 @@ export const HighChartsMockLargeData: Array<IHighChartSeriesData> = [
         name: 'Mock series-1',
         data: getMockTimeSeriesDataArrayInLocalTime(
             1,
-            10000,
+            500000,
             undefined,
             true
         )[0],
