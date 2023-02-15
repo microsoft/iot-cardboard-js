@@ -1301,7 +1301,7 @@
       "autoLayoutTitle": "自動レイアウト",
       "miniMapTitle": "ミニマップの切り替え"
     },
-    "ImportLimits1": {
+    "ImportLimits": {
       "message": "現在、オントロジー内の関係、コンポーネント、継承の総数は、オントロジーデザイナーの{{count}}に制限されています。",
       "title": "参照制限に達しました"
     }

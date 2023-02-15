@@ -1301,7 +1301,7 @@
       "autoLayoutTitle": "Layout automatico",
       "miniMapTitle": "Attiva/disattiva la minimappa"
     },
-    "ImportLimits1": {
+    "ImportLimits": {
       "message": "Attualmente il numero totale di relazioni, componenti ed ereditarietà in un'ontologia è limitato a {{count}} in Ontology Designer.",
       "title": "Limite di riferimento raggiunto"
     }
