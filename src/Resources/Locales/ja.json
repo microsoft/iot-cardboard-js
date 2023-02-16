@@ -1085,7 +1085,9 @@
     "errorNameLength": "名前は 64 文字を超えてはなりません。",
     "errorIdLength": "ID は 2048 文字を超えてはなりません",
     "errorIdValidDTMI": "ID は有効な DTMI である必要があります。",
+    "errorRepeatedId": "同じ ID のモデルが既に存在します",
     "errorDisplayNameLength": "表示名は 64 文字を超えてはなりません。",
+    "errorRepeatedEdgeName": "同じ名前の関係が既に存在します",
     "runLayout": "実行レイアウト",
     "extends": "拡張",
     "loadingText": "レイアウト位置の計算"
@@ -1407,6 +1409,7 @@
     "errorName": "名前に使用できるのは、文字 a から z、A から Z、0 から 9、およびアンダースコアのみです。",
     "errorNameLength": "名前は 64 文字以下にする必要があります",
     "errorRepeatedEnumValue": "同じ値の列挙値が既に存在します",
+    "errorRepeatedId": "同じ ID を持つモデルが既に存在する",
     "errorRepeatedName": "同じ名前のモデルが既に存在する",
     "errorRepeatedPropertyName": "同じ名前のプロパティが既に存在します",
     "expand": "膨らむ",
@@ -1485,11 +1488,6 @@
         "editMetadataLabel": "メタデータの編集"
       }
     },
-<<<<<<< HEAD
-    "jsonEditorTabName": "ティッカー",
-    "errorInvalidJSONMessage": "入力した JSON は無効です。JSONを修正して、もう一度やり直してください。"
-=======
     "jsonEditorTabName": "ティッカー"
->>>>>>> origin/main
   }
 }

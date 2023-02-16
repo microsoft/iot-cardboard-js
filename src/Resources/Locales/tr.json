@@ -1085,7 +1085,9 @@
     "errorNameLength": "İsim 64 karakteri geçemez",
     "errorIdLength": "Kimlik 2048 karakteri geçemez",
     "errorIdValidDTMI": "Kimlik geçerli bir DTMI olmalıdır",
+    "errorRepeatedId": "Aynı kimliğe sahip bir model zaten var",
     "errorDisplayNameLength": "Görünen Ad 64 karakteri aşamaz",
+    "errorRepeatedEdgeName": "Aynı ada sahip bir ilişki zaten var",
     "runLayout": "Çalıştırma Düzeni",
     "extends": "Genişletir",
     "loadingText": "Bilgi işlem düzeni konumları"
@@ -1407,6 +1409,7 @@
     "errorName": "Ad yalnızca a-z, A-Z, 0-9 ve alt çizgi karakterlerini içerebilir",
     "errorNameLength": "Ad 64 karakteri geçemez",
     "errorRepeatedEnumValue": "Aynı değere sahip bir enum değeri zaten var",
+    "errorRepeatedId": "Aynı kimliğe sahip bir model zaten var",
     "errorRepeatedName": "Aynı ada sahip bir model zaten var",
     "errorRepeatedPropertyName": "Aynı ada sahip bir özellik zaten var",
     "expand": "Genişletmek",
@@ -1485,11 +1488,6 @@
         "editMetadataLabel": "Meta verileri düzenleme"
       }
     },
-<<<<<<< HEAD
-    "jsonEditorTabName": "cesaret",
-    "errorInvalidJSONMessage": "Girdiğiniz JSON geçersiz. Lütfen JSON'u düzeltin ve yeniden deneyin."
-=======
     "jsonEditorTabName": "cesaret"
->>>>>>> origin/main
   }
 }

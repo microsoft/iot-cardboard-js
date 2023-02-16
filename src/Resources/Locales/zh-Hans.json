@@ -1085,7 +1085,9 @@
     "errorNameLength": "姓名不得超过 64 个字符",
     "errorIdLength": "Id 不得超过 2048 个字符",
     "errorIdValidDTMI": "ID 必须是有效的 DTMI",
+    "errorRepeatedId": "具有相同 ID 的模型已存在",
     "errorDisplayNameLength": "显示名称不得超过 64 个字符",
+    "errorRepeatedEdgeName": "具有相同名称的关系已存在",
     "runLayout": "运行布局",
     "extends": "延伸",
     "loadingText": "计算布局位置"
@@ -1407,6 +1409,7 @@
     "errorName": "名称只能包含字符 a-z、A-Z、0-9 和下划线",
     "errorNameLength": "姓名不得超过 64 个字符",
     "errorRepeatedEnumValue": "具有相同值的枚举值已存在",
+    "errorRepeatedId": "具有相同 ID 的模型已存在",
     "errorRepeatedName": "同名模型已存在",
     "errorRepeatedPropertyName": "具有相同名称的属性已存在",
     "expand": "扩大",
@@ -1485,11 +1488,6 @@
         "editMetadataLabel": "编辑元数据"
       }
     },
-<<<<<<< HEAD
-    "jsonEditorTabName": "DTDL",
-    "errorInvalidJSONMessage": "您输入的 JSON 无效。请修复 JSON，然后重试。"
-=======
     "jsonEditorTabName": "DTDL"
->>>>>>> origin/main
   }
 }

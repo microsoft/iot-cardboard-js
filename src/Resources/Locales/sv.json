@@ -1085,7 +1085,9 @@
     "errorNameLength": "Namnet får inte överstiga 64 rödingar",
     "errorIdLength": "Id får inte överstiga 2048 rödingar",
     "errorIdValidDTMI": "ID måste vara ett giltigt DTMI",
+    "errorRepeatedId": "En modell med samma id finns redan",
     "errorDisplayNameLength": "Visningsnamn får inte överstiga 64 tecken",
+    "errorRepeatedEdgeName": "En relation med samma namn finns redan",
     "runLayout": "Kör layout",
     "extends": "Sträcker sig",
     "loadingText": "Positioner för datorlayout"
@@ -1407,6 +1409,7 @@
     "errorName": "Namnet får bara innehålla tecknen a-z, A-Z, 0-9 och understreck",
     "errorNameLength": "Namnet får inte överstiga 64 tecken",
     "errorRepeatedEnumValue": "Det finns redan ett uppräkningsvärde med samma värde",
+    "errorRepeatedId": "Det finns redan en modell med samma ID",
     "errorRepeatedName": "En modell med samma namn finns redan",
     "errorRepeatedPropertyName": "En egenskap med samma namn finns redan",
     "expand": "Expandera",
@@ -1485,11 +1488,6 @@
         "editMetadataLabel": "Redigera metadata"
       }
     },
-<<<<<<< HEAD
-    "jsonEditorTabName": "DTDL",
-    "errorInvalidJSONMessage": "Den JSON som du angav är ogiltig. Åtgärda JSON och försök igen."
-=======
     "jsonEditorTabName": "DTDL"
->>>>>>> origin/main
   }
 }

@@ -1085,7 +1085,9 @@
     "errorNameLength": "Le nom ne doit pas dépasser 64 caractères",
     "errorIdLength": "Id ne doit pas dépasser 2048 caractères",
     "errorIdValidDTMI": "Id doit être un DTMI valide",
+    "errorRepeatedId": "Un modèle avec le même ID existe déjà",
     "errorDisplayNameLength": "Le nom d’affichage ne doit pas dépasser 64 caractères",
+    "errorRepeatedEdgeName": "Une relation portant le même nom existe déjà",
     "runLayout": "Exécuter la mise en page",
     "extends": "S' étend",
     "loadingText": "Calcul des positions de mise en page"
@@ -1407,6 +1409,7 @@
     "errorName": "Le nom ne peut contenir que les caractères a-z, A-Z, 0-9 et le trait de soulignement",
     "errorNameLength": "Le nom ne doit pas dépasser 64 caractères",
     "errorRepeatedEnumValue": "Une valeur enum avec la même valeur existe déjà",
+    "errorRepeatedId": "Un modèle avec le même ID existe déjà",
     "errorRepeatedName": "Un modèle portant le même nom existe déjà",
     "errorRepeatedPropertyName": "Une propriété portant le même nom existe déjà",
     "expand": "Développer",
@@ -1485,11 +1488,6 @@
         "editMetadataLabel": "Modifier les métadonnées"
       }
     },
-<<<<<<< HEAD
-    "jsonEditorTabName": "DTDL",
-    "errorInvalidJSONMessage": "Le code JSON que vous avez entré n’est pas valide. Veuillez corriger le JSON et réessayer."
-=======
     "jsonEditorTabName": "DTDL"
->>>>>>> origin/main
   }
 }

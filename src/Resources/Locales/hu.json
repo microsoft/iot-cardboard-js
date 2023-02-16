@@ -1085,7 +1085,9 @@
     "errorNameLength": "A név nem haladhatja meg a 64 karakter",
     "errorIdLength": "Az azonosító nem haladhatja meg a 2048 karaktert",
     "errorIdValidDTMI": "Az azonosítónak érvényes DTMI-nek kell lennie",
+    "errorRepeatedId": "Már létezik egy azonos azonosítóval rendelkező modell",
     "errorDisplayNameLength": "A megjelenítendő név nem haladhatja meg a 64 karaktert",
+    "errorRepeatedEdgeName": "Az azonos nevű kapcsolat már létezik",
     "runLayout": "Elrendezés futtatása",
     "extends": "Kiterjeszti",
     "loadingText": "Elrendezési pozíciók számítása"
@@ -1407,6 +1409,7 @@
     "errorName": "A név csak az a-z, A-Z, 0-9 és aláhúzás karaktereket tartalmazhatja.",
     "errorNameLength": "A név nem lehet hosszabb 64 karakternél",
     "errorRepeatedEnumValue": "Már létezik azonos értékű felsorolási érték",
+    "errorRepeatedId": "Már létezik egy azonos azonosítóval rendelkező modell",
     "errorRepeatedName": "Már létezik azonos nevű modell",
     "errorRepeatedPropertyName": "Már létezik azonos nevű tulajdonság",
     "expand": "Kibővít",
@@ -1485,11 +1488,6 @@
         "editMetadataLabel": "Metaadatok szerkesztése"
       }
     },
-<<<<<<< HEAD
-    "jsonEditorTabName": "DTDL",
-    "errorInvalidJSONMessage": "A megadott JSON érvénytelen. Javítsa ki a JSON-t, és próbálkozzon újra."
-=======
     "jsonEditorTabName": "DTDL"
->>>>>>> origin/main
   }
 }
