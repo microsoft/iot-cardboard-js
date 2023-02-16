@@ -1373,7 +1373,7 @@
     "advancedSearch": {
         "toggleSelection": "Toggle to Select Twin",
         "selectRow": "Twin Selected",
-        "inspectPropert": "Inspect properties",
+        "inspectProperties": "Inspect properties",
         "results": "Results ({{twinCount}})",
         "addNewButton": "Add new",
         "andOrColumnHeader": "And/Or",
