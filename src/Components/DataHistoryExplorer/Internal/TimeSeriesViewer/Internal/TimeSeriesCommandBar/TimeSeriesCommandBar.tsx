@@ -80,11 +80,10 @@ const TimeSeriesCommandBar: React.FC<ITimeSeriesCommandBarProps> = (props) => {
         ) => {
             setChartOptions(
                 produce((draft) => {
-                    const newDraft = { ...draft, [chartOption]: value };
+                    draft[chartOption as any] = value;
                     if (onChartOptionsChange) {
-                        onChartOptionsChange(newDraft);
+                        onChartOptionsChange({ ...draft });
                     }
-                    return newDraft;
                 })
             );
         },

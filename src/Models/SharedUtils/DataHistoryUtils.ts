@@ -252,7 +252,7 @@ export const sendDataHistoryExplorerSystemTelemetry = (
 export const sendDataHistoryExplorerUserTelemetry = (
     eventName: string,
     dataHistoryInstanceHash: string,
-    customProperties?: Array<CustomProperties>
+    customProperties?: CustomProperties
 ) => {
     TelemetryService.sendEvent(
         new TelemetryEvent({

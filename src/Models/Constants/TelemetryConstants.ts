@@ -207,7 +207,8 @@ export const TelemetryEvents = {
                 AddSeries: {
                     eventName: 'DataHistoryExplorer.AddSeries',
                     properties: {
-                        hasCustomLabel: 'hasCustomLabel'
+                        hasCustomLabel: 'hasCustomLabel',
+                        isCastedToNumber: 'isCastedToNumber'
                     }
                 },
                 /** editing series using the time series builder on the left */
@@ -215,7 +216,8 @@ export const TelemetryEvents = {
                     eventName: 'DataHistoryExplorer.EditSeries',
                     properties: {
                         seriesId: 'seriesId',
-                        hasCustomLabel: 'hasCustomLabel'
+                        hasCustomLabel: 'hasCustomLabel',
+                        isCastedToNumber: 'isCastedToNumber'
                     }
                 },
                 /** removing a new series using the ellipsis menu of the list item in the builder on the left */

@@ -139,11 +139,9 @@ const TimeSeriesTwinCallout: React.FC<ITimeSeriesTwinCalloutProps> = (
             sendDataHistoryExplorerUserTelemetry(
                 telemetry.eventName,
                 dataHistoryInstanceId,
-                [
-                    {
-                        [telemetry.properties.toggleValue]: checked
-                    }
-                ]
+                {
+                    [telemetry.properties.toggleValue]: checked
+                }
             );
         },
         [
