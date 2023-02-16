@@ -962,8 +962,6 @@
     "inheritances": "Dědictví",
     "components": "Součásti",
     "runLayout": "Rozložení Spustit",
-    "errorRepeatedId": "Model se stejným ID již existuje",
-    "errorRepeatedEdgeName": "Vztah se stejným názvem již existuje",
     "errorDisplayNameLength": "Zobrazovaný název nesmí přesáhnout 64 znaků",
     "errorIdLength": "ID nesmí překročit 2048 znaků",
     "errorIdValidDTMI": "ID musí být platné DTMI",
@@ -1409,7 +1407,6 @@
     "errorName": "Název může obsahovat pouze znaky a-z, A-Z, 0-9 a podtržítko",
     "errorNameLength": "Název nesmí být delší než 64 znaků",
     "errorRepeatedEnumValue": "Hodnota výčtu se stejnou hodnotou již existuje",
-    "errorRepeatedId": "Model se stejným ID již existuje",
     "errorRepeatedName": "Model se stejným názvem již existuje",
     "errorRepeatedPropertyName": "Vlastnost se stejným názvem již existuje",
     "expand": "Expandovat",
@@ -1488,6 +1485,7 @@
         "editMetadataLabel": "Upravit metadata"
       }
     },
-    "jsonEditorTabName": "DTDL"
+    "jsonEditorTabName": "DTDL",
+    "errorInvalidJSONMessage": "Zadaný kód JSON je neplatný. Opravte prosím JSON a zkuste to znovu."
   }
 }

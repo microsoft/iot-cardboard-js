@@ -1085,9 +1085,7 @@
     "errorNameLength": "Naam mag niet meer dan 64 tekens bevatten",
     "errorIdLength": "Id mag niet groter zijn dan 2048 tekens",
     "errorIdValidDTMI": "Id moet een geldige DTMI zijn",
-    "errorRepeatedId": "Er bestaat al een model met dezelfde id",
     "errorDisplayNameLength": "Weergavenaam mag niet meer dan 64 tekens bevatten",
-    "errorRepeatedEdgeName": "Er bestaat al een relatie met dezelfde naam",
     "runLayout": "Lay-out uitvoeren",
     "extends": "Breidt",
     "loadingText": "Lay-outposities berekenen"
@@ -1409,7 +1407,6 @@
     "errorName": "Naam mag alleen de tekens a-z, A-Z, 0-9 en onderstrepingsteken bevatten",
     "errorNameLength": "Naam mag niet langer zijn dan 64 tekens",
     "errorRepeatedEnumValue": "Er bestaat al een opsommingswaarde met dezelfde waarde",
-    "errorRepeatedId": "Er bestaat al een model met dezelfde ID",
     "errorRepeatedName": "Een model met dezelfde naam bestaat al",
     "errorRepeatedPropertyName": "Een woning met dezelfde naam bestaat al",
     "expand": "Uitbreiden",
@@ -1488,6 +1485,7 @@
         "editMetadataLabel": "Metagegevens bewerken"
       }
     },
-    "jsonEditorTabName": "DTDL"
+    "jsonEditorTabName": "DTDL",
+    "errorInvalidJSONMessage": "De JSON die u hebt ingevoerd, is ongeldig. Repareer de JSON en probeer het opnieuw."
   }
 }
