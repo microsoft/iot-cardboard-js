@@ -12,7 +12,11 @@ import {
     IOATModelPosition,
     IOATSelection
 } from '../../../Pages/OATEditorPage/OATEditorPage.types';
-import { DTDLSchema, DTDLType } from '../../Classes/DTDL';
+import {
+    DTDLSchema,
+    DTDLType,
+    DTDL_CONTEXT_VERSION_2
+} from '../../Classes/DTDL';
 import {
     DtdlComponent,
     DtdlInterface,
@@ -40,7 +44,6 @@ import {
 } from '../../Services/Utils';
 import { isOatContextStorageEnabled, logDebugConsole } from './OatPageContext';
 import { IOatPageContextState } from './OatPageContext.types';
-import { CONTEXT_CLASS_BASE } from '../../../Components/OATGraphViewer/Internal/Utils';
 import {
     hasType,
     isDTDLComponentReference,
@@ -81,9 +84,9 @@ const getNextModelInfo = (
     const name = `${defaultNamePrefix}${nextModelIdIndex}`;
     return { id: nextModelId, name: name };
 };
-const getNewModel = (id: string, modelName: string) => {
+const getNewModel = (id: string, modelName: string, contextVersion: string) => {
     const model: DtdlInterface = {
-        '@context': CONTEXT_CLASS_BASE,
+        '@context': contextVersion,
         '@id': id,
         '@type': OAT_INTERFACE_TYPE,
         contents: [],
@@ -101,7 +104,11 @@ export const addNewModelToState = (
         state.currentOntologyDefaultPath,
         i18n.t('OATCommon.defaultModelNamePrefix')
     );
-    const newModel: DtdlInterface = getNewModel(modelInfo.id, modelInfo.name);
+    const newModel: DtdlInterface = getNewModel(
+        modelInfo.id,
+        modelInfo.name,
+        state.currentOntologyDefaultContext
+    );
 
     // add to the models list
     if (!state.currentOntologyModels) {
@@ -215,6 +222,8 @@ export const deleteReferenceFromState = (args: DeleteReferenceArgs) => {
 
 //#endregion
 
+//#region Getters
+
 /**
  * Looks up the index of a model in a collection of models and returns the index.
  * Returns -1 if not found or if arguments are invalid
@@ -307,6 +316,8 @@ export const getPropertyIndexOnRelationshipByName = (
     return -1;
 };
 
+//#endregion
+
 export const setSelectedModel = (
     selection: IOATSelection,
     draft: IOatPageContextState
@@ -369,6 +380,25 @@ export const updateModelId = (
     );
 
     return { models: models, positions: modelPositions };
+};
+
+/** gets the number of references in the ontology. Today this is used for perf managements since references are expensive for rendering the graph */
+export const getTotalReferenceCount = (models: DtdlInterface[]): number => {
+    const getReferencesForModel = (model: DtdlInterface) => {
+        if (!model.contents) {
+            return [];
+        }
+        const references =
+            model.contents.filter((x) => isDTDLReference(x)) ?? [];
+        return references.map((x) => x.name);
+    };
+
+    const referenceList = [];
+    models.forEach((x) => {
+        const localRefs = getReferencesForModel(x);
+        referenceList.push(...localRefs);
+    });
+    return referenceList.length;
 };
 
 //#region Creating new relationship
@@ -563,12 +593,14 @@ export const addUntargetedRelationship = (
 export function createProject(
     name: string,
     namespace: string,
+    defaultContext: string,
     draft: IOatPageContextState
 ) {
     const id = createGUID();
     const project = new ProjectData(
         name,
         namespace.replace(/ /g, ''),
+        defaultContext,
         [],
         [],
         [],
@@ -601,6 +633,7 @@ export function switchCurrentProject(
         const projectToOpen = new ProjectData(
             data.projectName,
             data.defaultPath,
+            data.defaultContext,
             data.models,
             data.modelPositions,
             data.modelsMetadata,
@@ -630,6 +663,8 @@ export function convertStateToProject(
         models: draft.currentOntologyModels ?? [],
         modelsMetadata: draft.currentOntologyModelMetadata ?? [],
         defaultPath: draft.currentOntologyDefaultPath || '',
+        defaultContext:
+            draft.currentOntologyDefaultContext || DTDL_CONTEXT_VERSION_2,
         projectDescription: '',
         projectName: draft.currentOntologyProjectName || '',
         templates: draft.currentOntologyTemplates ?? []

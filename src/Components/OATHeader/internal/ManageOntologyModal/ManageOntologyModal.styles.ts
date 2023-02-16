@@ -17,9 +17,12 @@ export const getStyles = (
                 subComponentStyles: {
                     modal: {
                         main: {
-                            height: 370
+                            height: 500
                         }
                     }
+                },
+                content: {
+                    overflowX: 'hidden'
                 }
             }
         }

@@ -742,7 +742,7 @@ export class DTDLArray implements DtdlArray {
 
 export class DTDLMapKey implements DtdlMapKey {
     name: string;
-    schema: DTDLSchema;
+    schema: 'string';
     ['@id']?: string;
     comment?: string;
     description?: string;

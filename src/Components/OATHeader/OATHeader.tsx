@@ -36,6 +36,8 @@ import {
     IImportLocalizationKeys,
     parseFilesToModels
 } from '../../Models/Services/OatPublicUtils';
+import { getTotalReferenceCount } from '../../Models/Context/OatPageContext/OatPageContextUtils';
+import { OAT_ONTOLOGY_MAX_REFERENCE_LIMIT } from '../../Models/Constants/Constants';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('OATHeader', debugLogging);
@@ -91,16 +93,45 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
                 `[IMPORT] [START] Files upload. (${files.length} files) {files}`,
                 files
             );
+            oatPageDispatch({
+                type: OatPageContextActionType.UPDATE_IMPORT_PROGRESS,
+                payload: {
+                    state: 'loading',
+                    fileCount: files.length
+                }
+            });
             const result = await parseFilesToModels({
                 files: files,
                 currentModels: oatPageState.currentOntologyModels,
                 localizationKeys: IMPORT_LOC_KEYS,
                 translate: t
             });
+            // temporarily force an error while we resolve the performance issues
+            if (
+                getTotalReferenceCount(result.data) >=
+                OAT_ONTOLOGY_MAX_REFERENCE_LIMIT
+            ) {
+                (result.status = 'Failed'),
+                    (result.errors = [
+                        {
+                            title: t('OAT.ImportLimits.title'),
+                            message: t('OAT.ImportLimits.message', {
+                                count: OAT_ONTOLOGY_MAX_REFERENCE_LIMIT
+                            })
+                        }
+                    ]);
+            }
             if (result.status === 'Success') {
                 oatPageDispatch({
+                    type: OatPageContextActionType.UPDATE_IMPORT_PROGRESS,
+                    payload: {
+                        state: 'success',
+                        modelCount: result.stats.newModelCount
+                    }
+                });
+                oatPageDispatch({
                     type: OatPageContextActionType.IMPORT_MODELS,
-                    payload: { models: result.models }
+                    payload: { models: result.data }
                 });
             } else if (result.status === 'Failed') {
                 // show error
@@ -116,6 +147,12 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
                     payload: {
                         title: error.title,
                         message: error.message
+                    }
+                });
+                oatPageDispatch({
+                    type: OatPageContextActionType.UPDATE_IMPORT_PROGRESS,
+                    payload: {
+                        state: 'closed'
                     }
                 });
             }

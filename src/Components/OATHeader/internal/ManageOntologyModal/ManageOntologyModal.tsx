@@ -3,8 +3,9 @@ import {
     classNamesFunction,
     useTheme,
     styled,
+    Link,
     TextField,
-    Link
+    ChoiceGroup
 } from '@fluentui/react';
 import {
     IManageOntologyModalStyleProps,
@@ -17,25 +18,34 @@ import { buildModelId } from '../../../../Models/Services/OatUtils';
 import CardboardModal from '../../../CardboardModal/CardboardModal';
 import {
     DOCUMENTATION_LINKS,
+    OAT_DEFAULT_CONTEXT,
     OAT_DEFAULT_PATH_VALUE
 } from '../../../../Models/Constants/Constants';
 import { useTranslation } from 'react-i18next';
 import { useOatPageContext } from '../../../../Models/Context/OatPageContext/OatPageContext';
 import { OatPageContextActionType } from '../../../../Models/Context/OatPageContext/OatPageContext.types';
+import {
+    DTDL_CONTEXT_VERSION_2,
+    DTDL_CONTEXT_VERSION_3
+} from '../../../../Models/Classes/DTDL';
 
 const LOC_KEYS = {
-    deleteButtonText: `OATHeader.manageOntologyModal.deleteButtonText`,
-    modalTitleCreate: `OATHeader.manageOntologyModal.modalTitleCreate`,
-    modalTitleEdit: `OATHeader.manageOntologyModal.modalTitleEdit`,
-    modalSubTitleCreate: `OATHeader.manageOntologyModal.modalSubTitleCreate`,
-    modalSubTitleEdit: `OATHeader.manageOntologyModal.modalSubTitleEdit`,
-    modalSubTitleLinkText: `OATHeader.manageOntologyModal.modalSubTitleLinkText`,
-    nameLabel: 'OATHeader.manageOntologyModal.nameLabel',
-    namePlaceholder: 'OATHeader.manageOntologyModal.namePlaceholder',
-    namespaceDescription: 'OATHeader.manageOntologyModal.namespaceDescription',
-    namespaceLabel: 'OATHeader.manageOntologyModal.namespaceLabel',
-    namespacePlaceholder: 'OATHeader.manageOntologyModal.namespacePlaceholder',
-    sampleModel: 'OATHeader.manageOntologyModal.sampleModel'
+    deleteButtonText: `OAT.Header.ManageOntologyModal.deleteButtonText`,
+    modalSubTitleCreate: `OAT.Header.ManageOntologyModal.modalSubTitleCreate`,
+    modalSubTitleEdit: `OAT.Header.ManageOntologyModal.modalSubTitleEdit`,
+    modalSubTitleLinkText: `OAT.Header.ManageOntologyModal.modalSubTitleLinkText`,
+    modalTitleCreate: `OAT.Header.ManageOntologyModal.modalTitleCreate`,
+    modalTitleEdit: `OAT.Header.ManageOntologyModal.modalTitleEdit`,
+    nameLabel: 'OAT.Header.ManageOntologyModal.nameLabel',
+    namePlaceholder: 'OAT.Header.ManageOntologyModal.namePlaceholder',
+    namespaceDescription: 'OAT.Header.ManageOntologyModal.namespaceDescription',
+    namespaceLabel: 'OAT.Header.ManageOntologyModal.namespaceLabel',
+    namespacePlaceholder: 'OAT.Header.ManageOntologyModal.namespacePlaceholder',
+    sampleModel: 'OAT.Header.ManageOntologyModal.sampleModel',
+    choidLabel: 'OAT.Header.ManageOntologyModal.defaultVersionLabel',
+    choiceOptionVersion2: 'OAT.Header.ManageOntologyModal.version2',
+    choiceOptionVersion3: 'OAT.Header.ManageOntologyModal.version3',
+    versionDocumentationLink: 'OAT.Common.versionDocumentationLink'
 };
 
 const getClassNames = classNamesFunction<
@@ -54,8 +64,13 @@ const ManageOntologyModal: React.FC<IManageOntologyModalProps> = (props) => {
     const [name, setName] = useState<string>(
         mode === FormMode.Create ? '' : oatPageState.currentOntologyProjectName
     );
-    const [defaultPath, setNamespace] = useState<string>(
+    const [defaultPath, setDefaultPath] = useState<string>(
         mode === FormMode.Create ? '' : oatPageState.currentOntologyDefaultPath
+    );
+    const [defaultContext, setDefaultContext] = useState<string>(
+        mode === FormMode.Create
+            ? OAT_DEFAULT_CONTEXT
+            : oatPageState.currentOntologyDefaultContext ?? OAT_DEFAULT_CONTEXT
     );
 
     // hooks
@@ -85,7 +100,8 @@ const ManageOntologyModal: React.FC<IManageOntologyModalProps> = (props) => {
                 type: OatPageContextActionType.CREATE_PROJECT,
                 payload: {
                     name: name,
-                    namespace: defaultPath
+                    defaultPath: defaultPath,
+                    defaultContext: defaultContext
                 }
             });
         } else if (mode === FormMode.Edit) {
@@ -93,7 +109,8 @@ const ManageOntologyModal: React.FC<IManageOntologyModalProps> = (props) => {
                 type: OatPageContextActionType.EDIT_PROJECT,
                 payload: {
                     name: name,
-                    namespace: defaultPath
+                    defaultPath: defaultPath,
+                    defaultContext: defaultContext
                 }
             });
         }
@@ -124,12 +141,20 @@ const ManageOntologyModal: React.FC<IManageOntologyModalProps> = (props) => {
         setName(localName);
     }, [isOpen, mode, oatPageState.currentOntologyProjectName]);
     useEffect(() => {
-        const localNamespace =
+        const localPath =
             mode === FormMode.Create
                 ? ''
                 : oatPageState.currentOntologyDefaultPath;
-        setNamespace(localNamespace);
+        setDefaultPath(localPath);
     }, [isOpen, mode, oatPageState.currentOntologyDefaultPath]);
+    useEffect(() => {
+        const localContext =
+            mode === FormMode.Create
+                ? OAT_DEFAULT_CONTEXT
+                : oatPageState.currentOntologyDefaultContext ??
+                  OAT_DEFAULT_CONTEXT;
+        setDefaultContext(localContext);
+    }, [isOpen, mode, oatPageState.currentOntologyDefaultContext]);
 
     // data
     const sampleModelId = buildModelId({
@@ -175,16 +200,42 @@ const ManageOntologyModal: React.FC<IManageOntologyModalProps> = (props) => {
                 placeholder={t(LOC_KEYS.namePlaceholder)}
                 required
                 value={name}
+                autoFocus
             />
             <TextField
                 description={t(LOC_KEYS.namespaceDescription, {
                     modelName: sampleModelId
                 })}
                 label={t(LOC_KEYS.namespaceLabel)}
-                onChange={(_e, value) => setNamespace(value.replace(/ /g, ''))}
+                onChange={(_e, value) =>
+                    setDefaultPath(value.replace(/ /g, ''))
+                }
                 placeholder={t(LOC_KEYS.namespacePlaceholder)}
                 value={defaultPath}
             />
+            <ChoiceGroup
+                label={t(LOC_KEYS.choidLabel)}
+                selectedKey={defaultContext}
+                options={[
+                    {
+                        key: DTDL_CONTEXT_VERSION_2,
+                        text: t(LOC_KEYS.choiceOptionVersion2)
+                    },
+                    {
+                        key: DTDL_CONTEXT_VERSION_3,
+                        text: t(LOC_KEYS.choiceOptionVersion3)
+                    }
+                ]}
+                onChange={(_ev, option) => {
+                    setDefaultContext(option.key);
+                }}
+            />
+            <Link
+                target="_blank"
+                href={DOCUMENTATION_LINKS.ontologyConceptsVersions}
+            >
+                {t(LOC_KEYS.versionDocumentationLink)}
+            </Link>
         </CardboardModal>
     );
 };

@@ -16,6 +16,7 @@ import {
 import BaseComponent from '../../Components/BaseComponent/BaseComponent';
 import { getTargetFromSelection } from '../../Components/OATPropertyEditor/Utils';
 import { isDTDLReference } from '../../Models/Services/DtdlUtils';
+import OATImportProgressDialog from '../../Components/OATImportProgressDialog/OATImportProgressDialog';
 
 const OATEditorPageContent: React.FC<IOATEditorPageProps> = (props) => {
     const { locale, localeStrings, selectedThemeName } = props;
@@ -71,6 +72,7 @@ const OATEditorPageContent: React.FC<IOATEditorPageProps> = (props) => {
                         </div>
                     )}
                 </div>
+                <OATImportProgressDialog />
                 <OATErrorHandlingModal />
             </BaseComponent>
         </>

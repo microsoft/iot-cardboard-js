@@ -29,6 +29,8 @@ export interface IOATConfirmDialogProps {
     title?: string;
     /** button text for the primary action */
     primaryButtonText?: string;
+    /** additional react content to show in the body */
+    additionalContent?: () => React.ReactNode;
 }
 
 export interface IOATModelPosition {

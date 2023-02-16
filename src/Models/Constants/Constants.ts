@@ -14,7 +14,11 @@ import {
     IWidgetLibraryItem
 } from '../Classes/3DVConfig';
 import i18n from '../../i18n';
-import { DTDLSchemaType, DTDLType } from '../../Models/Classes/DTDL';
+import {
+    DTDLSchemaType,
+    DTDLType,
+    DTDL_CONTEXT_VERSION_2
+} from '../../Models/Classes/DTDL';
 import IconDouble from '../../Resources/Static/Double.svg';
 import IconFloat from '../../Resources/Static/Float.svg';
 import IconInteger from '../../Resources/Static/Integer.svg';
@@ -69,6 +73,8 @@ export const DOCUMENTATION_LINKS = {
     howToWidgets: `${HOW_TO_DOC}#widgets`,
     // https://learn.microsoft.com/azure/digital-twins/concepts-ontologies
     ontologyConcepts: 'https://go.microsoft.com/fwlink/?linkid=2209943',
+    // https://learn.microsoft.com/azure/digital-twins/concepts-models#supported-dtdl-versions
+    ontologyConceptsVersions: 'https://go.microsoft.com/fwlink/?linkid=2225628',
     dataHistory: ADT_DATA_HISTORY_WITH_ADX
 };
 
@@ -326,12 +332,15 @@ export const OAT_UNTARGETED_RELATIONSHIP_ID_PREFIX = 'untargeted';
 export const OAT_INTERFACE_TYPE = 'Interface';
 export const OAT_GRAPH_REFERENCE_TYPE = 'Relationship';
 export const OAT_DEFAULT_PATH_VALUE = 'com:example';
+export const OAT_DEFAULT_CONTEXT = DTDL_CONTEXT_VERSION_2;
 export const OAT_MODEL_ID_PREFIX = 'dtmi';
 export const OAT_COMMENT_LENGTH_LIMIT = 512;
 export const OAT_DESCRIPTION_LENGTH_LIMIT = 512;
 export const OAT_DISPLAY_NAME_LENGTH_LIMIT = 64;
 export const OAT_NAME_LENGTH_LIMIT = 64;
 export const OAT_ID_LENGTH_LIMIT = 2048;
+/** max limit for the total count of references in the ontology due to perf degredation above this */
+export const OAT_ONTOLOGY_MAX_REFERENCE_LIMIT = 200;
 
 export const SelectedCameraInteractionKey = 'cb-camera-interaction';
 export const ViewerThemeStorageKey = 'cb-viewer-theme';

@@ -71,7 +71,10 @@ interface IImportError {
     message: string;
 }
 interface IImportFileResult {
-    models: DtdlInterface[];
+    data: DtdlInterface[];
+    stats: {
+        newModelCount: number;
+    };
     errors: IImportError[];
     status: ImportStatus;
 }
@@ -87,7 +90,8 @@ export const parseFilesToModels = async (
     const { files, currentModels = [], localizationKeys, translate } = args;
     const result: IImportFileResult = {
         errors: [],
-        models: [],
+        data: [],
+        stats: { newModelCount: 0 },
         status: 'Success'
     };
     try {
@@ -121,8 +125,10 @@ export const parseFilesToModels = async (
                 translate,
                 localizationKeys
             );
+            result.stats.newModelCount =
+                fileValidationResult.validFiles?.length ?? 0;
             result.errors = parseResult.errors;
-            result.models = parseResult.models;
+            result.data = parseResult.models;
             result.status =
                 parseResult.errors?.length > 0 ? 'Failed' : 'Success';
         }

@@ -9,7 +9,11 @@ import {
     IOatProjectData,
     ProjectData
 } from '../../../Pages/OATEditorPage/Internal/Classes/ProjectData';
-import { OAT_DEFAULT_PATH_VALUE } from '../../Constants/Constants';
+import {
+    OAT_DEFAULT_CONTEXT,
+    OAT_DEFAULT_PATH_VALUE,
+    OAT_ONTOLOGY_MAX_REFERENCE_LIMIT
+} from '../../Constants/Constants';
 import {
     getOntologiesFromStorage,
     getLastUsedProjectId,
@@ -24,20 +28,21 @@ import {
     OatPageContextActionType
 } from './OatPageContext.types';
 import {
-    createProject,
-    saveData,
-    switchCurrentProject,
-    convertStateToProject,
-    deleteModelFromState,
-    setSelectedModel,
-    updateModelId,
-    addTargetedRelationship,
     addNewModelToState,
+    addTargetedRelationship,
     addUntargetedRelationship,
-    getModelIndexById,
+    convertStateToProject,
+    createProject,
+    deleteModelFromState,
+    deleteReferenceFromState,
     getModelById,
+    getModelIndexById,
     getReferenceIndexByName,
-    deleteReferenceFromState
+    getTotalReferenceCount,
+    saveData,
+    setSelectedModel,
+    switchCurrentProject,
+    updateModelId
 } from './OatPageContextUtils';
 
 const debugLogging = false;
@@ -64,17 +69,20 @@ export const OatPageContextReducer: (
             case OatPageContextActionType.CREATE_PROJECT: {
                 createProject(
                     action.payload.name,
-                    action.payload.namespace,
+                    action.payload.defaultPath,
+                    action.payload.defaultContext,
                     draft
                 );
                 break;
             }
             case OatPageContextActionType.EDIT_PROJECT: {
-                draft.currentOntologyDefaultPath = action.payload.namespace.replace(
+                draft.currentOntologyDefaultPath = action.payload.defaultPath.replace(
                     / /g,
                     ''
                 );
                 draft.currentOntologyProjectName = action.payload.name;
+                draft.currentOntologyDefaultContext =
+                    action.payload.defaultContext;
                 saveData(draft);
                 break;
             }
@@ -97,8 +105,9 @@ export const OatPageContextReducer: (
                     } else {
                         // create a new project if none exist to switch to
                         const name = i18n.t('OATCommon.defaultFileName');
-                        const namespace = OAT_DEFAULT_PATH_VALUE;
-                        createProject(name, namespace, draft);
+                        const path = OAT_DEFAULT_PATH_VALUE;
+                        const context = OAT_DEFAULT_CONTEXT;
+                        createProject(name, path, context, draft);
                     }
                 } else {
                     logDebugConsole(
@@ -348,6 +357,10 @@ export const OatPageContextReducer: (
                 saveData(draft);
                 break;
             }
+            case OatPageContextActionType.UPDATE_IMPORT_PROGRESS: {
+                draft.importState = action.payload;
+                break;
+            }
             case OatPageContextActionType.IMPORT_MODELS: {
                 const { models } = action.payload;
                 if (models?.length > 0) {
@@ -367,6 +380,15 @@ export const OatPageContextReducer: (
                 break;
             }
             case OatPageContextActionType.ADD_NEW_MODEL: {
+                // if (draft.currentOntologyModels?.length >= MAX_MODEL_COUNT) {
+                //     draft.error = {
+                //         title: i18n.t('OAT.ImportLimits.title'),
+                //         message: i18n.t('OAT.ImportLimits.message', {
+                //             count: MAX_MODEL_COUNT
+                //         })
+                //     };
+                //     break;
+                // }
                 const newModel = addNewModelToState(draft);
                 setSelectedModel(
                     {
@@ -383,6 +405,17 @@ export const OatPageContextReducer: (
                 break;
             }
             case OatPageContextActionType.ADD_NEW_RELATIONSHIP: {
+                if (
+                    getTotalReferenceCount(draft.currentOntologyModels) >
+                    OAT_ONTOLOGY_MAX_REFERENCE_LIMIT
+                ) {
+                    draft.error = {
+                        title: i18n.t('OAT.ImportLimits.title'),
+                        message: i18n.t('OAT.ImportLimits.message', {
+                            count: OAT_ONTOLOGY_MAX_REFERENCE_LIMIT
+                        })
+                    };
+                }
                 if (action.payload.type === 'Targeted') {
                     const {
                         relationshipType,
@@ -409,12 +442,25 @@ export const OatPageContextReducer: (
                     sourceModelId
                 } = action.payload;
                 const targetModel = addNewModelToState(draft, position);
-                addTargetedRelationship(
-                    draft,
-                    sourceModelId,
-                    targetModel['@id'],
-                    relationshipType
-                );
+                if (
+                    getTotalReferenceCount(draft.currentOntologyModels) >
+                    OAT_ONTOLOGY_MAX_REFERENCE_LIMIT
+                ) {
+                    draft.error = {
+                        title: i18n.t('OAT.ImportLimits.title'),
+                        message: i18n.t('OAT.ImportLimits.message', {
+                            count: OAT_ONTOLOGY_MAX_REFERENCE_LIMIT
+                        })
+                    };
+                    saveData(draft);
+                } else {
+                    addTargetedRelationship(
+                        draft,
+                        sourceModelId,
+                        targetModel['@id'],
+                        relationshipType
+                    );
+                }
                 saveData(draft);
 
                 break;
@@ -425,6 +471,10 @@ export const OatPageContextReducer: (
             }
             case OatPageContextActionType.CLEAR_GRAPH_LAYOUT: {
                 draft.triggerGraphLayout = false;
+                break;
+            }
+            case OatPageContextActionType.PERFORM_GRAPH_LAYOUT: {
+                draft.triggerGraphLayout = true;
                 break;
             }
             case OatPageContextActionType.GRAPH_CLEAR_MODELS_TO_SYNC: {
@@ -516,9 +566,11 @@ const emptyState: IOatPageContextState = {
     currentOntologyModelPositions: [],
     currentOntologyModels: [],
     currentOntologyDefaultPath: '',
+    currentOntologyDefaultContext: '',
     currentOntologyProjectName: '',
     currentOntologyTemplates: [],
     // other properties
+    importState: { state: 'closed' },
     triggerGraphLayout: false,
     confirmDialog: { open: false },
     languageOptions: [],
@@ -564,6 +616,7 @@ const getInitialState = (
         project = new ProjectData(
             i18n.t('OATCommon.defaultFileName'),
             OAT_DEFAULT_PATH_VALUE,
+            OAT_DEFAULT_CONTEXT,
             [],
             [],
             [],
@@ -590,6 +643,8 @@ const getInitialState = (
         currentOntologyModelPositions: project.modelPositions,
         currentOntologyModels: project.models,
         currentOntologyDefaultPath: project.defaultPath,
+        currentOntologyDefaultContext:
+            project.defaultContext || OAT_DEFAULT_CONTEXT, // backfill any old projects
         currentOntologyProjectName: project.projectName,
         currentOntologyTemplates: project.templates,
         languageOptions: getAvailableLanguages(i18n)

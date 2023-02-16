@@ -11,10 +11,20 @@ const classNames = {
 
 // export const VERSION3UPGRADEBUTTON_CLASS_NAMES = classNames;
 export const getStyles = (
-    _props: IVersion3UpgradeButtonStyleProps
+    props: IVersion3UpgradeButtonStyleProps
 ): IVersion3UpgradeButtonStyles => {
+    const { theme } = props;
     return {
         root: [classNames.root],
-        subComponentStyles: {}
+        subComponentStyles: {
+            button: {
+                root: {
+                    height: 32,
+                    width: 'fit-content',
+                    borderRadius: theme.effects.roundedCorner4,
+                    backgroundColor: theme.palette.neutralLighter
+                }
+            }
+        }
     };
 };
