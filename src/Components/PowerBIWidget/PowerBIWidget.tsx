@@ -36,7 +36,7 @@ const PowerBIWidget: React.FC<IPowerBIWidgetProps> = (props) => {
     });
 
     if (
-        widgetConfiguration?.reportId &&
+        widgetConfiguration?.embedUrl &&
         (widgetConfiguration.type === 'visual' ||
             widgetConfiguration.type === 'tile')
     ) {
@@ -48,7 +48,7 @@ const PowerBIWidget: React.FC<IPowerBIWidgetProps> = (props) => {
                 <PowerBIEmbed
                     embedConfig={{
                         type: widgetConfiguration?.type || 'visual',
-                        id: widgetConfiguration.reportId,
+                        embedUrl: widgetConfiguration.embedUrl,
                         visualName: widgetConfiguration?.visualName,
                         settings: {
                             panes: {
