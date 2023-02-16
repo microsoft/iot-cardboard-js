@@ -3,6 +3,8 @@ import { ComponentStory } from '@storybook/react';
 import { getDefaultStoryDecorator } from '../../../../Models/Services/StoryUtilities';
 import JSONEditor from './JSONEditor';
 import { IJSONEditorProps } from './JSONEditor.types';
+import { OatPageContextProvider } from '../../../../Models/Context/OatPageContext/OatPageContext';
+import { CommandHistoryContextProvider } from '../../../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
 
 const wrapperStyle = { width: '100%', height: '600px', padding: 8 };
 
@@ -15,7 +17,13 @@ export default {
 type JSONEditorStory = ComponentStory<typeof JSONEditor>;
 
 const Template: JSONEditorStory = (args) => {
-    return <JSONEditor {...args} />;
+    return (
+        <OatPageContextProvider disableLocalStorage={true}>
+            <CommandHistoryContextProvider>
+                <JSONEditor {...args} />
+            </CommandHistoryContextProvider>
+        </OatPageContextProvider>
+    );
 };
 
 export const Base = Template.bind({}) as JSONEditorStory;
