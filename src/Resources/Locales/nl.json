@@ -1150,7 +1150,6 @@
   "advancedSearch": {
     "toggleSelection": "Schakel in om Twin te selecteren",
     "selectRow": "Twin geselecteerd",
-    "inspectProperty": "Inspecteer onroerend goed",
     "results": "Resultaten ({{twinCount}})",
     "noPropertiesFound": "Geen accommodaties gevonden",
     "addNewButton": "Nieuwe toevoegen",
@@ -1172,7 +1171,8 @@
     "columnPicker": "Kolomkiezer",
     "propertyCount": "{{selectedPropsCount}} eigenschappen geselecteerd",
     "availableProperties": "Dropdown van beschikbare eigenschappen",
-    "selectAdditionalColumns": "Extra kolommen selecteren"
+    "selectAdditionalColumns": "Extra kolommen selecteren",
+    "inspectPropert": "Eigenschappen inspecteren"
   },
   "highcharts": {
     "shareQueryTitle": "Query delen",

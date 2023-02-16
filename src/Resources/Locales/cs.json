@@ -1150,7 +1150,6 @@
   "advancedSearch": {
     "toggleSelection": "Přepnout na Vybrat dvojče",
     "selectRow": "Vybrané dvojče",
-    "inspectProperty": "Zkontrolovat nemovitost",
     "results": "Výsledky ({{twinCount}})",
     "noPropertiesFound": "Nebyly nalezeny žádné možnosti ubytování",
     "addNewButton": "Přidat nové",
@@ -1172,7 +1171,8 @@
     "columnPicker": "Výběr sloupců",
     "propertyCount": "{{selectedPropsCount}} vlastnosti vybrané",
     "availableProperties": "Rozbalovací nabídka dostupných ubytování",
-    "selectAdditionalColumns": "Výběr dalších sloupců"
+    "selectAdditionalColumns": "Výběr dalších sloupců",
+    "inspectPropert": "Kontrola vlastností"
   },
   "highcharts": {
     "shareQueryTitle": "Sdílet dotaz",
