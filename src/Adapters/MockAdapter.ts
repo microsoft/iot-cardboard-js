@@ -1049,7 +1049,7 @@ export default class MockAdapter
         useStaticData?: boolean
     ) {
         let mockData: Array<ADXTimeSeries> = [];
-        let mockTimeSeriesData: Array<Array<TimeSeriesData>> = this.mockData;
+        const mockTimeSeriesData: Array<Array<TimeSeriesData>> = this.mockData;
         try {
             await this.mockNetwork();
             try {
@@ -1067,14 +1067,14 @@ export default class MockAdapter
                         .split(' | ')[0]
                         .replace(/'/g, ''); // get the twin property and replace the single quote characters around the string
 
-                    mockTimeSeriesData =
-                        mockTimeSeriesData ||
+                    if (!mockTimeSeriesData) {
                         getMockTimeSeriesDataArrayInLocalTime(
                             listOfTimeSeries.length,
                             5,
                             quickTimeSpanInMillis,
                             useStaticData
                         );
+                    }
                     mockData.push({
                         seriesId: seriesIds[idx],
                         id: twinId,
