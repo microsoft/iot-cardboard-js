@@ -1172,7 +1172,7 @@
     "propertyCount": "Wybrano właściwości {{selectedPropsCount}}",
     "availableProperties": "Lista rozwijana dostępnych właściwości",
     "selectAdditionalColumns": "Zaznaczanie dodatkowych kolumn",
-    "inspectPropert": "Sprawdzanie właściwości"
+    "inspectProperties": "Sprawdzanie właściwości"
   },
   "highcharts": {
     "shareQueryTitle": "Udostępnianie zapytania",

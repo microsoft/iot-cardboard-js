@@ -1172,7 +1172,7 @@
     "propertyCount": "Propriétés {{selectedPropsCount}} sélectionnées",
     "availableProperties": "Liste déroulante des propriétés disponibles",
     "selectAdditionalColumns": "Sélectionner des colonnes supplémentaires",
-    "inspectPropert": "Inspecter les propriétés"
+    "inspectProperties": "Inspecter les propriétés"
   },
   "highcharts": {
     "shareQueryTitle": "Partager la requête",

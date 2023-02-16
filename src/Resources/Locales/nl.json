@@ -1172,7 +1172,7 @@
     "propertyCount": "{{selectedPropsCount}} eigenschappen geselecteerd",
     "availableProperties": "Dropdown van beschikbare eigenschappen",
     "selectAdditionalColumns": "Extra kolommen selecteren",
-    "inspectPropert": "Eigenschappen inspecteren"
+    "inspectProperties": "Eigenschappen inspecteren"
   },
   "highcharts": {
     "shareQueryTitle": "Query delen",

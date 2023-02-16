@@ -1172,7 +1172,7 @@
     "propertyCount": "{{selectedPropsCount}} tulajdonságok ki vannak választva",
     "availableProperties": "Az elérhető szállások legördülő menüje",
     "selectAdditionalColumns": "További oszlopok kijelölése",
-    "inspectPropert": "Tulajdonságok vizsgálata"
+    "inspectProperties": "Tulajdonságok vizsgálata"
   },
   "highcharts": {
     "shareQueryTitle": "Lekérdezés megosztása",

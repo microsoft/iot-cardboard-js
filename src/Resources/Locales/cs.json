@@ -1172,7 +1172,7 @@
     "propertyCount": "{{selectedPropsCount}} vlastnosti vybrané",
     "availableProperties": "Rozbalovací nabídka dostupných ubytování",
     "selectAdditionalColumns": "Výběr dalších sloupců",
-    "inspectPropert": "Kontrola vlastností"
+    "inspectProperties": "Kontrola vlastností"
   },
   "highcharts": {
     "shareQueryTitle": "Sdílet dotaz",

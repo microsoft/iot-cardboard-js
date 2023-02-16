@@ -1172,7 +1172,7 @@
     "propertyCount": "{{selectedPropsCount}} egenskaper valda",
     "availableProperties": "Rullgardinsmeny med tillgängliga egenskaper",
     "selectAdditionalColumns": "Välj ytterligare kolumner",
-    "inspectPropert": "Inspektera egenskaper"
+    "inspectProperties": "Inspektera egenskaper"
   },
   "highcharts": {
     "shareQueryTitle": "Dela fråga",

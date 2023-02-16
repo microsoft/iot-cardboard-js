@@ -1172,7 +1172,7 @@
     "propertyCount": "{{selectedPropsCount}} 속성 선택됨",
     "availableProperties": "사용 가능한 속성의 드롭다운",
     "selectAdditionalColumns": "추가 열 선택",
-    "inspectPropert": "속성 검사"
+    "inspectProperties": "속성 검사"
   },
   "highcharts": {
     "shareQueryTitle": "쿼리 공유",
