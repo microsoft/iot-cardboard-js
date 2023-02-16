@@ -204,11 +204,11 @@ const JSONEditor: React.FC<IJSONEditorProps> = (props) => {
                 }
                 beforeMount={setEditorTheme}
                 height={'100%'}
-                // className={}
                 options={{
                     minimap: {
                         enabled: false
-                    }
+                    },
+                    readOnly: true
                 }}
             />
             {oatPageState.modified && (
