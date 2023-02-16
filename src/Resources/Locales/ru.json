@@ -1150,7 +1150,6 @@
   "advancedSearch": {
     "toggleSelection": "Переключение на выбор Twin",
     "selectRow": "Выбран близнец",
-    "inspectProperty": "Инспекция имущества",
     "results": "Результаты ({{twinCount}})",
     "noPropertiesFound": "Недвижимость не найдена",
     "addNewButton": "Добавить новый",
@@ -1172,7 +1171,8 @@
     "columnPicker": "Средство выбора столбцов",
     "propertyCount": "Выбрано свойство {{selectedPropsCount}}",
     "availableProperties": "Раскрывающийся список доступных свойств",
-    "selectAdditionalColumns": "Выбор дополнительных столбцов"
+    "selectAdditionalColumns": "Выбор дополнительных столбцов",
+    "inspectPropert": "Проверка свойств"
   },
   "highcharts": {
     "shareQueryTitle": "Общий доступ к запросу",

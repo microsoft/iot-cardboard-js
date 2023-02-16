@@ -1150,7 +1150,6 @@
   "advancedSearch": {
     "toggleSelection": "트윈 선택으로 전환",
     "selectRow": "트윈 선택",
-    "inspectProperty": "속성 검사",
     "results": "결과 ({{twinCount}})",
     "noPropertiesFound": "속성을 찾을 수 없음",
     "addNewButton": "새로 추가",
@@ -1172,7 +1171,8 @@
     "columnPicker": "열 선택기",
     "propertyCount": "{{selectedPropsCount}} 속성 선택됨",
     "availableProperties": "사용 가능한 속성의 드롭다운",
-    "selectAdditionalColumns": "추가 열 선택"
+    "selectAdditionalColumns": "추가 열 선택",
+    "inspectPropert": "속성 검사"
   },
   "highcharts": {
     "shareQueryTitle": "쿼리 공유",
