@@ -83,7 +83,7 @@ const DataHistoryExplorer: React.FC<IDataHistoryExplorerProps> = (props) => {
         hasTitle = true,
         timeSeriesTwins: timeSeriesTwinsProp = [],
         defaultChartOptions,
-        wrapperId = useGuid(),
+        dataHistoryInstanceId = useGuid(),
         styles
     } = props;
 
@@ -242,7 +242,7 @@ const DataHistoryExplorer: React.FC<IDataHistoryExplorerProps> = (props) => {
                         .EditSeries;
                 sendDataHistoryExplorerUserTelemetry(
                     telemetry.eventName,
-                    wrapperId,
+                    dataHistoryInstanceId,
                     [
                         {
                             [telemetry.properties.seriesId]:
@@ -278,7 +278,7 @@ const DataHistoryExplorer: React.FC<IDataHistoryExplorerProps> = (props) => {
                         .AddSeries;
                 sendDataHistoryExplorerUserTelemetry(
                     telemetry.eventName,
-                    wrapperId,
+                    dataHistoryInstanceId,
                     [
                         {
                             [telemetry.properties.hasCustomLabel]:
@@ -338,7 +338,7 @@ const DataHistoryExplorer: React.FC<IDataHistoryExplorerProps> = (props) => {
                     .RemoveSeries;
             sendDataHistoryExplorerUserTelemetry(
                 telemetry.eventName,
-                wrapperId,
+                dataHistoryInstanceId,
                 [
                     {
                         [telemetry.properties.seriesId]: seriesId
@@ -374,7 +374,7 @@ const DataHistoryExplorer: React.FC<IDataHistoryExplorerProps> = (props) => {
                 TelemetryEvents.Tools.DataHistoryExplorer.UserAction.ChangeView;
             sendDataHistoryExplorerUserTelemetry(
                 telemetry.eventName,
-                wrapperId,
+                dataHistoryInstanceId,
                 [
                     {
                         [telemetry.properties.view]: viewerMode
@@ -401,7 +401,7 @@ const DataHistoryExplorer: React.FC<IDataHistoryExplorerProps> = (props) => {
                     .ChangeChartOption;
             sendDataHistoryExplorerUserTelemetry(
                 telemetry.eventName,
-                wrapperId,
+                dataHistoryInstanceId,
                 [
                     {
                         [telemetry.properties.chartOptions]: chartOptions
@@ -435,11 +435,15 @@ const DataHistoryExplorer: React.FC<IDataHistoryExplorerProps> = (props) => {
         );
         const telemetry =
             TelemetryEvents.Tools.DataHistoryExplorer.UserAction.DownloadTable;
-        sendDataHistoryExplorerUserTelemetry(telemetry.eventName, wrapperId, [
-            {
-                [telemetry.properties.numberOfRows]: data.length
-            }
-        ]);
+        sendDataHistoryExplorerUserTelemetry(
+            telemetry.eventName,
+            dataHistoryInstanceId,
+            [
+                {
+                    [telemetry.properties.numberOfRows]: data.length
+                }
+            ]
+        );
     }, [tableData, downloadJSON, sendDataHistoryExplorerUserTelemetry]);
 
     const handleOnRefreshClick = useCallback(() => {
@@ -449,7 +453,10 @@ const DataHistoryExplorer: React.FC<IDataHistoryExplorerProps> = (props) => {
         });
         const telemetry =
             TelemetryEvents.Tools.DataHistoryExplorer.UserAction.ForceRefresh;
-        sendDataHistoryExplorerUserTelemetry(telemetry.eventName, wrapperId);
+        sendDataHistoryExplorerUserTelemetry(
+            telemetry.eventName,
+            dataHistoryInstanceId
+        );
     }, [dispatch, sendDataHistoryExplorerUserTelemetry]);
 
     const viewerModeProps: IViewerModeProps = useMemo(
@@ -559,7 +566,7 @@ const DataHistoryExplorer: React.FC<IDataHistoryExplorerProps> = (props) => {
         );
         sendDataHistoryExplorerSystemTelemetry(
             state.timeSeriesTwins,
-            wrapperId
+            dataHistoryInstanceId
         );
     }, [state.timeSeriesTwins]);
 
@@ -618,7 +625,7 @@ const DataHistoryExplorer: React.FC<IDataHistoryExplorerProps> = (props) => {
                             onChartOptionsChange={handleOnChartOptionChange}
                             data={viewerData}
                             error={errors[0]}
-                            wrapperId={wrapperId}
+                            dataHistoryInstanceId={dataHistoryInstanceId}
                             styles={classNames.subComponentStyles.viewer}
                         />
                     </Stack>
@@ -649,7 +656,7 @@ const DataHistoryExplorer: React.FC<IDataHistoryExplorerProps> = (props) => {
                                     payload: { isVisible: false }
                                 });
                             }}
-                            wrapperId={wrapperId}
+                            dataHistoryInstanceId={dataHistoryInstanceId}
                         />
                     )}
                 </>

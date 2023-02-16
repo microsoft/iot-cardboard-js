@@ -60,7 +60,7 @@ const TimeSeriesTwinCallout: React.FC<ITimeSeriesTwinCalloutProps> = (
         target,
         onDismiss,
         onPrimaryActionClick,
-        wrapperId = useGuid(),
+        dataHistoryInstanceId = useGuid(),
         styles
     } = props;
 
@@ -138,7 +138,7 @@ const TimeSeriesTwinCallout: React.FC<ITimeSeriesTwinCalloutProps> = (
                     .ToggleNumericCasting;
             sendDataHistoryExplorerUserTelemetry(
                 telemetry.eventName,
-                wrapperId,
+                dataHistoryInstanceId,
                 [
                     {
                         [telemetry.properties.toggleValue]: checked
@@ -149,7 +149,7 @@ const TimeSeriesTwinCallout: React.FC<ITimeSeriesTwinCalloutProps> = (
         [
             setTimeSeriesTwinToEdit,
             sendDataHistoryExplorerUserTelemetry,
-            wrapperId
+            dataHistoryInstanceId
         ]
     );
     const handleLabelChange = useCallback(

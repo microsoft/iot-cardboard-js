@@ -49,7 +49,7 @@ const TimeSeriesCommandBar: React.FC<ITimeSeriesCommandBarProps> = (props) => {
         defaultChartOptions,
         onChartOptionsChange,
         viewerModeProps,
-        wrapperId = useGuid(),
+        dataHistoryInstanceId = useGuid(),
         styles
     } = props;
 
@@ -174,7 +174,7 @@ const TimeSeriesCommandBar: React.FC<ITimeSeriesCommandBarProps> = (props) => {
                                   .UserAction.OpenSeriesInAdx;
                           sendDataHistoryExplorerUserTelemetry(
                               telemetry.eventName,
-                              wrapperId
+                              dataHistoryInstanceId
                           );
                       }
                   }

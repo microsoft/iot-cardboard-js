@@ -75,20 +75,26 @@ const DataHistoryExplorerModalControl: React.FC<IDataHistoryExplorerModalControl
                 : undefined,
         [initialTwinId]
     );
-    const modalId = useGuid();
+    const dataHistoryInstanceId = useGuid();
 
     //callbacks
     const handleOnOpenClick = useCallback(() => {
         setIsModalVisible(true);
         const telemetry =
             TelemetryEvents.Tools.DataHistoryExplorer.UserAction.OpenModal;
-        sendDataHistoryExplorerUserTelemetry(telemetry.eventName, modalId);
+        sendDataHistoryExplorerUserTelemetry(
+            telemetry.eventName,
+            dataHistoryInstanceId
+        );
     }, [sendDataHistoryExplorerUserTelemetry]);
     const handleOnDismiss = useCallback(() => {
         setIsModalVisible(false);
         const telemetry =
             TelemetryEvents.Tools.DataHistoryExplorer.UserAction.CloseModal;
-        sendDataHistoryExplorerUserTelemetry(telemetry.eventName, modalId);
+        sendDataHistoryExplorerUserTelemetry(
+            telemetry.eventName,
+            dataHistoryInstanceId
+        );
     }, [sendDataHistoryExplorerUserTelemetry]);
 
     // side-effects
@@ -141,7 +147,7 @@ const DataHistoryExplorerModalControl: React.FC<IDataHistoryExplorerModalControl
                 isOpen={isModalVisible}
                 onDismiss={handleOnDismiss}
                 timeSeriesTwins={defaultTimeSeriesTwinList}
-                modalId={modalId}
+                dataHistoryInstanceId={dataHistoryInstanceId}
             />
         </div>
     );

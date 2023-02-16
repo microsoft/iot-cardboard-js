@@ -34,7 +34,7 @@ const DataHistoryExplorerModal: React.FC<IDataHistoryExplorerModalProps> = (
         isOpen,
         onDismiss,
         timeSeriesTwins,
-        modalId = useGuid(),
+        dataHistoryInstanceId = useGuid(),
         styles
     } = props;
 
@@ -63,7 +63,7 @@ const DataHistoryExplorerModal: React.FC<IDataHistoryExplorerModalProps> = (
                     adapter={adapter}
                     hasTitle={false}
                     timeSeriesTwins={timeSeriesTwins}
-                    wrapperId={modalId}
+                    dataHistoryInstanceId={dataHistoryInstanceId}
                 />
             </CardboardModal>
         </div>

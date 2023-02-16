@@ -46,7 +46,7 @@ const TimeSeriesViewer: React.FC<ITimeSeriesViewerProps> = (props) => {
         explorerChartOptions,
         onChartOptionsChange,
         error,
-        wrapperId = useGuid(),
+        dataHistoryInstanceId = useGuid(),
         styles
     } = props;
 
@@ -74,7 +74,7 @@ const TimeSeriesViewer: React.FC<ITimeSeriesViewerProps> = (props) => {
                     }}
                     viewerModeProps={viewerModeProps}
                     onChartOptionsChange={onChartOptionsChange}
-                    wrapperId={wrapperId}
+                    dataHistoryInstanceId={dataHistoryInstanceId}
                     styles={classNames.subComponentStyles.commandBar}
                 />
             );
@@ -84,7 +84,7 @@ const TimeSeriesViewer: React.FC<ITimeSeriesViewerProps> = (props) => {
         viewerModeProps,
         onChartOptionsChange,
         classNames,
-        wrapperId
+        dataHistoryInstanceId
     ]);
 
     const SpinnerComponent = useMemo(
