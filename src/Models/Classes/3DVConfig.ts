@@ -179,7 +179,7 @@ export const defaultPowerBIWidget: IPowerBIWidget = {
     widgetConfiguration: {
         label: '',
         type: 'visual',
-        reportId: ''
+        embedUrl: ''
     }
 };
 
