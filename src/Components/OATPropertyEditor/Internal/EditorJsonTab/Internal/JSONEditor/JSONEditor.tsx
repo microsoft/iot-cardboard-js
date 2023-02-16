@@ -35,7 +35,10 @@ import {
 import { parseModels } from '../../../../../../Models/Services/OatPublicUtils';
 import { getDebugLogger } from '../../../../../../Models/Services/Utils';
 import Editor from '@monaco-editor/react';
-import { isDTDLModel } from '../../../../../../Models/Services/DtdlUtils';
+import {
+    isDTDLModel,
+    isDTDLReference
+} from '../../../../../../Models/Services/DtdlUtils';
 import {
     getModelById,
     getModelIndexById,
@@ -177,19 +180,20 @@ const JSONEditor: React.FC<IJSONEditorProps> = (props) => {
             return;
         }
         let updatedModel: DtdlInterface;
+        const originalModelId = oatPageState.selection.modelId;
         if (isDTDLModel(updatedItem)) {
             // bind the updated model
             updatedModel = updatedItem;
-        } else {
+        } else if (isDTDLReference(selectedItem)) {
             // get the model and update the reference on the model
             updatedModel = getModelById(
                 oatPageState.currentOntologyModels,
-                oatPageState.selection.modelId
+                originalModelId
             );
             const contents = ensureIsArray(updatedModel.contents);
             const index = getReferenceIndexByName(
                 updatedModel,
-                updatedItem.name
+                selectedItem.name // use the original name in case they change it in the update
             );
             contents[index] = updatedItem;
             updatedModel.contents = contents;
@@ -197,7 +201,7 @@ const JSONEditor: React.FC<IJSONEditorProps> = (props) => {
 
         // validate the updated collection is valid
         const models = oatPageState.currentOntologyModels;
-        const modelIndex = getModelIndexById(models, updatedModel['@id']);
+        const modelIndex = getModelIndexById(models, originalModelId);
         models[modelIndex] = updatedModel;
         const parsingError = await parseModels(models);
 
@@ -227,7 +231,8 @@ const JSONEditor: React.FC<IJSONEditorProps> = (props) => {
         execute,
         oatPageDispatch,
         oatPageState.currentOntologyModels,
-        oatPageState.selection,
+        oatPageState.selection.modelId,
+        selectedItem,
         t
     ]);
 

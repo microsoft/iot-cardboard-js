@@ -8,6 +8,7 @@ import { getStyles } from './EditorJsonTab.styles';
 import { classNamesFunction, styled } from '@fluentui/react';
 import { useExtendedTheme } from '../../../../Models/Hooks/useExtendedTheme';
 import {
+    isDTDLComponentReference,
     isDTDLModel,
     isDTDLRelationshipReference
 } from '../../../../Models/Services/DtdlUtils';
@@ -24,7 +25,8 @@ const EditorJsonTab: React.FC<IEditorJsonTabProps> = (props) => {
     const isSupportedModelType = useMemo(
         () =>
             isDTDLModel(selectedItem) ||
-            isDTDLRelationshipReference(selectedItem),
+            isDTDLRelationshipReference(selectedItem) ||
+            isDTDLComponentReference(selectedItem),
         [selectedItem]
     );
 
