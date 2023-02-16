@@ -11,7 +11,7 @@ import {
     isDTDLModel,
     isDTDLRelationshipReference
 } from '../../../../Models/Services/DtdlUtils';
-import JSONEditor from '../JSONEditor/JSONEditor';
+import JSONEditor from './Internal/JSONEditor/JSONEditor';
 
 const getClassNames = classNamesFunction<
     IEditorJsonTabStyleProps,

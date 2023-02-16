@@ -1,5 +1,5 @@
 import { IJSONEditorStyleProps, IJSONEditorStyles } from './JSONEditor.types';
-import { CardboardClassNamePrefix } from '../../../../Models/Constants/Constants';
+import { CardboardClassNamePrefix } from '../../../../../../Models/Constants/Constants';
 
 export const EDITOR_HEIGHT = `calc(100% - 8px)`;
 

@@ -20,21 +20,21 @@ import {
     Stack,
     styled
 } from '@fluentui/react';
-import { useExtendedTheme } from '../../../../Models/Hooks/useExtendedTheme';
+import { useExtendedTheme } from '../../../../../../Models/Hooks/useExtendedTheme';
 import { useTranslation } from 'react-i18next';
-import { useOatPageContext } from '../../../../Models/Context/OatPageContext/OatPageContext';
-import { CommandHistoryContext } from '../../../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
-import { APP_BACKGROUND_KRAKEN } from '../../../../Models/Constants/StyleConstants';
-import { useLibTheme } from '../../../../Theming/ThemeProvider';
+import { useOatPageContext } from '../../../../../../Models/Context/OatPageContext/OatPageContext';
+import { CommandHistoryContext } from '../../../../../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
+import { APP_BACKGROUND_KRAKEN } from '../../../../../../Models/Constants/StyleConstants';
+import { useLibTheme } from '../../../../../../Theming/ThemeProvider';
 import {
     getTargetFromSelection,
     replaceTargetFromSelection
-} from '../../Utils';
-import { OatPageContextActionType } from '../../../../Models/Context/OatPageContext/OatPageContext.types';
-import { isDTDLRelationshipReference } from '../../../../Models/Services/DtdlUtils';
-import { DtdlInterface } from '../../../../Models/Constants';
-import { parseModels } from '../../../../Models/Services/OatPublicUtils';
-import { deepCopy } from '../../../../Models/Services/Utils';
+} from '../../../../Utils';
+import { OatPageContextActionType } from '../../../../../../Models/Context/OatPageContext/OatPageContext.types';
+import { isDTDLRelationshipReference } from '../../../../../../Models/Services/DtdlUtils';
+import { DtdlInterface } from '../../../../../../Models/Constants';
+import { parseModels } from '../../../../../../Models/Services/OatPublicUtils';
+import { deepCopy } from '../../../../../../Models/Services/Utils';
 import Editor from '@monaco-editor/react';
 
 const getClassNames = classNamesFunction<

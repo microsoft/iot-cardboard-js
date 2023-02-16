@@ -1,10 +1,10 @@
 import React from 'react';
 import { ComponentStory } from '@storybook/react';
-import { getDefaultStoryDecorator } from '../../../../Models/Services/StoryUtilities';
+import { getDefaultStoryDecorator } from '../../../../../../Models/Services/StoryUtilities';
 import JSONEditor from './JSONEditor';
 import { IJSONEditorProps } from './JSONEditor.types';
-import { OatPageContextProvider } from '../../../../Models/Context/OatPageContext/OatPageContext';
-import { CommandHistoryContextProvider } from '../../../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
+import { OatPageContextProvider } from '../../../../../../Models/Context/OatPageContext/OatPageContext';
+import { CommandHistoryContextProvider } from '../../../../../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
 
 const wrapperStyle = { width: '100%', height: '600px', padding: 8 };
 
