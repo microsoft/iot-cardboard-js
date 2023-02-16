@@ -15,6 +15,7 @@ import { CUSTOM_HIGHCHARTS_COLOR_IDX_1 } from '../Constants/StyleConstants';
 import {
     AppRegion,
     ComponentName,
+    CUSTOM_PROPERTY_NAMES,
     TelemetryEvents,
     TelemetryTrigger
 } from '../Constants/TelemetryConstants';
@@ -228,7 +229,7 @@ export const getDefaultSeriesLabel = (
 /** send the KPI telemetry of captured data history explorer modal metrics  */
 export const sendDataHistoryExplorerSystemTelemetry = (
     timeSeriesTwinList: Array<IDataHistoryTimeSeriesTwin>,
-    modalId: string
+    dataHistoryInstanceHash: string
 ) => {
     // capture the Data History Explorer Modal level metrics
     const event =
@@ -239,7 +240,7 @@ export const sendDataHistoryExplorerSystemTelemetry = (
             appRegion: AppRegion.DataHistoryExplorer,
             componentName: ComponentName.DataHistoryExplorerModal,
             customProperties: {
-                [event.properties.modalId]: modalId,
+                [CUSTOM_PROPERTY_NAMES.DataHistoryInstanceHash]: dataHistoryInstanceHash,
                 [event.properties.countSeries]: timeSeriesTwinList.length
             },
             triggerType: TelemetryTrigger.SystemAction
@@ -250,6 +251,7 @@ export const sendDataHistoryExplorerSystemTelemetry = (
 /** send the user actions telemetry  */
 export const sendDataHistoryExplorerUserTelemetry = (
     eventName: string,
+    dataHistoryInstanceHash: string,
     customProperties?: Array<CustomProperties>
 ) => {
     TelemetryService.sendEvent(
@@ -257,7 +259,10 @@ export const sendDataHistoryExplorerUserTelemetry = (
             name: eventName,
             appRegion: AppRegion.DataHistoryExplorer,
             componentName: ComponentName.DataHistoryExplorerModal,
-            customProperties,
+            customProperties: {
+                [CUSTOM_PROPERTY_NAMES.DataHistoryInstanceHash]: dataHistoryInstanceHash,
+                ...customProperties
+            },
             triggerType: TelemetryTrigger.UserAction
         })
     );

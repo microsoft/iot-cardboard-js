@@ -240,23 +240,24 @@ const DataHistoryExplorer: React.FC<IDataHistoryExplorerProps> = (props) => {
                 const telemetry =
                     TelemetryEvents.Tools.DataHistoryExplorer.UserAction
                         .EditSeries;
-                sendDataHistoryExplorerUserTelemetry(telemetry.eventName, [
-                    {
-                        [telemetry.properties.modalId]: wrapperId
-                    },
-                    {
-                        [telemetry.properties.seriesId]:
-                            state.selectedTimeSeriesId
-                    },
-                    {
-                        [telemetry.properties.hasCustomLabel]:
-                            timeSeriesTwin.label !==
-                            getDefaultSeriesLabel(
-                                timeSeriesTwin.twinId,
-                                timeSeriesTwin.twinPropertyName
-                            )
-                    }
-                ]);
+                sendDataHistoryExplorerUserTelemetry(
+                    telemetry.eventName,
+                    wrapperId,
+                    [
+                        {
+                            [telemetry.properties.seriesId]:
+                                state.selectedTimeSeriesId
+                        },
+                        {
+                            [telemetry.properties.hasCustomLabel]:
+                                timeSeriesTwin.label !==
+                                getDefaultSeriesLabel(
+                                    timeSeriesTwin.twinId,
+                                    timeSeriesTwin.twinPropertyName
+                                )
+                        }
+                    ]
+                );
             } else {
                 dispatch({
                     type: DataHistoryExplorerActionType.ADD_TIME_SERIES_TWINS,
@@ -275,19 +276,20 @@ const DataHistoryExplorer: React.FC<IDataHistoryExplorerProps> = (props) => {
                 const telemetry =
                     TelemetryEvents.Tools.DataHistoryExplorer.UserAction
                         .AddSeries;
-                sendDataHistoryExplorerUserTelemetry(telemetry.eventName, [
-                    {
-                        [telemetry.properties.modalId]: wrapperId
-                    },
-                    {
-                        [telemetry.properties.hasCustomLabel]:
-                            timeSeriesTwin.label !==
-                            getDefaultSeriesLabel(
-                                timeSeriesTwin.twinId,
-                                timeSeriesTwin.twinPropertyName
-                            )
-                    }
-                ]);
+                sendDataHistoryExplorerUserTelemetry(
+                    telemetry.eventName,
+                    wrapperId,
+                    [
+                        {
+                            [telemetry.properties.hasCustomLabel]:
+                                timeSeriesTwin.label !==
+                                getDefaultSeriesLabel(
+                                    timeSeriesTwin.twinId,
+                                    timeSeriesTwin.twinPropertyName
+                                )
+                        }
+                    ]
+                );
             }
         },
         [
@@ -334,14 +336,15 @@ const DataHistoryExplorer: React.FC<IDataHistoryExplorerProps> = (props) => {
             const telemetry =
                 TelemetryEvents.Tools.DataHistoryExplorer.UserAction
                     .RemoveSeries;
-            sendDataHistoryExplorerUserTelemetry(telemetry.eventName, [
-                {
-                    [telemetry.properties.modalId]: wrapperId
-                },
-                {
-                    [telemetry.properties.seriesId]: seriesId
-                }
-            ]);
+            sendDataHistoryExplorerUserTelemetry(
+                telemetry.eventName,
+                wrapperId,
+                [
+                    {
+                        [telemetry.properties.seriesId]: seriesId
+                    }
+                ]
+            );
             /**
              * when a series is removed, also remove if from usedColors reference
              * so that whenever adding a new series we can use these available colors first
@@ -369,14 +372,15 @@ const DataHistoryExplorer: React.FC<IDataHistoryExplorerProps> = (props) => {
             });
             const telemetry =
                 TelemetryEvents.Tools.DataHistoryExplorer.UserAction.ChangeView;
-            sendDataHistoryExplorerUserTelemetry(telemetry.eventName, [
-                {
-                    [telemetry.properties.modalId]: wrapperId
-                },
-                {
-                    [telemetry.properties.view]: viewerMode
-                }
-            ]);
+            sendDataHistoryExplorerUserTelemetry(
+                telemetry.eventName,
+                wrapperId,
+                [
+                    {
+                        [telemetry.properties.view]: viewerMode
+                    }
+                ]
+            );
         },
         [dispatch, sendDataHistoryExplorerUserTelemetry]
     );
@@ -395,14 +399,15 @@ const DataHistoryExplorer: React.FC<IDataHistoryExplorerProps> = (props) => {
             const telemetry =
                 TelemetryEvents.Tools.DataHistoryExplorer.UserAction
                     .ChangeChartOption;
-            sendDataHistoryExplorerUserTelemetry(telemetry.eventName, [
-                {
-                    [telemetry.properties.modalId]: wrapperId
-                },
-                {
-                    [telemetry.properties.chartOptions]: chartOptions
-                }
-            ]);
+            sendDataHistoryExplorerUserTelemetry(
+                telemetry.eventName,
+                wrapperId,
+                [
+                    {
+                        [telemetry.properties.chartOptions]: chartOptions
+                    }
+                ]
+            );
         },
         [
             state.timeSeriesTwins,
@@ -430,10 +435,7 @@ const DataHistoryExplorer: React.FC<IDataHistoryExplorerProps> = (props) => {
         );
         const telemetry =
             TelemetryEvents.Tools.DataHistoryExplorer.UserAction.DownloadTable;
-        sendDataHistoryExplorerUserTelemetry(telemetry.eventName, [
-            {
-                [telemetry.properties.modalId]: wrapperId
-            },
+        sendDataHistoryExplorerUserTelemetry(telemetry.eventName, wrapperId, [
             {
                 [telemetry.properties.numberOfRows]: data.length
             }
@@ -447,11 +449,7 @@ const DataHistoryExplorer: React.FC<IDataHistoryExplorerProps> = (props) => {
         });
         const telemetry =
             TelemetryEvents.Tools.DataHistoryExplorer.UserAction.ForceRefresh;
-        sendDataHistoryExplorerUserTelemetry(telemetry.eventName, [
-            {
-                [telemetry.properties.modalId]: wrapperId
-            }
-        ]);
+        sendDataHistoryExplorerUserTelemetry(telemetry.eventName, wrapperId);
     }, [dispatch, sendDataHistoryExplorerUserTelemetry]);
 
     const viewerModeProps: IViewerModeProps = useMemo(

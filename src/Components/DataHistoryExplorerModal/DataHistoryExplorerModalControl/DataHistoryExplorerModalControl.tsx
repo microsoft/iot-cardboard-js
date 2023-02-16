@@ -82,21 +82,13 @@ const DataHistoryExplorerModalControl: React.FC<IDataHistoryExplorerModalControl
         setIsModalVisible(true);
         const telemetry =
             TelemetryEvents.Tools.DataHistoryExplorer.UserAction.OpenModal;
-        sendDataHistoryExplorerUserTelemetry(telemetry.eventName, [
-            {
-                [telemetry.properties.modalId]: modalId
-            }
-        ]);
+        sendDataHistoryExplorerUserTelemetry(telemetry.eventName, modalId);
     }, [sendDataHistoryExplorerUserTelemetry]);
     const handleOnDismiss = useCallback(() => {
         setIsModalVisible(false);
         const telemetry =
             TelemetryEvents.Tools.DataHistoryExplorer.UserAction.CloseModal;
-        sendDataHistoryExplorerUserTelemetry(telemetry.eventName, [
-            {
-                [telemetry.properties.modalId]: modalId
-            }
-        ]);
+        sendDataHistoryExplorerUserTelemetry(telemetry.eventName, modalId);
     }, [sendDataHistoryExplorerUserTelemetry]);
 
     // side-effects
