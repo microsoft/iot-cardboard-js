@@ -1419,7 +1419,6 @@
     "id": "Id",
     "info": "Informace",
     "integer": "celé číslo",
-    "json": "JSON",
     "key": "Klíč",
     "linestring": "Řetězec řádků",
     "long": "dlouhý",
@@ -1488,6 +1487,7 @@
         "changeChildTypeLabelForEnum": "Změna typu výčtu",
         "editMetadataLabel": "Upravit metadata"
       }
-    }
+    },
+    "jsonEditorTabName": "DTDL"
   }
 }

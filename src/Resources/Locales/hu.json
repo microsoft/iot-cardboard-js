@@ -1419,7 +1419,6 @@
     "id": "Azonosító",
     "info": "Infó",
     "integer": "egész szám",
-    "json": "JSON",
     "key": "Kulcs",
     "linestring": "vonallánc",
     "long": "hosszú",
@@ -1488,6 +1487,7 @@
         "changeChildTypeLabelForEnum": "A felsorolás értéktípusának módosítása",
         "editMetadataLabel": "Metaadatok szerkesztése"
       }
-    }
+    },
+    "jsonEditorTabName": "DTDL"
   }
 }

@@ -1419,7 +1419,6 @@
     "id": "아이디",
     "info": "정보",
     "integer": "정수",
-    "json": "증권 시세 표시기",
     "key": "열쇠",
     "linestring": "라인 문자열",
     "long": "오래",
@@ -1488,6 +1487,7 @@
         "changeChildTypeLabelForEnum": "열거형 값 형식 변경",
         "editMetadataLabel": "메타데이터 편집"
       }
-    }
+    },
+    "jsonEditorTabName": "증권 시세 표시기"
   }
 }

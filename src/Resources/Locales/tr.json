@@ -1419,7 +1419,6 @@
     "id": "Kimliği",
     "info": "Bilgi",
     "integer": "tam sayı",
-    "json": "cesaret",
     "key": "Anahtar",
     "linestring": "linestring",
     "long": "uzun",
@@ -1488,6 +1487,7 @@
         "changeChildTypeLabelForEnum": "Enum değer türünü değiştirme",
         "editMetadataLabel": "Meta verileri düzenleme"
       }
-    }
+    },
+    "jsonEditorTabName": "cesaret"
   }
 }

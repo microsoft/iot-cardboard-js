@@ -1419,7 +1419,6 @@
     "id": "Идентификатор",
     "info": "Информация",
     "integer": "целое число",
-    "json": "JSON",
     "key": "Ключ",
     "linestring": "линейная струна",
     "long": "длинный",
@@ -1488,6 +1487,7 @@
         "changeChildTypeLabelForEnum": "Изменение типа значения перечисления",
         "editMetadataLabel": "Редактирование метаданных"
       }
-    }
+    },
+    "jsonEditorTabName": "DTDL"
   }
 }

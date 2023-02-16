@@ -1419,7 +1419,6 @@
     "id": "编号",
     "info": "信息",
     "integer": "整数",
-    "json": "杰伦",
     "key": "钥匙",
     "linestring": "线串",
     "long": "长",
@@ -1488,6 +1487,7 @@
         "changeChildTypeLabelForEnum": "更改枚举值类型",
         "editMetadataLabel": "编辑元数据"
       }
-    }
+    },
+    "jsonEditorTabName": "DTDL"
   }
 }

@@ -2,8 +2,10 @@ import { CardboardClassNamePrefix } from '../..';
 import {
     getControlBackgroundColor,
     PANEL_VERTICAL_SPACING,
-    PROPERTY_EDITOR_WIDTH
+    PROPERTY_EDITOR_WIDTH,
+    PROPERTY_EDITOR_WIDTH_EXPANDED
 } from '../../Models/Constants/OatStyleConstants';
+import { IOatPropertyEditorTabKey } from '../../Pages/OATEditorPage/Internal/Classes/OatTypes';
 import { IEditorStyleProps, IEditorStyles } from './Editor.types';
 
 export const OatEditorPivotHeaderHeight = 36;
@@ -18,7 +20,7 @@ const classNames = {
 
 // export const Editor_CLASS_NAMES = classNames;
 export const getStyles = (props: IEditorStyleProps): IEditorStyles => {
-    const { theme } = props;
+    const { selectedTab, theme } = props;
     return {
         root: [
             classNames.root,
@@ -32,7 +34,10 @@ export const getStyles = (props: IEditorStyleProps): IEditorStyles => {
                 justifyContent: 'center',
                 padding: 16,
                 position: 'relative',
-                width: PROPERTY_EDITOR_WIDTH
+                width:
+                    selectedTab === IOatPropertyEditorTabKey.DTDL
+                        ? PROPERTY_EDITOR_WIDTH_EXPANDED
+                        : PROPERTY_EDITOR_WIDTH
             }
         ],
         modal: [

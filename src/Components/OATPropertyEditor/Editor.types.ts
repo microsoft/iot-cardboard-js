@@ -5,6 +5,7 @@ import { DtdlInterface, DtdlInterfaceContent } from '../..';
 import { IStyleFunctionOrObject, IStyle } from '@fluentui/react';
 import { IExtendedTheme } from '../../Theming/Theme.types';
 import { IllustrationMessageStyles } from '../IllustrationMessage/IllustrationMessage.types';
+import { IOatPropertyEditorTabKey } from '../../Pages/OATEditorPage/Internal/Classes/OatTypes';
 
 export type IEditorProps = {
     editorDispatch?: React.Dispatch<React.SetStateAction<IAction>>;
@@ -20,6 +21,7 @@ export type IEditorProps = {
 };
 
 export interface IEditorStyleProps {
+    selectedTab: IOatPropertyEditorTabKey;
     theme: IExtendedTheme;
 }
 export interface IEditorStyles {
