@@ -129,7 +129,7 @@ const JSONEditor: React.FC<IJSONEditorProps> = (props) => {
         const newModel = isJsonStringValid(content);
         const validJson = await parseModels([
             ...oatPageState.currentOntologyModels,
-            content
+            newModel
         ]);
 
         const save = () => {
