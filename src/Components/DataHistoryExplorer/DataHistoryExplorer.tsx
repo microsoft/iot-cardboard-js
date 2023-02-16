@@ -27,6 +27,7 @@ import TimeSeriesBuilder from './Internal/TimeSeriesBuilder/TimeSeriesBuilder';
 import {
     ADXTimeSeries,
     ADXTimeSeriesTableRow,
+    DataHistoryStaticMaxDateInMillis,
     IDataHistoryTimeSeriesTwin,
     TimeSeriesData
 } from '../../Models/Constants';
@@ -66,8 +67,8 @@ import {
 } from './Internal/TimeSeriesViewer/Internal/TimeSeriesCommandBar/TimeSeriesCommandBar.types';
 import { TimeSeriesTableRow } from './Internal/TimeSeriesViewer/Internal/TimeSeriesTable/TimeSeriesTable.types';
 import { usePrevious } from '@fluentui/react-hooks';
-import useMaxDateInMillis from '../../Models/Hooks/useMaxDateInMillis';
 import { useGuid } from '../../Models/Hooks';
+import isChromatic from 'chromatic/isChromatic';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('DataHistoryExplorer', debugLogging);
@@ -117,7 +118,6 @@ const DataHistoryExplorer: React.FC<IDataHistoryExplorerProps> = (props) => {
         refetchDependencies: [adapter]
     });
 
-    const staticMaxDateInMillis = useMaxDateInMillis();
     const {
         query,
         data,
@@ -131,8 +131,7 @@ const DataHistoryExplorer: React.FC<IDataHistoryExplorerProps> = (props) => {
         quickTimeSpanInMillis:
             state.explorerChartOptions.defaultQuickTimeSpanInMillis,
         twins: state.timeSeriesTwins,
-        queryOptions: { isNullIncluded: true, shouldCastToDouble: false }, // fetch all raw data, do filtering later based on selected viewer mode later
-        useStaticData: !!staticMaxDateInMillis
+        queryOptions: { isNullIncluded: true, shouldCastToDouble: false } // fetch all raw data, do filtering later based on selected viewer mode later
     });
 
     const chartData = useMemo(() => {
@@ -204,7 +203,9 @@ const DataHistoryExplorer: React.FC<IDataHistoryExplorerProps> = (props) => {
 
     //callbacks
     const updateXMinAndMax = useCallback(() => {
-        const nowInMillis = staticMaxDateInMillis || Date.now();
+        const nowInMillis = isChromatic()
+            ? DataHistoryStaticMaxDateInMillis
+            : Date.now();
         dispatch({
             type: DataHistoryExplorerActionType.SET_EXPLORER_CHART_OPTION,
             payload: {
@@ -224,7 +225,7 @@ const DataHistoryExplorer: React.FC<IDataHistoryExplorerProps> = (props) => {
     }, [
         dispatch,
         state.explorerChartOptions.defaultQuickTimeSpanInMillis,
-        staticMaxDateInMillis
+        isChromatic
     ]);
 
     const handleTimeSeriesTwinCalloutPrimaryAction = useCallback(

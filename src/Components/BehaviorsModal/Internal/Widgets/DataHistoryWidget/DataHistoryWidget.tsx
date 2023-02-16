@@ -19,12 +19,12 @@ import React, {
 import { useTranslation } from 'react-i18next';
 import {
     BehaviorModalMode,
+    DataHistoryStaticMaxDateInMillis,
     DTwin,
     IADXConnection,
     IDataHistoryTimeSeriesTwin,
     TimeSeriesData
 } from '../../../../../Models/Constants';
-import useMaxDateInMillis from '../../../../../Models/Hooks/useMaxDateInMillis';
 import { useTimeSeriesData } from '../../../../../Models/Hooks/useTimeSeriesData';
 import { createGUID } from '../../../../../Models/Services/Utils';
 import {
@@ -52,6 +52,7 @@ import {
     IDataHistoryWidgetStyleProps,
     IDataHistoryWidgetStyles
 } from './DataHistoryWidget.types';
+import isChromatic from 'chromatic/isChromatic';
 
 export const getDataHistoryWidgetClassNames = classNamesFunction<
     IDataHistoryWidgetStyleProps,
@@ -87,7 +88,6 @@ const DataHistoryWidget: React.FC<IDataHistoryWidgetProps> = ({
                 : null,
         [connection]
     );
-    const staticMaxDateInMillis = useMaxDateInMillis();
     const {
         query,
         deeplink,
@@ -99,8 +99,7 @@ const DataHistoryWidget: React.FC<IDataHistoryWidgetProps> = ({
         adapter,
         connection: connectionToQuery,
         quickTimeSpanInMillis: selectedQuickTimeSpanInMillis,
-        twins: twinIdPropertyMap,
-        useStaticData: !!staticMaxDateInMillis
+        twins: twinIdPropertyMap
     });
 
     const { t } = useTranslation();
@@ -109,13 +108,13 @@ const DataHistoryWidget: React.FC<IDataHistoryWidgetProps> = ({
     const xMaxDateInMillisRef = useRef<number>(null);
 
     const updateXMinAndMax = useCallback(() => {
-        const nowInMillis = staticMaxDateInMillis
-            ? staticMaxDateInMillis
+        const nowInMillis = isChromatic()
+            ? DataHistoryStaticMaxDateInMillis
             : Date.now();
         xMinDateInMillisRef.current =
             nowInMillis - selectedQuickTimeSpanInMillis;
         xMaxDateInMillisRef.current = nowInMillis;
-    }, [selectedQuickTimeSpanInMillis, staticMaxDateInMillis]);
+    }, [selectedQuickTimeSpanInMillis, isChromatic]);
 
     const prevQuery = usePrevious(query);
     useEffect(() => {
@@ -132,14 +131,9 @@ const DataHistoryWidget: React.FC<IDataHistoryWidgetProps> = ({
             getMockTimeSeriesDataArrayInLocalTime(
                 timeSeries.length,
                 5,
-                chartOptions.defaultQuickTimeSpanInMillis,
-                !!staticMaxDateInMillis
+                chartOptions.defaultQuickTimeSpanInMillis
             ),
-        [
-            chartOptions.defaultQuickTimeSpanInMillis,
-            timeSeries.length,
-            staticMaxDateInMillis
-        ]
+        [chartOptions.defaultQuickTimeSpanInMillis, timeSeries.length]
     );
 
     const highChartSeriesData: Array<IHighChartSeriesData> = useMemo(

@@ -1042,14 +1042,9 @@ export default class MockAdapter
     /** Returns a mock data based on the passed query by parsing it
      * to get quick time, twin id and twin property to reflect
      * on the generated mock data */
-    async getTimeSeriesData(
-        seriesIds: Array<string>,
-        query: string,
-        _connection?: IADXConnection,
-        useStaticData?: boolean
-    ) {
+    async getTimeSeriesData(seriesIds: Array<string>, query: string) {
         let mockData: Array<ADXTimeSeries> = [];
-        const mockTimeSeriesData: Array<Array<TimeSeriesData>> = this.mockData;
+        let mockTimeSeriesData: Array<Array<TimeSeriesData>> = this.mockData;
         try {
             await this.mockNetwork();
             try {
@@ -1068,11 +1063,10 @@ export default class MockAdapter
                         .replace(/'/g, ''); // get the twin property and replace the single quote characters around the string
 
                     if (!mockTimeSeriesData) {
-                        getMockTimeSeriesDataArrayInLocalTime(
+                        mockTimeSeriesData = getMockTimeSeriesDataArrayInLocalTime(
                             listOfTimeSeries.length,
                             5,
-                            quickTimeSpanInMillis,
-                            useStaticData
+                            quickTimeSpanInMillis
                         );
                     }
                     mockData.push({
@@ -1089,12 +1083,7 @@ export default class MockAdapter
                         seriesId: createGUID(),
                         id: 'PasteurizationMachine_A01',
                         key: 'InFlow',
-                        data: getMockTimeSeriesDataArrayInLocalTime(
-                            1,
-                            undefined,
-                            undefined,
-                            useStaticData
-                        )[0]
+                        data: getMockTimeSeriesDataArrayInLocalTime(1)[0]
                     }
                 ];
             }

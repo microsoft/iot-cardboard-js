@@ -6,7 +6,6 @@ import { IDataHistoryExplorerProps } from './DataHistoryExplorer.types';
 import MockAdapter from '../../Adapters/MockAdapter';
 import { createGUID } from '../../Models/Services/Utils';
 import { getMockTimeSeriesDataArrayInLocalTime } from '../../Models/SharedUtils/DataHistoryUtils';
-import isChromatic from 'chromatic/isChromatic';
 
 const wrapperStyle = { width: '100%', height: '500px' };
 
@@ -72,11 +71,6 @@ LargeData.args = {
         }
     ],
     adapter: new MockAdapter({
-        mockData: getMockTimeSeriesDataArrayInLocalTime(
-            2,
-            500000,
-            undefined,
-            isChromatic()
-        )
+        mockData: getMockTimeSeriesDataArrayInLocalTime(2, 500000)
     })
 } as IDataHistoryExplorerProps;

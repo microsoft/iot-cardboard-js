@@ -5,9 +5,7 @@ import '../src/Resources/Styles/BaseThemeVars.scss'; // Import BaseThemeVars to 
 import { Locale } from '../src/Models/Constants/Enums';
 import { DataHistoryStaticMaxDateInMillis } from '../src/Models/Constants/Constants';
 import { StableGuidRngProvider } from '../src/Models/Context/StableGuidRngProvider';
-import { StableMaxDateInMillisProvider } from '../src/Models/Context/StableMaxDateInMillisProvider';
 import { LoggingContextProvider } from '../src/Models/Context/LoggingContextProvider';
-import isChromatic from 'chromatic/isChromatic';
 
 // global inputs for all stories, but it is not included in args
 // so make sure to include second object parameter including 'globals' in your stories to access these inputs: https://storybook.js.org/docs/react/essentials/toolbars-and-globals#globals
@@ -85,17 +83,6 @@ const decoratorWithStableGuid = (Story, context) => {
     );
 };
 
-// Wrap stories with stable max date provider
-const decoratorWithStableMaxDateInMillis = (Story, context) => {
-    return (
-        <StableMaxDateInMillisProvider
-            maxDateInMillis={DataHistoryStaticMaxDateInMillis}
-        >
-            <Story {...context} />
-        </StableMaxDateInMillisProvider>
-    );
-};
-
 // to exclude warning messages from console logs in Actions panel
 const panelExclude = setConsoleOptions({}).panelExclude;
 setConsoleOptions({
@@ -148,6 +135,3 @@ addDecorator(decoratorWithConsole);
 addDecorator(decoratorWithStableGuid);
 addDecorator(decoratorWithWrapper);
 addDecorator(decoratorWithDebug);
-if (isChromatic()) {
-    addDecorator(decoratorWithStableMaxDateInMillis);
-}
