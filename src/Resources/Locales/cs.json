@@ -1485,7 +1485,11 @@
         "editMetadataLabel": "Upravit metadata"
       }
     },
+<<<<<<< HEAD
     "jsonEditorTabName": "DTDL",
     "errorInvalidJSONMessage": "Zadaný kód JSON je neplatný. Opravte prosím JSON a zkuste to znovu."
+=======
+    "jsonEditorTabName": "DTDL"
+>>>>>>> origin/main
   }
 }

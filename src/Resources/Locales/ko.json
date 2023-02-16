@@ -1485,7 +1485,11 @@
         "editMetadataLabel": "메타데이터 편집"
       }
     },
+<<<<<<< HEAD
     "jsonEditorTabName": "증권 시세 표시기",
     "errorInvalidJSONMessage": "입력한 JSON이 잘못되었습니다. JSON을 수정하고 다시 시도하십시오."
+=======
+    "jsonEditorTabName": "증권 시세 표시기"
+>>>>>>> origin/main
   }
 }

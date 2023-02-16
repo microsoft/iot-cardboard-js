@@ -1485,7 +1485,11 @@
         "editMetadataLabel": "Metaadatok szerkesztése"
       }
     },
+<<<<<<< HEAD
     "jsonEditorTabName": "DTDL",
     "errorInvalidJSONMessage": "A megadott JSON érvénytelen. Javítsa ki a JSON-t, és próbálkozzon újra."
+=======
+    "jsonEditorTabName": "DTDL"
+>>>>>>> origin/main
   }
 }

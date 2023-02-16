@@ -1485,7 +1485,11 @@
         "editMetadataLabel": "Modifier les métadonnées"
       }
     },
+<<<<<<< HEAD
     "jsonEditorTabName": "DTDL",
     "errorInvalidJSONMessage": "Le code JSON que vous avez entré n’est pas valide. Veuillez corriger le JSON et réessayer."
+=======
+    "jsonEditorTabName": "DTDL"
+>>>>>>> origin/main
   }
 }

@@ -1485,7 +1485,11 @@
         "editMetadataLabel": "Redigera metadata"
       }
     },
+<<<<<<< HEAD
     "jsonEditorTabName": "DTDL",
     "errorInvalidJSONMessage": "Den JSON som du angav är ogiltig. Åtgärda JSON och försök igen."
+=======
+    "jsonEditorTabName": "DTDL"
+>>>>>>> origin/main
   }
 }

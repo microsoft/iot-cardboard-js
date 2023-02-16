@@ -1485,7 +1485,11 @@
         "editMetadataLabel": "メタデータの編集"
       }
     },
+<<<<<<< HEAD
     "jsonEditorTabName": "ティッカー",
     "errorInvalidJSONMessage": "入力した JSON は無効です。JSONを修正して、もう一度やり直してください。"
+=======
+    "jsonEditorTabName": "ティッカー"
+>>>>>>> origin/main
   }
 }

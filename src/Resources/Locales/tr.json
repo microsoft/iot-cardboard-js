@@ -1485,7 +1485,11 @@
         "editMetadataLabel": "Meta verileri düzenleme"
       }
     },
+<<<<<<< HEAD
     "jsonEditorTabName": "cesaret",
     "errorInvalidJSONMessage": "Girdiğiniz JSON geçersiz. Lütfen JSON'u düzeltin ve yeniden deneyin."
+=======
+    "jsonEditorTabName": "cesaret"
+>>>>>>> origin/main
   }
 }

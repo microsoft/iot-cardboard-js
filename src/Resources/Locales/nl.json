@@ -1485,7 +1485,11 @@
         "editMetadataLabel": "Metagegevens bewerken"
       }
     },
+<<<<<<< HEAD
     "jsonEditorTabName": "DTDL",
     "errorInvalidJSONMessage": "De JSON die u hebt ingevoerd, is ongeldig. Repareer de JSON en probeer het opnieuw."
+=======
+    "jsonEditorTabName": "DTDL"
+>>>>>>> origin/main
   }
 }

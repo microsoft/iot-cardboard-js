@@ -1485,7 +1485,11 @@
         "editMetadataLabel": "编辑元数据"
       }
     },
+<<<<<<< HEAD
     "jsonEditorTabName": "DTDL",
     "errorInvalidJSONMessage": "您输入的 JSON 无效。请修复 JSON，然后重试。"
+=======
+    "jsonEditorTabName": "DTDL"
+>>>>>>> origin/main
   }
 }
