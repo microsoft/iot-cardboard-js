@@ -637,7 +637,8 @@
             },
             "reportUrl": {
                 "label": "Report URL",
-                "placeholder": "https://powerbi.com/groups/me/reports/{reportId}"
+                "placeholder": "https://embed.powerbi.com/groups/me/reports/{reportId}",
+                "description": "The URL used to embed report artifacts in external tools"
             },
             "pageName": {
                 "label": "Page Name",
@@ -652,6 +653,8 @@
                 "label": "Data Filters"
             },
             "errors": {
+                "missingConfiguration": "Widget configruation is missing or is invalid",
+                "missingAdapter": "Please ensure that the Power BI adapter is installed and configured",
                 "missingReportConfiguration": "Please ensure that your widget is properly configured"
             }
         },

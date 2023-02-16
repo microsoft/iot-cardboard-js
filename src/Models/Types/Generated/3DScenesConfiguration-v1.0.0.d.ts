@@ -311,10 +311,6 @@ export interface IPowerBIWidgetConfiguration {
      */
     embedUrl?: string;
     /**
-     * The ID of the Power BI report that contains the visual that you're embedding
-     */
-    reportId: string;
-    /**
      * The name of the page that contains the visual that you're embedding
      */
     pageName?: string;

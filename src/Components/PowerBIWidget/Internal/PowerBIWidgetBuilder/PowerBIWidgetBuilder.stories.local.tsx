@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { ComponentStory } from '@storybook/react';
 import { getDefaultStoryDecorator } from '../../../../Models/Services/StoryUtilities';
+import useAuthParams from '../../../../../.storybook/useAuthParams';
+import { MsalAuthService } from '../../../../Models/Services';
+import PowerBIWidgetBuilderAdapter from './PowerBIWidgetBuilderAdapter';
 import PowerBIWidgetBuilder from './PowerBIWidgetBuilder';
 import { IPowerBIWidgetBuilderProps } from './PowerBIWidgetBuilder.types';
-import MockAdapter from '../../../../Adapters/MockAdapter';
 
-const wrapperStyle = { width: '100%', height: '600px', padding: 8 };
+const wrapperStyle = { width: '100%', height: '500px' };
 
 export default {
     title: 'Components/PowerBIWidgetBuilder',
@@ -14,8 +15,6 @@ export default {
         getDefaultStoryDecorator<IPowerBIWidgetBuilderProps>(wrapperStyle)
     ]
 };
-
-type PowerBIWidgetBuilderStory = ComponentStory<typeof PowerBIWidgetBuilder>;
 
 const defaultState = {
     id: 'mywidget',
@@ -27,13 +26,21 @@ const defaultState = {
     }
 };
 
-const Template: PowerBIWidgetBuilderStory = (args) => {
+export const PowerBIAdapter = (args) => {
+    const authenticationParameters = useAuthParams();
     const [formData, updateWidgetData] = useState(
         args.formData || defaultState
     );
-    return (
+    const adapter = new PowerBIWidgetBuilderAdapter(
+        new MsalAuthService(authenticationParameters)
+    );
+
+    return !authenticationParameters ? (
+        <div></div>
+    ) : (
         <>
             <PowerBIWidgetBuilder
+                adapter={adapter}
                 formData={formData}
                 updateWidgetData={updateWidgetData}
                 {...args}
@@ -41,25 +48,3 @@ const Template: PowerBIWidgetBuilderStory = (args) => {
         </>
     );
 };
-
-export const WithMockAdapter = Template.bind(
-    {},
-    {
-        adapter: new MockAdapter()
-    }
-) as PowerBIWidgetBuilderStory;
-
-export const MissingAdapter = Template.bind(
-    {},
-    {
-        adapter: undefined
-    }
-) as PowerBIWidgetBuilderStory;
-
-export const MissingConfiguration = Template.bind(
-    {},
-    {
-        adapter: new MockAdapter(),
-        formData: { id: ' mywidget', type: 'PowerBI' }
-    }
-) as PowerBIWidgetBuilderStory;

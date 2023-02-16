@@ -1,11 +1,9 @@
-import React, { useCallback, useEffect, useReducer, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import produce from 'immer';
 import {
-    defaultPowerBIWidgetBuilderState,
     IPowerBIWidgetBuilderProps,
     IPowerBIWidgetBuilderStyleProps,
-    IPowerBIWidgetBuilderStyles,
-    PowerBIWidgetBuilderActionType
+    IPowerBIWidgetBuilderStyles
 } from './PowerBIWidgetBuilder.types';
 import { getStyles } from './PowerBIWidgetBuilder.styles';
 import {
@@ -18,7 +16,6 @@ import {
 } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { getWidgetFormStyles } from '../../../ADT3DSceneBuilder/Internal/Behaviors/Widgets/WidgetForm/WidgetForm.styles';
-import { PowerBIWidgetBuilderReducer } from './PowerBIWidgetBuilder.state';
 
 const getClassNames = classNamesFunction<
     IPowerBIWidgetBuilderStyleProps,
@@ -28,6 +25,7 @@ const getClassNames = classNamesFunction<
 const PowerBIWidgetBuilder: React.FC<IPowerBIWidgetBuilderProps> = ({
     styles,
     formData,
+    adapter,
     updateWidgetData,
     setIsWidgetConfigValid
 }) => {
@@ -38,56 +36,110 @@ const PowerBIWidgetBuilder: React.FC<IPowerBIWidgetBuilderProps> = ({
         formData?.widgetConfiguration?.type || 'visual'
     );
     const [reportUrl, setReportUrl] = useState(
-        formData?.widgetConfiguration?.reportId || ''
+        formData?.widgetConfiguration?.embedUrl || ''
     );
-    const [, setPageName] = useState(
+    const [pageName, setPageName] = useState(
         formData?.widgetConfiguration?.pageName || ''
     );
     const [, setVisualName] = useState(
         formData?.widgetConfiguration?.visualName || ''
     );
 
-    const [state, dispatch] = useReducer(
-        PowerBIWidgetBuilderReducer,
-        defaultPowerBIWidgetBuilderState
-    );
+    const [reportPages, setReportPages] = useState([]);
+    const disableReportPages = useMemo(() => {
+        return reportPages?.length < 1;
+    }, [reportPages]);
+    useEffect(() => {
+        if (!reportUrl) {
+            setReportPages([]);
+        }
+        adapter?.getPagesInReport(reportUrl).then((pages) => {
+            setReportPages(
+                pages?.map((page) => {
+                    return {
+                        key: page.name,
+                        text: page.displayName || page.name
+                    };
+                }) || []
+            );
+        });
+    }, [reportUrl, selectedType]);
+
+    const [reportVisuals, setVisuals] = useState([]);
+    const disableReportVisuals = useMemo(() => {
+        return reportVisuals?.length < 1;
+    }, [reportVisuals]);
+    useEffect(() => {
+        if (!reportUrl || !pageName) {
+            setVisuals([]);
+        }
+        adapter?.getVisualsOnPage(reportUrl, pageName).then((visuals) => {
+            setVisuals(
+                visuals?.map((visual) => {
+                    return {
+                        key: visual.name,
+                        text: visual.title || visual.name
+                    };
+                }) || []
+            );
+        });
+    }, [reportUrl, selectedType, pageName]);
 
     // hooks
     const { t } = useTranslation();
 
     // callbacks
+    const onLabelChange = useCallback(
+        (_ev, newVal) => {
+            updateWidgetData(
+                produce(formData, (draft) => {
+                    draft.widgetConfiguration.label = newVal;
+                })
+            );
+        },
+        [updateWidgetData, formData]
+    );
     const onTypeChange = useCallback(
         (_ev, type) => {
+            updateWidgetData(
+                produce(formData, (draft) => {
+                    draft.widgetConfiguration.type = type.key;
+                })
+            );
             setSelectedType(type.key);
         },
         [formData?.widgetConfiguration?.type]
     );
     const onReportUrlChange = useCallback(
         (_ev, value) => {
-            dispatch({
-                type: PowerBIWidgetBuilderActionType.GET_PAGES_IN_REPORT,
-                payload: { embedUrl: value }
-            });
+            updateWidgetData(
+                produce(formData, (draft) => {
+                    draft.widgetConfiguration.embedUrl = value;
+                })
+            );
             setReportUrl(value);
         },
-        [formData?.widgetConfiguration?.reportId]
+        [formData?.widgetConfiguration?.embedUrl]
     );
     const onPageNameChange = useCallback(
         (_ev, value) => {
-            dispatch({
-                type: PowerBIWidgetBuilderActionType.GET_VISUALS_ON_PAGE,
-                payload: {
-                    embedUrl: reportUrl,
-                    pageName: value
-                }
-            });
-            setPageName(value);
+            updateWidgetData(
+                produce(formData, (draft) => {
+                    draft.widgetConfiguration.pageName = value;
+                })
+            );
+            setPageName(value.key);
         },
         [formData?.widgetConfiguration?.pageName]
     );
     const onVisualNameChange = useCallback(
         (_ev, value) => {
-            setVisualName(value);
+            updateWidgetData(
+                produce(formData, (draft) => {
+                    draft.widgetConfiguration.visualName = value;
+                })
+            );
+            setVisualName(value.key);
         },
         [formData?.widgetConfiguration?.visualName]
     );
@@ -107,13 +159,13 @@ const PowerBIWidgetBuilder: React.FC<IPowerBIWidgetBuilderProps> = ({
             //     break;
             case 'tile':
                 hasRequiredSubConfiguration = !!(
-                    formData?.widgetConfiguration?.reportId &&
+                    formData?.widgetConfiguration?.pageName &&
                     formData?.widgetConfiguration?.visualName
                 );
                 break;
             case 'visual':
                 hasRequiredSubConfiguration = !!(
-                    formData?.widgetConfiguration?.reportId &&
+                    formData?.widgetConfiguration?.pageName &&
                     formData?.widgetConfiguration?.visualName
                 );
                 break;
@@ -124,7 +176,7 @@ const PowerBIWidgetBuilder: React.FC<IPowerBIWidgetBuilderProps> = ({
         if (setIsWidgetConfigValid) {
             setIsWidgetConfigValid(
                 formData?.widgetConfiguration?.label &&
-                    formData?.widgetConfiguration.reportId &&
+                    formData?.widgetConfiguration.embedUrl &&
                     hasRequiredSubConfiguration
             );
         }
@@ -137,6 +189,13 @@ const PowerBIWidgetBuilder: React.FC<IPowerBIWidgetBuilderProps> = ({
     });
     const customStyles = getWidgetFormStyles(theme);
 
+    if (!adapter) {
+        return <div>{t('widgets.powerBI.errors.missingAdapter')}</div>;
+    }
+    if (formData?.widgetConfiguration === undefined) {
+        return <div>{t('widgets.powerBI.errors.missingConfiguration')}</div>;
+    }
+
     return (
         <div
             className={`${classNames.root} ${customStyles.widgetFormContents}`}
@@ -147,13 +206,7 @@ const PowerBIWidgetBuilder: React.FC<IPowerBIWidgetBuilderProps> = ({
                     label={t('label')}
                     placeholder={t('labelPlaceholder')}
                     value={formData?.widgetConfiguration?.label}
-                    onChange={(_ev, newVal) =>
-                        updateWidgetData(
-                            produce(formData, (draft) => {
-                                draft.widgetConfiguration.label = newVal;
-                            })
-                        )
-                    }
+                    onChange={onLabelChange}
                     required={true}
                 />
                 {/** Type */}
@@ -163,14 +216,14 @@ const PowerBIWidgetBuilder: React.FC<IPowerBIWidgetBuilderProps> = ({
                     autoComplete="on"
                     key="widget_powerBIBuilder_type"
                     options={[
-                        {
-                            key: 'report',
-                            text: t('widgets.powerBI.type.options.report')
-                        },
-                        {
-                            key: 'dashboard',
-                            text: t('widgets.powerBI.type.options.dashboard')
-                        },
+                        // {
+                        //     key: 'report',
+                        //     text: t('widgets.powerBI.type.options.report')
+                        // },
+                        // {
+                        //     key: 'dashboard',
+                        //     text: t('widgets.powerBI.type.options.dashboard')
+                        // },
                         {
                             key: 'tile',
                             text: t('widgets.powerBI.type.options.tile')
@@ -200,8 +253,8 @@ const PowerBIWidgetBuilder: React.FC<IPowerBIWidgetBuilderProps> = ({
                     placeholder={t('widgets.powerBI.pageName.placeholder')}
                     onChange={onPageNameChange}
                     required={true}
-                    options={state.isPagesLoaded ? reportPages : []}
-                    disabled={!state.isPagesLoaded}
+                    options={reportPages}
+                    disabled={disableReportPages}
                     useComboBoxAsMenuWidth={true}
                 />
                 {/** Visual Name */}
@@ -214,13 +267,13 @@ const PowerBIWidgetBuilder: React.FC<IPowerBIWidgetBuilderProps> = ({
                         )}
                         onChange={onVisualNameChange}
                         required={true}
-                        options={state.isVisualsLoaded ? reportVisuals : []}
-                        disabled={!state.isVisualsLoaded}
+                        options={reportVisuals}
+                        disabled={disableReportVisuals}
                         useComboBoxAsMenuWidth={true}
                     />
                 )}
                 {/** Data Filters */}
-                <div>I am not sure what to show here yet</div>
+                {/* <div>I am not sure what to show here yet</div> */}
             </Stack>
         </div>
     );

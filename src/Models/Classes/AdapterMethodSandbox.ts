@@ -54,7 +54,7 @@ class AdapterMethodSandbox {
      * catastrophic TokenRetrievalFailed error, halting further execution.
      */
     private async safelyFetchToken(
-        tokenFor?: 'azureManagement' | 'adx' | 'storage'
+        tokenFor?: 'azureManagement' | 'adx' | 'storage' | 'powerBI'
     ) {
         // If adapterMethodSandbox not constructed with authService, skip token fetching
         if (!this.authService) {
@@ -89,7 +89,7 @@ class AdapterMethodSandbox {
      *  */
     async safelyFetchData<T extends IAdapterData>(
         fetchDataWithToken: (token?: string) => Promise<T>,
-        tokenFor?: 'azureManagement' | 'adx' | 'storage'
+        tokenFor?: 'azureManagement' | 'adx' | 'storage' | 'powerBI'
     ) {
         try {
             // Fetch token
@@ -135,7 +135,7 @@ class AdapterMethodSandbox {
         returnDataClass: { new (data: any) },
         axiosParams: AxiosParams,
         dataTransformFunc?: (data) => any,
-        tokenFor?: 'azureManagement' | 'adx' | 'storage'
+        tokenFor?: 'azureManagement' | 'adx' | 'storage' | 'powerBI'
     ): ICancellablePromise<AdapterResult<any>> {
         const { headers, ...restOfParams } = axiosParams;
         const cancelTokenSource = axios.CancelToken.source();
