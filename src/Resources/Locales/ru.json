@@ -1085,9 +1085,7 @@
     "errorNameLength": "Имя не должно превышать 64 символов",
     "errorIdLength": "Id не может превышать 2048 символов",
     "errorIdValidDTMI": "Идентификатор должен быть допустимым DTMI",
-    "errorRepeatedId": "Модель с таким же идентификатором уже существует",
     "errorDisplayNameLength": "Отображаемое имя не должно превышать 64 символов",
-    "errorRepeatedEdgeName": "Связь с таким же именем уже существует",
     "runLayout": "Макет запуска",
     "extends": "Расширяет",
     "loadingText": "Вычислительные позиции макета"
@@ -1409,7 +1407,6 @@
     "errorName": "Имя может содержать только символы a-z, A-Z, 0-9 и подчеркивание",
     "errorNameLength": "Длина имени не должна превышать 64 символа",
     "errorRepeatedEnumValue": "Значение перечисления с таким же значением уже существует",
-    "errorRepeatedId": "Модель с таким же идентификатором уже существует",
     "errorRepeatedName": "Модель с таким именем уже существует",
     "errorRepeatedPropertyName": "Свойство с таким именем уже существует",
     "expand": "Расширять",
@@ -1488,6 +1485,7 @@
         "editMetadataLabel": "Редактирование метаданных"
       }
     },
-    "jsonEditorTabName": "DTDL"
+    "jsonEditorTabName": "DTDL",
+    "errorInvalidJSONMessage": "Введенный JSON недействителен. Исправьте JSON и повторите попытку."
   }
 }

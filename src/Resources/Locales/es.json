@@ -1085,9 +1085,7 @@
     "errorNameLength": "El nombre no puede exceder los 64 caracteres",
     "errorIdLength": "Id no puede exceder los 2048 caracteres",
     "errorIdValidDTMI": "Id debe ser un DTMI válido",
-    "errorRepeatedId": "Ya existe un modelo con el mismo identificador",
     "errorDisplayNameLength": "El nombre para mostrar no puede exceder los 64 caracteres",
-    "errorRepeatedEdgeName": "Ya existe una relación con el mismo nombre",
     "runLayout": "Ejecutar diseño",
     "extends": "Extiende",
     "loadingText": "Posiciones de diseño de cálculo"
@@ -1409,7 +1407,6 @@
     "errorName": "El nombre solo puede contener los caracteres a-z, A-Z, 0-9 y guión bajo",
     "errorNameLength": "El nombre no puede exceder los 64 caracteres",
     "errorRepeatedEnumValue": "Ya existe un valor de enumeración con el mismo valor",
-    "errorRepeatedId": "Ya existe un modelo con el mismo ID",
     "errorRepeatedName": "Ya existe un modelo con el mismo nombre",
     "errorRepeatedPropertyName": "Ya existe una propiedad con el mismo nombre",
     "expand": "Expandir",
@@ -1488,6 +1485,7 @@
         "editMetadataLabel": "Editar metadatos"
       }
     },
-    "jsonEditorTabName": "DTDL"
+    "jsonEditorTabName": "DTDL",
+    "errorInvalidJSONMessage": "El JSON introducido no es válido. Corrige el JSON e inténtalo de nuevo."
   }
 }
