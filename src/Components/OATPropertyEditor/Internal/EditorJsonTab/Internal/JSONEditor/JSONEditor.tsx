@@ -26,16 +26,25 @@ import { useOatPageContext } from '../../../../../../Models/Context/OatPageConte
 import { CommandHistoryContext } from '../../../../../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
 import { APP_BACKGROUND_KRAKEN } from '../../../../../../Models/Constants/StyleConstants';
 import { useLibTheme } from '../../../../../../Theming/ThemeProvider';
-import {
-    getTargetFromSelection,
-    replaceTargetFromSelection
-} from '../../../../Utils';
+import { getTargetFromSelection } from '../../../../Utils';
 import { OatPageContextActionType } from '../../../../../../Models/Context/OatPageContext/OatPageContext.types';
-import { isDTDLRelationshipReference } from '../../../../../../Models/Services/DtdlUtils';
-import { DtdlInterface } from '../../../../../../Models/Constants';
+import {
+    DtdlInterface,
+    DtdlInterfaceContent
+} from '../../../../../../Models/Constants';
 import { parseModels } from '../../../../../../Models/Services/OatPublicUtils';
-import { deepCopy } from '../../../../../../Models/Services/Utils';
+import { getDebugLogger } from '../../../../../../Models/Services/Utils';
 import Editor from '@monaco-editor/react';
+import { isDTDLModel } from '../../../../../../Models/Services/DtdlUtils';
+import {
+    getModelById,
+    getModelIndexById,
+    getReferenceIndexByName
+} from '../../../../../../Models/Context/OatPageContext/OatPageContextUtils';
+import { ensureIsArray } from '../../../../../../Models/Services/OatUtils';
+
+const debugLogging = true;
+export const logDebugConsole = getDebugLogger('JSONEditor', debugLogging);
 
 const getClassNames = classNamesFunction<
     IJSONEditorStyleProps,
@@ -73,7 +82,7 @@ const JSONEditor: React.FC<IJSONEditorProps> = (props) => {
     const { t } = useTranslation();
 
     // data
-    const model = useMemo(
+    const selectedItem = useMemo(
         () =>
             oatPageState.selection &&
             getTargetFromSelection(
@@ -96,107 +105,108 @@ const JSONEditor: React.FC<IJSONEditorProps> = (props) => {
 
     const onHandleEditorChange = useCallback(
         (value: string) => {
-            if (
-                value.replaceAll('\r\n', '\n') !==
-                JSON.stringify(model, null, 2)
-            ) {
-                setContent(value);
-                oatPageDispatch({
-                    type: OatPageContextActionType.SET_OAT_MODIFIED,
-                    payload: { isModified: true }
-                });
-            }
+            setContent(value);
+            oatPageDispatch({
+                type: OatPageContextActionType.SET_OAT_MODIFIED,
+                payload: { isModified: true }
+            });
         },
-        [model, oatPageDispatch]
-    );
-
-    const checkDuplicateId = useCallback(
-        (modelValue: DtdlInterface) => {
-            if (isDTDLRelationshipReference(modelValue)) {
-                const repeatedIdOnRelationship = oatPageState.currentOntologyModels.find(
-                    (queryModel) =>
-                        queryModel.contents &&
-                        queryModel.contents.find(
-                            (content) =>
-                                content['@id'] === modelValue['@id'] &&
-                                content['@id'] !== model['@id'] // Prevent checking for duplicate name to itself
-                        )
-                );
-                return !!repeatedIdOnRelationship;
-            } else {
-                // Check current value is not used by another model as @id within models
-                const repeatedIdModel = oatPageState.currentOntologyModels.find(
-                    (queryModel) =>
-                        queryModel['@id'] === modelValue['@id'] &&
-                        queryModel['@id'] !== model['@id']
-                );
-                return !!repeatedIdModel;
-            }
-        },
-        [model, oatPageState.currentOntologyModels]
+        [oatPageDispatch]
     );
 
     const onCancelClick = useCallback(() => {
-        setContent(JSON.stringify(model, null, 2));
+        setContent(JSON.stringify(selectedItem, null, 2));
         oatPageDispatch({
             type: OatPageContextActionType.SET_OAT_MODIFIED,
             payload: { isModified: false }
         });
-    }, [model, oatPageDispatch]);
+    }, [selectedItem, oatPageDispatch]);
 
     const onSaveClick = useCallback(async () => {
-        const isJsonStringValid = (value: string): DtdlInterface | null => {
+        logDebugConsole('debug', '[SAVE] Start {content}', content);
+        const isJsonStringValid = (
+            value: string
+        ): DtdlInterface | DtdlInterfaceContent | null => {
             try {
                 return JSON.parse(value);
             } catch (e) {
                 return null;
             }
         };
+        const saveModel = (model: DtdlInterface) => {
+            const save = () => {
+                oatPageDispatch({
+                    type: OatPageContextActionType.UPDATE_MODEL,
+                    payload: { model: model }
+                });
+                oatPageDispatch({
+                    type: OatPageContextActionType.SET_OAT_MODIFIED,
+                    payload: { isModified: false }
+                });
+            };
 
-        const newModel = isJsonStringValid(content);
-        const parsingError = await parseModels([
-            ...oatPageState.currentOntologyModels,
-            newModel
-        ]);
+            const undoSave = () => {
+                oatPageDispatch({
+                    type: OatPageContextActionType.SET_CURRENT_MODELS,
+                    payload: { models: oatPageState.currentOntologyModels }
+                });
+            };
 
-        const save = () => {
-            const modelsCopy = deepCopy(oatPageState.currentOntologyModels);
-            replaceTargetFromSelection(
-                modelsCopy,
-                oatPageState.selection,
-                newModel
-            );
-            oatPageDispatch({
-                type: OatPageContextActionType.SET_CURRENT_MODELS,
-                payload: { models: modelsCopy }
-            });
-            oatPageDispatch({
-                type: OatPageContextActionType.SET_OAT_MODIFIED,
-                payload: { isModified: false }
-            });
-        };
-
-        const undoSave = () => {
-            oatPageDispatch({
-                type: OatPageContextActionType.SET_CURRENT_MODELS,
-                payload: { models: oatPageState.currentOntologyModels }
-            });
-        };
-
-        if (!parsingError) {
-            if (checkDuplicateId(newModel)) {
-                // Dispatch error if duplicate id
+            if (parsingError) {
                 oatPageDispatch({
                     type: OatPageContextActionType.SET_OAT_ERROR,
                     payload: {
                         title: t('OATPropertyEditor.errorInvalidJSON'),
-                        message: t('OATPropertyEditor.errorRepeatedId')
+                        message: parsingError
                     }
                 });
             } else {
                 execute(save, undoSave);
             }
+        };
+
+        const updatedItem = isJsonStringValid(content);
+        if (!updatedItem) {
+            oatPageDispatch({
+                type: OatPageContextActionType.SET_OAT_ERROR,
+                payload: {
+                    title: t('OATPropertyEditor.errorInvalidJSON'),
+                    message: t('OATPropertyEditor.errorInvalidJSONMessage')
+                }
+            });
+            return;
+        }
+        let updatedModel: DtdlInterface;
+        if (isDTDLModel(updatedItem)) {
+            // bind the updated model
+            updatedModel = updatedItem;
         } else {
+            // get the model and update the reference on the model
+            updatedModel = getModelById(
+                oatPageState.currentOntologyModels,
+                oatPageState.selection.modelId
+            );
+            const contents = ensureIsArray(updatedModel.contents);
+            const index = getReferenceIndexByName(
+                updatedModel,
+                updatedItem.name
+            );
+            contents[index] = updatedItem;
+            updatedModel.contents = contents;
+        }
+
+        // validate the updated collection is valid
+        const models = oatPageState.currentOntologyModels;
+        const modelIndex = getModelIndexById(models, updatedModel['@id']);
+        models[modelIndex] = updatedModel;
+        const parsingError = await parseModels(models);
+
+        if (parsingError) {
+            logDebugConsole(
+                'error',
+                '[SAVE] Validation failed. {error}',
+                parsingError
+            );
             oatPageDispatch({
                 type: OatPageContextActionType.SET_OAT_ERROR,
                 payload: {
@@ -204,9 +214,15 @@ const JSONEditor: React.FC<IJSONEditorProps> = (props) => {
                     message: parsingError
                 }
             });
+        } else {
+            logDebugConsole(
+                'info',
+                '[SAVE] Validation passed. Saving model. {model}',
+                updatedModel
+            );
+            saveModel(updatedModel);
         }
     }, [
-        checkDuplicateId,
         content,
         execute,
         oatPageDispatch,
@@ -217,8 +233,8 @@ const JSONEditor: React.FC<IJSONEditorProps> = (props) => {
 
     // side effects
     useEffect(() => {
-        setContent(JSON.stringify(model, null, 2));
-    }, [model]);
+        setContent(JSON.stringify(selectedItem, null, 2));
+    }, [selectedItem]);
 
     // styles
     const classNames = getClassNames(styles, {
