@@ -69,29 +69,11 @@ LargeData.args = {
             chartProps: {
                 color: 'green'
             }
-        },
-        {
-            seriesId: createGUID(),
-            twinId: 'SaltMachine_C1',
-            twinPropertyName: 'Temperature',
-            twinPropertyType: 'double',
-            chartProps: {
-                color: 'blue'
-            }
-        },
-        {
-            seriesId: createGUID(),
-            twinId: 'SaltMachine_C1',
-            twinPropertyName: 'InFlow',
-            twinPropertyType: 'double',
-            chartProps: {
-                color: 'yellow'
-            }
         }
     ],
     adapter: new MockAdapter({
         mockData: getMockTimeSeriesDataArrayInLocalTime(
-            4,
+            2,
             500000,
             undefined,
             isChromatic()
