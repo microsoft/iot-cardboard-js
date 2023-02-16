@@ -671,7 +671,8 @@
       },
       "reportUrl": {
         "label": "报告网址",
-        "placeholder": "https://powerbi.com/groups/me/reports/{reportId}"
+        "placeholder": "https://powerbi.com/groups/me/reports/{reportId}",
+        "description": "用于在外部工具中嵌入报表项目的 URL"
       },
       "pageName": {
         "label": "页面名称",
@@ -686,7 +687,9 @@
         "label": "数据过滤器"
       },
       "errors": {
-        "missingReportConfiguration": "请确保您的小部件配置正确"
+        "missingReportConfiguration": "请确保您的小部件配置正确",
+        "missingConfiguration": "小组件配置缺失或无效",
+        "missingAdapter": "请确保已安装并配置 Power BI 适配器"
       }
     }
   },

@@ -671,7 +671,8 @@
       },
       "reportUrl": {
         "label": "レポートの URL",
-        "placeholder": "https://powerbi.com/groups/me/reports/{レポートID}"
+        "placeholder": "https://powerbi.com/groups/me/reports/{レポートID}",
+        "description": "外部ツールにレポート成果物を埋め込むために使用される URL"
       },
       "pageName": {
         "label": "ページ名",
@@ -686,7 +687,9 @@
         "label": "データフィルタ"
       },
       "errors": {
-        "missingReportConfiguration": "ウィジェットが正しく構成されていることを確認してください"
+        "missingReportConfiguration": "ウィジェットが正しく構成されていることを確認してください",
+        "missingConfiguration": "ウィジェットの構成が見つからないか、無効です",
+        "missingAdapter": "Power BI アダプターがインストールされ、構成されていることを確認してください。"
       }
     }
   },

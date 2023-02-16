@@ -671,7 +671,8 @@
       },
       "reportUrl": {
         "label": "Jelentés URL-címe",
-        "placeholder": "https://powerbi.com/groups/me/reports/{reportId}"
+        "placeholder": "https://powerbi.com/groups/me/reports/{reportId}",
+        "description": "A jelentés-összetevők külső eszközökbe való beágyazásához használt URL-cím"
       },
       "pageName": {
         "label": "Oldal neve",
@@ -686,7 +687,9 @@
         "label": "Adatszűrők"
       },
       "errors": {
-        "missingReportConfiguration": "Kérjük, ellenőrizze, hogy a widget megfelelően van-e konfigurálva"
+        "missingReportConfiguration": "Kérjük, ellenőrizze, hogy a widget megfelelően van-e konfigurálva",
+        "missingConfiguration": "A widget konfigurációja hiányzik vagy érvénytelen",
+        "missingAdapter": "Győződjön meg arról, hogy a Power BI-adapter telepítve és konfigurálva van"
       }
     }
   },

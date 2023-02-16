@@ -671,7 +671,8 @@
       },
       "reportUrl": {
         "label": "URL-адрес отчета",
-        "placeholder": "https://powerbi.com/groups/me/reports/{reportId}"
+        "placeholder": "https://powerbi.com/groups/me/reports/{reportId}",
+        "description": "URL-адрес, используемый для внедрения артефактов отчета во внешние инструменты"
       },
       "pageName": {
         "label": "Название страницы",
@@ -686,7 +687,9 @@
         "label": "Фильтры данных"
       },
       "errors": {
-        "missingReportConfiguration": "Пожалуйста, убедитесь, что ваш виджет правильно настроен"
+        "missingReportConfiguration": "Пожалуйста, убедитесь, что ваш виджет правильно настроен",
+        "missingConfiguration": "Конфигурация виджета отсутствует или недопустима",
+        "missingAdapter": "Убедитесь, что адаптер Power BI установлен и настроен"
       }
     }
   },

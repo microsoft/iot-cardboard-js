@@ -671,7 +671,8 @@
       },
       "reportUrl": {
         "label": "URL van rapport",
-        "placeholder": "https://powerbi.com/groups/me/reports/{reportId}"
+        "placeholder": "https://powerbi.com/groups/me/reports/{reportId}",
+        "description": "De URL die wordt gebruikt om rapportartefacten in te sluiten in externe hulpprogramma's"
       },
       "pageName": {
         "label": "Paginanaam",
@@ -686,7 +687,9 @@
         "label": "Gegevensfilters"
       },
       "errors": {
-        "missingReportConfiguration": "Zorg ervoor dat uw widget correct is geconfigureerd"
+        "missingReportConfiguration": "Zorg ervoor dat uw widget correct is geconfigureerd",
+        "missingConfiguration": "Widgetconfiguratie ontbreekt of is ongeldig",
+        "missingAdapter": "Zorg ervoor dat de Power BI-adapter is geïnstalleerd en geconfigureerd"
       }
     }
   },

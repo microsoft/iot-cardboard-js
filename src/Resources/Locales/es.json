@@ -671,7 +671,8 @@
       },
       "reportUrl": {
         "label": "URL del informe",
-        "placeholder": "https://powerbi.com/groups/me/reports/{reportId}"
+        "placeholder": "https://powerbi.com/groups/me/reports/{reportId}",
+        "description": "La dirección URL utilizada para incrustar artefactos de informe en herramientas externas"
       },
       "pageName": {
         "label": "Nombre de página",
@@ -686,7 +687,9 @@
         "label": "Filtros de datos"
       },
       "errors": {
-        "missingReportConfiguration": "Asegúrese de que su widget esté configurado correctamente"
+        "missingReportConfiguration": "Asegúrese de que su widget esté configurado correctamente",
+        "missingConfiguration": "Falta la configuración del widget o no es válida",
+        "missingAdapter": "Asegúrese de que el adaptador de Power BI esté instalado y configurado"
       }
     }
   },

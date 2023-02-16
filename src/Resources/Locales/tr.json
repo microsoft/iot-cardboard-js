@@ -671,7 +671,8 @@
       },
       "reportUrl": {
         "label": "Rapor URL'si",
-        "placeholder": "https://powerbi.com/groups/me/reports/{reportId}"
+        "placeholder": "https://powerbi.com/groups/me/reports/{reportId}",
+        "description": "Rapor yapıtlarını harici araçlara katıştırmak için kullanılan URL"
       },
       "pageName": {
         "label": "Sayfa Adı",
@@ -686,7 +687,9 @@
         "label": "Veri Filtreleri"
       },
       "errors": {
-        "missingReportConfiguration": "Lütfen widget'ınızın doğru yapılandırıldığından emin olun"
+        "missingReportConfiguration": "Lütfen widget'ınızın doğru yapılandırıldığından emin olun",
+        "missingConfiguration": "Widget yapılandırması eksik veya geçersiz",
+        "missingAdapter": "Lütfen Power BI bağdaştırıcısının yüklü ve yapılandırılmış olduğundan emin olun"
       }
     }
   },

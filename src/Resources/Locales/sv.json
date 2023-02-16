@@ -671,7 +671,8 @@
       },
       "reportUrl": {
         "label": "Url för rapport",
-        "placeholder": "https://powerbi.com/groups/me/reports/{reportId}"
+        "placeholder": "https://powerbi.com/groups/me/reports/{reportId}",
+        "description": "URL:en som används för att bädda in rapportartefakter i externa verktyg"
       },
       "pageName": {
         "label": "Sidans namn",
@@ -686,7 +687,9 @@
         "label": "Datafilter"
       },
       "errors": {
-        "missingReportConfiguration": "Se till att din widget är korrekt konfigurerad"
+        "missingReportConfiguration": "Se till att din widget är korrekt konfigurerad",
+        "missingConfiguration": "Widgetkonfiguration saknas eller är ogiltig",
+        "missingAdapter": "Se till att Power BI-kortet är installerat och konfigurerat"
       }
     }
   },
