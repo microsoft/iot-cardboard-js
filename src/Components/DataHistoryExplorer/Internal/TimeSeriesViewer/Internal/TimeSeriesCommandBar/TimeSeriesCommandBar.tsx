@@ -37,6 +37,7 @@ import {
 } from '../../../../../../Models/Services/Utils';
 import { TelemetryEvents } from '../../../../../../Models/Constants/TelemetryConstants';
 import { TimeSeriesViewerMode } from '../../TimeSeriesViewer.types';
+import useGuid from '../../../../../../Models/Hooks/useGuid';
 
 const getClassNames = classNamesFunction<
     ITimeSeriesCommandBarStyleProps,
@@ -48,6 +49,7 @@ const TimeSeriesCommandBar: React.FC<ITimeSeriesCommandBarProps> = (props) => {
         defaultChartOptions,
         onChartOptionsChange,
         viewerModeProps,
+        wrapperId = useGuid(),
         styles
     } = props;
 
@@ -171,7 +173,8 @@ const TimeSeriesCommandBar: React.FC<ITimeSeriesCommandBarProps> = (props) => {
                               TelemetryEvents.Tools.DataHistoryExplorer
                                   .UserAction.OpenSeriesInAdx;
                           sendDataHistoryExplorerUserTelemetry(
-                              telemetry.eventName
+                              telemetry.eventName,
+                              wrapperId
                           );
                       }
                   }

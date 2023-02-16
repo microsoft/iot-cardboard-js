@@ -35,6 +35,7 @@ import {
     sendDataHistoryExplorerUserTelemetry
 } from '../../../../Models/SharedUtils/DataHistoryUtils';
 import { TelemetryEvents } from '../../../../Models/Constants/TelemetryConstants';
+import useGuid from '../../../../Models/Hooks/useGuid';
 
 const defaultTimeSeriesTwin: IDataHistoryTimeSeriesTwin = {
     seriesId: '',
@@ -59,6 +60,7 @@ const TimeSeriesTwinCallout: React.FC<ITimeSeriesTwinCalloutProps> = (
         target,
         onDismiss,
         onPrimaryActionClick,
+        wrapperId = useGuid(),
         styles
     } = props;
 
@@ -134,13 +136,21 @@ const TimeSeriesTwinCallout: React.FC<ITimeSeriesTwinCalloutProps> = (
             const telemetry =
                 TelemetryEvents.Tools.DataHistoryExplorer.UserAction
                     .ToggleNumericCasting;
-            sendDataHistoryExplorerUserTelemetry(telemetry.eventName, [
-                {
-                    [telemetry.properties.toggleValue]: checked
-                }
-            ]);
+            sendDataHistoryExplorerUserTelemetry(
+                telemetry.eventName,
+                wrapperId,
+                [
+                    {
+                        [telemetry.properties.toggleValue]: checked
+                    }
+                ]
+            );
         },
-        [setTimeSeriesTwinToEdit, sendDataHistoryExplorerUserTelemetry]
+        [
+            setTimeSeriesTwinToEdit,
+            sendDataHistoryExplorerUserTelemetry,
+            wrapperId
+        ]
     );
     const handleLabelChange = useCallback(
         (_event, label: string) => {

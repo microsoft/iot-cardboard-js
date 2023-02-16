@@ -33,6 +33,7 @@ export interface ITimeSeriesCommandBarProps {
     defaultChartOptions?: ITimeSeriesCommandBarOptions;
     onChartOptionsChange: (options: ITimeSeriesCommandBarOptions) => void;
     viewerModeProps: IViewerModeProps;
+    wrapperId?: string;
     /**
      * Call to provide customized styling that will layer on top of the variant rules.
      */

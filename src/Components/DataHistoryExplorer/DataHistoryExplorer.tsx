@@ -618,6 +618,7 @@ const DataHistoryExplorer: React.FC<IDataHistoryExplorerProps> = (props) => {
                             onChartOptionsChange={handleOnChartOptionChange}
                             data={viewerData}
                             error={errors[0]}
+                            wrapperId={wrapperId}
                             styles={classNames.subComponentStyles.viewer}
                         />
                     </Stack>
@@ -648,6 +649,7 @@ const DataHistoryExplorer: React.FC<IDataHistoryExplorerProps> = (props) => {
                                     payload: { isVisible: false }
                                 });
                             }}
+                            wrapperId={wrapperId}
                         />
                     )}
                 </>

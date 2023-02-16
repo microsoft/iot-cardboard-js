@@ -18,6 +18,7 @@ export interface ITimeSeriesTwinCalloutProps {
     target: string;
     onDismiss?: () => void;
     onPrimaryActionClick: (timeSeriesTwin: IDataHistoryTimeSeriesTwin) => void;
+    wrapperId?: string;
     /**
      * Call to provide customized styling that will layer on top of the variant rules.
      */

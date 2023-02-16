@@ -25,6 +25,7 @@ import TimeSeriesTable from './Internal/TimeSeriesTable/TimeSeriesTable';
 import { TimeStampFormat } from './Internal/TimeSeriesTable/TimeSeriesTable.types';
 import DataHistoryErrorHandlingWrapper from '../../../DataHistoryErrorHandlingWrapper/DataHistoryErrorHandlingWrapper';
 import TimeSeriesCommandBar from './Internal/TimeSeriesCommandBar/TimeSeriesCommandBar';
+import useGuid from '../../../../Models/Hooks/useGuid';
 
 export const TimeSeriesViewerContext = createContext<ITimeSeriesViewerContext>(
     null
@@ -45,6 +46,7 @@ const TimeSeriesViewer: React.FC<ITimeSeriesViewerProps> = (props) => {
         explorerChartOptions,
         onChartOptionsChange,
         error,
+        wrapperId = useGuid(),
         styles
     } = props;
 
@@ -72,6 +74,7 @@ const TimeSeriesViewer: React.FC<ITimeSeriesViewerProps> = (props) => {
                     }}
                     viewerModeProps={viewerModeProps}
                     onChartOptionsChange={onChartOptionsChange}
+                    wrapperId={wrapperId}
                     styles={classNames.subComponentStyles.commandBar}
                 />
             );
@@ -80,7 +83,8 @@ const TimeSeriesViewer: React.FC<ITimeSeriesViewerProps> = (props) => {
         explorerChartOptions,
         viewerModeProps,
         onChartOptionsChange,
-        classNames
+        classNames,
+        wrapperId
     ]);
 
     const SpinnerComponent = useMemo(

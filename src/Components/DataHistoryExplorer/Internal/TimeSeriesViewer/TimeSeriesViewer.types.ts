@@ -33,6 +33,7 @@ export interface ITimeSeriesViewerProps {
     explorerChartOptions: IDataHistoryExplorerChartOptions;
     onChartOptionsChange: (options: ITimeSeriesCommandBarOptions) => void;
     error?: IComponentError;
+    wrapperId?: string;
     /**
      * Call to provide customized styling that will layer on top of the variant rules.
      */
