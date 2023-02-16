@@ -9,7 +9,7 @@ import { CommandHistoryContextProvider } from '../../../../Pages/OATEditorPage/I
 const wrapperStyle = { width: '100%', height: '600px', padding: 8 };
 
 export default {
-    title: 'Components/JSONEditor',
+    title: 'Components - OAT/OATPropertyEditor/JSONEditor',
     component: JSONEditor,
     decorators: [getDefaultStoryDecorator<IJSONEditorProps>(wrapperStyle)]
 };
