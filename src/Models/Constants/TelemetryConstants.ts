@@ -188,6 +188,7 @@ export const TelemetryEvents = {
                 ParseDataHistory: {
                     eventName: 'ParseConfig.DataHistoryExplorerKpis',
                     properties: {
+                        modalId: 'modalId',
                         countSeries: 'countSeries'
                     }
                 }
@@ -195,12 +196,23 @@ export const TelemetryEvents = {
             UserAction: {
                 /** opening modal to explore data history */
                 OpenModal: {
-                    eventName: 'DataHistoryExplorer.AddSeries'
+                    eventName: 'DataHistoryExplorer.OpenModal',
+                    properties: {
+                        modalId: 'modalId'
+                    }
+                },
+                /** closing data history explorer modal */
+                CloseModal: {
+                    eventName: 'DataHistoryExplorer.CloseModal',
+                    properties: {
+                        modalId: 'modalId'
+                    }
                 },
                 /** adding a new series using the time series builder on the left */
                 AddSeries: {
                     eventName: 'DataHistoryExplorer.AddSeries',
                     properties: {
+                        modalId: 'modalId',
                         hasCustomLabel: 'hasCustomLabel'
                     }
                 },
@@ -208,6 +220,7 @@ export const TelemetryEvents = {
                 EditSeries: {
                     eventName: 'DataHistoryExplorer.EditSeries',
                     properties: {
+                        modalId: 'modalId',
                         seriesId: 'seriesId',
                         hasCustomLabel: 'hasCustomLabel'
                     }
@@ -216,6 +229,7 @@ export const TelemetryEvents = {
                 RemoveSeries: {
                     eventName: 'DataHistoryExplorer.RemoveSeries',
                     properties: {
+                        modalId: 'modalId',
                         seriesId: 'seriesId'
                     }
                 },
@@ -223,6 +237,7 @@ export const TelemetryEvents = {
                 ToggleNumericCasting: {
                     eventName: 'DataHistoryExplorer.ToggleNumericCasting',
                     properties: {
+                        modalId: 'modalId',
                         toggleValue: 'toggleValue'
                     }
                 },
@@ -230,6 +245,7 @@ export const TelemetryEvents = {
                 ChangeView: {
                     eventName: 'DataHistoryExplorer.ChangeView',
                     properties: {
+                        modalId: 'modalId',
                         view: 'view'
                     }
                 },
@@ -237,23 +253,29 @@ export const TelemetryEvents = {
                 ChangeChartOption: {
                     eventName: 'DataHistoryExplorer.ChangeChartOption',
                     properties: {
+                        modalId: 'modalId',
                         chartOptions: 'chartOptions'
                     }
                 },
                 /** clicking on Open in ADX action to view the chart data in Azure Data Explorer Web UI */
                 OpenSeriesInAdx: {
+                    modalId: 'modalId',
                     eventName: 'DataHistoryExplorer.OpenInADX'
                 },
                 /** dowloading data in the Table tab in the viewer on right hand side */
                 DownloadTable: {
                     eventName: 'DataHistoryExplorer.DownloadTable',
                     properties: {
+                        modalId: 'modalId',
                         numberOfRows: 'numberOfRows'
                     }
                 },
                 /** triggering to force refresh data fetching */
                 ForceRefresh: {
-                    eventName: 'DataHistoryExplorer.ForceRefresh'
+                    eventName: 'DataHistoryExplorer.ForceRefresh',
+                    properties: {
+                        modalId: 'modalId'
+                    }
                 }
             }
         }

@@ -25,6 +25,7 @@ export interface IDataHistoryExplorerProps {
     hasTitle?: boolean;
     timeSeriesTwins?: Array<IDataHistoryTimeSeriesTwin>;
     defaultChartOptions?: ITimeSeriesCommandBarOptions;
+    wrapperId?: string;
     /**
      * Call to provide customized styling that will layer on top of the variant rules.
      */

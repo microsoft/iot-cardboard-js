@@ -67,6 +67,7 @@ import {
 import { TimeSeriesTableRow } from './Internal/TimeSeriesViewer/Internal/TimeSeriesTable/TimeSeriesTable.types';
 import { usePrevious } from '@fluentui/react-hooks';
 import useMaxDateInMillis from '../../Models/Hooks/useMaxDateInMillis';
+import { useGuid } from '../../Models/Hooks';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('DataHistoryExplorer', debugLogging);
@@ -82,6 +83,7 @@ const DataHistoryExplorer: React.FC<IDataHistoryExplorerProps> = (props) => {
         hasTitle = true,
         timeSeriesTwins: timeSeriesTwinsProp = [],
         defaultChartOptions,
+        wrapperId = useGuid(),
         styles
     } = props;
 
@@ -240,6 +242,9 @@ const DataHistoryExplorer: React.FC<IDataHistoryExplorerProps> = (props) => {
                         .EditSeries;
                 sendDataHistoryExplorerUserTelemetry(telemetry.eventName, [
                     {
+                        [telemetry.properties.modalId]: wrapperId
+                    },
+                    {
                         [telemetry.properties.seriesId]:
                             state.selectedTimeSeriesId
                     },
@@ -271,6 +276,9 @@ const DataHistoryExplorer: React.FC<IDataHistoryExplorerProps> = (props) => {
                     TelemetryEvents.Tools.DataHistoryExplorer.UserAction
                         .AddSeries;
                 sendDataHistoryExplorerUserTelemetry(telemetry.eventName, [
+                    {
+                        [telemetry.properties.modalId]: wrapperId
+                    },
                     {
                         [telemetry.properties.hasCustomLabel]:
                             timeSeriesTwin.label !==
@@ -328,6 +336,9 @@ const DataHistoryExplorer: React.FC<IDataHistoryExplorerProps> = (props) => {
                     .RemoveSeries;
             sendDataHistoryExplorerUserTelemetry(telemetry.eventName, [
                 {
+                    [telemetry.properties.modalId]: wrapperId
+                },
+                {
                     [telemetry.properties.seriesId]: seriesId
                 }
             ]);
@@ -360,6 +371,9 @@ const DataHistoryExplorer: React.FC<IDataHistoryExplorerProps> = (props) => {
                 TelemetryEvents.Tools.DataHistoryExplorer.UserAction.ChangeView;
             sendDataHistoryExplorerUserTelemetry(telemetry.eventName, [
                 {
+                    [telemetry.properties.modalId]: wrapperId
+                },
+                {
                     [telemetry.properties.view]: viewerMode
                 }
             ]);
@@ -382,6 +396,9 @@ const DataHistoryExplorer: React.FC<IDataHistoryExplorerProps> = (props) => {
                 TelemetryEvents.Tools.DataHistoryExplorer.UserAction
                     .ChangeChartOption;
             sendDataHistoryExplorerUserTelemetry(telemetry.eventName, [
+                {
+                    [telemetry.properties.modalId]: wrapperId
+                },
                 {
                     [telemetry.properties.chartOptions]: chartOptions
                 }
@@ -415,6 +432,9 @@ const DataHistoryExplorer: React.FC<IDataHistoryExplorerProps> = (props) => {
             TelemetryEvents.Tools.DataHistoryExplorer.UserAction.DownloadTable;
         sendDataHistoryExplorerUserTelemetry(telemetry.eventName, [
             {
+                [telemetry.properties.modalId]: wrapperId
+            },
+            {
                 [telemetry.properties.numberOfRows]: data.length
             }
         ]);
@@ -427,7 +447,11 @@ const DataHistoryExplorer: React.FC<IDataHistoryExplorerProps> = (props) => {
         });
         const telemetry =
             TelemetryEvents.Tools.DataHistoryExplorer.UserAction.ForceRefresh;
-        sendDataHistoryExplorerUserTelemetry(telemetry.eventName);
+        sendDataHistoryExplorerUserTelemetry(telemetry.eventName, [
+            {
+                [telemetry.properties.modalId]: wrapperId
+            }
+        ]);
     }, [dispatch, sendDataHistoryExplorerUserTelemetry]);
 
     const viewerModeProps: IViewerModeProps = useMemo(
@@ -535,7 +559,10 @@ const DataHistoryExplorer: React.FC<IDataHistoryExplorerProps> = (props) => {
             'Series changed: {timeSeriesTwins}',
             state.timeSeriesTwins
         );
-        sendDataHistoryExplorerSystemTelemetry(state.timeSeriesTwins);
+        sendDataHistoryExplorerSystemTelemetry(
+            state.timeSeriesTwins,
+            wrapperId
+        );
     }, [state.timeSeriesTwins]);
 
     return (

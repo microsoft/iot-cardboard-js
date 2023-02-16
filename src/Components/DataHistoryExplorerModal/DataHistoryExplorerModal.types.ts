@@ -11,6 +11,7 @@ export interface IDataHistoryExplorerModalProps {
     isOpen: boolean;
     onDismiss?: () => void;
     timeSeriesTwins?: Array<IDataHistoryTimeSeriesTwin>;
+    modalId?: string;
     /**
      * Call to provide customized styling that will layer on top of the variant rules.
      */

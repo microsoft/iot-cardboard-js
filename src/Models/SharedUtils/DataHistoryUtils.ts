@@ -227,7 +227,8 @@ export const getDefaultSeriesLabel = (
 
 /** send the KPI telemetry of captured data history explorer modal metrics  */
 export const sendDataHistoryExplorerSystemTelemetry = (
-    timeSeriesTwinList: Array<IDataHistoryTimeSeriesTwin>
+    timeSeriesTwinList: Array<IDataHistoryTimeSeriesTwin>,
+    modalId: string
 ) => {
     // capture the Data History Explorer Modal level metrics
     const event =
@@ -238,6 +239,7 @@ export const sendDataHistoryExplorerSystemTelemetry = (
             appRegion: AppRegion.DataHistoryExplorer,
             componentName: ComponentName.DataHistoryExplorerModal,
             customProperties: {
+                [event.properties.modalId]: modalId,
                 [event.properties.countSeries]: timeSeriesTwinList.length
             },
             triggerType: TelemetryTrigger.SystemAction

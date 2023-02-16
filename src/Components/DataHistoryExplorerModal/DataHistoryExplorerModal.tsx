@@ -14,6 +14,7 @@ import {
 import CardboardModal from '../CardboardModal/CardboardModal';
 import { useTranslation } from 'react-i18next';
 import DataHistoryExplorer from '../DataHistoryExplorer/DataHistoryExplorer';
+import { useGuid } from '../../Models/Hooks';
 
 const CONTENT_MAX_HEIGHT = 560;
 const contentStackTokens: IStackTokens = {
@@ -28,7 +29,14 @@ const getClassNames = classNamesFunction<
 const DataHistoryExplorerModal: React.FC<IDataHistoryExplorerModalProps> = (
     props
 ) => {
-    const { adapter, isOpen, onDismiss, timeSeriesTwins, styles } = props;
+    const {
+        adapter,
+        isOpen,
+        onDismiss,
+        timeSeriesTwins,
+        modalId = useGuid(),
+        styles
+    } = props;
 
     // hooks
     const { t } = useTranslation();
@@ -55,6 +63,7 @@ const DataHistoryExplorerModal: React.FC<IDataHistoryExplorerModalProps> = (
                     adapter={adapter}
                     hasTitle={false}
                     timeSeriesTwins={timeSeriesTwins}
+                    wrapperId={modalId}
                 />
             </CardboardModal>
         </div>

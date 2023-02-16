@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import {
     ITimeSeriesCommandBarOptionKeys,
     ITimeSeriesCommandBarOptions,
@@ -78,19 +78,16 @@ const TimeSeriesCommandBar: React.FC<ITimeSeriesCommandBarProps> = (props) => {
         ) => {
             setChartOptions(
                 produce((draft) => {
-                    return { ...draft, [chartOption]: value };
+                    const newDraft = { ...draft, [chartOption]: value };
+                    if (onChartOptionsChange) {
+                        onChartOptionsChange(newDraft);
+                    }
+                    return newDraft;
                 })
             );
         },
         [setChartOptions]
     );
-
-    // side effects
-    useEffect(() => {
-        if (onChartOptionsChange) {
-            onChartOptionsChange(chartOptions);
-        }
-    }, [onChartOptionsChange, chartOptions]);
 
     // styles
     const classNames = getClassNames(styles, {
