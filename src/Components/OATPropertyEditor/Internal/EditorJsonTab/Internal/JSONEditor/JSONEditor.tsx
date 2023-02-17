@@ -46,7 +46,7 @@ import {
 } from '../../../../../../Models/Context/OatPageContext/OatPageContextUtils';
 import { ensureIsArray } from '../../../../../../Models/Services/OatUtils';
 
-const debugLogging = true;
+const debugLogging = false;
 export const logDebugConsole = getDebugLogger('JSONEditor', debugLogging);
 
 const getClassNames = classNamesFunction<
