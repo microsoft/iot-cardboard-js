@@ -85,15 +85,15 @@ const JSONEditor: React.FC<IJSONEditorProps> = (props) => {
     const { t } = useTranslation();
 
     // data
-    const selectedItem = useMemo(
-        () =>
+    const selectedItem = useMemo(() => {
+        return (
             oatPageState.selection &&
             getTargetFromSelection(
                 oatPageState.currentOntologyModels,
                 oatPageState.selection
-            ),
-        [oatPageState.currentOntologyModels, oatPageState.selection]
-    );
+            )
+        );
+    }, [oatPageState.currentOntologyModels, oatPageState.selection]);
     const libTheme = useLibTheme();
     const themeToUse = libTheme || selectedTheme;
     const editorTheme =
