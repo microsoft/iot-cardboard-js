@@ -19,7 +19,7 @@ const getClassNames = classNamesFunction<
     IEditorJsonTabStyles
 >();
 
-const EditorJsonTab: React.FC<IEditorJsonTabProps> = (props) => {
+const EditorJsonTab: React.FC<IEd itorJsonTabProps> = (props) => {
     const { selectedItem, selectedThemeName, styles } = props;
 
     const isSupportedModelType = useMemo(
