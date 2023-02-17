@@ -39,13 +39,13 @@ export default class BlobAdapter implements IBlobAdapter {
     protected containerResourceId: string; // resource scope
     protected blobAuthService: IAuthService;
     protected blobProxyServerPath: string;
-    protected useProxy: boolean;
+    protected useBlobProxy: boolean;
 
     constructor(
         blobContainerUrl: string,
         authService: IAuthService,
         blobProxyServerPath = '/proxy/blob',
-        useProxy = true
+        useBlobProxy = true
     ) {
         this.setBlobContainerPath(blobContainerUrl);
         this.blobAuthService = authService;
@@ -55,8 +55,8 @@ export default class BlobAdapter implements IBlobAdapter {
          * Check if class has been initialized with CORS enabled or if origin matches dev or prod explorer urls,
          * override if CORS is forced by feature flag
          *  */
-        this.useProxy =
-            (useProxy || !validateExplorerOrigin(window.origin)) &&
+        this.useBlobProxy =
+            (useBlobProxy || !validateExplorerOrigin(window.origin)) &&
             !(
                 localStorage.getItem(
                     LOCAL_STORAGE_KEYS.FeatureFlags.Proxy.forceCORS
@@ -71,7 +71,7 @@ export default class BlobAdapter implements IBlobAdapter {
     }
 
     generateUrl(path: string) {
-        if (this.useProxy) {
+        if (this.useBlobProxy) {
             return `${this.blobProxyServerPath}${path}`;
         } else {
             return `${this.getBlobContainerURL()}${path}`;
@@ -79,7 +79,7 @@ export default class BlobAdapter implements IBlobAdapter {
     }
 
     generateHeaders(headers: AxiosObjParam = {}) {
-        if (this.useProxy) {
+        if (this.useBlobProxy) {
             return {
                 ...headers,
                 'x-blob-host': this.storageAccountHostName
