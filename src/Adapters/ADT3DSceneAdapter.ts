@@ -60,14 +60,15 @@ export default class ADT3DSceneAdapter {
         );
         /**
          * Check if class has been initialized with CORS enabled or if origin matches dev or prod explorer urls,
-         * override if proxy is forced by feature flag
+         * override if CORS is forced by feature flag
          *  */
         this.useProxy =
-            useProxy ||
-            validateExplorerOrigin(window.origin) ||
-            localStorage.getItem(
-                LOCAL_STORAGE_KEYS.FeatureFlags.Proxy.forceProxy
-            ) === 'true';
+            (useProxy || !validateExplorerOrigin(window.origin)) &&
+            !(
+                localStorage.getItem(
+                    LOCAL_STORAGE_KEYS.FeatureFlags.Proxy.forceCORS
+                ) === 'true'
+            );
 
         if (blobContainerUrl) {
             try {
