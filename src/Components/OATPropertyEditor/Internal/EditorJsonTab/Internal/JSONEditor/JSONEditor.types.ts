@@ -1,9 +1,9 @@
 import { IStyle, IStyleFunctionOrObject } from '@fluentui/react';
-import { Theme } from '../../../../Models/Constants/Enums';
-import { IExtendedTheme } from '../../../../Theming/Theme.types';
+import { Theme } from '../../../../../../Models/Constants/Enums';
+import { IExtendedTheme } from '../../../../../../Theming/Theme.types';
 
 export interface IJSONEditorProps {
-    selectedTheme?: Theme;
+    selectedTheme: Theme;
     /**
      * Call to provide customized styling that will layer on top of the variant rules.
      */
@@ -15,6 +15,7 @@ export interface IJSONEditorStyleProps {
 }
 export interface IJSONEditorStyles {
     root: IStyle;
+    editor: IStyle;
 
     /**
      * SubComponent styles.

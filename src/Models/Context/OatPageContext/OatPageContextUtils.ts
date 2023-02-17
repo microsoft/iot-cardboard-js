@@ -517,7 +517,7 @@ export const addTargetedRelationship = (
         sourceModel.contents = [...sourceModel.contents, newRelationship];
     } else if (relationshipType === 'Extend') {
         // extends
-        const existing = new Set(sourceModel.extends);
+        const existing = new Set(ensureIsArray(sourceModel.extends));
         existing.add(targetModelId);
         sourceModel.extends = Array.from(existing).sort(sortCaseInsensitive());
         newRelationship = targetModelId;

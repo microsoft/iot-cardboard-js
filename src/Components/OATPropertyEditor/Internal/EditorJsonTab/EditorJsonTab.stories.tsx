@@ -4,8 +4,11 @@ import { getDefaultStoryDecorator } from '../../../../Models/Services/StoryUtili
 import EditorJsonTab from './EditorJsonTab';
 import { IEditorJsonTabProps } from './EditorJsonTab.types';
 import { OatPageContextProvider } from '../../../../Models/Context/OatPageContext/OatPageContext';
-import { getMockModelItem } from '../../../../Models/Context/OatPageContext/OatPageContext.mock';
-import { Theme } from '../../../../Models/Constants';
+import {
+    getMockFile,
+    getMockModelItem
+} from '../../../../Models/Context/OatPageContext/OatPageContext.mock';
+import { DtdlInterface, Theme } from '../../../../Models/Constants';
 import { buildModelId } from '../../../../Models/Services/OatUtils';
 import { CommandHistoryContextProvider } from '../../../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
 
@@ -20,8 +23,17 @@ export default {
 type EditorJsonTabStory = ComponentStory<typeof EditorJsonTab>;
 
 const Template: EditorJsonTabStory = (args) => {
+    const file = getMockFile(0, 'id1', 'id2');
+    file.data.models = [args.selectedItem as DtdlInterface];
     return (
-        <OatPageContextProvider disableLocalStorage={true}>
+        <OatPageContextProvider
+            disableLocalStorage={true}
+            initialState={{
+                selection: { modelId: args.selectedItem['@id'] },
+                ontologyFiles: [file],
+                currentOntologyId: 'something'
+            }}
+        >
             <CommandHistoryContextProvider>
                 <EditorJsonTab {...args} />
             </CommandHistoryContextProvider>
