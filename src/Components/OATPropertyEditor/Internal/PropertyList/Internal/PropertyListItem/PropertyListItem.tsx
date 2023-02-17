@@ -159,16 +159,7 @@ const PropertyListItem: React.FC<IPropertyListItemProps> = (props) => {
                         onChangeSchemaType,
                         supportsV3Properties
                     ),
-                    styles: {
-                        subComponentStyles: {
-                            menuItem: {
-                                '.ms-ContextualMenu-link': {
-                                    display: 'flex',
-                                    alignItems: 'center'
-                                }
-                            }
-                        }
-                    }
+                    styles: classNames.subComponentStyles.menuItems
                 }
             }
         ];
