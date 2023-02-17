@@ -70,11 +70,9 @@ export default class BlobAdapter implements IBlobAdapter {
             : '';
     }
 
-    generateUrl(path: string, noContainerName?: boolean) {
+    generateUrl(path: string) {
         if (this.useProxy) {
             return `${this.blobProxyServerPath}${path}`;
-        } else if (noContainerName) {
-            return `https://${this.storageAccountHostName}`;
         } else {
             return `${this.getBlobContainerURL()}${path}`;
         }
@@ -109,7 +107,7 @@ export default class BlobAdapter implements IBlobAdapter {
                 await axios({
                     method: 'put',
                     url: this.generateUrl(
-                        `/3DScenesConfiguration_corrupted_${todayDate}.json`
+                        `/${this.containerName}/3DScenesConfiguration_corrupted_${todayDate}.json`
                     ),
                     headers: this.generateHeaders(headers)
                 });
@@ -160,7 +158,9 @@ export default class BlobAdapter implements IBlobAdapter {
                     const scenesBlob = await axios({
                         method: 'GET',
                         url: this.generateUrl(
-                            `/${ADT3DSceneConfigFileNameInBlobStore}.json?cachebust=${new Date().valueOf()}`
+                            `/${
+                                this.containerName
+                            }/${ADT3DSceneConfigFileNameInBlobStore}.json?cachebust=${new Date().valueOf()}`
                         ),
                         headers: this.generateHeaders(headers)
                     });
@@ -229,7 +229,7 @@ export default class BlobAdapter implements IBlobAdapter {
             {
                 method: 'put',
                 url: this.generateUrl(
-                    `/${ADT3DSceneConfigFileNameInBlobStore}.json`
+                    `/${this.containerName}/${ADT3DSceneConfigFileNameInBlobStore}.json`
                 ),
                 headers: this.generateHeaders(headers),
                 data: config
@@ -257,7 +257,7 @@ export default class BlobAdapter implements IBlobAdapter {
             try {
                 const filesData = await axios({
                     method: 'GET',
-                    url: this.generateUrl(''),
+                    url: this.generateUrl(`/${this.containerName}`),
                     headers: this.generateHeaders(headers),
                     params: {
                         restype: 'container',
@@ -318,7 +318,7 @@ export default class BlobAdapter implements IBlobAdapter {
             StorageBlobsData,
             {
                 method: 'put',
-                url: this.generateUrl(`/${file.name}`),
+                url: this.generateUrl(`/${this.containerName}/${file.name}`),
                 headers: this.generateHeaders(headers),
                 data: file
             },
@@ -456,7 +456,7 @@ export default class BlobAdapter implements IBlobAdapter {
             StorageBlobServiceCorsRulesData,
             {
                 method: 'get',
-                url: this.generateUrl('', true),
+                url: this.generateUrl(''),
                 headers: this.generateHeaders(headers),
                 params: {
                     restype: 'service',
@@ -499,7 +499,7 @@ export default class BlobAdapter implements IBlobAdapter {
             StorageBlobServiceCorsRulesData,
             {
                 method: 'put',
-                url: this.generateUrl('', true),
+                url: this.generateUrl(''),
                 headers: this.generateHeaders(headers),
                 params: {
                     restype: 'service',
