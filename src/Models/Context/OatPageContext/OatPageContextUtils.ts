@@ -21,6 +21,7 @@ import {
     DtdlComponent,
     DtdlInterface,
     DtdlInterfaceContent,
+    DtdlProperty,
     DtdlRelationship,
     IOATNodePosition,
     OatGraphReferenceType,
@@ -304,6 +305,24 @@ export const getPropertyIndexOnModelByName = (
  * Looks up the index of a property in the contents of a model and returns the index.
  * Returns -1 if not found or if arguments are invalid
  */
+export const getAllPropertiesOnModelByName = (
+    model: DtdlInterface,
+    referenceName: string
+): DtdlProperty[] => {
+    if (model && referenceName) {
+        return (
+            (model.contents.filter(
+                (x) => x.name === referenceName && isDTDLProperty(x)
+            ) as DtdlProperty[]) ?? []
+        );
+    }
+    return [];
+};
+
+/**
+ * Looks up the index of a property in the contents of a model and returns the index.
+ * Returns -1 if not found or if arguments are invalid
+ */
 export const getPropertyIndexOnRelationshipByName = (
     relationship: DtdlRelationship,
     referenceName: string
@@ -314,6 +333,22 @@ export const getPropertyIndexOnRelationshipByName = (
         );
     }
     return -1;
+};
+
+/**
+ * Looks up the index of a property in the contents of a model and returns the index.
+ * Returns -1 if not found or if arguments are invalid
+ */
+export const getAllPropertiesOnRelationshipByName = (
+    relationship: DtdlRelationship,
+    referenceName: string
+): DtdlProperty[] => {
+    if (relationship && referenceName) {
+        return relationship.properties.filter(
+            (x) => x.name === referenceName && isDTDLProperty(x)
+        );
+    }
+    return [];
 };
 
 //#endregion

@@ -31,6 +31,8 @@ import {
 } from './Internal/PropertyListItem/PropertyListItem.types';
 import { DtdlInterface, DtdlReference } from '../../../../Models/Constants';
 import {
+    getAllPropertiesOnModelByName,
+    getAllPropertiesOnRelationshipByName,
     getPropertyIndexOnModelByName,
     getPropertyIndexOnRelationshipByName
 } from '../../../../Models/Context/OatPageContext/OatPageContextUtils';
@@ -162,9 +164,32 @@ const PropertyList: React.FC<IPropertyListProps> = (props) => {
         const updateName: IOnUpdateNameCallback = (
             args: IOnUpdateNameCallbackArgs
         ) => {
+            const throwDuplicatePropertyError = (name: string) => {
+                console.warn(
+                    '***skipping save. Found issue. {selected, args}',
+                    selectedItem,
+                    args.name
+                );
+                oatPageDispatch({
+                    type: OatPageContextActionType.SET_OAT_ERROR,
+                    payload: {
+                        title: 'Duplicate property name' + name,
+                        message: 'Cannot have duplicate properties'
+                    }
+                });
+            };
+            console.log('***Update', selectedItem, args);
             if (isDTDLModel(selectedItem)) {
                 // update for model
                 const updatedContents = [...selectedItem.contents];
+                // check for existing properties with that name
+                if (
+                    getAllPropertiesOnModelByName(selectedItem, args.name)
+                        .length > 0
+                ) {
+                    throwDuplicatePropertyError(args.name);
+                    return;
+                }
                 const index = getPropertyIndexOnModelByName(
                     selectedItem,
                     property.name
@@ -177,6 +202,16 @@ const PropertyList: React.FC<IPropertyListProps> = (props) => {
             } else if (isDTDLRelationshipReference(selectedItem)) {
                 // update for relationships
                 const updatedProperties = [...selectedItem.properties];
+                // check for existing properties with that name
+                if (
+                    getAllPropertiesOnRelationshipByName(
+                        selectedItem,
+                        args.name
+                    ).length > 0
+                ) {
+                    throwDuplicatePropertyError(args.name);
+                    return;
+                }
                 const index = getPropertyIndexOnRelationshipByName(
                     selectedItem,
                     property.name
