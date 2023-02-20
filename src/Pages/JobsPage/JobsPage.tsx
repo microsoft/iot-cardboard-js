@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback } from 'react';
 import {
     IJobsPageProps,
     IJobsPageStyleProps,
@@ -9,9 +9,8 @@ import { classNamesFunction, styled } from '@fluentui/react';
 import { useExtendedTheme } from '../../Models/Hooks/useExtendedTheme';
 import EnvironmentPicker from '../../Components/EnvironmentPicker/EnvironmentPicker';
 import BaseComponent from '../../Components/BaseComponent/BaseComponent';
-import { IADTInstance, IJob } from '../../Models/Constants';
-import JobsWrapper from '../../Components/JobsWrapper/JobsWrapper';
-import useAdapter from '../../Models/Hooks/useAdapter';
+import { IADTInstance } from '../../Models/Constants';
+import JobsContainer from '../../Components/JobsContainer/JobsContainer';
 
 const getClassNames = classNamesFunction<
     IJobsPageStyleProps,
@@ -26,16 +25,8 @@ const JobsPage: React.FC<IJobsPageProps> = ({
     styles,
     adtInstanceUrl
 }) => {
-    // state
-    const [listOfJobs, setListOfJobs] = useState<Array<IJob>>([]);
-
     // hooks
 
-    const getAllJobs = useAdapter({
-        adapterMethod: () => adapter.getAllJobs(),
-        refetchDependencies: [adapter],
-        isAdapterCalledOnMount: false
-    });
     // callbacks
 
     const handleADTInstanceChange = useCallback(
@@ -47,9 +38,7 @@ const JobsPage: React.FC<IJobsPageProps> = ({
             this callback should call the method, getAllJobs(). To get the list of Jobs for the ADT Instance that the environment was changed to
         */
             if (adtInstance != '') {
-                getAllJobs.callAdapter();
-                const jobs: IJob[] = []; //getAllJobs.callAdapter();
-                setListOfJobs(jobs);
+                //TO-DO
             }
         },
         [adtInstanceUrl]
@@ -76,7 +65,7 @@ const JobsPage: React.FC<IJobsPageProps> = ({
                 onAdtInstanceChange={handleADTInstanceChange}
                 isLocalStorageEnabled={true}
             />
-            <JobsWrapper adapter={adapter} listOfJobs={listOfJobs} />
+            <JobsContainer adapter={adapter} />
         </BaseComponent>
     );
 };

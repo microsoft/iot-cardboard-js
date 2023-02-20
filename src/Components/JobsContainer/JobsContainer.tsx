@@ -1,56 +1,67 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
-    IJobsWrapperProps,
-    IJobsWrapperStyleProps,
-    IJobsWrapperStyles
-} from './JobsWrapper.types';
-import { getStyles } from './JobsWrapper.styles';
+    IJobsContainerProps,
+    IJobsContainerStyleProps,
+    IJobsContainerStyles
+} from './JobsContainer.types';
+import { getStyles } from './JobsContainer.styles';
 import { classNamesFunction, CommandBar, styled } from '@fluentui/react';
 import { useExtendedTheme } from '../../Models/Hooks/useExtendedTheme';
 import JobsList from './Internal/JobsList/JobsList';
 import JobsDialog from './Internal/JobsDialog/JobsDialog';
 import useAdapter from '../../Models/Hooks/useAdapter';
-import { AdapterMethodParamsForJobs, IJob } from '../../Models/Constants';
+import { AdapterMethodParamsForJobs, IAdtApiJob } from '../../Models/Constants';
 
 const getClassNames = classNamesFunction<
-    IJobsWrapperStyleProps,
-    IJobsWrapperStyles
+    IJobsContainerStyleProps,
+    IJobsContainerStyles
 >();
 
-const JobsWrapper: React.FC<IJobsWrapperProps> = ({
-    adapter,
-    listOfJobs,
-    styles
-}) => {
+const JobsContainer: React.FC<IJobsContainerProps> = ({ adapter, styles }) => {
     // contexts
 
     // state
     const [isJobsDialogOpen, setIsJobsDialogOpen] = useState(false);
+    const [listOfJobs, setListOfJobs] = useState<Array<IAdtApiJob>>([]);
 
+    const getAllJobs = useAdapter({
+        adapterMethod: () => adapter.getAllJobs(),
+        refetchDependencies: [adapter],
+        isAdapterCalledOnMount: false
+    });
     // hooks
-    const deleteJob = useAdapter({
-        adapterMethod: (params: AdapterMethodParamsForJobs) =>
-            adapter.deleteJob(params),
-        refetchDependencies: [adapter],
-        isAdapterCalledOnMount: false
-    });
+    const deleteJob = () => {
+        useAdapter({
+            adapterMethod: (params: AdapterMethodParamsForJobs) =>
+                adapter.deleteJob(params),
+            refetchDependencies: [adapter],
+            isAdapterCalledOnMount: false
+        });
+    };
 
-    const cancelJob = useAdapter({
-        adapterMethod: (params: AdapterMethodParamsForJobs) =>
-            adapter.cancelJob(params),
-        refetchDependencies: [adapter],
-        isAdapterCalledOnMount: false
-    });
+    const cancelJob = () => {
+        useAdapter({
+            adapterMethod: (params: AdapterMethodParamsForJobs) =>
+                adapter.cancelJob(params),
+            refetchDependencies: [adapter],
+            isAdapterCalledOnMount: false
+        });
+    };
 
     // callbacks
 
     // side effects
+    useEffect(() => {
+        getAllJobs.callAdapter();
+        const jobs: IAdtApiJob[] = []; //getAllJobs.callAdapter();
+        setListOfJobs(jobs);
+    }, []);
 
     // styles
     const classNames = getClassNames(styles, {
         theme: useExtendedTheme()
     });
-    const onAddJob = (newJob: IJob, listOfJobs: IJob[]) => {
+    const onAddJob = (newJob: IAdtApiJob) => {
         /** TO-DO
          *
          * apart from API call to jobs, what other actions will occur when a job is added
@@ -84,8 +95,7 @@ const JobsWrapper: React.FC<IJobsWrapperProps> = ({
                 onCancelJob={cancelJob}
                 onDeleteJob={deleteJob}
             >
-                {' '}
-                Display List Here{' '}
+                Display List Here
             </JobsList>
             {isJobsDialogOpen && (
                 <JobsDialog
@@ -102,7 +112,7 @@ const JobsWrapper: React.FC<IJobsWrapperProps> = ({
 };
 
 export default styled<
-    IJobsWrapperProps,
-    IJobsWrapperStyleProps,
-    IJobsWrapperStyles
->(JobsWrapper, getStyles);
+    IJobsContainerProps,
+    IJobsContainerStyleProps,
+    IJobsContainerStyles
+>(JobsContainer, getStyles);

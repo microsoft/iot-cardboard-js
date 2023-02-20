@@ -7,7 +7,7 @@ import { IJobsListProps } from './JobsList.types';
 const wrapperStyle = { width: '100%', height: '600px', padding: 8 };
 
 export default {
-    title: 'Components/JobsList',
+    title: 'Components/Jobs/JobsList',
     component: JobsList,
     decorators: [getDefaultStoryDecorator<IJobsListProps>(wrapperStyle)]
 };

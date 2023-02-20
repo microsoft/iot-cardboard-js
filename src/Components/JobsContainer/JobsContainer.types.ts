@@ -1,29 +1,30 @@
 import { IStyle, IStyleFunctionOrObject } from '@fluentui/react';
 import { MockAdapter } from '../../Adapters';
 import JobsAdapter from '../../Adapters/JobsAdapter';
-import { IJob } from '../../Models/Constants/Interfaces';
 import { IExtendedTheme } from '../../Theming/Theme.types';
 
-export interface IJobsWrapperProps {
+export interface IJobsContainerProps {
     adapter: JobsAdapter | MockAdapter;
-    listOfJobs: IJob[];
     /**
      * Call to provide customized styling that will layer on top of the variant rules.
      */
-    styles?: IStyleFunctionOrObject<IJobsWrapperStyleProps, IJobsWrapperStyles>;
+    styles?: IStyleFunctionOrObject<
+        IJobsContainerStyleProps,
+        IJobsContainerStyles
+    >;
 }
 
-export interface IJobsWrapperStyleProps {
+export interface IJobsContainerStyleProps {
     theme: IExtendedTheme;
 }
-export interface IJobsWrapperStyles {
+export interface IJobsContainerStyles {
     root: IStyle;
 
     /**
      * SubComponent styles.
      */
-    subComponentStyles?: IJobsWrapperSubComponentStyles;
+    subComponentStyles?: IJobsContainerSubComponentStyles;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface IJobsWrapperSubComponentStyles {}
+export interface IJobsContainerSubComponentStyles {}

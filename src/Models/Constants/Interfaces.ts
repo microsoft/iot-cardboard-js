@@ -358,7 +358,7 @@ export interface IADTTwin {
     };
     [propertyName: string]: any;
 }
-export interface IJob {
+export interface IAdtApiJob {
     id: string;
     inputBlobUri: string;
     outputBlobUri: string;
