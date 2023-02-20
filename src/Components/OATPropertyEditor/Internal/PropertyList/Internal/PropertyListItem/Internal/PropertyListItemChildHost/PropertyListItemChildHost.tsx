@@ -129,6 +129,20 @@ const PropertyListItemChildHost: React.FC<IPropertyListItemChildHostProps> = (
                     indexKey={`${indexKey}.0`}
                     item={propertyItem.schema}
                     level={level}
+                    onUpdateKey={(key) => {
+                        // update the schema for the item
+                        const schemaCopy = deepCopy(propertyItem.schema);
+                        schemaCopy.mapKey = key;
+                        // send updated schema to parent
+                        onUpdateSchema(schemaCopy);
+                    }}
+                    onUpdateValue={(value) => {
+                        // update the schema for the item
+                        const schemaCopy = deepCopy(propertyItem.schema);
+                        schemaCopy.mapValue = value;
+                        // send updated schema to parent
+                        onUpdateSchema(schemaCopy);
+                    }}
                     parentModelContext={parentModelContext}
                 />
             ) : hasObjectSchemaType(propertyItem) ? (

@@ -19,7 +19,8 @@ export const getStyles = (props: IOATHeaderStyleProps): IOATHeaderStyles => {
             classNames.root,
             {
                 height: OAT_HEADER_HEIGHT,
-                backgroundColor: theme.semanticColors.bodyBackground
+                backgroundColor: theme.semanticColors.bodyBackground,
+                padding: '8px 8px 0 8px'
             } as IStyle
         ],
         projectName: [

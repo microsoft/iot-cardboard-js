@@ -1,4 +1,4 @@
-import { IStyle, IStyleFunctionOrObject } from '@fluentui/react';
+import { IButtonStyles, IStyle, IStyleFunctionOrObject } from '@fluentui/react';
 import { IExtendedTheme } from '../../../../Theming/Theme.types';
 
 export interface IVersion3UpgradeButtonProps {
@@ -24,5 +24,6 @@ export interface IVersion3UpgradeButtonStyles {
     subComponentStyles?: IVersion3UpgradeButtonSubComponentStyles;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface IVersion3UpgradeButtonSubComponentStyles {}
+export interface IVersion3UpgradeButtonSubComponentStyles {
+    button: IButtonStyles;
+}

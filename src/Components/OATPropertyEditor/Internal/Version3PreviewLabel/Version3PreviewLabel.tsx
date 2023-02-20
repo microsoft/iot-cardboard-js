@@ -13,6 +13,7 @@ import {
 } from '@fluentui/react';
 import { useExtendedTheme } from '../../../../Models/Hooks/useExtendedTheme';
 import { useTranslation } from 'react-i18next';
+import { DOCUMENTATION_LINKS } from '../../../../Models/Constants';
 
 const getClassNames = classNamesFunction<
     IVersion3PreviewLabelStyleProps,
@@ -49,6 +50,8 @@ const PreviewLabel: React.FC<IVersion3PreviewLabelProps> = (props) => {
                 }}
             >
                 <ActionButton
+                    href={DOCUMENTATION_LINKS.ontologyConceptsVersions}
+                    target={'_blank'}
                     styles={classNames.subComponentStyles.badgeButton?.()}
                 >
                     {t('OAT.PropertyEditor.Version3PreviewLabel.badgeText')}

@@ -11,7 +11,8 @@ import {
     styled,
     TextField,
     Text,
-    Stack
+    Stack,
+    DirectionalHint
 } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import {
@@ -43,6 +44,7 @@ import {
     updateDtdlVersion
 } from '../../../../../../Models/Services/DtdlUtils';
 import {
+    DOCUMENTATION_LINKS,
     DtdlInterface,
     OAT_RELATIONSHIP_HANDLE_NAME
 } from '../../../../../../Models/Constants';
@@ -247,7 +249,7 @@ const PropertyDetailsEditorModalContent: React.FC<IModalFormRootModelContentProp
                 <div className={propertyInspectorStyles.modalRow}>
                     <div></div> {/* Needed for gridTemplateColumns style  */}
                     <TextField
-                        aria-aria-describedby={'display-name-label'}
+                        aria-describedby={'display-name-label'}
                         placeholder={t(
                             'OATPropertyEditor.displayNamePlaceholder'
                         )}
@@ -320,7 +322,7 @@ const PropertyDetailsEditorModalContent: React.FC<IModalFormRootModelContentProp
                                 selectedKey={language}
                             />
                             <TextField
-                                aria-aria-describedby={`display-name-label display-name-language-selector-${index}`}
+                                aria-describedby={`display-name-label display-name-language-selector-${index}`}
                                 placeholder={t(
                                     'OATPropertyEditor.displayNamePlaceholder'
                                 )}
@@ -563,9 +565,25 @@ const PropertyDetailsEditorModalContent: React.FC<IModalFormRootModelContentProp
             {/* version */}
             {isDTDLModel(selectedItem) && (
                 <div className={propertyInspectorStyles.modalRow}>
-                    <Label className={classNames.label}>
-                        {t('OATPropertyEditor.contextVersion')}
-                    </Label>
+                    <Stack className={classNames.label} horizontal>
+                        <Label>{t('OATPropertyEditor.contextVersion')}</Label>
+                        <TooltipCallout
+                            content={{
+                                calloutContent: t(
+                                    'OATPropertyEditor.contextVersion3Description'
+                                ),
+                                buttonAriaLabel: t('learnMore'),
+                                link: {
+                                    url:
+                                        DOCUMENTATION_LINKS.ontologyConceptsVersions,
+                                    text: t('learn more')
+                                }
+                            }}
+                            calloutProps={{
+                                directionalHint: DirectionalHint.bottomAutoEdge
+                            }}
+                        />
+                    </Stack>
                     <Stack
                         className={classNames.contextVersionValue}
                         horizontal

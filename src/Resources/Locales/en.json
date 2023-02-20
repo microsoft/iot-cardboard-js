@@ -61,6 +61,7 @@
     "create": "Create",
     "save": "Save",
     "add": "Add",
+    "ok": "Ok",
     "addNew": "Add new",
     "remove": "Remove",
     "update": "Update",
@@ -923,26 +924,43 @@
         "Common": {
             "untargeted": "Untargeted",
             "unhandledExceptionTitle": "Unexpected error",
-            "unhandledExceptionMessage": "Something unexpected happened. Please try again."
+            "unhandledExceptionMessage": "Something unexpected happened. Please try again.",
+            "versionDocumentationLink": "Learn more about DTDL version 3"
         },
         "Header": {
             "ManageOntologyModal": {
                 "deleteButtonText": "Delete ontology",
                 "modalTitleCreate": "New ontology",
                 "modalTitleEdit": "Edit ontology",
-                "modalSubTitleCreate": "Create a new ontology to give structure to your digitial twin.",
-                "modalSubTitleEdit": "Edit your ontology to give structure to your digitial twin.",
+                "modalSubTitleCreate": "Create a new ontology to give structure to your digital twin.",
+                "modalSubTitleEdit": "Edit your ontology to give structure to your digital twin.",
                 "modalSubTitleLinkText": "Learn more about ontologies",
                 "nameLabel": "Name",
                 "namePlaceholder": "Enter an ontology name",
                 "namespaceLabel": "Default path",
-                "namespaceDescription": "Example model name: {{modelName}}",
+                "namespaceDescription": "Example model id: {{modelName}}",
                 "namespacePlaceholder": "Enter a default path",
                 "sampleModel": "sample Model",
                 "defaultVersionLabel": "Default DTDL version for new models",
                 "version2": "Version 2",
-                "version3": "Version 3"
+                "version3": "Version 3 (preview)"
             }
+        },
+        "GraphControls": {
+            "modelListTitle": "Toggle model list",
+            "legendTitle": "Toggle associations",
+            "autoLayoutTitle": "Auto layout",
+            "miniMapTitle": "Toggle mini-map"
+        },
+        "ImportLimits": {
+            "message": "Currently the total number of relationships, components and inheritances in an ontology is limited to {{count}} in the Ontology Designer.",
+            "title": "Reference limit reached"
+        },
+        "ImportProgress": {
+            "loadingTitle": "Importing models",
+            "loadingSpinnerLabel": "Importing {{count}} files",
+            "successTitle": "Import successful",
+            "successMessage": "Successfully added {{count}} models to the ontology"
         },
         "ImportErrors": {
             "exceptionTitle": "Unexpected error",
@@ -972,12 +990,12 @@
         "PropertyEditor": {
             "Version3PreviewLabel": {
                 "badgeText": "Preview",
-                "badgeCalloutText": "This model uses DTDL version 3 which is in preview"
+                "badgeCalloutText": "This model uses DTDL version 3. Click to learn more"
             },
             "Version3UpgradeButton": {
                 "buttonText": "Upgrade to version 3",
-                "confirmationTitle": "Upgrade DTDL version?",
-                "confirmationMessage": "Are you sure you want to upgrade this model to DTDL version 3? All existing configurations will be preserved.",
+                "confirmationTitle": "Upgrade to DTDL version 3 (in preview)?",
+                "confirmationMessage": "DTDL version 3 is in preview, are you sure you want to upgrade this model? All existing metadata and properties will be preserved.",
                 "confirmationButtonText": "Upgrade"
             }
         }
@@ -1044,8 +1062,6 @@
         "extends": "Extends",
         "components": "Components",
         "runLayout": "Run Layout",
-        "errorRepeatedId": "A model with the same ID already exists",
-        "errorRepeatedEdgeName": "A relationship with the same name already exists",
         "errorDisplayNameLength": "Display Name may not exceed 64 characters",
         "errorIdLength": "Id may not exceed 2048 characters",
         "errorIdValidDTMI": "Id must be a valid DTMI",
@@ -1068,6 +1084,7 @@
         "commentPlaceholder": "Comment for model authors",
         "complex": "Complex",
         "contextVersion": "DTDL version",
+        "contextVersion3Description": "DTDL version 3 is in preview.",
         "copy": "copy",
         "data": "data",
         "date": "date",
@@ -1091,10 +1108,10 @@
         "errorIdLength": "Id may not exceed 2048 characters",
         "errorIdValidDTMI": "Id must be a valid DTMI",
         "errorInvalidJSON": "Invalid JSON",
+        "errorInvalidJSONMessage": "The JSON you entered is invalid. Please fix the JSON and try again.",
         "errorName": "Name may only contain the characters a-z, A-Z, 0-9, and underscore",
         "errorNameLength": "Name may not exceed 64 characters",
         "errorRepeatedEnumValue": "An enum value with the same value already exists",
-        "errorRepeatedId": "A model with the same ID already exists",
         "errorRepeatedName": "A model with the same name already exists",
         "errorRepeatedPropertyName": "A property with the same name already exists",
         "expand": "Expand",
@@ -1104,7 +1121,7 @@
         "id": "Id",
         "info": "Info",
         "integer": "integer",
-        "json": "JSON",
+        "jsonEditorTabName": "DTDL",
         "key": "Key",
         "linestring": "linestring",
         "long": "long",

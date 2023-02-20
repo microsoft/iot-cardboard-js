@@ -222,6 +222,8 @@ export const deleteReferenceFromState = (args: DeleteReferenceArgs) => {
 
 //#endregion
 
+//#region Getters
+
 /**
  * Looks up the index of a model in a collection of models and returns the index.
  * Returns -1 if not found or if arguments are invalid
@@ -314,6 +316,8 @@ export const getPropertyIndexOnRelationshipByName = (
     return -1;
 };
 
+//#endregion
+
 export const setSelectedModel = (
     selection: IOATSelection,
     draft: IOatPageContextState
@@ -376,6 +380,25 @@ export const updateModelId = (
     );
 
     return { models: models, positions: modelPositions };
+};
+
+/** gets the number of references in the ontology. Today this is used for perf managements since references are expensive for rendering the graph */
+export const getTotalReferenceCount = (models: DtdlInterface[]): number => {
+    const getReferencesForModel = (model: DtdlInterface) => {
+        if (!model.contents) {
+            return [];
+        }
+        const references =
+            model.contents.filter((x) => isDTDLReference(x)) ?? [];
+        return references.map((x) => x.name);
+    };
+
+    const referenceList = [];
+    models.forEach((x) => {
+        const localRefs = getReferencesForModel(x);
+        referenceList.push(...localRefs);
+    });
+    return referenceList.length;
 };
 
 //#region Creating new relationship
@@ -494,7 +517,7 @@ export const addTargetedRelationship = (
         sourceModel.contents = [...sourceModel.contents, newRelationship];
     } else if (relationshipType === 'Extend') {
         // extends
-        const existing = new Set(sourceModel.extends);
+        const existing = new Set(ensureIsArray(sourceModel.extends));
         existing.add(targetModelId);
         sourceModel.extends = Array.from(existing).sort(sortCaseInsensitive());
         newRelationship = targetModelId;

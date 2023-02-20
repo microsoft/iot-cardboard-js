@@ -5,11 +5,17 @@ import {
     IVersion3UpgradeButtonStyles
 } from './Version3UpgradeButton.types';
 import { getStyles } from './Version3UpgradeButton.styles';
-import { ActionButton, classNamesFunction, styled } from '@fluentui/react';
+import {
+    ActionButton,
+    classNamesFunction,
+    Link,
+    styled
+} from '@fluentui/react';
 import { useExtendedTheme } from '../../../../Models/Hooks/useExtendedTheme';
 import { useTranslation } from 'react-i18next';
 import { useOatPageContext } from '../../../../Models/Context/OatPageContext/OatPageContext';
 import { OatPageContextActionType } from '../../../../Models/Context/OatPageContext/OatPageContext.types';
+import { DOCUMENTATION_LINKS } from '../../../../Models/Constants';
 
 const getClassNames = classNamesFunction<
     IVersion3UpgradeButtonStyleProps,
@@ -22,7 +28,8 @@ const LOC_KEYS = {
     dialogTitle: 'OAT.PropertyEditor.Version3UpgradeButton.confirmationTitle',
     dialogButtonText:
         'OAT.PropertyEditor.Version3UpgradeButton.confirmationButtonText',
-    buttonText: 'OAT.PropertyEditor.Version3UpgradeButton.buttonText'
+    buttonText: 'OAT.PropertyEditor.Version3UpgradeButton.buttonText',
+    documentationLink: 'OAT.Common.versionDocumentationLink'
 };
 
 const Version3UpgradeButton: React.FC<IVersion3UpgradeButtonProps> = (
@@ -47,7 +54,17 @@ const Version3UpgradeButton: React.FC<IVersion3UpgradeButtonProps> = (
                 message: t(LOC_KEYS.dialogMessage),
                 title: t(LOC_KEYS.dialogTitle),
                 primaryButtonText: t(LOC_KEYS.dialogButtonText),
-                callback: onUpgrade
+                callback: onUpgrade,
+                additionalContent: () => {
+                    return (
+                        <Link
+                            href={DOCUMENTATION_LINKS.ontologyConceptsVersions}
+                            target={'_blank'}
+                        >
+                            {t(LOC_KEYS.documentationLink)}
+                        </Link>
+                    );
+                }
             }
         });
     }, [oatPageDispatch, onUpgrade, t]);
@@ -67,6 +84,7 @@ const Version3UpgradeButton: React.FC<IVersion3UpgradeButtonProps> = (
                 }}
                 text={t(LOC_KEYS.buttonText)}
                 onClick={onClickUpgrade}
+                styles={classNames.subComponentStyles.button?.()}
             />
         </div>
     );

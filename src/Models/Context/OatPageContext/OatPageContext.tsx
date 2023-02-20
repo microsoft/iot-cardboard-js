@@ -11,7 +11,8 @@ import {
 } from '../../../Pages/OATEditorPage/Internal/Classes/ProjectData';
 import {
     OAT_DEFAULT_CONTEXT,
-    OAT_DEFAULT_PATH_VALUE
+    OAT_DEFAULT_PATH_VALUE,
+    OAT_ONTOLOGY_MAX_REFERENCE_LIMIT
 } from '../../Constants/Constants';
 import {
     getOntologiesFromStorage,
@@ -27,20 +28,21 @@ import {
     OatPageContextActionType
 } from './OatPageContext.types';
 import {
-    createProject,
-    saveData,
-    switchCurrentProject,
-    convertStateToProject,
-    deleteModelFromState,
-    setSelectedModel,
-    updateModelId,
-    addTargetedRelationship,
     addNewModelToState,
+    addTargetedRelationship,
     addUntargetedRelationship,
-    getModelIndexById,
+    convertStateToProject,
+    createProject,
+    deleteModelFromState,
+    deleteReferenceFromState,
     getModelById,
+    getModelIndexById,
     getReferenceIndexByName,
-    deleteReferenceFromState
+    getTotalReferenceCount,
+    saveData,
+    setSelectedModel,
+    switchCurrentProject,
+    updateModelId
 } from './OatPageContextUtils';
 
 const debugLogging = false;
@@ -355,6 +357,10 @@ export const OatPageContextReducer: (
                 saveData(draft);
                 break;
             }
+            case OatPageContextActionType.UPDATE_IMPORT_PROGRESS: {
+                draft.importState = action.payload;
+                break;
+            }
             case OatPageContextActionType.IMPORT_MODELS: {
                 const { models } = action.payload;
                 if (models?.length > 0) {
@@ -374,6 +380,15 @@ export const OatPageContextReducer: (
                 break;
             }
             case OatPageContextActionType.ADD_NEW_MODEL: {
+                // if (draft.currentOntologyModels?.length >= MAX_MODEL_COUNT) {
+                //     draft.error = {
+                //         title: i18n.t('OAT.ImportLimits.title'),
+                //         message: i18n.t('OAT.ImportLimits.message', {
+                //             count: MAX_MODEL_COUNT
+                //         })
+                //     };
+                //     break;
+                // }
                 const newModel = addNewModelToState(draft);
                 setSelectedModel(
                     {
@@ -390,6 +405,17 @@ export const OatPageContextReducer: (
                 break;
             }
             case OatPageContextActionType.ADD_NEW_RELATIONSHIP: {
+                if (
+                    getTotalReferenceCount(draft.currentOntologyModels) >
+                    OAT_ONTOLOGY_MAX_REFERENCE_LIMIT
+                ) {
+                    draft.error = {
+                        title: i18n.t('OAT.ImportLimits.title'),
+                        message: i18n.t('OAT.ImportLimits.message', {
+                            count: OAT_ONTOLOGY_MAX_REFERENCE_LIMIT
+                        })
+                    };
+                }
                 if (action.payload.type === 'Targeted') {
                     const {
                         relationshipType,
@@ -416,12 +442,25 @@ export const OatPageContextReducer: (
                     sourceModelId
                 } = action.payload;
                 const targetModel = addNewModelToState(draft, position);
-                addTargetedRelationship(
-                    draft,
-                    sourceModelId,
-                    targetModel['@id'],
-                    relationshipType
-                );
+                if (
+                    getTotalReferenceCount(draft.currentOntologyModels) >
+                    OAT_ONTOLOGY_MAX_REFERENCE_LIMIT
+                ) {
+                    draft.error = {
+                        title: i18n.t('OAT.ImportLimits.title'),
+                        message: i18n.t('OAT.ImportLimits.message', {
+                            count: OAT_ONTOLOGY_MAX_REFERENCE_LIMIT
+                        })
+                    };
+                    saveData(draft);
+                } else {
+                    addTargetedRelationship(
+                        draft,
+                        sourceModelId,
+                        targetModel['@id'],
+                        relationshipType
+                    );
+                }
                 saveData(draft);
 
                 break;
@@ -432,6 +471,10 @@ export const OatPageContextReducer: (
             }
             case OatPageContextActionType.CLEAR_GRAPH_LAYOUT: {
                 draft.triggerGraphLayout = false;
+                break;
+            }
+            case OatPageContextActionType.PERFORM_GRAPH_LAYOUT: {
+                draft.triggerGraphLayout = true;
                 break;
             }
             case OatPageContextActionType.GRAPH_CLEAR_MODELS_TO_SYNC: {
@@ -527,6 +570,7 @@ const emptyState: IOatPageContextState = {
     currentOntologyProjectName: '',
     currentOntologyTemplates: [],
     // other properties
+    importState: { state: 'closed' },
     triggerGraphLayout: false,
     confirmDialog: { open: false },
     languageOptions: [],
