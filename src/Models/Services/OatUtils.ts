@@ -1,5 +1,4 @@
 import { i18n } from 'i18next';
-import i18nInstance from '../../i18n';
 import { IOATFile } from '../../Pages/OATEditorPage/Internal/Classes/OatTypes';
 import {
     DtdlInterface,
