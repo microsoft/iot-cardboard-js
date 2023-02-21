@@ -28,15 +28,14 @@ import {
     sortAscendingOrDescending
 } from '../Services/Utils';
 import { IDataHistoryChartYAxisType } from '../Types/Generated/3DScenesConfiguration-v1.0.0';
-import isChromatic from 'chromatic/isChromatic';
-
 /** Creates mock time series data array with data points between now and a certain milliseconds ago */
 export const getMockTimeSeriesDataArrayInLocalTime = (
     lengthOfSeries = 1,
     numberOfDataPoints = 5,
-    agoInMillis = 1 * 60 * 60 * 1000
+    agoInMillis = 1 * 60 * 60 * 1000,
+    isStaticData = false
 ): Array<Array<TimeSeriesData>> => {
-    if (isChromatic()) {
+    if (isStaticData) {
         const varianceSet = [115, 23, 188, 213, 45];
         const toInMillis = DataHistoryStaticMaxDateInMillis;
         const fromInMillis = toInMillis - agoInMillis;

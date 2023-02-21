@@ -19,7 +19,6 @@ import React, {
 import { useTranslation } from 'react-i18next';
 import {
     BehaviorModalMode,
-    DataHistoryStaticMaxDateInMillis,
     DTwin,
     IADXConnection,
     IDataHistoryTimeSeriesTwin,
@@ -52,7 +51,7 @@ import {
     IDataHistoryWidgetStyleProps,
     IDataHistoryWidgetStyles
 } from './DataHistoryWidget.types';
-import isChromatic from 'chromatic/isChromatic';
+import useMaxDateInMillis from '../../../../../Models/Hooks/useMaxDateInMillis';
 
 export const getDataHistoryWidgetClassNames = classNamesFunction<
     IDataHistoryWidgetStyleProps,
@@ -88,6 +87,8 @@ const DataHistoryWidget: React.FC<IDataHistoryWidgetProps> = ({
                 : null,
         [connection]
     );
+
+    const staticMaxDateInMillis = useMaxDateInMillis();
     const {
         query,
         deeplink,
@@ -99,7 +100,8 @@ const DataHistoryWidget: React.FC<IDataHistoryWidgetProps> = ({
         adapter,
         connection: connectionToQuery,
         quickTimeSpanInMillis: selectedQuickTimeSpanInMillis,
-        twins: twinIdPropertyMap
+        twins: twinIdPropertyMap,
+        useStaticData: !!staticMaxDateInMillis
     });
 
     const { t } = useTranslation();
@@ -108,13 +110,13 @@ const DataHistoryWidget: React.FC<IDataHistoryWidgetProps> = ({
     const xMaxDateInMillisRef = useRef<number>(null);
 
     const updateXMinAndMax = useCallback(() => {
-        const nowInMillis = isChromatic()
-            ? DataHistoryStaticMaxDateInMillis
+        const nowInMillis = staticMaxDateInMillis
+            ? staticMaxDateInMillis
             : Date.now();
         xMinDateInMillisRef.current =
             nowInMillis - selectedQuickTimeSpanInMillis;
         xMaxDateInMillisRef.current = nowInMillis;
-    }, [selectedQuickTimeSpanInMillis, isChromatic]);
+    }, [selectedQuickTimeSpanInMillis, staticMaxDateInMillis]);
 
     const prevQuery = usePrevious(query);
     useEffect(() => {
