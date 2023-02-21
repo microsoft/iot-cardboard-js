@@ -1305,7 +1305,9 @@
     },
     "Errors": {
       "duplicatePropertyTitle": "Zduplikowana właściwość",
-      "duplicatePropertyMessage": "Nie można zapisać zmian. Właściwość {{propertyName}} jest już zdefiniowana w tym modelu. Proszę użyć innej nazwy."
+      "duplicatePropertyMessage": "Nie można zapisać zmian. Właściwość {{propertyName}} jest już zdefiniowana w tym modelu. Proszę użyć innej nazwy.",
+      "invalidJSONTitle": "Nieprawidłowy JSON",
+      "invalidJSONMessage": "Wprowadzony kod JSON jest nieprawidłowy. Napraw JSON i spróbuj ponownie."
     }
   },
   "dataHistoryErrorHandlingWrapper": {
@@ -1407,7 +1409,6 @@
     "errorDisplayName": "Nazwa wyświetlana nie może przekraczać 64 znaków",
     "errorIdLength": "Identyfikator nie może przekraczać 2048 znaków",
     "errorIdValidDTMI": "Identyfikator musi być prawidłowym kodem DTMI",
-    "errorInvalidJSON": "Nieprawidłowy JSON",
     "errorName": "Nazwa może zawierać tylko znaki a-z, A-Z, 0-9 i podkreślenie",
     "errorNameLength": "Nazwa nie może przekraczać 64 znaków",
     "errorRepeatedEnumValue": "Wartość wyliczenia o tej samej wartości już istnieje",
@@ -1489,7 +1490,6 @@
         "editMetadataLabel": "Edytowanie metadanych"
       }
     },
-    "jsonEditorTabName": "DTDL",
-    "errorInvalidJSONMessage": "Wprowadzony kod JSON jest nieprawidłowy. Napraw JSON i spróbuj ponownie."
+    "jsonEditorTabName": "DTDL"
   }
 }

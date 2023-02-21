@@ -1305,7 +1305,9 @@
     },
     "Errors": {
       "duplicatePropertyTitle": "Dubbele eigenschap",
-      "duplicatePropertyMessage": "Uw wijzigingen kunnen niet worden opgeslagen. De eigenschap {{propertyName}} is al gedefinieerd in dit model. Gebruik een andere naam."
+      "duplicatePropertyMessage": "Uw wijzigingen kunnen niet worden opgeslagen. De eigenschap {{propertyName}} is al gedefinieerd in dit model. Gebruik een andere naam.",
+      "invalidJSONTitle": "Ongeldige JSON",
+      "invalidJSONMessage": "De JSON die u hebt ingevoerd, is ongeldig. Repareer de JSON en probeer het opnieuw."
     }
   },
   "dataHistoryErrorHandlingWrapper": {
@@ -1407,7 +1409,6 @@
     "errorDisplayName": "De weergavenaam mag niet langer zijn dan 64 tekens",
     "errorIdLength": "Id mag niet langer zijn dan 2048 tekens",
     "errorIdValidDTMI": "Id moet een geldige DTMI zijn",
-    "errorInvalidJSON": "Ongeldige JSON",
     "errorName": "Naam mag alleen de tekens a-z, A-Z, 0-9 en onderstrepingsteken bevatten",
     "errorNameLength": "Naam mag niet langer zijn dan 64 tekens",
     "errorRepeatedEnumValue": "Er bestaat al een opsommingswaarde met dezelfde waarde",
@@ -1489,7 +1490,6 @@
         "editMetadataLabel": "Metagegevens bewerken"
       }
     },
-    "jsonEditorTabName": "DTDL",
-    "errorInvalidJSONMessage": "De JSON die u hebt ingevoerd, is ongeldig. Repareer de JSON en probeer het opnieuw."
+    "jsonEditorTabName": "DTDL"
   }
 }

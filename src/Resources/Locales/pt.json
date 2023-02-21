@@ -1305,7 +1305,9 @@
     },
     "Errors": {
       "duplicatePropertyTitle": "Propriedade duplicada",
-      "duplicatePropertyMessage": "Suas alterações não puderam ser salvas. A propriedade {{propertyName}} já está definida neste modelo. Por favor, use um nome diferente."
+      "duplicatePropertyMessage": "Suas alterações não puderam ser salvas. A propriedade {{propertyName}} já está definida neste modelo. Por favor, use um nome diferente.",
+      "invalidJSONTitle": "JSON inválido",
+      "invalidJSONMessage": "O JSON inserido é inválido. Corrija o JSON e tente novamente."
     }
   },
   "dataHistoryErrorHandlingWrapper": {
@@ -1407,7 +1409,6 @@
     "errorDisplayName": "O Nome para Exibição não pode exceder 64 caracteres",
     "errorIdLength": "O ID não pode exceder 2048 caracteres",
     "errorIdValidDTMI": "O ID deve ser um DTMI válido",
-    "errorInvalidJSON": "JSON inválido",
     "errorName": "O nome só pode conter os caracteres a-z, A-Z, 0-9 e sublinhado",
     "errorNameLength": "O nome não pode exceder 64 caracteres",
     "errorRepeatedEnumValue": "Já existe um valor enum com o mesmo valor",
@@ -1489,7 +1490,6 @@
         "editMetadataLabel": "Editar metadados"
       }
     },
-    "jsonEditorTabName": "DTDL",
-    "errorInvalidJSONMessage": "O JSON inserido é inválido. Corrija o JSON e tente novamente."
+    "jsonEditorTabName": "DTDL"
   }
 }

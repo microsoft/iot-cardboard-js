@@ -1305,7 +1305,9 @@
     },
     "Errors": {
       "duplicatePropertyTitle": "Ismétlődő tulajdonság",
-      "duplicatePropertyMessage": "A módosításokat nem sikerült menteni. A {{propertyName}} tulajdonság már definiálva van ebben a modellben. Kérjük, használjon más nevet."
+      "duplicatePropertyMessage": "A módosításokat nem sikerült menteni. A {{propertyName}} tulajdonság már definiálva van ebben a modellben. Kérjük, használjon más nevet.",
+      "invalidJSONTitle": "Érvénytelen JSON",
+      "invalidJSONMessage": "A megadott JSON érvénytelen. Javítsa ki a JSON-t, és próbálkozzon újra."
     }
   },
   "dataHistoryErrorHandlingWrapper": {
@@ -1407,7 +1409,6 @@
     "errorDisplayName": "A megjelenítendő név nem haladhatja meg a 64 karaktert",
     "errorIdLength": "Az azonosító nem haladhatja meg a 2048 karaktert",
     "errorIdValidDTMI": "Az azonosítónak érvényes DTMI-nek kell lennie",
-    "errorInvalidJSON": "Érvénytelen JSON",
     "errorName": "A név csak az a-z, A-Z, 0-9 és aláhúzás karaktereket tartalmazhatja.",
     "errorNameLength": "A név nem lehet hosszabb 64 karakternél",
     "errorRepeatedEnumValue": "Már létezik azonos értékű felsorolási érték",
@@ -1489,7 +1490,6 @@
         "editMetadataLabel": "Metaadatok szerkesztése"
       }
     },
-    "jsonEditorTabName": "DTDL",
-    "errorInvalidJSONMessage": "A megadott JSON érvénytelen. Javítsa ki a JSON-t, és próbálkozzon újra."
+    "jsonEditorTabName": "DTDL"
   }
 }

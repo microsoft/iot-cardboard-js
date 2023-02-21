@@ -1305,7 +1305,9 @@
     },
     "Errors": {
       "duplicatePropertyTitle": "重複するプロパティ",
-      "duplicatePropertyMessage": "変更を保存できませんでした。プロパティ {{プロパティ名}} は、このモデルで既に定義されています。別の名前を使用してください。"
+      "duplicatePropertyMessage": "変更を保存できませんでした。プロパティ {{プロパティ名}} は、このモデルで既に定義されています。別の名前を使用してください。",
+      "invalidJSONTitle": "無効な JSON",
+      "invalidJSONMessage": "入力した JSON は無効です。JSONを修正して、もう一度やり直してください。"
     }
   },
   "dataHistoryErrorHandlingWrapper": {
@@ -1407,7 +1409,6 @@
     "errorDisplayName": "表示名は 64 文字を超えることはできません",
     "errorIdLength": "ID は 2048 文字を超えることはできません",
     "errorIdValidDTMI": "ID は有効な DTMI である必要があります",
-    "errorInvalidJSON": "無効な JSON",
     "errorName": "名前に使用できるのは、文字 a から z、A から Z、0 から 9、およびアンダースコアのみです。",
     "errorNameLength": "名前は 64 文字以下にする必要があります",
     "errorRepeatedEnumValue": "同じ値の列挙値が既に存在します",
@@ -1489,7 +1490,6 @@
         "editMetadataLabel": "メタデータの編集"
       }
     },
-    "jsonEditorTabName": "ティッカー",
-    "errorInvalidJSONMessage": "入力した JSON は無効です。JSONを修正して、もう一度やり直してください。"
+    "jsonEditorTabName": "ティッカー"
   }
 }

@@ -1305,7 +1305,9 @@
     },
     "Errors": {
       "duplicatePropertyTitle": "Duplicera egenskap",
-      "duplicatePropertyMessage": "Dina ändringar kunde inte sparas. Egenskapen {{propertyName}} har redan definierats i den här modellen. Använd ett annat namn."
+      "duplicatePropertyMessage": "Dina ändringar kunde inte sparas. Egenskapen {{propertyName}} har redan definierats i den här modellen. Använd ett annat namn.",
+      "invalidJSONTitle": "Ogiltig JSON",
+      "invalidJSONMessage": "Den JSON som du angav är ogiltig. Åtgärda JSON och försök igen."
     }
   },
   "dataHistoryErrorHandlingWrapper": {
@@ -1407,7 +1409,6 @@
     "errorDisplayName": "Visningsnamnet får inte överstiga 64 tecken",
     "errorIdLength": "Id får inte överstiga 2048 tecken",
     "errorIdValidDTMI": "Id måste vara ett giltigt DTMI",
-    "errorInvalidJSON": "Ogiltig JSON",
     "errorName": "Namnet får bara innehålla tecknen a-z, A-Z, 0-9 och understreck",
     "errorNameLength": "Namnet får inte överstiga 64 tecken",
     "errorRepeatedEnumValue": "Det finns redan ett uppräkningsvärde med samma värde",
@@ -1489,7 +1490,6 @@
         "editMetadataLabel": "Redigera metadata"
       }
     },
-    "jsonEditorTabName": "DTDL",
-    "errorInvalidJSONMessage": "Den JSON som du angav är ogiltig. Åtgärda JSON och försök igen."
+    "jsonEditorTabName": "DTDL"
   }
 }

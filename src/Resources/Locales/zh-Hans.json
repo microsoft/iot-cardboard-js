@@ -1305,7 +1305,9 @@
     },
     "Errors": {
       "duplicatePropertyTitle": "重复属性",
-      "duplicatePropertyMessage": "无法保存所做的更改。属性 {{属性名称}} 已在此模型中定义。请使用其他名称。"
+      "duplicatePropertyMessage": "无法保存所做的更改。属性 {{属性名称}} 已在此模型中定义。请使用其他名称。",
+      "invalidJSONTitle": "无效的 JSON",
+      "invalidJSONMessage": "您输入的 JSON 无效。请修复 JSON，然后重试。"
     }
   },
   "dataHistoryErrorHandlingWrapper": {
@@ -1407,7 +1409,6 @@
     "errorDisplayName": "显示名称不得超过 64 个字符",
     "errorIdLength": "Id 不得超过 2048 个字符",
     "errorIdValidDTMI": "ID 必须是有效的 DTMI",
-    "errorInvalidJSON": "无效的 JSON",
     "errorName": "名称只能包含字符 a-z、A-Z、0-9 和下划线",
     "errorNameLength": "姓名不得超过 64 个字符",
     "errorRepeatedEnumValue": "具有相同值的枚举值已存在",
@@ -1489,7 +1490,6 @@
         "editMetadataLabel": "编辑元数据"
       }
     },
-    "jsonEditorTabName": "DTDL",
-    "errorInvalidJSONMessage": "您输入的 JSON 无效。请修复 JSON，然后重试。"
+    "jsonEditorTabName": "DTDL"
   }
 }

@@ -1305,7 +1305,9 @@
     },
     "Errors": {
       "duplicatePropertyTitle": "Дубликат свойства",
-      "duplicatePropertyMessage": "Не удалось сохранить изменения. Свойство {{propertyName}} уже определено в этой модели. Пожалуйста, используйте другое имя."
+      "duplicatePropertyMessage": "Не удалось сохранить изменения. Свойство {{propertyName}} уже определено в этой модели. Пожалуйста, используйте другое имя.",
+      "invalidJSONTitle": "Недопустимый JSON",
+      "invalidJSONMessage": "Введенный JSON недействителен. Исправьте JSON и повторите попытку."
     }
   },
   "dataHistoryErrorHandlingWrapper": {
@@ -1407,7 +1409,6 @@
     "errorDisplayName": "Отображаемое имя не должно превышать 64 символов",
     "errorIdLength": "Id не может превышать 2048 символов",
     "errorIdValidDTMI": "Идентификатор должен быть допустимым DTMI",
-    "errorInvalidJSON": "Недопустимый JSON",
     "errorName": "Имя может содержать только символы a-z, A-Z, 0-9 и подчеркивание",
     "errorNameLength": "Длина имени не должна превышать 64 символа",
     "errorRepeatedEnumValue": "Значение перечисления с таким же значением уже существует",
@@ -1489,7 +1490,6 @@
         "editMetadataLabel": "Редактирование метаданных"
       }
     },
-    "jsonEditorTabName": "DTDL",
-    "errorInvalidJSONMessage": "Введенный JSON недействителен. Исправьте JSON и повторите попытку."
+    "jsonEditorTabName": "DTDL"
   }
 }

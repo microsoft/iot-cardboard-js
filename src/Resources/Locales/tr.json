@@ -1305,7 +1305,9 @@
     },
     "Errors": {
       "duplicatePropertyTitle": "Yinelenen özellik",
-      "duplicatePropertyMessage": "Değişiklikleriniz kaydedilemedi. {{propertyName}} özelliği bu modelde zaten tanımlanmıştır. Lütfen farklı bir ad kullanın."
+      "duplicatePropertyMessage": "Değişiklikleriniz kaydedilemedi. {{propertyName}} özelliği bu modelde zaten tanımlanmıştır. Lütfen farklı bir ad kullanın.",
+      "invalidJSONTitle": "Geçersiz JSON",
+      "invalidJSONMessage": "Girdiğiniz JSON geçersiz. Lütfen JSON'u düzeltin ve yeniden deneyin."
     }
   },
   "dataHistoryErrorHandlingWrapper": {
@@ -1407,7 +1409,6 @@
     "errorDisplayName": "Görünen Ad 64 karakteri geçemez",
     "errorIdLength": "Kimlik 2048 karakteri geçemez",
     "errorIdValidDTMI": "Kimlik geçerli bir DTMI olmalıdır",
-    "errorInvalidJSON": "Geçersiz JSON",
     "errorName": "Ad yalnızca a-z, A-Z, 0-9 ve alt çizgi karakterlerini içerebilir",
     "errorNameLength": "Ad 64 karakteri geçemez",
     "errorRepeatedEnumValue": "Aynı değere sahip bir enum değeri zaten var",
@@ -1489,7 +1490,6 @@
         "editMetadataLabel": "Meta verileri düzenleme"
       }
     },
-    "jsonEditorTabName": "cesaret",
-    "errorInvalidJSONMessage": "Girdiğiniz JSON geçersiz. Lütfen JSON'u düzeltin ve yeniden deneyin."
+    "jsonEditorTabName": "cesaret"
   }
 }
