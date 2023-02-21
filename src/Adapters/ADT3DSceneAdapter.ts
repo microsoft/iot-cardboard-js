@@ -42,7 +42,8 @@ export default class ADT3DSceneAdapter {
         uniqueObjectId?: string,
         adtProxyServerPath = '/proxy/adt',
         blobProxyServerPath = '/proxy/blob',
-        useProxy = true
+        useProxy = true,
+        useBlobProxy = true
     ) {
         this.adtHostUrl = adtHostUrl;
         this.authService = this.blobAuthService = this.adxAuthService = authService;
@@ -64,6 +65,14 @@ export default class ADT3DSceneAdapter {
          *  */
         this.useProxy =
             (useProxy || !validateExplorerOrigin(window.origin)) &&
+            !(
+                localStorage.getItem(
+                    LOCAL_STORAGE_KEYS.FeatureFlags.Proxy.forceCORS
+                ) === 'true'
+            );
+
+        this.useBlobProxy =
+            (useBlobProxy || !validateExplorerOrigin(window.origin)) &&
             !(
                 localStorage.getItem(
                     LOCAL_STORAGE_KEYS.FeatureFlags.Proxy.forceCORS
