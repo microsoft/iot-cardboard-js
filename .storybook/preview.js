@@ -3,6 +3,7 @@ import { addDecorator } from '@storybook/react';
 import { withConsole, setConsoleOptions } from '@storybook/addon-console';
 import '../src/Resources/Styles/BaseThemeVars.scss'; // Import BaseThemeVars to access css theme variables
 import { Locale } from '../src/Models/Constants/Enums';
+import { DataHistoryStaticMaxDateInMillis } from '../src/Models/Constants/Constants';
 import { StableGuidRngProvider } from '../src/Models/Context/StableGuidRngProvider';
 import { StableMaxDateInMillisProvider } from '../src/Models/Context/StableMaxDateInMillisProvider';
 import { LoggingContextProvider } from '../src/Models/Context/LoggingContextProvider';
