@@ -392,7 +392,7 @@ export const updateModelId = (
     models.forEach((m) =>
         m.contents.forEach((c) => {
             const r = c as DtdlRelationship;
-            if (r && r.target === oldId) {
+            if (r && r.target && ensureIsArray(r.target)[0] === oldId) {
                 r.target = newId;
             }
             if (r && r['@id'] === oldId) {

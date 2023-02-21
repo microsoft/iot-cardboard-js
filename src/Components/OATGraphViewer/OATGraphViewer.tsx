@@ -163,7 +163,9 @@ const OATGraphViewerContent: React.FC<IOATGraphViewerProps> = (props) => {
                         const relationship = item as DtdlRelationship;
                         if (relationship.target) {
                             const foundRelationshipTarget = models.find(
-                                (model) => model['@id'] === relationship.target
+                                (model) =>
+                                    model['@id'] ===
+                                    ensureIsArray(relationship.target)[0]
                             );
 
                             if (foundRelationshipTarget) {
