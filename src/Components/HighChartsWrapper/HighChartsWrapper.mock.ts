@@ -40,7 +40,13 @@ export const HighChartsMockData: Array<IHighChartSeriesData> = [
 export const HighChartsMockLargeData: Array<IHighChartSeriesData> = [
     {
         name: 'Mock series-1',
-        data: getMockTimeSeriesDataArrayInLocalTime(1, 500000)[0],
+        data: getMockTimeSeriesDataArrayInLocalTime(
+            1,
+            500000,
+            undefined,
+            undefined,
+            true
+        )[0],
         tooltipSuffix: '°F'
     }
 ];
