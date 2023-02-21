@@ -929,7 +929,7 @@
         },
         "Errors": {
             "duplicatePropertyTitle": "Duplicate property",
-            "duplicatePropertyMessage": "Your changes could not be saved. The property {{propertyName}} is already defined in this model. Please use a different name."
+            "duplicatePropertyMessage1": "Your changes could not be saved. The property {{propertyName}} is already defined. Please use a different name."
         },
         "Header": {
             "ManageOntologyModal": {
