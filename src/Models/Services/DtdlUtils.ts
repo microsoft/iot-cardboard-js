@@ -559,8 +559,8 @@ export async function validateItemChangeBeforeSaving<
         return {
             isValid: false,
             error: {
-                title: i18n.t('OATPropertyEditor.errorInvalidJSON'),
-                message: i18n.t('OATPropertyEditor.errorInvalidJSONMessage')
+                title: i18n.t('OAT.Errors.invalidJSONTitle'),
+                message: i18n.t('OAT.Errors.invalidJSONMessage')
             }
         };
     }
@@ -598,7 +598,7 @@ export async function validateOntologyBeforeSaving<
         return {
             isValid: false,
             error: {
-                title: i18n.t('OATPropertyEditor.errorInvalidJSON'),
+                title: i18n.t('OAT.Errors.invalidJSONTitle'),
                 message: parsingError
             }
         };

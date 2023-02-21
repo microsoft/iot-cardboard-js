@@ -929,7 +929,9 @@
         },
         "Errors": {
             "duplicatePropertyTitle": "Duplicate property",
-            "duplicatePropertyMessage": "Your changes could not be saved. The property '{{propertyName}}' is already defined. Please use a different name."
+            "duplicatePropertyMessage": "Your changes could not be saved. The property '{{propertyName}}' is already defined. Please use a different name.",
+            "invalidJSONTitle": "Invalid JSON",
+            "invalidJSONMessage": "The JSON you entered is invalid. Please fix the JSON and try again."
         },
         "Header": {
             "ManageOntologyModal": {
@@ -1111,8 +1113,6 @@
         "errorDisplayName": "Display Name may not exceed 64 characters",
         "errorIdLength": "Id may not exceed 2048 characters",
         "errorIdValidDTMI": "Id must be a valid DTMI",
-        "errorInvalidJSON": "Invalid JSON",
-        "errorInvalidJSONMessage": "The JSON you entered is invalid. Please fix the JSON and try again.",
         "errorName": "Name may only contain the characters a-z, A-Z, 0-9, and underscore",
         "errorNameLength": "Name may not exceed 64 characters",
         "errorRepeatedEnumValue": "An enum value with the same value already exists",
