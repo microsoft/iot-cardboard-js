@@ -1302,6 +1302,10 @@
     "ImportLimits": {
       "message": "Obecnie całkowita liczba relacji, składników i dziedziczeń w ontologii jest ograniczona do {{count}} w Ontology Designer.",
       "title": "Osiągnięta granica odniesienia"
+    },
+    "Errors": {
+      "duplicatePropertyTitle": "Zduplikowana właściwość",
+      "duplicatePropertyMessage": "Nie można zapisać zmian. Właściwość {{propertyName}} jest już zdefiniowana w tym modelu. Proszę użyć innej nazwy."
     }
   },
   "dataHistoryErrorHandlingWrapper": {

@@ -1302,6 +1302,10 @@
     "ImportLimits": {
       "message": "Momenteel is het totale aantal relaties, componenten en overervingen in een ontologie beperkt tot {{count}} in de Ontology Designer.",
       "title": "Referentiegrens bereikt"
+    },
+    "Errors": {
+      "duplicatePropertyTitle": "Dubbele eigenschap",
+      "duplicatePropertyMessage": "Uw wijzigingen kunnen niet worden opgeslagen. De eigenschap {{propertyName}} is al gedefinieerd in dit model. Gebruik een andere naam."
     }
   },
   "dataHistoryErrorHandlingWrapper": {

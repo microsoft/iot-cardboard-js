@@ -1302,6 +1302,10 @@
     "ImportLimits": {
       "message": "För närvarande är det totala antalet relationer, komponenter och arv i en ontologi begränsat till {{count}} i Ontology Designer.",
       "title": "Referensgränsen uppnådd"
+    },
+    "Errors": {
+      "duplicatePropertyTitle": "Duplicera egenskap",
+      "duplicatePropertyMessage": "Dina ändringar kunde inte sparas. Egenskapen {{propertyName}} har redan definierats i den här modellen. Använd ett annat namn."
     }
   },
   "dataHistoryErrorHandlingWrapper": {

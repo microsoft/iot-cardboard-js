@@ -1302,6 +1302,10 @@
     "ImportLimits": {
       "message": "Jelenleg egy ontológia kapcsolatainak, összetevőinek és öröklődéseinek teljes száma az Ontology Designerben {{count}} értékre korlátozódik.",
       "title": "Elérte a referenciakorlátot"
+    },
+    "Errors": {
+      "duplicatePropertyTitle": "Ismétlődő tulajdonság",
+      "duplicatePropertyMessage": "A módosításokat nem sikerült menteni. A {{propertyName}} tulajdonság már definiálva van ebben a modellben. Kérjük, használjon más nevet."
     }
   },
   "dataHistoryErrorHandlingWrapper": {

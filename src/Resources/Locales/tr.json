@@ -1302,6 +1302,10 @@
     "ImportLimits": {
       "message": "Şu anda bir ontolojideki toplam ilişki, bileşen ve devralma sayısı, Ontoloji Tasarımcısı'ndaki {{count}} ile sınırlıdır.",
       "title": "Referans sınırına ulaşıldı"
+    },
+    "Errors": {
+      "duplicatePropertyTitle": "Yinelenen özellik",
+      "duplicatePropertyMessage": "Değişiklikleriniz kaydedilemedi. {{propertyName}} özelliği bu modelde zaten tanımlanmıştır. Lütfen farklı bir ad kullanın."
     }
   },
   "dataHistoryErrorHandlingWrapper": {

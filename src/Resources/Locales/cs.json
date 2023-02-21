@@ -1302,6 +1302,10 @@
     "ImportLimits": {
       "message": "V současné době je celkový počet vztahů, komponent a dědičností v ontologii omezen na {{count}} v Ontology Designer.",
       "title": "Dosažený referenční limit"
+    },
+    "Errors": {
+      "duplicatePropertyTitle": "Duplicitní vlastnost",
+      "duplicatePropertyMessage": "Změny nelze uložit. Vlastnost {{propertyName}} je již v tomto modelu definována. Použijte prosím jiný název."
     }
   },
   "dataHistoryErrorHandlingWrapper": {

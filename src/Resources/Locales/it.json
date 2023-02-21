@@ -1302,6 +1302,10 @@
     "ImportLimits": {
       "message": "Attualmente il numero totale di relazioni, componenti ed ereditarietà in un'ontologia è limitato a {{count}} in Ontology Designer.",
       "title": "Limite di riferimento raggiunto"
+    },
+    "Errors": {
+      "duplicatePropertyTitle": "Proprietà duplicata",
+      "duplicatePropertyMessage": "Impossibile salvare le modifiche. La proprietà {{propertyName}} è già definita in questo modello. Si prega di utilizzare un nome diverso."
     }
   },
   "dataHistoryErrorHandlingWrapper": {

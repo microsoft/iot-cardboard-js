@@ -1302,6 +1302,10 @@
     "ImportLimits": {
       "message": "Actuellement, le nombre total de relations, de composants et d’héritages dans une ontologie est limité à {{count}} dans le concepteur d’ontologies.",
       "title": "Limite de référence atteinte"
+    },
+    "Errors": {
+      "duplicatePropertyTitle": "Dupliquer, propriété",
+      "duplicatePropertyMessage": "Vos modifications n’ont pas pu être enregistrées. La propriété {{propertyName}} est déjà définie dans ce modèle. Veuillez utiliser un nom différent."
     }
   },
   "dataHistoryErrorHandlingWrapper": {

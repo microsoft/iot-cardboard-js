@@ -1302,6 +1302,10 @@
     "ImportLimits": {
       "message": "現在、オントロジー内の関係、コンポーネント、継承の総数は、オントロジーデザイナーの{{count}}に制限されています。",
       "title": "参照制限に達しました"
+    },
+    "Errors": {
+      "duplicatePropertyTitle": "重複するプロパティ",
+      "duplicatePropertyMessage": "変更を保存できませんでした。プロパティ {{プロパティ名}} は、このモデルで既に定義されています。別の名前を使用してください。"
     }
   },
   "dataHistoryErrorHandlingWrapper": {

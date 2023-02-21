@@ -1302,6 +1302,10 @@
     "ImportLimits": {
       "message": "Derzeit ist die Gesamtzahl der Beziehungen, Komponenten und Vererbungen in einer Ontologie im Ontology Designer auf {{count}} beschränkt.",
       "title": "Referenzgrenzwert erreicht"
+    },
+    "Errors": {
+      "duplicatePropertyTitle": "Duplicate-Eigenschaft",
+      "duplicatePropertyMessage": "Ihre Änderungen konnten nicht gespeichert werden. Die Eigenschaft {{propertyName}} ist in diesem Modell bereits definiert. Bitte verwenden Sie einen anderen Namen."
     }
   },
   "dataHistoryErrorHandlingWrapper": {
