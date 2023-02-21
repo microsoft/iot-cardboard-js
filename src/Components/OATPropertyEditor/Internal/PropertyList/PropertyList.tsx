@@ -12,7 +12,7 @@ import {
     List,
     styled
 } from '@fluentui/react';
-import { useExtendedTheme } from '../../../../Models/Hooks/useExtendedTheme';
+import { useExtendedTheme } from '../../../../Model s/Hooks/useExtendedTheme';
 import PropertyListItem from './Internal/PropertyListItem/PropertyListItem';
 import { DTDLProperty, DTDLSchema } from '../../../../Models/Classes/DTDL';
 import { deepCopy, getDebugLogger } from '../../../../Models/Services/Utils';
