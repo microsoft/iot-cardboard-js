@@ -927,6 +927,10 @@
             "unhandledExceptionMessage": "Something unexpected happened. Please try again.",
             "versionDocumentationLink": "Learn more about DTDL version 3"
         },
+        "Errors": {
+            "duplicatePropertyTitle": "Duplicate property",
+            "duplicatePropertyMessage": "Your changes could not be saved. The property {{propertyName}} is already defined in this model. Please use a different name."
+        },
         "Header": {
             "ManageOntologyModal": {
                 "deleteButtonText": "Delete ontology",

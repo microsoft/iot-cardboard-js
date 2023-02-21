@@ -165,20 +165,16 @@ const PropertyList: React.FC<IPropertyListProps> = (props) => {
             args: IOnUpdateNameCallbackArgs
         ) => {
             const throwDuplicatePropertyError = (name: string) => {
-                console.warn(
-                    '***skipping save. Found issue. {selected, args}',
-                    selectedItem,
-                    args.name
-                );
                 oatPageDispatch({
                     type: OatPageContextActionType.SET_OAT_ERROR,
                     payload: {
-                        title: 'Duplicate property name' + name,
-                        message: 'Cannot have duplicate properties'
+                        title: t('OAT.Errors.duplicatePropertyTitle'),
+                        message: t('OAT.Errors.duplicatePropertyMessage', {
+                            propertyName: name
+                        })
                     }
                 });
             };
-            console.log('***Update', selectedItem, args);
             if (isDTDLModel(selectedItem)) {
                 // update for model
                 const updatedContents = [...selectedItem.contents];
