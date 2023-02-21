@@ -1172,7 +1172,7 @@
     "propertyCount": "{{选定的属性计数}} 属性已选择",
     "availableProperties": "可用属性的下拉列表",
     "selectAdditionalColumns": "选择其他列",
-    "inspectPropert": "检查属性"
+    "inspectProperties": "检查属性"
   },
   "highcharts": {
     "shareQueryTitle": "共享查询",

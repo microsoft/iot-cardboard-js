@@ -1172,7 +1172,7 @@
     "propertyCount": "Выбрано свойство {{selectedPropsCount}}",
     "availableProperties": "Раскрывающийся список доступных свойств",
     "selectAdditionalColumns": "Выбор дополнительных столбцов",
-    "inspectPropert": "Проверка свойств"
+    "inspectProperties": "Проверка свойств"
   },
   "highcharts": {
     "shareQueryTitle": "Общий доступ к запросу",

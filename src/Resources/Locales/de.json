@@ -1172,7 +1172,7 @@
     "propertyCount": "{{selectedPropsCount}}-Eigenschaften ausgewählt",
     "availableProperties": "Dropdown-Liste der verfügbaren Eigenschaften",
     "selectAdditionalColumns": "Zusätzliche Spalten auswählen",
-    "inspectPropert": "Eigenschaften prüfen"
+    "inspectProperties": "Eigenschaften prüfen"
   },
   "highcharts": {
     "shareQueryTitle": "Freigabeabfrage",

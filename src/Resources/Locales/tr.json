@@ -1172,7 +1172,7 @@
     "propertyCount": "{{selectedPropsCount}} özellikleri seçildi",
     "availableProperties": "Mevcut tesislerin açılır menüsü",
     "selectAdditionalColumns": "Ek sütunlar seçme",
-    "inspectPropert": "Özellikleri inceleme"
+    "inspectProperties": "Özellikleri inceleme"
   },
   "highcharts": {
     "shareQueryTitle": "Sorguyu paylaşma",

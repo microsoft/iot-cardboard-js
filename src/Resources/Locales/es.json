@@ -1172,7 +1172,7 @@
     "propertyCount": "{{selectedPropsCount}} propiedades seleccionadas",
     "availableProperties": "Menú desplegable de propiedades disponibles",
     "selectAdditionalColumns": "Seleccionar columnas adicionales",
-    "inspectPropert": "Inspeccionar propiedades"
+    "inspectProperties": "Inspeccionar propiedades"
   },
   "highcharts": {
     "shareQueryTitle": "Compartir consulta",
