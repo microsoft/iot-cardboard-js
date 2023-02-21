@@ -315,7 +315,11 @@ const SceneList: React.FC<SceneListProps> = ({
             onRender: (item: IScene) => (
                 <ul className="cb-scene-list-blob-urls">
                     {item.assets.map((a: IAsset, idx) => {
-                        return <li key={`blob-url-${idx}`}>{a.url}</li>;
+                        return (
+                            <li key={`blob-url-${idx}`} title={a.url}>
+                                {a.url}
+                            </li>
+                        );
                     })}
                 </ul>
             )
