@@ -63,7 +63,6 @@ const PropertyList: React.FC<IPropertyListProps> = (props) => {
     const updateModel = useCallback(
         (model: DtdlInterface) => {
             const update = () => {
-                console.log('Doing', model, oatPageState.currentOntologyModels);
                 oatPageDispatch({
                     type: OatPageContextActionType.UPDATE_MODEL,
                     payload: {
@@ -72,7 +71,6 @@ const PropertyList: React.FC<IPropertyListProps> = (props) => {
                 });
             };
             const undo = () => {
-                console.log('Undoing', oatPageState.currentOntologyModels);
                 oatPageDispatch({
                     type: OatPageContextActionType.GENERAL_UNDO,
                     payload: {
