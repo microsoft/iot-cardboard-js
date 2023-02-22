@@ -68,21 +68,18 @@ const PickerBase: React.FC<IPickerBaseProps> = ({
     );
 
     // map the callback to nicely exposed props in callback
-    const onRenderItemInternal =
-        onRenderItem &&
-        // eslint-disable-next-line react-hooks/rules-of-hooks
-        useCallback(
-            (
-                props: IColorCellProps,
-                _defaultRenderer: (props?: IColorCellProps) => JSX.Element
-            ) =>
-                onRenderItem &&
-                onRenderItem(
-                    items.find((x) => x.item === props.color),
-                    handleClick
-                ),
-            [handleClick, items, onRenderItem]
-        );
+    const onRenderItemInternal = useCallback(
+        (
+            props: IColorCellProps,
+            _defaultRenderer: (props?: IColorCellProps) => JSX.Element
+        ) =>
+            onRenderItem &&
+            onRenderItem(
+                items.find((x) => x.item === props.color),
+                handleClick
+            ),
+        [handleClick, items, onRenderItem]
+    );
 
     return (
         // root node is needed to prevent bouncing when callout opens
@@ -103,7 +100,7 @@ const PickerBase: React.FC<IPickerBaseProps> = ({
                         colorCells={swatchItems}
                         aria-labelledby={labelId}
                         onChange={onChange}
-                        onRenderColorCell={onRenderItemInternal}
+                        onRenderColorCell={onRenderItem && onRenderItemInternal}
                         selectedId={
                             swatchItems.find(
                                 (color) => color.color === selectedItem
