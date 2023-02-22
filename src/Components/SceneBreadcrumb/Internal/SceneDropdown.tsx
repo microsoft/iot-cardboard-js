@@ -10,9 +10,6 @@ const SceneDropdown: React.FC<SceneDropdownProps> = ({
     onSceneChange
 }) => {
     const scenePageContext = useContext(ADT3DScenePageContext);
-    if (!scenePageContext) {
-        return null;
-    }
     const scenes = scenePageContext?.state?.scenesConfig?.configuration?.scenes;
     const dropdownOptions: IDropdownOption<IScene>[] = scenes
         ? scenes?.map((scene) => {
@@ -22,16 +19,20 @@ const SceneDropdown: React.FC<SceneDropdownProps> = ({
               };
           })
         : [];
-    // eslint-disable-next-line react-hooks/rules-of-hooks
+
     const onChange = useCallback(
         (_e, option: IDropdownOption) => {
             if (onSceneChange) {
                 onSceneChange();
             }
-            scenePageContext.handleOnSceneSwap(String(option.key));
+            scenePageContext?.handleOnSceneSwap(String(option.key));
         },
         [onSceneChange, scenePageContext]
     );
+
+    if (!scenePageContext) {
+        return null;
+    }
 
     return (
         <Dropdown
