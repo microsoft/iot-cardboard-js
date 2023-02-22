@@ -10,9 +10,19 @@ import {
     IJobsAdapter,
     LOCAL_STORAGE_KEYS
 } from '../Models/Constants';
-import { applyMixins, validateExplorerOrigin } from '../Models/Services/Utils';
+import {
+    applyMixins,
+    getDebugLogger,
+    validateExplorerOrigin
+} from '../Models/Services/Utils';
 import ADT3DSceneAdapter from './ADT3DSceneAdapter';
 import ADTAdapter from './ADTAdapter';
+
+const debugLogging = false;
+const logDebugConsole = getDebugLogger('JobsAdapter', debugLogging);
+const forceCORS = localStorage.getItem(
+    LOCAL_STORAGE_KEYS.FeatureFlags.Proxy.forceCORS
+);
 
 export default class JobsAdapter implements IJobsAdapter {
     public adtHostUrl: string;
@@ -33,14 +43,10 @@ export default class JobsAdapter implements IJobsAdapter {
         this.authService = authService;
         /**
          * Check if class has been initialized with CORS enabled or if origin matches dev or prod explorer urls,
-         * override if proxy is forced by feature flag
+         * override if CORS is forced by feature flag
          *  */
         this.useProxy =
-            useProxy ||
-            !validateExplorerOrigin(window.origin) ||
-            localStorage.getItem(
-                LOCAL_STORAGE_KEYS.FeatureFlags.Proxy.forceProxy
-            ) === 'true';
+            (useProxy || !validateExplorerOrigin(window.origin)) && !forceCORS;
     }
     setAdtHostUrl(hostName: string) {
         if (hostName.startsWith('https://')) {

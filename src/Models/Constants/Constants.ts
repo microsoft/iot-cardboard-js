@@ -93,7 +93,7 @@ export const LOCAL_STORAGE_KEYS = {
             showExplorer: 'cardboard.feature.dataHistoryExplorer' // enables data history explorer feature if supported
         },
         Proxy: {
-            forceProxy: 'cardboard.feature.forceProxy' // force proxy to run instead of CORS
+            forceCORS: 'cardboard.feature.forceCORS' // force CORS to run instead of proxy
         }
     },
     Environment: {
