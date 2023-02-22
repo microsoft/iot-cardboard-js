@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import {
     IPropertyListProps,
     IPropertyListStyleProps,
@@ -36,7 +36,6 @@ import {
     getPropertyIndexOnRelationshipByName
 } from '../../../../Models/Context/OatPageContext/OatPageContextUtils';
 import { useTranslation } from 'react-i18next';
-import { CommandHistoryContext } from '../../../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('PropertyList', debugLogging);
@@ -51,7 +50,6 @@ const PropertyList: React.FC<IPropertyListProps> = (props) => {
 
     // contexts
     const { oatPageDispatch, oatPageState } = useOatPageContext();
-    const { execute } = useContext(CommandHistoryContext);
 
     // state
 
@@ -62,76 +60,36 @@ const PropertyList: React.FC<IPropertyListProps> = (props) => {
 
     const updateModel = useCallback(
         (model: DtdlInterface) => {
-            const update = () => {
-                console.log('Doing', model, oatPageState.currentOntologyModels);
-                oatPageDispatch({
-                    type: OatPageContextActionType.UPDATE_MODEL,
-                    payload: {
-                        model: model
-                    }
-                });
-            };
-            const undo = () => {
-                console.log('Undoing', oatPageState.currentOntologyModels);
-                oatPageDispatch({
-                    type: OatPageContextActionType.GENERAL_UNDO,
-                    payload: {
-                        models: oatPageState.currentOntologyModels,
-                        positions: oatPageState.currentOntologyModelPositions,
-                        selection: oatPageState.selection
-                    }
-                });
-            };
-            execute(update, undo);
+            // TODO: Add history tracking
+            oatPageDispatch({
+                type: OatPageContextActionType.UPDATE_MODEL,
+                payload: {
+                    model: model
+                }
+            });
         },
-        [
-            execute,
-            oatPageDispatch,
-            oatPageState.currentOntologyModelPositions,
-            oatPageState.currentOntologyModels,
-            oatPageState.selection
-        ]
+        [oatPageDispatch]
     );
     const updateReference = useCallback(
         (reference: DtdlReference) => {
-            const update = () => {
-                oatPageDispatch({
-                    type: OatPageContextActionType.UPDATE_REFERENCE,
-                    payload: {
-                        modelId: parentModelId,
-                        reference: reference
-                    }
-                });
-            };
-            const undo = () => {
-                oatPageDispatch({
-                    type: OatPageContextActionType.GENERAL_UNDO,
-                    payload: {
-                        models: oatPageState.currentOntologyModels,
-                        positions: oatPageState.currentOntologyModelPositions,
-                        selection: oatPageState.selection
-                    }
-                });
-            };
-            execute(update, undo);
+            // TODO: Add history tracking
+            oatPageDispatch({
+                type: OatPageContextActionType.UPDATE_REFERENCE,
+                payload: {
+                    modelId: parentModelId,
+                    reference: reference
+                }
+            });
         },
-        [
-            execute,
-            oatPageDispatch,
-            oatPageState.currentOntologyModelPositions,
-            oatPageState.currentOntologyModels,
-            oatPageState.selection,
-            parentModelId
-        ]
+        [oatPageDispatch, parentModelId]
     );
 
     const getSchemaUpdateCallback = (property: DTDLProperty) => {
         const onUpdateItem = (schema: DTDLSchema) => {
-            const selectedItemCopy = deepCopy(selectedItem);
             logDebugConsole(
                 'info',
                 'Updating schema with data. {selectedItem, property, data}',
-                selectedItemCopy,
+                selectedItem,
                 property,
                 schema
             );
@@ -139,36 +97,34 @@ const PropertyList: React.FC<IPropertyListProps> = (props) => {
             const propertyCopy = deepCopy(property);
             propertyCopy.schema = deepCopy(schema);
 
-            if (isDTDLModel(selectedItemCopy)) {
+            if (isDTDLModel(selectedItem)) {
                 const originalPropertyIndex = getPropertyIndexOnModelByName(
-                    selectedItemCopy,
+                    selectedItem,
                     property.name
                 );
                 if (originalPropertyIndex > -1) {
-                    selectedItemCopy.contents[
-                        originalPropertyIndex
-                    ] = propertyCopy;
-                    updateModel(selectedItemCopy);
+                    selectedItem.contents[originalPropertyIndex] = propertyCopy;
+                    updateModel(selectedItem);
                 } else {
                     console.warn(
                         `Unable to find property with name (${property.name}) to update on the selected model. {selectedModel}`,
-                        selectedItemCopy
+                        selectedItem
                     );
                 }
-            } else if (isDTDLRelationshipReference(selectedItemCopy)) {
+            } else if (isDTDLRelationshipReference(selectedItem)) {
                 const originalPropertyIndex = getPropertyIndexOnRelationshipByName(
-                    selectedItemCopy,
+                    selectedItem,
                     property.name
                 );
                 if (originalPropertyIndex > -1) {
-                    selectedItemCopy.properties[
+                    selectedItem.properties[
                         originalPropertyIndex
                     ] = propertyCopy;
-                    updateReference(selectedItemCopy);
+                    updateReference(selectedItem);
                 } else {
                     console.warn(
                         `Unable to find property with name (${property.name}) to update on the selected relationship. {selectedRelationship}`,
-                        selectedItemCopy
+                        selectedItem
                     );
                 }
             }
@@ -207,7 +163,6 @@ const PropertyList: React.FC<IPropertyListProps> = (props) => {
         const updateName: IOnUpdateNameCallback = (
             args: IOnUpdateNameCallbackArgs
         ) => {
-            const selectedItemCopy = deepCopy(selectedItem);
             const showErrorDialog = (error: {
                 title: string;
                 message: string;
@@ -220,16 +175,16 @@ const PropertyList: React.FC<IPropertyListProps> = (props) => {
                     }
                 });
             };
-            if (isDTDLModel(selectedItemCopy)) {
+            if (isDTDLModel(selectedItem)) {
                 // update for model
-                const updatedContents = [...selectedItemCopy.contents];
+                const updatedContents = [...selectedItem.contents];
                 const index = getPropertyIndexOnModelByName(
-                    selectedItemCopy,
+                    selectedItem,
                     property.name
                 );
                 updatedContents[index].name = args.name;
                 const updatedModel = {
-                    ...selectedItemCopy,
+                    ...selectedItem,
                     contents: updatedContents
                 };
 
@@ -237,7 +192,7 @@ const PropertyList: React.FC<IPropertyListProps> = (props) => {
                 validateOntology({
                     existingModels: oatPageState.currentOntologyModels,
                     selectedModelId: oatPageState.selection?.modelId,
-                    originalItem: selectedItemCopy,
+                    originalItem: selectedItem,
                     updatedItem: updatedModel
                 }).then((validationResult) => {
                     if (validationResult.isValid === true) {
@@ -248,23 +203,23 @@ const PropertyList: React.FC<IPropertyListProps> = (props) => {
                         showErrorDialog(validationResult.error);
                     }
                 });
-            } else if (isDTDLRelationshipReference(selectedItemCopy)) {
+            } else if (isDTDLRelationshipReference(selectedItem)) {
                 // update for relationships
-                const updatedProperties = [...selectedItemCopy.properties];
+                const updatedProperties = [...selectedItem.properties];
                 const index = getPropertyIndexOnRelationshipByName(
-                    selectedItemCopy,
+                    selectedItem,
                     property.name
                 );
                 updatedProperties[index].name = args.name;
                 const updatedReference = {
-                    ...selectedItemCopy,
+                    ...selectedItem,
                     properties: updatedProperties
                 };
                 // validate changes
                 validateOntology({
                     existingModels: oatPageState.currentOntologyModels,
                     selectedModelId: oatPageState.selection?.modelId,
-                    originalItem: selectedItemCopy,
+                    originalItem: selectedItem,
                     updatedItem: updatedReference
                 }).then((validationResult) => {
                     if (validationResult.isValid === true) {
