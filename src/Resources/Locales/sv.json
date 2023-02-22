@@ -1304,10 +1304,9 @@
       "title": "Referensgränsen uppnådd"
     },
     "Errors": {
-      "duplicatePropertyTitle": "Duplicera egenskap",
-      "duplicatePropertyMessage": "Dina ändringar kunde inte sparas. Egenskapen {{propertyName}} har redan definierats i den här modellen. Använd ett annat namn.",
       "invalidJSONTitle": "Ogiltig JSON",
-      "invalidJSONMessage": "Den JSON som du angav är ogiltig. Åtgärda JSON och försök igen."
+      "invalidJSONMessage": "Den JSON som du angav är ogiltig. Åtgärda JSON och försök igen.",
+      "validationFailedTitle": "Valideringen misslyckades"
     }
   },
   "dataHistoryErrorHandlingWrapper": {

@@ -1304,10 +1304,9 @@
       "title": "已达到参考限制"
     },
     "Errors": {
-      "duplicatePropertyTitle": "重复属性",
-      "duplicatePropertyMessage": "无法保存所做的更改。属性 {{属性名称}} 已在此模型中定义。请使用其他名称。",
       "invalidJSONTitle": "无效的 JSON",
-      "invalidJSONMessage": "您输入的 JSON 无效。请修复 JSON，然后重试。"
+      "invalidJSONMessage": "您输入的 JSON 无效。请修复 JSON，然后重试。",
+      "validationFailedTitle": "验证失败"
     }
   },
   "dataHistoryErrorHandlingWrapper": {

@@ -1304,10 +1304,9 @@
       "title": "Referenzgrenzwert erreicht"
     },
     "Errors": {
-      "duplicatePropertyTitle": "Duplicate-Eigenschaft",
-      "duplicatePropertyMessage": "Ihre Änderungen konnten nicht gespeichert werden. Die Eigenschaft {{propertyName}} ist in diesem Modell bereits definiert. Bitte verwenden Sie einen anderen Namen.",
       "invalidJSONTitle": "Ungültiges JSON",
-      "invalidJSONMessage": "Der eingegebene JSON-Code ist ungültig. Bitte korrigieren Sie den JSON-Code und versuchen Sie es erneut."
+      "invalidJSONMessage": "Der eingegebene JSON-Code ist ungültig. Bitte korrigieren Sie den JSON-Code und versuchen Sie es erneut.",
+      "validationFailedTitle": "Validierung fehlgeschlagen"
     }
   },
   "dataHistoryErrorHandlingWrapper": {

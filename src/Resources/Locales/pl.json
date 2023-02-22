@@ -1304,10 +1304,9 @@
       "title": "Osiągnięta granica odniesienia"
     },
     "Errors": {
-      "duplicatePropertyTitle": "Zduplikowana właściwość",
-      "duplicatePropertyMessage": "Nie można zapisać zmian. Właściwość {{propertyName}} jest już zdefiniowana w tym modelu. Proszę użyć innej nazwy.",
       "invalidJSONTitle": "Nieprawidłowy JSON",
-      "invalidJSONMessage": "Wprowadzony kod JSON jest nieprawidłowy. Napraw JSON i spróbuj ponownie."
+      "invalidJSONMessage": "Wprowadzony kod JSON jest nieprawidłowy. Napraw JSON i spróbuj ponownie.",
+      "validationFailedTitle": "Sprawdzanie poprawności nie powiodło się"
     }
   },
   "dataHistoryErrorHandlingWrapper": {
