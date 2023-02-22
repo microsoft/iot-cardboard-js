@@ -58,11 +58,9 @@ export default class BlobAdapter implements IBlobAdapter {
          *  */
         this.useBlobProxy =
             (useBlobProxy || !validateExplorerOrigin(window.origin)) &&
-            !(
-                localStorage.getItem(
-                    LOCAL_STORAGE_KEYS.FeatureFlags.Proxy.forceCORS
-                ) === 'true'
-            );
+            localStorage.getItem(
+                LOCAL_STORAGE_KEYS.FeatureFlags.Proxy.forceCORS
+            ) !== 'true';
     }
 
     getBlobContainerURL() {
