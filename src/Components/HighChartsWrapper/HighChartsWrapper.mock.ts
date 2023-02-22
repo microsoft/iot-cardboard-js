@@ -44,7 +44,6 @@ export const HighChartsMockLargeData: Array<IHighChartSeriesData> = [
             1,
             500000,
             undefined,
-            undefined,
             true
         )[0],
         tooltipSuffix: '°F'
