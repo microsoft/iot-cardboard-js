@@ -56,6 +56,7 @@ import {
 } from '../../../../../../Models/Services/Utils';
 import Version3UpgradeButton from '../../../Version3UpgradeButton/Version3UpgradeButton';
 import { DTDL_CONTEXT_VERSION_3 } from '../../../../../../Models/Classes/DTDL';
+import { useTheme } from '@fluentui/react';
 
 const SINGLE_LANGUAGE_KEY = 'singleLanguage';
 const MULTI_LANGUAGE_KEY = 'multiLanguage';
@@ -209,7 +210,7 @@ const PropertyDetailsEditorModalContent: React.FC<IModalFormRootModelContentProp
     }, [multiLanguageDescriptions, selectedItem.description]);
 
     // styles
-    const propertyInspectorStyles = getPropertyInspectorStyles();
+    const propertyInspectorStyles = getPropertyInspectorStyles(useTheme());
     const radioGroupRowStyle = getRadioGroupRowStyles();
     const classNames = getClassNames(styles, {
         theme: useExtendedTheme()

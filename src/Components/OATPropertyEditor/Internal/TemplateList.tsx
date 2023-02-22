@@ -13,6 +13,7 @@ import { TemplateListProps } from './TemplateList.types';
 import { useOatPageContext } from '../../../Models/Context/OatPageContext/OatPageContext';
 import { OatPageContextActionType } from '../../../Models/Context/OatPageContext/OatPageContext.types';
 import { DTDLProperty } from '../../../Models/Classes/DTDL';
+import { useTheme } from '@fluentui/react';
 
 export const TemplateList: React.FC<TemplateListProps> = (props) => {
     const {
@@ -221,7 +222,7 @@ export const TemplateList: React.FC<TemplateListProps> = (props) => {
     };
 
     // styles
-    const propertyInspectorStyles = getPropertyInspectorStyles();
+    const propertyInspectorStyles = getPropertyInspectorStyles(useTheme());
 
     return (
         <div

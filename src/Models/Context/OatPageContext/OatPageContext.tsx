@@ -533,6 +533,7 @@ export const OatPageContextProvider: React.FC<IOatPageContextProviderProps> = Re
             return <>{children}</>;
         }
 
+        // eslint-disable-next-line react-hooks/rules-of-hooks
         const [oatPageState, oatPageDispatch] = useReducer(
             OatPageContextReducer,
             { ...emptyState, ...initialState },

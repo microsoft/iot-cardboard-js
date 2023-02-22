@@ -1,6 +1,6 @@
 import produce from 'immer';
 
-import React, { useContext, useMemo, useReducer } from 'react';
+import React, { useContext, useReducer } from 'react';
 import {
     DefaultViewerModeObjectColor,
     ISceneViewerThemeCache,
@@ -22,6 +22,7 @@ import {
     IObjectStyleOption
 } from './SceneThemeContext.types';
 import { TFunction, useTranslation } from 'react-i18next';
+import { memoizeFunction } from '@fluentui/utilities';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('SceneThemeContext', debugLogging);
@@ -108,6 +109,7 @@ export const SceneThemeContextProvider: React.FC<ISceneThemeContextProviderProps
     }
 
     const { initialState, shouldPersistTheme = true } = props;
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     const { t } = useTranslation();
     isThemePersistenceEnabled = shouldPersistTheme; // store the selection globally
 
@@ -155,6 +157,7 @@ export const SceneThemeContextProvider: React.FC<ISceneThemeContextProviderProps
         initialState
     );
 
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     const [sceneThemeState, sceneThemeDispatch] = useReducer(
         SceneThemeContextReducer,
         defaultState
@@ -202,36 +205,32 @@ const setPersistedTheme = (theme: ISceneViewerThemeCache): void => {
     }
 };
 
-const buildDefaultStyleChoices = (t: TFunction<string>) => {
-    const options: IObjectStyleOption[] = useMemo(
-        () => [
-            {
-                key: ViewerObjectStyle.Default,
-                imageSrc: DefaultStyle,
-                imageAlt: t('modelViewerModePicker.default'),
-                selectedImageSrc: DefaultStyle,
-                imageSize: { width: 40, height: 40 },
-                text: t('modelViewerModePicker.default')
-            },
-            {
-                key: ViewerObjectStyle.Transparent,
-                imageSrc: TransparentStyle,
-                imageAlt: t('modelViewerModePicker.transparent'),
-                selectedImageSrc: TransparentStyle,
-                imageSize: { width: 40, height: 40 },
-                text: t('modelViewerModePicker.transparent')
-            },
-            {
-                key: ViewerObjectStyle.Wireframe,
-                imageSrc: WireframeStyle,
-                imageAlt: t('modelViewerModePicker.wireframe'),
-                selectedImageSrc: WireframeStyle,
-                imageSize: { width: 40, height: 40 },
-                text: t('modelViewerModePicker.wireframe')
-            }
-        ],
-        [t]
-    );
-
+const buildDefaultStyleChoices = memoizeFunction((t: TFunction<string>) => {
+    const options: IObjectStyleOption[] = [
+        {
+            key: ViewerObjectStyle.Default,
+            imageSrc: DefaultStyle,
+            imageAlt: t('modelViewerModePicker.default'),
+            selectedImageSrc: DefaultStyle,
+            imageSize: { width: 40, height: 40 },
+            text: t('modelViewerModePicker.default')
+        },
+        {
+            key: ViewerObjectStyle.Transparent,
+            imageSrc: TransparentStyle,
+            imageAlt: t('modelViewerModePicker.transparent'),
+            selectedImageSrc: TransparentStyle,
+            imageSize: { width: 40, height: 40 },
+            text: t('modelViewerModePicker.transparent')
+        },
+        {
+            key: ViewerObjectStyle.Wireframe,
+            imageSrc: WireframeStyle,
+            imageAlt: t('modelViewerModePicker.wireframe'),
+            selectedImageSrc: WireframeStyle,
+            imageSize: { width: 40, height: 40 },
+            text: t('modelViewerModePicker.wireframe')
+        }
+    ];
     return options;
-};
+});

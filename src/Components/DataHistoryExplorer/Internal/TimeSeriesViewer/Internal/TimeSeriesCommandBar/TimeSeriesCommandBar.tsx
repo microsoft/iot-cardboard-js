@@ -45,11 +45,12 @@ const getClassNames = classNamesFunction<
 >();
 
 const TimeSeriesCommandBar: React.FC<ITimeSeriesCommandBarProps> = (props) => {
+    const guid = useGuid();
     const {
         defaultChartOptions,
         onChartOptionsChange,
         viewerModeProps,
-        dataHistoryInstanceId = useGuid(),
+        dataHistoryInstanceId = guid,
         styles
     } = props;
 
@@ -87,7 +88,7 @@ const TimeSeriesCommandBar: React.FC<ITimeSeriesCommandBarProps> = (props) => {
                 })
             );
         },
-        [setChartOptions]
+        [onChartOptionsChange]
     );
 
     // styles

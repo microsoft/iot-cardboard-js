@@ -91,6 +91,7 @@ const SceneBreadcrumbFactory: React.FC<ISceneBreadcrumbFactoryProps> = ({
             setBehaviorTwinAliasFormInfo,
             setVisualRuleFormMode,
             visualRuleFormMode
+            // eslint-disable-next-line react-hooks/rules-of-hooks
         } = useContext(SceneBuilderContext);
 
         let onBehaviorRootClick: VoidFunction | undefined;
@@ -197,6 +198,7 @@ const SceneBreadcrumbFactory: React.FC<ISceneBreadcrumbFactoryProps> = ({
             elementTwinAliasFormInfo,
             setBehaviorTwinAliasFormInfo,
             setElementTwinAliasFormInfo
+            // eslint-disable-next-line react-hooks/rules-of-hooks
         } = useContext(SceneBuilderContext);
 
         let onElementRootClick: VoidFunction | undefined;

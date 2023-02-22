@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
+import { useTheme } from '@fluentui/react';
 
 import OATHeader from '../../Components/OATHeader/OATHeader';
 import OATGraphViewer from '../../Components/OATGraphViewer/OATGraphViewer';
@@ -40,7 +41,7 @@ const OATEditorPageContent: React.FC<IOATEditorPageProps> = (props) => {
         oatPageState.currentOntologyModels?.length !== 0;
 
     // styles
-    const editorPageStyles = getEditorPageStyles();
+    const editorPageStyles = getEditorPageStyles(useTheme());
 
     return (
         <>

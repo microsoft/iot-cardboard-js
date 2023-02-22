@@ -16,6 +16,7 @@
         "copy-package": "shx cp package.json dist",
         "copy-readme": "shx cp README.md dist/",
         "copy-theme-sheet": "node-sass src/Resources/Styles/BaseThemeVars.scss dist/themes.css",
+        "eslint:check:local": "eslint src/**/*.{js,ts,tsx} -c ./.eslintrc.json",
         "eslint:check": "eslint src/**/*.{js,ts,tsx} -c ./.eslintrc.prod.json",
         "eslint:fix": "eslint src/**/*.{js,ts,tsx} --cache --fix",
         "generate-schema": "node .\\tools\\generate-3d-schema-types.js",

@@ -1,12 +1,11 @@
 import {
     IStyle,
     mergeStyleSets,
-    useTheme,
     FontSizes,
     IButtonStyles
 } from '@fluentui/react';
+import { Theme } from '@fluentui/theme';
 import { CardboardClassNamePrefix } from '../../Models/Constants';
-import { useExtendedTheme } from '../../Models/Hooks/useExtendedTheme';
 
 const classPrefix = `${CardboardClassNamePrefix}-oat-property-editor`;
 const classNames = {
@@ -36,8 +35,8 @@ const classNames = {
     typeTextField: `${classPrefix}-type-text-field`
 };
 
-export const getPropertyInspectorStyles = () => {
-    const theme = useExtendedTheme();
+export const getPropertyInspectorStyles = (args: { theme: Theme }) => {
+    const { theme } = args;
     return mergeStyleSets({
         row: [
             classNames.row,
@@ -207,8 +206,8 @@ export const getPropertyInspectorStyles = () => {
 
 /* Property Editor */
 
-export const getPropertyEditorTextFieldStyles = () => {
-    const theme = useTheme();
+export const getPropertyEditorTextFieldStyles = (args: { theme: Theme }) => {
+    const { theme } = args;
     return {
         root: {
             border: '2px solid transparent',
@@ -226,8 +225,8 @@ export const getPropertyEditorTextFieldStyles = () => {
 
 /* Template Column */
 
-export const getTemplateColumnStyles = () => {
-    const theme = useTheme();
+export const getTemplateColumnStyles = (args: { theme: Theme }) => {
+    const { theme } = args;
     return {
         root: {
             width: '90%',

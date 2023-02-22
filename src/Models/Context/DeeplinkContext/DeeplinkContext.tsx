@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 /**
  * This context is for transferring state from one session to another. These properties are managed by the various parts of the app and can be read onMount to restore the state
  */
@@ -240,7 +241,7 @@ export const DeeplinkContextProvider: React.FC<IDeeplinkContextProviderProps> = 
             }
             return link;
         },
-        [deeplinkState, consumerDeeplinkContext?.onGenerateDeeplink]
+        [deeplinkState, consumerDeeplinkContext]
     );
 
     // notify telemetry service of changes to the adt instance
@@ -288,6 +289,7 @@ export const DeeplinkContextProvider: React.FC<IDeeplinkContextProviderProps> = 
                 getStorageAccountUrlFromContainerUrl(defaultState.storageUrl)
             );
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (

@@ -141,7 +141,7 @@ const ModelSearch = ({
                 />
             );
         }
-    }, [adapter]);
+    }, [adapter, t]);
 
     return (
         <div className="cb-modelsearch-container">
@@ -244,9 +244,6 @@ const ModelSearch = ({
 };
 
 const RateLimitExceededWarning = ({ rateLimitResetTime }) => {
-    if (rateLimitResetTime === undefined) {
-        return null;
-    }
     const { t } = useTranslation();
     const [
         isRateLimitExceededWarningVisible,
@@ -273,6 +270,10 @@ const RateLimitExceededWarning = ({ rateLimitResetTime }) => {
             setIsRateLimitExceededWarningVisible(false);
         }
     }, [secondsUntilReset]);
+
+    if (rateLimitResetTime === undefined) {
+        return null;
+    }
 
     if (!isRateLimitExceededWarningVisible) {
         return null;

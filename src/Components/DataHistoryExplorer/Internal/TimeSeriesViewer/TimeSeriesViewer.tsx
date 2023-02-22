@@ -37,6 +37,7 @@ const getClassNames = classNamesFunction<
 >();
 
 const TimeSeriesViewer: React.FC<ITimeSeriesViewerProps> = (props) => {
+    const guid = useGuid();
     const {
         timeSeriesTwins = [],
         data = null,
@@ -46,7 +47,7 @@ const TimeSeriesViewer: React.FC<ITimeSeriesViewerProps> = (props) => {
         explorerChartOptions,
         onChartOptionsChange,
         error,
-        dataHistoryInstanceId = useGuid(),
+        dataHistoryInstanceId = guid,
         styles
     } = props;
 

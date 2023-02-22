@@ -1,5 +1,5 @@
 import React from 'react';
-import { PrimaryButton, Modal } from '@fluentui/react';
+import { useTheme, PrimaryButton, Modal } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { getEditorPageStyles } from '../OATEditorPage.styles';
 import { useOatPageContext } from '../../../Models/Context/OatPageContext/OatPageContext';
@@ -12,7 +12,7 @@ const OATErrorHandlingModal: React.FC = () => {
     const { error } = oatPageState;
 
     // styles
-    const editorPageStyles = getEditorPageStyles();
+    const editorPageStyles = getEditorPageStyles(useTheme());
 
     const getComponentContent = () => {
         switch (error?.type ? error.type : '') {

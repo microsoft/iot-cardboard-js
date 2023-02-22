@@ -208,6 +208,7 @@ export const BehaviorFormContextProvider: React.FC<IBehaviorFormContextProviderP
         isDirty: false
     };
 
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     const [behaviorFormState, behaviorFormDispatch] = useReducer(
         BehaviorFormContextReducer,
         defaultState

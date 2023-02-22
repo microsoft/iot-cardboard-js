@@ -29,12 +29,13 @@ const getClassNames = classNamesFunction<
 const DataHistoryExplorerModal: React.FC<IDataHistoryExplorerModalProps> = (
     props
 ) => {
+    const guid = useGuid();
     const {
         adapter,
         isOpen,
         onDismiss,
         timeSeriesTwins,
-        dataHistoryInstanceId = useGuid(),
+        dataHistoryInstanceId = guid,
         styles
     } = props;
 

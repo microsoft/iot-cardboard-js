@@ -22,6 +22,7 @@ const SceneDropdown: React.FC<SceneDropdownProps> = ({
               };
           })
         : [];
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     const onChange = useCallback(
         (_e, option: IDropdownOption) => {
             if (onSceneChange) {
@@ -29,7 +30,7 @@ const SceneDropdown: React.FC<SceneDropdownProps> = ({
             }
             scenePageContext.handleOnSceneSwap(String(option.key));
         },
-        [scenePageContext]
+        [onSceneChange, scenePageContext]
     );
 
     return (

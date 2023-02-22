@@ -1,4 +1,5 @@
-import { IStyle, mergeStyleSets, useTheme } from '@fluentui/react';
+import { IStyle, mergeStyleSets } from '@fluentui/react';
+import { Theme } from '@fluentui/theme';
 import { CardboardClassNamePrefix } from '../../Models/Constants';
 import {
     CONTROLS_BOTTOM_OFFSET,
@@ -26,8 +27,7 @@ const classNames = {
     confirmDeleteWrapperTitle: `${classPrefix}-confirm-delete-wrapper-title`
 };
 
-export const getEditorPageStyles = () => {
-    const theme = useTheme();
+export const getEditorPageStyles = (theme: Theme) => {
     return mergeStyleSets({
         container: [
             classNames.container,

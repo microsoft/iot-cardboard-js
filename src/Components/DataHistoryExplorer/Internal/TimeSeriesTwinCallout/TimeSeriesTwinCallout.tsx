@@ -54,13 +54,14 @@ const getClassNames = classNamesFunction<
 const TimeSeriesTwinCallout: React.FC<ITimeSeriesTwinCalloutProps> = (
     props
 ) => {
+    const guid = useGuid();
     const {
         adapter,
         timeSeriesTwin,
         target,
         onDismiss,
         onPrimaryActionClick,
-        dataHistoryInstanceId = useGuid(),
+        dataHistoryInstanceId = guid,
         styles
     } = props;
 
@@ -124,7 +125,7 @@ const TimeSeriesTwinCallout: React.FC<ITimeSeriesTwinCalloutProps> = (
                 })
             );
         },
-        [setTimeSeriesTwinToEdit, getDefaultSeriesLabel]
+        [setTimeSeriesTwinToEdit]
     );
     const handleTwinPropertyCastingChange = useCallback(
         (_event, checked: boolean) => {
@@ -144,11 +145,7 @@ const TimeSeriesTwinCallout: React.FC<ITimeSeriesTwinCalloutProps> = (
                 }
             );
         },
-        [
-            setTimeSeriesTwinToEdit,
-            sendDataHistoryExplorerUserTelemetry,
-            dataHistoryInstanceId
-        ]
+        [setTimeSeriesTwinToEdit, dataHistoryInstanceId]
     );
     const handleLabelChange = useCallback(
         (_event, label: string) => {

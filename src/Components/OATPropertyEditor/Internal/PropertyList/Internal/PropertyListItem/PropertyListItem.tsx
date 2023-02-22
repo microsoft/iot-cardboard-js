@@ -124,27 +124,21 @@ const PropertyListItem: React.FC<IPropertyListItemProps> = (props) => {
         [setLocalName]
     );
 
-    const onSaveName = onUpdateName
-        ? useCallback(
-              (_ev) => {
-                  if (localName !== item.name) {
-                      onUpdateName({ name: localName });
-                  }
-              },
-              [item.name, localName, onUpdateName]
-          )
-        : undefined;
+    const onSaveName = useCallback(
+        (_ev) => {
+            if (localName !== item.name) {
+                onUpdateName({ name: localName });
+            }
+        },
+        [item.name, localName, onUpdateName]
+    );
 
-    const onMoveUp = onReorderItem
-        ? useCallback(() => {
-              onReorderItem('Up');
-          }, [onReorderItem])
-        : undefined;
-    const onMoveDown = onReorderItem
-        ? useCallback(() => {
-              onReorderItem('Down');
-          }, [onReorderItem])
-        : undefined;
+    const onMoveUp = useCallback(() => {
+        onReorderItem?.('Up');
+    }, [onReorderItem]);
+    const onMoveDown = useCallback(() => {
+        onReorderItem?.('Down');
+    }, [onReorderItem]);
 
     // side effects
     useEffect(() => {
@@ -345,7 +339,7 @@ const PropertyListItem: React.FC<IPropertyListItemProps> = (props) => {
                 <Stack.Item grow>
                     <TextField
                         disabled={disableInput}
-                        readOnly={!onSaveName}
+                        readOnly={!onUpdateName}
                         onRenderInput={(props, defaultRenderer) => {
                             return (
                                 <>

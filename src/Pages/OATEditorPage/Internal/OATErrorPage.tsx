@@ -1,10 +1,11 @@
+import { useTheme } from '@fluentui/react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { getEditorPageStyles } from '../OATEditorPage.styles';
 
 const OATErrorPage = ({ error }) => {
     const { t } = useTranslation();
-    const editorPageStyles = getEditorPageStyles();
+    const editorPageStyles = getEditorPageStyles(useTheme());
 
     return (
         <div className={editorPageStyles.errorContainer}>

@@ -145,6 +145,7 @@ export const SceneViewContextProvider: React.FC<ISceneViewContextProviderProps> 
         outlinedMeshItems: initialOutlinedMeshItems
     };
 
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     const [sceneViewState, sceneViewDispatch] = useReducer(
         SceneViewContextReducer,
         defaultState

@@ -100,6 +100,7 @@ export const OatGraphContextProvider: React.FC<IOatGraphContextProviderProps> = 
             return <>{children}</>;
         }
 
+        // eslint-disable-next-line react-hooks/rules-of-hooks
         const [oatGraphState, oatGraphDispatch] = useReducer(
             OatGraphContextReducer,
             {

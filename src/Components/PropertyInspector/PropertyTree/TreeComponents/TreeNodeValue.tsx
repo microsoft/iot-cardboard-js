@@ -296,8 +296,6 @@ const MapProperty: React.FC<{ node: PropertyTreeNode; readonly: boolean }> = ({
     const { onAddMapValue } = useContext(PropertyTreeContext);
     const [newMapKey, setNewMapKey] = useState('');
 
-    if (readonly) return null;
-
     useEffect(() => {
         setNewMapKey('');
     }, [node.isSet]);
@@ -327,6 +325,8 @@ const MapProperty: React.FC<{ node: PropertyTreeNode; readonly: boolean }> = ({
         newVal = newVal.replace(/[^a-zA-Z0-9_]/g, '');
         setNewMapKey(newVal);
     };
+
+    if (readonly) return null;
 
     return (
         <div className={`cb-property-tree-node-value`}>

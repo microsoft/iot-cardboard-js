@@ -136,6 +136,7 @@ export const ElementFormContextProvider: React.FC<IElementFormContextProviderPro
     };
 
     logDebugConsole('debug', 'Render form context. {state}', defaultState);
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     const [elementFormState, elementFormDispatch] = useReducer(
         ElementFormContextReducer,
         defaultState

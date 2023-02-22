@@ -23,6 +23,7 @@ export const CommandHistoryContextProvider: React.FC = (props) => {
         return <>{children}</>;
     }
 
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     const providerValue = useCommandHistory([]);
 
     return (

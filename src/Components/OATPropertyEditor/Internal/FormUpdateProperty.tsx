@@ -41,6 +41,7 @@ import {
     validateMultiLanguageSelectionsDescriptionValueChange,
     validateCommentChange
 } from '../Utils';
+import { useTheme } from '@fluentui/react';
 
 const MULTI_LANGUAGE_OPTION_VALUE = 'multiLanguage';
 const SINGLE_LANGUAGE_OPTION_VALUE = 'singleLanguage';
@@ -63,7 +64,7 @@ export const FormUpdateProperty: React.FC<FormUpdatePropertyProps> = (
     const { currentPropertyIndex, currentNestedPropertyIndex } = state;
 
     // styles
-    const propertyInspectorStyles = getPropertyInspectorStyles();
+    const propertyInspectorStyles = getPropertyInspectorStyles(useTheme());
     const radioGroupRowStyle = getRadioGroupRowStyles();
     const columnLeftTextStyles = getModalLabelStyles();
 

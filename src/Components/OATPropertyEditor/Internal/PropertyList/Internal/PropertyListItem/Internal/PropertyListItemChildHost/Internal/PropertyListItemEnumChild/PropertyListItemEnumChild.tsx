@@ -51,16 +51,12 @@ const PropertyListItemEnumChild: React.FC<IPropertyListItemEnumChildProps> = (
 
     // callbacks
 
-    const onMoveUp = onReorderItem
-        ? useCallback(() => {
-              onReorderItem('Up');
-          }, [onReorderItem])
-        : undefined;
-    const onMoveDown = onReorderItem
-        ? useCallback(() => {
-              onReorderItem('Down');
-          }, [onReorderItem])
-        : undefined;
+    const onMoveUp = useCallback(() => {
+        onReorderItem?.('Up');
+    }, [onReorderItem]);
+    const onMoveDown = useCallback(() => {
+        onReorderItem?.('Down');
+    }, [onReorderItem]);
 
     // side effects
     useEffect(() => {

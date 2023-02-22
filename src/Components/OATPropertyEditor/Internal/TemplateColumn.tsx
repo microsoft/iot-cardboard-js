@@ -5,6 +5,7 @@ import {
     ActionButton,
     Stack,
     Text,
+    useTheme,
     Label
 } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
@@ -29,9 +30,10 @@ export const TemplateColumn: React.FC<TemplateColumnProps> = (props) => {
     const { oatPageDispatch } = useOatPageContext();
 
     // styles
-    const propertyInspectorStyles = getPropertyInspectorStyles();
-    const textFieldStyles = getPropertyEditorTextFieldStyles();
-    const templateColumnStyles = getTemplateColumnStyles();
+    const theme = useTheme();
+    const propertyInspectorStyles = getPropertyInspectorStyles({ theme });
+    const textFieldStyles = getPropertyEditorTextFieldStyles({ theme });
+    const templateColumnStyles = getTemplateColumnStyles({ theme });
     const templateColumnPaddingStyles = getTemplateColumnPaddingStyles();
 
     // state

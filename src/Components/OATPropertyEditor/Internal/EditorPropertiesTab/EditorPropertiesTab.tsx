@@ -27,6 +27,7 @@ import { OatPageContextActionType } from '../../../../Models/Context/OatPageCont
 import { getDebugLogger, deepCopy } from '../../../../Models/Services/Utils';
 import { useCommandHistoryContext } from '../../../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
 import { getPropertyInspectorStyles } from '../../OATPropertyEditor.styles';
+import { useTheme } from '@fluentui/react';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('EditorPropertiesTab', debugLogging);
@@ -171,7 +172,7 @@ const EditorPropertiesTab: React.FC<IEditorPropertiesTabProps> = (props) => {
     // side effects
 
     // styles
-    const propertyInspectorStyles = getPropertyInspectorStyles();
+    const propertyInspectorStyles = getPropertyInspectorStyles(useTheme());
     const classNames = getClassNames(styles, {
         theme: useExtendedTheme()
     });
