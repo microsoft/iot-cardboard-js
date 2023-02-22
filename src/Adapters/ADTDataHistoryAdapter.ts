@@ -61,11 +61,9 @@ export default class ADTDataHistoryAdapter implements IADTDataHistoryAdapter {
          *  */
         this.useProxy =
             (useProxy || !validateExplorerOrigin(window.origin)) &&
-            !(
-                localStorage.getItem(
-                    LOCAL_STORAGE_KEYS.FeatureFlags.Proxy.forceCORS
-                ) === 'true'
-            );
+            localStorage.getItem(
+                LOCAL_STORAGE_KEYS.FeatureFlags.Proxy.forceCORS
+            ) !== 'true';
 
         this.authService.login();
         // Fetch & cache models on mount (makes first use of models faster as models should already be cached)

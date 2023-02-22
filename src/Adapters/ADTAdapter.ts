@@ -123,11 +123,9 @@ export default class ADTAdapter implements IADTAdapter {
          *  */
         this.useProxy =
             (useProxy || !validateExplorerOrigin(window.origin)) &&
-            !(
-                localStorage.getItem(
-                    LOCAL_STORAGE_KEYS.FeatureFlags.Proxy.forceCORS
-                ) === 'true'
-            );
+            localStorage.getItem(
+                LOCAL_STORAGE_KEYS.FeatureFlags.Proxy.forceCORS
+            ) !== 'true';
 
         this.authService.login();
         this.axiosInstance = axios.create({

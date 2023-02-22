@@ -65,11 +65,9 @@ export default class ADT3DSceneAdapter {
          *  */
         this.useProxy =
             (useProxy || !validateExplorerOrigin(window.origin)) &&
-            !(
-                localStorage.getItem(
-                    LOCAL_STORAGE_KEYS.FeatureFlags.Proxy.forceCORS
-                ) === 'true'
-            );
+            localStorage.getItem(
+                LOCAL_STORAGE_KEYS.FeatureFlags.Proxy.forceCORS
+            ) !== 'true';
 
         this.useBlobProxy =
             (useBlobProxy || !validateExplorerOrigin(window.origin)) &&
