@@ -53,9 +53,9 @@ export const addTargetedRelationship = (
         '',
         sourceId,
         OAT_RELATIONSHIP_HANDLE_NAME,
-        Array.isArray(relationship['target'])
-            ? relationship['target'][0]
-            : relationship['target'],
+        Array.isArray(relationship.target)
+            ? relationship.target[0]
+            : relationship.target,
         OAT_RELATIONSHIP_HANDLE_NAME,
         {
             '@type': DTDLType.Relationship,
