@@ -10,7 +10,6 @@
         "eslint:recommended",
         "plugin:@typescript-eslint/recommended",
         "prettier",
-        "plugin:react-hooks/recommended",
         "plugin:iot-cardboard-js/recommended"
     ],
     "rules": {
