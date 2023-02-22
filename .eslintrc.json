@@ -14,6 +14,15 @@
     ],
     "rules": {
         "iot-cardboard-js/debug-logging-disabled": "warn",
+        "no-console": [
+            "warn",
+            {
+                "allow": [
+                    "warn",
+                    "error"
+                ]
+            }
+        ],
         "no-debugger": "warn",
         "no-multiple-empty-lines": "warn",
         "react-hooks/exhaustive-deps": "warn",
