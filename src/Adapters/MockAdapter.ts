@@ -86,7 +86,10 @@ import ViewerConfigUtility from '../Models/Classes/ViewerConfigUtility';
 import ADTInstanceTimeSeriesConnectionData from '../Models/Classes/AdapterDataClasses/ADTInstanceTimeSeriesConnectionData';
 import { handleMigrations } from './BlobAdapterUtility';
 import ADXTimeSeriesData from '../Models/Classes/AdapterDataClasses/ADXTimeSeriesData';
-import { getMockTimeSeriesDataArrayInLocalTime } from '../Models/SharedUtils/DataHistoryUtils';
+import {
+    getMockTimeSeriesDataArrayInLocalTime,
+    isTimeSeriesData
+} from '../Models/SharedUtils/DataHistoryUtils';
 
 export default class MockAdapter
     implements
@@ -1049,7 +1052,17 @@ export default class MockAdapter
         useStaticData?: boolean
     ) {
         let mockData: Array<ADXTimeSeries> = [];
-        let mockTimeSeriesData: Array<Array<TimeSeriesData>> = this.mockData;
+        let mockTimeSeriesData: Array<Array<TimeSeriesData>>;
+        if (
+            this.mockData &&
+            Array.isArray(this.mockData) &&
+            this.mockData.every(
+                (arr) => Array.isArray(arr) && arr.every(isTimeSeriesData)
+            )
+        ) {
+            mockTimeSeriesData = this.mockData;
+        }
+
         try {
             await this.mockNetwork();
             try {
