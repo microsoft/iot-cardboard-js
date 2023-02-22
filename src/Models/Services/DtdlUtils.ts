@@ -571,43 +571,56 @@ export async function validateOntology<
 >(args: IValidationArgs<T>): Promise<IValidationResult> {
     const { updatedItem, originalItem, selectedModelId, existingModels } = args;
 
-    let updatedModel: DtdlInterface;
-    const originalModelId = selectedModelId;
-    if (isDTDLModel(updatedItem)) {
-        // bind the updated model
-        updatedModel = updatedItem;
-    } else if (isDTDLReference(originalItem) && isDTDLReference(updatedItem)) {
-        // get the model and update the reference on the model
-        updatedModel = getModelById(existingModels, originalModelId);
-        const contents = ensureIsArray(updatedModel.contents);
-        const index = getReferenceIndexByName(
-            updatedModel,
-            originalItem.name // use the original name in case they change it in the update
-        );
-        contents[index] = updatedItem;
-        updatedModel.contents = contents;
-    }
+    try {
+        let updatedModel: DtdlInterface;
+        const originalModelId = selectedModelId;
+        if (isDTDLModel(updatedItem)) {
+            // bind the updated model
+            updatedModel = updatedItem;
+        } else if (
+            isDTDLReference(originalItem) &&
+            isDTDLReference(updatedItem)
+        ) {
+            // get the model and update the reference on the model
+            updatedModel = getModelById(existingModels, originalModelId);
+            const contents = ensureIsArray(updatedModel.contents);
+            const index = getReferenceIndexByName(
+                updatedModel,
+                originalItem.name // use the original name in case they change it in the update
+            );
+            contents[index] = updatedItem;
+            updatedModel.contents = contents;
+        }
 
-    // validate the updated collection is valid
-    const models = deepCopy(existingModels);
-    const modelIndex = getModelIndexById(models, originalModelId);
-    models[modelIndex] = updatedModel;
-    const parsingError = await parseModels(models);
+        // validate the updated collection is valid
+        const models = deepCopy(existingModels);
+        const modelIndex = getModelIndexById(models, originalModelId);
+        models[modelIndex] = updatedModel;
+        const parsingError = await parseModels(models);
 
-    if (parsingError) {
+        if (parsingError) {
+            return {
+                isValid: false,
+                error: {
+                    title: i18n.t('OAT.Errors.validationFailedTitle'),
+                    message: parsingError
+                }
+            };
+        }
+
+        return {
+            isValid: true,
+            updatedModel: updatedModel
+        };
+    } catch (error) {
         return {
             isValid: false,
             error: {
                 title: i18n.t('OAT.Errors.validationFailedTitle'),
-                message: parsingError
+                message: i18n.t('OAT.Errors.validationFailedMessage')
             }
         };
     }
-
-    return {
-        isValid: true,
-        updatedModel: updatedModel
-    };
 }
 
 // #region Add child to complex schemas

@@ -929,6 +929,7 @@
         },
         "Errors": {
             "validationFailedTitle": "Validation failed",
+            "validationFailedMessage": "There was a problem while validating your changes.",
             "invalidJSONTitle": "Invalid JSON",
             "invalidJSONMessage": "The JSON you entered is invalid. Please fix the JSON and try again."
         },
