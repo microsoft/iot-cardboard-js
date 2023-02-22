@@ -1,5 +1,6 @@
 import {
     IButtonStyles,
+    IContextualMenuStyles,
     IIconStyles,
     IStyle,
     IStyleFunctionOrObject,
@@ -67,4 +68,5 @@ export interface IPropertyListItemSubComponentStyles {
     expandButton?: Partial<IButtonStyles>;
     inputIcon?: Partial<IIconStyles>;
     childTypeSubMenuIcon?: Partial<IPropertyIconStyles>;
+    menuItems?: Partial<IContextualMenuStyles>;
 }

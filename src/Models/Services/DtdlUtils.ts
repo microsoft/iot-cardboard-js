@@ -36,7 +36,12 @@ import {
     DtdlContext,
     DtdlVersion
 } from '../Constants';
-import { getModelById } from '../Context/OatPageContext/OatPageContextUtils';
+import {
+    getModelById,
+    getModelIndexById,
+    getReferenceIndexByName
+} from '../Context/OatPageContext/OatPageContextUtils';
+import { parseModels } from './OatPublicUtils';
 import { ensureIsArray } from './OatUtils';
 import { deepCopy, isDefined, isValueInEnum } from './Utils';
 
@@ -408,7 +413,7 @@ export const updateEnumValueSchema = (
     return itemCopy;
 };
 
-// #region Validations
+// #region Field Validations
 export const DTMI_VALIDATION_REGEX = /^dtmi:(?:_+[A-Za-z0-9]|[A-Za-z])(?:[A-Za-z0-9_]*[A-Za-z0-9])?(?::(?:_+[A-Za-z0-9]|[A-Za-z])(?:[A-Za-z0-9_]*[A-Za-z0-9])?)*(?:;1-9][0-9]{0,8}(?:\\.[1-9][0-9]{0,5})?)?$/;
 
 const DEFAULT_NAME_REGEX = /^[a-zA-Z](?:[a-zA-Z0-9_]*[a-zA-Z0-9])?$/;
@@ -515,6 +520,95 @@ export const isValidDtmiPath = (path: string, isFinal: boolean): boolean => {
 };
 
 // #endregion
+
+type IValidationArgs<T extends DtdlInterface | DtdlInterfaceContent> = {
+    updatedItem: T;
+    originalItem: T;
+    selectedModelId: string;
+    existingModels: DtdlInterface[];
+};
+type IValidationResult =
+    | {
+          isValid: true;
+          updatedModel: DtdlInterface;
+      }
+    | {
+          isValid: false;
+          error: {
+              title: string;
+              message: string;
+          };
+      };
+export async function validateItemChangeBeforeSaving<
+    T extends DtdlInterface | DtdlInterfaceContent
+>(args: {
+    content: string;
+    originalItem: T;
+    selectedModelId: string;
+    existingModels: DtdlInterface[];
+}): Promise<IValidationResult> {
+    const isJsonStringValid = (value: string): T | null => {
+        try {
+            return JSON.parse(value);
+        } catch (e) {
+            return null;
+        }
+    };
+    const updatedItem = isJsonStringValid(args.content);
+    if (!updatedItem) {
+        return {
+            isValid: false,
+            error: {
+                title: i18n.t('OAT.Errors.invalidJSONTitle'),
+                message: i18n.t('OAT.Errors.invalidJSONMessage')
+            }
+        };
+    }
+    return validateOntology({ ...args, updatedItem: updatedItem });
+}
+export async function validateOntology<
+    T extends DtdlInterface | DtdlInterfaceContent
+>(args: IValidationArgs<T>): Promise<IValidationResult> {
+    const { updatedItem, originalItem, selectedModelId, existingModels } = args;
+
+    let updatedModel: DtdlInterface;
+    const originalModelId = selectedModelId;
+    if (isDTDLModel(updatedItem)) {
+        // bind the updated model
+        updatedModel = updatedItem;
+    } else if (isDTDLReference(originalItem) && isDTDLReference(updatedItem)) {
+        // get the model and update the reference on the model
+        updatedModel = getModelById(existingModels, originalModelId);
+        const contents = ensureIsArray(updatedModel.contents);
+        const index = getReferenceIndexByName(
+            updatedModel,
+            originalItem.name // use the original name in case they change it in the update
+        );
+        contents[index] = updatedItem;
+        updatedModel.contents = contents;
+    }
+
+    // validate the updated collection is valid
+    const models = deepCopy(existingModels);
+    const modelIndex = getModelIndexById(models, originalModelId);
+    models[modelIndex] = updatedModel;
+    const parsingError = await parseModels(models);
+
+    if (parsingError) {
+        return {
+            isValid: false,
+            error: {
+                title: i18n.t('OAT.Errors.validationFailedTitle'),
+                message: parsingError
+            }
+        };
+    }
+
+    return {
+        isValid: true,
+        updatedModel: updatedModel
+    };
+}
 
 // #region Add child to complex schemas
 

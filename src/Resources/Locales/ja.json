@@ -1302,6 +1302,11 @@
     "ImportLimits": {
       "message": "現在、オントロジー内の関係、コンポーネント、継承の総数は、オントロジーデザイナーの{{count}}に制限されています。",
       "title": "参照制限に達しました"
+    },
+    "Errors": {
+      "invalidJSONTitle": "無効な JSON",
+      "invalidJSONMessage": "入力した JSON は無効です。JSONを修正して、もう一度やり直してください。",
+      "validationFailedTitle": "検証に失敗しました"
     }
   },
   "dataHistoryErrorHandlingWrapper": {
@@ -1403,7 +1408,6 @@
     "errorDisplayName": "表示名は 64 文字を超えることはできません",
     "errorIdLength": "ID は 2048 文字を超えることはできません",
     "errorIdValidDTMI": "ID は有効な DTMI である必要があります",
-    "errorInvalidJSON": "無効な JSON",
     "errorName": "名前に使用できるのは、文字 a から z、A から Z、0 から 9、およびアンダースコアのみです。",
     "errorNameLength": "名前は 64 文字以下にする必要があります",
     "errorRepeatedEnumValue": "同じ値の列挙値が既に存在します",
@@ -1485,7 +1489,6 @@
         "editMetadataLabel": "メタデータの編集"
       }
     },
-    "jsonEditorTabName": "ティッカー",
-    "errorInvalidJSONMessage": "入力した JSON は無効です。JSONを修正して、もう一度やり直してください。"
+    "jsonEditorTabName": "ティッカー"
   }
 }

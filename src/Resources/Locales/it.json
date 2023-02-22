@@ -1302,6 +1302,11 @@
     "ImportLimits": {
       "message": "Attualmente il numero totale di relazioni, componenti ed ereditarietà in un'ontologia è limitato a {{count}} in Ontology Designer.",
       "title": "Limite di riferimento raggiunto"
+    },
+    "Errors": {
+      "invalidJSONTitle": "JSON non valido",
+      "invalidJSONMessage": "Il file JSON immesso non è valido. Correggi il JSON e riprova.",
+      "validationFailedTitle": "Convalida non riuscita"
     }
   },
   "dataHistoryErrorHandlingWrapper": {
@@ -1403,7 +1408,6 @@
     "errorDisplayName": "Il nome visualizzato non può superare i 64 caratteri",
     "errorIdLength": "L'ID non può superare i 2048 caratteri",
     "errorIdValidDTMI": "L'ID deve essere un DTMI valido",
-    "errorInvalidJSON": "JSON non valido",
     "errorName": "Il nome può contenere solo i caratteri a-z, A-Z, 0-9 e il carattere di sottolineatura",
     "errorNameLength": "Il nome non può superare i 64 caratteri",
     "errorRepeatedEnumValue": "Esiste già un valore enum con lo stesso valore",
@@ -1485,7 +1489,6 @@
         "editMetadataLabel": "Modificare i metadati"
       }
     },
-    "jsonEditorTabName": "DTDL",
-    "errorInvalidJSONMessage": "Il file JSON immesso non è valido. Correggi il JSON e riprova."
+    "jsonEditorTabName": "DTDL"
   }
 }

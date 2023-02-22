@@ -23,7 +23,8 @@ import {
     getModelOrParentContext,
     isDTDLModel,
     isDTDLRelationshipReference,
-    movePropertyInCollection
+    movePropertyInCollection,
+    validateOntology
 } from '../../../../Models/Services/DtdlUtils';
 import {
     IOnUpdateNameCallback,
@@ -162,6 +163,18 @@ const PropertyList: React.FC<IPropertyListProps> = (props) => {
         const updateName: IOnUpdateNameCallback = (
             args: IOnUpdateNameCallbackArgs
         ) => {
+            const showErrorDialog = (error: {
+                title: string;
+                message: string;
+            }) => {
+                oatPageDispatch({
+                    type: OatPageContextActionType.SET_OAT_ERROR,
+                    payload: {
+                        title: error.title,
+                        message: error.message
+                    }
+                });
+            };
             if (isDTDLModel(selectedItem)) {
                 // update for model
                 const updatedContents = [...selectedItem.contents];
@@ -170,9 +183,25 @@ const PropertyList: React.FC<IPropertyListProps> = (props) => {
                     property.name
                 );
                 updatedContents[index].name = args.name;
-                updateModel({
+                const updatedModel = {
                     ...selectedItem,
                     contents: updatedContents
+                };
+
+                // validate changes
+                validateOntology({
+                    existingModels: oatPageState.currentOntologyModels,
+                    selectedModelId: oatPageState.selection?.modelId,
+                    originalItem: selectedItem,
+                    updatedItem: updatedModel
+                }).then((validationResult) => {
+                    if (validationResult.isValid === true) {
+                        // save changes
+                        updateModel(updatedModel);
+                    } else {
+                        // throw error
+                        showErrorDialog(validationResult.error);
+                    }
                 });
             } else if (isDTDLRelationshipReference(selectedItem)) {
                 // update for relationships
@@ -182,9 +211,24 @@ const PropertyList: React.FC<IPropertyListProps> = (props) => {
                     property.name
                 );
                 updatedProperties[index].name = args.name;
-                updateReference({
+                const updatedReference = {
                     ...selectedItem,
                     properties: updatedProperties
+                };
+                // validate changes
+                validateOntology({
+                    existingModels: oatPageState.currentOntologyModels,
+                    selectedModelId: oatPageState.selection?.modelId,
+                    originalItem: selectedItem,
+                    updatedItem: updatedReference
+                }).then((validationResult) => {
+                    if (validationResult.isValid === true) {
+                        // save changes
+                        updateReference(updatedReference);
+                    } else {
+                        // throw error
+                        showErrorDialog(validationResult.error);
+                    }
                 });
             }
         };

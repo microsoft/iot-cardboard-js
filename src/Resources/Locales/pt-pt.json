@@ -1302,6 +1302,11 @@
     "ImportLimits": {
       "message": "Atualmente, o número total de relações, componentes e heranças numa ontologia é limitado a {{count}} no Onlogy Designer.",
       "title": "Limite de referência atingido"
+    },
+    "Errors": {
+      "invalidJSONTitle": "JSON inválido",
+      "invalidJSONMessage": "O JSON inserido é inválido. Corrija o JSON e tente novamente.",
+      "validationFailedTitle": "Falha na validação"
     }
   },
   "dataHistoryErrorHandlingWrapper": {
@@ -1403,7 +1408,6 @@
     "errorDisplayName": "Nome do visor não pode exceder 64 caracteres",
     "errorIdLength": "Id não pode exceder caracteres de 2048",
     "errorIdValidDTMI": "Id deve ser um DTMI válido",
-    "errorInvalidJSON": "JSON inválido",
     "errorName": "O nome só pode conter os caracteres a-z, A-Z, 0-9, e sublinhar",
     "errorNameLength": "Nome não pode exceder 64 caracteres",
     "errorRepeatedEnumValue": "Um valor enum com o mesmo valor já existe",
@@ -1485,7 +1489,6 @@
         "editMetadataLabel": "Editar metadados"
       }
     },
-    "jsonEditorTabName": "DTDL",
-    "errorInvalidJSONMessage": "O JSON que inseriu é inválido. Por favor, conserte o JSON e tente de novo."
+    "jsonEditorTabName": "DTDL"
   }
 }

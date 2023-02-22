@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import {
     IPropertyListItemProps,
     IPropertyListItemStyleProps,
@@ -65,6 +65,9 @@ const PropertyListItem: React.FC<IPropertyListItemProps> = (props) => {
         styles
     } = props;
 
+    // state
+    const [localName, setLocalName] = useState(item.name);
+
     // contexts
 
     // state
@@ -114,12 +117,21 @@ const PropertyListItem: React.FC<IPropertyListItemProps> = (props) => {
         [onUpdateSchema]
     );
 
-    const onChangeName = onUpdateName
+    const onChangeName = useCallback(
+        (_ev, value: string) => {
+            setLocalName(value);
+        },
+        [setLocalName]
+    );
+
+    const onSaveName = onUpdateName
         ? useCallback(
-              (_ev, value: string) => {
-                  onUpdateName({ name: value });
+              (_ev) => {
+                  if (localName !== item.name) {
+                      onUpdateName({ name: localName });
+                  }
               },
-              [onUpdateName]
+              [item.name, localName, onUpdateName]
           )
         : undefined;
 
@@ -135,6 +147,9 @@ const PropertyListItem: React.FC<IPropertyListItemProps> = (props) => {
         : undefined;
 
     // side effects
+    useEffect(() => {
+        setLocalName(item.name);
+    }, [item.name, setLocalName]);
 
     // styles
     const classNames = getClassNames(styles, {
@@ -159,16 +174,7 @@ const PropertyListItem: React.FC<IPropertyListItemProps> = (props) => {
                         onChangeSchemaType,
                         supportsV3Properties
                     ),
-                    styles: {
-                        subComponentStyles: {
-                            menuItem: {
-                                '.ms-ContextualMenu-link': {
-                                    display: 'flex',
-                                    alignItems: 'center'
-                                }
-                            }
-                        }
-                    }
+                    styles: classNames.subComponentStyles.menuItems
                 }
             }
         ];
@@ -299,6 +305,7 @@ const PropertyListItem: React.FC<IPropertyListItemProps> = (props) => {
         return options;
     }, [
         classNames.subComponentStyles.childTypeSubMenuIcon,
+        classNames.subComponentStyles.menuItems,
         isFirstItem,
         isLastItem,
         item,
@@ -338,7 +345,7 @@ const PropertyListItem: React.FC<IPropertyListItemProps> = (props) => {
                 <Stack.Item grow>
                     <TextField
                         disabled={disableInput}
-                        readOnly={!onChangeName}
+                        readOnly={!onSaveName}
                         onRenderInput={(props, defaultRenderer) => {
                             return (
                                 <>
@@ -354,7 +361,8 @@ const PropertyListItem: React.FC<IPropertyListItemProps> = (props) => {
                             );
                         }}
                         onChange={onChangeName}
-                        value={item.name}
+                        onBlur={onSaveName}
+                        value={localName}
                         styles={classNames.subComponentStyles.nameTextField}
                     />
                 </Stack.Item>

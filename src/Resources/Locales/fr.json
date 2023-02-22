@@ -1302,6 +1302,11 @@
     "ImportLimits": {
       "message": "Actuellement, le nombre total de relations, de composants et d’héritages dans une ontologie est limité à {{count}} dans le concepteur d’ontologies.",
       "title": "Limite de référence atteinte"
+    },
+    "Errors": {
+      "invalidJSONTitle": "JSON non valide",
+      "invalidJSONMessage": "Le code JSON que vous avez entré n’est pas valide. Veuillez corriger le JSON et réessayer.",
+      "validationFailedTitle": "Échec de la validation"
     }
   },
   "dataHistoryErrorHandlingWrapper": {
@@ -1403,7 +1408,6 @@
     "errorDisplayName": "Le nom complet ne doit pas dépasser 64 caractères",
     "errorIdLength": "Id ne doit pas dépasser 2048 caractères",
     "errorIdValidDTMI": "L’ID doit être un DTMI valide",
-    "errorInvalidJSON": "JSON non valide",
     "errorName": "Le nom ne peut contenir que les caractères a-z, A-Z, 0-9 et le trait de soulignement",
     "errorNameLength": "Le nom ne doit pas dépasser 64 caractères",
     "errorRepeatedEnumValue": "Une valeur enum avec la même valeur existe déjà",
@@ -1485,7 +1489,6 @@
         "editMetadataLabel": "Modifier les métadonnées"
       }
     },
-    "jsonEditorTabName": "DTDL",
-    "errorInvalidJSONMessage": "Le code JSON que vous avez entré n’est pas valide. Veuillez corriger le JSON et réessayer."
+    "jsonEditorTabName": "DTDL"
   }
 }
