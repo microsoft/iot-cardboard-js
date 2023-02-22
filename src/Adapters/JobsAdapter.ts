@@ -10,16 +10,10 @@ import {
     IJobsAdapter,
     LOCAL_STORAGE_KEYS
 } from '../Models/Constants';
-import {
-    applyMixins,
-    getDebugLogger,
-    validateExplorerOrigin
-} from '../Models/Services/Utils';
+import { applyMixins, validateExplorerOrigin } from '../Models/Services/Utils';
 import ADT3DSceneAdapter from './ADT3DSceneAdapter';
 import ADTAdapter from './ADTAdapter';
 
-const debugLogging = false;
-const logDebugConsole = getDebugLogger('JobsAdapter', debugLogging);
 const forceCORS = localStorage.getItem(
     LOCAL_STORAGE_KEYS.FeatureFlags.Proxy.forceCORS
 );
