@@ -42,7 +42,12 @@ export async function parseModels(models: DtdlInterface[]): Promise<string> {
         if (err.name === 'ParsingException') {
             console.error('Parsing errors {errors}', err._parsingErrors);
             return err._parsingErrors
-                .map((e) => `${e.cause} ${e.action}`)
+                .map((e) => {
+                    const updatedCause = e.cause.endsWith('.')
+                        ? e.cause
+                        : `${e.cause}.`;
+                    return `${updatedCause} ${e.action}`;
+                })
                 .join('\n');
         }
 

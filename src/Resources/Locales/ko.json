@@ -1304,10 +1304,9 @@
       "title": "참조 한계에 도달했습니다."
     },
     "Errors": {
-      "duplicatePropertyTitle": "중복 속성",
-      "duplicatePropertyMessage": "변경 내용을 저장할 수 없습니다. {{propertyName}} 속성은 이 모델에 이미 정의되어 있습니다. 다른 이름을 사용하십시오.",
       "invalidJSONTitle": "잘못된 JSON",
-      "invalidJSONMessage": "입력한 JSON이 잘못되었습니다. JSON을 수정하고 다시 시도하십시오."
+      "invalidJSONMessage": "입력한 JSON이 잘못되었습니다. JSON을 수정하고 다시 시도하십시오.",
+      "validationFailedTitle": "유효성 검사 실패"
     }
   },
   "dataHistoryErrorHandlingWrapper": {

@@ -1304,10 +1304,9 @@
       "title": "Elérte a referenciakorlátot"
     },
     "Errors": {
-      "duplicatePropertyTitle": "Ismétlődő tulajdonság",
-      "duplicatePropertyMessage": "A módosításokat nem sikerült menteni. A {{propertyName}} tulajdonság már definiálva van ebben a modellben. Kérjük, használjon más nevet.",
       "invalidJSONTitle": "Érvénytelen JSON",
-      "invalidJSONMessage": "A megadott JSON érvénytelen. Javítsa ki a JSON-t, és próbálkozzon újra."
+      "invalidJSONMessage": "A megadott JSON érvénytelen. Javítsa ki a JSON-t, és próbálkozzon újra.",
+      "validationFailedTitle": "Az érvényesítés sikertelen"
     }
   },
   "dataHistoryErrorHandlingWrapper": {

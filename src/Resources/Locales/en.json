@@ -928,8 +928,7 @@
             "versionDocumentationLink": "Learn more about DTDL version 3"
         },
         "Errors": {
-            "duplicatePropertyTitle": "Duplicate property",
-            "duplicatePropertyMessage": "Your changes could not be saved. The property '{{propertyName}}' is already defined. Please use a different name.",
+            "validationFailedTitle": "Validation failed",
             "invalidJSONTitle": "Invalid JSON",
             "invalidJSONMessage": "The JSON you entered is invalid. Please fix the JSON and try again."
         },

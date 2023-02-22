@@ -23,7 +23,8 @@ import {
     getModelOrParentContext,
     isDTDLModel,
     isDTDLRelationshipReference,
-    movePropertyInCollection
+    movePropertyInCollection,
+    validateOntology
 } from '../../../../Models/Services/DtdlUtils';
 import {
     IOnUpdateNameCallback,
@@ -31,8 +32,6 @@ import {
 } from './Internal/PropertyListItem/PropertyListItem.types';
 import { DtdlInterface, DtdlReference } from '../../../../Models/Constants';
 import {
-    getAllPropertiesOnModelByName,
-    getAllPropertiesOnRelationshipByName,
     getPropertyIndexOnModelByName,
     getPropertyIndexOnRelationshipByName
 } from '../../../../Models/Context/OatPageContext/OatPageContextUtils';
@@ -164,58 +163,72 @@ const PropertyList: React.FC<IPropertyListProps> = (props) => {
         const updateName: IOnUpdateNameCallback = (
             args: IOnUpdateNameCallbackArgs
         ) => {
-            const throwDuplicatePropertyError = (name: string) => {
+            const showErrorDialog = (error: {
+                title: string;
+                message: string;
+            }) => {
                 oatPageDispatch({
                     type: OatPageContextActionType.SET_OAT_ERROR,
                     payload: {
-                        title: t('OAT.Errors.duplicatePropertyTitle'),
-                        message: t('OAT.Errors.duplicatePropertyMessage', {
-                            propertyName: name
-                        })
+                        title: error.title,
+                        message: error.message
                     }
                 });
             };
             if (isDTDLModel(selectedItem)) {
                 // update for model
                 const updatedContents = [...selectedItem.contents];
-                // check for existing properties with that name
-                if (
-                    getAllPropertiesOnModelByName(selectedItem, args.name)
-                        .length > 0
-                ) {
-                    throwDuplicatePropertyError(args.name);
-                    return;
-                }
                 const index = getPropertyIndexOnModelByName(
                     selectedItem,
                     property.name
                 );
                 updatedContents[index].name = args.name;
-                updateModel({
+                const updatedModel = {
                     ...selectedItem,
                     contents: updatedContents
+                };
+
+                // validate changes
+                validateOntology({
+                    existingModels: oatPageState.currentOntologyModels,
+                    selectedModelId: oatPageState.selection?.modelId,
+                    originalItem: selectedItem,
+                    updatedItem: updatedModel
+                }).then((validationResult) => {
+                    if (validationResult.isValid === true) {
+                        // save changes
+                        updateModel(updatedModel);
+                    } else {
+                        // throw error
+                        showErrorDialog(validationResult.error);
+                    }
                 });
             } else if (isDTDLRelationshipReference(selectedItem)) {
                 // update for relationships
                 const updatedProperties = [...selectedItem.properties];
-                // check for existing properties with that name
-                if (
-                    getAllPropertiesOnRelationshipByName(
-                        selectedItem,
-                        args.name
-                    ).length > 0
-                ) {
-                    throwDuplicatePropertyError(args.name);
-                    return;
-                }
                 const index = getPropertyIndexOnRelationshipByName(
                     selectedItem,
                     property.name
                 );
                 updatedProperties[index].name = args.name;
-                updateReference({
+                const updatedReference = {
                     ...selectedItem,
                     properties: updatedProperties
+                };
+                // validate changes
+                validateOntology({
+                    existingModels: oatPageState.currentOntologyModels,
+                    selectedModelId: oatPageState.selection?.modelId,
+                    originalItem: selectedItem,
+                    updatedItem: updatedReference
+                }).then((validationResult) => {
+                    if (validationResult.isValid === true) {
+                        // save changes
+                        updateReference(updatedReference);
+                    } else {
+                        // throw error
+                        showErrorDialog(validationResult.error);
+                    }
                 });
             }
         };
