@@ -1306,12 +1306,8 @@
     "Errors": {
       "invalidJSONTitle": "Érvénytelen JSON",
       "invalidJSONMessage": "A megadott JSON érvénytelen. Javítsa ki a JSON-t, és próbálkozzon újra.",
-<<<<<<< HEAD
-      "validationFailedTitle": "Az érvényesítés sikertelen"
-=======
       "validationFailedTitle": "Az érvényesítés sikertelen",
       "validationFailedMessage": "Probléma merült fel a módosítások érvényesítése közben."
->>>>>>> origin/main
     }
   },
   "dataHistoryErrorHandlingWrapper": {

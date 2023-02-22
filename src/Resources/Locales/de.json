@@ -1306,12 +1306,8 @@
     "Errors": {
       "invalidJSONTitle": "Ungültiges JSON",
       "invalidJSONMessage": "Der eingegebene JSON-Code ist ungültig. Bitte korrigieren Sie den JSON-Code und versuchen Sie es erneut.",
-<<<<<<< HEAD
-      "validationFailedTitle": "Validierung fehlgeschlagen"
-=======
       "validationFailedTitle": "Validierung fehlgeschlagen",
       "validationFailedMessage": "Beim Überprüfen Ihrer Änderungen ist ein Problem aufgetreten."
->>>>>>> origin/main
     }
   },
   "dataHistoryErrorHandlingWrapper": {

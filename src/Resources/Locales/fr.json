@@ -1306,12 +1306,8 @@
     "Errors": {
       "invalidJSONTitle": "JSON non valide",
       "invalidJSONMessage": "Le code JSON que vous avez entré n’est pas valide. Veuillez corriger le JSON et réessayer.",
-<<<<<<< HEAD
-      "validationFailedTitle": "Échec de la validation"
-=======
       "validationFailedTitle": "Échec de la validation",
       "validationFailedMessage": "Un problème est survenu lors de la validation de vos modifications."
->>>>>>> origin/main
     }
   },
   "dataHistoryErrorHandlingWrapper": {

@@ -1306,12 +1306,8 @@
     "Errors": {
       "invalidJSONTitle": "Neplatný kód JSON",
       "invalidJSONMessage": "Zadaný kód JSON je neplatný. Opravte prosím JSON a zkuste to znovu.",
-<<<<<<< HEAD
-      "validationFailedTitle": "Ověření se nezdařilo"
-=======
       "validationFailedTitle": "Ověření se nezdařilo",
       "validationFailedMessage": "Při ověřování změn došlo k potížím."
->>>>>>> origin/main
     }
   },
   "dataHistoryErrorHandlingWrapper": {

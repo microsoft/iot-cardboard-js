@@ -1306,12 +1306,8 @@
     "Errors": {
       "invalidJSONTitle": "JSON no válido",
       "invalidJSONMessage": "El JSON introducido no es válido. Corrige el JSON e inténtalo de nuevo.",
-<<<<<<< HEAD
-      "validationFailedTitle": "Error de validación"
-=======
       "validationFailedTitle": "Error de validación",
       "validationFailedMessage": "Se ha producido un problema al validar los cambios."
->>>>>>> origin/main
     }
   },
   "dataHistoryErrorHandlingWrapper": {

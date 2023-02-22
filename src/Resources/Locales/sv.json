@@ -1306,12 +1306,8 @@
     "Errors": {
       "invalidJSONTitle": "Ogiltig JSON",
       "invalidJSONMessage": "Den JSON som du angav är ogiltig. Åtgärda JSON och försök igen.",
-<<<<<<< HEAD
-      "validationFailedTitle": "Valideringen misslyckades"
-=======
       "validationFailedTitle": "Valideringen misslyckades",
       "validationFailedMessage": "Det uppstod ett problem när du validerade ändringarna."
->>>>>>> origin/main
     }
   },
   "dataHistoryErrorHandlingWrapper": {

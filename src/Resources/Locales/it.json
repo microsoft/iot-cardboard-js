@@ -1306,12 +1306,8 @@
     "Errors": {
       "invalidJSONTitle": "JSON non valido",
       "invalidJSONMessage": "Il file JSON immesso non è valido. Correggi il JSON e riprova.",
-<<<<<<< HEAD
-      "validationFailedTitle": "Convalida non riuscita"
-=======
       "validationFailedTitle": "Convalida non riuscita",
       "validationFailedMessage": "Si è verificato un problema durante la convalida delle modifiche."
->>>>>>> origin/main
     }
   },
   "dataHistoryErrorHandlingWrapper": {
