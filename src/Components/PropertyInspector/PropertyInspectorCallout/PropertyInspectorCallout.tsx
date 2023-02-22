@@ -49,8 +49,8 @@ const PropertyInspectorCallout: React.FC<IPropertyInspectorCalloutProps> = (
         <div className={classNames.root}>
             <IconButton
                 iconProps={{ iconName: 'EntryView' }}
-                title={t('advancedSearch.inspectProperty')}
-                ariaLabel={t('advancedSearch.inspectProperty')}
+                title={t('advancedSearch.inspectProperties')}
+                ariaLabel={t('advancedSearch.inspectProperties')}
                 onClick={(event) => {
                     event.stopPropagation();
                     setIsVisible();

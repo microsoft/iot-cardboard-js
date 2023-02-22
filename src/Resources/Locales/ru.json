@@ -1148,7 +1148,6 @@
   "advancedSearch": {
     "toggleSelection": "Переключение на выбор Twin",
     "selectRow": "Выбран близнец",
-    "inspectProperty": "Инспекция имущества",
     "results": "Результаты ({{twinCount}})",
     "noPropertiesFound": "Недвижимость не найдена",
     "addNewButton": "Добавить новый",
@@ -1170,7 +1169,8 @@
     "columnPicker": "Средство выбора столбцов",
     "propertyCount": "Выбрано свойство {{selectedPropsCount}}",
     "availableProperties": "Раскрывающийся список доступных свойств",
-    "selectAdditionalColumns": "Выбор дополнительных столбцов"
+    "selectAdditionalColumns": "Выбор дополнительных столбцов",
+    "inspectProperties": "Проверка свойств"
   },
   "highcharts": {
     "shareQueryTitle": "Общий доступ к запросу",
@@ -1302,6 +1302,12 @@
     "ImportLimits": {
       "message": "В настоящее время общее число связей, компонентов и наследований в онтологии ограничено {{count}} в конструкторе онтологий.",
       "title": "Достигнут контрольный предел"
+    },
+    "Errors": {
+      "invalidJSONTitle": "Недопустимый JSON",
+      "invalidJSONMessage": "Введенный JSON недействителен. Исправьте JSON и повторите попытку.",
+      "validationFailedTitle": "Сбой проверки",
+      "validationFailedMessage": "Возникла проблема при проверке изменений."
     }
   },
   "dataHistoryErrorHandlingWrapper": {
@@ -1403,7 +1409,6 @@
     "errorDisplayName": "Отображаемое имя не должно превышать 64 символов",
     "errorIdLength": "Id не может превышать 2048 символов",
     "errorIdValidDTMI": "Идентификатор должен быть допустимым DTMI",
-    "errorInvalidJSON": "Недопустимый JSON",
     "errorName": "Имя может содержать только символы a-z, A-Z, 0-9 и подчеркивание",
     "errorNameLength": "Длина имени не должна превышать 64 символа",
     "errorRepeatedEnumValue": "Значение перечисления с таким же значением уже существует",
@@ -1485,7 +1490,6 @@
         "editMetadataLabel": "Редактирование метаданных"
       }
     },
-    "jsonEditorTabName": "DTDL",
-    "errorInvalidJSONMessage": "Введенный JSON недействителен. Исправьте JSON и повторите попытку."
+    "jsonEditorTabName": "DTDL"
   }
 }

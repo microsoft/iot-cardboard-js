@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import {
     IDataHistoryExplorerModalControlProps,
     IDataHistoryExplorerModalControlStyleProps,
@@ -14,7 +14,10 @@ import {
 } from '@fluentui/react';
 import { useExtendedTheme } from '../../../Models/Hooks/useExtendedTheme';
 import { createGUID, isDefined } from '../../../Models/Services/Utils';
-import { getHighChartColor } from '../../../Models/SharedUtils/DataHistoryUtils';
+import {
+    getHighChartColor,
+    sendDataHistoryExplorerUserTelemetry
+} from '../../../Models/SharedUtils/DataHistoryUtils';
 import DataHistoryExplorerModal from '../DataHistoryExplorerModal';
 import {
     IADXConnection,
@@ -22,6 +25,8 @@ import {
 } from '../../../Models/Constants';
 import { useTranslation } from 'react-i18next';
 import useAdapter from '../../../Models/Hooks/useAdapter';
+import { TelemetryEvents } from '../../../Models/Constants/TelemetryConstants';
+import { useGuid } from '../../../Models/Hooks';
 
 const getClassNames = classNamesFunction<
     IDataHistoryExplorerModalControlStyleProps,
@@ -52,8 +57,6 @@ const DataHistoryExplorerModalControl: React.FC<IDataHistoryExplorerModalControl
         refetchDependencies: [adapter]
     });
     const hasForcedControl = useMemo(() => isDefined(isEnabled), [isEnabled]);
-
-    // callbacks
     const defaultTimeSeriesTwinList: Array<IDataHistoryTimeSeriesTwin> = useMemo(
         () =>
             initialTwinId
@@ -72,6 +75,27 @@ const DataHistoryExplorerModalControl: React.FC<IDataHistoryExplorerModalControl
                 : undefined,
         [initialTwinId]
     );
+    const dataHistoryInstanceId = useGuid();
+
+    //callbacks
+    const handleOnOpenClick = useCallback(() => {
+        setIsModalVisible(true);
+        const telemetry =
+            TelemetryEvents.Tools.DataHistoryExplorer.UserAction.OpenModal;
+        sendDataHistoryExplorerUserTelemetry(
+            telemetry.eventName,
+            dataHistoryInstanceId
+        );
+    }, [sendDataHistoryExplorerUserTelemetry]);
+    const handleOnDismiss = useCallback(() => {
+        setIsModalVisible(false);
+        const telemetry =
+            TelemetryEvents.Tools.DataHistoryExplorer.UserAction.CloseModal;
+        sendDataHistoryExplorerUserTelemetry(
+            telemetry.eventName,
+            dataHistoryInstanceId
+        );
+    }, [sendDataHistoryExplorerUserTelemetry]);
 
     // side-effects
     useEffect(() => {
@@ -115,14 +139,15 @@ const DataHistoryExplorerModalControl: React.FC<IDataHistoryExplorerModalControl
                     iconProps={{ iconName: 'Chart' }}
                     ariaLabel={controlTitle}
                     title={controlTitle}
-                    onClick={() => setIsModalVisible(true)}
+                    onClick={handleOnOpenClick}
                 />
             )}
             <DataHistoryExplorerModal
                 adapter={adapter}
                 isOpen={isModalVisible}
-                onDismiss={() => setIsModalVisible(false)}
+                onDismiss={handleOnDismiss}
                 timeSeriesTwins={defaultTimeSeriesTwinList}
+                dataHistoryInstanceId={dataHistoryInstanceId}
             />
         </div>
     );

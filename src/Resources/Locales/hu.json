@@ -1148,7 +1148,6 @@
   "advancedSearch": {
     "toggleSelection": "Váltás az iker kiválasztásához",
     "selectRow": "Iker kiválasztva",
-    "inspectProperty": "Ingatlan ellenőrzése",
     "results": "Eredmények ({{twinCount}})",
     "noPropertiesFound": "Nem található tulajdonság",
     "addNewButton": "Új hozzáadása",
@@ -1170,7 +1169,8 @@
     "columnPicker": "Oszlopválasztó",
     "propertyCount": "{{selectedPropsCount}} tulajdonságok ki vannak választva",
     "availableProperties": "Az elérhető szállások legördülő menüje",
-    "selectAdditionalColumns": "További oszlopok kijelölése"
+    "selectAdditionalColumns": "További oszlopok kijelölése",
+    "inspectProperties": "Tulajdonságok vizsgálata"
   },
   "highcharts": {
     "shareQueryTitle": "Lekérdezés megosztása",
@@ -1302,6 +1302,12 @@
     "ImportLimits": {
       "message": "Jelenleg egy ontológia kapcsolatainak, összetevőinek és öröklődéseinek teljes száma az Ontology Designerben {{count}} értékre korlátozódik.",
       "title": "Elérte a referenciakorlátot"
+    },
+    "Errors": {
+      "invalidJSONTitle": "Érvénytelen JSON",
+      "invalidJSONMessage": "A megadott JSON érvénytelen. Javítsa ki a JSON-t, és próbálkozzon újra.",
+      "validationFailedTitle": "Az érvényesítés sikertelen",
+      "validationFailedMessage": "Probléma merült fel a módosítások érvényesítése közben."
     }
   },
   "dataHistoryErrorHandlingWrapper": {
@@ -1403,7 +1409,6 @@
     "errorDisplayName": "A megjelenítendő név nem haladhatja meg a 64 karaktert",
     "errorIdLength": "Az azonosító nem haladhatja meg a 2048 karaktert",
     "errorIdValidDTMI": "Az azonosítónak érvényes DTMI-nek kell lennie",
-    "errorInvalidJSON": "Érvénytelen JSON",
     "errorName": "A név csak az a-z, A-Z, 0-9 és aláhúzás karaktereket tartalmazhatja.",
     "errorNameLength": "A név nem lehet hosszabb 64 karakternél",
     "errorRepeatedEnumValue": "Már létezik azonos értékű felsorolási érték",
@@ -1485,7 +1490,6 @@
         "editMetadataLabel": "Metaadatok szerkesztése"
       }
     },
-    "jsonEditorTabName": "DTDL",
-    "errorInvalidJSONMessage": "A megadott JSON érvénytelen. Javítsa ki a JSON-t, és próbálkozzon újra."
+    "jsonEditorTabName": "DTDL"
   }
 }
