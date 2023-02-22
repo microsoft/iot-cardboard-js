@@ -1148,7 +1148,6 @@
   "advancedSearch": {
     "toggleSelection": "트윈 선택으로 전환",
     "selectRow": "트윈 선택",
-    "inspectProperty": "속성 검사",
     "results": "결과 ({{twinCount}})",
     "noPropertiesFound": "속성을 찾을 수 없음",
     "addNewButton": "새로 추가",
@@ -1170,7 +1169,8 @@
     "columnPicker": "열 선택기",
     "propertyCount": "{{selectedPropsCount}} 속성 선택됨",
     "availableProperties": "사용 가능한 속성의 드롭다운",
-    "selectAdditionalColumns": "추가 열 선택"
+    "selectAdditionalColumns": "추가 열 선택",
+    "inspectProperties": "속성 검사"
   },
   "highcharts": {
     "shareQueryTitle": "쿼리 공유",
@@ -1306,7 +1306,8 @@
     "Errors": {
       "invalidJSONTitle": "잘못된 JSON",
       "invalidJSONMessage": "입력한 JSON이 잘못되었습니다. JSON을 수정하고 다시 시도하십시오.",
-      "validationFailedTitle": "유효성 검사 실패"
+      "validationFailedTitle": "유효성 검사 실패",
+      "validationFailedMessage": "변경 내용의 유효성을 검사하는 동안 문제가 발생했습니다."
     }
   },
   "dataHistoryErrorHandlingWrapper": {

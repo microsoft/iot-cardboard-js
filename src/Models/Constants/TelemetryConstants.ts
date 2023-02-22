@@ -13,7 +13,9 @@ export const CUSTOM_PROPERTY_NAMES = {
     /** hashed value for the adt instance */
     StorageContainerHash: 'StorageContainerHash',
     /** type of action (user, system, etc.) */
-    TriggerType: 'TriggerType'
+    TriggerType: 'TriggerType',
+    /** hashed id for the data history explorer instance */
+    DataHistoryInstanceHash: 'DataHistoryInstanceHash'
 };
 
 /** Highest level sections of the app */
@@ -195,13 +197,18 @@ export const TelemetryEvents = {
             UserAction: {
                 /** opening modal to explore data history */
                 OpenModal: {
-                    eventName: 'DataHistoryExplorer.AddSeries'
+                    eventName: 'DataHistoryExplorer.OpenModal'
+                },
+                /** closing data history explorer modal */
+                CloseModal: {
+                    eventName: 'DataHistoryExplorer.CloseModal'
                 },
                 /** adding a new series using the time series builder on the left */
                 AddSeries: {
                     eventName: 'DataHistoryExplorer.AddSeries',
                     properties: {
-                        hasCustomLabel: 'hasCustomLabel'
+                        hasCustomLabel: 'hasCustomLabel',
+                        isCastedToNumber: 'isCastedToNumber'
                     }
                 },
                 /** editing series using the time series builder on the left */
@@ -209,7 +216,8 @@ export const TelemetryEvents = {
                     eventName: 'DataHistoryExplorer.EditSeries',
                     properties: {
                         seriesId: 'seriesId',
-                        hasCustomLabel: 'hasCustomLabel'
+                        hasCustomLabel: 'hasCustomLabel',
+                        isCastedToNumber: 'isCastedToNumber'
                     }
                 },
                 /** removing a new series using the ellipsis menu of the list item in the builder on the left */

@@ -1148,7 +1148,6 @@
   "advancedSearch": {
     "toggleSelection": "Zum Auswählen von Twin umschalten",
     "selectRow": "Twin Selected",
-    "inspectProperty": "Inspect-Eigenschaft",
     "results": "Ergebnisse ({{twinCount}})",
     "noPropertiesFound": "Keine Eigenschaften gefunden",
     "addNewButton": "Neues hinzufügen",
@@ -1170,7 +1169,8 @@
     "columnPicker": "Spaltenauswahl",
     "propertyCount": "{{selectedPropsCount}}-Eigenschaften ausgewählt",
     "availableProperties": "Dropdown-Liste der verfügbaren Eigenschaften",
-    "selectAdditionalColumns": "Zusätzliche Spalten auswählen"
+    "selectAdditionalColumns": "Zusätzliche Spalten auswählen",
+    "inspectProperties": "Eigenschaften prüfen"
   },
   "highcharts": {
     "shareQueryTitle": "Freigabeabfrage",
@@ -1306,7 +1306,8 @@
     "Errors": {
       "invalidJSONTitle": "Ungültiges JSON",
       "invalidJSONMessage": "Der eingegebene JSON-Code ist ungültig. Bitte korrigieren Sie den JSON-Code und versuchen Sie es erneut.",
-      "validationFailedTitle": "Validierung fehlgeschlagen"
+      "validationFailedTitle": "Validierung fehlgeschlagen",
+      "validationFailedMessage": "Beim Überprüfen Ihrer Änderungen ist ein Problem aufgetreten."
     }
   },
   "dataHistoryErrorHandlingWrapper": {

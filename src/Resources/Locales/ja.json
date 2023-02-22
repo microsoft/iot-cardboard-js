@@ -1148,7 +1148,6 @@
   "advancedSearch": {
     "toggleSelection": "ツインの選択に切り替えます",
     "selectRow": "選択されたツイン",
-    "inspectProperty": "プロパティの検査",
     "results": "結果 ({{twinCount}})",
     "noPropertiesFound": "プロパティが見つかりません",
     "addNewButton": "新規追加",
@@ -1170,7 +1169,8 @@
     "columnPicker": "列ピッカー",
     "propertyCount": "{{selectedPropsCount}} プロパティが選択されました",
     "availableProperties": "利用可能なプロパティのドロップダウン",
-    "selectAdditionalColumns": "追加の列の選択"
+    "selectAdditionalColumns": "追加の列の選択",
+    "inspectProperties": "プロパティの検査"
   },
   "highcharts": {
     "shareQueryTitle": "共有クエリ",
@@ -1306,7 +1306,8 @@
     "Errors": {
       "invalidJSONTitle": "無効な JSON",
       "invalidJSONMessage": "入力した JSON は無効です。JSONを修正して、もう一度やり直してください。",
-      "validationFailedTitle": "検証に失敗しました"
+      "validationFailedTitle": "検証に失敗しました",
+      "validationFailedMessage": "変更の検証中に問題が発生しました。"
     }
   },
   "dataHistoryErrorHandlingWrapper": {

@@ -1148,7 +1148,6 @@
   "advancedSearch": {
     "toggleSelection": "Basculer pour sélectionner Twin",
     "selectRow": "Twin Sélectionné",
-    "inspectProperty": "Inspecter la propriété",
     "results": "Résultats ({{twinCount}})",
     "noPropertiesFound": "Aucune propriété trouvée",
     "addNewButton": "Ajouter un nouveau",
@@ -1170,7 +1169,8 @@
     "columnPicker": "Sélecteur de colonnes",
     "propertyCount": "Propriétés {{selectedPropsCount}} sélectionnées",
     "availableProperties": "Liste déroulante des propriétés disponibles",
-    "selectAdditionalColumns": "Sélectionner des colonnes supplémentaires"
+    "selectAdditionalColumns": "Sélectionner des colonnes supplémentaires",
+    "inspectProperties": "Inspecter les propriétés"
   },
   "highcharts": {
     "shareQueryTitle": "Partager la requête",
@@ -1306,7 +1306,8 @@
     "Errors": {
       "invalidJSONTitle": "JSON non valide",
       "invalidJSONMessage": "Le code JSON que vous avez entré n’est pas valide. Veuillez corriger le JSON et réessayer.",
-      "validationFailedTitle": "Échec de la validation"
+      "validationFailedTitle": "Échec de la validation",
+      "validationFailedMessage": "Un problème est survenu lors de la validation de vos modifications."
     }
   },
   "dataHistoryErrorHandlingWrapper": {

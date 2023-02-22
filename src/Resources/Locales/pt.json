@@ -1148,7 +1148,6 @@
   "advancedSearch": {
     "toggleSelection": "Alternar para Selecionar gêmeos",
     "selectRow": "Gêmeos Selecionados",
-    "inspectProperty": "Inspecionar propriedade",
     "results": "Resultados ({{twinCount}})",
     "noPropertiesFound": "Nenhuma propriedade encontrada",
     "addNewButton": "Adicionar novo",
@@ -1170,7 +1169,8 @@
     "columnPicker": "Catador de colunas",
     "propertyCount": "{{selectedPropsCount}} propriedades selecionadas",
     "availableProperties": "Desistência de imóveis disponíveis",
-    "selectAdditionalColumns": "Selecione colunas adicionais"
+    "selectAdditionalColumns": "Selecione colunas adicionais",
+    "inspectProperties": "Inspecionar propriedades"
   },
   "highcharts": {
     "shareQueryTitle": "Consulta de compartilhamento",
@@ -1306,7 +1306,8 @@
     "Errors": {
       "invalidJSONTitle": "JSON inválido",
       "invalidJSONMessage": "O JSON inserido é inválido. Corrija o JSON e tente novamente.",
-      "validationFailedTitle": "Falha na validação"
+      "validationFailedTitle": "Falha na validação",
+      "validationFailedMessage": "Ocorreu um problema ao validar as alterações."
     }
   },
   "dataHistoryErrorHandlingWrapper": {

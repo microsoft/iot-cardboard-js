@@ -27,6 +27,7 @@ interface IProp {
     twins: Array<IDataHistoryTimeSeriesTwin>;
     pollingInterval?: number;
     queryOptions?: ADXQueryOptions;
+    useStaticData?: boolean;
 }
 
 export const useTimeSeriesData = ({
@@ -35,7 +36,8 @@ export const useTimeSeriesData = ({
     quickTimeSpanInMillis,
     twins,
     pollingInterval,
-    queryOptions = { isNullIncluded: false, shouldCastToDouble: true }
+    queryOptions = { isNullIncluded: false, shouldCastToDouble: true },
+    useStaticData
 }: IProp): {
     query: string;
     deeplink: string;
@@ -61,7 +63,8 @@ export const useTimeSeriesData = ({
             adapter.getTimeSeriesData(
                 twins.map((t) => t.seriesId),
                 params.query,
-                params.connection
+                params.connection,
+                useStaticData
             ),
         refetchDependencies: [adapter, connection, twins, pollingInterval],
         isAdapterCalledOnMount: false,
