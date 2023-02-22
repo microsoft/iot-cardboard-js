@@ -1302,6 +1302,12 @@
     "ImportLimits": {
       "message": "V současné době je celkový počet vztahů, komponent a dědičností v ontologii omezen na {{count}} v Ontology Designer.",
       "title": "Dosažený referenční limit"
+    },
+    "Errors": {
+      "invalidJSONTitle": "Neplatný kód JSON",
+      "invalidJSONMessage": "Zadaný kód JSON je neplatný. Opravte prosím JSON a zkuste to znovu.",
+      "validationFailedTitle": "Ověření se nezdařilo",
+      "validationFailedMessage": "Při ověřování změn došlo k potížím."
     }
   },
   "dataHistoryErrorHandlingWrapper": {
@@ -1403,7 +1409,6 @@
     "errorDisplayName": "Zobrazovaný název nesmí být delší než 64 znaků",
     "errorIdLength": "ID nesmí překročit 2048 znaků",
     "errorIdValidDTMI": "Id musí být platný DTMI",
-    "errorInvalidJSON": "Neplatný kód JSON",
     "errorName": "Název může obsahovat pouze znaky a-z, A-Z, 0-9 a podtržítko",
     "errorNameLength": "Název nesmí být delší než 64 znaků",
     "errorRepeatedEnumValue": "Hodnota výčtu se stejnou hodnotou již existuje",
@@ -1485,7 +1490,6 @@
         "editMetadataLabel": "Upravit metadata"
       }
     },
-    "jsonEditorTabName": "DTDL",
-    "errorInvalidJSONMessage": "Zadaný kód JSON je neplatný. Opravte prosím JSON a zkuste to znovu."
+    "jsonEditorTabName": "DTDL"
   }
 }

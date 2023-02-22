@@ -1302,6 +1302,12 @@
     "ImportLimits": {
       "message": "Derzeit ist die Gesamtzahl der Beziehungen, Komponenten und Vererbungen in einer Ontologie im Ontology Designer auf {{count}} beschränkt.",
       "title": "Referenzgrenzwert erreicht"
+    },
+    "Errors": {
+      "invalidJSONTitle": "Ungültiges JSON",
+      "invalidJSONMessage": "Der eingegebene JSON-Code ist ungültig. Bitte korrigieren Sie den JSON-Code und versuchen Sie es erneut.",
+      "validationFailedTitle": "Validierung fehlgeschlagen",
+      "validationFailedMessage": "Beim Überprüfen Ihrer Änderungen ist ein Problem aufgetreten."
     }
   },
   "dataHistoryErrorHandlingWrapper": {
@@ -1403,7 +1409,6 @@
     "errorDisplayName": "Anzeigename darf 64 Zeichen nicht überschreiten",
     "errorIdLength": "ID darf 2048 Zeichen nicht überschreiten",
     "errorIdValidDTMI": "ID muss ein gültiger DTMI sein",
-    "errorInvalidJSON": "Ungültiges JSON",
     "errorName": "Name darf nur die Zeichen a-z, A-Z, 0-9 und Unterstrich enthalten",
     "errorNameLength": "Name darf 64 Zeichen nicht überschreiten",
     "errorRepeatedEnumValue": "Ein Enumerationswert mit demselben Wert ist bereits vorhanden",
@@ -1485,7 +1490,6 @@
         "editMetadataLabel": "Metadaten bearbeiten"
       }
     },
-    "jsonEditorTabName": "DTDL",
-    "errorInvalidJSONMessage": "Der eingegebene JSON-Code ist ungültig. Bitte korrigieren Sie den JSON-Code und versuchen Sie es erneut."
+    "jsonEditorTabName": "DTDL"
   }
 }

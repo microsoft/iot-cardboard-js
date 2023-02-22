@@ -1302,6 +1302,12 @@
     "ImportLimits": {
       "message": "Obecnie całkowita liczba relacji, składników i dziedziczeń w ontologii jest ograniczona do {{count}} w Ontology Designer.",
       "title": "Osiągnięta granica odniesienia"
+    },
+    "Errors": {
+      "invalidJSONTitle": "Nieprawidłowy JSON",
+      "invalidJSONMessage": "Wprowadzony kod JSON jest nieprawidłowy. Napraw JSON i spróbuj ponownie.",
+      "validationFailedTitle": "Sprawdzanie poprawności nie powiodło się",
+      "validationFailedMessage": "Wystąpił problem podczas sprawdzania poprawności zmian."
     }
   },
   "dataHistoryErrorHandlingWrapper": {
@@ -1403,7 +1409,6 @@
     "errorDisplayName": "Nazwa wyświetlana nie może przekraczać 64 znaków",
     "errorIdLength": "Identyfikator nie może przekraczać 2048 znaków",
     "errorIdValidDTMI": "Identyfikator musi być prawidłowym kodem DTMI",
-    "errorInvalidJSON": "Nieprawidłowy JSON",
     "errorName": "Nazwa może zawierać tylko znaki a-z, A-Z, 0-9 i podkreślenie",
     "errorNameLength": "Nazwa nie może przekraczać 64 znaków",
     "errorRepeatedEnumValue": "Wartość wyliczenia o tej samej wartości już istnieje",
@@ -1485,7 +1490,6 @@
         "editMetadataLabel": "Edytowanie metadanych"
       }
     },
-    "jsonEditorTabName": "DTDL",
-    "errorInvalidJSONMessage": "Wprowadzony kod JSON jest nieprawidłowy. Napraw JSON i spróbuj ponownie."
+    "jsonEditorTabName": "DTDL"
   }
 }

@@ -49,6 +49,17 @@ export const getStyles = (
                     paddingTop: 0,
                     paddingBottom: 0
                 }
+            },
+            menuItems: {
+                subComponentStyles: {
+                    callout: {},
+                    menuItem: {
+                        '.ms-ContextualMenu-link': {
+                            display: 'flex',
+                            alignItems: 'center'
+                        }
+                    }
+                }
             }
         }
     };

@@ -28,23 +28,10 @@ import { APP_BACKGROUND_KRAKEN } from '../../../../../../Models/Constants/StyleC
 import { useLibTheme } from '../../../../../../Theming/ThemeProvider';
 import { getTargetFromSelection } from '../../../../Utils';
 import { OatPageContextActionType } from '../../../../../../Models/Context/OatPageContext/OatPageContext.types';
-import {
-    DtdlInterface,
-    DtdlInterfaceContent
-} from '../../../../../../Models/Constants';
-import { parseModels } from '../../../../../../Models/Services/OatPublicUtils';
+import { DtdlInterface } from '../../../../../../Models/Constants';
 import { getDebugLogger } from '../../../../../../Models/Services/Utils';
 import Editor from '@monaco-editor/react';
-import {
-    isDTDLModel,
-    isDTDLReference
-} from '../../../../../../Models/Services/DtdlUtils';
-import {
-    getModelById,
-    getModelIndexById,
-    getReferenceIndexByName
-} from '../../../../../../Models/Context/OatPageContext/OatPageContextUtils';
-import { ensureIsArray } from '../../../../../../Models/Services/OatUtils';
+import { validateItemChangeBeforeSaving } from '../../../../../../Models/Services/DtdlUtils';
 
 const debugLogging = false;
 export const logDebugConsole = getDebugLogger('JSONEditor', debugLogging);
@@ -127,15 +114,6 @@ const JSONEditor: React.FC<IJSONEditorProps> = (props) => {
 
     const onSaveClick = useCallback(async () => {
         logDebugConsole('debug', '[SAVE] Start {content}', content);
-        const isJsonStringValid = (
-            value: string
-        ): DtdlInterface | DtdlInterfaceContent | null => {
-            try {
-                return JSON.parse(value);
-            } catch (e) {
-                return null;
-            }
-        };
         const saveModel = (model: DtdlInterface) => {
             const save = () => {
                 oatPageDispatch({
@@ -155,76 +133,36 @@ const JSONEditor: React.FC<IJSONEditorProps> = (props) => {
                 });
             };
 
-            if (parsingError) {
-                oatPageDispatch({
-                    type: OatPageContextActionType.SET_OAT_ERROR,
-                    payload: {
-                        title: t('OATPropertyEditor.errorInvalidJSON'),
-                        message: parsingError
-                    }
-                });
-            } else {
-                execute(save, undoSave);
-            }
+            execute(save, undoSave);
         };
 
-        const updatedItem = isJsonStringValid(content);
-        if (!updatedItem) {
-            oatPageDispatch({
-                type: OatPageContextActionType.SET_OAT_ERROR,
-                payload: {
-                    title: t('OATPropertyEditor.errorInvalidJSON'),
-                    message: t('OATPropertyEditor.errorInvalidJSONMessage')
-                }
-            });
-            return;
-        }
-        let updatedModel: DtdlInterface;
-        const originalModelId = oatPageState.selection.modelId;
-        if (isDTDLModel(updatedItem)) {
-            // bind the updated model
-            updatedModel = updatedItem;
-        } else if (isDTDLReference(selectedItem)) {
-            // get the model and update the reference on the model
-            updatedModel = getModelById(
-                oatPageState.currentOntologyModels,
-                originalModelId
-            );
-            const contents = ensureIsArray(updatedModel.contents);
-            const index = getReferenceIndexByName(
-                updatedModel,
-                selectedItem.name // use the original name in case they change it in the update
-            );
-            contents[index] = updatedItem;
-            updatedModel.contents = contents;
-        }
+        const validationResult = await validateItemChangeBeforeSaving({
+            content: content,
+            originalItem: selectedItem,
+            existingModels: oatPageState.currentOntologyModels,
+            selectedModelId: oatPageState.selection.modelId
+        });
 
-        // validate the updated collection is valid
-        const models = oatPageState.currentOntologyModels;
-        const modelIndex = getModelIndexById(models, originalModelId);
-        models[modelIndex] = updatedModel;
-        const parsingError = await parseModels(models);
-
-        if (parsingError) {
-            logDebugConsole(
-                'error',
-                '[SAVE] Validation failed. {error}',
-                parsingError
-            );
-            oatPageDispatch({
-                type: OatPageContextActionType.SET_OAT_ERROR,
-                payload: {
-                    title: t('OATPropertyEditor.errorInvalidJSON'),
-                    message: parsingError
-                }
-            });
-        } else {
+        if (validationResult.isValid === true) {
             logDebugConsole(
                 'info',
                 '[SAVE] Validation passed. Saving model. {model}',
-                updatedModel
+                validationResult.updatedModel
             );
-            saveModel(updatedModel);
+            saveModel(validationResult.updatedModel);
+        } else {
+            logDebugConsole(
+                'error',
+                '[SAVE] Validation failed. {error}',
+                validationResult.error
+            );
+            oatPageDispatch({
+                type: OatPageContextActionType.SET_OAT_ERROR,
+                payload: {
+                    title: validationResult.error.title,
+                    message: validationResult.error.message
+                }
+            });
         }
     }, [
         content,
@@ -232,8 +170,7 @@ const JSONEditor: React.FC<IJSONEditorProps> = (props) => {
         oatPageDispatch,
         oatPageState.currentOntologyModels,
         oatPageState.selection.modelId,
-        selectedItem,
-        t
+        selectedItem
     ]);
 
     // side effects
