@@ -175,7 +175,7 @@ const PropertyList: React.FC<IPropertyListProps> = (props) => {
                     }
                 });
             };
-            if (isDTDLModel(selectedItem)) {
+            if (isDTDLModel(selectedI tem)) {
                 // update for model
                 const updatedContents = [...selectedItem.contents];
                 const index = getPropertyIndexOnModelByName(
