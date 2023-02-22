@@ -1306,7 +1306,8 @@
     "Errors": {
       "invalidJSONTitle": "JSON inválido",
       "invalidJSONMessage": "O JSON inserido é inválido. Corrija o JSON e tente novamente.",
-      "validationFailedTitle": "Falha na validação"
+      "validationFailedTitle": "Falha na validação",
+      "validationFailedMessage": "Ocorreu um problema ao validar as alterações."
     }
   },
   "dataHistoryErrorHandlingWrapper": {

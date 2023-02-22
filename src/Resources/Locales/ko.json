@@ -1306,7 +1306,8 @@
     "Errors": {
       "invalidJSONTitle": "잘못된 JSON",
       "invalidJSONMessage": "입력한 JSON이 잘못되었습니다. JSON을 수정하고 다시 시도하십시오.",
-      "validationFailedTitle": "유효성 검사 실패"
+      "validationFailedTitle": "유효성 검사 실패",
+      "validationFailedMessage": "변경 내용의 유효성을 검사하는 동안 문제가 발생했습니다."
     }
   },
   "dataHistoryErrorHandlingWrapper": {

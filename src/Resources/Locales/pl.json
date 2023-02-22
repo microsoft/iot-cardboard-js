@@ -1306,7 +1306,8 @@
     "Errors": {
       "invalidJSONTitle": "Nieprawidłowy JSON",
       "invalidJSONMessage": "Wprowadzony kod JSON jest nieprawidłowy. Napraw JSON i spróbuj ponownie.",
-      "validationFailedTitle": "Sprawdzanie poprawności nie powiodło się"
+      "validationFailedTitle": "Sprawdzanie poprawności nie powiodło się",
+      "validationFailedMessage": "Wystąpił problem podczas sprawdzania poprawności zmian."
     }
   },
   "dataHistoryErrorHandlingWrapper": {

@@ -1306,7 +1306,8 @@
     "Errors": {
       "invalidJSONTitle": "Недопустимый JSON",
       "invalidJSONMessage": "Введенный JSON недействителен. Исправьте JSON и повторите попытку.",
-      "validationFailedTitle": "Сбой проверки"
+      "validationFailedTitle": "Сбой проверки",
+      "validationFailedMessage": "Возникла проблема при проверке изменений."
     }
   },
   "dataHistoryErrorHandlingWrapper": {
