@@ -1148,7 +1148,6 @@
   "advancedSearch": {
     "toggleSelection": "Attiva/disattiva selezione twin",
     "selectRow": "Doppia Selezionata",
-    "inspectProperty": "Ispeziona proprietà",
     "results": "Risultati ({{twinCount}})",
     "noPropertiesFound": "Nessuna struttura trovata",
     "addNewButton": "Aggiungi nuovo",
@@ -1170,7 +1169,8 @@
     "columnPicker": "Selezione colonne",
     "propertyCount": "Proprietà {{selectedPropsCount}} selected",
     "availableProperties": "Elenco a discesa delle proprietà disponibili",
-    "selectAdditionalColumns": "Selezionare colonne aggiuntive"
+    "selectAdditionalColumns": "Selezionare colonne aggiuntive",
+    "inspectProperties": "Ispezionare le proprietà"
   },
   "highcharts": {
     "shareQueryTitle": "Query di condivisione",

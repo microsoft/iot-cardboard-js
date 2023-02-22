@@ -1148,7 +1148,6 @@
   "advancedSearch": {
     "toggleSelection": "Alternar para Selecionar Twin",
     "selectRow": "Twin Selecionado",
-    "inspectProperty": "Inspecionar Propriedade",
     "results": "Resultados ({{twinCount}}",
     "noPropertiesFound": "Nenhuma propriedade encontrada",
     "addNewButton": "Adicionar novo",
@@ -1170,7 +1169,8 @@
     "columnPicker": "Selecionador de colunas",
     "propertyCount": "{{selecionadosPropsCount}} propriedades selecionadas",
     "availableProperties": "Dropdown de imóveis disponíveis",
-    "selectAdditionalColumns": "Selecione colunas adicionais"
+    "selectAdditionalColumns": "Selecione colunas adicionais",
+    "inspectProperties": "Inspecionar propriedades"
   },
   "highcharts": {
     "shareQueryTitle": "Consulta de partilha",

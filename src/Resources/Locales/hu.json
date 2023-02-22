@@ -1148,7 +1148,6 @@
   "advancedSearch": {
     "toggleSelection": "Váltás az iker kiválasztásához",
     "selectRow": "Iker kiválasztva",
-    "inspectProperty": "Ingatlan ellenőrzése",
     "results": "Eredmények ({{twinCount}})",
     "noPropertiesFound": "Nem található tulajdonság",
     "addNewButton": "Új hozzáadása",
@@ -1170,7 +1169,8 @@
     "columnPicker": "Oszlopválasztó",
     "propertyCount": "{{selectedPropsCount}} tulajdonságok ki vannak választva",
     "availableProperties": "Az elérhető szállások legördülő menüje",
-    "selectAdditionalColumns": "További oszlopok kijelölése"
+    "selectAdditionalColumns": "További oszlopok kijelölése",
+    "inspectProperties": "Tulajdonságok vizsgálata"
   },
   "highcharts": {
     "shareQueryTitle": "Lekérdezés megosztása",

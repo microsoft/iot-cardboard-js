@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import {
     ITimeSeriesCommandBarOptionKeys,
     ITimeSeriesCommandBarOptions,
@@ -37,6 +37,7 @@ import {
 } from '../../../../../../Models/Services/Utils';
 import { TelemetryEvents } from '../../../../../../Models/Constants/TelemetryConstants';
 import { TimeSeriesViewerMode } from '../../TimeSeriesViewer.types';
+import useGuid from '../../../../../../Models/Hooks/useGuid';
 
 const getClassNames = classNamesFunction<
     ITimeSeriesCommandBarStyleProps,
@@ -48,6 +49,7 @@ const TimeSeriesCommandBar: React.FC<ITimeSeriesCommandBarProps> = (props) => {
         defaultChartOptions,
         onChartOptionsChange,
         viewerModeProps,
+        dataHistoryInstanceId = useGuid(),
         styles
     } = props;
 
@@ -78,19 +80,15 @@ const TimeSeriesCommandBar: React.FC<ITimeSeriesCommandBarProps> = (props) => {
         ) => {
             setChartOptions(
                 produce((draft) => {
-                    return { ...draft, [chartOption]: value };
+                    draft[chartOption as any] = value;
+                    if (onChartOptionsChange) {
+                        onChartOptionsChange({ ...draft });
+                    }
                 })
             );
         },
         [setChartOptions]
     );
-
-    // side effects
-    useEffect(() => {
-        if (onChartOptionsChange) {
-            onChartOptionsChange(chartOptions);
-        }
-    }, [onChartOptionsChange, chartOptions]);
 
     // styles
     const classNames = getClassNames(styles, {
@@ -174,7 +172,8 @@ const TimeSeriesCommandBar: React.FC<ITimeSeriesCommandBarProps> = (props) => {
                               TelemetryEvents.Tools.DataHistoryExplorer
                                   .UserAction.OpenSeriesInAdx;
                           sendDataHistoryExplorerUserTelemetry(
-                              telemetry.eventName
+                              telemetry.eventName,
+                              dataHistoryInstanceId
                           );
                       }
                   }

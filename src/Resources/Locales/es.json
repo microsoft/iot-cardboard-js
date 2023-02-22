@@ -1148,7 +1148,6 @@
   "advancedSearch": {
     "toggleSelection": "Cambiar a Seleccionar gemelo",
     "selectRow": "Gemelo seleccionado",
-    "inspectProperty": "Inspeccionar propiedad",
     "results": "Resultados ({{twinCount}})",
     "noPropertiesFound": "No se han encontrado propiedades",
     "addNewButton": "Añadir nuevo",
@@ -1170,7 +1169,8 @@
     "columnPicker": "Selector de columnas",
     "propertyCount": "{{selectedPropsCount}} propiedades seleccionadas",
     "availableProperties": "Menú desplegable de propiedades disponibles",
-    "selectAdditionalColumns": "Seleccionar columnas adicionales"
+    "selectAdditionalColumns": "Seleccionar columnas adicionales",
+    "inspectProperties": "Inspeccionar propiedades"
   },
   "highcharts": {
     "shareQueryTitle": "Compartir consulta",
