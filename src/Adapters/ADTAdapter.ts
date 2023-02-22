@@ -125,7 +125,7 @@ export default class ADTAdapter implements IADTAdapter {
             useProxy ||
             !validateExplorerOrigin(window.origin) ||
             localStorage.getItem(
-                LOCAL_STORAGE_KEYS.FeatureFlags.Proxy.forceProxy
+                LOCAL_STORAGE_KEYS.FeatureFlags.Proxy.forceCORS
             ) === 'true';
 
         this.authService.login();
