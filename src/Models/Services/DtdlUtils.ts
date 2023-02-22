@@ -564,9 +564,9 @@ export async function validateItemChangeBeforeSaving<
             }
         };
     }
-    return validateOntologyBeforeSaving({ ...args, updatedItem: updatedItem });
+    return validateOntology({ ...args, updatedItem: updatedItem });
 }
-export async function validateOntologyBeforeSaving<
+export async function validateOntology<
     T extends DtdlInterface | DtdlInterfaceContent
 >(args: IValidationArgs<T>): Promise<IValidationResult> {
     const { updatedItem, originalItem, selectedModelId, existingModels } = args;
@@ -598,7 +598,7 @@ export async function validateOntologyBeforeSaving<
         return {
             isValid: false,
             error: {
-                title: i18n.t('OAT.Errors.invalidJSONTitle'),
+                title: i18n.t('OAT.Errors.validationFailedTitle'),
                 message: parsingError
             }
         };
