@@ -480,7 +480,6 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
     // does not have required CORS rules in its properties, then set the errors to render ScenePageErrorHandlingWrapper component,
     // otherwise if there is no issues, clear the errors and with CORS fetch scenes config
     useEffect(() => {
-        // Check why this gets CORS error
         if (getCorsPropertiesAdapterData?.adapterResult.getErrors()) {
             if (!deeplinkState.storageUrl || deeplinkState.storageUrl === '') {
                 dispatch({
@@ -495,7 +494,6 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
                 // But may not have read access to CORS properties (which results in 403)
                 // This means that users who cannot read CORS configuration may not be able to load 3D models if CORS is misconfigured
                 if (errors?.[0]?.type === ComponentErrorType.CORSError) {
-                    // Check why it gets to this point
                     errorCallbackSetRef.current = false;
                     dispatch({
                         type: ADT3DScenePageActionTypes.SET_ERRORS,
