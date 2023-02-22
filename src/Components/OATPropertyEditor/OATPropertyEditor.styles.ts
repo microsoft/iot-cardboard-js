@@ -35,8 +35,7 @@ const classNames = {
     typeTextField: `${classPrefix}-type-text-field`
 };
 
-export const getPropertyInspectorStyles = (args: { theme: Theme }) => {
-    const { theme } = args;
+export const getPropertyInspectorStyles = (theme: Theme) => {
     return mergeStyleSets({
         row: [
             classNames.row,

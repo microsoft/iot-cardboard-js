@@ -177,9 +177,7 @@ const EditorPropertiesTab: React.FC<IEditorPropertiesTabProps> = (props) => {
     // side effects
 
     // styles
-    const propertyInspectorStyles = getPropertyInspectorStyles({
-        theme: useTheme()
-    });
+    const propertyInspectorStyles = getPropertyInspectorStyles(useTheme());
     const classNames = getClassNames(styles, {
         theme: useExtendedTheme()
     });

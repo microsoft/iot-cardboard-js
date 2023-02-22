@@ -31,7 +31,7 @@ export const TemplateColumn: React.FC<TemplateColumnProps> = (props) => {
 
     // styles
     const theme = useTheme();
-    const propertyInspectorStyles = getPropertyInspectorStyles({ theme });
+    const propertyInspectorStyles = getPropertyInspectorStyles(theme);
     const textFieldStyles = getPropertyEditorTextFieldStyles({ theme });
     const templateColumnStyles = getTemplateColumnStyles({ theme });
     const templateColumnPaddingStyles = getTemplateColumnPaddingStyles();

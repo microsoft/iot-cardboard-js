@@ -3,6 +3,7 @@ import {
     ActionButton,
     ChoiceGroup,
     classNamesFunction,
+    DirectionalHint,
     Dropdown,
     IChoiceGroupOption,
     IconButton,
@@ -12,7 +13,7 @@ import {
     TextField,
     Text,
     Stack,
-    DirectionalHint
+    useTheme
 } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import {
@@ -56,7 +57,6 @@ import {
 } from '../../../../../../Models/Services/Utils';
 import Version3UpgradeButton from '../../../Version3UpgradeButton/Version3UpgradeButton';
 import { DTDL_CONTEXT_VERSION_3 } from '../../../../../../Models/Classes/DTDL';
-import { useTheme } from '@fluentui/react';
 
 const SINGLE_LANGUAGE_KEY = 'singleLanguage';
 const MULTI_LANGUAGE_KEY = 'multiLanguage';
