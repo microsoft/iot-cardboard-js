@@ -33,6 +33,10 @@ import {
 import ADTInstanceTimeSeriesConnectionData from '../Models/Classes/AdapterDataClasses/ADTInstanceTimeSeriesConnectionData';
 import ADTDataHistoryAdapter from './ADTDataHistoryAdapter';
 
+const forceCORS =
+    localStorage.getItem(LOCAL_STORAGE_KEYS.FeatureFlags.Proxy.forceCORS) ===
+    'true';
+
 export default class ADT3DSceneAdapter {
     constructor(
         authService: IAuthService,
@@ -64,16 +68,11 @@ export default class ADT3DSceneAdapter {
          * override if CORS is forced by feature flag
          *  */
         this.useProxy =
-            (useProxy || !validateExplorerOrigin(window.origin)) &&
-            localStorage.getItem(
-                LOCAL_STORAGE_KEYS.FeatureFlags.Proxy.forceCORS
-            ) !== 'true';
+            (useProxy || !validateExplorerOrigin(window.origin)) && !forceCORS;
 
         this.useBlobProxy =
             (useBlobProxy || !validateExplorerOrigin(window.origin)) &&
-            localStorage.getItem(
-                LOCAL_STORAGE_KEYS.FeatureFlags.Proxy.forceCORS
-            ) !== 'true';
+            !forceCORS;
 
         if (blobContainerUrl) {
             try {

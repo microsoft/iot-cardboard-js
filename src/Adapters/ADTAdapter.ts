@@ -77,6 +77,9 @@ import queryString from 'query-string';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('ADTAdapter', debugLogging);
+const forceCORS =
+    localStorage.getItem(LOCAL_STORAGE_KEYS.FeatureFlags.Proxy.forceCORS) ===
+    'true';
 
 export default class ADTAdapter implements IADTAdapter {
     public tenantId: string;
@@ -122,11 +125,7 @@ export default class ADTAdapter implements IADTAdapter {
          * override if CORS is forced by feature flag
          *  */
         this.useProxy =
-            (useProxy || !validateExplorerOrigin(window.origin)) &&
-            localStorage.getItem(
-                LOCAL_STORAGE_KEYS.FeatureFlags.Proxy.forceCORS
-            ) !== 'true';
-
+            (useProxy || !validateExplorerOrigin(window.origin)) && !forceCORS;
         this.authService.login();
         this.axiosInstance = axios.create({
             baseURL: this.useProxy ? this.adtProxyServerPath : this.adtHostUrl

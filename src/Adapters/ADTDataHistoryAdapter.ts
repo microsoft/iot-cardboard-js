@@ -27,6 +27,9 @@ import AzureManagementAdapter from './AzureManagementAdapter';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('ADTDataHistoryAdapter', debugLogging);
+const forceCORS =
+    localStorage.getItem(LOCAL_STORAGE_KEYS.FeatureFlags.Proxy.forceCORS) ===
+    'true';
 
 export default class ADTDataHistoryAdapter implements IADTDataHistoryAdapter {
     constructor(
@@ -60,10 +63,7 @@ export default class ADTDataHistoryAdapter implements IADTDataHistoryAdapter {
          * override if CORS is forced by feature flag
          *  */
         this.useProxy =
-            (useProxy || !validateExplorerOrigin(window.origin)) &&
-            localStorage.getItem(
-                LOCAL_STORAGE_KEYS.FeatureFlags.Proxy.forceCORS
-            ) !== 'true';
+            (useProxy || !validateExplorerOrigin(window.origin)) && !forceCORS;
 
         this.authService.login();
         // Fetch & cache models on mount (makes first use of models faster as models should already be cached)

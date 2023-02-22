@@ -33,6 +33,10 @@ import { handleMigrations, LogConfigFileTelemetry } from './BlobAdapterUtility';
 import { AxiosObjParam } from '../Models/Constants/Types';
 import { getStorageAccountUrlFromContainerUrl } from '../Components/EnvironmentPicker/EnvironmentPickerManager';
 
+const forceCORS =
+    localStorage.getItem(LOCAL_STORAGE_KEYS.FeatureFlags.Proxy.forceCORS) ===
+    'true';
+
 export default class BlobAdapter implements IBlobAdapter {
     protected storageAccountName: string;
     protected storageAccountHostName: string;
@@ -58,9 +62,7 @@ export default class BlobAdapter implements IBlobAdapter {
          *  */
         this.useBlobProxy =
             (useBlobProxy || !validateExplorerOrigin(window.origin)) &&
-            localStorage.getItem(
-                LOCAL_STORAGE_KEYS.FeatureFlags.Proxy.forceCORS
-            ) !== 'true';
+            !forceCORS;
     }
 
     getBlobContainerURL() {
