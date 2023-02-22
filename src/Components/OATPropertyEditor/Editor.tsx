@@ -1,8 +1,7 @@
-import React, { useCallback, useRef } from 'react';
+import React, { useCallback } from 'react';
 import { classNamesFunction, Pivot, PivotItem, styled } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import NoResultImg from '../../Resources/Static/emptyClipboard.svg';
-import TemplateColumn from './Internal/TemplateColumn';
 import {
     SET_OAT_PROPERTY_MODAL_BODY,
     SET_OAT_PROPERTY_MODAL_OPEN
@@ -55,8 +54,6 @@ const Editor: React.FC<IEditorProps> = (props) => {
     });
 
     // state
-    const enteredTemplateRef = useRef(null);
-    const enteredPropertyRef = useRef(null);
 
     // callbacks
     const onTabClick = useCallback(
@@ -156,14 +153,6 @@ const Editor: React.FC<IEditorProps> = (props) => {
                             <Version3PreviewLabel />
                         </div>
                     )}
-                {oatPageState.templatesActive && (
-                    <TemplateColumn
-                        enteredPropertyRef={enteredPropertyRef}
-                        enteredTemplateRef={enteredTemplateRef}
-                        dispatch={editorDispatch}
-                        state={editorState}
-                    />
-                )}
             </div>
             <OATModal
                 isOpen={editorState.modalOpen}
