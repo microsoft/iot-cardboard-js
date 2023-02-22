@@ -1304,10 +1304,9 @@
       "title": "Dosažený referenční limit"
     },
     "Errors": {
-      "duplicatePropertyTitle": "Duplicitní vlastnost",
-      "duplicatePropertyMessage": "Změny nelze uložit. Vlastnost {{propertyName}} je již v tomto modelu definována. Použijte prosím jiný název.",
       "invalidJSONTitle": "Neplatný kód JSON",
-      "invalidJSONMessage": "Zadaný kód JSON je neplatný. Opravte prosím JSON a zkuste to znovu."
+      "invalidJSONMessage": "Zadaný kód JSON je neplatný. Opravte prosím JSON a zkuste to znovu.",
+      "validationFailedTitle": "Ověření se nezdařilo"
     }
   },
   "dataHistoryErrorHandlingWrapper": {

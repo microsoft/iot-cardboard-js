@@ -1304,10 +1304,9 @@
       "title": "Límite de referencia alcanzado"
     },
     "Errors": {
-      "duplicatePropertyTitle": "Propiedad duplicada",
-      "duplicatePropertyMessage": "No se pudieron guardar los cambios. La propiedad {{propertyName}} ya está definida en este modelo. Utilice un nombre diferente.",
       "invalidJSONTitle": "JSON no válido",
-      "invalidJSONMessage": "El JSON introducido no es válido. Corrige el JSON e inténtalo de nuevo."
+      "invalidJSONMessage": "El JSON introducido no es válido. Corrige el JSON e inténtalo de nuevo.",
+      "validationFailedTitle": "Error de validación"
     }
   },
   "dataHistoryErrorHandlingWrapper": {
