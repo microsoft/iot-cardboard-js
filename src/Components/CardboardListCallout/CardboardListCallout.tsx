@@ -21,7 +21,7 @@ import {
 import { CardboardBasicList } from '../CardboardBasicList/CardboardBasicList';
 
 /** This callout component consists a searchbox and list of items with an optional primary action */
-const CardboardListCallout = <T extends unknown>({
+const CardboardListCallout = <T,>({
     calloutProps,
     calloutTarget,
     className,

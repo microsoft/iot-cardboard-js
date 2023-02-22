@@ -1148,7 +1148,6 @@
   "advancedSearch": {
     "toggleSelection": "Přepnout na Vybrat dvojče",
     "selectRow": "Vybrané dvojče",
-    "inspectProperty": "Zkontrolovat nemovitost",
     "results": "Výsledky ({{twinCount}})",
     "noPropertiesFound": "Nebyly nalezeny žádné možnosti ubytování",
     "addNewButton": "Přidat nové",
@@ -1170,7 +1169,8 @@
     "columnPicker": "Výběr sloupců",
     "propertyCount": "{{selectedPropsCount}} vlastnosti vybrané",
     "availableProperties": "Rozbalovací nabídka dostupných ubytování",
-    "selectAdditionalColumns": "Výběr dalších sloupců"
+    "selectAdditionalColumns": "Výběr dalších sloupců",
+    "inspectProperties": "Kontrola vlastností"
   },
   "highcharts": {
     "shareQueryTitle": "Sdílet dotaz",
@@ -1306,7 +1306,12 @@
     "Errors": {
       "invalidJSONTitle": "Neplatný kód JSON",
       "invalidJSONMessage": "Zadaný kód JSON je neplatný. Opravte prosím JSON a zkuste to znovu.",
+<<<<<<< HEAD
       "validationFailedTitle": "Ověření se nezdařilo"
+=======
+      "validationFailedTitle": "Ověření se nezdařilo",
+      "validationFailedMessage": "Při ověřování změn došlo k potížím."
+>>>>>>> origin/main
     }
   },
   "dataHistoryErrorHandlingWrapper": {

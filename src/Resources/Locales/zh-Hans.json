@@ -1148,7 +1148,6 @@
   "advancedSearch": {
     "toggleSelection": "切换为选择双胞胎",
     "selectRow": "选择双床间",
-    "inspectProperty": "检查属性",
     "results": "Results （{{twinCount}}）",
     "noPropertiesFound": "未找到任何属性",
     "addNewButton": "添加新的",
@@ -1170,7 +1169,8 @@
     "columnPicker": "列选取器",
     "propertyCount": "{{选定的属性计数}} 属性已选择",
     "availableProperties": "可用属性的下拉列表",
-    "selectAdditionalColumns": "选择其他列"
+    "selectAdditionalColumns": "选择其他列",
+    "inspectProperties": "检查属性"
   },
   "highcharts": {
     "shareQueryTitle": "共享查询",
@@ -1306,7 +1306,12 @@
     "Errors": {
       "invalidJSONTitle": "无效的 JSON",
       "invalidJSONMessage": "您输入的 JSON 无效。请修复 JSON，然后重试。",
+<<<<<<< HEAD
       "validationFailedTitle": "验证失败"
+=======
+      "validationFailedTitle": "验证失败",
+      "validationFailedMessage": "验证更改时出现问题。"
+>>>>>>> origin/main
     }
   },
   "dataHistoryErrorHandlingWrapper": {

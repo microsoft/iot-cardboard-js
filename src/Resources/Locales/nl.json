@@ -1148,7 +1148,6 @@
   "advancedSearch": {
     "toggleSelection": "Schakel in om Twin te selecteren",
     "selectRow": "Twin geselecteerd",
-    "inspectProperty": "Inspecteer onroerend goed",
     "results": "Resultaten ({{twinCount}})",
     "noPropertiesFound": "Geen accommodaties gevonden",
     "addNewButton": "Nieuwe toevoegen",
@@ -1170,7 +1169,8 @@
     "columnPicker": "Kolomkiezer",
     "propertyCount": "{{selectedPropsCount}} eigenschappen geselecteerd",
     "availableProperties": "Dropdown van beschikbare eigenschappen",
-    "selectAdditionalColumns": "Extra kolommen selecteren"
+    "selectAdditionalColumns": "Extra kolommen selecteren",
+    "inspectProperties": "Eigenschappen inspecteren"
   },
   "highcharts": {
     "shareQueryTitle": "Query delen",
@@ -1306,7 +1306,12 @@
     "Errors": {
       "invalidJSONTitle": "Ongeldige JSON",
       "invalidJSONMessage": "De JSON die u hebt ingevoerd, is ongeldig. Repareer de JSON en probeer het opnieuw.",
+<<<<<<< HEAD
       "validationFailedTitle": "Validatie mislukt"
+=======
+      "validationFailedTitle": "Validatie mislukt",
+      "validationFailedMessage": "Er is een probleem opgetreden tijdens het valideren van uw wijzigingen."
+>>>>>>> origin/main
     }
   },
   "dataHistoryErrorHandlingWrapper": {

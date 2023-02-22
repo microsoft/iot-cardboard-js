@@ -45,7 +45,8 @@ import {
     AdapterMethodParamsForSearchTwinsByQuery,
     IADXConnection,
     ADXTimeSeries,
-    IMockError
+    IMockError,
+    TimeSeriesData
 } from '../Models/Constants';
 import seedRandom from 'seedrandom';
 import { ADTRelationship, KeyValuePairData } from '../Models/Constants/Types';
@@ -1041,8 +1042,14 @@ export default class MockAdapter
     /** Returns a mock data based on the passed query by parsing it
      * to get quick time, twin id and twin property to reflect
      * on the generated mock data */
-    async getTimeSeriesData(seriesIds: Array<string>, query: string) {
+    async getTimeSeriesData(
+        seriesIds: Array<string>,
+        query: string,
+        _connection?: IADXConnection,
+        useStaticData?: boolean
+    ) {
         let mockData: Array<ADXTimeSeries> = [];
+        let mockTimeSeriesData: Array<Array<TimeSeriesData>> = this.mockData;
         try {
             await this.mockNetwork();
             try {
@@ -1060,15 +1067,19 @@ export default class MockAdapter
                         .split(' | ')[0]
                         .replace(/'/g, ''); // get the twin property and replace the single quote characters around the string
 
+                    if (!mockTimeSeriesData) {
+                        mockTimeSeriesData = getMockTimeSeriesDataArrayInLocalTime(
+                            listOfTimeSeries.length,
+                            5,
+                            quickTimeSpanInMillis,
+                            useStaticData
+                        );
+                    }
                     mockData.push({
                         seriesId: seriesIds[idx],
                         id: twinId,
                         key: twinProperty,
-                        data: getMockTimeSeriesDataArrayInLocalTime(
-                            1,
-                            5,
-                            quickTimeSpanInMillis
-                        )[0]
+                        data: mockTimeSeriesData[idx]
                     });
                 });
             } catch (error) {
@@ -1078,7 +1089,12 @@ export default class MockAdapter
                         seriesId: createGUID(),
                         id: 'PasteurizationMachine_A01',
                         key: 'InFlow',
-                        data: getMockTimeSeriesDataArrayInLocalTime(1)[0]
+                        data: getMockTimeSeriesDataArrayInLocalTime(
+                            1,
+                            undefined,
+                            undefined,
+                            useStaticData
+                        )[0]
                     }
                 ];
             }
