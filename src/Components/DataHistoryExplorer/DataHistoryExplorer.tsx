@@ -295,7 +295,15 @@ const DataHistoryExplorer: React.FC<IDataHistoryExplorerProps> = (props) => {
                 );
             }
         },
-        [state.selectedTimeSeriesId, dataHistoryInstanceId]
+        [
+            isDefined,
+            dispatch,
+            sendDataHistoryExplorerUserTelemetry,
+            getDefaultSeriesLabel,
+            getHighChartColor,
+            state.timeSeriesTwins,
+            state.selectedTimeSeriesId
+        ]
     );
 
     const handleOnAddSeriesClick = useCallback(
@@ -354,7 +362,7 @@ const DataHistoryExplorer: React.FC<IDataHistoryExplorerProps> = (props) => {
                 1
             );
         },
-        [dataHistoryInstanceId, state.timeSeriesTwins]
+        [state.timeSeriesTwins, dispatch, sendDataHistoryExplorerUserTelemetry]
     );
 
     const handleOnViewModeChange = useCallback(
@@ -373,7 +381,7 @@ const DataHistoryExplorer: React.FC<IDataHistoryExplorerProps> = (props) => {
                 }
             );
         },
-        [dataHistoryInstanceId]
+        [dispatch, sendDataHistoryExplorerUserTelemetry]
     );
 
     const handleOnChartOptionChange = useCallback(
@@ -398,7 +406,12 @@ const DataHistoryExplorer: React.FC<IDataHistoryExplorerProps> = (props) => {
                 }
             );
         },
-        [dataHistoryInstanceId]
+        [
+            state.timeSeriesTwins,
+            dispatch,
+            logDebugConsole,
+            sendDataHistoryExplorerUserTelemetry
+        ]
     );
 
     const handleOnDownloadTableClick = useCallback(() => {
@@ -426,7 +439,7 @@ const DataHistoryExplorer: React.FC<IDataHistoryExplorerProps> = (props) => {
                 [telemetry.properties.numberOfRows]: data.length
             }
         );
-    }, [tableData, dataHistoryInstanceId, data.length]);
+    }, [tableData, downloadJSON, sendDataHistoryExplorerUserTelemetry]);
 
     const handleOnRefreshClick = useCallback(() => {
         dispatch({
@@ -439,7 +452,7 @@ const DataHistoryExplorer: React.FC<IDataHistoryExplorerProps> = (props) => {
             telemetry.eventName,
             dataHistoryInstanceId
         );
-    }, [dataHistoryInstanceId]);
+    }, [dispatch, sendDataHistoryExplorerUserTelemetry]);
 
     const viewerModeProps: IViewerModeProps = useMemo(
         () =>
@@ -469,12 +482,7 @@ const DataHistoryExplorer: React.FC<IDataHistoryExplorerProps> = (props) => {
         );
         fetchTimeSeriesData();
         updateXMinAndMax();
-    }, [
-        state.selectedViewerMode,
-        query,
-        fetchTimeSeriesData,
-        updateXMinAndMax
-    ]);
+    }, [fetchTimeSeriesData, updateXMinAndMax, logDebugConsole]);
 
     // styles
     const classNames = getClassNames(styles, {
