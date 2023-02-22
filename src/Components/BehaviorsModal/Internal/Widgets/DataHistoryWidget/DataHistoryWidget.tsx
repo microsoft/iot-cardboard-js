@@ -133,9 +133,14 @@ const DataHistoryWidget: React.FC<IDataHistoryWidgetProps> = ({
             getMockTimeSeriesDataArrayInLocalTime(
                 timeSeries.length,
                 5,
-                chartOptions.defaultQuickTimeSpanInMillis
+                chartOptions.defaultQuickTimeSpanInMillis,
+                !!staticMaxDateInMillis
             ),
-        [chartOptions.defaultQuickTimeSpanInMillis, timeSeries.length]
+        [
+            chartOptions.defaultQuickTimeSpanInMillis,
+            timeSeries.length,
+            staticMaxDateInMillis
+        ]
     );
 
     const highChartSeriesData: Array<IHighChartSeriesData> = useMemo(
