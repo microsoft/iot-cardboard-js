@@ -5,7 +5,13 @@ import {
     IEditorPropertiesTabStyles
 } from './EditorPropertiesTab.types';
 import { getStyles } from './EditorPropertiesTab.styles';
-import { classNamesFunction, Label, Stack, styled } from '@fluentui/react';
+import {
+    classNamesFunction,
+    Label,
+    Stack,
+    styled,
+    useTheme
+} from '@fluentui/react';
 import { useExtendedTheme } from '../../../../Models/Hooks/useExtendedTheme';
 import PropertiesModelSummary from '../PropertiesModelSummary';
 import { useTranslation } from 'react-i18next';
@@ -27,7 +33,6 @@ import { OatPageContextActionType } from '../../../../Models/Context/OatPageCont
 import { getDebugLogger, deepCopy } from '../../../../Models/Services/Utils';
 import { useCommandHistoryContext } from '../../../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
 import { getPropertyInspectorStyles } from '../../OATPropertyEditor.styles';
-import { useTheme } from '@fluentui/react';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('EditorPropertiesTab', debugLogging);
@@ -172,7 +177,9 @@ const EditorPropertiesTab: React.FC<IEditorPropertiesTabProps> = (props) => {
     // side effects
 
     // styles
-    const propertyInspectorStyles = getPropertyInspectorStyles(useTheme());
+    const propertyInspectorStyles = getPropertyInspectorStyles({
+        theme: useTheme()
+    });
     const classNames = getClassNames(styles, {
         theme: useExtendedTheme()
     });
