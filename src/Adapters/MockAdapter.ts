@@ -46,7 +46,7 @@ import {
     IADXConnection,
     ADXTimeSeries,
     IMockError,
-    AdapterMethodParamsForJobs
+    AdapterMethodParamsForJobs,
     TimeSeriesData
 } from '../Models/Constants';
 import seedRandom from 'seedrandom';
