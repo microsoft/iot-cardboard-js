@@ -24,6 +24,7 @@ import { TelemetryEvent } from '../Services/TelemetryService/Telemetry';
 import TelemetryService from '../Services/TelemetryService/TelemetryService';
 import { CustomProperties } from '../Services/TelemetryService/TelemetryService.types';
 import {
+    isDefined,
     objectHasOwnProperty,
     sortAscendingOrDescending
 } from '../Services/Utils';
@@ -266,3 +267,8 @@ export const sendDataHistoryExplorerUserTelemetry = (
         })
     );
 };
+
+export const isTimeSeriesData = (data: any): data is TimeSeriesData =>
+    isDefined(data) &&
+    objectHasOwnProperty(data, 'timestamp') &&
+    objectHasOwnProperty(data, 'value');
