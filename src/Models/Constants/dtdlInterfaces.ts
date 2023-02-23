@@ -66,7 +66,8 @@ export interface DtdlRelationship {
     maxMultiplicity?: number;
     minMultiplicity?: number;
     properties?: DtdlProperty[];
-    target?: string;
+    /** can be an array of length 1 or a string */
+    target?: string | string[];
     writable?: boolean;
 }
 
