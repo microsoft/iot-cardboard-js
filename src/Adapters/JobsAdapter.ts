@@ -5,14 +5,12 @@ import {
     AdapterMethodParamForCreateJobs,
     AdapterMethodParamsForJobs,
     ADT_ApiVersion,
-    AxiosObjParam,
     IAuthService,
     IJobsAdapter,
     LOCAL_STORAGE_KEYS
 } from '../Models/Constants';
 import { applyMixins, validateExplorerOrigin } from '../Models/Services/Utils';
 import ADT3DSceneAdapter from './ADT3DSceneAdapter';
-import ADTAdapter from './ADTAdapter';
 
 const forceCORS = localStorage.getItem(
     LOCAL_STORAGE_KEYS.FeatureFlags.Proxy.forceCORS
@@ -41,32 +39,6 @@ export default class JobsAdapter implements IJobsAdapter {
          *  */
         this.useProxy =
             (useProxy || !validateExplorerOrigin(window.origin)) && !forceCORS;
-    }
-    setAdtHostUrl(hostName: string) {
-        if (hostName.startsWith('https://')) {
-            hostName = hostName.replace('https://', '');
-        }
-        this.adtHostUrl = hostName;
-    }
-    generateUrl(path: string) {
-        if (this.useProxy) {
-            return `${this.adtProxyServerPath}${path}`;
-        } else {
-            return `https://${this.adtHostUrl}${path}`;
-        }
-    }
-    generateHeaders(headers: AxiosObjParam = {}) {
-        if (this.useProxy) {
-            return {
-                ...headers,
-                'x-adt-host': this.adtHostUrl
-            };
-        } else {
-            return headers;
-        }
-    }
-    getAdtHostUrl() {
-        return this.adtHostUrl;
     }
 
     createJob = async (params: AdapterMethodParamForCreateJobs) => {
@@ -141,7 +113,7 @@ export default class JobsAdapter implements IJobsAdapter {
         );
     };
 }
-export default interface JobsAdapter extends ADTAdapter, ADT3DSceneAdapter {
+export default interface JobsAdapter extends ADT3DSceneAdapter {
     getAllJobs: () => Promise<AdapterResult<any>>;
     cancelJob: (
         params: AdapterMethodParamsForJobs
