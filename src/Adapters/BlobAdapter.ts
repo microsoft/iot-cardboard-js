@@ -31,7 +31,6 @@ import defaultConfig from './__mockData__/3DScenesConfiguration.default.json';
 import { ComponentError } from '../Models/Classes';
 import { handleMigrations, LogConfigFileTelemetry } from './BlobAdapterUtility';
 import { AxiosObjParam } from '../Models/Constants/Types';
-import { getStorageAccountUrlFromContainerUrl } from '../Components/EnvironmentPicker/EnvironmentPickerManager';
 
 const forceCORS =
     localStorage.getItem(LOCAL_STORAGE_KEYS.FeatureFlags.Proxy.forceCORS) ===
@@ -71,11 +70,18 @@ export default class BlobAdapter implements IBlobAdapter {
             : '';
     }
 
+    getStorageAccountURL() {
+        return this.storageAccountHostName
+            ? `https://${this.storageAccountHostName}`
+            : '';
+    }
+
     generateBlobUrl(path: string) {
         if (this.useBlobProxy) {
             return `${this.blobProxyServerPath}${path}`;
         } else {
-            return `${this.getBlobContainerURL()}${path}`;
+            // Need to have this done with only storage account since path will always include container name if required
+            return `${this.getStorageAccountURL()}${path}`;
         }
     }
 
@@ -108,7 +114,7 @@ export default class BlobAdapter implements IBlobAdapter {
                 await axios({
                     method: 'put',
                     url: this.generateBlobUrl(
-                        `/3DScenesConfiguration_corrupted_${todayDate}.json`
+                        `/${this.containerName}/3DScenesConfiguration_corrupted_${todayDate}.json`
                     ),
                     headers: this.generateBlobHeaders(headers)
                 });
@@ -158,7 +164,9 @@ export default class BlobAdapter implements IBlobAdapter {
                     const scenesBlob = await axios({
                         method: 'GET',
                         url: this.generateBlobUrl(
-                            `/${ADT3DSceneConfigFileNameInBlobStore}.json?cachebust=${new Date().valueOf()}`
+                            `/${
+                                this.containerName
+                            }/${ADT3DSceneConfigFileNameInBlobStore}.json?cachebust=${new Date().valueOf()}`
                         ),
                         headers: this.generateBlobHeaders(headers)
                     });
@@ -227,7 +235,7 @@ export default class BlobAdapter implements IBlobAdapter {
             {
                 method: 'put',
                 url: this.generateBlobUrl(
-                    `/${ADT3DSceneConfigFileNameInBlobStore}.json`
+                    `/${this.containerName}/${ADT3DSceneConfigFileNameInBlobStore}.json`
                 ),
                 headers: this.generateBlobHeaders(headers),
                 data: config
@@ -255,7 +263,7 @@ export default class BlobAdapter implements IBlobAdapter {
             try {
                 const filesData = await axios({
                     method: 'GET',
-                    url: this.generateBlobUrl(''),
+                    url: this.generateBlobUrl(`/${this.containerName}`),
                     headers: this.generateBlobHeaders(headers),
                     params: {
                         restype: 'container',
@@ -315,7 +323,9 @@ export default class BlobAdapter implements IBlobAdapter {
             StorageBlobsData,
             {
                 method: 'put',
-                url: this.generateBlobUrl(`/${file.name}`),
+                url: this.generateBlobUrl(
+                    `/${this.containerName}/${file.name}`
+                ),
                 headers: this.generateBlobHeaders(headers),
                 data: file
             },
@@ -453,9 +463,7 @@ export default class BlobAdapter implements IBlobAdapter {
             {
                 method: 'get',
                 // URL here requires storage account with container name removed
-                url: getStorageAccountUrlFromContainerUrl(
-                    this.generateBlobUrl('')
-                ),
+                url: this.generateBlobUrl(''),
                 headers: this.generateBlobHeaders(headers),
                 params: {
                     restype: 'service',
@@ -499,9 +507,7 @@ export default class BlobAdapter implements IBlobAdapter {
             {
                 method: 'put',
                 // URL here requires storage account url with container name removed
-                url: getStorageAccountUrlFromContainerUrl(
-                    this.generateBlobUrl('')
-                ),
+                url: this.generateBlobUrl(''),
                 headers: this.generateBlobHeaders(headers),
                 params: {
                     restype: 'service',

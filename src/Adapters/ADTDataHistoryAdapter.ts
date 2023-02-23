@@ -39,7 +39,7 @@ export default class ADTDataHistoryAdapter implements IADTDataHistoryAdapter {
         tenantId?: string,
         uniqueObjectId?: string,
         adtProxyServerPath = '/proxy/adt',
-        useProxy = true
+        useAdtProxy = true
     ) {
         this.adtHostUrl = adtHostUrl;
         this.adxConnectionInformation = adxConnectionInformation;
@@ -62,8 +62,9 @@ export default class ADTDataHistoryAdapter implements IADTDataHistoryAdapter {
          * Check if class has been initialized with CORS enabled or if origin matches dev or prod explorer urls,
          * override if CORS is forced by feature flag
          *  */
-        this.useProxy =
-            (useProxy || !validateExplorerOrigin(window.origin)) && !forceCORS;
+        this.useAdtProxy =
+            (useAdtProxy || !validateExplorerOrigin(window.origin)) &&
+            !forceCORS;
 
         this.authService.login();
         // Fetch & cache models on mount (makes first use of models faster as models should already be cached)
