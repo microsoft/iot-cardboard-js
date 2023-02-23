@@ -669,11 +669,6 @@
           "visual": "Görsel"
         }
       },
-      "reportUrl": {
-        "label": "Rapor URL'si",
-        "placeholder": "https://powerbi.com/groups/me/reports/{reportId}",
-        "description": "Rapor yapıtlarını harici araçlara katıştırmak için kullanılan URL"
-      },
       "pageName": {
         "label": "Sayfa Adı",
         "placeholder": "Sayfa adı"
@@ -690,6 +685,11 @@
         "missingReportConfiguration": "Lütfen widget'ınızın doğru yapılandırıldığından emin olun",
         "missingConfiguration": "Widget yapılandırması eksik veya geçersiz",
         "missingAdapter": "Lütfen Power BI bağdaştırıcısının yüklü ve yapılandırılmış olduğundan emin olun"
+      },
+      "embedUrl": {
+        "label": "URL gömme",
+        "placeholder": "https://embed.powerbi.com/groups/me/reports/{reportId}",
+        "description": "Rapor yapıtlarını harici araçlara katıştırmak için kullanılan URL"
       }
     }
   },

@@ -669,11 +669,6 @@
           "visual": "Visueel"
         }
       },
-      "reportUrl": {
-        "label": "URL van rapport",
-        "placeholder": "https://powerbi.com/groups/me/reports/{reportId}",
-        "description": "De URL die wordt gebruikt om rapportartefacten in te sluiten in externe hulpprogramma's"
-      },
       "pageName": {
         "label": "Paginanaam",
         "placeholder": "Paginanaam"
@@ -690,6 +685,11 @@
         "missingReportConfiguration": "Zorg ervoor dat uw widget correct is geconfigureerd",
         "missingConfiguration": "Widgetconfiguratie ontbreekt of is ongeldig",
         "missingAdapter": "Zorg ervoor dat de Power BI-adapter is geïnstalleerd en geconfigureerd"
+      },
+      "embedUrl": {
+        "label": "URL insluiten",
+        "placeholder": "https://embed.powerbi.com/groups/me/reports/{reportId}",
+        "description": "De URL die wordt gebruikt om rapportartefacten in te sluiten in externe hulpprogramma's"
       }
     }
   },

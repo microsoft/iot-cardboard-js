@@ -669,11 +669,6 @@
           "visual": "Vizuální"
         }
       },
-      "reportUrl": {
-        "label": "Adresa URL přehledu",
-        "placeholder": "https://powerbi.com/groups/me/reports/{reportId}",
-        "description": "Adresa URL použitá k vložení artefaktů sestavy do externích nástrojů"
-      },
       "pageName": {
         "label": "Název stránky",
         "placeholder": "Název stránky"
@@ -690,6 +685,11 @@
         "missingReportConfiguration": "Ujistěte se, že je váš widget správně nakonfigurován",
         "missingConfiguration": "Konfigurace widgetu chybí nebo je neplatná",
         "missingAdapter": "Ujistěte se, že je adaptér Power BI nainstalovaný a nakonfigurovaný"
+      },
+      "embedUrl": {
+        "label": "Adresa URL pro vložení",
+        "placeholder": "https://embed.powerbi.com/groups/me/reports/{reportId}",
+        "description": "Adresa URL použitá k vložení artefaktů sestavy do externích nástrojů"
       }
     }
   },

@@ -669,11 +669,6 @@
           "visual": "Vizuális"
         }
       },
-      "reportUrl": {
-        "label": "Jelentés URL-címe",
-        "placeholder": "https://powerbi.com/groups/me/reports/{reportId}",
-        "description": "A jelentés-összetevők külső eszközökbe való beágyazásához használt URL-cím"
-      },
       "pageName": {
         "label": "Oldal neve",
         "placeholder": "Oldal neve"
@@ -690,6 +685,11 @@
         "missingReportConfiguration": "Kérjük, ellenőrizze, hogy a widget megfelelően van-e konfigurálva",
         "missingConfiguration": "A widget konfigurációja hiányzik vagy érvénytelen",
         "missingAdapter": "Győződjön meg arról, hogy a Power BI-adapter telepítve és konfigurálva van"
+      },
+      "embedUrl": {
+        "label": "Beágyazási URL-cím",
+        "placeholder": "https://embed.powerbi.com/groups/me/reports/{reportId}",
+        "description": "A jelentés-összetevők külső eszközökbe való beágyazásához használt URL-cím"
       }
     }
   },

@@ -669,11 +669,6 @@
           "visual": "Зрительный"
         }
       },
-      "reportUrl": {
-        "label": "URL-адрес отчета",
-        "placeholder": "https://powerbi.com/groups/me/reports/{reportId}",
-        "description": "URL-адрес, используемый для внедрения артефактов отчета во внешние инструменты"
-      },
       "pageName": {
         "label": "Название страницы",
         "placeholder": "Название страницы"
@@ -690,6 +685,11 @@
         "missingReportConfiguration": "Пожалуйста, убедитесь, что ваш виджет правильно настроен",
         "missingConfiguration": "Конфигурация виджета отсутствует или недопустима",
         "missingAdapter": "Убедитесь, что адаптер Power BI установлен и настроен"
+      },
+      "embedUrl": {
+        "label": "Встроить URL-адрес",
+        "placeholder": "https://embed.powerbi.com/groups/me/reports/{reportId}",
+        "description": "URL-адрес, используемый для внедрения артефактов отчета во внешние инструменты"
       }
     }
   },

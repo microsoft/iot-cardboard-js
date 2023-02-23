@@ -669,11 +669,6 @@
           "visual": "Wizualny"
         }
       },
-      "reportUrl": {
-        "label": "Adres URL raportu",
-        "placeholder": "https://powerbi.com/groups/me/reports/{reportId}",
-        "description": "Adres URL używany do osadzania artefaktów raportu w narzędziach zewnętrznych"
-      },
       "pageName": {
         "label": "Nazwa strony",
         "placeholder": "Nazwa strony"
@@ -690,6 +685,11 @@
         "missingReportConfiguration": "Upewnij się, że widżet jest poprawnie skonfigurowany",
         "missingConfiguration": "Brak konfiguracji widżetu lub jest on nieprawidłowy",
         "missingAdapter": "Upewnij się, że karta Power BI jest zainstalowana i skonfigurowana."
+      },
+      "embedUrl": {
+        "label": "Umieść adres URL",
+        "placeholder": "https://embed.powerbi.com/groups/me/reports/{reportId}",
+        "description": "Adres URL używany do osadzania artefaktów raportu w narzędziach zewnętrznych"
       }
     }
   },

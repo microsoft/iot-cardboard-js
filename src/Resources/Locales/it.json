@@ -669,11 +669,6 @@
           "visual": "Visivo"
         }
       },
-      "reportUrl": {
-        "label": "Report URL",
-        "placeholder": "https://powerbi.com/groups/me/reports/{reportId}",
-        "description": "URL utilizzato per incorporare gli elementi del report negli strumenti esterni"
-      },
       "pageName": {
         "label": "Nome della pagina",
         "placeholder": "Nome della pagina"
@@ -690,6 +685,11 @@
         "missingReportConfiguration": "Assicurati che il tuo widget sia configurato correttamente",
         "missingConfiguration": "La configurazione del widget è mancante o non è valida",
         "missingAdapter": "Assicurarsi che l'adattatore Power BI sia installato e configurato"
+      },
+      "embedUrl": {
+        "label": "URL di incorporamento",
+        "placeholder": "https://embed.powerbi.com/groups/me/reports/{reportId}",
+        "description": "URL utilizzato per incorporare gli elementi del report negli strumenti esterni"
       }
     }
   },

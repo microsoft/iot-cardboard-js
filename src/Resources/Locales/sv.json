@@ -669,11 +669,6 @@
           "visual": "Visuell"
         }
       },
-      "reportUrl": {
-        "label": "Url för rapport",
-        "placeholder": "https://powerbi.com/groups/me/reports/{reportId}",
-        "description": "URL:en som används för att bädda in rapportartefakter i externa verktyg"
-      },
       "pageName": {
         "label": "Sidans namn",
         "placeholder": "Sidans namn"
@@ -690,6 +685,11 @@
         "missingReportConfiguration": "Se till att din widget är korrekt konfigurerad",
         "missingConfiguration": "Widgetkonfiguration saknas eller är ogiltig",
         "missingAdapter": "Se till att Power BI-kortet är installerat och konfigurerat"
+      },
+      "embedUrl": {
+        "label": "URL för inbäddning",
+        "placeholder": "https://embed.powerbi.com/groups/me/reports/{reportId}",
+        "description": "URL:en som används för att bädda in rapportartefakter i externa verktyg"
       }
     }
   },
