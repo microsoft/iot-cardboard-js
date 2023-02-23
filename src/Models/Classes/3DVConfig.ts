@@ -177,8 +177,8 @@ export const defaultPowerBIWidget: IPowerBIWidget = {
     id: '',
     type: WidgetType.PowerBI,
     widgetConfiguration: {
-        label: '',
-        type: 'visual',
+        displayName: '',
+        type: 'Visual',
         embedUrl: ''
     }
 };

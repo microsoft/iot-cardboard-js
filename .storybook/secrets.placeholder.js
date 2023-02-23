@@ -30,5 +30,10 @@ export const AuthenticationParameters = {
             scope: 'SCOPE_PLACEHOLDER',
             redirectUri: 'REDIRECTURI_PLACEHOLDER'
         }
+    },
+    powerBI: {
+        embedUrl: 'POWERBI_EMBED_URL',
+        pageName: 'POWERBI_PAGE_NAME',
+        visualName: 'POWERBI_VISUAL_NAME'
     }
 };

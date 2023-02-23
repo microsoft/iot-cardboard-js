@@ -21,13 +21,14 @@ export default class PowerBIWidgetBuilderAdapter
         this.element = document.createElement('div');
         this.element.id = guid;
         this.element.style.display = 'none';
+        this.element.hidden = true;
     }
     getVisualsOnPage = async (reportUrl: string, pageName: string) => {
         if (!reportUrl || !pageName) {
             return [];
         }
         const report = await this.getReport(reportUrl);
-        const page = await report.getPageByName(pageName);
+        const page = await report?.getPageByName(pageName);
         const visuals = await page?.getVisuals();
         return visuals?.map((v) => {
             return {
@@ -48,8 +49,6 @@ export default class PowerBIWidgetBuilderAdapter
         if (this.report?.config?.embedUrl === reportUrl) {
             return this.report;
         }
-        // eslint-disable-next-line no-debugger
-        debugger;
         const isNew = !this.report;
         this.report = powerBIService.embed(this.element, {
             type: 'report',

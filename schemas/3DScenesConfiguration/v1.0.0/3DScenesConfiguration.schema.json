@@ -628,9 +628,6 @@
                 "id": {
                     "type": "string"
                 },
-                "groupID": {
-                    "$ref": "#/$defs/IGroupID"
-                },
                 "widgetConfiguration": {
                     "$ref": "#/$defs/IPowerBIWidgetConfiguration"
                 },
@@ -648,9 +645,9 @@
                 "type": {
                     "description": "Supported types: report, dashboard, tile, visual",
                     "type": "string",
-                    "enum": ["tile", "visual"]
+                    "enum": ["Tile", "Visual"]
                 },
-                "label": {
+                "displayName": {
                     "type": "string"
                 },
                 "embedUrl": {

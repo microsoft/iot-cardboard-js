@@ -31,13 +31,13 @@ export const getStyles = (
                 padding: 8,
                 height: 36,
                 display: 'flex',
-                justifyContent: 'space-between'
+                justifyContent: 'space-between',
+                fontSize: FontSizes.size12
             }
         ],
         description: [
             classNames.description,
             {
-                color: props.theme.palette.neutralSecondary,
                 fontSize: FontSizes.medium,
                 marginTop: '0 !important'
             }

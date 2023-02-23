@@ -49,7 +49,8 @@ const WidgetsContainer: React.FC<IWidgetContainerProps> = ({
                 <div
                     key={widget.id}
                     className={
-                        widget.type === WidgetType.DataHistory
+                        widget.type === WidgetType.DataHistory ||
+                        widget.type === WidgetType.PowerBI
                             ? getWidgetClassNames(
                                   theme,
                                   mode,

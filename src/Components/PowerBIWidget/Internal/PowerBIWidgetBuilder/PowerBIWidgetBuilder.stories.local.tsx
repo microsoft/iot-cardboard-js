@@ -22,7 +22,10 @@ const defaultState = {
     widgetConfiguration: {
         type: 'tile',
         label: '',
-        reportId: ''
+        reportId: '',
+        pageName: '',
+        visualName: '',
+        embedUrl: ''
     }
 };
 
@@ -36,7 +39,7 @@ export const PowerBIAdapter = (args) => {
     );
 
     return !authenticationParameters ? (
-        <div></div>
+        <div />
     ) : (
         <>
             <PowerBIWidgetBuilder

@@ -293,7 +293,6 @@ export interface IDataHistoryChartOptions {
 export interface IPowerBIWidget {
     type: 'PowerBI';
     id: string;
-    groupID?: IGroupID;
     widgetConfiguration: IPowerBIWidgetConfiguration;
     extensionProperties?: IExtensionProperties;
 }
@@ -304,8 +303,8 @@ export interface IPowerBIWidgetConfiguration {
     /**
      * Supported types: report, dashboard, tile, visual
      */
-    type: 'tile' | 'visual';
-    label: string;
+    type: 'Tile' | 'Visual';
+    displayName?: string;
     /**
      * The URL of the report that contains the visual that you're embedding. This URL becomes the source of the HTML iframe element that contains the embedded visual. Specifically, the API assigns the URL to the src attribute of the iframe. Similar to "https://app.powerbi.com/reportEmbed?reportId=<report ID>&groupId=<group ID>" or "https://app.powerbi.com/groups/<group ID>/reports/<report ID>"
      */

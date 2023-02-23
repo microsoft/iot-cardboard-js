@@ -91,6 +91,8 @@ import { getMockTimeSeriesDataArrayInLocalTime } from '../Models/SharedUtils/Dat
 import { IPowerBIWidgetBuilderAdapter } from '../Components/PowerBIWidget/Internal/PowerBIWidgetBuilder/PowerBIWidgetBuilder.types';
 import { IVisual, IPage } from 'powerbi-models';
 
+export const mockPage1 = 'page1';
+
 export default class MockAdapter
     implements
         IKeyValuePairAdapter,
@@ -146,9 +148,7 @@ export default class MockAdapter
         if (!reportUrl || !pageName) {
             return Promise.resolve([]);
         }
-        // eslint-disable-next-line no-debugger
-        debugger;
-        if (pageName === 'page1') {
+        if (pageName === mockPage1) {
             return Promise.resolve([
                 {
                     name: 'visual1',
@@ -201,7 +201,7 @@ export default class MockAdapter
         }
         return Promise.resolve([
             {
-                name: 'page1',
+                name: mockPage1,
                 displayName: 'page1',
                 isActive: true
             },

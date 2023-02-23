@@ -9,6 +9,7 @@ import {
 import { getStyles } from './PowerBIWidget.styles';
 import { classNamesFunction, useTheme, styled } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
+import { withErrorBoundary } from '../../Models/Context/ErrorBoundary';
 
 const getClassNames = classNamesFunction<
     IPowerBIWidgetStyleProps,
@@ -37,17 +38,21 @@ const PowerBIWidget: React.FC<IPowerBIWidgetProps> = (props) => {
 
     if (
         widgetConfiguration?.embedUrl &&
-        (widgetConfiguration.type === 'visual' ||
-            widgetConfiguration.type === 'tile')
+        (widgetConfiguration.type === 'Visual' ||
+            widgetConfiguration.type === 'Tile') &&
+        widgetConfiguration?.pageName &&
+        widgetConfiguration?.visualName
     ) {
         return (
             <div className={classNames.root}>
                 <div className={classNames.header}>
-                    {widgetConfiguration.label}
+                    {widgetConfiguration.displayName}
                 </div>
                 <PowerBIEmbed
                     embedConfig={{
-                        type: widgetConfiguration?.type || 'visual',
+                        type: (
+                            widgetConfiguration?.type || 'Visual'
+                        ).toLowerCase(),
                         embedUrl: widgetConfiguration.embedUrl,
                         visualName: widgetConfiguration?.visualName,
                         settings: {
@@ -74,8 +79,9 @@ const PowerBIWidget: React.FC<IPowerBIWidgetProps> = (props) => {
     );
 };
 
-export default styled<
-    IPowerBIWidgetProps,
-    IPowerBIWidgetStyleProps,
-    IPowerBIWidgetStyles
->(PowerBIWidget, getStyles);
+export default withErrorBoundary(
+    styled<IPowerBIWidgetProps, IPowerBIWidgetStyleProps, IPowerBIWidgetStyles>(
+        PowerBIWidget,
+        getStyles
+    )
+);

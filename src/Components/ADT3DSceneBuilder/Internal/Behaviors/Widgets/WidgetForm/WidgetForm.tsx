@@ -62,7 +62,7 @@ const getActiveWidget = (activeWidgetId: string, behavior: IBehavior) =>
     getWidgets(behavior).find((w) => w.id === activeWidgetId);
 
 const WidgetForm: React.FC = () => {
-    const { widgetFormInfo, setWidgetFormInfo } = useContext(
+    const { adapter, widgetFormInfo, setWidgetFormInfo } = useContext(
         SceneBuilderContext
     );
 
@@ -163,6 +163,7 @@ const WidgetForm: React.FC = () => {
                         formData={widgetData as IPowerBIWidget}
                         updateWidgetData={updateWidgetData}
                         setIsWidgetConfigValid={setIsWidgetConfigValid}
+                        adapter={adapter}
                     />
                 );
             default:

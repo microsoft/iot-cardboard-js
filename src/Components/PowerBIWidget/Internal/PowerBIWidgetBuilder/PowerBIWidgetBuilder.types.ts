@@ -7,7 +7,7 @@ export interface IPowerBIWidgetBuilderProps
     extends IWidgetBuilderFormDataProps {
     formData: IPowerBIWidget;
     updateWidgetData: (widgetData: IPowerBIWidget) => void;
-    adapter?: IPowerBIWidgetBuilderAdapter;
+    adapter: IPowerBIWidgetBuilderAdapter;
     /**
      * Call to provide customized styling that will layer on top of the variant rules.
      */
@@ -22,13 +22,8 @@ export interface IPowerBIWidgetBuilderStyleProps {
 }
 export interface IPowerBIWidgetBuilderStyles {
     root: IStyle;
-    header?: IStyle;
-    description?: IStyle;
-
-    /**
-     * SubComponent styles.
-     */
-    subComponentStyles?: IPowerBIWidgetBuilderSubComponentStyles;
+    header: IStyle;
+    description: IStyle;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface

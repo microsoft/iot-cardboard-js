@@ -20,8 +20,12 @@ const Template: PowerBIWidgetStory = (args) => {
 
 export const Base = Template.bind({}) as PowerBIWidgetStory;
 Base.args = {
-    title: 'Storybook',
-    reportId: 'Report1',
-    pageName: 'Page1',
-    visualName: 'visual1'
+    widget: {
+        widgetConfiguration: {
+            type: 'Visual',
+            embedUrl: '',
+            visualName: 'VisualName',
+            displayName: 'DisplayName'
+        }
+    }
 } as IPowerBIWidgetProps;

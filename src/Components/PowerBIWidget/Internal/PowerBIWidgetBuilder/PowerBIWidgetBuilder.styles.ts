@@ -35,7 +35,6 @@ export const getStyles = (
                 color: props.theme.palette.neutralSecondary,
                 fontSize: FontSizes.medium
             }
-        ],
-        subComponentStyles: {}
+        ]
     };
 };
