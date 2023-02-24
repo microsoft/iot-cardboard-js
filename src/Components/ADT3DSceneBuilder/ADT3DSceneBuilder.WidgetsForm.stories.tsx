@@ -74,7 +74,7 @@ const Template: SceneBuilderStory = (
                     adapter={
                         new MockAdapter({
                             mockData: {
-                                schemaConfig: context.parameters.data
+                                scenesConfig: context.parameters.data
                                     ? deepCopy(context.parameters.data)
                                     : trucksMockVConfig
                             }

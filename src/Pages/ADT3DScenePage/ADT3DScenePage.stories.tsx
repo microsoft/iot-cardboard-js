@@ -49,7 +49,7 @@ export const Mock3DScenePage = (_args, { globals: { theme, locale } }) => {
                 adapter={
                     new MockAdapter({
                         mockData: {
-                            schemaConfig: mockConfig as I3DScenesConfig
+                            scenesConfig: mockConfig as I3DScenesConfig
                         }
                     })
                 }
@@ -84,7 +84,7 @@ export const DeeplinkedViewer = (_args, { globals: { theme, locale } }) => {
                     adapter={
                         new MockAdapter({
                             mockData: {
-                                schemaConfig: mockConfig as I3DScenesConfig
+                                scenesConfig: mockConfig as I3DScenesConfig
                             }
                         })
                     }
@@ -120,7 +120,7 @@ export const DeeplinkedBuilder = (_args, { globals: { theme, locale } }) => {
                     adapter={
                         new MockAdapter({
                             mockData: {
-                                schemaConfig: mockConfig as I3DScenesConfig
+                                scenesConfig: mockConfig as I3DScenesConfig
                             }
                         })
                     }
@@ -191,7 +191,7 @@ const ThemeCustomizationContent: React.FC<{ theme; locale }> = ({
                     adapter={
                         new MockAdapter({
                             mockData: {
-                                schemaConfig: mockConfig as I3DScenesConfig
+                                scenesConfig: mockConfig as I3DScenesConfig
                             }
                         })
                     }
@@ -267,7 +267,7 @@ export const Mock3DScenePageSchemaErrors = (
                 adapter={
                     new MockAdapter({
                         mockData: {
-                            schemaConfig: mockConfig as I3DScenesConfig
+                            scenesConfig: mockConfig as I3DScenesConfig
                         }
                     })
                 }
@@ -283,9 +283,11 @@ export const Mock3DScenePageDemoEnvs = (
     { globals: { theme, locale } }
 ) => {
     const adapter = new MockAdapter();
-    adapter.scenesConfig = demoEnvsConfig as I3DScenesConfig;
-    adapter.mockTwins = demoEnvsTwins as IADTTwin[];
-    adapter.mockModels = demoEnvsModels as DtdlInterface[];
+    adapter.mockData = {
+        scenesConfig: demoEnvsConfig as I3DScenesConfig,
+        twins: demoEnvsTwins as IADTTwin[],
+        models: demoEnvsModels as DtdlInterface[]
+    };
 
     return (
         <div style={cardStyle}>
