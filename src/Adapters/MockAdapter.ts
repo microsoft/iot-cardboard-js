@@ -86,10 +86,7 @@ import ViewerConfigUtility from '../Models/Classes/ViewerConfigUtility';
 import ADTInstanceTimeSeriesConnectionData from '../Models/Classes/AdapterDataClasses/ADTInstanceTimeSeriesConnectionData';
 import { handleMigrations } from './BlobAdapterUtility';
 import ADXTimeSeriesData from '../Models/Classes/AdapterDataClasses/ADXTimeSeriesData';
-import {
-    getMockTimeSeriesDataArrayInLocalTime,
-    isTimeSeriesData
-} from '../Models/SharedUtils/DataHistoryUtils';
+import { getMockTimeSeriesDataArrayInLocalTime } from '../Models/SharedUtils/DataHistoryUtils';
 
 export default class MockAdapter
     implements
@@ -99,10 +96,10 @@ export default class MockAdapter
         Partial<IADTAdapter>,
         IPropertyInspectorAdapter,
         IModelledPropertyBuilderAdapter {
-    private mockData = null;
     private mockError: IMockError = null;
-    public mockTwins: IADTTwin[] = null;
-    public mockModels: DtdlInterface[] = null;
+    public mockTwins: IADTTwin[];
+    public mockModels: DtdlInterface[];
+    public mockTimeSeriesDataList: Array<Array<TimeSeriesData>>;
     private networkTimeoutMillis;
     private isDataStatic;
     public scenesConfig: I3DScenesConfig;
@@ -122,10 +119,16 @@ export default class MockAdapter
     } = {};
 
     constructor(mockAdapterArgs?: IMockAdapter) {
-        this.mockData = mockAdapterArgs?.mockData;
-        this.scenesConfig = mockAdapterArgs?.mockData || mockVConfig;
-
+        this.scenesConfig =
+            mockAdapterArgs?.mockData?.schemaConfig ||
+            (mockVConfig as I3DScenesConfig);
+        this.mockTimeSeriesDataList =
+            mockAdapterArgs?.mockData?.timeSeriesDataList;
+        this.mockTwins = mockAdapterArgs?.mockData?.twins || mockTwinData;
         this.mockError = mockAdapterArgs?.mockError;
+
+        this.mockModels = (mockModelData as any) as DtdlInterface[];
+
         this.networkTimeoutMillis =
             typeof mockAdapterArgs?.networkTimeoutMillis === 'number'
                 ? mockAdapterArgs.networkTimeoutMillis
@@ -134,8 +137,7 @@ export default class MockAdapter
             typeof mockAdapterArgs?.isDataStatic === 'boolean'
                 ? mockAdapterArgs.isDataStatic
                 : true;
-        this.mockTwins = mockTwinData;
-        this.mockModels = (mockModelData as any) as DtdlInterface[];
+
         this.initializeMockTwinProperties();
     }
 
@@ -1052,16 +1054,8 @@ export default class MockAdapter
         useStaticData?: boolean
     ) {
         let mockData: Array<ADXTimeSeries> = [];
-        let mockTimeSeriesData: Array<Array<TimeSeriesData>>;
-        if (
-            this.mockData &&
-            Array.isArray(this.mockData) &&
-            this.mockData.every(
-                (arr) => Array.isArray(arr) && arr.every(isTimeSeriesData)
-            )
-        ) {
-            mockTimeSeriesData = this.mockData;
-        }
+        let mockTimeSeriesData: Array<Array<TimeSeriesData>> = this
+            .mockTimeSeriesDataList;
 
         try {
             await this.mockNetwork();

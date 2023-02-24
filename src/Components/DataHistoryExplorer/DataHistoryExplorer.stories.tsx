@@ -72,11 +72,13 @@ LargeData.args = {
         }
     ],
     adapter: new MockAdapter({
-        mockData: getMockTimeSeriesDataArrayInLocalTime(
-            2,
-            500000,
-            undefined,
-            isChromatic()
-        )
+        mockData: {
+            timeSeriesDataList: getMockTimeSeriesDataArrayInLocalTime(
+                2,
+                500000,
+                undefined,
+                isChromatic()
+            )
+        }
     })
 } as IDataHistoryExplorerProps;

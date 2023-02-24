@@ -46,7 +46,13 @@ export const Mock3DScenePage = (_args, { globals: { theme, locale } }) => {
                 title={'3D Scene Page'}
                 theme={theme}
                 locale={locale}
-                adapter={new MockAdapter({ mockData: mockConfig })}
+                adapter={
+                    new MockAdapter({
+                        mockData: {
+                            schemaConfig: mockConfig as I3DScenesConfig
+                        }
+                    })
+                }
                 enableTwinPropertyInspectorPatchMode
             />
         </div>
@@ -75,7 +81,13 @@ export const DeeplinkedViewer = (_args, { globals: { theme, locale } }) => {
                     title={'3D Scene Page'}
                     theme={theme}
                     locale={locale}
-                    adapter={new MockAdapter({ mockData: mockConfig })}
+                    adapter={
+                        new MockAdapter({
+                            mockData: {
+                                schemaConfig: mockConfig as I3DScenesConfig
+                            }
+                        })
+                    }
                     enableTwinPropertyInspectorPatchMode
                 />
             </DeeplinkContextProvider>
@@ -105,7 +117,13 @@ export const DeeplinkedBuilder = (_args, { globals: { theme, locale } }) => {
                     title={'3D Scene Page'}
                     theme={theme}
                     locale={locale}
-                    adapter={new MockAdapter({ mockData: mockConfig })}
+                    adapter={
+                        new MockAdapter({
+                            mockData: {
+                                schemaConfig: mockConfig as I3DScenesConfig
+                            }
+                        })
+                    }
                 />
             </DeeplinkContextProvider>
         </div>
@@ -170,7 +188,13 @@ const ThemeCustomizationContent: React.FC<{ theme; locale }> = ({
                     title={'3D Scene Page'}
                     theme={theme}
                     locale={locale}
-                    adapter={new MockAdapter({ mockData: mockConfig })}
+                    adapter={
+                        new MockAdapter({
+                            mockData: {
+                                schemaConfig: mockConfig as I3DScenesConfig
+                            }
+                        })
+                    }
                 />
             </Stack>
             <Stack horizontal tokens={{ childrenGap: 8 }}>
@@ -240,7 +264,13 @@ export const Mock3DScenePageSchemaErrors = (
                 title={'3D Scene Page'}
                 theme={theme}
                 locale={locale}
-                adapter={new MockAdapter({ mockData: invalidConfig })}
+                adapter={
+                    new MockAdapter({
+                        mockData: {
+                            schemaConfig: mockConfig as I3DScenesConfig
+                        }
+                    })
+                }
             />
         </div>
     );

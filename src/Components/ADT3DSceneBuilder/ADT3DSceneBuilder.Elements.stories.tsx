@@ -41,9 +41,11 @@ const Template: SceneBuilderStory = (
             locale={context.globals.locale}
             adapter={
                 new MockAdapter({
-                    mockData: context.parameters.data
-                        ? deepCopy(context.parameters.data)
-                        : trucksMockVConfig
+                    mockData: {
+                        schemaConfig: context.parameters.data
+                            ? deepCopy(context.parameters.data)
+                            : trucksMockVConfig
+                    }
                 })
             }
             sceneId="58e02362287440d9a5bf3f8d6d6bfcf9"
