@@ -255,7 +255,7 @@ export const Mock3DScenePageSchemaErrors = (
     _args,
     { globals: { theme, locale } }
 ) => {
-    const invalidConfig = deepCopy(mockConfig);
+    const invalidConfig = deepCopy(mockConfig) as I3DScenesConfig;
     invalidConfig.configuration.scenes[0]['invalidPropTest'] = 'uh oh';
 
     return (
@@ -267,7 +267,7 @@ export const Mock3DScenePageSchemaErrors = (
                 adapter={
                     new MockAdapter({
                         mockData: {
-                            scenesConfig: mockConfig as I3DScenesConfig
+                            scenesConfig: invalidConfig
                         }
                     })
                 }
