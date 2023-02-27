@@ -1,6 +1,7 @@
 import { useTheme } from '@fluentui/react';
 import React, { useContext } from 'react';
 import { WidgetType } from '../../../../Models/Classes/3DVConfig';
+import { LOCAL_STORAGE_KEYS } from '../../../../Models/Constants';
 import {
     IPopoverVisual,
     IWidget
@@ -31,7 +32,14 @@ const makeWidget = (widget: IWidget) => {
         case WidgetType.DataHistory:
             return <DataHistoryWidget key={widget.id} widget={widget} />;
         case WidgetType.PowerBI:
-            return <PowerBIWidget key={widget.id} widget={widget} />;
+            if (
+                localStorage.getItem(
+                    LOCAL_STORAGE_KEYS.FeatureFlags.PowerBI.showWidgets
+                ) === 'true'
+            ) {
+                return <PowerBIWidget key={widget.id} widget={widget} />;
+            }
+            return null;
         default:
             return null;
     }

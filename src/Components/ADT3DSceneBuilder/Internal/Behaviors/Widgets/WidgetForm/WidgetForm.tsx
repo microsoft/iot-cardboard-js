@@ -33,6 +33,7 @@ import { useBehaviorFormContext } from '../../../../../../Models/Context/Behavio
 import { BehaviorFormContextActionType } from '../../../../../../Models/Context/BehaviorFormContext/BehaviorFormContext.types';
 import DataHistoryWidgetBuilder from '../WidgetBuilders/DataHistoryWidgetBuilder/DataHistoryWidgetBuilder';
 import PowerBIWidgetBuilder from '../../../../../PowerBIWidget/Internal/PowerBIWidgetBuilder/PowerBIWidgetBuilder';
+import { LOCAL_STORAGE_KEYS } from '../../../../../../Models/Constants';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('WidgetForm', debugLogging);
@@ -158,14 +159,21 @@ const WidgetForm: React.FC = () => {
                     />
                 );
             case WidgetType.PowerBI:
-                return (
-                    <PowerBIWidgetBuilder
-                        formData={widgetData as IPowerBIWidget}
-                        updateWidgetData={updateWidgetData}
-                        setIsWidgetConfigValid={setIsWidgetConfigValid}
-                        adapter={adapter}
-                    />
-                );
+                if (
+                    localStorage.getItem(
+                        LOCAL_STORAGE_KEYS.FeatureFlags.PowerBI.showWidgets
+                    ) === 'true'
+                ) {
+                    return (
+                        <PowerBIWidgetBuilder
+                            formData={widgetData as IPowerBIWidget}
+                            updateWidgetData={updateWidgetData}
+                            setIsWidgetConfigValid={setIsWidgetConfigValid}
+                            adapter={adapter}
+                        />
+                    );
+                }
+                return <></>;
             default:
                 return (
                     <div className="cb-widget-not-supported">

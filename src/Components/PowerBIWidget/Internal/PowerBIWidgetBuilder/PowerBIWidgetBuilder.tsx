@@ -188,7 +188,7 @@ const PowerBIWidgetBuilder: React.FC<IPowerBIWidgetBuilderProps> = ({
                 hasRequiredSubConfiguration = false;
                 break;
         }
-        debugger;
+
         if (setIsWidgetConfigValid) {
             setIsWidgetConfigValid(
                 formData?.widgetConfiguration?.displayName &&
