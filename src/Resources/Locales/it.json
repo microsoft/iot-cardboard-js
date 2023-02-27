@@ -1491,5 +1491,8 @@
       }
     },
     "jsonEditorTabName": "DTDL"
+  },
+  "jobs": {
+    "addNew": "Aggiungi nuovo"
   }
 }

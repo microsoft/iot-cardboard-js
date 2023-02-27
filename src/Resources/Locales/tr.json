@@ -1491,5 +1491,8 @@
       }
     },
     "jsonEditorTabName": "cesaret"
+  },
+  "jobs": {
+    "addNew": "Yeni ekle"
   }
 }
