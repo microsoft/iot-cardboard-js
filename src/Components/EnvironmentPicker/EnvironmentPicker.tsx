@@ -396,10 +396,12 @@ const EnvironmentPicker = ({
     }, [t, adtInstanceUrl]);
 
     const containerDisplayText = useMemo(() => {
-        const displayText = getContainerDisplayText(
-            getContainerNameFromUrl(storage?.containerUrl),
-            getStorageAccountUrlFromContainerUrl(storage?.containerUrl)
-        );
+        let displayText;
+        if (storage?.containerUrl)
+            displayText = getContainerDisplayText(
+                getContainerNameFromUrl(storage?.containerUrl),
+                getStorageAccountUrlFromContainerUrl(storage?.containerUrl)
+            );
         return displayText || t('environmentPicker.noContainer');
     }, [t, storage?.containerUrl]);
 

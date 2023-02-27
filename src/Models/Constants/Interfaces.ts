@@ -41,7 +41,8 @@ import {
     AzureAccessPermissionRoleGroups,
     AdapterMethodParamsForSearchTwinsByQuery,
     AdapterMethodParamsForJobs,
-    AdapterCreateJobArgs
+    AdapterCreateJobArgs,
+    TimeSeriesData
 } from './Types';
 import {
     ADTModel_ImgPropertyPositions_PropertyName,
@@ -209,7 +210,7 @@ export interface IMockAdapter {
     /** If unset, random data is generated, if explicitly set, MockAdapter will use value for mocked data.
      *  To mock empty data, explicitly set { mockData: null }
      */
-    mockData?: any;
+    mockData?: IMockData;
 
     /** Mocked network timeout period, defaults to 0ms */
     networkTimeoutMillis?: number;
@@ -219,6 +220,13 @@ export interface IMockAdapter {
 
     /** Toggles seeding of random data (data remains constants between builds), defaults to true */
     isDataStatic?: boolean;
+}
+
+export interface IMockData {
+    scenesConfig?: I3DScenesConfig;
+    twins?: Array<IADTTwin>;
+    models?: DtdlInterface[];
+    timeSeriesDataList?: Array<Array<TimeSeriesData>>;
 }
 
 export interface IMockError {
