@@ -41,7 +41,7 @@ const JobsPage: React.FC<IJobsPageProps> = ({
                 //TO-DO
             }
         },
-        [adtInstanceUrl]
+        []
     );
 
     // side effects

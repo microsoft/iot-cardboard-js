@@ -24,11 +24,6 @@ const JobsContainer: React.FC<IJobsContainerProps> = ({ adapter, styles }) => {
     const [isJobsDialogOpen, setIsJobsDialogOpen] = useState(false);
     const [listOfJobs, setListOfJobs] = useState<Array<IAdtApiJob>>([]);
 
-    const getAllJobs = useAdapter({
-        adapterMethod: () => adapter.getAllJobs(),
-        refetchDependencies: [adapter],
-        isAdapterCalledOnMount: false
-    });
     // hooks
     const deleteJob = () => {
         useAdapter({
@@ -52,7 +47,6 @@ const JobsContainer: React.FC<IJobsContainerProps> = ({ adapter, styles }) => {
 
     // side effects
     useEffect(() => {
-        getAllJobs.callAdapter();
         const jobs: IAdtApiJob[] = []; //getAllJobs.callAdapter();
         setListOfJobs(jobs);
     }, []);

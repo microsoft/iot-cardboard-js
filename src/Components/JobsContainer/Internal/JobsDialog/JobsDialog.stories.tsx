@@ -3,11 +3,12 @@ import { ComponentStory } from '@storybook/react';
 import { getDefaultStoryDecorator } from '../../../../Models/Services/StoryUtilities';
 import JobsDialog from './JobsDialog';
 import { IJobsDialogProps } from './JobsDialog.types';
+import MockAdapter from '../../../../Adapters/MockAdapter';
 
 const wrapperStyle = { width: '100%', height: '600px', padding: 8 };
 
 export default {
-    title: 'Components/Jobs/JobsDialog',
+    title: 'Components-Jobs/Jobs',
     component: JobsDialog,
     decorators: [getDefaultStoryDecorator<IJobsDialogProps>(wrapperStyle)]
 };
@@ -18,5 +19,8 @@ const Template: JobsDialogStory = (args) => {
     return <JobsDialog {...args} />;
 };
 
-export const Base = Template.bind({}) as JobsDialogStory;
-Base.args = {} as IJobsDialogProps;
+export const jobsDialog = Template.bind({}) as JobsDialogStory;
+jobsDialog.args = {
+    adapter: new MockAdapter(),
+    isOpen: true
+} as IJobsDialogProps;

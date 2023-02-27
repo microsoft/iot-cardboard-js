@@ -158,7 +158,7 @@ export type AdapterMethodParamsForJobs = {
     jobId: string;
 };
 
-export type AdapterMethodParamForCreateJobs = {
+export type AdapterCreateJobArgs = {
     outputBlobUri: string;
     inputBlobUri: string;
     jobId: string;

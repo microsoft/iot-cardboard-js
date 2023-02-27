@@ -3,11 +3,12 @@ import { ComponentStory } from '@storybook/react';
 import { getDefaultStoryDecorator } from '../../Models/Services/StoryUtilities';
 import JobsContainer from './JobsContainer';
 import { IJobsContainerProps } from './JobsContainer.types';
+import MockAdapter from '../../Adapters/MockAdapter';
 
 const wrapperStyle = { width: '100%', height: '600px', padding: 8 };
 
 export default {
-    title: 'Components/Jobs/JobsContainer',
+    title: 'Components-Jobs/Jobs',
     component: JobsContainer,
     decorators: [getDefaultStoryDecorator<IJobsContainerProps>(wrapperStyle)]
 };
@@ -18,5 +19,5 @@ const Template: JobsContainerStory = (args) => {
     return <JobsContainer {...args} />;
 };
 
-export const Base = Template.bind({}) as JobsContainerStory;
-Base.args = {} as IJobsContainerProps;
+export const jobsContainer = Template.bind({}) as JobsContainerStory;
+jobsContainer.args = { adapter: new MockAdapter() } as IJobsContainerProps;

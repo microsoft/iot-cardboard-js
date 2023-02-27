@@ -46,7 +46,7 @@ const JobsDialog: React.FC<IJobsDialogProps> = ({ onClose, styles }) => {
     };
     const dialogContentProps: IDialogContentProps = {
         type: DialogType.normal,
-        title: t('Add New Job'),
+        title: t('jobs.addNew'),
         closeButtonAriaLabel: t('close'),
         subText: t('')
     };
