@@ -493,6 +493,16 @@ export const addTargetedRelationship = (
         return;
     }
 
+    if (!isValidRelationship(sourceModelId, targetModelId, relationshipType)) {
+        console.error(
+            'Invalid relationship. {source, target, relationshipType}',
+            sourceModelId,
+            targetModelId,
+            relationshipType
+        );
+        return;
+    }
+
     let newRelationship: DtdlInterfaceContent | string;
     if (
         relationshipType === DTDLType.Component ||
@@ -532,6 +542,22 @@ export const addTargetedRelationship = (
     );
     return newRelationship;
 };
+
+const isValidRelationship = (
+    sourceModelId: string,
+    targetModelId: string,
+    relationshipType: OatReferenceType
+): boolean => {
+    if (
+        sourceModelId === targetModelId &&
+        (relationshipType === DTDLType.Component ||
+            relationshipType === 'Extend')
+    ) {
+        return false;
+    }
+    return true;
+};
+
 export const addUntargetedRelationship = (
     state: IOatPageContextState,
     sourceModelId: string,

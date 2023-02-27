@@ -33,6 +33,10 @@ import {
 import ADTInstanceTimeSeriesConnectionData from '../Models/Classes/AdapterDataClasses/ADTInstanceTimeSeriesConnectionData';
 import ADTDataHistoryAdapter from './ADTDataHistoryAdapter';
 
+const forceCORS =
+    localStorage.getItem(LOCAL_STORAGE_KEYS.FeatureFlags.Proxy.forceCORS) ===
+    'true';
+
 export default class ADT3DSceneAdapter {
     constructor(
         authService: IAuthService,
@@ -42,7 +46,8 @@ export default class ADT3DSceneAdapter {
         uniqueObjectId?: string,
         adtProxyServerPath = '/proxy/adt',
         blobProxyServerPath = '/proxy/blob',
-        useProxy = true
+        useAdtProxy = true,
+        useBlobProxy = true
     ) {
         this.adtHostUrl = adtHostUrl;
         this.authService = this.blobAuthService = this.adxAuthService = authService;
@@ -60,14 +65,15 @@ export default class ADT3DSceneAdapter {
         );
         /**
          * Check if class has been initialized with CORS enabled or if origin matches dev or prod explorer urls,
-         * override if proxy is forced by feature flag
+         * override if CORS is forced by feature flag
          *  */
-        this.useProxy =
-            useProxy ||
-            validateExplorerOrigin(window.origin) ||
-            localStorage.getItem(
-                LOCAL_STORAGE_KEYS.FeatureFlags.Proxy.forceCORS
-            ) === 'true';
+        this.useAdtProxy =
+            (useAdtProxy || !validateExplorerOrigin(window.origin)) &&
+            !forceCORS;
+
+        this.useBlobProxy =
+            (useBlobProxy || !validateExplorerOrigin(window.origin)) &&
+            !forceCORS;
 
         if (blobContainerUrl) {
             try {

@@ -44,7 +44,8 @@ const commonPlugins = [
     resolve(),
     commonjs(),
     eslint({
-        throwOnError: true
+        throwOnError: true,
+        configFile: '.eslintrc.prod.json',
     }),
     typescript(),
     json(),

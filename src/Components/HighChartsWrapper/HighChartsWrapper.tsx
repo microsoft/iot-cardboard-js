@@ -57,7 +57,7 @@ const HighChartsWrapper: React.FC<IHighChartsWrapperProps> = (props) => {
                         ({
                             name: sD.name,
                             data: sD.data
-                                .map((d) => [
+                                ?.map((d) => [
                                     typeof d.timestamp === 'string'
                                         ? new Date(d.timestamp).getTime()
                                         : d.timestamp, // by default, if timestamp is date string convert it to number since highcharts only accept number type for series
@@ -67,7 +67,7 @@ const HighChartsWrapper: React.FC<IHighChartsWrapperProps> = (props) => {
                             type: 'line', // by default, show series in line chart type
                             color: sD.color || getHighChartColorByIdx(idx), // by default, set color to use it for labels in legend to match series color
                             marker: {
-                                enabled: sD.data.length === 1 // by default, do not mark data points if there is more than 1, only show on hover
+                                enabled: sD.data?.length === 1 // by default, do not mark data points if there is more than 1, only show on hover
                             },
                             tooltip: {
                                 ...(sD.tooltipSuffix && {

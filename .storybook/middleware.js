@@ -10,7 +10,8 @@ const retryNumber = 3;
 
 module.exports = function (app) {
     // Set to false when you want to test CORS in Storybook
-    const useProxy = true;
+    const useAdtProxy = true;
+    const useBlobProxy = true;
     const validAdtHostSuffixes = ['.digitaltwins.azure.net'];
     const isValidAdtHostUrl = (urlPrefix) =>
         /^[a-zA-z0-9]{1}[a-zA-Z0-9-]{1,60}[a-zA-Z0-9]{1}(\.api)\.[a-zA-Z0-9]{1,}$/.test(
@@ -108,7 +109,7 @@ module.exports = function (app) {
         });
     };
 
-    if (useProxy) {
+    if (useAdtProxy) {
         app.use('/proxy/adt', createAdtProxyMiddlewareObject('/proxy/adt'));
     }
 
@@ -178,7 +179,9 @@ module.exports = function (app) {
         }
     });
 
-    app.use('/proxy/blob', (req, res, next) =>
-        blobProxy.call(blobProxy, req, res, next)
-    );
+    if (useBlobProxy) {
+        app.use('/proxy/blob', (req, res, next) =>
+            blobProxy.call(blobProxy, req, res, next)
+        );
+    }
 };

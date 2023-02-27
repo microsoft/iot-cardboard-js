@@ -77,6 +77,9 @@ import queryString from 'query-string';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('ADTAdapter', debugLogging);
+const forceCORS =
+    localStorage.getItem(LOCAL_STORAGE_KEYS.FeatureFlags.Proxy.forceCORS) ===
+    'true';
 
 export default class ADTAdapter implements IADTAdapter {
     public tenantId: string;
@@ -92,7 +95,7 @@ export default class ADTAdapter implements IADTAdapter {
     protected adtTwinCache: AdapterEntityCache<ADTTwinData>;
     protected adtModelsCache: AdapterEntityCache<ADTAllModelsData>;
     protected adtTwinToModelMappingCache: AdapterEntityCache<ADTTwinToModelMappingData>;
-    protected useProxy: boolean;
+    protected useAdtProxy: boolean;
 
     constructor(
         adtHostUrl: string,
@@ -100,7 +103,7 @@ export default class ADTAdapter implements IADTAdapter {
         tenantId?: string,
         uniqueObjectId?: string,
         adtProxyServerPath = '/proxy/adt',
-        useProxy = true
+        useAdtProxy = true
     ) {
         this.setAdtHostUrl(adtHostUrl); // this should be the host name of the instace
         this.adtProxyServerPath = adtProxyServerPath;
@@ -119,18 +122,16 @@ export default class ADTAdapter implements IADTAdapter {
         );
         /**
          * Check if class has been initialized with CORS enabled or if origin matches dev or prod explorer urls,
-         * override if proxy is forced by feature flag
+         * override if CORS is forced by feature flag
          *  */
-        this.useProxy =
-            useProxy ||
-            !validateExplorerOrigin(window.origin) ||
-            localStorage.getItem(
-                LOCAL_STORAGE_KEYS.FeatureFlags.Proxy.forceCORS
-            ) === 'true';
-
+        this.useAdtProxy =
+            (useAdtProxy || !validateExplorerOrigin(window.origin)) &&
+            !forceCORS;
         this.authService.login();
         this.axiosInstance = axios.create({
-            baseURL: this.useProxy ? this.adtProxyServerPath : this.adtHostUrl
+            baseURL: this.useAdtProxy
+                ? this.adtProxyServerPath
+                : this.adtHostUrl
         });
         axiosRetry(this.axiosInstance, {
             retries: 3,
@@ -147,7 +148,7 @@ export default class ADTAdapter implements IADTAdapter {
     }
 
     generateUrl(path: string) {
-        if (this.useProxy) {
+        if (this.useAdtProxy) {
             return `${this.adtProxyServerPath}${path}`;
         } else {
             return `https://${this.adtHostUrl}${path}`;
@@ -155,7 +156,7 @@ export default class ADTAdapter implements IADTAdapter {
     }
 
     generateHeaders(headers: AxiosObjParam = {}) {
-        if (this.useProxy) {
+        if (this.useAdtProxy) {
             return {
                 ...headers,
                 'x-adt-host': this.adtHostUrl
