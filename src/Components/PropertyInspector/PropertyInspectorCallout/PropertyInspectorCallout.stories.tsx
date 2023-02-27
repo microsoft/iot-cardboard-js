@@ -27,7 +27,7 @@ const Template: PropertyInspectorCalloutStory = (args) => {
 export const Base = Template.bind({}) as PropertyInspectorCalloutStory;
 Base.args = {
     twinId: mockTwin[0].$dtId,
-    adapter: new MockAdapter({ mockData: mockTwin })
+    adapter: new MockAdapter({ mockData: { twins: mockTwin } })
 } as IPropertyInspectorCalloutProps;
 
 export const WithDataHistory = Template.bind(

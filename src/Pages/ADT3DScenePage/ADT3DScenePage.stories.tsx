@@ -46,7 +46,13 @@ export const Mock3DScenePage = (_args, { globals: { theme, locale } }) => {
                 title={'3D Scene Page'}
                 theme={theme}
                 locale={locale}
-                adapter={new MockAdapter({ mockData: mockConfig })}
+                adapter={
+                    new MockAdapter({
+                        mockData: {
+                            scenesConfig: mockConfig as I3DScenesConfig
+                        }
+                    })
+                }
                 enableTwinPropertyInspectorPatchMode
             />
         </div>
@@ -75,7 +81,13 @@ export const DeeplinkedViewer = (_args, { globals: { theme, locale } }) => {
                     title={'3D Scene Page'}
                     theme={theme}
                     locale={locale}
-                    adapter={new MockAdapter({ mockData: mockConfig })}
+                    adapter={
+                        new MockAdapter({
+                            mockData: {
+                                scenesConfig: mockConfig as I3DScenesConfig
+                            }
+                        })
+                    }
                     enableTwinPropertyInspectorPatchMode
                 />
             </DeeplinkContextProvider>
@@ -105,7 +117,13 @@ export const DeeplinkedBuilder = (_args, { globals: { theme, locale } }) => {
                     title={'3D Scene Page'}
                     theme={theme}
                     locale={locale}
-                    adapter={new MockAdapter({ mockData: mockConfig })}
+                    adapter={
+                        new MockAdapter({
+                            mockData: {
+                                scenesConfig: mockConfig as I3DScenesConfig
+                            }
+                        })
+                    }
                 />
             </DeeplinkContextProvider>
         </div>
@@ -170,7 +188,13 @@ const ThemeCustomizationContent: React.FC<{ theme; locale }> = ({
                     title={'3D Scene Page'}
                     theme={theme}
                     locale={locale}
-                    adapter={new MockAdapter({ mockData: mockConfig })}
+                    adapter={
+                        new MockAdapter({
+                            mockData: {
+                                scenesConfig: mockConfig as I3DScenesConfig
+                            }
+                        })
+                    }
                 />
             </Stack>
             <Stack horizontal tokens={{ childrenGap: 8 }}>
@@ -231,7 +255,7 @@ export const Mock3DScenePageSchemaErrors = (
     _args,
     { globals: { theme, locale } }
 ) => {
-    const invalidConfig = deepCopy(mockConfig);
+    const invalidConfig = deepCopy(mockConfig) as I3DScenesConfig;
     invalidConfig.configuration.scenes[0]['invalidPropTest'] = 'uh oh';
 
     return (
@@ -240,7 +264,13 @@ export const Mock3DScenePageSchemaErrors = (
                 title={'3D Scene Page'}
                 theme={theme}
                 locale={locale}
-                adapter={new MockAdapter({ mockData: invalidConfig })}
+                adapter={
+                    new MockAdapter({
+                        mockData: {
+                            scenesConfig: invalidConfig
+                        }
+                    })
+                }
             />
         </div>
     );
@@ -253,9 +283,11 @@ export const Mock3DScenePageDemoEnvs = (
     { globals: { theme, locale } }
 ) => {
     const adapter = new MockAdapter();
-    adapter.scenesConfig = demoEnvsConfig as I3DScenesConfig;
-    adapter.mockTwins = demoEnvsTwins as IADTTwin[];
-    adapter.mockModels = demoEnvsModels as DtdlInterface[];
+    adapter.mockData = {
+        scenesConfig: demoEnvsConfig as I3DScenesConfig,
+        twins: demoEnvsTwins as IADTTwin[],
+        models: demoEnvsModels as DtdlInterface[]
+    };
 
     return (
         <div style={cardStyle}>

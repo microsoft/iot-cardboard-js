@@ -46,7 +46,8 @@ import {
     IADXConnection,
     ADXTimeSeries,
     IMockError,
-    TimeSeriesData
+    TimeSeriesData,
+    IMockData
 } from '../Models/Constants';
 import seedRandom from 'seedrandom';
 import { ADTRelationship, KeyValuePairData } from '../Models/Constants/Types';
@@ -86,10 +87,7 @@ import ViewerConfigUtility from '../Models/Classes/ViewerConfigUtility';
 import ADTInstanceTimeSeriesConnectionData from '../Models/Classes/AdapterDataClasses/ADTInstanceTimeSeriesConnectionData';
 import { handleMigrations } from './BlobAdapterUtility';
 import ADXTimeSeriesData from '../Models/Classes/AdapterDataClasses/ADXTimeSeriesData';
-import {
-    getMockTimeSeriesDataArrayInLocalTime,
-    isTimeSeriesData
-} from '../Models/SharedUtils/DataHistoryUtils';
+import { getMockTimeSeriesDataArrayInLocalTime } from '../Models/SharedUtils/DataHistoryUtils';
 
 export default class MockAdapter
     implements
@@ -99,13 +97,15 @@ export default class MockAdapter
         Partial<IADTAdapter>,
         IPropertyInspectorAdapter,
         IModelledPropertyBuilderAdapter {
-    private mockData = null;
     private mockError: IMockError = null;
-    public mockTwins: IADTTwin[] = null;
-    public mockModels: DtdlInterface[] = null;
+    public mockData: IMockData = {
+        scenesConfig: mockVConfig as I3DScenesConfig,
+        models: mockModelData as DtdlInterface[],
+        twins: mockTwinData,
+        timeSeriesDataList: null
+    };
     private networkTimeoutMillis;
     private isDataStatic;
-    public scenesConfig: I3DScenesConfig;
     private mockEnvironmentHostName =
         'mockADTInstanceResourceName.api.wcus.digitaltwins.azure.net';
     private mockContainerUrl =
@@ -122,10 +122,12 @@ export default class MockAdapter
     } = {};
 
     constructor(mockAdapterArgs?: IMockAdapter) {
-        this.mockData = mockAdapterArgs?.mockData;
-        this.scenesConfig = mockAdapterArgs?.mockData || mockVConfig;
-
+        this.mockData = {
+            ...this.mockData,
+            ...(mockAdapterArgs?.mockData && mockAdapterArgs?.mockData)
+        };
         this.mockError = mockAdapterArgs?.mockError;
+
         this.networkTimeoutMillis =
             typeof mockAdapterArgs?.networkTimeoutMillis === 'number'
                 ? mockAdapterArgs.networkTimeoutMillis
@@ -134,8 +136,7 @@ export default class MockAdapter
             typeof mockAdapterArgs?.isDataStatic === 'boolean'
                 ? mockAdapterArgs.isDataStatic
                 : true;
-        this.mockTwins = mockTwinData;
-        this.mockModels = (mockModelData as any) as DtdlInterface[];
+
         this.initializeMockTwinProperties();
     }
 
@@ -182,7 +183,7 @@ export default class MockAdapter
     }
 
     async getAllAdtModels() {
-        const rawModels = (this.mockModels as any) as DtdlInterface[];
+        const rawModels = this.mockData.models || [];
         const parsedModels = await parseDTDLModelsAsync(rawModels);
         return new AdapterResult<ADTAllModelsData>({
             result: new ADTAllModelsData({ rawModels, parsedModels }),
@@ -196,7 +197,7 @@ export default class MockAdapter
         return await adapterMethodSandbox.safelyFetchData(async () => {
             await this.mockNetwork();
 
-            const targetTwin = this.mockTwins.find(
+            const targetTwin = this.mockData.twins?.find(
                 (twin) => twin.$dtId === twinId
             );
 
@@ -250,7 +251,7 @@ export default class MockAdapter
             const recursivelyAddToExpandedModels = (modelId: string) => {
                 try {
                     // add root model
-                    const rootModel = this.mockModels.find(
+                    const rootModel = this.mockData.models?.find(
                         (m) => m['@id'] === modelId
                     );
 
@@ -305,7 +306,7 @@ export default class MockAdapter
             if (baseModelIds) {
                 for (const mId of [modelId, ...baseModelIds]) {
                     try {
-                        const model = this.mockModels.find(
+                        const model = this.mockData.models?.find(
                             (m) => m['@id'] === mId
                         );
                         if (!model) {
@@ -440,7 +441,7 @@ export default class MockAdapter
 
             await this.mockNetwork();
 
-            const mockTwin = this.mockTwins.find(
+            const mockTwin = this.mockData.twins?.find(
                 (twin) => twin.$dtId === twinId
             );
 
@@ -464,7 +465,9 @@ export default class MockAdapter
         return await adapterMethodSandbox.safelyFetchData(async () => {
             await this.mockNetwork();
             // If schema validation fails - error with be thrown and classified by adapterMethodSandbox
-            const config = validate3DConfigWithSchema(this.scenesConfig);
+            const config = validate3DConfigWithSchema(
+                this.mockData.scenesConfig
+            );
             // To test out migrations with mock data
             handleMigrations(config);
             return new ADTScenesConfigData(config);
@@ -474,9 +477,9 @@ export default class MockAdapter
     async putScenesConfig(config: I3DScenesConfig) {
         try {
             await this.mockNetwork();
-            this.scenesConfig = config;
+            this.mockData.scenesConfig = config;
             return new AdapterResult<ADTScenesConfigData>({
-                result: new ADTScenesConfigData(this.scenesConfig),
+                result: new ADTScenesConfigData(this.mockData.scenesConfig),
                 errorInfo: null
             });
         } catch (err) {
@@ -558,7 +561,9 @@ export default class MockAdapter
 
                         if (element) {
                             // get primary twin
-                            twins[PRIMARY_TWIN_NAME] = this.mockTwins.find(
+                            twins[
+                                PRIMARY_TWIN_NAME
+                            ] = this.mockData.twins?.find(
                                 (t) => t.$dtId === element.primaryTwinID
                             ) || {
                                 $dtId: 'machineID1',
@@ -573,7 +578,7 @@ export default class MockAdapter
                                 for (const alias of Object.keys(
                                     element.twinAliases
                                 )) {
-                                    twins[alias] = this.mockTwins.find(
+                                    twins[alias] = this.mockData.twins?.find(
                                         (t) =>
                                             t.$dtId ===
                                             element.twinAliases[alias]
@@ -621,7 +626,7 @@ export default class MockAdapter
 
             return new AdapterResult({
                 result: new ADTAdapterTwinsData({
-                    value: this.mockTwins.filter((t) =>
+                    value: this.mockData.twins?.filter((t) =>
                         t[params.searchProperty].includes(params.searchTerm)
                     )
                 }),
@@ -669,7 +674,7 @@ export default class MockAdapter
             const firstProperty = this.getFirstPropertyFromQuery(params.query);
             const firstValue = this.getFirstValueFromQuery(params.query);
 
-            const filteredTwins = this.mockTwins.filter((twin) => {
+            const filteredTwins = this.mockData.twins?.filter((twin) => {
                 return String(twin[`${firstProperty}`]) === firstValue;
             });
 
@@ -677,7 +682,7 @@ export default class MockAdapter
                 // Return filtered results only in the case that user is searching for equals
                 // else return all twins
                 result: new ADTAdapterTwinsData({
-                    value: firstValue ? filteredTwins : this.mockTwins
+                    value: firstValue ? filteredTwins : this.mockData.twins
                 }),
                 errorInfo: null
             });
@@ -1052,16 +1057,8 @@ export default class MockAdapter
         useStaticData?: boolean
     ) {
         let mockData: Array<ADXTimeSeries> = [];
-        let mockTimeSeriesData: Array<Array<TimeSeriesData>>;
-        if (
-            this.mockData &&
-            Array.isArray(this.mockData) &&
-            this.mockData.every(
-                (arr) => Array.isArray(arr) && arr.every(isTimeSeriesData)
-            )
-        ) {
-            mockTimeSeriesData = this.mockData;
-        }
+        let mockTimeSeriesData: Array<Array<TimeSeriesData>> = this.mockData
+            .timeSeriesDataList;
 
         try {
             await this.mockNetwork();
