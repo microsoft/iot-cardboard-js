@@ -3,7 +3,9 @@ import { ComponentStory } from '@storybook/react';
 import { getDefaultStoryDecorator } from '../../Models/Services/StoryUtilities';
 import JobsPage from './JobsPage';
 import { IJobsPageProps } from './JobsPage.types';
-import MockAdapter from '../../Adapters/MockAdapter';
+import JobsAdapter from '../../Adapters/JobsAdapter';
+import useAuthParams from '../../../.storybook/useAuthParams';
+import MsalAuthService from '../../Models/Services/MsalAuthService';
 
 const wrapperStyle = { width: '100%', height: '600px', padding: 8 };
 
@@ -13,16 +15,30 @@ export default {
     decorators: [getDefaultStoryDecorator<IJobsPageProps>(wrapperStyle)]
 };
 
-const mockEnvironmentHostName =
-    'https://mockADTInstanceResourceName.api.wcus.digitaltwins.azure.net';
 type JobsPageStory = ComponentStory<typeof JobsPage>;
 
 const Template: JobsPageStory = (args) => {
-    return <JobsPage {...args} />;
+    const authenticationParameters = useAuthParams();
+
+    return !authenticationParameters ? (
+        <div></div>
+    ) : (
+        <JobsPage
+            adapter={
+                new JobsAdapter(
+                    authenticationParameters.adt.hostUrl,
+                    new MsalAuthService(
+                        authenticationParameters.adt.aadParameters
+                    )
+                )
+            }
+            {...args}
+        />
+    );
 };
 
-export const MockJobsPage = Template.bind({}) as JobsPageStory;
-MockJobsPage.args = {
-    adapter: new MockAdapter(),
-    adtInstanceUrl: mockEnvironmentHostName
+export const fullJobsPage = Template.bind({}) as JobsPageStory;
+fullJobsPage.args = {
+    adtInstanceUrl:
+        'https://mockADTInstanceResourceName.api.wcus.digitaltwins.azure.net'
 } as IJobsPageProps;
