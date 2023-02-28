@@ -1,9 +1,9 @@
 import { IStyle, IStyleFunctionOrObject } from '@fluentui/react';
-import { IAdtApiJob } from '../../../../Models/Constants';
 import { IExtendedTheme } from '../../../../Theming/Theme.types';
+import { IJobsData } from '../../JobsContainer.types';
 
 export interface IJobsListProps {
-    jobs: IAdtApiJob[];
+    jobs: IJobsData[];
     onCancelJob: () => void;
     onDeleteJob: () => void;
 

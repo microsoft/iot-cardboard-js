@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import {
     IJobsContainerProps,
     IJobsContainerStyleProps,
-    IJobsContainerStyles
+    IJobsContainerStyles,
+    IJobsData
 } from './JobsContainer.types';
 import { getStyles } from './JobsContainer.styles';
 import { classNamesFunction, CommandBar, styled } from '@fluentui/react';
@@ -22,7 +23,7 @@ const JobsContainer: React.FC<IJobsContainerProps> = ({ adapter, styles }) => {
 
     // state
     const [isJobsDialogOpen, setIsJobsDialogOpen] = useState(false);
-    const [listOfJobs, setListOfJobs] = useState<Array<IAdtApiJob>>([]);
+    const [listOfJobs, setListOfJobs] = useState<Array<IJobsData>>([]);
 
     // hooks
     const deleteJob = () => {
@@ -47,7 +48,7 @@ const JobsContainer: React.FC<IJobsContainerProps> = ({ adapter, styles }) => {
 
     // side effects
     useEffect(() => {
-        const jobs: IAdtApiJob[] = []; //getAllJobs.callAdapter();
+        const jobs: IJobsData[] = []; //getAllJobs.callAdapter();
         setListOfJobs(jobs);
     }, []);
 

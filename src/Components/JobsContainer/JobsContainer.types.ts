@@ -17,6 +17,18 @@ export interface IJobsContainerProps {
 export interface IJobsContainerStyleProps {
     theme: IExtendedTheme;
 }
+
+//the transformed, client type of jobs
+export interface IJobsData {
+    id: string;
+    inputBlobUri: string;
+    outputBlobUri: string;
+    status: string;
+    error: {
+        code: string;
+        message: string;
+    };
+}
 export interface IJobsContainerStyles {
     root: IStyle;
 
