@@ -539,14 +539,10 @@ export interface IADTAdapter
 
 export interface IJobsAdapter extends ADT3DSceneAdapter {
     /** TO-DO: Need to properly set the return types  */
-    createJob(params: AdapterCreateJobArgs): AdapterReturnType<ADTJobsData>;
-    deleteJob(
-        params: AdapterMethodParamsForJobs
-    ): AdapterReturnType<ADTJobsData>;
-    cancelJob(
-        params: AdapterMethodParamsForJobs
-    ): AdapterReturnType<ADTJobsData>;
-    getAllJobs(): AdapterReturnType<ADTJobsData>;
+    createJob(params: AdapterCreateJobArgs): AdapterReturnType<any>;
+    deleteJob(params: AdapterMethodParamsForJobs): AdapterReturnType<any>;
+    cancelJob(params: AdapterMethodParamsForJobs): AdapterReturnType<any>;
+    getAllJobs(): AdapterReturnType<any>;
 }
 export interface IAzureManagementAdapter {
     getRoleAssignments: (
