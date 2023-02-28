@@ -611,8 +611,62 @@
                 },
                 {
                     "$ref": "#/$defs/IDataHistoryWidget"
+                },
+                {
+                    "$ref": "#/$defs/IPowerBIWidget"
                 }
             ]
+        },
+        "IPowerBIWidget": {
+            "type": "object",
+            "description": "A widget to connect to Power BI and display a specified visualization",
+            "additionalProperties": false,
+            "properties": {
+                "type": {
+                    "const": "PowerBI"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "widgetConfiguration": {
+                    "$ref": "#/$defs/IPowerBIWidgetConfiguration"
+                },
+                "extensionProperties": {
+                    "$ref": "#/$defs/IExtensionProperties"
+                }
+            },
+            "required": ["type", "id", "widgetConfiguration"]
+        },
+        "IPowerBIWidgetConfiguration": {
+            "type": "object",
+            "additionalProperties": false,
+            "description": "Widget configuration for required Power BI properties used to render visualization",
+            "properties": {
+                "type": {
+                    "description": "Supported types: report, dashboard, tile, visual",
+                    "type": "string",
+                    "enum": ["Tile", "Visual"]
+                },
+                "displayName": {
+                    "type": "string"
+                },
+                "embedUrl": {
+                    "type": "string",
+                    "description": "The URL of the report that contains the visual that you're embedding. This URL becomes the source of the HTML iframe element that contains the embedded visual. Specifically, the API assigns the URL to the src attribute of the iframe. Similar to \"https://app.powerbi.com/reportEmbed?reportId=<report ID>&groupId=<group ID>\" or \"https://app.powerbi.com/groups/<group ID>/reports/<report ID>\""
+                },
+                "pageName": {
+                    "type": "string",
+                    "description": "The name of the page that contains the visual that you're embedding"
+                },
+                "visualName": {
+                    "type": "string"
+                },
+                "dataFilterExpression": {
+                    "type": "string",
+                    "description": "Template string which evalues to data filter"
+                }
+            },
+            "required": ["type", "label", "reportId"]
         },
         "IPopoverVisual": {
             "type": "object",

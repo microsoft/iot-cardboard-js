@@ -655,6 +655,42 @@
       },
       "headerMenu": "Menu widżetu Historia danych",
       "openQuery": "Otwieranie zapytania w usłudze Azure Data Explorer"
+    },
+    "powerBI": {
+      "title": "Widżet usługi Power BIPower BI widget",
+      "libraryName": "Power BI Visual",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
+      "type": {
+        "label": "Typ",
+        "options": {
+          "report": "Sprawozdanie",
+          "dashboard": "Deska rozdzielcza",
+          "tile": "Kafelek",
+          "visual": "Wizualny"
+        }
+      },
+      "pageName": {
+        "label": "Nazwa strony",
+        "placeholder": "Nazwa strony"
+      },
+      "visualName": {
+        "label": "Nazwa wizualna",
+        "placeholder": "Nazwa wizualna",
+        "suffix": "Wprowadź nazwę określonego elementu z raportu, który ma być wyświetlany w tym widżecie"
+      },
+      "dataFilters": {
+        "label": "Filtry danych"
+      },
+      "errors": {
+        "missingReportConfiguration": "Upewnij się, że widżet jest poprawnie skonfigurowany",
+        "missingConfiguration": "Brak konfiguracji widżetu lub jest on nieprawidłowy",
+        "missingAdapter": "Upewnij się, że karta Power BI jest zainstalowana i skonfigurowana."
+      },
+      "embedUrl": {
+        "label": "Umieść adres URL",
+        "placeholder": "https://embed.powerbi.com/groups/me/reports/{reportId}",
+        "description": "Adres URL używany do osadzania artefaktów raportu w narzędziach zewnętrznych"
+      }
     }
   },
   "sdkStrings": {

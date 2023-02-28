@@ -655,6 +655,42 @@
       },
       "headerMenu": "Widgetmenyn Datahistorik",
       "openQuery": "Öppna frågan i Azure Data Explorer"
+    },
+    "powerBI": {
+      "title": "Power BI-widget",
+      "libraryName": "Visuellt Power BI-objekt",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
+      "type": {
+        "label": "Typ",
+        "options": {
+          "report": "Rapport",
+          "dashboard": "Instrumentbräda",
+          "tile": "Kakel",
+          "visual": "Visuell"
+        }
+      },
+      "pageName": {
+        "label": "Sidans namn",
+        "placeholder": "Sidans namn"
+      },
+      "visualName": {
+        "label": "Visuellt namn",
+        "placeholder": "Visuellt namn",
+        "suffix": "Ange namnet på det specifika elementet från rapporten som ska visas i den här widgeten"
+      },
+      "dataFilters": {
+        "label": "Datafilter"
+      },
+      "errors": {
+        "missingReportConfiguration": "Se till att din widget är korrekt konfigurerad",
+        "missingConfiguration": "Widgetkonfiguration saknas eller är ogiltig",
+        "missingAdapter": "Se till att Power BI-kortet är installerat och konfigurerat"
+      },
+      "embedUrl": {
+        "label": "URL för inbäddning",
+        "placeholder": "https://embed.powerbi.com/groups/me/reports/{reportId}",
+        "description": "URL:en som används för att bädda in rapportartefakter i externa verktyg"
+      }
     }
   },
   "sdkStrings": {

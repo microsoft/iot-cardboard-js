@@ -655,6 +655,42 @@
       },
       "headerMenu": "Menü des Widgets \"Datenverlauf\"",
       "openQuery": "Abfrage im Azure-Daten-Explorer öffnen"
+    },
+    "powerBI": {
+      "title": "Power BI-Widget",
+      "libraryName": "Power BI-Visualisierung",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
+      "type": {
+        "label": "Art",
+        "options": {
+          "report": "Bericht",
+          "dashboard": "Instrumententafel",
+          "tile": "Fliese",
+          "visual": "Visuell"
+        }
+      },
+      "pageName": {
+        "label": "Seitenname",
+        "placeholder": "Seitenname"
+      },
+      "visualName": {
+        "label": "Visueller Name",
+        "placeholder": "Visueller Name",
+        "suffix": "Geben Sie den Namen des spezifischen Elements aus dem Bericht ein, das in diesem Widget angezeigt werden soll."
+      },
+      "dataFilters": {
+        "label": "Datenfilter"
+      },
+      "errors": {
+        "missingReportConfiguration": "Bitte stellen Sie sicher, dass Ihr Widget richtig konfiguriert ist",
+        "missingConfiguration": "Widget-Konfiguration fehlt oder ist ungültig",
+        "missingAdapter": "Stellen Sie sicher, dass der Power BI-Adapter installiert und konfiguriert ist."
+      },
+      "embedUrl": {
+        "label": "URL einbetten",
+        "placeholder": "https://embed.powerbi.com/groups/me/reports/{reportId}",
+        "description": "Die URL zum Einbetten von Berichtsartefakten in externe Tools"
+      }
     }
   },
   "sdkStrings": {
