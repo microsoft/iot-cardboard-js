@@ -3,18 +3,29 @@
     "parser": "@typescript-eslint/parser",
     "plugins": [
         "@typescript-eslint",
-        "react-hooks"
+        "react-hooks",
+        "iot-cardboard-js"
     ],
     "extends": [
         "eslint:recommended",
         "plugin:@typescript-eslint/recommended",
         "prettier",
-        "prettier/@typescript-eslint"
+        "plugin:iot-cardboard-js/recommended"
     ],
     "rules": {
+        "iot-cardboard-js/debug-logging-disabled": "warn",
+        "no-console": [
+            "warn",
+            {
+                "allow": [
+                    "warn",
+                    "error"
+                ]
+            }
+        ],
         "no-debugger": "warn",
-        "no-multiple-empty-lines": "error",
-        "react-hooks/exhaustive-deps": "off",
+        "no-multiple-empty-lines": "warn",
+        "react-hooks/exhaustive-deps": "warn",
         "@typescript-eslint/explicit-module-boundary-types": [
             "off"
         ],

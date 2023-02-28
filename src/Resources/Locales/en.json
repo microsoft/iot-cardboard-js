@@ -1,4 +1,5 @@
 {
+    "clear": "Clear",
     "languageName": "English",
     "languageCode": "en",
     "preview": "Preview",
@@ -60,13 +61,17 @@
     "create": "Create",
     "save": "Save",
     "add": "Add",
+    "ok": "Ok",
     "addNew": "Add new",
     "remove": "Remove",
     "update": "Update",
     "cancel": "Cancel",
     "delete": "Delete",
+    "duplicate": "Duplicate",
     "edit": "Edit",
     "connect": "Connect",
+    "moveUp": "Move up",
+    "moveDown": "Move down",
     "editTwin": "Edit twin",
     "confirmDeletion": "Confirm deletion",
     "confirmDeletionDesc": "Are you sure? You can't undo this action.",
@@ -104,12 +109,20 @@
     "verify": "Verify",
     "success": "Success!",
     "to": "to",
+    "increaseBy1": "Increase value by 1",
+    "decreaseBy1": "Decrease value by 1",
+    "increaseByDecimal": "Increase value by 0.1",
+    "decreaseByDecimal": "Decrease value by 0.1",
     "errors": {
         "errorBoundary": "Error boundary",
         "unkownError": "Unknown error occurred",
         "schemaValidationFailed": {
             "type": "JSON schema validation failed",
             "message": "JSON is invalid. Check syntax matches required schema."
+        },
+        "timeSeriesDatabaseConnectionFetchFailed": {
+            "type": "Time series database connection validation failed",
+            "message": "Data history connection information could not be found, make sure data history is enabled for this Azure Digital Twins instance and that you have at least '{{permission}}' access to the Azure Data Explorer instance."
         }
     },
     "valueRangeBuilder": {
@@ -609,6 +622,42 @@
             "libraryName": "Panel",
             "description": "A layout panel"
         },
+        "powerBI": {
+            "title": "Power BI widget",
+            "libraryName": "Power BI Visual",
+            "description": "Render a Power BI visual or tile",
+            "type": {
+                "label": "Type",
+                "options": {
+                    "report": "Report",
+                    "dashboard": "Dashboard",
+                    "tile": "Tile",
+                    "visual": "Visual"
+                }
+            },
+            "embedUrl": {
+                "label": "Embed URL",
+                "placeholder": "https://embed.powerbi.com/groups/me/reports/{reportId}",
+                "description": "The URL used to embed report artifacts in external tools"
+            },
+            "pageName": {
+                "label": "Page Name",
+                "placeholder": "Page name"
+            },
+            "visualName": {
+                "label": "Visual Name",
+                "placeholder": "Visual name",
+                "suffix": "Enter the name of the specific element from the report to show in this widget"
+            },
+            "dataFilters": {
+                "label": "Data Filters"
+            },
+            "errors": {
+                "missingConfiguration": "Widget configuration is missing or is invalid",
+                "missingAdapter": "Please ensure that the Power BI adapter is installed and configured",
+                "missingReportConfiguration": "Please ensure that your widget is fully configured"
+            }
+        },
         "dataHistory": {
             "title": "Data history widget",
             "libraryName": "Data history",
@@ -654,13 +703,6 @@
                         "information": "When there are too many datapoints to display, values will be grouped in the chart. Choose the aggregation method for these groupings."
                     }
                 }
-            },
-            "errors": {
-                "genericNetwork": "Cluster url is invalid or a network error occured.",
-                "genericBadRequest": "Bad request exception occured.",
-                "generalBadRequestMessage": "Request is invalid and cannot be executed.",
-                "entityNotFound": "Database not found, failed to execute the query.",
-                "forbidden": "Access was denied, you do not have query permissions."
             }
         },
         "notSupported": "This widget type is not currently supported"
@@ -914,21 +956,115 @@
         "showPanel": "Show elements panel",
         "hidePanel": "Hide elements panel"
     },
+    "OAT": {
+        "Common": {
+            "untargeted": "Untargeted",
+            "unhandledExceptionTitle": "Unexpected error",
+            "unhandledExceptionMessage": "Something unexpected happened. Please try again.",
+            "versionDocumentationLink": "Learn more about DTDL version 3"
+        },
+        "Errors": {
+            "validationFailedTitle": "Validation failed",
+            "validationFailedMessage": "There was a problem while validating your changes.",
+            "invalidJSONTitle": "Invalid JSON",
+            "invalidJSONMessage": "The JSON you entered is invalid. Please fix the JSON and try again."
+        },
+        "Header": {
+            "ManageOntologyModal": {
+                "deleteButtonText": "Delete ontology",
+                "modalTitleCreate": "New ontology",
+                "modalTitleEdit": "Edit ontology",
+                "modalSubTitleCreate": "Create a new ontology to give structure to your digital twin.",
+                "modalSubTitleEdit": "Edit your ontology to give structure to your digital twin.",
+                "modalSubTitleLinkText": "Learn more about ontologies",
+                "nameLabel": "Name",
+                "namePlaceholder": "Enter an ontology name",
+                "namespaceLabel": "Default path",
+                "namespaceDescription": "Example model id: {{modelName}}",
+                "namespacePlaceholder": "Enter a default path",
+                "sampleModel": "sample Model",
+                "defaultVersionLabel": "Default DTDL version for new models",
+                "version2": "Version 2",
+                "version3": "Version 3 (preview)"
+            }
+        },
+        "GraphControls": {
+            "modelListTitle": "Toggle model list",
+            "legendTitle": "Toggle associations",
+            "autoLayoutTitle": "Auto layout",
+            "miniMapTitle": "Toggle mini-map"
+        },
+        "ImportLimits": {
+            "message": "Currently the total number of relationships, components and inheritances in an ontology is limited to {{count}} in the Ontology Designer.",
+            "title": "Reference limit reached"
+        },
+        "ImportProgress": {
+            "loadingTitle": "Importing models",
+            "loadingSpinnerLabel": "Importing {{count}} files",
+            "successTitle": "Import successful",
+            "successMessage": "Successfully added {{count}} models to the ontology"
+        },
+        "ImportErrors": {
+            "exceptionTitle": "Unexpected error",
+            "exceptionMessage": "Something unexpected happened. Please try again.",
+            "noValidFilesMessage": "No model files found to import. Make sure there are valid JSON files in the selected file(s).",
+            "noValidFilesTitle": "No models found",
+            "fileInvalidJSON": "Unable to import '{{fileName}}', it contains invalid JSON.",
+            "importFailedTitle": "Import failed",
+            "importFailedMessage": "There was an error during import. Resolve them and try again.\n {{error}}"
+        },
+        "ModelList": {
+            "searchModels": "Search models",
+            "noMatchingItemsMessage": "No models match that criteria",
+            "removeModelButtonText": "Remove model",
+            "noModelsTitle": "You don't have any models yet",
+            "noModelsMessage": "Start designing your ontology by adding a model or importing your existing ontology",
+            "noModelsButtonText": "Add a model"
+        },
+        "PropertyTypes": {
+            "categories": {
+                "complex": "Complex",
+                "primitive": "Primitive",
+                "geospatial": "Geospatial"
+            },
+            "unsupportedPropertyType": "This property type is not available for the current context version of the associated model"
+        },
+        "PropertyEditor": {
+            "Version3PreviewLabel": {
+                "badgeText": "Preview",
+                "badgeCalloutText": "This model uses DTDL version 3. Click to learn more"
+            },
+            "Version3UpgradeButton": {
+                "buttonText": "Upgrade to version 3",
+                "confirmationTitle": "Upgrade to DTDL version 3 (in preview)?",
+                "confirmationMessage": "DTDL version 3 is in preview, are you sure you want to upgrade this model? All existing metadata and properties will be preserved.",
+                "confirmationButtonText": "Upgrade"
+            }
+        }
+    },
+    "OATCommon": {
+        "duplicateFileNameSuffix": "copy",
+        "defaultFileName": "New ontology",
+        "defaultModelNamePrefix": "Model"
+    },
     "OATHeader": {
         "title": "Azure Digital Twins Ontology Editor",
         "searchContent": "Search file, asset, property, or location",
-        "save": "Save",
-        "publish": "Publish",
-        "sync": "sync",
-        "import": "Import",
+        "configure": "Configure",
+        "delete": "Delete",
         "export": "Export",
-        "file": "File",
-        "files": "Files",
+        "import": "Import",
+        "importFile": "Import file",
+        "importFolder": "Import folder",
         "new": "New",
+        "newModel": "New model",
+        "ontology": "Ontology",
         "open": "Open",
+        "publish": "Publish",
+        "save": "Save",
         "saveAs": "Save as",
         "selectFile": "Select file",
-        "delete": "Delete",
+        "sync": "sync",
         "deleteProjectMessage": "Are you sure you want to delete {{projectName}}?",
         "enterAName": "Enter a name",
         "cancel": "Cancel",
@@ -945,13 +1081,7 @@
         "enterANamespace": "Enter a namespace",
         "errorNamespace": "The name may only contain the characters a-z, A-Z, 0-9, and underscore. The first character may not be a digit, and the last character may not be an underscore.",
         "settings": "Settings",
-        "errorInvalidJSON": "Invalid JSON",
-        "errorFileInvalidJSON": "Issue with {{fileName}}: Invalid JSON",
-        "errorFileFormatNotSupported": "Issue with {{fileName}}: Format not supported",
         "errorSingleFileHoldsRelationships": "Issue with {{fileName}}: Model holds relationships which are not being imported",
-        "errorFormatNoSupported": "File format not supported",
-        "errorIssueWithFile": "Issue with {{fileName}}: {{error}}",
-        "errorImportedModelAlreadyExists": "Issue with {{modelId}}: Model with the same @id already exists",
         "undo": "Undo",
         "redo": "Redo",
         "folderUpload": "Folder upload",
@@ -964,24 +1094,22 @@
     "OATGraphViewer": {
         "newModel": "New Model",
         "name": "Name",
-        "id": "Id",
+        "id": "ID",
         "type": "Type",
         "emptyGraph": "No models available",
         "project": "Project",
         "description": "Description",
         "relationships": "Relationships",
         "inheritances": "Inheritances",
+        "extends": "Extends",
         "components": "Components",
         "runLayout": "Run Layout",
-        "errorRepeatedId": "A model with the same ID already exists",
-        "errorRepeatedEdgeName": "A relationship with the same name already exists",
         "errorDisplayNameLength": "Display Name may not exceed 64 characters",
         "errorIdLength": "Id may not exceed 2048 characters",
         "errorIdValidDTMI": "Id must be a valid DTMI",
         "errorName": "Name may only contain the characters a-z, A-Z, 0-9, and underscore",
         "errorNameLength": "Name may not exceed 64 characters",
-        "errorReachedInheritanceLimit": "Reached inheritance limit",
-        "errorInheritance": "May not inherit from more than two interfaces"
+        "loadingText": "Computing layout positions"
     },
     "OATPropertyEditor": {
         "addEnumValue": "Add enum value",
@@ -995,13 +1123,20 @@
         "close": "Close",
         "collapse": "Collapse",
         "comment": "Comment",
+        "commentPlaceholder": "Comment for model authors",
         "complex": "Complex",
+        "contextVersion": "DTDL version",
+        "contextVersion3Description": "DTDL version 3 is in preview.",
         "copy": "copy",
         "data": "data",
+        "date": "date",
         "dateTime": "dateTime",
         "delete": "Delete",
         "description": "Description",
+        "descriptionPlaceholder": "A localizable description to display",
+        "details": "Details",
         "displayName": "Display Name",
+        "displayNamePlaceholder": "A localizable name to display",
         "double": "double",
         "duplicate": "Duplicate",
         "duration": "duration",
@@ -1014,30 +1149,33 @@
         "errorDisplayName": "Display Name may not exceed 64 characters",
         "errorIdLength": "Id may not exceed 2048 characters",
         "errorIdValidDTMI": "Id must be a valid DTMI",
-        "errorInvalidJSON": "Invalid JSON",
         "errorName": "Name may only contain the characters a-z, A-Z, 0-9, and underscore",
         "errorNameLength": "Name may not exceed 64 characters",
         "errorRepeatedEnumValue": "An enum value with the same value already exists",
-        "errorRepeatedId": "A model with the same ID already exists",
         "errorRepeatedName": "A model with the same name already exists",
         "errorRepeatedPropertyName": "A property with the same name already exists",
+        "expand": "Expand",
         "warningId": "Having a value for ID is not recommended for properties.",
         "float": "float",
         "general": "General",
         "id": "Id",
         "info": "Info",
         "integer": "integer",
-        "json": "JSON",
+        "jsonEditorTabName": "DTDL",
         "key": "Key",
         "linestring": "linestring",
         "long": "long",
         "map": "map",
         "mapKeyName": "Map Key Name",
         "mapValueName": "Map Value Name",
+        "maxMultiplicityLabel": "Maximum multiplicity",
+        "minMultiplicityLabel": "Minimum multiplicity",
+        "minMultiplicityMessage": "DTDL V2 only supports a minimum multiplicity of 0",
         "modalTextInputPlaceHolder": "This property...",
         "modalTextInputPlaceHolderDescription": "Line1",
         "modalTextInputPlaceHolderSemanticType": "current...",
         "modalTextInputPlaceHolderUnit": "unit...",
+        "modelId": "Model ID",
         "more": "More",
         "moveDown": "Move down",
         "moveUp": "Move up",
@@ -1046,12 +1184,15 @@
         "multiPoint": "multipoint",
         "multiPolygon": "multi Polygon",
         "name": "Name",
+        "noSelectionMessage": "Select a model or relationship to view details",
         "object": "object",
+        "path": "Path",
         "pivotLink": "Pivot link",
         "point": "point",
         "polygon": "polygon",
         "primitive": "Primitive",
         "properties": "Properties",
+        "propertiesNotSupported": "The selected item does not support properties",
         "property": "Property",
         "remove": "Remove",
         "region": "Region",
@@ -1064,22 +1205,49 @@
         "time": "time",
         "type": "Type",
         "unit": "Unit",
+        "uniqueModelName": "Unique model name",
         "update": "Update",
         "value": "Value",
         "valueSchema": "Value Schema",
+        "version": "Version",
         "viewTemplates": "View Templates",
-        "writable": "Writable"
+        "writable": "Writable",
+        "SchemaDefaults": {
+            "defaultPropertyName": "new_property_{{index}}",
+            "defaultEnumName": "enum_key_{{index}}",
+            "defaultMapName": "enum_key_{{index}}",
+            "defaultObjectPropertyName": "field_name_{{index}}",
+            "defaultMapKeyName": "map_key_{{index}}",
+            "defaultMapValueName": "map_value_{{index}}"
+        },
+        "PropertyListItem": {
+            "arrayItemLabel": "items",
+            "enumKeyPlaceholder": "Enter key",
+            "enumValuePlaceholder": "Enter value",
+            "ContextMenu": {
+                "changePropertyTypeLabel": "Edit property type",
+                "changeChildTypeLabelForArray": "Change array item type",
+                "changeChildTypeLabelForEnum": "Change enum value type",
+                "editMetadataLabel": "Edit metadata"
+            }
+        }
     },
-    "ErrorHandlingWrapper": {
-        "errorMessage": "Error message",
-        "errorTitle": "Error title",
-        "ok": "OK"
+    "OATErrors": {
+        "Validations": {
+            "InvalidDtmiIdFormatTitle": "Invalid DTMI format",
+            "InvalidDtmiIdFormatMessage": "Your changes were not saved because the DTMI did not meet the required format. \n DTMI: {{dtmi}}\n Required format: {{regex}}"
+        }
     },
     "OATErrorBoundary": {
         "modalHeader": "Something went wrong...",
         "messageHeader": "Message",
         "stackHeader": "Stack",
         "tryAgain": "Try again"
+    },
+    "ErrorHandlingWrapper": {
+        "errorMessage": "Error message",
+        "errorTitle": "Error title",
+        "ok": "OK"
     },
     "cameraControls": {
         "mouseControls": "Mouse Controls",
@@ -1243,7 +1411,7 @@
     "advancedSearch": {
         "toggleSelection": "Toggle to Select Twin",
         "selectRow": "Twin Selected",
-        "inspectProperty": "Inspect Property",
+        "inspectProperties": "Inspect properties",
         "results": "Results ({{twinCount}})",
         "addNewButton": "Add new",
         "andOrColumnHeader": "And/Or",
@@ -1296,22 +1464,63 @@
     },
     "dataHistoryExplorer": {
         "title": "Data history explorer",
-        "loadingConnectionLabel": "Loading time series connection information...",
+        "loadingConnectionLabel": "Loading data history connection information...",
         "builder": {
-            "title": "Twin properties",
             "description": "To compare past values for historized properties, add time series below.",
             "timeSeriesTwin": {
                 "add": "Add time series",
                 "edit": "Edit time series",
                 "remove": "Remove time series",
                 "property": "Property",
-                "propertyTypeCastLabel": "Cast property type to number"
+                "propertyTypeCastLabel": "Cast property value to number",
+                "noData": "No data to display for the time range selected",
+                "noProperty": "No property selected"
             }
         },
         "viewer": {
-            "chart": "Chart",
-            "table": "Table",
-            "noSeriesDescription": "To view data history for this twin, select a property to view."
+            "commandBar": {
+                "refresh": "Refresh data",
+                "download": "Download table data"
+            },
+            "chart": {
+                "title": "Chart",
+                "messages": {
+                    "noData": "No numeric data found in the selected time range."
+                }
+            },
+            "table": {
+                "title": "Table",
+                "columns": {
+                    "timestamp": "TimeStamp",
+                    "series": "Series",
+                    "value": "Value",
+                    "type": "Type"
+                },
+                "noColor": "Not set",
+                "messages": {
+                    "noData": "No data found in the selected time range."
+                }
+            },
+            "messages": {
+                "loading": "Loading historized data...",
+                "noSeries": "No twin selected to query, please add twin properties to view historized data."
+            }
+        },
+        "control": {
+            "title": "Open data history explorer",
+            "disabledTitle": "Data history connection information could not be found"
         }
+    },
+    "dataHistoryErrorHandlingWrapper": {
+        "errors": {
+            "genericNetwork": "{{adxServiceName}} instance cannot be connected, make sure the resource is not stopped and your network connectivity is stable.",
+            "genericBadRequest": "Something went wrong, please try again.",
+            "generalBadRequestMessage": "Request is invalid and cannot be executed.",
+            "entityNotFound": "Database not found, cannot execute the query.",
+            "forbidden": "Access was denied, you do not have query permissions."
+        }
+    },
+    "jobs": {
+        "addNew": "Add new"
     }
 }

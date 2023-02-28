@@ -1,8 +1,15 @@
-import { IOATNodePosition } from '../../Models/Constants';
+import { IOATNodePosition, Locale, Theme } from '../../Models/Constants';
 import {
     DtdlInterface,
     DtdlProperty
 } from '../../Models/Constants/dtdlInterfaces';
+
+export interface IOATEditorPageProps {
+    disableStorage?: boolean;
+    locale: Locale;
+    localeStrings?: Record<string, any>;
+    selectedThemeName: Theme;
+}
 
 export interface IOATError {
     callback?: () => void;
@@ -11,9 +18,19 @@ export interface IOATError {
     type?: string;
 }
 
-export interface IOATConfirmDelete {
-    open: boolean;
+export interface IOATConfirmDialogProps {
+    /** callback to fire onConfirm */
     callback?: () => void;
+    /** message body to show in the dialog */
+    message?: string;
+    /** whether the dialog is open */
+    open: boolean;
+    /** title for the dialog */
+    title?: string;
+    /** button text for the primary action */
+    primaryButtonText?: string;
+    /** additional react content to show in the body */
+    additionalContent?: () => React.ReactNode;
 }
 
 export interface IOATModelPosition {
@@ -43,6 +60,6 @@ export interface IOATEditorState {
     error?: IOATError;
     modelPositions: IOATModelPosition[];
     namespace?: string;
-    confirmDeleteOpen?: IOATConfirmDelete;
+    confirmDeleteOpen?: IOATConfirmDialogProps;
     modelsMetadata?: IOATModelsMetadata[];
 }

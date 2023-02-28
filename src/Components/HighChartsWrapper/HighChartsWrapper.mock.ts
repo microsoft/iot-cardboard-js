@@ -1,4 +1,4 @@
-import { getMockTimeSeriesDataArrayInLocalTime } from '../../Models/Services/Utils';
+import { getMockTimeSeriesDataArrayInLocalTime } from '../../Models/SharedUtils/DataHistoryUtils';
 import { IHighChartSeriesData } from './HighChartsWrapper.types';
 
 export const HighChartsMockData: Array<IHighChartSeriesData> = [
@@ -40,7 +40,12 @@ export const HighChartsMockData: Array<IHighChartSeriesData> = [
 export const HighChartsMockLargeData: Array<IHighChartSeriesData> = [
     {
         name: 'Mock series-1',
-        data: getMockTimeSeriesDataArrayInLocalTime(1, 10000)[0],
+        data: getMockTimeSeriesDataArrayInLocalTime(
+            1,
+            500000,
+            undefined,
+            true
+        )[0],
         tooltipSuffix: '°F'
     }
 ];

@@ -36,9 +36,11 @@ const Template: SceneBuilderStory = (
                 locale={context.globals.locale}
                 adapter={
                     new MockAdapter({
-                        mockData: context.parameters.data
-                            ? deepCopy(context.parameters.data)
-                            : trucksMockVConfig
+                        mockData: {
+                            scenesConfig: context.parameters.data
+                                ? deepCopy(context.parameters.data)
+                                : trucksMockVConfig
+                        }
                     })
                 }
                 sceneId="58e02362287440d9a5bf3f8d6d6bfcf9"
@@ -160,11 +162,11 @@ EditVisualRuleTabRemoveRule.play = async ({ canvasElement }) => {
     const moreMenu = await canvas.findByTestId(
         'context-menu-visualRules-in-behavior-0-moreMenu'
     );
-    await userEvent.click(moreMenu);
+    userEvent.click(moreMenu);
     await sleep(1);
 
     const deleteButton = await findOverflowMenuItem('removeRuleOverflow');
-    await clickOverFlowMenuItem(deleteButton);
+    clickOverFlowMenuItem(deleteButton);
 };
 
 export const EditWidgetsTab = Template.bind({});

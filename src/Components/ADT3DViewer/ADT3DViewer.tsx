@@ -55,7 +55,7 @@ import {
     ADT3DScenePageModes,
     BehaviorModalMode,
     IADTBackgroundColor,
-    IADXAdapter
+    IADTDataHistoryAdapter
 } from '../../Models/Constants';
 import FloatingScenePageModeToggle from '../../Pages/ADT3DScenePage/Internal/FloatingScenePageModeToggle';
 import DeeplinkFlyout from '../DeeplinkFlyout/DeeplinkFlyout';
@@ -695,6 +695,7 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
     const sceneName = ViewerConfigUtility.getSceneById(scenesConfig, sceneId)
         ?.displayName;
     logDebugConsole('debug', 'Render');
+
     return (
         <BaseComponent
             isLoading={isLoading && !sceneVisuals}
@@ -811,11 +812,15 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
 const hasPropertyInspectorAdapter = (
     adapter:
         | IADT3DViewerAdapter
-        | (IADT3DViewerAdapter & IPropertyInspectorAdapter & IADXAdapter)
-): adapter is IADT3DViewerAdapter & IPropertyInspectorAdapter & IADXAdapter =>
+        | (IADT3DViewerAdapter &
+              IPropertyInspectorAdapter &
+              IADTDataHistoryAdapter)
+): adapter is IADT3DViewerAdapter &
+    IPropertyInspectorAdapter &
+    IADTDataHistoryAdapter =>
     !!(adapter as IPropertyInspectorAdapter).getADTTwin &&
-    !!(adapter as IADXAdapter).getTimeSeriesData &&
-    !!(adapter as IADT3DViewerAdapter).getSceneData;
+    !!(adapter as IADT3DViewerAdapter).getSceneData &&
+    !!(adapter as IADTDataHistoryAdapter).updateADXConnectionInformation;
 
 const ADT3DViewer: React.FC<IADT3DViewerProps> = (props) => {
     return (

@@ -100,6 +100,10 @@
     "schemaValidationFailed": {
       "type": "Falha na validação do esquema JSON",
       "message": "JSON é inválido. Verifique os jogos de sintaxe necessários."
+    },
+    "timeSeriesDatabaseConnectionFetchFailed": {
+      "type": "Falha na validação da conexão do banco de dados de série temporal",
+      "message": "Não foi possível encontrar informações de conexão de histórico de dados, verifique se o histórico de dados está habilitado para essa instância de Gêmeos Digitais do Azure e se você tem pelo menos '{{permissão}}' acesso à instância do Azure Data Explorer."
     }
   },
   "valueRangeBuilder": {
@@ -650,13 +654,42 @@
         }
       },
       "headerMenu": "Menu de widget do histórico de dados",
-      "openQuery": "Consulta aberta no Azure Data Explorer",
+      "openQuery": "Consulta aberta no Azure Data Explorer"
+    },
+    "powerBI": {
+      "title": "Widget do Power BI",
+      "libraryName": "Power BI Visual",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
+      "type": {
+        "label": "Tipo",
+        "options": {
+          "report": "Relatório",
+          "dashboard": "Painel",
+          "tile": "Telha",
+          "visual": "Visual"
+        }
+      },
+      "pageName": {
+        "label": "Nome da página",
+        "placeholder": "Nome da página"
+      },
+      "visualName": {
+        "label": "Nome Visual",
+        "placeholder": "Nome visual",
+        "suffix": "Insira o nome do elemento específico do relatório a ser exibido neste widget"
+      },
+      "dataFilters": {
+        "label": "Filtros de dados"
+      },
       "errors": {
-        "genericNetwork": "A url do cluster é inválida ou ocorreu um erro de rede.",
-        "genericBadRequest": "A exceção do pedido foi ocorrida.",
-        "generalBadRequestMessage": "A solicitação é inválida e não pode ser executada.",
-        "entityNotFound": "Banco de dados não encontrado, falhou em executar consulta.",
-        "forbidden": "O acesso foi negado, você não tem permissões de consulta."
+        "missingReportConfiguration": "Certifique-se de que o widget está configurado corretamente",
+        "missingConfiguration": "A configuração do widget está ausente ou é inválida",
+        "missingAdapter": "Certifique-se de que o adaptador do Power BI está instalado e configurado"
+      },
+      "embedUrl": {
+        "label": "URL de incorporação",
+        "placeholder": "https://embed.powerbi.com/groups/me/reports/{reportId}",
+        "description": "A URL usada para incorporar artefatos de relatório em ferramentas externas"
       }
     }
   },
@@ -917,7 +950,6 @@
     "sync": "sincronizar",
     "import": "Importação",
     "export": "Exportação",
-    "file": "Arquivo",
     "new": "Novo",
     "open": "Abrir",
     "saveAs": "Salvar como",
@@ -934,27 +966,25 @@
     "namespace": "Namespace",
     "enterANamespace": "Digite um namespace",
     "settings": "Configurações",
-    "errorInvalidJSON": "JSON inválido",
-    "errorFileFormatNotSupported": "{{file}} formato não suportado",
-    "errorFormatNoSupported": "Formato de arquivo não suportado",
-    "errorIssueWithFile": "Problema com {{fileName}}: {{error}}",
     "errorNamespace": "O namespace só pode conter letras, dígitos e sublinhados.",
     "undo": "Desfazer",
     "redo": "Refazer",
     "deleteAll": "Excluir tudo",
     "folderUpload": "Upload de pasta",
     "fileUpload": "Upload de arquivo",
-    "files": "Limas",
     "selectFile": "Selecione arquivo",
     "errorSingleFileHoldsRelationships": "Problema com {{fileName}}: O modelo mantém relacionamentos que não estão sendo importados",
-    "errorImportedModelAlreadyExists": "Problema com {{modelId}}: Modelo com o mesmo @id já existe",
-    "errorFileInvalidJSON": "Problema com {{fileName}}: JSON inválido",
     "deleteProjectMessage": "Tem certeza de que deseja excluir {{projectName}}?",
     "errorSameName": "Projeto com mesmo nome já existe. Gostaria de substituir?",
     "fileOpenModal": {
       "dropdownLabel": "Ontologia",
       "dropdownPlaceholder": "Selecione uma ontologia"
-    }
+    },
+    "configure": "Configurar",
+    "importFile": "Importar arquivo",
+    "importFolder": "Importar pasta",
+    "ontology": "Ontologia",
+    "newModel": "Novo modelo"
   },
   "cameraControls": {
     "mouseControls": "Controles do mouse",
@@ -1091,99 +1121,10 @@
     "errorNameLength": "O nome não pode exceder 64 chars",
     "errorIdLength": "Id não pode exceder 2048 chars",
     "errorIdValidDTMI": "O ID deve ser um DTMI válido",
-    "errorRepeatedId": "Um modelo com a mesma id já existe",
     "errorDisplayNameLength": "O nome do display não pode exceder 64 chars",
-    "errorRepeatedEdgeName": "Uma relação com o mesmo nome já existe",
     "runLayout": "Executar layout",
-    "errorReachedInheritanceLimit": "Limite de herança alcançado",
-    "errorInheritance": "Não pode herdar de mais de duas interfaces"
-  },
-  "OATPropertyEditor": {
-    "displayName": "Nome de exibição",
-    "general": "Geral",
-    "assetId": "ID de ativos",
-    "type": "Tipo",
-    "properties": "Propriedades",
-    "viewTemplates": "Exibir modelos",
-    "name": "Nome",
-    "schemaType": "Tipo de esquema",
-    "addProperty": "Adicionar propriedade",
-    "comment": "Comentário",
-    "description": "Descrição",
-    "writable": "Gravável",
-    "semanticType": "Tipo semântico",
-    "unit": "Unidade",
-    "id": "Id",
-    "update": "Atualização",
-    "primitive": "Primitivo",
-    "complex": "Complexo",
-    "errorRepeatedPropertyName": "Uma propriedade com o mesmo nome já existe",
-    "errorRepeatedEnumValue": "Um valor de enum com o mesmo valor já existe",
-    "templates": "Modelos",
-    "templateSearchPlaceholder": "Nome da pesquisa, id, propriedade",
-    "property": "Propriedade",
-    "modalTextInputPlaceHolder": "Essa propriedade...",
-    "modalTextInputPlaceHolderDescription": "Linha1",
-    "modalTextInputPlaceHolderSemanticType": "atual...",
-    "modalTextInputPlaceHolderUnit": "unidade...",
-    "pivotLink": "Link pivô",
-    "json": "JSON",
-    "addEnumValue": "Adicionar valor de Enum",
-    "enumValue": "Valor de Enum",
-    "mapKeyName": "Nome da chave do mapa",
-    "mapValueName": "Nome do valor do mapa",
-    "key": "Chave",
-    "value": "Valor",
-    "addToTemplate": "Adicionar ao modelo",
-    "duplicate": "Duplicar",
-    "remove": "Retirar",
-    "boolean": "booleano",
-    "data": "dados",
-    "float": "flutuar",
-    "integer": "inteiro",
-    "string": "corda",
-    "enum": "enum",
-    "map": "mapa",
-    "array": "array",
-    "object": "objeto",
-    "dateTime": "dateTime",
-    "time": "Hora",
-    "long": "Longas",
-    "double": "dobrar",
-    "duration": "duração",
-    "point": "ponto",
-    "linestring": "line cording",
-    "polygon": "polígono",
-    "multiPoint": "multiponto",
-    "multiLinestring": "multilinestring",
-    "multiPolygon": "multi Polígono",
-    "close": "Fechar",
-    "collapse": "Colapso",
-    "info": "Informação",
-    "more": "Mais",
-    "copy": "copiar",
-    "cancel": "Cancelar",
-    "delete": "Excluir",
-    "multiLanguage": "multi-linguagem",
-    "region": "Região",
-    "singleLanguage": "Língua única",
-    "errorComment": "Comentários não podem exceder 512 chars",
-    "errorDisplayName": "O nome do display não pode exceder 64 chars",
-    "errorDescription": "Descrição não pode exceder 512 chars",
-    "errorName": "O nome só pode conter os caracteres a-z, A-Z, 0-9 e sublinhar",
-    "errorNameLength": "O nome não pode exceder 64 chars",
-    "errorIdLength": "Id não pode exceder 2048 chars",
-    "errorIdValidDTMI": "O ID deve ser um DTMI válido",
-    "errorDisplayNameLength": "O nome do display não pode exceder 64 chars",
-    "errorRepeatedId": "Um modelo com a mesma id já existe",
-    "errorRepeatedName": "Um modelo com o mesmo nome já existe",
-    "errorRepeatedEdgeName": "Uma relação com o mesmo nome já existe",
-    "errorInvalidJSON": "JSON inválido",
-    "warningId": "Não é recomendado ter um valor para ID.",
-    "addToPropertyList": "Adicionar à lista de propriedades",
-    "moveDown": "Abaixe-se",
-    "moveUp": "Mova-se para cima",
-    "valueSchema": "Esquema de valor"
+    "extends": "Estende",
+    "loadingText": "Posições de layout de computação"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Mensagem de erro",
@@ -1243,7 +1184,6 @@
   "advancedSearch": {
     "toggleSelection": "Alternar para Selecionar gêmeos",
     "selectRow": "Gêmeos Selecionados",
-    "inspectProperty": "Inspecionar propriedade",
     "results": "Resultados ({{twinCount}})",
     "noPropertiesFound": "Nenhuma propriedade encontrada",
     "addNewButton": "Adicionar novo",
@@ -1265,7 +1205,8 @@
     "columnPicker": "Catador de colunas",
     "propertyCount": "{{selectedPropsCount}} propriedades selecionadas",
     "availableProperties": "Desistência de imóveis disponíveis",
-    "selectAdditionalColumns": "Selecione colunas adicionais"
+    "selectAdditionalColumns": "Selecione colunas adicionais",
+    "inspectProperties": "Inspecionar propriedades"
   },
   "highcharts": {
     "shareQueryTitle": "Consulta de compartilhamento",
@@ -1302,24 +1243,292 @@
   "colorPills": {
     "unlabeled": "Unlabeled"
   },
+  "clear": "Claro",
+  "duplicate": "Duplicar",
+  "moveUp": "Mover para cima",
+  "moveDown": "Mover para baixo",
+  "increaseBy1": "Aumentar o valor em 1",
+  "decreaseBy1": "Diminuir o valor em 1",
+  "OATCommon": {
+    "duplicateFileNameSuffix": "copiar",
+    "defaultFileName": "Nova ontologia",
+    "defaultModelNamePrefix": "Modelo"
+  },
+  "OATErrors": {
+    "Validations": {
+      "InvalidDtmiIdFormatTitle": "Formato DTMI inválido",
+      "InvalidDtmiIdFormatMessage": "Suas alterações não foram salvas porque o DTMI não atendeu ao formato necessário. \n DTMI: {{dtmi}}\n Formato necessário: {{regex}}"
+    }
+  },
+  "OAT": {
+    "ModelList": {
+      "searchModels": "Pesquisar modelos",
+      "noMatchingItemsMessage": "Nenhum modelo corresponde a esse critério",
+      "removeModelButtonText": "Remover modelo",
+      "noModelsTitle": "Você ainda não tem nenhum modelo",
+      "noModelsMessage": "Comece a projetar sua ontologia adicionando um modelo ou importando sua ontologia existente",
+      "noModelsButtonText": "Adicionar um modelo"
+    },
+    "Common": {
+      "untargeted": "Não direcionado",
+      "unhandledExceptionTitle": "Erro inesperado",
+      "unhandledExceptionMessage": "Algo inesperado aconteceu. Tente novamente.",
+      "versionDocumentationLink": "Saiba mais sobre o DTDL versão 3"
+    },
+    "ImportErrors": {
+      "fileInvalidJSON": "Não é possível importar '{{fileName}}', ele contém JSON inválido.",
+      "exceptionTitle": "Erro inesperado",
+      "exceptionMessage": "Algo inesperado aconteceu. Tente novamente.",
+      "importFailedTitle": "Falha na importação",
+      "importFailedMessage": "Ocorreu um erro durante a importação. Resolva-os e tente novamente.\n {{erro}}",
+      "noValidFilesTitle": "Nenhum modelo encontrado",
+      "noValidFilesMessage": "Nenhum arquivo de modelo encontrado para importar. Verifique se há arquivos JSON válidos no(s) arquivo(s) selecionado(s)."
+    },
+    "PropertyEditor": {
+      "Version3UpgradeButton": {
+        "confirmationTitle": "Atualizar modelo?",
+        "confirmationMessage": "Tem certeza de que deseja atualizar este modelo para DTDL versão 3? Todas as suas configurações serão preservadas.",
+        "confirmationButtonText": "Melhoramento",
+        "buttonText": "Atualizar para a versão 3"
+      },
+      "Version3PreviewLabel": {
+        "badgeText": "Visualizar",
+        "badgeCalloutText": "Este modelo usa DTDL versão 3. Clique para saber mais"
+      }
+    },
+    "PropertyTypes": {
+      "categories": {
+        "complex": "Complexo",
+        "primitive": "Primitivo",
+        "geospatial": "Geoespacial"
+      },
+      "unsupportedPropertyType": "Esse tipo de propriedade não está disponível para a versão de contexto atual do modelo associado"
+    },
+    "Header": {
+      "ManageOntologyModal": {
+        "deleteButtonText": "Excluir ontologia",
+        "modalTitleCreate": "Nova ontologia",
+        "modalTitleEdit": "Editar ontologia",
+        "modalSubTitleCreate": "Crie uma nova ontologia para dar estrutura ao seu gêmeo digital.",
+        "modalSubTitleEdit": "Edite sua ontologia para dar estrutura ao seu gêmeo digital.",
+        "modalSubTitleLinkText": "Saiba mais sobre ontologias",
+        "nameLabel": "Nome",
+        "namePlaceholder": "Digite um nome de ontologia",
+        "namespaceLabel": "Caminho padrão",
+        "namespaceDescription": "ID do modelo de exemplo: {{modelName}}",
+        "namespacePlaceholder": "Inserir um caminho padrão",
+        "sampleModel": "modelo de exemplo",
+        "defaultVersionLabel": "Versão DTDL padrão para novos modelos",
+        "version2": "Versão 2",
+        "version3": "Versão 3 (pré-visualização)"
+      }
+    },
+    "ImportProgress": {
+      "loadingTitle": "Importando modelos",
+      "loadingSpinnerLabel": "Importando arquivos {{count}}",
+      "successTitle": "Importação bem-sucedida",
+      "successMessage": "Modelos {{count}} adicionados com êxito à ontologia"
+    },
+    "GraphControls": {
+      "modelListTitle": "Alternar lista de modelos",
+      "legendTitle": "Alternar associações",
+      "autoLayoutTitle": "Layout automático",
+      "miniMapTitle": "Alternar mini-mapa"
+    },
+    "ImportLimits": {
+      "message": "Atualmente, o número total de relacionamentos, componentes e heranças em uma ontologia é limitado a {{count}} no Ontology Designer.",
+      "title": "Limite de referência atingido"
+    },
+    "Errors": {
+      "invalidJSONTitle": "JSON inválido",
+      "invalidJSONMessage": "O JSON inserido é inválido. Corrija o JSON e tente novamente.",
+      "validationFailedTitle": "Falha na validação",
+      "validationFailedMessage": "Ocorreu um problema ao validar as alterações."
+    }
+  },
+  "dataHistoryErrorHandlingWrapper": {
+    "errors": {
+      "genericNetwork": "A instância do Azure Data Explorer não pode ser conectada, verifique se o recurso não está parado e se a conectividade de rede está estável.",
+      "genericBadRequest": "Algo deu errado, por favor, tente novamente.",
+      "generalBadRequestMessage": "A solicitação é inválida e não pode ser executada.",
+      "entityNotFound": "Banco de dados não encontrado, não é possível executar a consulta.",
+      "forbidden": "O acesso foi negado, você não tem permissões de consulta."
+    }
+  },
   "dataHistoryExplorer": {
     "title": "Explorador de histórico de dados",
+    "loadingConnectionLabel": "Carregando informações de conexão do histórico de dados...",
     "builder": {
-      "title": "Propriedades Twin",
+      "description": "Para comparar valores passados para propriedades historizadas, adicione séries temporais abaixo.",
       "timeSeriesTwin": {
-        "property": "Propriedade",
-        "propertyTypeCastLabel": "Transmitir o tipo de propriedade para o número",
         "add": "Adicionar séries temporais",
+        "edit": "Editar séries temporais",
         "remove": "Remover séries temporais",
-        "edit": "Editar séries temporais"
-      },
-      "description": "Para comparar valores passados para propriedades historizadas, adicione séries temporais abaixo."
+        "property": "Propriedade",
+        "noData": "Nenhum dado a ser exibido para o intervalo de tempo selecionado",
+        "propertyTypeCastLabel": "Transferir o valor da propriedade para o número",
+        "noProperty": "Nenhuma propriedade selecionada"
+      }
     },
     "viewer": {
-      "chart": "Gráfico",
-      "table": "Mesa",
-      "noSeriesDescription": "Para exibir o histórico de dados desse gêmeo, selecione uma propriedade a ser exibida."
+      "chart": {
+        "title": "Gráfico",
+        "messages": {
+          "noData": "Nenhum dado numérico encontrado no intervalo de tempo selecionado."
+        }
+      },
+      "table": {
+        "title": "Mesa",
+        "columns": {
+          "timestamp": "Timestamp",
+          "series": "Série",
+          "value": "Valor",
+          "type": "Tipo"
+        },
+        "messages": {
+          "noData": "Nenhum dado encontrado no intervalo de tempo selecionado."
+        },
+        "noColor": "Não definido"
+      },
+      "messages": {
+        "loading": "Carregando dados historizados...",
+        "noSeries": "Nenhum gêmeo selecionado para consultar, adicione propriedades gêmeas para exibir dados historiados."
+      },
+      "commandBar": {
+        "refresh": "Atualizar dados",
+        "download": "Baixar dados da tabela"
+      }
     },
-    "loadingConnectionLabel": "Carregando informações de conexão de série temporal..."
+    "control": {
+      "title": "Abrir o explorador de histórico de dados",
+      "disabledTitle": "Não foi possível encontrar informações de conexão do histórico de dados"
+    }
+  },
+  "increaseByDecimal": "Aumentar o valor em 0,1",
+  "decreaseByDecimal": "Diminuir o valor em 0,1",
+  "ok": "Okey",
+  "OATPropertyEditor": {
+    "addEnumValue": "Adicionar valor de enum",
+    "addProperty": "Adicionar propriedade",
+    "addToPropertyList": "Adicionar à lista de propriedades",
+    "addToTemplate": "Adicionar ao modelo",
+    "array": "array",
+    "assetId": "ID do ativo",
+    "boolean": "booleano",
+    "cancel": "Cancelar",
+    "close": "Fechar",
+    "collapse": "Colapso",
+    "comment": "Comentário",
+    "commentPlaceholder": "Comentário para autores de modelos",
+    "complex": "Complexo",
+    "contextVersion": "Versão DTDL",
+    "contextVersion3Description": "DTDL versão 3 está em pré-visualização.",
+    "copy": "copiar",
+    "data": "dados",
+    "date": "data",
+    "dateTime": "dateTime",
+    "delete": "Excluir",
+    "description": "Descrição",
+    "descriptionPlaceholder": "Uma descrição localizável a ser exibida",
+    "details": "Detalhes",
+    "displayName": "Nome para Exibição",
+    "displayNamePlaceholder": "Um nome localizável para exibição",
+    "double": "dobrar",
+    "duplicate": "Duplicar",
+    "duration": "duração",
+    "enum": "enum",
+    "enumValue": "Valor do Enum",
+    "errorComment": "O comentário não pode exceder 512 caracteres",
+    "errorDisplayNameLength": "O Nome para Exibição não pode exceder 64 caracteres",
+    "errorDescription": "A descrição não pode exceder 512 caracteres",
+    "errorRepeatedEdgeName": "Já existe uma relação com o mesmo nome",
+    "errorDisplayName": "O Nome para Exibição não pode exceder 64 caracteres",
+    "errorIdLength": "O ID não pode exceder 2048 caracteres",
+    "errorIdValidDTMI": "O ID deve ser um DTMI válido",
+    "errorName": "O nome só pode conter os caracteres a-z, A-Z, 0-9 e sublinhado",
+    "errorNameLength": "O nome não pode exceder 64 caracteres",
+    "errorRepeatedEnumValue": "Já existe um valor enum com o mesmo valor",
+    "errorRepeatedName": "Já existe um modelo com o mesmo nome",
+    "errorRepeatedPropertyName": "Uma propriedade com o mesmo nome já existe",
+    "expand": "Expandir",
+    "warningId": "Ter um valor para ID não é recomendado para propriedades.",
+    "float": "flutuar",
+    "general": "Geral",
+    "id": "Id",
+    "info": "Informação",
+    "integer": "inteiro",
+    "key": "Chave",
+    "linestring": "linestring",
+    "long": "Longas",
+    "map": "mapa",
+    "mapKeyName": "Nome da chave do mapa",
+    "mapValueName": "Nome do valor do mapa",
+    "maxMultiplicityLabel": "Multiplicidade máxima",
+    "minMultiplicityLabel": "Multiplicidade mínima",
+    "minMultiplicityMessage": "DTDL V2 suporta apenas uma multiplicidade mínima de 0",
+    "modalTextInputPlaceHolder": "Esta propriedade...",
+    "modalTextInputPlaceHolderDescription": "Linha1",
+    "modalTextInputPlaceHolderSemanticType": "atual...",
+    "modalTextInputPlaceHolderUnit": "unidade...",
+    "modelId": "ID do modelo",
+    "more": "Mais",
+    "moveDown": "Mover para baixo",
+    "moveUp": "Mover para cima",
+    "multiLanguage": "multi-idioma",
+    "multiLinestring": "multilinestring",
+    "multiPoint": "multiponto",
+    "multiPolygon": "polígono multi",
+    "name": "Nome",
+    "noSelectionMessage": "Selecione um modelo ou relação para exibir detalhes",
+    "object": "objeto",
+    "path": "Caminho",
+    "pivotLink": "Link de dinamização",
+    "point": "ponto",
+    "polygon": "polígono",
+    "primitive": "Primitivo",
+    "properties": "Propriedades",
+    "propertiesNotSupported": "O item selecionado não oferece suporte a propriedades",
+    "property": "Propriedade",
+    "remove": "Retirar",
+    "region": "Região",
+    "schemaType": "Tipo de esquema",
+    "semanticType": "Tipo semântico",
+    "singleLanguage": "Língua única",
+    "string": "corda",
+    "templateSearchPlaceholder": "Nome da pesquisa, id, propriedade",
+    "templates": "Modelos",
+    "time": "Hora",
+    "type": "Tipo",
+    "unit": "Unidade",
+    "uniqueModelName": "Nome exclusivo do modelo",
+    "update": "Atualização",
+    "value": "Valor",
+    "valueSchema": "Esquema de valor",
+    "version": "Versão",
+    "viewTemplates": "Exibir modelos",
+    "writable": "Gravável",
+    "SchemaDefaults": {
+      "defaultPropertyName": "new_property_{{índice}}",
+      "defaultEnumName": "enum_key_{{índice}}",
+      "defaultMapName": "enum_key_{{índice}}",
+      "defaultObjectPropertyName": "field_name_{{índice}}",
+      "defaultMapKeyName": "map_key_{{índice}}",
+      "defaultMapValueName": "map_value_{{índice}}"
+    },
+    "PropertyListItem": {
+      "arrayItemLabel": "Itens",
+      "enumKeyPlaceholder": "Digite a chave",
+      "enumValuePlaceholder": "Insira o valor",
+      "ContextMenu": {
+        "changePropertyTypeLabel": "Editar tipo de propriedade",
+        "changeChildTypeLabelForArray": "Alterar o tipo de item de matriz",
+        "changeChildTypeLabelForEnum": "Alterar o tipo de valor de enum",
+        "editMetadataLabel": "Editar metadados"
+      }
+    },
+    "jsonEditorTabName": "DTDL"
+  },
+  "jobs": {
+    "addNew": "Adicionar novo"
   }
 }

@@ -11,6 +11,7 @@ import {
 } from '../../Models/Constants/Enums';
 import {
     ADTPatch,
+    IADTDataHistoryAdapter,
     IADTRelationship,
     IADTTwin,
     IPropertyInspectorAdapter
@@ -28,7 +29,7 @@ import { Spinner } from '@fluentui/react';
 
 type TwinPropertyInspectorProps = {
     twinId: string;
-    adapter: IPropertyInspectorAdapter;
+    adapter: IPropertyInspectorAdapter | IADTDataHistoryAdapter;
     relationshipId?: never;
     resolvedTwin?: IADTTwin;
     resolvedRelationship?: never;
@@ -41,6 +42,12 @@ type RelationshipPropertyInspectorProps = {
     resolvedRelationship?: IADTRelationship;
     resolvedTwin?: IADTTwin;
 };
+
+export type DataHistoryControl =
+    | boolean
+    | {
+          isEnabled: boolean; // to force control if the button is enabled in UI without relying on adapter's timeSeriesConnection information
+      };
 
 type PropertyInspectorProps = {
     isPropertyInspectorLoading?: boolean;
@@ -55,6 +62,7 @@ type PropertyInspectorProps = {
     };
     readonly?: boolean;
     customCommandBarTitleSpan?: React.ReactNode;
+    hasDataHistoryControl?: DataHistoryControl;
 } & (TwinPropertyInspectorProps | RelationshipPropertyInspectorProps);
 
 /** Utility method for checking PropertyInspectorProps type -- twin or relationship*/
@@ -362,9 +370,29 @@ const PropertyInspector: React.FC<PropertyInspectorProps> = (props) => {
                         });
                     }
                 }}
+                dataHistoryControlProps={
+                    isTwin(props) &&
+                    hasDataHistoryAdapter(props.adapter) &&
+                    props.hasDataHistoryControl
+                        ? {
+                              isEnabled:
+                                  typeof props.hasDataHistoryControl ===
+                                  'boolean'
+                                      ? undefined
+                                      : props.hasDataHistoryControl.isEnabled,
+                              initialTwinId: props.twinId,
+                              adapter: props.adapter
+                          }
+                        : undefined
+                }
             />
         </div>
     );
 };
+
+const hasDataHistoryAdapter = (
+    adapter: IPropertyInspectorAdapter | IADTDataHistoryAdapter
+): adapter is IADTDataHistoryAdapter =>
+    !!(adapter as IADTDataHistoryAdapter).updateADXConnectionInformation;
 
 export default React.memo(PropertyInspector);

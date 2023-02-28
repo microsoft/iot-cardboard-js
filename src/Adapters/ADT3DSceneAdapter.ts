@@ -8,10 +8,11 @@ import {
     ComponentErrorType
 } from '../Models/Constants/Enums';
 import { IAuthService, IAzureResource } from '../Models/Constants/Interfaces';
-import { applyMixins, getUrlFromString } from '../Models/Services/Utils';
-import ADTAdapter from './ADTAdapter';
-import ADXAdapter from './ADXAdapter';
-import AzureManagementAdapter from './AzureManagementAdapter';
+import {
+    applyMixins,
+    getUrlFromString,
+    validateExplorerOrigin
+} from '../Models/Services/Utils';
 import BlobAdapter from './BlobAdapter';
 import {
     ADTAllModelsData,
@@ -22,13 +23,20 @@ import {
     AzureAccessPermissionRoleGroups,
     modelRefreshMaxAge,
     RequiredAccessRoleGroupForStorageContainer,
-    timeSeriesConnectionRefreshMaxAge
+    timeSeriesConnectionRefreshMaxAge,
+    LOCAL_STORAGE_KEYS
 } from '../Models/Constants';
 import {
     AzureMissingRoleDefinitionsData,
     AzureResourcesData
 } from '../Models/Classes/AdapterDataClasses/AzureManagementData';
 import ADTInstanceTimeSeriesConnectionData from '../Models/Classes/AdapterDataClasses/ADTInstanceTimeSeriesConnectionData';
+import ADTDataHistoryAdapter from './ADTDataHistoryAdapter';
+import PowerBIWidgetBuilderAdapter from '../Components/PowerBIWidget/Internal/PowerBIWidgetBuilder/PowerBIWidgetBuilderAdapter';
+
+const forceCORS =
+    localStorage.getItem(LOCAL_STORAGE_KEYS.FeatureFlags.Proxy.forceCORS) ===
+    'true';
 
 export default class ADT3DSceneAdapter {
     constructor(
@@ -38,7 +46,9 @@ export default class ADT3DSceneAdapter {
         tenantId?: string,
         uniqueObjectId?: string,
         adtProxyServerPath = '/proxy/adt',
-        blobProxyServerPath = '/proxy/blob'
+        blobProxyServerPath = '/proxy/blob',
+        useAdtProxy = true,
+        useBlobProxy = true
     ) {
         this.adtHostUrl = adtHostUrl;
         this.authService = this.blobAuthService = this.adxAuthService = authService;
@@ -54,6 +64,17 @@ export default class ADT3DSceneAdapter {
         this.timeSeriesConnectionCache = new AdapterEntityCache<ADTInstanceTimeSeriesConnectionData>(
             timeSeriesConnectionRefreshMaxAge
         );
+        /**
+         * Check if class has been initialized with CORS enabled or if origin matches dev or prod explorer urls,
+         * override if CORS is forced by feature flag
+         *  */
+        this.useAdtProxy =
+            (useAdtProxy || !validateExplorerOrigin(window.origin)) &&
+            !forceCORS;
+
+        this.useBlobProxy =
+            (useBlobProxy || !validateExplorerOrigin(window.origin)) &&
+            !forceCORS;
 
         if (blobContainerUrl) {
             try {
@@ -228,10 +249,9 @@ export default class ADT3DSceneAdapter {
 }
 
 export default interface ADT3DSceneAdapter
-    extends ADTAdapter,
-        BlobAdapter,
-        AzureManagementAdapter,
-        ADXAdapter {
+    extends BlobAdapter,
+        ADTDataHistoryAdapter,
+        PowerBIWidgetBuilderAdapter {
     getMissingStorageContainerAccessRoles: (
         containerURLString?: string
     ) => Promise<AdapterResult<AzureMissingRoleDefinitionsData>>;
@@ -240,8 +260,7 @@ export default interface ADT3DSceneAdapter
     ) => Promise<AdapterResult<AzureResourcesData>>;
 }
 applyMixins(ADT3DSceneAdapter, [
-    ADTAdapter,
     BlobAdapter,
-    AzureManagementAdapter,
-    ADXAdapter
+    ADTDataHistoryAdapter,
+    PowerBIWidgetBuilderAdapter
 ]);

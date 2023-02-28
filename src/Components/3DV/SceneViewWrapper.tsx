@@ -184,8 +184,8 @@ const SceneViewWrapper: React.FC<ISceneViewWrapperProps> = (props) => {
                 objectColorOptions={sceneThemeState.objectColorOptions}
                 objectStyle={sceneThemeState.objectStyle}
                 onCameraMove={addInProps?.onCameraMove ? cameraMove : undefined}
-                {...svp}
                 outlinedMeshitems={sceneViewState.outlinedMeshItems}
+                {...svp}
                 cameraInteractionType={cameraInteractionType}
                 onMeshClick={meshClick}
                 onMeshHover={meshHover}

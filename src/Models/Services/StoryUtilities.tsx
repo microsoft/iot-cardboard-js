@@ -25,8 +25,9 @@ export type IStoryContext<T> = StoryContext<
  * @returns Decorator for the story to wrap the control being tested.
  */
 export function getDefaultStoryDecorator<T>(cardStyle: CSSProperties) {
-    const styles = {
+    const styles: CSSProperties = {
         width: '300px',
+        overflowY: 'auto',
         ...cardStyle
     };
     return (Story, context: IStoryContext<T>) => (
@@ -51,6 +52,11 @@ export function getDefaultStoryDecorator<T>(cardStyle: CSSProperties) {
 export function sleep(ms) {
     return new Promise((resolve) => setTimeout(resolve, ms));
 }
+/** waits for a set amount of time for animations to complete */
+export async function waitForAnimations() {
+    await sleep(20);
+}
+
 /**
  * Function to wait for a period of time and resolves when that time has ellapsed
  * @param ms number of milliseconds to wait
@@ -108,6 +114,24 @@ export const selectDropDownMenuItem = async (
     await openDropdownMenu(canvas, dropdownTestId);
     const options = await screen.findAllByRole('option');
     options[optionIndex].click();
+};
+
+/**
+ * Click on a menu item in a context menu
+ * @param canvas the test canvas
+ * @param testId test id for the element
+ */
+export const clickContextMenuItem = async (testId: string) => {
+    // not using storybook helper to work around issue where pointer events are not allowed
+    const dropdown = await findCalloutItemByTestId(testId);
+    const item = document.getElementById(dropdown.id);
+    if (!item) {
+        console.error(
+            '[TEST FAILURE] Did not find an element with id ' + dropdown?.id
+        );
+    } else {
+        item.click();
+    }
 };
 
 export const clickOverFlowMenuItem = async (element: HTMLElement) => {

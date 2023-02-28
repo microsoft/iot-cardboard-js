@@ -13,14 +13,17 @@ export const CUSTOM_PROPERTY_NAMES = {
     /** hashed value for the adt instance */
     StorageContainerHash: 'StorageContainerHash',
     /** type of action (user, system, etc.) */
-    TriggerType: 'TriggerType'
+    TriggerType: 'TriggerType',
+    /** hashed id for the data history explorer instance */
+    DataHistoryInstanceHash: 'DataHistoryInstanceHash'
 };
 
 /** Highest level sections of the app */
 export enum AppRegion {
     Builder = 'Builder',
     SceneLobby = 'SceneLobby',
-    Viewer = 'Viewer'
+    Viewer = 'Viewer',
+    DataHistoryExplorer = 'DataHistoryExplorer'
 }
 
 /** The type of gesture the user used, (click, hover, etc.) */
@@ -49,7 +52,8 @@ export enum ComponentName {
     BehaviorList = 'BehaviorList',
     ElementForm = 'ElementForm',
     ElementList = 'ElementList',
-    SceneList = 'SceneList'
+    SceneList = 'SceneList',
+    DataHistoryExplorerModal = 'DataHistoryExplorerModal'
 }
 
 /**
@@ -177,7 +181,91 @@ export const TelemetryEvents = {
         }
     },
     /** viewer section of the app */
-    Viewer: {}
+    Viewer: {},
+    /** tools provided by the library */
+    Tools: {
+        /** data history explorer component */
+        DataHistoryExplorer: {
+            SystemAction: {
+                ParseDataHistory: {
+                    eventName: 'ParseConfig.DataHistoryExplorerKpis',
+                    properties: {
+                        countSeries: 'countSeries'
+                    }
+                }
+            },
+            UserAction: {
+                /** opening modal to explore data history */
+                OpenModal: {
+                    eventName: 'DataHistoryExplorer.OpenModal'
+                },
+                /** closing data history explorer modal */
+                CloseModal: {
+                    eventName: 'DataHistoryExplorer.CloseModal'
+                },
+                /** adding a new series using the time series builder on the left */
+                AddSeries: {
+                    eventName: 'DataHistoryExplorer.AddSeries',
+                    properties: {
+                        hasCustomLabel: 'hasCustomLabel',
+                        isCastedToNumber: 'isCastedToNumber'
+                    }
+                },
+                /** editing series using the time series builder on the left */
+                EditSeries: {
+                    eventName: 'DataHistoryExplorer.EditSeries',
+                    properties: {
+                        seriesId: 'seriesId',
+                        hasCustomLabel: 'hasCustomLabel',
+                        isCastedToNumber: 'isCastedToNumber'
+                    }
+                },
+                /** removing a new series using the ellipsis menu of the list item in the builder on the left */
+                RemoveSeries: {
+                    eventName: 'DataHistoryExplorer.RemoveSeries',
+                    properties: {
+                        seriesId: 'seriesId'
+                    }
+                },
+                /** toggle the option to cast a property type to numeric */
+                ToggleNumericCasting: {
+                    eventName: 'DataHistoryExplorer.ToggleNumericCasting',
+                    properties: {
+                        toggleValue: 'toggleValue'
+                    }
+                },
+                /** changing view mode either to Chart or Table on the viewer component */
+                ChangeView: {
+                    eventName: 'DataHistoryExplorer.ChangeView',
+                    properties: {
+                        view: 'view'
+                    }
+                },
+                /** changing any chart options on the viewer under Chart tab like Y-axis type, Aggregation type or Quick Time */
+                ChangeChartOption: {
+                    eventName: 'DataHistoryExplorer.ChangeChartOption',
+                    properties: {
+                        chartOptions: 'chartOptions'
+                    }
+                },
+                /** clicking on Open in ADX action to view the chart data in Azure Data Explorer Web UI */
+                OpenSeriesInAdx: {
+                    eventName: 'DataHistoryExplorer.OpenInADX'
+                },
+                /** dowloading data in the Table tab in the viewer on right hand side */
+                DownloadTable: {
+                    eventName: 'DataHistoryExplorer.DownloadTable',
+                    properties: {
+                        numberOfRows: 'numberOfRows'
+                    }
+                },
+                /** triggering to force refresh data fetching */
+                ForceRefresh: {
+                    eventName: 'DataHistoryExplorer.ForceRefresh'
+                }
+            }
+        }
+    }
 };
 
 /**
@@ -190,4 +278,9 @@ export const TelemetryEvents = {
  *           - eventName: the name of the beacon to emit
  *           - properties: names of the custom properties that the event will have attached to it
  */
-export const TelemetryMetrics = { Adapter: {}, Builder: {}, Viewer: {} };
+export const TelemetryMetrics = {
+    Adapter: {},
+    Builder: {},
+    Viewer: {},
+    Tools: { DataHistoryExplorer: {} }
+};

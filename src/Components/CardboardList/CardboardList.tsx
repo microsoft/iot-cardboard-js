@@ -6,7 +6,7 @@ import {
 } from './CardboardList.types';
 import { CardboardListItem } from './CardboardListItem';
 
-export const CardboardList = <T extends unknown>({
+export const CardboardList = <T,>({
     className,
     focusZoneProps,
     items,

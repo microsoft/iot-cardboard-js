@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useMemo } from 'react';
 import {
     ITimeSeriesBuilderProps,
     ITimeSeriesBuilderStyleProps,
@@ -13,16 +13,14 @@ import {
     Stack,
     Separator,
     ActionButton,
-    IContextualMenuItem
+    IContextualMenuItem,
+    Theme
 } from '@fluentui/react';
 import { useId } from '@fluentui/react-hooks';
 import { TFunction, useTranslation } from 'react-i18next';
 import { CardboardList } from '../../../CardboardList';
 import { ICardboardListItem } from '../../../CardboardList/CardboardList.types';
 import { IDataHistoryTimeSeriesTwin } from '../../../../Models/Constants/Interfaces';
-import TimeSeriesTwinCallout from '../TimeSeriesTwinCallout/TimeSeriesTwinCallout';
-import produce from 'immer';
-import { getHighChartColor } from '../../../../Models/SharedUtils/DataHistoryUtils';
 import { DTDLPropertyIconographyMap } from '../../../../Models/Constants/Constants';
 
 const getClassNames = classNamesFunction<
@@ -32,183 +30,106 @@ const getClassNames = classNamesFunction<
 
 const ROOT_LOC = 'dataHistoryExplorer.builder';
 const LOC_KEYS = {
-    title: `${ROOT_LOC}.title`,
     description: `${ROOT_LOC}.description`,
     addTwin: `${ROOT_LOC}.timeSeriesTwin.add`,
     editTwin: `${ROOT_LOC}.timeSeriesTwin.edit`,
-    removeTwin: `${ROOT_LOC}.timeSeriesTwin.remove`
+    removeTwin: `${ROOT_LOC}.timeSeriesTwin.remove`,
+    noDataMessage: `${ROOT_LOC}.timeSeriesTwin.noData`,
+    noPropertyLabel: `${ROOT_LOC}.timeSeriesTwin.noProperty`
 };
 
 const TimeSeriesBuilder: React.FC<ITimeSeriesBuilderProps> = (props) => {
     const {
-        onTimeSeriesTwinListChange,
-        timeSeriesTwins: timeSeriesTwinsProp = [],
+        timeSeriesTwins = [],
+        missingTimeSeriesTwinIds = [],
+        onAddSeriesClick,
+        onEditSeriesClick,
+        onRemoveSeriesClick,
         styles
     } = props;
-
-    // state
-    const [timeSeriesTwins, setTimeSeriesTwins] = useState<
-        Array<IDataHistoryTimeSeriesTwin>
-    >(timeSeriesTwinsProp);
-    const [
-        isTimeSeriesTwinCalloutVisible,
-        setIsTimeSeriesTwinCalloutVisible
-    ] = useState(false);
-    const [
-        selectedTimeSeriesTwinId,
-        setSelectedTimeSeriesTwinId
-    ] = useState<string>(null);
 
     // hooks
     const { t } = useTranslation();
     const addTimeSeriesTwinCalloutId = useId('add-time-series-twin-callout');
 
-    // callbacks
-    const handleAddNew = useCallback(() => {
-        setIsTimeSeriesTwinCalloutVisible(true);
-    }, []);
-    const handleTimeSeriesTwinCalloutPrimaryAction = useCallback(
-        (timeSeriesTwin: IDataHistoryTimeSeriesTwin) => {
-            setTimeSeriesTwins(
-                produce(timeSeriesTwins, (draft) => {
-                    if (selectedTimeSeriesTwinId) {
-                        const selectedIdx = timeSeriesTwins.findIndex(
-                            (tsTwin) =>
-                                tsTwin.twinId === selectedTimeSeriesTwinId
-                        );
-                        draft[selectedIdx] = timeSeriesTwin;
-                    } else {
-                        timeSeriesTwin.chartProps.color = getHighChartColor(
-                            timeSeriesTwins.length
-                        );
-                        draft.push(timeSeriesTwin);
-                    }
-                })
-            );
-            setIsTimeSeriesTwinCalloutVisible(false);
-            setSelectedTimeSeriesTwinId(null);
-        },
-        [timeSeriesTwins, selectedTimeSeriesTwinId]
-    );
-    const onTimeSeriesTwinEdit = useCallback((twinId: string) => {
-        setSelectedTimeSeriesTwinId(twinId);
-        setIsTimeSeriesTwinCalloutVisible(true);
-    }, []);
-    const onTimeSeriesTwinRemove = useCallback(
-        (twinId: string) => {
-            setSelectedTimeSeriesTwinId(null);
-            setTimeSeriesTwins(
-                produce(timeSeriesTwins, (draft) => {
-                    const selectedIdx = draft.findIndex(
-                        (tsTwin) => tsTwin.twinId === twinId
-                    );
-                    draft.splice(selectedIdx, 1);
-                })
-            );
-        },
-        [timeSeriesTwins]
-    );
+    // styles
+    const theme = useTheme();
+    const classNames = getClassNames(styles, { theme });
 
-    // side effects
-    useEffect(() => {
-        onTimeSeriesTwinListChange?.(timeSeriesTwins);
-    }, [timeSeriesTwins]);
     const timeSeriesTwinList = useMemo(
         () =>
             getTimeSeriesTwinListItems(
                 timeSeriesTwins,
-                onTimeSeriesTwinEdit,
-                onTimeSeriesTwinRemove,
-                t
+                onEditSeriesClick,
+                onRemoveSeriesClick,
+                t,
+                theme,
+                missingTimeSeriesTwinIds
             ),
-        [timeSeriesTwins, onTimeSeriesTwinEdit, onTimeSeriesTwinRemove, t]
+        [
+            getTimeSeriesTwinListItems,
+            timeSeriesTwins,
+            onEditSeriesClick,
+            onRemoveSeriesClick,
+            t,
+            theme,
+            missingTimeSeriesTwinIds
+        ]
     );
-
-    // styles
-    const classNames = getClassNames(styles, {
-        theme: useTheme()
-    });
 
     return (
         <div className={classNames.root}>
             <Stack tokens={{ childrenGap: 8 }}>
-                <h4 className={classNames.header}>{t(LOC_KEYS.title)}</h4>
                 <span className={classNames.description}>
                     {t(LOC_KEYS.description)}
                 </span>
             </Stack>
             <Separator />
-            <CardboardList
+            <CardboardList<IDataHistoryTimeSeriesTwin>
                 listKey={'twin-property-list'}
                 items={timeSeriesTwinList}
-                focusZoneProps={{ style: { overflow: 'auto', flexGrow: 1 } }}
+                focusZoneProps={{ style: { overflow: 'auto' } }}
             />
             <ActionButton
+                styles={classNames.subComponentStyles.addNewButton()}
                 id={addTimeSeriesTwinCalloutId}
                 iconProps={{ iconName: 'Add' }}
-                onClick={handleAddNew}
+                onClick={() => onAddSeriesClick(addTimeSeriesTwinCalloutId)}
             >
                 {t(LOC_KEYS.addTwin)}
             </ActionButton>
-            {isTimeSeriesTwinCalloutVisible && (
-                <TimeSeriesTwinCallout
-                    timeSeriesTwin={
-                        selectedTimeSeriesTwinId
-                            ? timeSeriesTwins.find(
-                                  (t) => t.twinId === selectedTimeSeriesTwinId
-                              )
-                            : undefined
-                    }
-                    styles={classNames.subComponentStyles.timeSeriesTwinCallout}
-                    target={
-                        selectedTimeSeriesTwinId
-                            ? TIME_SERIES_TWIN_LIST_ITEM_ID_PREFIX +
-                              selectedTimeSeriesTwinId
-                            : addTimeSeriesTwinCalloutId
-                    }
-                    onPrimaryActionClick={
-                        handleTimeSeriesTwinCalloutPrimaryAction
-                    }
-                    onDismiss={() => {
-                        setIsTimeSeriesTwinCalloutVisible(false),
-                            setSelectedTimeSeriesTwinId(null);
-                    }}
-                />
-            )}
         </div>
     );
 };
 
 const getTimeSeriesTwinListItems = (
     timeSeriesTwins: Array<IDataHistoryTimeSeriesTwin>,
-    onEditClick: (id: string) => void,
+    onEditClick: (id: string, calloutTargetId: string) => void,
     onRemoveClick: (id: string) => void,
-    t: TFunction<string>
+    t: TFunction<string>,
+    theme: Theme,
+    missingDataSeriesIds?: Array<string>
 ): ICardboardListItem<IDataHistoryTimeSeriesTwin>[] => {
-    const getMenuItems = (
-        item: IDataHistoryTimeSeriesTwin
-    ): IContextualMenuItem[] => {
-        return [
-            {
-                key: 'edit',
-                iconProps: { iconName: 'Edit' },
-                text: t(LOC_KEYS.editTwin),
-                onClick: () => {
-                    onEditClick(item.twinId);
-                }
-            },
-            {
-                key: 'remove',
-                iconProps: {
-                    iconName: 'Delete'
-                },
-                text: t(LOC_KEYS.removeTwin),
-                onClick: () => {
-                    onRemoveClick(item.twinId);
-                }
+    const getMenuItems = (id: string): IContextualMenuItem[] => [
+        {
+            key: 'edit',
+            iconProps: { iconName: 'Edit' },
+            text: t(LOC_KEYS.editTwin),
+            onClick: () => {
+                onEditClick(id, TIME_SERIES_TWIN_LIST_ITEM_ID_PREFIX + id);
             }
-        ];
-    };
+        },
+        {
+            key: 'remove',
+            iconProps: {
+                iconName: 'Delete'
+            },
+            text: t(LOC_KEYS.removeTwin),
+            onClick: () => {
+                onRemoveClick(id);
+            }
+        }
+    ];
 
     return timeSeriesTwins.map((timeSeriesTwin) => {
         const listItem: ICardboardListItem<IDataHistoryTimeSeriesTwin> = {
@@ -223,12 +144,26 @@ const getTimeSeriesTwinListItems = (
                     ]?.icon,
                 color: timeSeriesTwin.chartProps?.color
             },
-            id: TIME_SERIES_TWIN_LIST_ITEM_ID_PREFIX + timeSeriesTwin.twinId,
+            iconEnd: missingDataSeriesIds?.includes(timeSeriesTwin.seriesId)
+                ? {
+                      name: 'Warning',
+                      color: theme.semanticColors.warningIcon,
+                      title: t(LOC_KEYS.noDataMessage)
+                  }
+                : undefined,
+            id: TIME_SERIES_TWIN_LIST_ITEM_ID_PREFIX + timeSeriesTwin.seriesId,
             item: timeSeriesTwin,
-            onClick: () => onEditClick(timeSeriesTwin.twinId),
+            onClick: () => {
+                onEditClick(
+                    timeSeriesTwin.seriesId,
+                    TIME_SERIES_TWIN_LIST_ITEM_ID_PREFIX +
+                        timeSeriesTwin.seriesId
+                );
+            },
             textPrimary: timeSeriesTwin.label || timeSeriesTwin.twinId,
-            textSecondary: timeSeriesTwin.twinPropertyName,
-            overflowMenuItems: getMenuItems(timeSeriesTwin)
+            textSecondary:
+                timeSeriesTwin.twinPropertyName || t(LOC_KEYS.noPropertyLabel),
+            overflowMenuItems: getMenuItems(timeSeriesTwin.seriesId)
         };
 
         return listItem;

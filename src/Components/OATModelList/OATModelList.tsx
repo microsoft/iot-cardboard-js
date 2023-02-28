@@ -1,327 +1,304 @@
-import React, { useEffect, useRef, useState, useContext } from 'react';
-import { useTheme, List, ActionButton, Icon, SearchBox } from '@fluentui/react';
+import React, { useEffect, useState, useContext, useRef } from 'react';
+import {
+    classNamesFunction,
+    IButtonProps,
+    IContextualMenuItem,
+    IList,
+    SearchBox,
+    Stack,
+    styled
+} from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
-import {
-    getModelsStyles,
-    getModelsIconStyles,
-    getModelsActionButtonStyles
-} from './OATModelList.styles';
-import {
-    SET_OAT_CONFIRM_DELETE_OPEN,
-    SET_OAT_SELECTED_MODEL,
-    SET_OAT_MODELS,
-    SET_OAT_MODELS_POSITIONS
-} from '../../Models/Constants/ActionTypes';
-import OATTextFieldDisplayName from '../../Pages/OATEditorPage/Internal/Components/OATTextFieldDisplayName';
-import OATTextFieldId from '../../Pages/OATEditorPage/Internal/Components/OATTextFieldId';
-import { deleteOatModel, updateModelId } from '../../Models/Services/OatUtils';
-import { deepCopy } from '../../Models/Services/Utils';
-import {
-    getModelPropertyListItemName,
-    isDisplayNameDefined
-} from '../OATPropertyEditor/Utils';
+import EmptyClipboard from '../../Resources/Static/emptyClipboard.svg';
+import { getStyles } from './OATModelList.styles';
 import { CommandHistoryContext } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
-import { OATModelListProps } from './OATModelList.types';
 import { DtdlInterface } from '../../Models/Constants/dtdlInterfaces';
+import { useOatPageContext } from '../../Models/Context/OatPageContext/OatPageContext';
+import {
+    IOatPageContextState,
+    OatPageContextAction,
+    OatPageContextActionType
+} from '../../Models/Context/OatPageContext/OatPageContext.types';
+import { CardboardList } from '../CardboardList';
+import { ICardboardListItem } from '../CardboardList/CardboardList.types';
+import { getDebugLogger } from '../../Models/Services/Utils';
+import {
+    IOATModelListStyleProps,
+    IOATModelListStyles,
+    IOATModelListProps
+} from './OATModelList.types';
+import { useExtendedTheme } from '../../Models/Hooks/useExtendedTheme';
+import { TFunction } from 'i18next';
+import { parseModelId } from '../../Models/Services/OatUtils';
+import IllustrationMessage from '../IllustrationMessage/IllustrationMessage';
 
-const OATModelList = ({ dispatch, state }: OATModelListProps) => {
-    const theme = useTheme();
-    const { execute } = useContext(CommandHistoryContext);
+const debugLogging = false;
+const logDebugConsole = getDebugLogger('OatModelList', debugLogging);
+
+const LIST_ITEM_HEIGHT = 53;
+
+const getClassNames = classNamesFunction<
+    IOATModelListStyleProps,
+    IOATModelListStyles
+>();
+
+const OATModelList: React.FC<IOATModelListProps> = (props) => {
+    const { styles } = props;
+
+    // hooks
     const { t } = useTranslation();
-    const { selection, models, modified, modelPositions } = state;
-    const modelsStyles = getModelsStyles();
-    const [nameEditor, setNameEditor] = useState(false);
-    const [nameText, setNameText] = useState('');
-    const [items, setItems] = useState([]);
-    const [idEditor, setIdEditor] = useState(false);
-    const [idText, setIdText] = useState('');
+
+    // contexts
+    const { execute } = useContext(CommandHistoryContext);
+    const { oatPageState, oatPageDispatch } = useOatPageContext();
+
+    // styles
+    const classNames = getClassNames(styles, { theme: useExtendedTheme() });
+
+    // state
+    const listRef = useRef<IList>();
     const [filter, setFilter] = useState('');
-    const [elementCount, setElementCount] = useState(models.length);
-    const containerRef = useRef(null);
-    const iconStyles = getModelsIconStyles();
-    const actionButtonStyles = getModelsActionButtonStyles();
+    const [listItems, setListItems] = useState<
+        ICardboardListItem<DtdlInterface>[]
+    >(
+        getListItems(
+            oatPageDispatch,
+            oatPageState,
+            t,
+            execute,
+            filter,
+            classNames
+        )
+    );
 
+    // update the list items anytime a new model is added to the context
     useEffect(() => {
-        setItems(models);
-        if (models.length > elementCount) {
-            containerRef.current?.scrollTo({
-                top: containerRef.current?.scrollHeight,
-                behavior: 'smooth'
-            });
-        }
-        setElementCount(models.length);
-    }, [models]);
-
-    useEffect(() => {
-        setItems([...models]);
-    }, [theme]);
-
-    useEffect(() => {
-        setItems(
-            models.filter(
-                (element) =>
-                    !filter ||
-                    element['@id'].includes(filter) ||
-                    element.displayName.includes(filter)
-            )
+        const items = getListItems(
+            oatPageDispatch,
+            oatPageState,
+            t,
+            execute,
+            filter,
+            classNames
         );
-    }, [filter]);
+        setListItems(items);
+    }, [
+        classNames,
+        execute,
+        filter,
+        oatPageDispatch,
+        oatPageState,
+        oatPageState.currentOntologyModelPositions,
+        oatPageState.currentOntologyModels,
+        oatPageState.selection,
+        t
+    ]);
 
+    // scroll to the item when it's selected from the graph side
+    const index = listItems.findIndex(
+        (x) => x.item['@id'] === oatPageState.selection?.modelId
+    );
     useEffect(() => {
-        // Set models, so that modelList items re-render and apply style changes if necessary
-        setItems([...models]);
-    }, [selection]);
+        if (index > -1) {
+            logDebugConsole(
+                'debug',
+                'Scrolling to selected item. {index, item}',
+                index,
+                oatPageState.selection?.modelId
+            );
+            listRef.current.scrollToIndex(index, () => LIST_ITEM_HEIGHT);
+        }
+    }, [index, oatPageState.selection]);
 
-    const onSelectedClick = (id: string) => {
-        const select = () => {
-            dispatch({
-                type: SET_OAT_SELECTED_MODEL,
-                payload: { modelId: id }
+    // data
+    const illustrationCtaButtonProps: IButtonProps = {
+        text: t('OAT.ModelList.noModelsButtonText'),
+        onClick: () => {
+            oatPageDispatch({
+                type: OatPageContextActionType.ADD_NEW_MODEL
             });
-        };
-
-        const unSelect = () => {
-            dispatch({
-                type: SET_OAT_SELECTED_MODEL,
-                payload: selection
-            });
-        };
-
-        if (!selection || (selection && id !== selection.modelId)) {
-            execute(select, unSelect);
+        },
+        split: true,
+        menuProps: {
+            items: [
+                {
+                    key: 'add',
+                    text: t('OATHeader.newModel'),
+                    onClick: () => {
+                        oatPageDispatch({
+                            type: OatPageContextActionType.ADD_NEW_MODEL
+                        });
+                    }
+                },
+                {
+                    key: 'importFile',
+                    text: t('OATHeader.importFile'),
+                    onClick: oatPageState.openUploadFileCallback
+                },
+                {
+                    key: 'importFolder',
+                    text: t('OATHeader.importFolder'),
+                    onClick: oatPageState.openUploadFolderCallback
+                }
+            ]
         }
     };
 
-    const onNameClick = (name: string) => {
-        if (!modified) {
-            setNameText(name);
-            setNameEditor(true);
-            setItems([...items]);
-        }
+    const listHasItems = listItems.length > 0;
+    const isFiltered = filter?.length !== 0;
+
+    return (
+        <Stack
+            className={classNames.root}
+            tokens={{ childrenGap: 8 }}
+            styles={classNames.subComponentStyles.rootStack}
+        >
+            {!listHasItems && !isFiltered ? (
+                <IllustrationMessage
+                    type={'info'}
+                    width={'wide'}
+                    headerText={t('OAT.ModelList.noModelsTitle')}
+                    descriptionText={t('OAT.ModelList.noModelsMessage')}
+                    imageProps={{
+                        height: 100,
+                        src: EmptyClipboard
+                    }}
+                    buttonProps={illustrationCtaButtonProps}
+                    styles={classNames.subComponentStyles?.noDataIllustration?.()}
+                />
+            ) : (
+                <SearchBox
+                    placeholder={t('OAT.ModelList.searchModels')}
+                    onChange={(_, value) => setFilter(value)}
+                    styles={classNames.subComponentStyles.searchbox}
+                    data-testid={'models-list-search-box'}
+                />
+            )}
+            {!listHasItems && isFiltered && (
+                <div className={classNames.noDataMessage}>
+                    {t('OAT.ModelList.noMatchingItemsMessage')}
+                </div>
+            )}
+
+            {listHasItems && (
+                <CardboardList
+                    className={classNames.listContainer}
+                    listProps={{
+                        componentRef: listRef
+                    }}
+                    items={listItems}
+                    listKey={'models-list'}
+                />
+            )}
+        </Stack>
+    );
+};
+
+export default styled<
+    IOATModelListProps,
+    IOATModelListStyleProps,
+    IOATModelListStyles
+>(OATModelList, getStyles);
+
+function getListItems(
+    oatPageDispatch: React.Dispatch<OatPageContextAction>,
+    oatPageState: IOatPageContextState,
+    t: TFunction,
+    execute: (doFn: () => void, undoFn: () => void) => void,
+    filter: string,
+    classNames
+) {
+    const onModelSelected = (id: string) => {
+        oatPageDispatch({
+            type: OatPageContextActionType.SET_OAT_SELECTED_MODEL,
+            payload: { selection: { modelId: id } }
+        });
     };
 
-    const onIdClick = (id: string) => {
-        if (!modified) {
-            setIdText(id);
-            setIdEditor(true);
-            setItems([...items]);
-        }
+    const getDisplayNameText = (item: DtdlInterface) => {
+        return (
+            parseModelId(item['@id'])?.name ??
+            t('OATPropertyEditor.displayName')
+        );
     };
 
     const onModelDelete = (item: DtdlInterface) => {
         const deletion = () => {
             const dispatchDelete = () => {
-                // Remove the model from the list
-                const newModels = deleteOatModel(item['@id'], item, models);
-                dispatch({
-                    type: SET_OAT_MODELS,
-                    payload: newModels
-                });
-                // Dispatch selected model to null
-                dispatch({
-                    type: SET_OAT_SELECTED_MODEL,
-                    payload: null
+                oatPageDispatch({
+                    type: OatPageContextActionType.DELETE_MODEL,
+                    payload: { id: item['@id'] }
                 });
             };
-            dispatch({
-                type: SET_OAT_CONFIRM_DELETE_OPEN,
+            oatPageDispatch({
+                type: OatPageContextActionType.SET_OAT_CONFIRM_DELETE_OPEN,
                 payload: { open: true, callback: dispatchDelete }
             });
         };
 
         const undoDeletion = () => {
-            dispatch({
-                type: SET_OAT_MODELS,
-                payload: models
-            });
-            dispatch({
-                type: SET_OAT_SELECTED_MODEL,
-                payload: selection
+            oatPageDispatch({
+                type: OatPageContextActionType.GENERAL_UNDO,
+                payload: {
+                    models: oatPageState.currentOntologyModels,
+                    positions: oatPageState.currentOntologyModelPositions,
+                    selection: oatPageState.selection
+                }
             });
         };
 
-        if (!modified) {
-            execute(deletion, undoDeletion);
-        }
+        execute(deletion, undoDeletion);
     };
 
-    const onCommitId = (value) => {
-        const commit = () => {
-            const [modelsCopy, modelPositionsCopy] = updateModelId(
-                selection.modelId,
-                value,
-                models,
-                modelPositions
-            );
-
-            dispatch({
-                type: SET_OAT_MODELS_POSITIONS,
-                payload: modelPositionsCopy
-            });
-            dispatch({
-                type: SET_OAT_MODELS,
-                payload: modelsCopy
-            });
-            dispatch({
-                type: SET_OAT_SELECTED_MODEL,
-                payload: { modelId: value }
-            });
-
-            setIdText(value);
-            setIdEditor(false);
-            setItems([...items]);
-        };
-
-        const undoCommit = () => {
-            dispatch({
-                type: SET_OAT_MODELS_POSITIONS,
-                payload: modelPositions
-            });
-            dispatch({
-                type: SET_OAT_MODELS,
-                payload: models
-            });
-            dispatch({
-                type: SET_OAT_SELECTED_MODEL,
-                payload: selection
-            });
-        };
-
-        if (value) {
-            execute(commit, undoCommit);
-        }
-    };
-
-    const onCommitDisplayName = (value) => {
-        const commit = () => {
-            const modelsCopy = deepCopy(models);
-            const modelCopy = modelsCopy.find(
-                (item) => item['@id'] === selection.modelId
-            );
-            if (modelCopy) {
-                modelCopy.displayName = value;
-                dispatch({
-                    type: SET_OAT_MODELS,
-                    payload: modelsCopy
-                });
-            }
-
-            setNameText(value);
-            setNameEditor(false);
-            setItems([...items]);
-        };
-
-        const undoCommit = () => {
-            dispatch({
-                type: SET_OAT_MODELS,
-                payload: models
-            });
-        };
-
-        execute(commit, undoCommit);
-    };
-
-    const getDisplayNameText = (item) => {
-        const displayName = getModelPropertyListItemName(item.displayName);
-        return displayName.length > 0
-            ? displayName
-            : t('OATPropertyEditor.displayName');
-    };
-
-    const onRenderCell = (item: DtdlInterface) => {
-        const isSelected =
-            selection &&
-            selection.modelId === item['@id'] &&
-            !selection.contentId;
+    const models = oatPageState.currentOntologyModels.filter((model) => {
         return (
-            <div
-                className={`${modelsStyles.modelNode} ${
-                    isSelected ? modelsStyles.modelNodeSelected : ''
-                }`}
-            >
-                <ActionButton
-                    styles={actionButtonStyles}
-                    onClick={() => onSelectedClick(item['@id'])}
-                >
-                    <div className={modelsStyles.modelNodeButtonContent}>
-                        <div onDoubleClick={() => onIdClick(item['@id'])}>
-                            {(!idEditor || !isSelected) && (
-                                <strong className={modelsStyles.strongText}>
-                                    {item['@id']}
-                                </strong>
-                            )}
-                            {idEditor && isSelected && (
-                                <OATTextFieldId
-                                    value={idText}
-                                    model={item}
-                                    models={models}
-                                    onChange={() => {
-                                        setItems([...items]);
-                                    }}
-                                    onCommit={onCommitId}
-                                    autoFocus
-                                />
-                            )}
-                        </div>
-                        <div
-                            onDoubleClick={() =>
-                                onNameClick(
-                                    getModelPropertyListItemName(
-                                        item['displayName']
-                                    )
-                                )
-                            }
-                        >
-                            {(!nameEditor || !isSelected) && (
-                                <span
-                                    className={
-                                        isDisplayNameDefined(item.displayName)
-                                            ? modelsStyles.regularText
-                                            : modelsStyles.placeholderText
-                                    }
-                                >
-                                    {getDisplayNameText(item)}
-                                </span>
-                            )}
-                            {nameEditor && isSelected && (
-                                <OATTextFieldDisplayName
-                                    value={nameText}
-                                    model={item}
-                                    onChange={() => {
-                                        setItems([...items]);
-                                    }}
-                                    onCommit={onCommitDisplayName}
-                                    autoFocus
-                                    placeholder={t(
-                                        'OATPropertyEditor.displayName'
-                                    )}
-                                />
-                            )}
-                        </div>
-                    </div>
-                </ActionButton>
-                <ActionButton
-                    className={modelsStyles.nodeCancel}
-                    onClick={() => onModelDelete(item)}
-                >
-                    <Icon iconName="Delete" styles={iconStyles} />
-                </ActionButton>
-            </div>
+            !filter.trim() ||
+            getDisplayNameText(model)
+                .toLowerCase()
+                .includes(filter.trim().toLowerCase())
         );
-    };
+    });
 
-    return (
-        <div>
-            <SearchBox
-                className={modelsStyles.searchText}
-                placeholder={t('search')}
-                onChange={(_, value) => setFilter(value)}
-            />
-            <div className={modelsStyles.container} ref={containerRef}>
-                <List items={items} onRenderCell={onRenderCell} />
-            </div>
-        </div>
+    const items = models.map((x) => {
+        const getOverflowMenuItems = (
+            model: DtdlInterface
+        ): IContextualMenuItem[] => {
+            return [
+                {
+                    key: 'delete',
+                    'data-testid': 'delete-model',
+                    iconProps: {
+                        iconName: 'Delete'
+                    },
+                    text: t('OAT.ModelList.removeModelButtonText'),
+                    onClick: () => {
+                        onModelDelete(model);
+                    }
+                }
+            ];
+        };
+        const isSelected = x['@id'] === oatPageState.selection?.modelId;
+        const item: ICardboardListItem<DtdlInterface> = {
+            ariaLabel: getDisplayNameText(x),
+            buttonProps: {
+                customStyles: classNames.subComponentStyles.listItem?.({
+                    isSelected
+                })
+            },
+            isSelected: isSelected,
+            item: x,
+            onClick: () => onModelSelected(x['@id']),
+            overflowMenuItems: getOverflowMenuItems(x),
+            textPrimary: getDisplayNameText(x),
+            textSecondary: x['@id']
+        };
+        return item;
+    });
+    logDebugConsole(
+        'debug',
+        'Building model list items. {filteredModels, items}',
+        models,
+        items
     );
-};
-
-export default OATModelList;
+    return items;
+}

@@ -25,7 +25,13 @@ const getClassNames = classNamesFunction<
 const PropertyInspectorCallout: React.FC<IPropertyInspectorCalloutProps> = (
     props
 ) => {
-    const { adapter, disabled = false, twinId, styles } = props;
+    const {
+        adapter,
+        disabled = false,
+        twinId,
+        hasDataHistoryControl,
+        styles
+    } = props;
 
     // state
     const [isVisible, { toggle: setIsVisible }] = useBoolean(false);
@@ -43,8 +49,8 @@ const PropertyInspectorCallout: React.FC<IPropertyInspectorCalloutProps> = (
         <div className={classNames.root}>
             <IconButton
                 iconProps={{ iconName: 'EntryView' }}
-                title={t('advancedSearch.inspectProperty')}
-                ariaLabel={t('advancedSearch.inspectProperty')}
+                title={t('advancedSearch.inspectProperties')}
+                ariaLabel={t('advancedSearch.inspectProperties')}
                 onClick={(event) => {
                     event.stopPropagation();
                     setIsVisible();
@@ -69,6 +75,7 @@ const PropertyInspectorCallout: React.FC<IPropertyInspectorCalloutProps> = (
                         adapter={adapter}
                         twinId={twinId}
                         readonly={true}
+                        hasDataHistoryControl={hasDataHistoryControl}
                     />
                 </Callout>
             )}

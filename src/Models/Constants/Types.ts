@@ -4,7 +4,6 @@ import {
     DTwinRelationship,
     IADTAdapter,
     IKeyValuePairAdapter,
-    ITsiClientChartDataAdapter,
     AzureAccessPermissionRoles,
     AzureResourceTypes,
     ADXTableColumns
@@ -69,8 +68,6 @@ export type ADTRelationship = {
     sourceModel?: string;
 };
 
-export type TsiClientData = any[];
-
 export type ADXTimeSeriesTableRow = {
     timestamp: string;
     id: string;
@@ -81,8 +78,9 @@ export type ADXTimeSeriesTableRow = {
 export type TimeSeriesData = { timestamp: string | number; value: number };
 
 export type ADXTimeSeries = {
+    seriesId: string;
     id: string;
-    key: string;
+    key: string; // ADX "Key" column for property name, can be nested
     data: Array<TimeSeriesData>;
 };
 
@@ -156,6 +154,16 @@ export type AdapterMethodParamsForGetScenes = {
     continuationToken?: string;
 };
 
+export type AdapterMethodParamsForJobs = {
+    jobId: string;
+};
+
+export type AdapterCreateJobArgs = {
+    outputBlobUri: string;
+    inputBlobUri: string;
+    jobId: string;
+};
+
 export type ADTRelationshipsApiData = {
     value: IADTRelationship[];
     nextLink: string;
@@ -168,10 +176,7 @@ export type AssetsFromBIMState = {
     modelCounts: Record<string, number>;
 };
 
-export type AdapterTypes =
-    | IKeyValuePairAdapter
-    | ITsiClientChartDataAdapter
-    | IADTAdapter;
+export type AdapterTypes = IKeyValuePairAdapter | IADTAdapter;
 
 export type IIconNames = CardboardIconNames | string;
 export type CardboardIconNames =
@@ -200,6 +205,22 @@ export type CardboardIconNames =
     | 'Shapes'
     | 'SpeedHigh'
     | 'View';
+
+export type OatIconNames =
+    | 'BufferTimeBefore'
+    | 'BulletedList2'
+    | 'Calendar'
+    | 'Clock'
+    | 'Code'
+    | 'CubeShape'
+    | 'DateTime'
+    | 'DocumentManagement'
+    | 'Down'
+    | 'GroupList'
+    | 'TextField'
+    | 'ToggleRight'
+    | 'Up'
+    | 'UpgradeAnalysis';
 
 export enum DurationUnits {
     milliseconds = 0,

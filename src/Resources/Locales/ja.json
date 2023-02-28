@@ -100,6 +100,10 @@
     "schemaValidationFailed": {
       "type": "JSON スキーマの検証に失敗しました",
       "message": "JSON が無効です。構文が必要なスキーマと一致することを確認します。"
+    },
+    "timeSeriesDatabaseConnectionFetchFailed": {
+      "type": "時系列データベース接続の検証に失敗しました",
+      "message": "データ履歴の接続情報が見つかりませんでした。この Azure Digital Twins インスタンスのデータ履歴が有効になっていることと、Azure データ エクスプローラー インスタンスに対して少なくとも \"{{アクセス許可}}\" アクセス権があることを確認してください。"
     }
   },
   "valueRangeBuilder": {
@@ -650,13 +654,42 @@
         }
       },
       "headerMenu": "データ履歴ウィジェットメニュー",
-      "openQuery": "Azure データ エクスプローラーでクエリを開く",
+      "openQuery": "Azure データ エクスプローラーでクエリを開く"
+    },
+    "powerBI": {
+      "title": "Power BI ウィジェット",
+      "libraryName": "Power BI Visual",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
+      "type": {
+        "label": "種類",
+        "options": {
+          "report": "報告",
+          "dashboard": "ダッシュボード",
+          "tile": "瓦",
+          "visual": "ビジュアル"
+        }
+      },
+      "pageName": {
+        "label": "ページ名",
+        "placeholder": "ページ名"
+      },
+      "visualName": {
+        "label": "ビジュアル名",
+        "placeholder": "ビジュアル名",
+        "suffix": "このウィジェットに表示するレポートの特定の要素の名前を入力します。"
+      },
+      "dataFilters": {
+        "label": "データフィルタ"
+      },
       "errors": {
-        "genericNetwork": "クラスター URL が無効であるか、ネットワーク エラーが発生しました。",
-        "genericBadRequest": "不正な要求例外が発生しました。",
-        "generalBadRequestMessage": "要求は無効であり、実行できません。",
-        "entityNotFound": "データベースが見つかりません。クエリを実行できませんでした。",
-        "forbidden": "アクセスが拒否されました。クエリのアクセス許可がありません。"
+        "missingReportConfiguration": "ウィジェットが正しく構成されていることを確認してください",
+        "missingConfiguration": "ウィジェットの構成が見つからないか、無効です",
+        "missingAdapter": "Power BI アダプターがインストールされ、構成されていることを確認してください。"
+      },
+      "embedUrl": {
+        "label": "埋め込み URL",
+        "placeholder": "https://embed.powerbi.com/groups/me/reports/{reportId}",
+        "description": "外部ツールにレポート成果物を埋め込むために使用される URL"
       }
     }
   },
@@ -917,7 +950,6 @@
     "sync": "同期",
     "import": "輸入",
     "export": "輸出",
-    "file": "ファイル",
     "new": "新機能",
     "open": "開ける",
     "saveAs": "名前を付けて保存",
@@ -934,27 +966,25 @@
     "namespace": "名前空間",
     "enterANamespace": "名前空間を入力する",
     "settings": "設定",
-    "errorInvalidJSON": "無効な JSON",
-    "errorFileFormatNotSupported": "{{ファイル}}形式はサポートされていません",
-    "errorFormatNoSupported": "サポートされていないファイル形式",
-    "errorIssueWithFile": "{{ファイル名}}に関する問題: {{エラー}}",
     "errorNamespace": "名前空間には、文字、数字、およびアンダースコアのみを含めることができます。",
     "undo": "外す",
     "redo": "やり直す",
     "deleteAll": "すべて削除",
     "folderUpload": "フォルダのアップロード",
     "fileUpload": "ファイルのアップロード",
-    "files": "ファイル",
     "selectFile": "ファイルの選択",
     "errorSingleFileHoldsRelationships": "{{fileName}}の問題:モデルはインポートされていない関係を保持しています",
-    "errorImportedModelAlreadyExists": "{{modelId}} の問題: 同じ@idを持つモデルが既に存在します",
-    "errorFileInvalidJSON": "{{ファイル名}}の問題: 無効な JSON",
     "deleteProjectMessage": "{{プロジェクト名}} を削除してもよろしいですか?",
     "errorSameName": "同じ名前のプロジェクトはすでに存在します。上書きしますか?",
     "fileOpenModal": {
       "dropdownLabel": "オントロジー",
       "dropdownPlaceholder": "オントロジーの選択"
-    }
+    },
+    "configure": "構成",
+    "importFile": "ファイルのインポート",
+    "importFolder": "インポートフォルダ",
+    "ontology": "オントロジー",
+    "newModel": "新型"
   },
   "cameraControls": {
     "mouseControls": "マウスコントロール",
@@ -1091,99 +1121,10 @@
     "errorNameLength": "名前は 64 文字を超えてはなりません。",
     "errorIdLength": "ID は 2048 文字を超えてはなりません",
     "errorIdValidDTMI": "ID は有効な DTMI である必要があります。",
-    "errorRepeatedId": "同じ ID のモデルが既に存在します",
     "errorDisplayNameLength": "表示名は 64 文字を超えてはなりません。",
-    "errorRepeatedEdgeName": "同じ名前の関係が既に存在します",
     "runLayout": "実行レイアウト",
-    "errorReachedInheritanceLimit": "継承制限に達しました",
-    "errorInheritance": "3 つ以上のインターフェイスから継承することはできません。"
-  },
-  "OATPropertyEditor": {
-    "displayName": "表示名",
-    "general": "全般",
-    "assetId": "アセット ID",
-    "type": "種類",
-    "properties": "プロパティ",
-    "viewTemplates": "テンプレートの表示",
-    "name": "名前",
-    "schemaType": "スキーマの種類",
-    "addProperty": "プロパティの追加",
-    "comment": "コメント",
-    "description": "形容",
-    "writable": "書き込み",
-    "semanticType": "セマンティック型",
-    "unit": "単位",
-    "id": "身分証明書",
-    "update": "更新",
-    "primitive": "原始的",
-    "complex": "コンプレックス",
-    "errorRepeatedPropertyName": "同じ名前のプロパティが既に存在します",
-    "errorRepeatedEnumValue": "同じ値を持つ列挙型値が既に存在します",
-    "templates": "テンプレート",
-    "templateSearchPlaceholder": "検索名、ID、プロパティ",
-    "property": "財産",
-    "modalTextInputPlaceHolder": "このプロパティ...",
-    "modalTextInputPlaceHolderDescription": "ライン 1",
-    "modalTextInputPlaceHolderSemanticType": "現在の。。。",
-    "modalTextInputPlaceHolderUnit": "単位。。。",
-    "pivotLink": "ピボット リンク",
-    "json": "ティッカー",
-    "addEnumValue": "列挙値の追加",
-    "enumValue": "列挙値",
-    "mapKeyName": "マップキー名",
-    "mapValueName": "マップ値の名前",
-    "key": "鍵",
-    "value": "価値",
-    "addToTemplate": "テンプレートに追加",
-    "duplicate": "デュプリケート",
-    "remove": "取り去る",
-    "boolean": "ブーリアン",
-    "data": "データ",
-    "float": "浮く",
-    "integer": "整数",
-    "string": "糸",
-    "enum": "列挙型",
-    "map": "地図",
-    "array": "配列",
-    "object": "オブジェクト",
-    "dateTime": "日時",
-    "time": "時間",
-    "long": "長い",
-    "double": "複",
-    "duration": "期間",
-    "point": "点",
-    "linestring": "行文字列",
-    "polygon": "多角形",
-    "multiPoint": "マルチポイント",
-    "multiLinestring": "複数行文字列",
-    "multiPolygon": "マルチポリゴン",
-    "close": "閉める",
-    "collapse": "倒れる",
-    "info": "情報",
-    "more": "もっとその",
-    "copy": "写し",
-    "cancel": "キャンセル",
-    "delete": "削除",
-    "multiLanguage": "多言語",
-    "region": "地域",
-    "singleLanguage": "単一言語",
-    "errorComment": "コメントは512文字を超えてはなりません",
-    "errorDisplayName": "表示名は 64 文字を超えてはなりません。",
-    "errorDescription": "説明は512文字を超えてはなりません",
-    "errorName": "名前に使用できるのは、文字 a から z、A から Z、0 から 9、および下線のみです。",
-    "errorNameLength": "名前は 64 文字を超えてはなりません。",
-    "errorIdLength": "ID は 2048 文字を超えてはなりません",
-    "errorIdValidDTMI": "ID は有効な DTMI である必要があります。",
-    "errorDisplayNameLength": "表示名は 64 文字を超えてはなりません。",
-    "errorRepeatedId": "同じ ID のモデルが既に存在します",
-    "errorRepeatedName": "同じ名前のモデルが既に存在します",
-    "errorRepeatedEdgeName": "同じ名前の関係が既に存在します",
-    "errorInvalidJSON": "無効な JSON",
-    "warningId": "IDの値を持つことはお勧めしません。",
-    "addToPropertyList": "プロパティリストに追加",
-    "moveDown": "下へ移動",
-    "moveUp": "上へ移動",
-    "valueSchema": "値スキーマ"
+    "extends": "拡張",
+    "loadingText": "レイアウト位置の計算"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "エラーメッセージ",
@@ -1243,7 +1184,6 @@
   "advancedSearch": {
     "toggleSelection": "ツインの選択に切り替えます",
     "selectRow": "選択されたツイン",
-    "inspectProperty": "プロパティの検査",
     "results": "結果 ({{twinCount}})",
     "noPropertiesFound": "プロパティが見つかりません",
     "addNewButton": "新規追加",
@@ -1265,7 +1205,8 @@
     "columnPicker": "列ピッカー",
     "propertyCount": "{{selectedPropsCount}} プロパティが選択されました",
     "availableProperties": "利用可能なプロパティのドロップダウン",
-    "selectAdditionalColumns": "追加の列の選択"
+    "selectAdditionalColumns": "追加の列の選択",
+    "inspectProperties": "プロパティの検査"
   },
   "highcharts": {
     "shareQueryTitle": "共有クエリ",
@@ -1302,24 +1243,292 @@
   "colorPills": {
     "unlabeled": "ラベル"
   },
+  "clear": "クリア",
+  "duplicate": "デュプリケート",
+  "moveUp": "上へ移動",
+  "moveDown": "下へ移動",
+  "increaseBy1": "値を 1 増やす",
+  "decreaseBy1": "値を 1 ずつ減らす",
+  "OATCommon": {
+    "duplicateFileNameSuffix": "写し",
+    "defaultFileName": "新しいオントロジー",
+    "defaultModelNamePrefix": "モデル"
+  },
+  "OATErrors": {
+    "Validations": {
+      "InvalidDtmiIdFormatTitle": "無効な DTMI 形式です",
+      "InvalidDtmiIdFormatMessage": "DTMI が必要な形式を満たしていないため、変更は保存されませんでした。\n DTMI: {{dtmi}}\n 必要な形式: {{正規表現}}"
+    }
+  },
+  "OAT": {
+    "ModelList": {
+      "searchModels": "モデルの検索",
+      "noMatchingItemsMessage": "その基準に一致するモデルはありません",
+      "removeModelButtonText": "モデルを削除",
+      "noModelsTitle": "まだモデルがありません",
+      "noModelsMessage": "モデルを追加するか、既存のオントロジーをインポートして、オントロジーの設計を開始します",
+      "noModelsButtonText": "モデルを追加する"
+    },
+    "Common": {
+      "untargeted": "ターゲットなし",
+      "unhandledExceptionTitle": "予期しないエラー",
+      "unhandledExceptionMessage": "予期せぬことが起こりました。もう一度やり直してください。",
+      "versionDocumentationLink": "DTDL バージョン 3 の詳細"
+    },
+    "ImportErrors": {
+      "fileInvalidJSON": "'{{ファイル名}}' をインポートできません。無効な JSON が含まれています。",
+      "exceptionTitle": "予期しないエラー",
+      "exceptionMessage": "予期せぬことが起こりました。もう一度やり直してください。",
+      "importFailedTitle": "インポートに失敗しました",
+      "importFailedMessage": "インポート中にエラーが発生しました。それらを解決して、もう一度やり直してください。\n {{エラー}}",
+      "noValidFilesTitle": "モデルが見つかりません",
+      "noValidFilesMessage": "インポートするモデル ファイルが見つかりません。選択したファイルに有効なJSONファイルがあることを確認してください。"
+    },
+    "PropertyEditor": {
+      "Version3UpgradeButton": {
+        "confirmationTitle": "アップグレードモデル?",
+        "confirmationMessage": "このモデルを DTDL バージョン 3 にアップグレードしてもよろしいですか?すべての構成が保持されます。",
+        "confirmationButtonText": "アップグレード",
+        "buttonText": "バージョン 3 へのアップグレード"
+      },
+      "Version3PreviewLabel": {
+        "badgeText": "プレビュー",
+        "badgeCalloutText": "このモデルは DTDL バージョン 3 を使用します。クリックして詳細をご覧ください"
+      }
+    },
+    "PropertyTypes": {
+      "categories": {
+        "complex": "コンプレックス",
+        "primitive": "原始的",
+        "geospatial": "地理空間"
+      },
+      "unsupportedPropertyType": "このプロパティタイプは、関連付けられたモデルの現在のコンテキストバージョンでは使用できません。"
+    },
+    "Header": {
+      "ManageOntologyModal": {
+        "deleteButtonText": "オントロジーの削除",
+        "modalTitleCreate": "新しいオントロジー",
+        "modalTitleEdit": "オントロジーの編集",
+        "modalSubTitleCreate": "新しいオントロジーを作成して、デジタルツインに構造を与えます。",
+        "modalSubTitleEdit": "オントロジーを編集して、デジタルツインに構造を与えます。",
+        "modalSubTitleLinkText": "オントロジーの詳細",
+        "nameLabel": "名前",
+        "namePlaceholder": "オントロジー名を入力する",
+        "namespaceLabel": "既定のパス",
+        "namespaceDescription": "モデル ID の例: {{モデル名}}",
+        "namespacePlaceholder": "既定のパスを入力",
+        "sampleModel": "サンプルモデル",
+        "defaultVersionLabel": "新しいモデルの既定の DTDL バージョン",
+        "version2": "バージョン2",
+        "version3": "バージョン 3 (プレビュー)"
+      }
+    },
+    "ImportProgress": {
+      "loadingTitle": "モデルのインポート",
+      "loadingSpinnerLabel": "{{カウント}} ファイルのインポート",
+      "successTitle": "インポート成功",
+      "successMessage": "オントロジーに{{count}}モデルが正常に追加されました"
+    },
+    "GraphControls": {
+      "modelListTitle": "モデルリストの切り替え",
+      "legendTitle": "関連付けの切り替え",
+      "autoLayoutTitle": "自動レイアウト",
+      "miniMapTitle": "ミニマップの切り替え"
+    },
+    "ImportLimits": {
+      "message": "現在、オントロジー内の関係、コンポーネント、継承の総数は、オントロジーデザイナーの{{count}}に制限されています。",
+      "title": "参照制限に達しました"
+    },
+    "Errors": {
+      "invalidJSONTitle": "無効な JSON",
+      "invalidJSONMessage": "入力した JSON は無効です。JSONを修正して、もう一度やり直してください。",
+      "validationFailedTitle": "検証に失敗しました",
+      "validationFailedMessage": "変更の検証中に問題が発生しました。"
+    }
+  },
+  "dataHistoryErrorHandlingWrapper": {
+    "errors": {
+      "genericNetwork": "Azure Data Explorer インスタンスに接続できない場合は、リソースが停止していないこと、およびネットワーク接続が安定していることを確認してください。",
+      "genericBadRequest": "問題が発生しました。もう一度やり直してください。",
+      "generalBadRequestMessage": "要求は無効であり、実行できません。",
+      "entityNotFound": "データベースが見つからないため、クエリを実行できません。",
+      "forbidden": "アクセスが拒否されました。クエリのアクセス許可がありません。"
+    }
+  },
   "dataHistoryExplorer": {
     "title": "データ履歴エクスプローラー",
+    "loadingConnectionLabel": "データ履歴接続情報を読み込んでいます...",
     "builder": {
-      "title": "ツインプロパティ",
+      "description": "履歴化されたプロパティの過去の値を比較するには、以下に時系列を追加します。",
       "timeSeriesTwin": {
-        "property": "財産",
-        "propertyTypeCastLabel": "プロパティの型を数値にキャスト",
         "add": "時系列の追加",
+        "edit": "時系列の編集",
         "remove": "時系列を削除する",
-        "edit": "時系列の編集"
-      },
-      "description": "履歴化されたプロパティの過去の値を比較するには、以下に時系列を追加します。"
+        "property": "財産",
+        "noData": "選択した時間範囲に表示するデータがありません",
+        "propertyTypeCastLabel": "プロパティ値を数値にキャストする",
+        "noProperty": "プロパティが選択されていません"
+      }
     },
     "viewer": {
-      "chart": "チャート",
-      "table": "テーブル",
-      "noSeriesDescription": "このツインのデータ履歴を表示するには、表示するプロパティを選択します。"
+      "chart": {
+        "title": "チャート",
+        "messages": {
+          "noData": "選択した時間範囲内に数値データが見つかりません。"
+        }
+      },
+      "table": {
+        "title": "テーブル",
+        "columns": {
+          "timestamp": "タイムスタンプ",
+          "series": "級数",
+          "value": "価値",
+          "type": "種類"
+        },
+        "messages": {
+          "noData": "選択した時間範囲内にデータが見つかりません。"
+        },
+        "noColor": "未設定"
+      },
+      "messages": {
+        "loading": "履歴化されたデータを読み込んでいます...",
+        "noSeries": "クエリするツインが選択されていません。履歴データを表示するためにツイン プロパティを追加してください。"
+      },
+      "commandBar": {
+        "refresh": "データの更新",
+        "download": "テーブルデータのダウンロード"
+      }
     },
-    "loadingConnectionLabel": "時系列接続情報を読み込んでいます..."
+    "control": {
+      "title": "データ履歴エクスプローラーを開く",
+      "disabledTitle": "データ履歴の接続情報が見つかりませんでした"
+    }
+  },
+  "increaseByDecimal": "値を 0.1 増やす",
+  "decreaseByDecimal": "値を 0.1 減らす",
+  "ok": "わかりました",
+  "OATPropertyEditor": {
+    "addEnumValue": "列挙値の追加",
+    "addProperty": "プロパティの追加",
+    "addToPropertyList": "物件リストに追加",
+    "addToTemplate": "テンプレートに追加",
+    "array": "配列",
+    "assetId": "アセット ID",
+    "boolean": "ブーリアン",
+    "cancel": "キャンセル",
+    "close": "閉める",
+    "collapse": "倒れる",
+    "comment": "コメント",
+    "commentPlaceholder": "モデル作成者へのコメント",
+    "complex": "コンプレックス",
+    "contextVersion": "DTDL バージョン",
+    "contextVersion3Description": "DTDL バージョン 3 はプレビュー段階です。",
+    "copy": "写し",
+    "data": "データ",
+    "date": "日付",
+    "dateTime": "日時",
+    "delete": "削除",
+    "description": "形容",
+    "descriptionPlaceholder": "表示するローカライズ可能な説明",
+    "details": "細部",
+    "displayName": "表示名",
+    "displayNamePlaceholder": "表示するローカライズ可能な名前",
+    "double": "複",
+    "duplicate": "デュプリケート",
+    "duration": "期間",
+    "enum": "列挙型",
+    "enumValue": "列挙値",
+    "errorComment": "コメントは512文字を超えることはできません",
+    "errorDisplayNameLength": "表示名は 64 文字を超えることはできません",
+    "errorDescription": "説明は 512 文字を超えることはできません",
+    "errorRepeatedEdgeName": "同じ名前のリレーションシップが既に存在します",
+    "errorDisplayName": "表示名は 64 文字を超えることはできません",
+    "errorIdLength": "ID は 2048 文字を超えることはできません",
+    "errorIdValidDTMI": "ID は有効な DTMI である必要があります",
+    "errorName": "名前に使用できるのは、文字 a から z、A から Z、0 から 9、およびアンダースコアのみです。",
+    "errorNameLength": "名前は 64 文字以下にする必要があります",
+    "errorRepeatedEnumValue": "同じ値の列挙値が既に存在します",
+    "errorRepeatedName": "同じ名前のモデルが既に存在する",
+    "errorRepeatedPropertyName": "同じ名前のプロパティが既に存在します",
+    "expand": "膨らむ",
+    "warningId": "ID の値を持つことは、プロパティでは推奨されません。",
+    "float": "浮く",
+    "general": "全般",
+    "id": "身分証明書",
+    "info": "情報",
+    "integer": "整数",
+    "key": "鍵",
+    "linestring": "ラインストリング",
+    "long": "長い",
+    "map": "地図",
+    "mapKeyName": "マップ キー名",
+    "mapValueName": "マップ値の名前",
+    "maxMultiplicityLabel": "最大多重度",
+    "minMultiplicityLabel": "最小多重度",
+    "minMultiplicityMessage": "DTDL V2 では、最小多重度 0 のみがサポートされます。",
+    "modalTextInputPlaceHolder": "この施設...",
+    "modalTextInputPlaceHolderDescription": "1号線",
+    "modalTextInputPlaceHolderSemanticType": "現在の。。。",
+    "modalTextInputPlaceHolderUnit": "単位。。。",
+    "modelId": "モデル ID",
+    "more": "もっとその",
+    "moveDown": "下へ移動",
+    "moveUp": "上へ移動",
+    "multiLanguage": "多言語",
+    "multiLinestring": "複数行文字列",
+    "multiPoint": "マルチポイント",
+    "multiPolygon": "マルチポリゴン",
+    "name": "名前",
+    "noSelectionMessage": "詳細を表示するモデルまたはリレーションシップを選択する",
+    "object": "オブジェクト",
+    "path": "パス",
+    "pivotLink": "ピボットリンク",
+    "point": "点",
+    "polygon": "多角形",
+    "primitive": "原始的",
+    "properties": "プロパティ",
+    "propertiesNotSupported": "選択した項目はプロパティをサポートしていません",
+    "property": "財産",
+    "remove": "取り去る",
+    "region": "地域",
+    "schemaType": "スキーマの種類",
+    "semanticType": "セマンティックタイプ",
+    "singleLanguage": "単一言語",
+    "string": "糸",
+    "templateSearchPlaceholder": "検索名、ID、プロパティ",
+    "templates": "テンプレート",
+    "time": "時間",
+    "type": "種類",
+    "unit": "単位",
+    "uniqueModelName": "一意のモデル名",
+    "update": "更新",
+    "value": "価値",
+    "valueSchema": "値スキーマ",
+    "version": "バージョン",
+    "viewTemplates": "テンプレートの表示",
+    "writable": "書き込み",
+    "SchemaDefaults": {
+      "defaultPropertyName": "new_property_{{インデックス}}",
+      "defaultEnumName": "enum_key_{{インデックス}}",
+      "defaultMapName": "enum_key_{{インデックス}}",
+      "defaultObjectPropertyName": "field_name_{{インデックス}}",
+      "defaultMapKeyName": "map_key_{{インデックス}}",
+      "defaultMapValueName": "map_value_{{インデックス}}"
+    },
+    "PropertyListItem": {
+      "arrayItemLabel": "項目",
+      "enumKeyPlaceholder": "キーを入力してください",
+      "enumValuePlaceholder": "値を入力",
+      "ContextMenu": {
+        "changePropertyTypeLabel": "プロパティタイプの編集",
+        "changeChildTypeLabelForArray": "配列項目タイプの変更",
+        "changeChildTypeLabelForEnum": "列挙値の型を変更する",
+        "editMetadataLabel": "メタデータの編集"
+      }
+    },
+    "jsonEditorTabName": "ティッカー"
+  },
+  "jobs": {
+    "addNew": "新規追加"
   }
 }

@@ -8,7 +8,7 @@
 export type IElement = ITwinToObjectMapping | ICustomProperty;
 export type IDataSource = IElementTwinToObjectMappingDataSource | ICustomProperty;
 export type IVisual = IPopoverVisual | IExpressionRangeVisual;
-export type IWidget = IGaugeWidget | ILinkWidget | IValueWidget | IDataHistoryWidget;
+export type IWidget = IGaugeWidget | ILinkWidget | IValueWidget | IDataHistoryWidget | IPowerBIWidget;
 /**
  * Widget group to which a widget belongs
  */
@@ -286,6 +286,38 @@ export interface IDataHistoryChartOptions {
     defaultQuickTimeSpanInMillis: number;
     aggregationType: IDataHistoryAggregationType;
     extensionProperties?: IExtensionProperties;
+}
+/**
+ * A widget to connect to Power BI and display a specified visualization
+ */
+export interface IPowerBIWidget {
+    type: 'PowerBI';
+    id: string;
+    widgetConfiguration: IPowerBIWidgetConfiguration;
+    extensionProperties?: IExtensionProperties;
+}
+/**
+ * Widget configuration for required Power BI properties used to render visualization
+ */
+export interface IPowerBIWidgetConfiguration {
+    /**
+     * Supported types: report, dashboard, tile, visual
+     */
+    type: 'Tile' | 'Visual';
+    displayName?: string;
+    /**
+     * The URL of the report that contains the visual that you're embedding. This URL becomes the source of the HTML iframe element that contains the embedded visual. Specifically, the API assigns the URL to the src attribute of the iframe. Similar to "https://app.powerbi.com/reportEmbed?reportId=<report ID>&groupId=<group ID>" or "https://app.powerbi.com/groups/<group ID>/reports/<report ID>"
+     */
+    embedUrl?: string;
+    /**
+     * The name of the page that contains the visual that you're embedding
+     */
+    pageName?: string;
+    visualName?: string;
+    /**
+     * Template string which evalues to data filter
+     */
+    dataFilterExpression?: string;
 }
 /**
  * objectIDs specify the objects in the scene that a visual pertains to

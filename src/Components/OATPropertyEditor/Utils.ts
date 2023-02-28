@@ -6,11 +6,11 @@ import {
 } from '../../Models/Constants';
 import {
     DTMIRegex,
-    OATCommentLengthLimit,
-    OATDescriptionLengthLimit,
-    OATDisplayNameLengthLimit,
-    OATIdLengthLimit,
-    OATRelationshipHandleName
+    OAT_COMMENT_LENGTH_LIMIT,
+    OAT_DESCRIPTION_LENGTH_LIMIT,
+    OAT_DISPLAY_NAME_LENGTH_LIMIT,
+    OAT_ID_LENGTH_LIMIT,
+    OAT_RELATIONSHIP_HANDLE_NAME
 } from '../../Models/Constants/Constants';
 import { IOATSelection } from '../../Pages/OATEditorPage/OATEditorPage.types';
 
@@ -18,8 +18,9 @@ import { IOATSelection } from '../../Pages/OATEditorPage/OATEditorPage.types';
 export const getModelPropertyCollectionName = (type: string | string[]) => {
     if (
         type &&
-        (type === OATRelationshipHandleName ||
-            (Array.isArray(type) && type.includes(OATRelationshipHandleName)))
+        (type === OAT_RELATIONSHIP_HANDLE_NAME ||
+            (Array.isArray(type) &&
+                type.includes(OAT_RELATIONSHIP_HANDLE_NAME)))
     ) {
         return 'properties';
     }
@@ -103,7 +104,7 @@ export const setMultiLanguageSelectionsDisplayNameValue = (
     >,
     setDisplayNameError: React.Dispatch<React.SetStateAction<any>>
 ) => {
-    if (value.length <= OATDisplayNameLengthLimit) {
+    if (value.length <= OAT_DISPLAY_NAME_LENGTH_LIMIT) {
         const newMultiLanguageSelectionsDisplayName = {
             ...multiLanguageSelectionsDisplayName,
             [multiLanguageSelectionsDisplayNames[index].key]: value
@@ -156,7 +157,7 @@ export const validateMultiLanguageSelectionsDescriptionValueChange = (
     >,
     setDescriptionError: React.Dispatch<React.SetStateAction<any>>
 ) => {
-    if (value.length <= OATDescriptionLengthLimit) {
+    if (value.length <= OAT_DESCRIPTION_LENGTH_LIMIT) {
         const newMultiLanguageSelectionsDescription = {
             ...multiLanguageSelectionsDescription,
             [multiLanguageSelectionsDescriptions[index].key]: value
@@ -239,12 +240,18 @@ export const validateDisplayNameChange = (
     setDisplayName,
     setDisplayNameError
 ) => {
-    if (value.length <= OATDisplayNameLengthLimit) {
+    if (value.length <= OAT_DISPLAY_NAME_LENGTH_LIMIT) {
         setDisplayName(value);
         setDisplayNameError(null);
     } else {
         setDisplayNameError(true);
     }
+};
+export const isValidDisplayName = (value: string) => {
+    return value.length <= OAT_DISPLAY_NAME_LENGTH_LIMIT;
+};
+export const isValidDescription = (value: string) => {
+    return value.length <= OAT_DESCRIPTION_LENGTH_LIMIT;
 };
 
 // Handle description change on forms
@@ -253,7 +260,7 @@ export const validateDescriptionChange = (
     setDescription,
     setDescriptionError
 ) => {
-    if (value.length <= OATDescriptionLengthLimit) {
+    if (value.length <= OAT_DESCRIPTION_LENGTH_LIMIT) {
         setDescription(value);
         setDescriptionError(null);
     } else {
@@ -263,12 +270,15 @@ export const validateDescriptionChange = (
 
 // Handle comment change on forms
 export const validateCommentChange = (value, setComment, setCommentError) => {
-    if (value.length <= OATCommentLengthLimit) {
+    if (value.length <= OAT_COMMENT_LENGTH_LIMIT) {
         setComment(value);
         setCommentError(null);
     } else {
         setCommentError(true);
     }
+};
+export const isValidComment = (value: string) => {
+    return value.length <= OAT_COMMENT_LENGTH_LIMIT;
 };
 
 // Handle id change on forms
@@ -279,7 +289,7 @@ export const validateIdChange = (
     setIdValidDTMIError,
     setIdWarning?
 ) => {
-    if (value.length <= OATIdLengthLimit) {
+    if (value.length <= OAT_ID_LENGTH_LIMIT) {
         setIdErrorLength(null);
         if (DTMIRegex.test(value)) {
             setIdValidDTMIError(null);
@@ -299,10 +309,12 @@ export const validateIdChange = (
     }
 };
 
+// TODO: move onto the context so we don't have to do this in every component
 export const getTargetFromSelection = (
     models: DtdlInterface[],
     selection: IOATSelection
 ) => {
+    // console.log('***Getting target from models', models, selection);
     const model = models.find((m) => m['@id'] === selection.modelId);
     if (!selection.contentId) {
         return model;

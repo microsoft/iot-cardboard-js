@@ -12,7 +12,7 @@ import { OverflowMenu } from '../OverflowMenu/OverflowMenu';
 import { ICardboardListItemPropsInternal } from './CardboardList.types';
 import { getStyles, getButtonStyles } from './CardboardListItem.styles';
 
-export const CardboardListItem = <T extends unknown>(
+export const CardboardListItem = <T,>(
     props: ICardboardListItemPropsInternal<T> & { children?: ReactNode }
 ) => {
     const {
@@ -94,11 +94,11 @@ export const CardboardListItem = <T extends unknown>(
         isMenuOpen,
         iconStart && typeof iconStart !== 'function'
             ? iconStart.color
-            : undefined
+            : undefined,
+        iconEnd && typeof iconEnd !== 'function' ? iconEnd.color : undefined
     );
     const buttonStyles = getButtonStyles(
         itemType,
-        isSelected,
         theme,
         buttonProps?.customStyles
     );
@@ -111,6 +111,7 @@ export const CardboardListItem = <T extends unknown>(
                     data-testid={`cardboard-list-item-${listKey}-${index}`}
                     id={id}
                     selected={isSelected}
+                    checked={isSelected}
                     styles={buttonStyles}
                     onClick={onButtonClick}
                     onKeyPress={onButtonKeyPress}
@@ -128,15 +129,13 @@ export const CardboardListItem = <T extends unknown>(
                     )}
                     {typeof iconStart === 'function'
                         ? iconStart(item)
-                        : showStartIcon &&
-                          (typeof iconStart.name === 'string' ? (
+                        : showStartIcon && (
                               <FontIcon
+                                  title={iconStart.title}
                                   iconName={iconStart.name}
-                                  className={classNames.icon}
+                                  className={classNames.iconStart}
                               />
-                          ) : (
-                              iconStart.name
-                          ))}
+                          )}
                     <div className={classNames.textContainer}>
                         <div
                             className={classNames.primaryText}
@@ -158,13 +157,15 @@ export const CardboardListItem = <T extends unknown>(
                             </div>
                         )}
                     </div>
-                    {typeof iconEnd === 'function' && iconEnd(item)}
-                    {showEndIcon && (
-                        <FontIcon
-                            iconName={iconEnd.name}
-                            className={`${classNames.icon} ${classNames.endIcon}`}
-                        />
-                    )}
+                    {typeof iconEnd === 'function'
+                        ? iconEnd(item)
+                        : showEndIcon && (
+                              <FontIcon
+                                  title={iconEnd.title}
+                                  iconName={iconEnd.name}
+                                  className={classNames.iconEnd}
+                              />
+                          )}
                     {(showOverflow || showEndIconButton) && (
                         <div className={classNames.menuPlaceholder}></div>
                     )}

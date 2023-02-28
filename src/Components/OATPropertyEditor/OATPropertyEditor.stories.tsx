@@ -1,44 +1,204 @@
-import React, { useReducer } from 'react';
+import React, { useMemo } from 'react';
 import OATPropertyEditor from './OATPropertyEditor';
-import BaseComponent from '../BaseComponent/BaseComponent';
-import { CommandHistoryContext } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
-import useCommandHistory from '../../Pages/OATEditorPage/Internal/Hooks/useCommandHistory';
+import { CommandHistoryContextProvider } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
+import { buildModelId } from '../../Models/Services/OatUtils';
 import {
-    defaultOATEditorState,
-    OATEditorPageReducer
-} from '../../Pages/OATEditorPage/OATEditorPage.state';
-import i18n from '../../i18n';
+    getMockFile,
+    getMockModelItem
+} from '../../Models/Context/OatPageContext/OatPageContext.mock';
+import { ComponentStory } from '@storybook/react';
+import {
+    IStoryContext,
+    getDefaultStoryDecorator,
+    sleep
+} from '../../Models/Services/StoryUtilities';
+import { getTargetFromSelection } from './Utils';
+import { IOATSelection } from '../../Pages/OATEditorPage/OATEditorPage.types';
+import { IOATFile } from '../../Pages/OATEditorPage/Internal/Classes/OatTypes';
+import { userEvent, within } from '@storybook/testing-library';
+import {
+    DtdlInterfaceContent,
+    DtdlRelationship,
+    OAT_RELATIONSHIP_HANDLE_NAME
+} from '../../Models/Constants';
+import {
+    DTDLProperty,
+    DTDLType,
+    DTDL_CONTEXT_VERSION_3
+} from '../../Models/Classes/DTDL';
+import {
+    OatPageContextProvider,
+    useOatPageContext
+} from '../../Models/Context/OatPageContext/OatPageContext';
+import { IOatPageContextState } from '../../Models/Context/OatPageContext/OatPageContext.types';
+
+const wrapperStyle: React.CSSProperties = {
+    width: 'auto',
+    height: '80vh',
+    padding: 8
+};
 
 export default {
-    title: 'Components/OATPropertyEditor',
-    component: OATPropertyEditor
+    title: 'Components - OAT/OATPropertyEditor',
+    component: OATPropertyEditor,
+    decorators: [getDefaultStoryDecorator(wrapperStyle)]
 };
 
-export const Default = (_args, { globals: { theme, locale } }) => {
-    const [state, dispatch] = useReducer(
-        OATEditorPageReducer,
-        defaultOATEditorState
-    );
-
-    const languages = Object.keys(i18n.options.resources).map((language) => {
-        return {
-            key: i18n.options.resources[language].translation.languageCode,
-            text: i18n.options.resources[language].translation.languageName
-        };
-    });
-
-    const providerValue = useCommandHistory([]);
-
+type StoryProps = {
+    files: IOATFile[];
+    selection: IOATSelection;
+    initialState?: Partial<IOatPageContextState>;
+};
+type SceneBuilderStory = ComponentStory<any>;
+const Template: SceneBuilderStory = (
+    args: StoryProps,
+    context: IStoryContext<any>
+) => {
     return (
-        <BaseComponent locale={locale} theme={theme}>
-            <CommandHistoryContext.Provider value={providerValue}>
-                <OATPropertyEditor
-                    theme={theme}
-                    state={state}
-                    dispatch={dispatch}
-                    languages={languages}
-                />
-            </CommandHistoryContext.Provider>
-        </BaseComponent>
+        <OatPageContextProvider
+            disableLocalStorage={true}
+            initialState={{
+                ontologyFiles: args.files,
+                currentOntologyId: 'something',
+                selection: args.selection,
+                ...args?.initialState
+            }}
+        >
+            <CommandHistoryContextProvider>
+                <CommandHistoryContextProvider>
+                    <ComponentRenderer storyContext={context} />
+                </CommandHistoryContextProvider>
+            </CommandHistoryContextProvider>
+        </OatPageContextProvider>
     );
 };
+
+interface IRendererProps {
+    storyContext: IStoryContext<any>;
+}
+const ComponentRenderer: React.FC<IRendererProps> = (props) => {
+    const { storyContext } = props;
+
+    const { oatPageState } = useOatPageContext();
+    const selectedModel = useMemo(
+        () =>
+            oatPageState.selection &&
+            getTargetFromSelection(
+                oatPageState.currentOntologyModels,
+                oatPageState.selection
+            ),
+        [oatPageState.currentOntologyModels, oatPageState.selection]
+    );
+    console.log('Test: rendering with selected item', selectedModel);
+    return (
+        <OATPropertyEditor
+            parentModelId={selectedModel['@id']}
+            selectedItem={selectedModel}
+            selectedThemeName={
+                storyContext.parameters.theme || storyContext.globals.theme
+            }
+        />
+    );
+};
+
+const getMockFiles = () => {
+    const mockFile = getMockFile(0, '123', '234');
+    mockFile.data.models.unshift(getMockModel());
+    return [mockFile];
+};
+
+const getMockModel = () => {
+    const modelId = buildModelId({
+        modelName: 'model' + 345,
+        path: 'testNamespace:folder1:folder2',
+        version: 2
+    });
+    const model = getMockModelItem(modelId);
+
+    const relationship: DtdlRelationship = {
+        '@type': DTDLType.Relationship,
+        '@id': modelId + '_Relationship_0',
+        name: 'Relationship_0',
+        target: 'dtmi:testNamespace:model1;1',
+        properties: [
+            new DTDLProperty(
+                'Length',
+                'double',
+                'property1',
+                '',
+                '',
+                'Length',
+                '',
+                true
+            )
+        ]
+    };
+    model.contents = [
+        ...model.contents,
+        relationship,
+        {
+            '@type': 'Property',
+            name: 'New_Property1',
+            schema: 'dateTime'
+        }
+    ];
+    return model;
+};
+
+export const ModelSelectedEditorModel = Template.bind({});
+ModelSelectedEditorModel.args = (() => {
+    const files = getMockFiles();
+    const args: StoryProps = {
+        files: files,
+        selection: { modelId: files[0].data.models[0]['@id'] }
+    };
+    return args;
+})();
+
+export const ModelSelectedEditorRelationship = Template.bind({});
+ModelSelectedEditorRelationship.args = (() => {
+    const files = getMockFiles();
+    const firstModel = files[0].data.models[0];
+    const args: StoryProps = {
+        files: files,
+        selection: {
+            modelId: firstModel['@id'],
+            contentId: firstModel.contents.find(
+                (x: DtdlInterfaceContent) =>
+                    x['@type'] === OAT_RELATIONSHIP_HANDLE_NAME
+            )?.name
+        }
+    };
+    return args;
+})();
+
+export const ModelSelectedJsonTab = Template.bind({});
+ModelSelectedJsonTab.args = (() => {
+    const files = getMockFiles();
+    const args: StoryProps = {
+        files: files,
+        selection: { modelId: files[0].data.models[0]['@id'] }
+    };
+    return args;
+})();
+ModelSelectedJsonTab.play = async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    // Finds the menu and opens it
+    const tab = (await canvas.findAllByRole('tab'))[1];
+    userEvent.click(tab);
+
+    // wait for the menu
+    await sleep(10);
+};
+
+export const ModelSelectedEditorV3Preview = Template.bind({});
+ModelSelectedEditorV3Preview.args = (() => {
+    const files = getMockFiles();
+    files[0].data.models[0]['@context'] = DTDL_CONTEXT_VERSION_3;
+    const args: StoryProps = {
+        files: files,
+        selection: { modelId: files[0].data.models[0]['@id'] }
+    };
+    return args;
+})();

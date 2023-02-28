@@ -1,6 +1,7 @@
 import { DTDLType } from '../../../Models/Classes/DTDL';
 import { DtdlInterfaceSchema, DtdlProperty } from '../../../Models/Constants';
 import { dtdlPropertyTypesEnum } from '../../../Models/Constants/Constants';
+import { IDataHistoryExplorerModalControlProps } from '../../DataHistoryExplorerModal/DataHistoryExplorerModalControl/DataHistoryExplorerModalControl.types';
 
 type PrimitiveValueTypes = boolean | string | number | Record<string, any>;
 export interface PropertyTreeNode {
@@ -50,6 +51,7 @@ export interface PropertyTreeProps {
     onAddArrayItem: (node: PropertyTreeNode) => any;
     onRemoveArrayItem: (node: PropertyTreeNode) => any;
     onClearArray: (node: PropertyTreeNode) => any;
+    dataHistoryControlProps?: IDataHistoryExplorerModalControlProps;
 }
 
 export interface TreeProps {

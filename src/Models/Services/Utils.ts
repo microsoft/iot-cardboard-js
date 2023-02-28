@@ -6,10 +6,10 @@ import {
     ADTModel_ImgSrc_PropertyName,
     ADTModel_InBIM_RelationshipName,
     ADTModel_ViewData_PropertyName,
+    ADT_ALLOW_LISTED_URLS,
     CharacterWidths,
     CONNECTION_STRING_SUFFIX
 } from '../Constants/Constants';
-import { Parser } from 'expr-eval';
 import Ajv from 'ajv/dist/2020';
 import schema from '../../../schemas/3DScenesConfiguration/v1.0.0/3DScenesConfiguration.schema.json';
 import { ComponentError } from '../Classes/Errors';
@@ -32,8 +32,7 @@ import { DTwin, IADTTwin, IAzureResource } from '../Constants/Interfaces';
 import {
     AzureAccessPermissionRoleGroups,
     DurationUnits,
-    IConsoleLogFunction,
-    TimeSeriesData
+    IConsoleLogFunction
 } from '../Constants/Types';
 import { format } from 'd3-format';
 
@@ -155,6 +154,14 @@ export const validate3DConfigWithSchema = (
     }
 };
 
+/**
+ * checks whether the provided value is one of the values in the provided enum type
+ * @example isValueInEnum(DTDLSchemaType, schemaType)
+ */
+export const isValueInEnum = (enumType: any, value: any) => {
+    return !!(<any>Object).values(enumType).includes(value);
+};
+
 export const createGUID = (isWithDashes = false) => {
     let id: string = v4();
     if (!isWithDashes) {
@@ -260,16 +267,22 @@ export const hasAllProcessGraphicsCardProperties = (
     );
 };
 
-export const downloadText = (text: string, fileName?: string) => {
-    const blob = new Blob([text], { type: 'text/csv;charset=utf-8;' });
+export const downloadJSON = (text: string, fileName?: string) => {
+    const blob = new Blob([text], { type: 'application/json;charset=utf-8;' });
+    downloadFile(blob, fileName ?? 'Instances.json');
+};
+
+/** downloads a file as a blob to the user's machine */
+export function downloadFile(blob: Blob, fileName: string) {
     const blobURL = window.URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.setAttribute('href', blobURL);
-    link.setAttribute('download', fileName ? fileName : 'Instances.json');
+    link.setAttribute('download', fileName);
     link.innerHTML = '';
     document.body.appendChild(link);
     link.click();
-};
+    link.parentNode.removeChild(link);
+}
 
 /** Remove the suffix or any other text after the numbers, or return undefined if not a number */
 export const getNumericPart = (value: string): number | undefined => {
@@ -378,17 +391,6 @@ export function formatTimeInRelevantUnits(
         value: value,
         displayStringKey: units
     };
-}
-
-export function parseExpression(expression: string, twins: any) {
-    let result: any = '';
-    try {
-        result = Parser.evaluate(expression, twins) as any;
-    } catch {
-        console.error(`Unable to parse expression: ${expression}`);
-    }
-
-    return result;
 }
 
 export function deepCopy<T>(object: T): T {
@@ -534,22 +536,28 @@ export function rgbToHex(r, g, b) {
     return '#' + componentToHex(r) + componentToHex(g) + componentToHex(b);
 }
 
-export async function parseModels(models: DtdlInterface[]) {
-    const DTDLParserPath = './dtdl-parser/index.js';
-    const { parseAsync } = await import(
-        /* webpackIgnore: true */ DTDLParserPath
-    );
-    try {
-        await parseAsync([JSON.stringify(models)]);
-    } catch (err) {
-        if (err.name === 'ParsingException') {
-            return err._parsingErrors
-                .map((e) => `${e.action} ${e.cause}`)
-                .join('\n');
+/**
+ * Sorts a list alphabetically ignoring casing
+ * @example listItems.sort(sortCaseInsensitiveAlphabetically())
+ * @returns Sort function to pass to `.sort()`
+ */
+export function sortCaseInsensitive(descending?: boolean) {
+    return (a: string, b: string) => {
+        let order = 0;
+        if (a && b && typeof a === 'string' && typeof b === 'string') {
+            order = a.toLowerCase() > b.toLowerCase() ? 1 : -1;
+        } else if (isDefined(a)) {
+            order = -1;
+        } else if (isDefined(b)) {
+            order = 1;
         }
 
-        return err.message;
-    }
+        if (descending) {
+            order = order * -1;
+        }
+
+        return order;
+    };
 }
 
 /**
@@ -581,6 +589,46 @@ export function sortAscendingOrDescending<T>(
         return order;
     };
 }
+
+/**
+ * Modifies the collection in-place to shift an item up or down in the collection.
+ * @param direction Direction to move the item
+ * @param itemIndex index of the item to move
+ * @param items collection of items
+ * @returns reference to the original collection
+ */
+export const moveItemInCollection = <T>(
+    direction: 'Up' | 'Down',
+    itemIndex: number,
+    items: T[]
+): T[] => {
+    const item = items[itemIndex];
+
+    if (direction === 'Up') {
+        if (itemIndex === 0) {
+            console.warn('Cannot move item up. Already first item in list');
+            // early return if the first item in the list
+            return items;
+        }
+
+        // insert the item at the new position
+        items.splice(itemIndex - 1, 0, item);
+        // remove the old item
+        items.splice(itemIndex + 1, 1);
+        return items;
+    } else {
+        if (itemIndex === items.length - 1) {
+            console.warn('Cannot move item down. Already last item in list');
+            // early return if the last item in the list
+            return items;
+        }
+        // insert the item at the new position
+        items.splice(itemIndex + 2, 0, item);
+        // remove the old item
+        items.splice(itemIndex, 1);
+        return items;
+    }
+};
 
 /**
  * remove duplicate objects from an array
@@ -903,25 +951,6 @@ export const isValidADXClusterUrl = (clusterUrl: string): boolean => {
     return false;
 };
 
-/** Creates mock time series data array with data points between now and a certain milliseconds ago */
-export const getMockTimeSeriesDataArrayInLocalTime = (
-    lengthOfSeries = 1,
-    numberOfDataPoints = 5,
-    agoInMillis = 1 * 60 * 60 * 1000
-): Array<Array<TimeSeriesData>> => {
-    const toInMillis = Date.now();
-    const fromInMillis = toInMillis - agoInMillis;
-    return Array.from({ length: lengthOfSeries }).map(() => {
-        const maxLimitVariance = Math.floor(Math.random() * 500); // pick a max value between 0-500 as this timeseries value range to add more variance for values of different timeseries in independent y axes
-        return Array.from({ length: numberOfDataPoints }, () => ({
-            timestamp: Math.floor(
-                Math.random() * (toInMillis - fromInMillis + 1) + fromInMillis
-            ),
-            value: Math.floor(Math.random() * maxLimitVariance)
-        })).sort((a, b) => (a.timestamp as number) - (b.timestamp as number));
-    });
-};
-
 /**
  * Takes a number and returns a string representing the formatted number
  * @param val, number that is to be formatted
@@ -958,4 +987,30 @@ export function formatNumber(val: number) {
     else if (Math.abs(val) >= 1000000000 && Math.abs(val) < 1000000000000)
         return format('.3s')(val).slice(0, -1) + 'B'; // suffix of B for billions
     return format('.1n')(val); // scientific for everything else
+}
+
+/**
+ * Takes a word string and capitalize only the first letter
+ * @param str, the string to be formatted
+ * @returns capitalized first letter formatted string
+ */
+export function capitalizeFirstLetter(str: string) {
+    try {
+        str = str.toLowerCase();
+        return str.charAt(0).toUpperCase() + str.slice(1);
+    } catch (error) {
+        console.error('Failed to capitalize string', error.message);
+        return str;
+    }
+}
+
+/**
+ * Validate if URL is Explorer for CORS enabling
+ */
+export function validateExplorerOrigin(origin: string) {
+    return (
+        origin &&
+        (origin === ADT_ALLOW_LISTED_URLS.DEV ||
+            origin === ADT_ALLOW_LISTED_URLS.PROD)
+    );
 }

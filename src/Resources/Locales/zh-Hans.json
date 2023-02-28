@@ -100,6 +100,10 @@
     "schemaValidationFailed": {
       "type": "JSON 架构验证失败",
       "message": "JSON 无效。检查语法是否与所需的架构匹配。"
+    },
+    "timeSeriesDatabaseConnectionFetchFailed": {
+      "type": "时序数据库连接验证失败",
+      "message": "找不到数据历史记录连接信息，请确保为此 Azure 数字孪生实例启用了数据历史记录，并且你至少具有对 Azure 数据资源管理器实例的“{{权限}}”访问权限。"
     }
   },
   "valueRangeBuilder": {
@@ -650,13 +654,42 @@
         }
       },
       "headerMenu": "“数据历史记录”小组件菜单",
-      "openQuery": "在 Azure 数据资源管理器中打开查询",
+      "openQuery": "在 Azure 数据资源管理器中打开查询"
+    },
+    "powerBI": {
+      "title": "Power BI 小组件",
+      "libraryName": "Power BI Visual",
+      "description": "Lorem ipsum dolor sit amet， consectetur adipiscing elit， sed do eiusmod tempor",
+      "type": {
+        "label": "类型",
+        "options": {
+          "report": "报告",
+          "dashboard": "挡泥板",
+          "tile": "瓦",
+          "visual": "视觉"
+        }
+      },
+      "pageName": {
+        "label": "页面名称",
+        "placeholder": "页面名称"
+      },
+      "visualName": {
+        "label": "视觉对象名称",
+        "placeholder": "视觉对象名称",
+        "suffix": "输入报表中要在此小组件中显示的特定元素的名称"
+      },
+      "dataFilters": {
+        "label": "数据过滤器"
+      },
       "errors": {
-        "genericNetwork": "群集 URL 无效或发生网络错误。",
-        "genericBadRequest": "发生错误请求异常。",
-        "generalBadRequestMessage": "请求无效，无法执行。",
-        "entityNotFound": "找不到数据库，无法执行查询。",
-        "forbidden": "访问被拒绝，您没有查询权限。"
+        "missingReportConfiguration": "请确保您的小部件配置正确",
+        "missingConfiguration": "小组件配置缺失或无效",
+        "missingAdapter": "请确保已安装并配置 Power BI 适配器"
+      },
+      "embedUrl": {
+        "label": "嵌入网址",
+        "placeholder": "https://embed.powerbi.com/groups/me/reports/{reportId}",
+        "description": "用于在外部工具中嵌入报表项目的 URL"
       }
     }
   },
@@ -917,7 +950,6 @@
     "sync": "同步",
     "import": "进口",
     "export": "出口",
-    "file": "文件",
     "new": "新增功能",
     "open": "打开",
     "saveAs": "另存为",
@@ -934,27 +966,25 @@
     "namespace": "Namespace",
     "enterANamespace": "输入命名空间",
     "settings": "设置",
-    "errorInvalidJSON": "无效的 JSON",
-    "errorFileFormatNotSupported": "{{文件}} 格式不受支持",
-    "errorFormatNoSupported": "不支持的文件格式",
-    "errorIssueWithFile": "{{文件名}} 的问题：{{错误}}",
     "errorNamespace": "命名空间只能包含字母、数字和下划线。",
     "undo": "撤消",
     "redo": "重做",
     "deleteAll": "全部删除",
     "folderUpload": "文件夹上传",
     "fileUpload": "文件上传",
-    "files": "文件",
     "selectFile": "选择文件",
     "errorSingleFileHoldsRelationships": "{{文件名}} 的问题：模型保留未导入的关系",
-    "errorImportedModelAlreadyExists": "{{modelId}} 的问题：具有相同@id的模型已存在",
-    "errorFileInvalidJSON": "{{文件名}} 的问题：无效的 JSON",
     "deleteProjectMessage": "是否确实要删除 {{项目名称}}？",
     "errorSameName": "具有相同名称的项目已存在。是否要覆盖它？",
     "fileOpenModal": {
       "dropdownLabel": "本体",
       "dropdownPlaceholder": "选择本体"
-    }
+    },
+    "configure": "配置",
+    "importFile": "导入文件",
+    "importFolder": "导入文件夹",
+    "ontology": "本体",
+    "newModel": "新型号"
   },
   "cameraControls": {
     "mouseControls": "鼠标控制",
@@ -1091,99 +1121,10 @@
     "errorNameLength": "姓名不得超过 64 个字符",
     "errorIdLength": "Id 不得超过 2048 个字符",
     "errorIdValidDTMI": "ID 必须是有效的 DTMI",
-    "errorRepeatedId": "具有相同 ID 的模型已存在",
     "errorDisplayNameLength": "显示名称不得超过 64 个字符",
-    "errorRepeatedEdgeName": "具有相同名称的关系已存在",
     "runLayout": "运行布局",
-    "errorReachedInheritanceLimit": "已达到继承限制",
-    "errorInheritance": "不能从两个以上的接口继承"
-  },
-  "OATPropertyEditor": {
-    "displayName": "显示名称",
-    "general": "常规",
-    "assetId": "资产编号",
-    "type": "类型",
-    "properties": "性能",
-    "viewTemplates": "查看模板",
-    "name": "名字",
-    "schemaType": "架构类型",
-    "addProperty": "添加属性",
-    "comment": "评论",
-    "description": "描述",
-    "writable": "写",
-    "semanticType": "语义类型",
-    "unit": "单位",
-    "id": "编号",
-    "update": "更新",
-    "primitive": "原始",
-    "complex": "复杂",
-    "errorRepeatedPropertyName": "同名的属性已存在",
-    "errorRepeatedEnumValue": "具有相同值的枚举值已存在",
-    "templates": "模板",
-    "templateSearchPlaceholder": "搜索名称、ID、属性",
-    "property": "财产",
-    "modalTextInputPlaceHolder": "此属性...",
-    "modalTextInputPlaceHolderDescription": "1号线",
-    "modalTextInputPlaceHolderSemanticType": "当前。。。",
-    "modalTextInputPlaceHolderUnit": "单位。。。",
-    "pivotLink": "透视链接",
-    "json": "断续器",
-    "addEnumValue": "添加枚举值",
-    "enumValue": "枚举值",
-    "mapKeyName": "映射键名称",
-    "mapValueName": "映射值名称",
-    "key": "钥匙",
-    "value": "价值",
-    "addToTemplate": "添加到模板",
-    "duplicate": "重复",
-    "remove": "删除",
-    "boolean": "布尔",
-    "data": "数据",
-    "float": "浮",
-    "integer": "整数",
-    "string": "字符串",
-    "enum": "枚举",
-    "map": "地图",
-    "array": "数组",
-    "object": "对象",
-    "dateTime": "日期时间",
-    "time": "时间",
-    "long": "长",
-    "double": "双",
-    "duration": "期间",
-    "point": "点",
-    "linestring": "线串",
-    "polygon": "多边形",
-    "multiPoint": "多点",
-    "multiLinestring": "多线字符串",
-    "multiPolygon": "多多边形",
-    "close": "关闭",
-    "collapse": "崩溃",
-    "info": "信息",
-    "more": "更多",
-    "copy": "复制",
-    "cancel": "取消",
-    "delete": "删除",
-    "multiLanguage": "多国语言",
-    "region": "地区",
-    "singleLanguage": "单一语言",
-    "errorComment": "评论不得超过512个字符",
-    "errorDisplayName": "显示名称不得超过 64 个字符",
-    "errorDescription": "描述不得超过 512 个字符",
-    "errorName": "名称只能包含字符 a-z、A-Z、0-9 和下划线",
-    "errorNameLength": "名称不得超过 64 个字符",
-    "errorIdLength": "Id 不得超过 2048 个字符",
-    "errorIdValidDTMI": "ID 必须是有效的 DTMI",
-    "errorDisplayNameLength": "显示名称不得超过 64 个字符",
-    "errorRepeatedId": "具有相同 ID 的模型已存在",
-    "errorRepeatedName": "具有相同名称的模型已存在",
-    "errorRepeatedEdgeName": "具有相同名称的关系已存在",
-    "errorInvalidJSON": "无效的 JSON",
-    "warningId": "不建议为 ID 设置值。",
-    "addToPropertyList": "添加到属性列表",
-    "moveDown": "下移",
-    "moveUp": "上升",
-    "valueSchema": "值架构"
+    "extends": "延伸",
+    "loadingText": "计算布局位置"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "错误信息",
@@ -1243,7 +1184,6 @@
   "advancedSearch": {
     "toggleSelection": "切换为选择双胞胎",
     "selectRow": "选择双床间",
-    "inspectProperty": "检查属性",
     "results": "Results （{{twinCount}}）",
     "noPropertiesFound": "未找到任何属性",
     "addNewButton": "添加新的",
@@ -1265,7 +1205,8 @@
     "columnPicker": "列选取器",
     "propertyCount": "{{选定的属性计数}} 属性已选择",
     "availableProperties": "可用属性的下拉列表",
-    "selectAdditionalColumns": "选择其他列"
+    "selectAdditionalColumns": "选择其他列",
+    "inspectProperties": "检查属性"
   },
   "highcharts": {
     "shareQueryTitle": "共享查询",
@@ -1302,24 +1243,292 @@
   "colorPills": {
     "unlabeled": "未标记"
   },
+  "clear": "清楚",
+  "duplicate": "重复",
+  "moveUp": "上升",
+  "moveDown": "下移",
+  "increaseBy1": "将值增加 1",
+  "decreaseBy1": "将值减少 1",
+  "OATCommon": {
+    "duplicateFileNameSuffix": "复制",
+    "defaultFileName": "新本体",
+    "defaultModelNamePrefix": "型"
+  },
+  "OATErrors": {
+    "Validations": {
+      "InvalidDtmiIdFormatTitle": "无效的 DTMI 格式",
+      "InvalidDtmiIdFormatMessage": "您的更改未保存，因为 DTMI 不符合所需的格式。\n DTMI： {{dtmi}}\n 所需格式：{{正则表达式}}"
+    }
+  },
+  "OAT": {
+    "ModelList": {
+      "searchModels": "搜索型号",
+      "noMatchingItemsMessage": "没有符合该标准的模型",
+      "removeModelButtonText": "删除模型",
+      "noModelsTitle": "您还没有任何型号",
+      "noModelsMessage": "通过添加模型或导入现有本体开始设计本体",
+      "noModelsButtonText": "添加模型"
+    },
+    "Common": {
+      "untargeted": "非目标",
+      "unhandledExceptionTitle": "意外错误",
+      "unhandledExceptionMessage": "意想不到的事情发生了。请重试。",
+      "versionDocumentationLink": "了解有关 DTDL 版本 3 的更多信息"
+    },
+    "ImportErrors": {
+      "fileInvalidJSON": "无法导入“{{文件名}}”，它包含无效的 JSON。",
+      "exceptionTitle": "意外错误",
+      "exceptionMessage": "意想不到的事情发生了。请重试。",
+      "importFailedTitle": "导入失败",
+      "importFailedMessage": "导入过程中出错。请解决它们，然后重试。\n {{错误}}",
+      "noValidFilesTitle": "未找到型号",
+      "noValidFilesMessage": "未找到要导入的模型文件。确保所选文件中存在有效的 JSON 文件。"
+    },
+    "PropertyEditor": {
+      "Version3UpgradeButton": {
+        "confirmationTitle": "升级模式？",
+        "confirmationMessage": "是否确实要将此模型升级到 DTDL 版本 3？您的所有配置都将保留。",
+        "confirmationButtonText": "升级",
+        "buttonText": "升级到版本 3"
+      },
+      "Version3PreviewLabel": {
+        "badgeText": "预览",
+        "badgeCalloutText": "此模型使用 DTDL 版本 3。点击了解更多"
+      }
+    },
+    "PropertyTypes": {
+      "categories": {
+        "complex": "复杂",
+        "primitive": "原始",
+        "geospatial": "地理空间"
+      },
+      "unsupportedPropertyType": "此属性类型不适用于关联模型的当前上下文版本"
+    },
+    "Header": {
+      "ManageOntologyModal": {
+        "deleteButtonText": "删除本体",
+        "modalTitleCreate": "新本体",
+        "modalTitleEdit": "编辑本体",
+        "modalSubTitleCreate": "创建一个新的本体，为您的数字孪生提供结构。",
+        "modalSubTitleEdit": "编辑本体，为数字孪生提供结构。",
+        "modalSubTitleLinkText": "了解有关本体的更多信息",
+        "nameLabel": "名字",
+        "namePlaceholder": "输入本体名称",
+        "namespaceLabel": "默认路径",
+        "namespaceDescription": "示例模型 ID：{{模型名称}}",
+        "namespacePlaceholder": "输入默认路径",
+        "sampleModel": "示例模型",
+        "defaultVersionLabel": "新型号的默认 DTDL 版本",
+        "version2": "版本 2",
+        "version3": "版本 3（预览版）"
+      }
+    },
+    "ImportProgress": {
+      "loadingTitle": "导入模型",
+      "loadingSpinnerLabel": "导入 {{计数}} 文件",
+      "successTitle": "导入成功",
+      "successMessage": "已成功将 {{count}} 模型添加到本体"
+    },
+    "GraphControls": {
+      "modelListTitle": "切换模型列表",
+      "legendTitle": "切换关联",
+      "autoLayoutTitle": "自动布局",
+      "miniMapTitle": "切换小地图"
+    },
+    "ImportLimits": {
+      "message": "目前，本体中关系、组件和继承的总数在本体设计器中限制为 {{count}}。",
+      "title": "已达到参考限制"
+    },
+    "Errors": {
+      "invalidJSONTitle": "无效的 JSON",
+      "invalidJSONMessage": "您输入的 JSON 无效。请修复 JSON，然后重试。",
+      "validationFailedTitle": "验证失败",
+      "validationFailedMessage": "验证更改时出现问题。"
+    }
+  },
+  "dataHistoryErrorHandlingWrapper": {
+    "errors": {
+      "genericNetwork": "Azure 数据资源管理器实例无法连接，请确保资源未停止且网络连接稳定。",
+      "genericBadRequest": "出现问题，请重试。",
+      "generalBadRequestMessage": "请求无效，无法执行。",
+      "entityNotFound": "找不到数据库，无法执行查询。",
+      "forbidden": "访问被拒绝，您没有查询权限。"
+    }
+  },
   "dataHistoryExplorer": {
     "title": "数据历史记录浏览器",
+    "loadingConnectionLabel": "正在加载数据历史记录连接信息...",
     "builder": {
-      "title": "孪生属性",
+      "description": "要比较历史化属性的过去值，请在下面添加时间序列。",
       "timeSeriesTwin": {
-        "property": "财产",
-        "propertyTypeCastLabel": "将属性类型转换为数字",
         "add": "添加时间序列",
+        "edit": "编辑时间序列",
         "remove": "删除时间序列",
-        "edit": "编辑时间序列"
-      },
-      "description": "要比较历史化属性的过去值，请在下面添加时间序列。"
+        "property": "财产",
+        "noData": "所选时间范围内没有要显示的数据",
+        "propertyTypeCastLabel": "将属性值强制转换为数字",
+        "noProperty": "未选择任何属性"
+      }
     },
     "viewer": {
-      "chart": "图表",
-      "table": "桌子",
-      "noSeriesDescription": "若要查看此孪生体的数据历史记录，请选择要查看的属性。"
+      "chart": {
+        "title": "图表",
+        "messages": {
+          "noData": "在所选时间范围内未找到数值数据。"
+        }
+      },
+      "table": {
+        "title": "桌子",
+        "columns": {
+          "timestamp": "时间戳",
+          "series": "系列",
+          "value": "价值",
+          "type": "类型"
+        },
+        "messages": {
+          "noData": "在所选时间范围内未找到数据。"
+        },
+        "noColor": "未设置"
+      },
+      "messages": {
+        "loading": "正在加载历史数据...",
+        "noSeries": "没有选择孪生体进行查询，请添加孪生体属性以查看历史数据。"
+      },
+      "commandBar": {
+        "refresh": "刷新数据",
+        "download": "下载表数据"
+      }
     },
-    "loadingConnectionLabel": "正在加载时间序列连接信息..."
+    "control": {
+      "title": "打开数据历史记录浏览器",
+      "disabledTitle": "找不到数据历史记录连接信息"
+    }
+  },
+  "increaseByDecimal": "增加 0.1 的值",
+  "decreaseByDecimal": "减少值 0.1",
+  "ok": "还行",
+  "OATPropertyEditor": {
+    "addEnumValue": "添加枚举值",
+    "addProperty": "添加属性",
+    "addToPropertyList": "添加到属性列表",
+    "addToTemplate": "添加到模板",
+    "array": "数组",
+    "assetId": "资产编号",
+    "boolean": "布尔",
+    "cancel": "取消",
+    "close": "关闭",
+    "collapse": "崩溃",
+    "comment": "评论",
+    "commentPlaceholder": "模型作者注释",
+    "complex": "复杂",
+    "contextVersion": "DTDL 版本",
+    "contextVersion3Description": "DTDL 版本 3 为预览版。",
+    "copy": "复制",
+    "data": "数据",
+    "date": "日期",
+    "dateTime": "日期时间",
+    "delete": "删除",
+    "description": "描述",
+    "descriptionPlaceholder": "要显示的可本地化说明",
+    "details": "详",
+    "displayName": "显示名称",
+    "displayNamePlaceholder": "要显示的可本地化名称",
+    "double": "双",
+    "duplicate": "重复",
+    "duration": "期间",
+    "enum": "枚举",
+    "enumValue": "枚举值",
+    "errorComment": "注释不得超过 512 个字符",
+    "errorDisplayNameLength": "显示名称不得超过 64 个字符",
+    "errorDescription": "描述不得超过 512 个字符",
+    "errorRepeatedEdgeName": "同名关系已存在",
+    "errorDisplayName": "显示名称不得超过 64 个字符",
+    "errorIdLength": "Id 不得超过 2048 个字符",
+    "errorIdValidDTMI": "ID 必须是有效的 DTMI",
+    "errorName": "名称只能包含字符 a-z、A-Z、0-9 和下划线",
+    "errorNameLength": "姓名不得超过 64 个字符",
+    "errorRepeatedEnumValue": "具有相同值的枚举值已存在",
+    "errorRepeatedName": "同名模型已存在",
+    "errorRepeatedPropertyName": "具有相同名称的属性已存在",
+    "expand": "扩大",
+    "warningId": "不建议对属性使用 ID 值。",
+    "float": "浮",
+    "general": "常规",
+    "id": "编号",
+    "info": "信息",
+    "integer": "整数",
+    "key": "钥匙",
+    "linestring": "线串",
+    "long": "长",
+    "map": "地图",
+    "mapKeyName": "映射键名称",
+    "mapValueName": "映射值名称",
+    "maxMultiplicityLabel": "最大多重性",
+    "minMultiplicityLabel": "最小多重性",
+    "minMultiplicityMessage": "DTDL V2 仅支持最小多重性 0",
+    "modalTextInputPlaceHolder": "这个属性...",
+    "modalTextInputPlaceHolderDescription": "1号线",
+    "modalTextInputPlaceHolderSemanticType": "当前。。。",
+    "modalTextInputPlaceHolderUnit": "单位。。。",
+    "modelId": "型号编号",
+    "more": "更多",
+    "moveDown": "下移",
+    "moveUp": "上升",
+    "multiLanguage": "多语言",
+    "multiLinestring": "多线串",
+    "multiPoint": "多点",
+    "multiPolygon": "多多边形",
+    "name": "名字",
+    "noSelectionMessage": "选择模型或关系以查看详细信息",
+    "object": "对象",
+    "path": "路径",
+    "pivotLink": "透视链接",
+    "point": "点",
+    "polygon": "多边形",
+    "primitive": "原始",
+    "properties": "性能",
+    "propertiesNotSupported": "所选项目不支持属性",
+    "property": "财产",
+    "remove": "删除",
+    "region": "地区",
+    "schemaType": "架构类型",
+    "semanticType": "语义类型",
+    "singleLanguage": "单一语言",
+    "string": "字符串",
+    "templateSearchPlaceholder": "搜索名称、标识、属性",
+    "templates": "模板",
+    "time": "时间",
+    "type": "类型",
+    "unit": "单位",
+    "uniqueModelName": "唯一的型号名称",
+    "update": "更新",
+    "value": "价值",
+    "valueSchema": "值架构",
+    "version": "版本",
+    "viewTemplates": "查看模板",
+    "writable": "写",
+    "SchemaDefaults": {
+      "defaultPropertyName": "new_property_{{索引}}",
+      "defaultEnumName": "enum_key_{{索引}}",
+      "defaultMapName": "enum_key_{{索引}}",
+      "defaultObjectPropertyName": "field_name_{{索引}}",
+      "defaultMapKeyName": "map_key_{{索引}}",
+      "defaultMapValueName": "map_value_{{索引}}"
+    },
+    "PropertyListItem": {
+      "arrayItemLabel": "项目",
+      "enumKeyPlaceholder": "回车键",
+      "enumValuePlaceholder": "输入值",
+      "ContextMenu": {
+        "changePropertyTypeLabel": "编辑属性类型",
+        "changeChildTypeLabelForArray": "更改数组项类型",
+        "changeChildTypeLabelForEnum": "更改枚举值类型",
+        "editMetadataLabel": "编辑元数据"
+      }
+    },
+    "jsonEditorTabName": "DTDL"
+  },
+  "jobs": {
+    "addNew": "新增"
   }
 }

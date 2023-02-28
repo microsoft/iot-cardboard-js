@@ -149,45 +149,58 @@ export default class MsalAuthService implements IAuthService {
         };
     };
 
-    public getToken = (tokenFor?: 'azureManagement' | 'adx' | 'storage') => {
+    public getToken = (
+        tokenFor?: 'azureManagement' | 'adx' | 'storage' | 'powerBI'
+    ) => {
         let scope;
-        if (tokenFor === 'azureManagement') {
-            scope = 'https://management.azure.com//.default';
-            return new Promise(
-                this.getGenericTokenPromiseCallback(
-                    {
+        switch (tokenFor) {
+            case 'azureManagement':
+                scope = 'https://management.azure.com//.default';
+                return new Promise(
+                    this.getGenericTokenPromiseCallback(
+                        {
+                            scopes: [scope]
+                        },
+                        true
+                    )
+                ) as Promise<string>;
+            case 'adx':
+                scope = 'https://help.kusto.windows.net/user_impersonation';
+                return new Promise(
+                    this.getGenericTokenPromiseCallback(
+                        {
+                            scopes: [scope]
+                        },
+                        true
+                    )
+                ) as Promise<string>;
+            case 'storage':
+                scope = 'https://storage.azure.com/user_impersonation';
+                return new Promise(
+                    this.getGenericTokenPromiseCallback(
+                        {
+                            scopes: [scope]
+                        },
+                        true
+                    )
+                ) as Promise<string>;
+            case 'powerBI':
+                scope = 'https://analysis.windows.net/powerbi/api/.default';
+                return new Promise(
+                    this.getGenericTokenPromiseCallback(
+                        {
+                            scopes: [scope]
+                        },
+                        true
+                    )
+                ) as Promise<string>;
+            default:
+                scope = this.environmentToConstantMapping.scope;
+                return new Promise(
+                    this.getGenericTokenPromiseCallback({
                         scopes: [scope]
-                    },
-                    true
-                )
-            ) as Promise<string>;
-        } else if (tokenFor === 'adx') {
-            scope = 'https://help.kusto.windows.net/user_impersonation';
-            return new Promise(
-                this.getGenericTokenPromiseCallback(
-                    {
-                        scopes: [scope]
-                    },
-                    true
-                )
-            ) as Promise<string>;
-        } else if (tokenFor === 'storage') {
-            scope = 'https://storage.azure.com/user_impersonation';
-            return new Promise(
-                this.getGenericTokenPromiseCallback(
-                    {
-                        scopes: [scope]
-                    },
-                    true
-                )
-            ) as Promise<string>;
-        } else {
-            scope = this.environmentToConstantMapping.scope;
-            return new Promise(
-                this.getGenericTokenPromiseCallback({
-                    scopes: [scope]
-                })
-            ) as Promise<string>;
+                    })
+                ) as Promise<string>;
         }
     };
 }

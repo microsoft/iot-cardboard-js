@@ -4,10 +4,12 @@ import { ADXTimeSeries, IDataHistoryTimeSeriesTwin } from '../../Constants';
 import { QuickTimeSpanKey } from '../../Constants/Enums';
 import { CUSTOM_HIGHCHARTS_COLOR_IDX_1 } from '../../Constants/StyleConstants';
 import {
-    getHighChartColor,
+    getHighChartColorByIdx,
     getQuickTimeSpanKeyByValue,
-    transformADXTimeSeriesToHighChartsSeries
+    transformADXTimeSeriesToHighChartsSeries,
+    transformADXTimeSeriesToTimeSeriesTableData
 } from '../../SharedUtils/DataHistoryUtils';
+import { createGUID } from '../Utils';
 
 afterEach(cleanup);
 
@@ -25,12 +27,12 @@ describe('DataHistoryUtils', () => {
             expect(result).toEqual(QuickTimeSpanKey.Last15Mins);
         });
     });
-    describe('getHighChartColor', () => {
+    describe('getHighChartColorByIdx', () => {
         test('for a given index, returns HighCharts default color', () => {
             // ACT
-            const result0 = getHighChartColor(0);
-            const result1 = getHighChartColor(1);
-            const result2 = getHighChartColor(2);
+            const result0 = getHighChartColorByIdx(0);
+            const result1 = getHighChartColorByIdx(1);
+            const result2 = getHighChartColorByIdx(2);
 
             // ASSERT
             expect(result0).toEqual('#7cb5ec');
@@ -41,8 +43,10 @@ describe('DataHistoryUtils', () => {
     describe('transformADXTimeSeriesToHighChartsSeries', () => {
         test('merge ADX data with authored time series object for chart to render', () => {
             // ARRANGE
+            const seriesId = createGUID();
             const adxData: Array<ADXTimeSeries> = [
                 {
+                    seriesId,
                     id: 'SaltMachine_C0',
                     key: 'InFlow',
                     data: [
@@ -56,6 +60,7 @@ describe('DataHistoryUtils', () => {
             ];
             const timeSeries: Array<IDataHistoryTimeSeriesTwin> = [
                 {
+                    seriesId,
                     twinId: 'SaltMachine_C0',
                     twinPropertyName: 'InFlow',
                     twinPropertyType: 'double',
@@ -83,6 +88,73 @@ describe('DataHistoryUtils', () => {
                     ],
                     color: '#fffff'
                 } as IHighChartSeriesData
+            ]);
+        });
+    });
+    describe('transformADXTimeSeriesToTimeSeriesTableData ', () => {
+        test('transform merged time series data into individual table rows to render', () => {
+            // ARRANGE
+            const seriesId = createGUID();
+            const adxData: Array<ADXTimeSeries> = [
+                {
+                    seriesId,
+                    id: 'SaltMachine_C0',
+                    key: 'InFlow',
+                    data: [
+                        { timestamp: 1340323200000, value: 115 },
+                        { timestamp: 1340339499317, value: 23 },
+                        { timestamp: 1340368246728, value: 188 },
+                        { timestamp: 1340390085747, value: 213 },
+                        { timestamp: 1340403271088, value: 245 }
+                    ]
+                }
+            ];
+
+            // ACT
+            const result = transformADXTimeSeriesToTimeSeriesTableData(adxData);
+
+            // ASSERT
+            expect(result).toMatchObject([
+                {
+                    seriesId,
+                    id: 'SaltMachine_C0',
+                    key: seriesId + '0',
+                    property: 'InFlow',
+                    timestamp: new Date(1340323200000).toISOString(),
+                    value: 115
+                },
+                {
+                    seriesId,
+                    id: 'SaltMachine_C0',
+                    key: seriesId + '1',
+                    property: 'InFlow',
+                    timestamp: new Date(1340339499317).toISOString(),
+                    value: 23
+                },
+                {
+                    seriesId,
+                    id: 'SaltMachine_C0',
+                    key: seriesId + '2',
+                    property: 'InFlow',
+                    timestamp: new Date(1340368246728).toISOString(),
+                    value: 188
+                },
+                {
+                    seriesId,
+                    id: 'SaltMachine_C0',
+                    key: seriesId + '3',
+                    property: 'InFlow',
+                    timestamp: new Date(1340390085747).toISOString(),
+                    value: 213
+                },
+                {
+                    seriesId,
+                    id: 'SaltMachine_C0',
+                    key: seriesId + '4',
+                    property: 'InFlow',
+                    timestamp: new Date(1340403271088).toISOString(),
+                    value: 245
+                }
             ]);
         });
     });

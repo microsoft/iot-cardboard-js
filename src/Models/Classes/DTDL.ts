@@ -1,6 +1,24 @@
-import { IADTModelDefinition, IADTProperty } from '../Constants';
+import {
+    DtdlArray,
+    DtdlComponent,
+    DtdlEnum,
+    DtdlEnumValue,
+    DtdlInterface,
+    DtdlInterfaceContent,
+    DtdlInterfaceSchema,
+    DtdlMap,
+    DtdlMapKey,
+    DtdlMapValue,
+    DtdlObject,
+    DtdlObjectField,
+    DtdlProperty,
+    DtdlRelationship,
+    IADTProperty
+} from '../Constants';
 
-export const CURRENT_CONTEXT_VERSION = 'dtmi:dtdl:context;2';
+export const DTDL_CONTEXT_VERSION_PREFIX = 'dtmi:dtdl:context;';
+export const DTDL_CONTEXT_VERSION_2 = `${DTDL_CONTEXT_VERSION_PREFIX}2`;
+export const DTDL_CONTEXT_VERSION_3 = `${DTDL_CONTEXT_VERSION_PREFIX}3`;
 
 export enum DTDLType {
     Interface = 'Interface',
@@ -368,8 +386,16 @@ export const DTDLSemanticTypes = [
     }
 ];
 
-export type DTDLSchema = DTDLPrimitiveSchema | DTDLComplexSchema;
-
+/** the names for the schemas */
+export type DTDLSchemaTypes =
+    | DTDLPrimitiveSchema
+    | DTDLGeospatialSchema
+    | DTDLSchemaType;
+/** the actual schema types that a DTDL item can have */
+export type DTDLSchema =
+    | DTDLPrimitiveSchema
+    | DTDLGeospatialSchema
+    | DTDLComplexSchema;
 export type DTDLPrimitiveSchema =
     | 'boolean'
     | 'date'
@@ -382,7 +408,16 @@ export type DTDLPrimitiveSchema =
     | 'string'
     | 'time';
 
-export type DTDLComplexSchema = DTDLArray | DTDLEnum | DTDLMap | DTDLObject;
+// NOTE: update `hasGeospatialSchemaType` definition if adding/removing entries to this union
+export type DTDLGeospatialSchema =
+    | 'linestring'
+    | 'multiLinestring'
+    | 'multiPoint'
+    | 'multiPolygon'
+    | 'point'
+    | 'polygon';
+
+export type DTDLComplexSchema = DtdlArray | DtdlEnum | DtdlMap | DtdlObject;
 
 export enum DTDLSchemaType {
     Enum = 'Enum',
@@ -391,27 +426,33 @@ export enum DTDLSchemaType {
     Object = 'Object'
 }
 
-export class DTDLModel {
+export class DTDLModel implements DtdlInterface {
     //TODO: add validations
     '@id': string;
     readonly ['@type']: string;
     readonly ['@context']: string;
     comment?: string;
-    contents?: any[];
-    description?: string;
-    displayName?: string;
+    contents: DtdlInterfaceContent[];
+    description?: string | Record<string, string>;
+    displayName?: string | Record<string, string>;
+    /** array of strings of ids that this model extends */
+    extends?: string[];
+    schemas?: DtdlInterfaceSchema[];
 
     constructor(
         id: string,
-        displayName: string,
-        description: string,
-        comment: string,
-        properties: any[],
-        relationships: any[],
-        components: any[]
+        displayName?: string | Record<string, string>,
+        description?: string | Record<string, string>,
+        comment?: string,
+        properties?: DtdlInterfaceContent[],
+        relationships?: DtdlInterfaceContent[],
+        components?: DtdlInterfaceContent[],
+        extendRelationships?: string[],
+        schemas?: DtdlInterfaceSchema[],
+        version?: string
     ) {
         this['@type'] = DTDLType.Interface;
-        this['@context'] = CURRENT_CONTEXT_VERSION;
+        this['@context'] = version ?? DTDL_CONTEXT_VERSION_2;
         this['@id'] = id;
         this.displayName = displayName;
         this.description = description;
@@ -421,13 +462,15 @@ export class DTDLModel {
             ...(relationships ?? []),
             ...(components ?? [])
         ];
+        this.extends = [...(extendRelationships ?? [])];
+        this.schemas = [...(schemas ?? [])];
     }
 
     static getBlank(): DTDLModel {
-        return new DTDLModel('', '', '', '', [], [], []);
+        return new DTDLModel('', '', '', '', [], [], [], []);
     }
 
-    static fromObject(obj: IADTModelDefinition): DTDLModel {
+    static fromObject(obj: any): DTDLModel {
         return new DTDLModel(
             obj['@id'],
             obj.displayName,
@@ -441,22 +484,27 @@ export class DTDLModel {
                 .map((r: any) => DTDLRelationship.fromObject(r)),
             obj.contents
                 ?.filter((c) => c['@type'] === DTDLType.Component)
-                .map((c: any) => DTDLComponent.fromObject(c))
+                .map((c: any) => DTDLComponent.fromObject(c)),
+            []
         );
     }
 
     get properties() {
-        return this.contents.filter((c) => c['@type'] === DTDLType.Property);
+        return this.contents.filter(
+            (c) => c['@type'] === DTDLType.Property
+        ) as DTDLProperty[];
     }
 
     get relationships() {
         return this.contents.filter(
             (c) => c['@type'] === DTDLType.Relationship
-        );
+        ) as DTDLRelationship[];
     }
 
     get components() {
-        return this.contents.filter((c) => c['@type'] === DTDLType.Component);
+        return this.contents.filter(
+            (c) => c['@type'] === DTDLType.Component
+        ) as DTDLComponent[];
     }
 
     trimmedCopy() {
@@ -484,7 +532,7 @@ export class DTDLModel {
     }
 }
 
-export class DTDLProperty {
+export class DTDLProperty implements DtdlProperty {
     readonly ['@type']: string;
     ['@id']?: string;
     name: string;
@@ -496,14 +544,14 @@ export class DTDLProperty {
     writable?: boolean;
 
     constructor(
-        id: string,
         name: string,
         schema: DTDLSchema,
-        comment: string,
-        description: string,
-        displayName: string,
-        unit: string,
-        writable: boolean
+        id?: string,
+        comment?: string,
+        description?: string,
+        displayName?: string,
+        unit?: string,
+        writable?: boolean
     ) {
         this['@type'] = 'Property';
         this['@id'] = id;
@@ -517,12 +565,11 @@ export class DTDLProperty {
     }
 
     static getBlank() {
-        return new DTDLProperty('', '', 'double', '', '', '', '', false);
+        return new DTDLProperty('', 'double', '', '', '', '', '', false);
     }
 
     static fromObject(obj: IADTProperty): DTDLProperty {
         return new DTDLProperty(
-            obj['@id'],
             obj.name,
             typeof obj.schema === 'string'
                 ? (obj.schema as DTDLPrimitiveSchema)
@@ -533,6 +580,7 @@ export class DTDLProperty {
                 : obj.schema['@type'] === DTDLSchemaType.Map
                 ? DTDLMap.fromObject(obj.schema)
                 : DTDLObject.fromObject(obj.schema),
+            obj['@id'],
             obj.comment,
             obj.description,
             obj.displayName,
@@ -542,31 +590,32 @@ export class DTDLProperty {
     }
 }
 
-export class DTDLRelationship {
-    readonly ['@type']: string;
+export class DTDLRelationship implements DtdlRelationship {
+    readonly ['@type']: DTDLType.Relationship;
     name: string;
     ['@id']?: string;
     maxMultiplicity?: number;
+    minMultiplicity?: number;
     writable?: boolean;
     target?: string;
-    readonly minMultiplicity?: number;
     properties?: DTDLProperty[];
     displayName?: string;
     description?: string;
     comment?: string;
 
     constructor(
-        id: string,
         name: string,
-        displayName: string,
-        description: string,
-        comment: string,
-        writeable: boolean,
-        properties: DTDLProperty[],
-        target: string | null = null,
-        maxMultiplicity: number | null = null
+        id?: string,
+        displayName?: string,
+        description?: string,
+        comment?: string,
+        writeable?: boolean,
+        properties?: DTDLProperty[],
+        target?: string | null,
+        maxMultiplicity?: number | null,
+        minMultiplicity?: number | null
     ) {
-        this['@type'] = 'Relationship';
+        this['@type'] = DTDLType.Relationship;
         this['@id'] = id;
         this.name = name;
         this.displayName = displayName;
@@ -587,7 +636,7 @@ export class DTDLRelationship {
             this.maxMultiplicity = maxMultiplicity;
         }
 
-        this.minMultiplicity = 0;
+        this.minMultiplicity = minMultiplicity ?? 0;
     }
 
     static getBlank() {
@@ -597,21 +646,22 @@ export class DTDLRelationship {
     static fromObject(obj: any): DTDLRelationship {
         //TODO: Use interface for obj
         return new DTDLRelationship(
-            obj['@id'],
             obj.name,
+            obj['@id'],
             obj.displayName,
             obj.description,
             obj.comment,
             obj.writeable,
             obj.properties?.map((p) => DTDLProperty.fromObject(p)),
             obj.target,
-            obj.maxMultiplicity
+            obj.maxMultiplicity,
+            obj.minMultiplicity
         );
     }
 }
 
-export class DTDLComponent {
-    readonly ['@type']: string;
+export class DTDLComponent implements DtdlComponent {
+    readonly ['@type']: DTDLType.Component;
     ['@id']?: string;
     name: string;
     schema: string;
@@ -623,9 +673,9 @@ export class DTDLComponent {
         id: string,
         name: string,
         schema: string,
-        comment: string,
-        description: string,
-        displayName: string
+        comment?: string,
+        description?: string,
+        displayName?: string
     ) {
         this['@type'] = DTDLType.Component;
         this['@id'] = id;
@@ -652,9 +702,8 @@ export class DTDLComponent {
         );
     }
 }
-
-export class DTDLArray {
-    readonly ['@type']: DTDLSchemaType;
+export class DTDLArray implements DtdlArray {
+    readonly ['@type']: DTDLSchemaType.Array;
     elementSchema: DTDLSchema;
     ['@id']?: string;
     displayName?: string;
@@ -662,8 +711,8 @@ export class DTDLArray {
     comment?: string;
 
     constructor(
-        id: string,
         elementSchema: DTDLSchema,
+        id?: string,
         displayName?: string,
         description?: string,
         comment?: string
@@ -677,13 +726,13 @@ export class DTDLArray {
     }
 
     static getBlank() {
-        return new DTDLArray('', 'double', '', '', '');
+        return new DTDLArray('string', '', '', '', '');
     }
 
     static fromObject(obj: any) {
         return new DTDLArray(
-            obj['@id'],
             obj.elementSchema,
+            obj['@id'],
             obj.displayName,
             obj.description,
             obj.comment
@@ -691,19 +740,105 @@ export class DTDLArray {
     }
 }
 
-export class DTDLMap {
-    readonly ['@type']: DTDLSchemaType;
-    mapKey: Record<string, any>; //TODO: Create type/interface for mapKey and mapValue
-    mapValue: Record<string, any>;
+export class DTDLMapKey implements DtdlMapKey {
+    name: string;
+    schema: 'string';
+    ['@id']?: string;
+    comment?: string;
+    description?: string;
+    displayName?: string;
+
+    constructor(
+        name: string,
+        id?: string,
+        displayName?: string,
+        description?: string,
+        comment?: string
+    ) {
+        this['@id'] = id;
+        this.name = name;
+        this.schema = 'string';
+        this.displayName = displayName;
+        this.description = description;
+        this.comment = comment;
+    }
+
+    static getBlank() {
+        return new DTDLMapKey('', '', '', '', '');
+    }
+
+    static fromObject(obj: any) {
+        return new DTDLMapKey(
+            obj.name,
+            obj['@id'],
+            obj.displayName,
+            obj.description,
+            obj.comment
+        );
+    }
+}
+
+export class DTDLMapValue implements DtdlMapValue {
+    name: string;
+    schema: DTDLSchema;
+    ['@id']?: string;
+    comment?: string;
+    description?: string;
+    displayName?: string;
+
+    constructor(
+        name: string,
+        schema: DTDLSchema,
+        id?: string,
+        displayName?: string,
+        description?: string,
+        comment?: string
+    ) {
+        this['@id'] = id;
+        this.name = name;
+        this.schema = schema;
+        this.displayName = displayName;
+        this.description = description;
+        this.comment = comment;
+    }
+
+    static getBlank() {
+        return new DTDLMapValue('', 'string', '', '', '', '');
+    }
+
+    static fromObject(obj: any) {
+        return new DTDLMapValue(
+            obj.name,
+            typeof obj.schema === 'string'
+                ? (obj.schema as DTDLPrimitiveSchema)
+                : obj.schema['@type'] === DTDLSchemaType.Array
+                ? DTDLArray.fromObject(obj.schema)
+                : obj.schema['@type'] === DTDLSchemaType.Enum
+                ? DTDLEnum.fromObject(obj.schema)
+                : obj.schema['@type'] === DTDLSchemaType.Map
+                ? DTDLMap.fromObject(obj.schema)
+                : DTDLObject.fromObject(obj.schema),
+            obj['@id'],
+            obj.displayName,
+            obj.description,
+            obj.comment
+        );
+    }
+}
+
+export class DTDLMap implements DtdlMap {
+    readonly ['@type']: DTDLSchemaType.Map;
+    mapKey: DtdlMapKey;
+    mapValue: DtdlMapValue;
     ['@id']?: string;
     displayName?: string;
     description?: string;
     comment?: string;
 
     constructor(
-        id: string,
-        mapKey: Record<string, any>,
-        mapValue: Record<string, any>,
+        mapKey: DtdlMapKey,
+        mapValue: DtdlMapValue,
+        id?: string,
         displayName?: string,
         description?: string,
         comment?: string
@@ -718,14 +853,20 @@ export class DTDLMap {
     }
 
     static getBlank() {
-        return new DTDLMap('', {}, {}, '', '');
+        return new DTDLMap(
+            DTDLMapKey.getBlank(),
+            DTDLMapValue.getBlank(),
+            '',
+            '',
+            ''
+        );
     }
 
     static fromObject(obj: any) {
         return new DTDLMap(
-            obj['@id'],
             obj.mapKey,
             obj.mapValue,
+            obj['@id'],
             obj.displayName,
             obj.description,
             obj.comment
@@ -733,17 +874,17 @@ export class DTDLMap {
     }
 }
 
-export class DTDLObject {
-    readonly ['@type']: DTDLSchemaType;
-    fields: Array<Record<string, any>>; //TODO: Create type/interface for fields
+export class DTDLObject implements DtdlObject {
+    readonly ['@type']: DTDLSchemaType.Object;
+    fields: DtdlObjectField[];
     ['@id']?: string;
     displayName?: string;
     description?: string;
     comment?: string;
 
     constructor(
-        id: string,
-        fields: Array<Record<string, any>>,
+        fields: DtdlObjectField[],
+        id?: string,
         displayName?: string,
         description?: string,
         comment?: string
@@ -757,13 +898,13 @@ export class DTDLObject {
     }
 
     static getBlank() {
-        return new DTDLObject('', [], '', '', '');
+        return new DTDLObject([], '', '', '', '');
     }
 
     static fromObject(obj: any) {
-        return new DTDLMap(
-            obj['@id'],
+        return new DTDLObject(
             obj.fields,
+            obj['@id'],
             obj.displayName,
             obj.description,
             obj.comment
@@ -771,8 +912,33 @@ export class DTDLObject {
     }
 }
 
-export class DTDLEnum {
-    readonly ['@type']: string = 'Enum';
+export class DTDLObjectField implements DtdlObjectField {
+    name: string;
+    schema: DTDLSchema;
+    ['@id']?: string;
+    comment?: string;
+    description?: string;
+    displayName?: string;
+
+    constructor(
+        name: string,
+        schema: DTDLSchema,
+        id?: string,
+        comment?: string,
+        description?: string,
+        displayName?: string
+    ) {
+        this.name = name;
+        this.schema = schema;
+        this['@id'] = id;
+        this.displayName = displayName;
+        this.description = description;
+        this.comment = comment;
+    }
+}
+
+export class DTDLEnum implements DtdlEnum {
+    readonly ['@type']: DTDLSchemaType.Enum;
     enumValues: DTDLEnumValue[];
     valueSchema: 'integer' | 'string';
     ['@id']?: string;
@@ -781,12 +947,12 @@ export class DTDLEnum {
     comment?: string;
 
     constructor(
-        id: string,
         enumValues: DTDLEnumValue[],
         valueSchema: 'integer' | 'string' | undefined,
-        displayName: string,
-        description: string,
-        comment: string
+        id?: string,
+        displayName?: string,
+        description?: string,
+        comment?: string
     ) {
         this['@type'] = DTDLSchemaType.Enum;
         this['@id'] = id;
@@ -798,16 +964,16 @@ export class DTDLEnum {
     }
 
     static getBlank() {
-        return new DTDLEnum('', [], 'integer', '', '', '');
+        return new DTDLEnum([], 'integer', '', '', '', '');
     }
 
     static fromObject(obj: any) {
         return new DTDLEnum(
-            obj['@id'],
             obj.enumValues.map((eV) =>
                 DTDLEnumValue.fromObject(eV, obj.valueSchema)
             ),
             obj.valueSchema,
+            obj['@id'],
             obj.displayName,
             obj.unit,
             obj.writable
@@ -815,8 +981,8 @@ export class DTDLEnum {
     }
 }
 
-export class DTDLEnumValue {
-    ['@id']: string;
+export class DTDLEnumValue implements DtdlEnumValue {
+    ['@id']?: string;
     name: string;
     enumValue: number | string;
     displayName?: string;
@@ -824,12 +990,12 @@ export class DTDLEnumValue {
     comment?: string;
 
     constructor(
-        id: string,
         name: string,
         enumValue: number | string,
-        displayName: string,
-        description: string,
-        comment: string
+        id?: string,
+        displayName?: string,
+        description?: string,
+        comment?: string
     ) {
         this['@id'] = id;
         this.name = name;
@@ -845,11 +1011,11 @@ export class DTDLEnumValue {
 
     static fromObject(obj: any, valueSchema: 'integer' | 'string') {
         return new DTDLEnumValue(
-            obj['@id'],
             obj.name,
             valueSchema === 'integer'
                 ? Number.parseInt(obj.enumValue)
                 : obj.enumValue,
+            obj['@id'],
             obj.displayName,
             obj.description,
             obj.comment

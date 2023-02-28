@@ -14,7 +14,7 @@ import MockAdapter from '../../Adapters/MockAdapter';
 import {
     BehaviorModalMode,
     DTwin,
-    IADXAdapter,
+    IADTDataHistoryAdapter,
     IPropertyInspectorAdapter
 } from '../../Models/Constants';
 import {
@@ -36,7 +36,9 @@ export type IBehaviorsModalProps = IBehaviorsModalBaseProps &
     (ViewerModeProps | PreviewModeProps);
 interface IBehaviorsModalBaseProps {
     activeWidgetId?: string;
-    adapter?: MockAdapter | (IPropertyInspectorAdapter & IADXAdapter);
+    adapter?:
+        | MockAdapter
+        | (IPropertyInspectorAdapter & IADTDataHistoryAdapter);
     behaviors: IBehavior[];
     onClose?: () => any;
     onPropertyInspectorPatch?: (patchData: OnCommitPatchParams) => any;
@@ -57,7 +59,9 @@ interface PreviewModeProps {
 const cancelIcon: IIconProps = { iconName: 'Cancel' };
 
 export const BehaviorsModalContext = createContext<{
-    adapter?: MockAdapter | (IPropertyInspectorAdapter & IADXAdapter);
+    adapter?:
+        | MockAdapter
+        | (IPropertyInspectorAdapter & IADTDataHistoryAdapter);
     twins: Record<string, DTwin>;
     mode: BehaviorModalMode;
     activeWidgetId: string | null;
@@ -227,6 +231,9 @@ const BehaviorsModal: React.FC<IBehaviorsModalProps> = (props) => {
                                                 )}
                                             </span>
                                         }
+                                        hasDataHistoryControl={{
+                                            isEnabled: !!adapter.getADXConnectionInformation()
+                                        }}
                                     />
                                 )}
                         </div>

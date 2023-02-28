@@ -14,17 +14,20 @@ import { useTranslation } from 'react-i18next';
 interface Props {
     title?: string;
     message?: string;
+    primaryButtonText?: string;
     isOpen: boolean;
     onClose: () => any;
-    onConfirmDeletion: () => any;
+    onConfirm: () => any;
 }
 
 const ConfirmDeleteDialog: React.FC<Props> = ({
+    children,
     title,
     message,
+    primaryButtonText,
     isOpen,
     onClose,
-    onConfirmDeletion
+    onConfirm
 }) => {
     const { t } = useTranslation();
 
@@ -51,26 +54,23 @@ const ConfirmDeleteDialog: React.FC<Props> = ({
     return (
         <Dialog
             hidden={!isOpen}
-            onDismiss={() => {
-                onClose();
-            }}
+            onDismiss={onClose}
             dialogContentProps={confirmDeletionDialogProps}
             modalProps={confirmDeletionModalProps}
         >
+            {children}
             <DialogFooter>
                 <DefaultButton
-                    onClick={() => {
-                        onClose();
-                    }}
+                    onClick={onClose}
                     text={t('cancel')}
                     data-testid={'deleteDialog-cancel'}
                 />
                 <PrimaryButton
                     onClick={() => {
-                        onConfirmDeletion();
+                        onConfirm();
                         onClose();
                     }}
-                    text={t('delete')}
+                    text={primaryButtonText ?? t('delete')}
                     data-testid={'deleteDialog-confirm'}
                     autoFocus
                 />

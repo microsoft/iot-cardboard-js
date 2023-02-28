@@ -1,0 +1,45 @@
+@import '../../Resources/Styles/BaseStyles';
+
+.cb-datapusher-container {
+    height: 100%;
+    padding: 0 20px;
+    position: relative;
+    width: 100%;
+    h4 {
+        border-bottom: 1px solid var(--cb-color-card-border);
+        font-weight: 600;
+        margin: 0 0 8px;
+        padding: 12px 0;
+    }
+    .cb-adt-data-pusher {
+        height: 100%;
+        overflow-y: auto;
+    }
+    .cb-form-field-description {
+        max-width: 600px;
+    }
+    .cb-datapusher-footer {
+        background-color: var(--cb-color-bg-canvas);
+        bottom: 0;
+        left: 20px;
+        overflow: hidden;
+        position: absolute;
+        right: 20px;
+    }
+    .cb-live-stream-data-form-container,
+    .cb-other-options-form-container,
+    .cb-quick-fill-data-form-container {
+        margin-bottom: 8px;
+    }
+    .cb-status-row-container {
+        align-items: center;
+        display: flex;
+    }
+    .cb-generate-assets-container {
+        max-width: 600px;
+        width: 100%;
+    }
+    .cb-initiate-action-button {
+        margin-top: 16px;
+    }
+}

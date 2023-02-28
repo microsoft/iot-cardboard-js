@@ -100,6 +100,10 @@
     "schemaValidationFailed": {
       "type": "JSON şema doğrulaması başarısız oldu",
       "message": "JSON geçersiz. Sözdiziminin gerekli şemayla eşleştiğini kontrol edin."
+    },
+    "timeSeriesDatabaseConnectionFetchFailed": {
+      "type": "Zaman serisi veritabanı bağlantısı doğrulaması başarısız oldu",
+      "message": "Veri geçmişi bağlantı bilgileri bulunamadı, bu Azure Digital Twins örneği için veri geçmişinin etkinleştirildiğinden ve Azure Veri Gezgini örneğine en az '{{izin}}' erişiminiz olduğundan emin olun."
     }
   },
   "valueRangeBuilder": {
@@ -650,13 +654,42 @@
         }
       },
       "headerMenu": "Veri geçmişi widget menüsü",
-      "openQuery": "Azure Veri Gezgini'nde sorgu açma",
+      "openQuery": "Azure Veri Gezgini'nde sorgu açma"
+    },
+    "powerBI": {
+      "title": "Power BI pencere öğesi",
+      "libraryName": "Power BI Görsel",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
+      "type": {
+        "label": "Tür",
+        "options": {
+          "report": "Rapor",
+          "dashboard": "Tablo",
+          "tile": "Kiremit",
+          "visual": "Görsel"
+        }
+      },
+      "pageName": {
+        "label": "Sayfa Adı",
+        "placeholder": "Sayfa adı"
+      },
+      "visualName": {
+        "label": "Görsel Adı",
+        "placeholder": "Görsel ad",
+        "suffix": "Bu widget'ta gösterilecek rapordaki belirli öğenin adını girin"
+      },
+      "dataFilters": {
+        "label": "Veri Filtreleri"
+      },
       "errors": {
-        "genericNetwork": "Küme URL'si geçersiz veya ağ hatası oluştu.",
-        "genericBadRequest": "Hatalı istek özel durumu oluştu.",
-        "generalBadRequestMessage": "İstek geçersizdir ve yürütülemez.",
-        "entityNotFound": "Veritabanı bulunamadı, sorgu yürütülemedi.",
-        "forbidden": "Erişim reddedildi, sorgu izinleriniz yok."
+        "missingReportConfiguration": "Lütfen widget'ınızın doğru yapılandırıldığından emin olun",
+        "missingConfiguration": "Widget yapılandırması eksik veya geçersiz",
+        "missingAdapter": "Lütfen Power BI bağdaştırıcısının yüklü ve yapılandırılmış olduğundan emin olun"
+      },
+      "embedUrl": {
+        "label": "URL gömme",
+        "placeholder": "https://embed.powerbi.com/groups/me/reports/{reportId}",
+        "description": "Rapor yapıtlarını harici araçlara katıştırmak için kullanılan URL"
       }
     }
   },
@@ -917,7 +950,6 @@
     "sync": "Eşitleme",
     "import": "Ithalat",
     "export": "Ihracat",
-    "file": "Dosya",
     "new": "Yeni",
     "open": "Açık",
     "saveAs": "Farklı kaydet",
@@ -934,27 +966,25 @@
     "namespace": "Namespace",
     "enterANamespace": "Ad alanı girme",
     "settings": "Ayarlar",
-    "errorInvalidJSON": "Geçersiz JSON",
-    "errorFileFormatNotSupported": "{{dosya}} biçimi desteklenmiyor",
-    "errorFormatNoSupported": "Dosya biçimi Desteklenmiyor",
-    "errorIssueWithFile": "{{fileName}} ile ilgili sorun: {{error}}",
     "errorNamespace": "Ad alanı yalnızca harfler, rakamlar ve alt çizgiler içerebilir.",
     "undo": "Geri almak",
     "redo": "Yinele",
     "deleteAll": "Tümünü Sil",
     "folderUpload": "Klasör yükleme",
     "fileUpload": "Dosya yükleme",
-    "files": "Dosyaları",
     "selectFile": "Dosya seç",
     "errorSingleFileHoldsRelationships": "{{fileName}} ile ilgili sorun: Model, içe aktarılmayan ilişkileri tutuyor",
-    "errorImportedModelAlreadyExists": "{{modelId}} ile ilgili sorun: Aynı @id sahip model zaten var",
-    "errorFileInvalidJSON": "{{fileName}} ile ilgili sorun: Geçersiz JSON",
     "deleteProjectMessage": "{{projectName}} silmek istediğinizden emin misiniz?",
     "errorSameName": "Aynı ada sahip proje zaten var. Üzerine yazmak ister misiniz?",
     "fileOpenModal": {
       "dropdownLabel": "Ontoloji",
       "dropdownPlaceholder": "Bir ontoloji seçin"
-    }
+    },
+    "configure": "Yapılandırmak",
+    "importFile": "Dosyayı içe aktar",
+    "importFolder": "Klasörü içe aktar",
+    "ontology": "Ontoloji",
+    "newModel": "Yeni model"
   },
   "cameraControls": {
     "mouseControls": "Fare Kontrolleri",
@@ -1091,99 +1121,10 @@
     "errorNameLength": "İsim 64 karakteri geçemez",
     "errorIdLength": "Kimlik 2048 karakteri geçemez",
     "errorIdValidDTMI": "Kimlik geçerli bir DTMI olmalıdır",
-    "errorRepeatedId": "Aynı kimliğe sahip bir model zaten var",
     "errorDisplayNameLength": "Görünen Ad 64 karakteri aşamaz",
-    "errorRepeatedEdgeName": "Aynı ada sahip bir ilişki zaten var",
     "runLayout": "Çalıştırma Düzeni",
-    "errorReachedInheritanceLimit": "Ulaşılan devralma sınırı",
-    "errorInheritance": "İkiden fazla arabirimden devralamaz"
-  },
-  "OATPropertyEditor": {
-    "displayName": "Görünen Ad",
-    "general": "Genel",
-    "assetId": "Öğe Kimliği",
-    "type": "Tür",
-    "properties": "Özellikler",
-    "viewTemplates": "Şablonları Görüntüle",
-    "name": "Ad",
-    "schemaType": "Şema Türü",
-    "addProperty": "Özellik ekle",
-    "comment": "Yorum",
-    "description": "Tarif",
-    "writable": "Yazıla -bilir",
-    "semanticType": "Semantik Tip",
-    "unit": "Birim",
-    "id": "Kimliği",
-    "update": "Güncelleştirmek",
-    "primitive": "İlkel",
-    "complex": "Karmaşık",
-    "errorRepeatedPropertyName": "Aynı ada sahip bir özellik zaten var",
-    "errorRepeatedEnumValue": "Aynı değere sahip bir enum değeri zaten var",
-    "templates": "Şablon",
-    "templateSearchPlaceholder": "Arama adı, kimlik, mülk",
-    "property": "Mülk",
-    "modalTextInputPlaceHolder": "Bu tesis...",
-    "modalTextInputPlaceHolderDescription": "Satır1",
-    "modalTextInputPlaceHolderSemanticType": "geçerli...",
-    "modalTextInputPlaceHolderUnit": "birim...",
-    "pivotLink": "Pivot bağlantı",
-    "json": "cesaret",
-    "addEnumValue": "Enum Değeri Ekle",
-    "enumValue": "Enum Değeri",
-    "mapKeyName": "Harita Anahtarı Adı",
-    "mapValueName": "Harita Değeri Adı",
-    "key": "Anahtar",
-    "value": "Değer",
-    "addToTemplate": "Şablona ekle",
-    "duplicate": "Yinelenen",
-    "remove": "Kaldırmak",
-    "boolean": "Boolean",
-    "data": "veri",
-    "float": "yüzmek",
-    "integer": "tam sayı",
-    "string": "dizgi",
-    "enum": "enum",
-    "map": "harita",
-    "array": "dizi",
-    "object": "nesne",
-    "dateTime": "dateTime",
-    "time": "Saat",
-    "long": "uzun",
-    "double": "çift",
-    "duration": "süre",
-    "point": "nokta",
-    "linestring": "linestring",
-    "polygon": "çokgen",
-    "multiPoint": "çok noktalı",
-    "multiLinestring": "multilinestring",
-    "multiPolygon": "çoklu Poligon",
-    "close": "Kapatmak",
-    "collapse": "Çökmek",
-    "info": "Bilgi",
-    "more": "Daha",
-    "copy": "kopya etmek",
-    "cancel": "İptal",
-    "delete": "Silmek",
-    "multiLanguage": "çoklu dil",
-    "region": "Bölge",
-    "singleLanguage": "Tek dil",
-    "errorComment": "Yorum 512 karakteri geçemez",
-    "errorDisplayName": "Görünen Ad 64 karakteri aşamaz",
-    "errorDescription": "Açıklama 512 karakteri geçemez",
-    "errorName": "Ad yalnızca a-z, A-Z, 0-9 ve alt çizgi karakterlerini içerebilir",
-    "errorNameLength": "İsim 64 karakteri geçemez",
-    "errorIdLength": "Kimlik 2048 karakteri geçemez",
-    "errorIdValidDTMI": "Kimlik geçerli bir DTMI olmalıdır",
-    "errorDisplayNameLength": "Görünen Ad 64 karakteri aşamaz",
-    "errorRepeatedId": "Aynı kimliğe sahip bir model zaten var",
-    "errorRepeatedName": "Aynı ada sahip bir model zaten var",
-    "errorRepeatedEdgeName": "Aynı ada sahip bir ilişki zaten var",
-    "errorInvalidJSON": "Geçersiz JSON",
-    "warningId": "Kimlik için bir değere sahip olmak önerilmez.",
-    "addToPropertyList": "Özellik listesine ekle",
-    "moveDown": "Aşağı taşı",
-    "moveUp": "Yukarı Taşı",
-    "valueSchema": "Değer Şeması"
+    "extends": "Genişletir",
+    "loadingText": "Bilgi işlem düzeni konumları"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Hata mesajı",
@@ -1243,7 +1184,6 @@
   "advancedSearch": {
     "toggleSelection": "İkiz Seç",
     "selectRow": "Twin Seçilmiş",
-    "inspectProperty": "Özelliği İncele",
     "results": "Sonuçlar ({{twinCount}})",
     "noPropertiesFound": "Tesis bulunamadı",
     "addNewButton": "Yeni ekle",
@@ -1265,7 +1205,8 @@
     "columnPicker": "Sütun seçici",
     "propertyCount": "{{selectedPropsCount}} özellikleri seçildi",
     "availableProperties": "Mevcut tesislerin açılır menüsü",
-    "selectAdditionalColumns": "Ek sütunlar seçme"
+    "selectAdditionalColumns": "Ek sütunlar seçme",
+    "inspectProperties": "Özellikleri inceleme"
   },
   "highcharts": {
     "shareQueryTitle": "Sorguyu paylaşma",
@@ -1302,24 +1243,292 @@
   "colorPills": {
     "unlabeled": "Etiketlenmemiş"
   },
+  "clear": "Berrak",
+  "duplicate": "Yinelenen",
+  "moveUp": "Yukarı taşı",
+  "moveDown": "Aşağı taşı",
+  "increaseBy1": "Değeri 1 artır",
+  "decreaseBy1": "Değeri 1 azalt",
+  "OATCommon": {
+    "duplicateFileNameSuffix": "kopya etmek",
+    "defaultFileName": "Yeni ontoloji",
+    "defaultModelNamePrefix": "Model"
+  },
+  "OATErrors": {
+    "Validations": {
+      "InvalidDtmiIdFormatTitle": "Geçersiz DTMI biçimi",
+      "InvalidDtmiIdFormatMessage": "DTMI gerekli biçimi karşılamadığı için değişiklikleriniz kaydedilmedi. \n DTMI: {{dtmi}}\n Gerekli biçim: {{regex}}"
+    }
+  },
+  "OAT": {
+    "ModelList": {
+      "searchModels": "Modelleri ara",
+      "noMatchingItemsMessage": "Bu ölçütlere uyan model yok",
+      "removeModelButtonText": "Modeli kaldır",
+      "noModelsTitle": "Henüz herhangi bir modeliniz yok",
+      "noModelsMessage": "Bir model ekleyerek veya mevcut ontolojinizi içe aktararak ontolojinizi tasarlamaya başlayın",
+      "noModelsButtonText": "Model ekleme"
+    },
+    "Common": {
+      "untargeted": "Hedefsiz",
+      "unhandledExceptionTitle": "Beklenmeyen hata",
+      "unhandledExceptionMessage": "Beklenmedik bir şey oldu. Lütfen tekrar deneyin.",
+      "versionDocumentationLink": "DTDL sürüm 3 hakkında daha fazla bilgi edinin"
+    },
+    "ImportErrors": {
+      "fileInvalidJSON": "'{{fileName}}' içe aktarılamıyor, geçersiz JSON içeriyor.",
+      "exceptionTitle": "Beklenmeyen hata",
+      "exceptionMessage": "Beklenmedik bir şey oldu. Lütfen tekrar deneyin.",
+      "importFailedTitle": "İçe aktarma başarısız oldu",
+      "importFailedMessage": "İçe aktarma sırasında bir hata oluştu. Bunları çözün ve yeniden deneyin.\n {{error}}",
+      "noValidFilesTitle": "Model bulunamadı",
+      "noValidFilesMessage": "İçe aktarılacak model dosyası bulunamadı. Seçilen dosyalarda geçerli JSON dosyaları olduğundan emin olun."
+    },
+    "PropertyEditor": {
+      "Version3UpgradeButton": {
+        "confirmationTitle": "Yükseltme modeli?",
+        "confirmationMessage": "Bu modeli DTDL sürüm 3'e yükseltmek istediğinizden emin misiniz? Tüm yapılandırmalarınız korunur.",
+        "confirmationButtonText": "Yükseltmek",
+        "buttonText": "Sürüm 3'e yükseltme"
+      },
+      "Version3PreviewLabel": {
+        "badgeText": "Önizleme",
+        "badgeCalloutText": "Bu model DTDL sürüm 3'ü kullanır. Daha fazla bilgi için tıklayın"
+      }
+    },
+    "PropertyTypes": {
+      "categories": {
+        "complex": "Karmaşık",
+        "primitive": "İlkel",
+        "geospatial": "Jeo-uzamsal"
+      },
+      "unsupportedPropertyType": "Bu özellik türü, ilişkili modelin geçerli bağlam sürümü için kullanılamaz"
+    },
+    "Header": {
+      "ManageOntologyModal": {
+        "deleteButtonText": "Ontolojiyi silme",
+        "modalTitleCreate": "Yeni ontoloji",
+        "modalTitleEdit": "Ontolojiyi düzenleme",
+        "modalSubTitleCreate": "Dijital ikizinize yapı kazandırmak için yeni bir ontoloji oluşturun.",
+        "modalSubTitleEdit": "Dijital ikizinize yapı kazandırmak için ontolojinizi düzenleyin.",
+        "modalSubTitleLinkText": "Ontolojiler hakkında daha fazla bilgi edinin",
+        "nameLabel": "Ad",
+        "namePlaceholder": "Ontoloji adı girin",
+        "namespaceLabel": "Varsayılan yol",
+        "namespaceDescription": "Örnek model kimliği: {{modelName}}",
+        "namespacePlaceholder": "Varsayılan bir yol girin",
+        "sampleModel": "örnek Model",
+        "defaultVersionLabel": "Yeni modeller için varsayılan DTDL sürümü",
+        "version2": "Sürüm 2",
+        "version3": "Sürüm 3 (önizleme)"
+      }
+    },
+    "ImportProgress": {
+      "loadingTitle": "Modelleri içe aktarma",
+      "loadingSpinnerLabel": "{{count}} dosyalarını içe aktarma",
+      "successTitle": "İçe aktarma başarılı",
+      "successMessage": "{{count}} modelleri ontolojiye başarıyla eklendi"
+    },
+    "GraphControls": {
+      "modelListTitle": "Model listesini değiştir",
+      "legendTitle": "İlişkilendirmeleri değiştirme",
+      "autoLayoutTitle": "Otomatik düzen",
+      "miniMapTitle": "Mini haritayı değiştir"
+    },
+    "ImportLimits": {
+      "message": "Şu anda bir ontolojideki toplam ilişki, bileşen ve devralma sayısı, Ontoloji Tasarımcısı'ndaki {{count}} ile sınırlıdır.",
+      "title": "Referans sınırına ulaşıldı"
+    },
+    "Errors": {
+      "invalidJSONTitle": "Geçersiz JSON",
+      "invalidJSONMessage": "Girdiğiniz JSON geçersiz. Lütfen JSON'u düzeltin ve yeniden deneyin.",
+      "validationFailedTitle": "Doğrulama başarısız oldu",
+      "validationFailedMessage": "Değişikliklerinizi doğrularken bir sorun oluştu."
+    }
+  },
+  "dataHistoryErrorHandlingWrapper": {
+    "errors": {
+      "genericNetwork": "Azure Veri Gezgini örneği bağlanamıyor, kaynağın durdurulmadığından ve ağ bağlantınızın kararlı olduğundan emin olun.",
+      "genericBadRequest": "Bir sorun oluştu, lütfen tekrar deneyin.",
+      "generalBadRequestMessage": "İstek geçersizdir ve yürütülemez.",
+      "entityNotFound": "Veritabanı bulunamadı, sorgu yürütülemiyor.",
+      "forbidden": "Erişim reddedildi, sorgu izinleriniz yok."
+    }
+  },
   "dataHistoryExplorer": {
     "title": "Veri geçmişi gezgini",
+    "loadingConnectionLabel": "Veri geçmişi bağlantı bilgileri yükleniyor...",
     "builder": {
-      "title": "İkiz özellikler",
+      "description": "Geçmişi geçmiş özelliklerin geçmiş değerlerini karşılaştırmak için aşağıya zaman serileri ekleyin.",
       "timeSeriesTwin": {
-        "property": "Mülk",
-        "propertyTypeCastLabel": "Özellik türünü sayıya yayınla",
         "add": "Zaman serisi ekleme",
+        "edit": "Zaman serilerini düzenleme",
         "remove": "Zaman serilerini kaldırma",
-        "edit": "Zaman serilerini düzenleme"
-      },
-      "description": "Geçmişi geçmiş özelliklerin geçmiş değerlerini karşılaştırmak için aşağıya zaman serileri ekleyin."
+        "property": "Mülk",
+        "noData": "Seçilen zaman aralığı için görüntülenecek veri yok",
+        "propertyTypeCastLabel": "Özellik değerini sayıya dökme",
+        "noProperty": "Hiçbir mülk seçilmedi"
+      }
     },
     "viewer": {
-      "chart": "Grafik",
-      "table": "Masa",
-      "noSeriesDescription": "Bu ikizin veri geçmişini görüntülemek için görüntülenecek bir özellik seçin."
+      "chart": {
+        "title": "Grafik",
+        "messages": {
+          "noData": "Seçilen zaman aralığında sayısal veri bulunamadı."
+        }
+      },
+      "table": {
+        "title": "Masa",
+        "columns": {
+          "timestamp": "Zaman damgası",
+          "series": "Silsile",
+          "value": "Değer",
+          "type": "Tür"
+        },
+        "messages": {
+          "noData": "Seçilen zaman aralığında veri bulunamadı."
+        },
+        "noColor": "Ayarlanmadı"
+      },
+      "messages": {
+        "loading": "Geçmiş veriler yükleniyor...",
+        "noSeries": "Sorgulamak için ikiz seçilmemiş, geçmiş verileri görüntülemek için lütfen ikiz özellikleri ekleyin."
+      },
+      "commandBar": {
+        "refresh": "Verileri yenileme",
+        "download": "Tablo verilerini indirme"
+      }
     },
-    "loadingConnectionLabel": "Zaman serisi bağlantı bilgileri yükleniyor..."
+    "control": {
+      "title": "Açık veri geçmişi gezgini",
+      "disabledTitle": "Veri geçmişi bağlantı bilgileri bulunamadı"
+    }
+  },
+  "increaseByDecimal": "Değeri 0,1 artır",
+  "decreaseByDecimal": "Değeri 0,1 azalt",
+  "ok": "Tamam",
+  "OATPropertyEditor": {
+    "addEnumValue": "Enum değeri ekleme",
+    "addProperty": "Özellik ekle",
+    "addToPropertyList": "Özellik listesine ekle",
+    "addToTemplate": "Şablona ekle",
+    "array": "dizi",
+    "assetId": "Öğe Kimliği",
+    "boolean": "Boolean",
+    "cancel": "İptal",
+    "close": "Kapatmak",
+    "collapse": "Çökmek",
+    "comment": "Yorum",
+    "commentPlaceholder": "Model yazarları için yorum",
+    "complex": "Karmaşık",
+    "contextVersion": "DTDL sürümü",
+    "contextVersion3Description": "DTDL sürüm 3 önizleme aşamasındadır.",
+    "copy": "kopya etmek",
+    "data": "veri",
+    "date": "tarih",
+    "dateTime": "dateTime",
+    "delete": "Silmek",
+    "description": "Tarif",
+    "descriptionPlaceholder": "Görüntülenecek yerelleştirilebilir bir açıklama",
+    "details": "Şey",
+    "displayName": "Görünen Ad",
+    "displayNamePlaceholder": "Görüntülenecek yerelleştirilebilir bir ad",
+    "double": "çift",
+    "duplicate": "Yinelenen",
+    "duration": "süre",
+    "enum": "enum",
+    "enumValue": "Enum Değeri",
+    "errorComment": "Yorum 512 karakteri geçemez",
+    "errorDisplayNameLength": "Görünen Ad 64 karakteri geçemez",
+    "errorDescription": "Açıklama 512 karakteri geçemez",
+    "errorRepeatedEdgeName": "Aynı ada sahip bir ilişki zaten var",
+    "errorDisplayName": "Görünen Ad 64 karakteri geçemez",
+    "errorIdLength": "Kimlik 2048 karakteri geçemez",
+    "errorIdValidDTMI": "Kimlik geçerli bir DTMI olmalıdır",
+    "errorName": "Ad yalnızca a-z, A-Z, 0-9 ve alt çizgi karakterlerini içerebilir",
+    "errorNameLength": "Ad 64 karakteri geçemez",
+    "errorRepeatedEnumValue": "Aynı değere sahip bir enum değeri zaten var",
+    "errorRepeatedName": "Aynı ada sahip bir model zaten var",
+    "errorRepeatedPropertyName": "Aynı ada sahip bir özellik zaten var",
+    "expand": "Genişletmek",
+    "warningId": "Mülkler için ID için bir değere sahip olmanız önerilmez.",
+    "float": "yüzmek",
+    "general": "Genel",
+    "id": "Kimliği",
+    "info": "Bilgi",
+    "integer": "tam sayı",
+    "key": "Anahtar",
+    "linestring": "linestring",
+    "long": "uzun",
+    "map": "harita",
+    "mapKeyName": "Harita Anahtarı Adı",
+    "mapValueName": "Harita Değeri Adı",
+    "maxMultiplicityLabel": "Maksimum çokluk",
+    "minMultiplicityLabel": "Minimum çokluk",
+    "minMultiplicityMessage": "DTDL V2 yalnızca minimum 0 çokluğunu destekler",
+    "modalTextInputPlaceHolder": "Bu tesis...",
+    "modalTextInputPlaceHolderDescription": "Satır1",
+    "modalTextInputPlaceHolderSemanticType": "geçerli...",
+    "modalTextInputPlaceHolderUnit": "birim...",
+    "modelId": "Model Kimliği",
+    "more": "Daha",
+    "moveDown": "Aşağı taşı",
+    "moveUp": "Yukarı taşı",
+    "multiLanguage": "çoklu dil",
+    "multiLinestring": "multilinestring",
+    "multiPoint": "çok noktalı",
+    "multiPolygon": "çoklu Poligon",
+    "name": "Ad",
+    "noSelectionMessage": "Ayrıntıları görüntülemek için bir model veya ilişki seçin",
+    "object": "nesne",
+    "path": "Yol",
+    "pivotLink": "Pivot bağlantı",
+    "point": "nokta",
+    "polygon": "çokgen",
+    "primitive": "İlkel",
+    "properties": "Özellikler",
+    "propertiesNotSupported": "Seçili öğe özellikleri desteklemiyor",
+    "property": "Mülk",
+    "remove": "Kaldırmak",
+    "region": "Bölge",
+    "schemaType": "Şema Türü",
+    "semanticType": "Semantik Tip",
+    "singleLanguage": "Tek dil",
+    "string": "dizgi",
+    "templateSearchPlaceholder": "Arama adı, kimlik, mülk",
+    "templates": "Şablon",
+    "time": "Saat",
+    "type": "Tür",
+    "unit": "Birim",
+    "uniqueModelName": "Benzersiz model adı",
+    "update": "Güncelleştirmek",
+    "value": "Değer",
+    "valueSchema": "Değer Şeması",
+    "version": "Sürüm",
+    "viewTemplates": "Şablonları Görüntüle",
+    "writable": "Yazıla -bilir",
+    "SchemaDefaults": {
+      "defaultPropertyName": "new_property_{{index}}",
+      "defaultEnumName": "enum_key_{{index}}",
+      "defaultMapName": "enum_key_{{index}}",
+      "defaultObjectPropertyName": "field_name_{{index}}",
+      "defaultMapKeyName": "map_key_{{index}}",
+      "defaultMapValueName": "map_value_{{index}}"
+    },
+    "PropertyListItem": {
+      "arrayItemLabel": "eşya",
+      "enumKeyPlaceholder": "Enter tuşu",
+      "enumValuePlaceholder": "Değer girin",
+      "ContextMenu": {
+        "changePropertyTypeLabel": "Özellik türünü düzenle",
+        "changeChildTypeLabelForArray": "Dizi öğesi türünü değiştirme",
+        "changeChildTypeLabelForEnum": "Enum değer türünü değiştirme",
+        "editMetadataLabel": "Meta verileri düzenleme"
+      }
+    },
+    "jsonEditorTabName": "cesaret"
+  },
+  "jobs": {
+    "addNew": "Yeni ekle"
   }
 }

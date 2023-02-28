@@ -1,14 +1,17 @@
 import { IStyle, IStyleFunctionOrObject, ITheme } from '@fluentui/react';
-import ADTDataHistoryAdapter from '../../Adapters/ADTDataHistoryAdapter';
 import MockAdapter from '../../Adapters/MockAdapter';
-import { IDataHistoryTimeSeriesTwin } from '../../Models/Constants/Interfaces';
+import {
+    IADTDataHistoryAdapter,
+    IDataHistoryTimeSeriesTwin
+} from '../../Models/Constants/Interfaces';
 import { ICardboardModalStyles } from '../CardboardModal/CardboardModal.types';
 
 export interface IDataHistoryExplorerModalProps {
-    adapter: ADTDataHistoryAdapter | MockAdapter;
+    adapter: IADTDataHistoryAdapter | MockAdapter;
     isOpen: boolean;
     onDismiss?: () => void;
     timeSeriesTwins?: Array<IDataHistoryTimeSeriesTwin>;
+    dataHistoryInstanceId?: string;
     /**
      * Call to provide customized styling that will layer on top of the variant rules.
      */

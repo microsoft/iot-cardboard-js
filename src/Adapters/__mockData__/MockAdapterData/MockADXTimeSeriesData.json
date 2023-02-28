@@ -1,0 +1,83 @@
+[
+    {
+        "seriesId": "525a2458511042cd90a29f108e2b1922",
+        "id": "PasteurizationMachine_A01",
+        "key": "Inflow",
+        "data": [
+            {
+                "timestamp": "2023-01-09T18:02:49.712Z",
+                "value": 115
+            },
+            {
+                "timestamp": "2023-01-10T18:03:09.216Z",
+                "value": 23
+            },
+            {
+                "timestamp": "2023-01-11T18:04:16.698Z",
+                "value": 188
+            },
+            {
+                "timestamp": "2023-01-12T18:04:51.597Z",
+                "value": 213
+            },
+            {
+                "timestamp": "2023-01-13T18:05:49.414Z",
+                "value": 245
+            }
+        ]
+    },
+    {
+        "seriesId": "e5612b46f76042c7bf02985423d250d6",
+        "id": "PasteurizationMachine_A02",
+        "key": "OutFlow",
+        "data": [
+            {
+                "timestamp": "2023-01-09T18:03:28.683Z",
+                "value": 272
+            },
+            {
+                "timestamp": "2023-01-10T18:03:47.933Z",
+                "value": 169
+            },
+            {
+                "timestamp": "2023-01-12T18:04:29.398Z",
+                "value": 238
+            },
+            {
+                "timestamp": "2023-01-13T18:06:10.981Z",
+                "value": 395
+            },
+            {
+                "timestamp": "2023-01-14T18:08:22.632Z",
+                "value": 109
+            }
+        ]
+    },
+    {
+        "seriesId": "db846b9eec044bbbac348847c21855b7",
+        "id": "SaltMachine_C0",
+        "key": "Temperature",
+        "data": [
+            {
+                "timestamp": "2023-01-09T18:04:00.276Z",
+                "value": 279
+            },
+            {
+                "timestamp": "2023-01-10T18:05:02.149Z",
+                "value": 154
+            },
+            {
+                "timestamp": "2023-01-11T18:05:33.132Z",
+                "value": 157
+            },
+            {
+                "timestamp": "2023-01-12T18:08:39.083Z",
+                "value": 227
+            },
+            {
+                "timestamp": "2023-01-13T18:08:49.333Z",
+                "value": 107
+            }
+        ]
+    }
+]

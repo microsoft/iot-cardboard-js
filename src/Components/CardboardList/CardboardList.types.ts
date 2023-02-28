@@ -31,7 +31,9 @@ type IListItemBaseProps<T> = {
     iconEnd?:
         | {
               name: IIconNames;
+              color?: string;
               onClick?: (item: T) => void;
+              title?: string;
           }
         | ((item: T) => React.ReactElement);
     /** icon or JSX element to render at the left side of the list item */
@@ -39,6 +41,7 @@ type IListItemBaseProps<T> = {
         | {
               name: IIconNames;
               color?: string;
+              title?: string;
           }
         | ((item: T) => React.ReactElement);
     /** id attribute to attach to the list item button */

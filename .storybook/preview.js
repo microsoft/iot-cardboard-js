@@ -1,11 +1,13 @@
-import React, { CSSProperties } from 'react';
+import React from 'react';
 import { addDecorator } from '@storybook/react';
 import { withConsole, setConsoleOptions } from '@storybook/addon-console';
 import '../src/Resources/Styles/BaseThemeVars.scss'; // Import BaseThemeVars to access css theme variables
 import { Locale } from '../src/Models/Constants/Enums';
+import { DataHistoryStaticMaxDateInMillis } from '../src/Models/Constants/Constants';
 import { StableGuidRngProvider } from '../src/Models/Context/StableGuidRngProvider';
+import { StableMaxDateInMillisProvider } from '../src/Models/Context/StableMaxDateInMillisProvider';
 import { LoggingContextProvider } from '../src/Models/Context/LoggingContextProvider';
-import { SearchSpan } from '../src/Models/Classes/SearchSpan';
+import isChromatic from 'chromatic/isChromatic';
 
 // global inputs for all stories, but it is not included in args
 // so make sure to include second object parameter including 'globals' in your stories to access these inputs: https://storybook.js.org/docs/react/essentials/toolbars-and-globals#globals
@@ -52,11 +54,6 @@ export const globalTypes = {
 // Parameters are Storybook’s method of defining static metadata for stories
 // https://storybook.js.org/docs/react/writing-stories/introduction#using-parameters
 export const parameters = {
-    mockedSearchSpan: new SearchSpan(
-        new Date(1617260400000),
-        new Date(1617260500000),
-        '100ms'
-    ),
     defaultCardWrapperStyle: { width: '400px', height: '400px' },
     wideCardWrapperStyle: {
         height: '400px',
@@ -65,7 +62,14 @@ export const parameters = {
     options: {
         // Adds storybook sorting to make finding stories easier :)
         storySort: {
-            order: ['Pages', 'Components', '3DV', 'Test Stories'],
+            order: [
+                'Pages',
+                'Components',
+                'Components - OAT',
+                'Contexts',
+                '3DV',
+                'Test Stories'
+            ],
             method: 'Alphabetical'
         }
     },
@@ -78,6 +82,17 @@ const decoratorWithStableGuid = (Story, context) => {
         <StableGuidRngProvider seed={context.id}>
             <Story {...context} />
         </StableGuidRngProvider>
+    );
+};
+
+// Wrap stories with stable max date provider
+const decoratorWithStableMaxDateInMillis = (Story, context) => {
+    return (
+        <StableMaxDateInMillisProvider
+            maxDateInMillis={DataHistoryStaticMaxDateInMillis}
+        >
+            <Story {...context} />
+        </StableMaxDateInMillisProvider>
     );
 };
 
@@ -116,7 +131,7 @@ const decoratorWithWrapper = (Story, context) => {
             break;
     }
     return (
-        <div style={{ backgroundColor: background }}>
+        <div style={{ backgroundColor: background, height: '100%' }}>
             <Story {...context} />
         </div>
     );
@@ -133,3 +148,6 @@ addDecorator(decoratorWithConsole);
 addDecorator(decoratorWithStableGuid);
 addDecorator(decoratorWithWrapper);
 addDecorator(decoratorWithDebug);
+if (isChromatic()) {
+    addDecorator(decoratorWithStableMaxDateInMillis);
+}

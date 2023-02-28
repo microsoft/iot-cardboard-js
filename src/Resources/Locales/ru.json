@@ -100,6 +100,10 @@
     "schemaValidationFailed": {
       "type": "Сбой проверки схемы JSON",
       "message": "JSON недействителен. Проверьте соответствие синтаксиса требуемой схеме."
+    },
+    "timeSeriesDatabaseConnectionFetchFailed": {
+      "type": "Сбой проверки подключения к базе данных временных рядов",
+      "message": "Не удалось найти сведения о подключении журнала данных, убедитесь, что журнал данных включен для этого экземпляра Azure Digital Twins и что у вас есть доступ к экземпляру обозревателя данных Azure по крайней мере \"{{разрешение}}\"."
     }
   },
   "valueRangeBuilder": {
@@ -650,13 +654,42 @@
         }
       },
       "headerMenu": "Меню виджета истории данных",
-      "openQuery": "Открытие запроса в обозревателе данных Azure",
+      "openQuery": "Открытие запроса в обозревателе данных Azure"
+    },
+    "powerBI": {
+      "title": "Виджет Power BI",
+      "libraryName": "Визуальный элемент Power BI",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
+      "type": {
+        "label": "Тип",
+        "options": {
+          "report": "Сообщать",
+          "dashboard": "Щиток",
+          "tile": "Кафель",
+          "visual": "Зрительный"
+        }
+      },
+      "pageName": {
+        "label": "Название страницы",
+        "placeholder": "Название страницы"
+      },
+      "visualName": {
+        "label": "Визуальное имя",
+        "placeholder": "Визуальное имя",
+        "suffix": "Введите имя конкретного элемента из отчета, который будет отображаться в этом виджете"
+      },
+      "dataFilters": {
+        "label": "Фильтры данных"
+      },
       "errors": {
-        "genericNetwork": "Недопустимый URL-адрес кластера или произошла сетевая ошибка.",
-        "genericBadRequest": "Произошло исключение из неудовлетворительного запроса.",
-        "generalBadRequestMessage": "Запрос недействителен и не может быть выполнен.",
-        "entityNotFound": "База данных не найдена, не удалось выполнить запрос.",
-        "forbidden": "В доступе отказано, у вас нет разрешений на запрос."
+        "missingReportConfiguration": "Пожалуйста, убедитесь, что ваш виджет правильно настроен",
+        "missingConfiguration": "Конфигурация виджета отсутствует или недопустима",
+        "missingAdapter": "Убедитесь, что адаптер Power BI установлен и настроен"
+      },
+      "embedUrl": {
+        "label": "Встроить URL-адрес",
+        "placeholder": "https://embed.powerbi.com/groups/me/reports/{reportId}",
+        "description": "URL-адрес, используемый для внедрения артефактов отчета во внешние инструменты"
       }
     }
   },
@@ -917,7 +950,6 @@
     "sync": "синхронизировать",
     "import": "Импорт",
     "export": "Экспорт",
-    "file": "Файл",
     "new": "Новые функции",
     "open": "Открытый",
     "saveAs": "Сохранить как",
@@ -934,27 +966,25 @@
     "namespace": "Пространство имен",
     "enterANamespace": "Ввод пространства имен",
     "settings": "Параметры",
-    "errorInvalidJSON": "Недопустимый JSON",
-    "errorFileFormatNotSupported": "Формат {{file}} не поддерживается",
-    "errorFormatNoSupported": "Формат файла не поддерживается",
-    "errorIssueWithFile": "Проблема с {{имя_файла}}: {{ошибка}}",
     "errorNamespace": "Пространство имен может содержать только буквы, цифры и подчеркивания.",
     "undo": "Отменить",
     "redo": "Повторить",
     "deleteAll": "Удалить все",
     "folderUpload": "Загрузка папки",
     "fileUpload": "Загрузка файла",
-    "files": "Файлы",
     "selectFile": "Выберите файл",
     "errorSingleFileHoldsRelationships": "Проблема с {{имя_файла}}: модель содержит связи, которые не импортируются",
-    "errorImportedModelAlreadyExists": "Проблема с {{modelId}}: модель с тем же @id уже существует",
-    "errorFileInvalidJSON": "Проблема с {{имя_файла}}: Недопустимый JSON",
     "deleteProjectMessage": "Вы уверены, что хотите удалить {{имя_проекта}}?",
     "errorSameName": "Проект с таким же названием уже существует. Вы хотите перезаписать его?",
     "fileOpenModal": {
       "dropdownLabel": "Онтология",
       "dropdownPlaceholder": "Выберите онтологию"
-    }
+    },
+    "configure": "Настроить",
+    "importFile": "Импорт файла",
+    "importFolder": "Папка импорта",
+    "ontology": "Онтология",
+    "newModel": "Новая модель"
   },
   "cameraControls": {
     "mouseControls": "Элементы управления мышью",
@@ -1091,99 +1121,10 @@
     "errorNameLength": "Имя не должно превышать 64 символов",
     "errorIdLength": "Id не может превышать 2048 символов",
     "errorIdValidDTMI": "Идентификатор должен быть допустимым DTMI",
-    "errorRepeatedId": "Модель с таким же идентификатором уже существует",
     "errorDisplayNameLength": "Отображаемое имя не должно превышать 64 символов",
-    "errorRepeatedEdgeName": "Связь с таким же именем уже существует",
     "runLayout": "Макет запуска",
-    "errorReachedInheritanceLimit": "Достигнут лимит наследования",
-    "errorInheritance": "Не может наследовать от более чем двух интерфейсов"
-  },
-  "OATPropertyEditor": {
-    "displayName": "Отображаемое имя",
-    "general": "Общее",
-    "assetId": "Идентификатор ресурса",
-    "type": "Тип",
-    "properties": "Свойства",
-    "viewTemplates": "Просмотр шаблонов",
-    "name": "Имя",
-    "schemaType": "Тип схемы",
-    "addProperty": "Добавить свойство",
-    "comment": "Комментарий",
-    "description": "Описание",
-    "writable": "Записываемый",
-    "semanticType": "Семантический тип",
-    "unit": "Единица",
-    "id": "Идентификатор",
-    "update": "Обновлять",
-    "primitive": "Примитивный",
-    "complex": "Сложный",
-    "errorRepeatedPropertyName": "Свойство с таким именем уже существует",
-    "errorRepeatedEnumValue": "Перечисление-значение с таким же значением уже существует",
-    "templates": "Шаблоны",
-    "templateSearchPlaceholder": "Поиск имени, идентификатора, свойства",
-    "property": "Свойство",
-    "modalTextInputPlaceHolder": "Этот отель...",
-    "modalTextInputPlaceHolderDescription": "Линия1",
-    "modalTextInputPlaceHolderSemanticType": "текущий...",
-    "modalTextInputPlaceHolderUnit": "единица...",
-    "pivotLink": "Ссылка на сводку",
-    "json": "JSON",
-    "addEnumValue": "Добавить значение перечисления",
-    "enumValue": "Значение перечисления",
-    "mapKeyName": "Имя ключа карты",
-    "mapValueName": "Имя значения карты",
-    "key": "Ключ",
-    "value": "Ценность",
-    "addToTemplate": "Добавить в шаблон",
-    "duplicate": "Дублировать",
-    "remove": "Убирать",
-    "boolean": "булев",
-    "data": "данные",
-    "float": "плавать",
-    "integer": "целое число",
-    "string": "струна",
-    "enum": "перечисление",
-    "map": "карта",
-    "array": "массив",
-    "object": "объект",
-    "dateTime": "датаВремя",
-    "time": "Время",
-    "long": "длинный",
-    "double": "двойной",
-    "duration": "длительность",
-    "point": "точка",
-    "linestring": "линейная струна",
-    "polygon": "многоугольник",
-    "multiPoint": "многоточечный",
-    "multiLinestring": "многострочная",
-    "multiPolygon": "мульти Полигон",
-    "close": "Закрывать",
-    "collapse": "Коллапс",
-    "info": "Информация",
-    "more": "Больше",
-    "copy": "копировать",
-    "cancel": "Отмена",
-    "delete": "Удалить",
-    "multiLanguage": "многоязычность",
-    "region": "Область",
-    "singleLanguage": "Один язык",
-    "errorComment": "Комментарий не может превышать 512 символов",
-    "errorDisplayName": "Отображаемое имя не должно превышать 64 символов",
-    "errorDescription": "Описание не может превышать 512 символов",
-    "errorName": "Имя может содержать только символы a-z, A-Z, 0-9 и подчеркивание",
-    "errorNameLength": "Имя не должно превышать 64 символов",
-    "errorIdLength": "Id не может превышать 2048 символов",
-    "errorIdValidDTMI": "Идентификатор должен быть допустимым DTMI",
-    "errorDisplayNameLength": "Отображаемое имя не должно превышать 64 символов",
-    "errorRepeatedId": "Модель с таким же идентификатором уже существует",
-    "errorRepeatedName": "Модель с таким именем уже существует",
-    "errorRepeatedEdgeName": "Связь с таким же именем уже существует",
-    "errorInvalidJSON": "Недопустимый JSON",
-    "warningId": "Не рекомендуется иметь значение для ID.",
-    "addToPropertyList": "Добавить в список свойств",
-    "moveDown": "Перемещение вниз",
-    "moveUp": "Придвигаться",
-    "valueSchema": "Схема значений"
+    "extends": "Расширяет",
+    "loadingText": "Вычислительные позиции макета"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Сообщение об ошибке",
@@ -1243,7 +1184,6 @@
   "advancedSearch": {
     "toggleSelection": "Переключение на выбор Twin",
     "selectRow": "Выбран близнец",
-    "inspectProperty": "Инспекция имущества",
     "results": "Результаты ({{twinCount}})",
     "noPropertiesFound": "Недвижимость не найдена",
     "addNewButton": "Добавить новый",
@@ -1265,7 +1205,8 @@
     "columnPicker": "Средство выбора столбцов",
     "propertyCount": "Выбрано свойство {{selectedPropsCount}}",
     "availableProperties": "Раскрывающийся список доступных свойств",
-    "selectAdditionalColumns": "Выбор дополнительных столбцов"
+    "selectAdditionalColumns": "Выбор дополнительных столбцов",
+    "inspectProperties": "Проверка свойств"
   },
   "highcharts": {
     "shareQueryTitle": "Общий доступ к запросу",
@@ -1302,24 +1243,292 @@
   "colorPills": {
     "unlabeled": "Без маркировки"
   },
+  "clear": "Ясный",
+  "duplicate": "Дублировать",
+  "moveUp": "Придвигаться",
+  "moveDown": "Перемещение вниз",
+  "increaseBy1": "Увеличение значения на 1",
+  "decreaseBy1": "Уменьшение значения на 1",
+  "OATCommon": {
+    "duplicateFileNameSuffix": "копировать",
+    "defaultFileName": "Новая онтология",
+    "defaultModelNamePrefix": "Модель"
+  },
+  "OATErrors": {
+    "Validations": {
+      "InvalidDtmiIdFormatTitle": "Недопустимый формат DTMI",
+      "InvalidDtmiIdFormatMessage": "Изменения не были сохранены, так как DTMI не соответствовал требуемому формату. \n DTMI: {{dtmi}}\n Требуемый формат: {{regex}}"
+    }
+  },
+  "OAT": {
+    "ModelList": {
+      "searchModels": "Поиск моделей",
+      "noMatchingItemsMessage": "Ни одна модель не соответствует этим критериям",
+      "removeModelButtonText": "Удалить модель",
+      "noModelsTitle": "У вас еще нет моделей",
+      "noModelsMessage": "Начните проектирование онтологии, добавив модель или импортировав существующую онтологию",
+      "noModelsButtonText": "Добавление модели"
+    },
+    "Common": {
+      "untargeted": "Нецелевой",
+      "unhandledExceptionTitle": "Непредвиденная ошибка",
+      "unhandledExceptionMessage": "Случилось нечто неожиданное. Повторите попытку.",
+      "versionDocumentationLink": "Подробнее о DTDL версии 3"
+    },
+    "ImportErrors": {
+      "fileInvalidJSON": "Не удается импортировать '{{имя_файла}}', он содержит недопустимый JSON.",
+      "exceptionTitle": "Непредвиденная ошибка",
+      "exceptionMessage": "Случилось нечто неожиданное. Повторите попытку.",
+      "importFailedTitle": "Сбой импорта",
+      "importFailedMessage": "Произошла ошибка при импорте. Устраните их и повторите попытку.\n {{ошибка}}",
+      "noValidFilesTitle": "Модели не найдены",
+      "noValidFilesMessage": "Файлы модели не найдены для импорта. Убедитесь, что в выбранных файлах есть допустимые файлы JSON."
+    },
+    "PropertyEditor": {
+      "Version3UpgradeButton": {
+        "confirmationTitle": "Обновить модель?",
+        "confirmationMessage": "Вы уверены, что хотите обновить эту модель до DTDL версии 3? Все ваши конфигурации будут сохранены.",
+        "confirmationButtonText": "Модернизировать",
+        "buttonText": "Обновление до версии 3"
+      },
+      "Version3PreviewLabel": {
+        "badgeText": "Предварительный просмотр",
+        "badgeCalloutText": "Эта модель использует DTDL версии 3. Нажмите, чтобы узнать больше"
+      }
+    },
+    "PropertyTypes": {
+      "categories": {
+        "complex": "Сложный",
+        "primitive": "Примитивный",
+        "geospatial": "Геопространственные"
+      },
+      "unsupportedPropertyType": "Этот тип свойства недоступен для текущей контекстной версии связанной модели"
+    },
+    "Header": {
+      "ManageOntologyModal": {
+        "deleteButtonText": "Удалить онтологию",
+        "modalTitleCreate": "Новая онтология",
+        "modalTitleEdit": "Редактирование онтологии",
+        "modalSubTitleCreate": "Создайте новую онтологию, чтобы придать структуру вашему цифровому двойнику.",
+        "modalSubTitleEdit": "Отредактируйте свою онтологию, чтобы придать структуру вашему цифровому двойнику.",
+        "modalSubTitleLinkText": "Подробнее об онтологиях",
+        "nameLabel": "Имя",
+        "namePlaceholder": "Введите имя онтологии",
+        "namespaceLabel": "Путь по умолчанию",
+        "namespaceDescription": "Пример идентификатора модели: {{имя_модели}}",
+        "namespacePlaceholder": "Введите путь по умолчанию",
+        "sampleModel": "Образец модели",
+        "defaultVersionLabel": "Версия DTDL по умолчанию для новых моделей",
+        "version2": "Версия 2",
+        "version3": "Версия 3 (предварительная версия)"
+      }
+    },
+    "ImportProgress": {
+      "loadingTitle": "Импорт моделей",
+      "loadingSpinnerLabel": "Импорт файлов {{count}}",
+      "successTitle": "Импорт выполнен успешно",
+      "successMessage": "Успешно добавлены модели {{count}} в онтологию"
+    },
+    "GraphControls": {
+      "modelListTitle": "Переключение списка моделей",
+      "legendTitle": "Переключение ассоциаций",
+      "autoLayoutTitle": "Автоматическая компоновка",
+      "miniMapTitle": "Переключить мини-карту"
+    },
+    "ImportLimits": {
+      "message": "В настоящее время общее число связей, компонентов и наследований в онтологии ограничено {{count}} в конструкторе онтологий.",
+      "title": "Достигнут контрольный предел"
+    },
+    "Errors": {
+      "invalidJSONTitle": "Недопустимый JSON",
+      "invalidJSONMessage": "Введенный JSON недействителен. Исправьте JSON и повторите попытку.",
+      "validationFailedTitle": "Сбой проверки",
+      "validationFailedMessage": "Возникла проблема при проверке изменений."
+    }
+  },
+  "dataHistoryErrorHandlingWrapper": {
+    "errors": {
+      "genericNetwork": "Экземпляр обозревателя данных Azure не может быть подключен, убедитесь, что ресурс не остановлен и сетевое подключение стабильно.",
+      "genericBadRequest": "Что-то пошло не так, пожалуйста, попробуйте еще раз.",
+      "generalBadRequestMessage": "Запрос недействителен и не может быть выполнен.",
+      "entityNotFound": "База данных не найдена, не может выполнить запрос.",
+      "forbidden": "В доступе отказано, у вас нет разрешений на запрос."
+    }
+  },
   "dataHistoryExplorer": {
     "title": "Обозреватель истории данных",
+    "loadingConnectionLabel": "Загрузка информации о подключении к истории данных...",
     "builder": {
-      "title": "Двойные свойства",
+      "description": "Чтобы сравнить прошлые значения для историзированных свойств, добавьте временные ряды ниже.",
       "timeSeriesTwin": {
-        "property": "Свойство",
-        "propertyTypeCastLabel": "Приведение типа свойства к номеру",
         "add": "Добавление временных рядов",
+        "edit": "Редактирование временных рядов",
         "remove": "Удаление временных рядов",
-        "edit": "Редактирование временных рядов"
-      },
-      "description": "Чтобы сравнить прошлые значения для историзированных свойств, добавьте временные ряды ниже."
+        "property": "Свойство",
+        "noData": "Нет данных для отображения для выбранного диапазона времени",
+        "propertyTypeCastLabel": "Приведение значения свойства к числу",
+        "noProperty": "Недвижимость не выбрана"
+      }
     },
     "viewer": {
-      "chart": "Диаграмма",
-      "table": "Стол",
-      "noSeriesDescription": "Чтобы просмотреть журнал данных для этого близнеца, выберите свойство для просмотра."
+      "chart": {
+        "title": "Диаграмма",
+        "messages": {
+          "noData": "Числовые данные в выбранном временном диапазоне не найдены."
+        }
+      },
+      "table": {
+        "title": "Стол",
+        "columns": {
+          "timestamp": "Метка времени",
+          "series": "Серия",
+          "value": "Ценность",
+          "type": "Тип"
+        },
+        "messages": {
+          "noData": "Данные в выбранном временном диапазоне не найдены."
+        },
+        "noColor": "Не установлено"
+      },
+      "messages": {
+        "loading": "Загрузка историзированных данных...",
+        "noSeries": "Нет близнецов, выбранных для запроса, пожалуйста, добавьте свойства близнецов для просмотра историзированных данных."
+      },
+      "commandBar": {
+        "refresh": "Обновление данных",
+        "download": "Загрузка табличных данных"
+      }
     },
-    "loadingConnectionLabel": "Загрузка информации о подключении временных рядов..."
+    "control": {
+      "title": "Открытый обозреватель истории данных",
+      "disabledTitle": "Не удалось найти сведения о подключении к журналу данных"
+    }
+  },
+  "increaseByDecimal": "Увеличение значения на 0,1",
+  "decreaseByDecimal": "Уменьшение значения на 0,1",
+  "ok": "Хорошо",
+  "OATPropertyEditor": {
+    "addEnumValue": "Добавление значения перечисления",
+    "addProperty": "Добавить свойство",
+    "addToPropertyList": "Добавить в список свойств",
+    "addToTemplate": "Добавить в шаблон",
+    "array": "массив",
+    "assetId": "Идентификатор ресурса",
+    "boolean": "булев",
+    "cancel": "Отмена",
+    "close": "Закрывать",
+    "collapse": "Коллапс",
+    "comment": "Комментарий",
+    "commentPlaceholder": "Комментарий для авторов моделей",
+    "complex": "Сложный",
+    "contextVersion": "Версия DTDL",
+    "contextVersion3Description": "DTDL версии 3 находится в предварительной версии.",
+    "copy": "копировать",
+    "data": "данные",
+    "date": "дата",
+    "dateTime": "датаВремя",
+    "delete": "Удалить",
+    "description": "Приметы:__________",
+    "descriptionPlaceholder": "Локализуемое описание для отображения",
+    "details": "Подробности",
+    "displayName": "Отображаемое имя",
+    "displayNamePlaceholder": "Локализуемое имя для отображения",
+    "double": "двойной",
+    "duplicate": "Дублировать",
+    "duration": "длительность",
+    "enum": "перечисление",
+    "enumValue": "Значение перечисления",
+    "errorComment": "Длина комментария не должна превышать 512 символов",
+    "errorDisplayNameLength": "Отображаемое имя не должно превышать 64 символов",
+    "errorDescription": "Длина описания не должна превышать 512 символов",
+    "errorRepeatedEdgeName": "Связь с таким же именем уже существует",
+    "errorDisplayName": "Отображаемое имя не должно превышать 64 символов",
+    "errorIdLength": "Id не может превышать 2048 символов",
+    "errorIdValidDTMI": "Идентификатор должен быть допустимым DTMI",
+    "errorName": "Имя может содержать только символы a-z, A-Z, 0-9 и подчеркивание",
+    "errorNameLength": "Длина имени не должна превышать 64 символа",
+    "errorRepeatedEnumValue": "Значение перечисления с таким же значением уже существует",
+    "errorRepeatedName": "Модель с таким именем уже существует",
+    "errorRepeatedPropertyName": "Свойство с таким именем уже существует",
+    "expand": "Расширять",
+    "warningId": "Наличие значения id не рекомендуется для свойств.",
+    "float": "плавать",
+    "general": "Общее",
+    "id": "Идентификатор",
+    "info": "Информация",
+    "integer": "целое число",
+    "key": "Ключ",
+    "linestring": "линейная струна",
+    "long": "длинный",
+    "map": "карта",
+    "mapKeyName": "Имя ключа карты",
+    "mapValueName": "Имя значения карты",
+    "maxMultiplicityLabel": "Максимальная кратность",
+    "minMultiplicityLabel": "Минимальная кратность",
+    "minMultiplicityMessage": "DTDL V2 поддерживает только минимальную кратность 0",
+    "modalTextInputPlaceHolder": "Этот отель...",
+    "modalTextInputPlaceHolderDescription": "Линия1",
+    "modalTextInputPlaceHolderSemanticType": "текущий...",
+    "modalTextInputPlaceHolderUnit": "единица...",
+    "modelId": "Идентификатор модели",
+    "more": "Больше",
+    "moveDown": "Перемещение вниз",
+    "moveUp": "Придвигаться",
+    "multiLanguage": "многоязычность",
+    "multiLinestring": "многострочная",
+    "multiPoint": "многоточечный",
+    "multiPolygon": "мульти Полигон",
+    "name": "Имя",
+    "noSelectionMessage": "Выбор модели или связи для просмотра сведений",
+    "object": "объект",
+    "path": "Путь",
+    "pivotLink": "Ссылка на сводку",
+    "point": "точка",
+    "polygon": "многоугольник",
+    "primitive": "Примитивный",
+    "properties": "Свойства",
+    "propertiesNotSupported": "Выбранный элемент не поддерживает свойства",
+    "property": "Свойство",
+    "remove": "Убирать",
+    "region": "Область",
+    "schemaType": "Тип схемы",
+    "semanticType": "Семантический тип",
+    "singleLanguage": "Один язык",
+    "string": "струна",
+    "templateSearchPlaceholder": "Поиск имени, идентификатора, свойства",
+    "templates": "Шаблоны",
+    "time": "Время",
+    "type": "Тип",
+    "unit": "Единица",
+    "uniqueModelName": "Уникальное название модели",
+    "update": "Обновлять",
+    "value": "Ценность",
+    "valueSchema": "Схема значений",
+    "version": "Версия",
+    "viewTemplates": "Просмотр шаблонов",
+    "writable": "Записываемый",
+    "SchemaDefaults": {
+      "defaultPropertyName": "new_property_{{индекс}}",
+      "defaultEnumName": "enum_key_{{индекс}}",
+      "defaultMapName": "enum_key_{{индекс}}",
+      "defaultObjectPropertyName": "field_name_{{индекс}}",
+      "defaultMapKeyName": "map_key_{{индекс}}",
+      "defaultMapValueName": "map_value_{{индекс}}"
+    },
+    "PropertyListItem": {
+      "arrayItemLabel": "Элементы",
+      "enumKeyPlaceholder": "Введите ключ",
+      "enumValuePlaceholder": "Введите значение",
+      "ContextMenu": {
+        "changePropertyTypeLabel": "Изменение типа свойства",
+        "changeChildTypeLabelForArray": "Изменение типа элемента массива",
+        "changeChildTypeLabelForEnum": "Изменение типа значения перечисления",
+        "editMetadataLabel": "Редактирование метаданных"
+      }
+    },
+    "jsonEditorTabName": "DTDL"
+  },
+  "jobs": {
+    "addNew": "Добавить новый"
   }
 }

@@ -7,9 +7,7 @@ import { ICardboardGroupedListProps } from './CardboardGroupedList.types';
  * @param props all the items and configurations for the list
  * @returns the list control
  */
-const GroupedCardboardList = <T extends unknown>(
-    props: ICardboardGroupedListProps<T>
-) => {
+const GroupedCardboardList = <T,>(props: ICardboardGroupedListProps<T>) => {
     const { ...rest } = props;
     return (
         <>

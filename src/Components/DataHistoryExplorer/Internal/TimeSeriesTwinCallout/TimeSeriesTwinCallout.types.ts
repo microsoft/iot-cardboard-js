@@ -6,13 +6,19 @@ import {
     ITheme,
     IToggleStyles
 } from '@fluentui/react';
-import { IDataHistoryTimeSeriesTwin } from '../../../../Models/Constants';
+import MockAdapter from '../../../../Adapters/MockAdapter';
+import {
+    IADTDataHistoryAdapter,
+    IDataHistoryTimeSeriesTwin
+} from '../../../../Models/Constants';
 
 export interface ITimeSeriesTwinCalloutProps {
+    adapter: IADTDataHistoryAdapter | MockAdapter;
     timeSeriesTwin?: IDataHistoryTimeSeriesTwin;
     target: string;
     onDismiss?: () => void;
     onPrimaryActionClick: (timeSeriesTwin: IDataHistoryTimeSeriesTwin) => void;
+    dataHistoryInstanceId?: string;
     /**
      * Call to provide customized styling that will layer on top of the variant rules.
      */

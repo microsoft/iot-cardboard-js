@@ -1,5 +1,6 @@
 import { dtdlPropertyTypesEnum } from '../../..';
-import { DTDLType } from '../../../Models/Classes/DTDL';
+import { DTDLSchemaType, DTDLType } from '../../../Models/Classes/DTDL';
+import { DtdlInterface, DtdlProperty } from '../../../Models/Constants';
 import PropertyInspectorModel from '../PropertyInspectoryModel';
 import { NodeRole } from '../PropertyTree/PropertyTree.types';
 import testModel from './testModel.json';
@@ -9,11 +10,11 @@ jest.mock('../../../i18n.ts', () => ({ t: () => 'testTranslation' }));
 
 describe('Property nodes are parsed correctly', () => {
     test('Object property is correctly parsed into a tree node', () => {
-        const testObject = {
-            '@type': 'Property',
+        const testObject: DtdlProperty = {
+            '@type': DTDLType.Property,
             name: 'testObject',
             schema: {
-                '@type': 'Object',
+                '@type': DTDLSchemaType.Object,
                 fields: [
                     {
                         name: 'testObject_DoubleChild',
@@ -22,7 +23,7 @@ describe('Property nodes are parsed correctly', () => {
                     {
                         name: 'testObject_ObjectChild',
                         schema: {
-                            '@type': 'Object',
+                            '@type': DTDLSchemaType.Object,
                             fields: [
                                 {
                                     name: 'testObject_ObjectChild_StringChild',
@@ -64,12 +65,12 @@ describe('Property nodes are parsed correctly', () => {
     });
 
     test('Map property is correctly parsed into a tree node', () => {
-        const testMap = {
-            '@type': 'Property',
+        const testMap: DtdlProperty = {
+            '@type': DTDLType.Property,
             name: 'testMap',
             writable: true,
             schema: {
-                '@type': 'Map',
+                '@type': DTDLSchemaType.Map,
                 mapKey: {
                     name: 'testMapKey',
                     schema: 'string'
@@ -77,7 +78,7 @@ describe('Property nodes are parsed correctly', () => {
                 mapValue: {
                     name: 'testMapValue',
                     schema: {
-                        '@type': 'Object',
+                        '@type': DTDLSchemaType.Object,
                         fields: [
                             {
                                 name: 'testString',
@@ -122,11 +123,11 @@ describe('Property nodes are parsed correctly', () => {
     });
 
     test('Array nodes are parsed correctly', () => {
-        const testModel = {
-            '@type': 'Property',
+        const testModel: DtdlProperty = {
+            '@type': DTDLType.Property,
             name: 'testArray',
             schema: {
-                '@type': 'Array',
+                '@type': DTDLSchemaType.Array,
                 elementSchema: 'string'
             }
         };
@@ -163,8 +164,8 @@ describe('Parsing twin into property tree', () => {
         propertyInspectorTwinNodes = PropertyInspectorModel.parseTwinIntoPropertyTree(
             {
                 twin: testTwin,
-                expandedModels: testModel,
-                rootModel: testModel[0],
+                expandedModels: testModel as DtdlInterface[],
+                rootModel: testModel[0] as DtdlInterface,
                 isInherited: false,
                 path: ''
             }
@@ -331,7 +332,7 @@ let propertyInspectorRelationshipNodes = null;
 const relationshipData = {
     $relationshipId: '4690c125-aac8-4456-9203-298c93f5fcf0',
     $etag: 'W/"4215f07a-ed6e-4c8d-a516-d65715f207d9"',
-    $sourceId: 'LeoTheDog',
+    $sourceId: 'Tesla',
     $relationshipName: 'chargedBy',
     $targetId: 'Windmill_1',
     lastChargedStation: 'Eugene Oregon Tesla Supercharger'
@@ -341,7 +342,9 @@ describe('Parsing relationship into property tree', () => {
     beforeAll(() => {
         propertyInspectorRelationshipNodes = PropertyInspectorModel.parseRelationshipIntoPropertyTree(
             relationshipData,
-            testModel.find((m) => m['@id'] === 'dtmi:com:test:testmodel;1')
+            (testModel as DtdlInterface[]).find(
+                (m) => m['@id'] === 'dtmi:com:test:testmodel;1'
+            )
         );
     });
 

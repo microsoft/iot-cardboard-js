@@ -15,12 +15,19 @@ import useAdapter from './useAdapter';
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('useTimeSeriesData', debugLogging);
 
+type ADXQueryOptions = {
+    isNullIncluded?: boolean;
+    shouldCastToDouble?: boolean;
+};
+
 interface IProp {
     adapter?: IADXAdapter | MockAdapter;
     connection: IADXConnection;
     quickTimeSpanInMillis: number;
     twins: Array<IDataHistoryTimeSeriesTwin>;
     pollingInterval?: number;
+    queryOptions?: ADXQueryOptions;
+    useStaticData?: boolean;
 }
 
 export const useTimeSeriesData = ({
@@ -28,7 +35,9 @@ export const useTimeSeriesData = ({
     connection,
     quickTimeSpanInMillis,
     twins,
-    pollingInterval
+    pollingInterval,
+    queryOptions = { isNullIncluded: false, shouldCastToDouble: true },
+    useStaticData
 }: IProp): {
     query: string;
     deeplink: string;
@@ -44,12 +53,19 @@ export const useTimeSeriesData = ({
     const [connectionToQuery, setConnectionToQuery] = useState<IADXConnection>(
         null
     );
+    const [isLoading, setIsLoading] = useState(false);
 
     const timeSeriesData = useAdapter({
         adapterMethod: (params: {
             query: string;
             connection: IADXConnection;
-        }) => adapter.getTimeSeriesData(params.query, params.connection),
+        }) =>
+            adapter.getTimeSeriesData(
+                twins.map((t) => t.seriesId),
+                params.query,
+                params.connection,
+                useStaticData
+            ),
         refetchDependencies: [adapter, connection, twins, pollingInterval],
         isAdapterCalledOnMount: false,
         isLongPolling: pollingInterval ? true : false,
@@ -95,7 +111,8 @@ export const useTimeSeriesData = ({
             newQuery = getBulkADXQueryFromTimeSeriesTwins(
                 twins,
                 quickTimeSpanInMillis,
-                connectionToQuery
+                connectionToQuery,
+                queryOptions
             );
         }
         if (prevQuery !== newQuery) {
@@ -124,6 +141,10 @@ export const useTimeSeriesData = ({
         }
     };
 
+    useEffect(() => {
+        setIsLoading(timeSeriesData.isLoading);
+    }, [timeSeriesData.isLoading]);
+
     return useMemo(() => {
         return {
             query,
@@ -131,9 +152,9 @@ export const useTimeSeriesData = ({
             data,
             errors,
             fetchTimeSeriesData: fetchData,
-            isLoading: timeSeriesData.isLoading
+            isLoading
         };
-    }, [query, deeplink, data, errors, fetchData, timeSeriesData.isLoading]);
+    }, [query, deeplink, data, errors, fetchData, isLoading]);
 };
 
 /** Constructs the bulk query based on the parsed time series twin information from data history widget
@@ -142,7 +163,8 @@ export const useTimeSeriesData = ({
 const getBulkADXQueryFromTimeSeriesTwins = (
     twins: Array<IDataHistoryTimeSeriesTwin>,
     agoTimeInMillis: number,
-    connection: IADXConnection
+    connection: IADXConnection,
+    queryOptions?: ADXQueryOptions
 ): string => {
     let query = '';
 
@@ -150,8 +172,14 @@ const getBulkADXQueryFromTimeSeriesTwins = (
         twins?.forEach((twin, idx) => {
             query += `${connection.kustoTableName} | where TimeStamp > ago(${agoTimeInMillis}ms)`;
             query += ` | where Id == '${twin.twinId}' and Key == '${twin.twinPropertyName}'`;
-            query += ` | extend  ${ADXTableColumns.Value} = todouble(${ADXTableColumns.Value})`;
-            query += ` | where isnotnull(${ADXTableColumns.Value})`;
+            query +=
+                queryOptions?.shouldCastToDouble ??
+                twin.chartProps.isTwinPropertyTypeCastedToNumber
+                    ? ` | extend  ${ADXTableColumns.Value} = todouble(${ADXTableColumns.Value})`
+                    : '';
+            query += queryOptions?.isNullIncluded
+                ? ''
+                : ` | where isnotnull(${ADXTableColumns.Value})`;
             query += ' | order by TimeStamp asc';
             query += ` | project ${ADXTableColumns.TimeStamp}, ${ADXTableColumns.Id}, ${ADXTableColumns.Key}, ${ADXTableColumns.Value}`;
             if (idx < twins.length - 1) {

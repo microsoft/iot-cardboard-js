@@ -3,37 +3,34 @@ import {
     AzureAccessPermissionRoles,
     IADTBackgroundColor,
     IADTObjectColor,
+    IChartOption,
     QuickTimeSpanKey
 } from '../Constants';
 import {
     defaultDataHistoryWidget,
     defaultGaugeWidget,
     defaultLinkWidget,
+    defaultPowerBIWidget,
     defaultValueWidget,
     IWidgetLibraryItem
 } from '../Classes/3DVConfig';
 import i18n from '../../i18n';
-import { DTDLSchemaType } from '../../Models/Classes/DTDL';
-import IconBoolean from '../../Resources/Static/Boolean.svg';
-import IconData from '../../Resources/Static/Data.svg';
-import IconDatetime from '../../Resources/Static/Datetime.svg';
+import {
+    DTDLSchemaType,
+    DTDLType,
+    DTDL_CONTEXT_VERSION_2
+} from '../../Models/Classes/DTDL';
 import IconDouble from '../../Resources/Static/Double.svg';
-import IconDuration from '../../Resources/Static/duration.svg';
-import IconEnum from '../../Resources/Static/Enum.svg';
 import IconFloat from '../../Resources/Static/Float.svg';
 import IconInteger from '../../Resources/Static/Integer.svg';
 import IconLineString from '../../Resources/Static/linestring.svg';
 import IconLong from '../../Resources/Static/long.svg';
-import IconMap from '../../Resources/Static/map.svg';
 import IconMultiPoint from '../../Resources/Static/multipoint.svg';
 import IconMultiLineString from '../../Resources/Static/multilinestring.svg';
 import IconMultiPolygon from '../../Resources/Static/multipolygon.svg';
-import IconObject from '../../Resources/Static/object.svg';
 import IconPoint from '../../Resources/Static/point.svg';
 import IconPolygon from '../../Resources/Static/polygon.svg';
-import IconString from '../../Resources/Static/string.svg';
-import IconTime from '../../Resources/Static/time.svg';
-import { FontSizes, IDropdownOption } from '@fluentui/react';
+import { FontSizes } from '@fluentui/react';
 import { IDataHistoryAggregationType } from '../Types/Generated/3DScenesConfiguration-v1.0.0';
 
 // make sure models in the ADT instance have these definitions and twins have these properties for process graphics card
@@ -75,6 +72,10 @@ export const DOCUMENTATION_LINKS = {
     howToLayers: `${HOW_TO_DOC}#manage-layers`,
     howToTwins: `${HOW_TO_DOC}#twins`,
     howToWidgets: `${HOW_TO_DOC}#widgets`,
+    // https://learn.microsoft.com/azure/digital-twins/concepts-ontologies
+    ontologyConcepts: 'https://go.microsoft.com/fwlink/?linkid=2209943',
+    // https://learn.microsoft.com/azure/digital-twins/concepts-models#supported-dtdl-versions
+    ontologyConceptsVersions: 'https://go.microsoft.com/fwlink/?linkid=2225628',
     dataHistory: ADT_DATA_HISTORY_WITH_ADX
 };
 
@@ -89,14 +90,25 @@ export const LOCAL_STORAGE_KEYS = {
         Telemetry: {
             debugLogging: 'cardboard.debug.telemetryLogging' // enables debug logging for all emitted telemetry events
         },
-        DataHistory: {
-            showDataHistoryWidget: 'cardboard.feature.dataHistoryWidget' // shows data history widget widget library
+        DataHistoryExplorer: {
+            showExplorer: 'cardboard.feature.dataHistoryExplorer' // enables data history explorer feature if supported
+        },
+        Proxy: {
+            forceCORS: 'cardboard.feature.forceCORS' // force CORS to run instead of proxy
+        },
+        PowerBI: {
+            showWidgets: 'cardboard.feature.powerBIWidgets' // enables PowerBI widgets
         }
     },
     Environment: {
         Configuration: 'cb-environment-configuration',
         Options: 'cb-environment-options'
     }
+};
+
+export const ADT_ALLOW_LISTED_URLS = {
+    DEV: 'https://dev.explorer.azuredigitaltwins-test.net',
+    PROD: 'https://explorer.digitaltwins.azure.net'
 };
 
 export const dtdlPrimitiveTypesList = [
@@ -179,6 +191,16 @@ export const availableWidgets: Array<IWidgetLibraryItem> = [
         learnMoreLink: DOCUMENTATION_LINKS.dataHistory,
         iconName: 'Chart',
         data: defaultDataHistoryWidget
+    },
+    {
+        title: i18n.t('widgets.powerBI.title'),
+        description: i18n.t('widgets.powerBI.description'),
+        iconName: 'PowerBILogo',
+        data: defaultPowerBIWidget,
+        disabled:
+            localStorage.getItem(
+                LOCAL_STORAGE_KEYS.FeatureFlags.PowerBI.showWidgets
+            ) !== 'true'
     }
 ];
 export const twinRefreshMaxAge = 9000;
@@ -303,19 +325,36 @@ export const SelectedEnvironmentLocalStorageKey = 'cb-selected-environment';
 /** @deprecated This key will be removed soon since the new local storage structure */
 export const SelectedContainerLocalStorageKey = 'cb-selected-container';
 
-export const OATFilesStorageKey = 'oat-files';
-export const OATDataStorageKey = 'oat-data';
-export const OATUntargetedRelationshipName = 'Untargeted';
-export const OATRelationshipHandleName = 'Relationship';
-export const OATComponentHandleName = 'Component';
-export const OATExtendHandleName = 'Extend';
-export const OATInterfaceType = 'Interface';
-export const OATNamespaceDefaultValue = 'com:example';
-export const OATCommentLengthLimit = 512;
-export const OATDescriptionLengthLimit = 512;
-export const OATDisplayNameLengthLimit = 64;
-export const OATNameLengthLimit = 64;
-export const OATIdLengthLimit = 2048;
+export const SELECTED_ENVIRONMENT_LOCAL_STORAGE_KEY = 'cb-selected-environment';
+export const SELECTECTED_CONTAINER_LOCAL_STORAGE_KEY = 'cb-selected-container';
+export const OAT_FILES_STORAGE_KEY = 'oat-files';
+export const OAT_LAST_PROJECT_STORAGE_KEY = 'oat-last-project';
+export const OAT_UNTARGETED_RELATIONSHIP_NAME = 'Untargeted';
+export const OAT_RELATIONSHIP_HANDLE_NAME = 'Relationship';
+export const OAT_COMPONENT_HANDLE_NAME = 'Component';
+export const OAT_EXTEND_HANDLE_NAME = 'Extend';
+export type OatReferenceType =
+    | DTDLType.Component
+    | DTDLType.Relationship
+    | 'Extend';
+export type OatGraphReferenceType =
+    | DTDLType.Component
+    | DTDLType.Relationship
+    | 'Extend'
+    | 'Untargeted';
+export const OAT_UNTARGETED_RELATIONSHIP_ID_PREFIX = 'untargeted';
+export const OAT_INTERFACE_TYPE = 'Interface';
+export const OAT_GRAPH_REFERENCE_TYPE = 'Relationship';
+export const OAT_DEFAULT_PATH_VALUE = 'com:example';
+export const OAT_DEFAULT_CONTEXT = DTDL_CONTEXT_VERSION_2;
+export const OAT_MODEL_ID_PREFIX = 'dtmi';
+export const OAT_COMMENT_LENGTH_LIMIT = 512;
+export const OAT_DESCRIPTION_LENGTH_LIMIT = 512;
+export const OAT_DISPLAY_NAME_LENGTH_LIMIT = 64;
+export const OAT_NAME_LENGTH_LIMIT = 64;
+export const OAT_ID_LENGTH_LIMIT = 2048;
+/** max limit for the total count of references in the ontology due to perf degredation above this */
+export const OAT_ONTOLOGY_MAX_REFERENCE_LIMIT = 200;
 
 export const SelectedCameraInteractionKey = 'cb-camera-interaction';
 export const ViewerThemeStorageKey = 'cb-viewer-theme';
@@ -389,27 +428,22 @@ export const propertySelectorData = {
             {
                 name: 'dateTime',
                 title: 'OATPropertyEditor.dateTime',
-                icon: IconDatetime
+                icon: ''
             },
             {
                 name: 'duration',
                 title: 'OATPropertyEditor.duration',
-                icon: IconDuration
+                icon: ''
             },
             {
                 name: 'boolean',
                 title: 'OATPropertyEditor.boolean',
-                icon: IconBoolean
+                icon: ''
             },
             {
                 name: 'string',
                 title: 'OATPropertyEditor.string',
-                icon: IconString
-            },
-            {
-                name: 'data',
-                title: 'OATPropertyEditor.data',
-                icon: IconData
+                icon: ''
             },
             {
                 name: 'long',
@@ -434,26 +468,26 @@ export const propertySelectorData = {
             {
                 name: 'time',
                 title: 'OATPropertyEditor.time',
-                icon: IconTime
+                icon: ''
             }
         ],
         complex: [
             {
                 name: DTDLSchemaType.Object,
                 title: 'OATPropertyEditor.object',
-                icon: IconObject,
+                icon: '',
                 complex: true
             },
             {
                 name: DTDLSchemaType.Map,
                 title: 'OATPropertyEditor.map',
-                icon: IconMap,
+                icon: '',
                 complex: true
             },
             {
                 name: DTDLSchemaType.Enum,
                 title: 'OATPropertyEditor.enum',
-                icon: IconEnum,
+                icon: '',
                 complex: true
             }
         ],
@@ -575,7 +609,7 @@ export const QuickTimeSpans = {
 };
 
 /** No translation needed for these options */
-export const AggregationTypeDropdownOptions: Array<IDropdownOption> = [
+export const AggregationTypeDropdownOptions: Array<IChartOption> = [
     {
         key: 'avg' as IDataHistoryAggregationType,
         text: 'avg'
@@ -589,3 +623,5 @@ export const AggregationTypeDropdownOptions: Array<IDropdownOption> = [
         text: 'max'
     }
 ];
+
+export const DataHistoryStaticMaxDateInMillis = new Date(2023, 0, 1).getTime();

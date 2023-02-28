@@ -18,7 +18,6 @@ import React, {
 } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
-    ADXTimeSeries,
     BehaviorModalMode,
     DTwin,
     IADXConnection,
@@ -26,12 +25,17 @@ import {
     TimeSeriesData
 } from '../../../../../Models/Constants';
 import { useTimeSeriesData } from '../../../../../Models/Hooks/useTimeSeriesData';
-import { getMockTimeSeriesDataArrayInLocalTime } from '../../../../../Models/Services/Utils';
-import { getQuickTimeSpanKeyByValue } from '../../../../../Models/SharedUtils/DataHistoryUtils';
+import { createGUID } from '../../../../../Models/Services/Utils';
+import {
+    getMockTimeSeriesDataArrayInLocalTime,
+    getQuickTimeSpanKeyByValue,
+    transformADXTimeSeriesToHighChartsSeries
+} from '../../../../../Models/SharedUtils/DataHistoryUtils';
 import {
     IDataHistoryTimeSeries,
     IDataHistoryWidgetConfiguration
 } from '../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
+import DataHistoryErrorHandlingWrapper from '../../../../DataHistoryErrorHandlingWrapper/DataHistoryErrorHandlingWrapper';
 import HighChartsWrapper from '../../../../HighChartsWrapper/HighChartsWrapper';
 import { IHighChartSeriesData } from '../../../../HighChartsWrapper/HighChartsWrapper.types';
 import {
@@ -42,11 +46,12 @@ import QuickTimesDropdown from '../../../../QuickTimesDropdown/QuickTimesDropdow
 import { BehaviorsModalContext } from '../../../BehaviorsModal';
 import { getStyles } from './DataHistoryWidget.styles';
 import {
+    ERROR_IMAGE_HEIGHT,
     IDataHistoryWidgetProps,
     IDataHistoryWidgetStyleProps,
     IDataHistoryWidgetStyles
 } from './DataHistoryWidget.types';
-import { DataHistoryWidgetErrorHandling } from './Internal/DataHistoryWidgetErrorHandling';
+import useMaxDateInMillis from '../../../../../Models/Hooks/useMaxDateInMillis';
 
 export const getDataHistoryWidgetClassNames = classNamesFunction<
     IDataHistoryWidgetStyleProps,
@@ -82,6 +87,8 @@ const DataHistoryWidget: React.FC<IDataHistoryWidgetProps> = ({
                 : null,
         [connection]
     );
+
+    const staticMaxDateInMillis = useMaxDateInMillis();
     const {
         query,
         deeplink,
@@ -93,7 +100,8 @@ const DataHistoryWidget: React.FC<IDataHistoryWidgetProps> = ({
         adapter,
         connection: connectionToQuery,
         quickTimeSpanInMillis: selectedQuickTimeSpanInMillis,
-        twins: twinIdPropertyMap
+        twins: twinIdPropertyMap,
+        useStaticData: !!staticMaxDateInMillis
     });
 
     const { t } = useTranslation();
@@ -102,11 +110,13 @@ const DataHistoryWidget: React.FC<IDataHistoryWidgetProps> = ({
     const xMaxDateInMillisRef = useRef<number>(null);
 
     const updateXMinAndMax = useCallback(() => {
-        const nowInMillis = Date.now();
+        const nowInMillis = staticMaxDateInMillis
+            ? staticMaxDateInMillis
+            : Date.now();
         xMinDateInMillisRef.current =
             nowInMillis - selectedQuickTimeSpanInMillis;
         xMaxDateInMillisRef.current = nowInMillis;
-    }, [selectedQuickTimeSpanInMillis]);
+    }, [selectedQuickTimeSpanInMillis, staticMaxDateInMillis]);
 
     const prevQuery = usePrevious(query);
     useEffect(() => {
@@ -123,9 +133,14 @@ const DataHistoryWidget: React.FC<IDataHistoryWidgetProps> = ({
             getMockTimeSeriesDataArrayInLocalTime(
                 timeSeries.length,
                 5,
-                chartOptions.defaultQuickTimeSpanInMillis
+                chartOptions.defaultQuickTimeSpanInMillis,
+                !!staticMaxDateInMillis
             ),
-        [chartOptions.defaultQuickTimeSpanInMillis, timeSeries.length]
+        [
+            chartOptions.defaultQuickTimeSpanInMillis,
+            timeSeries.length,
+            staticMaxDateInMillis
+        ]
     );
 
     const highChartSeriesData: Array<IHighChartSeriesData> = useMemo(
@@ -216,7 +231,11 @@ const DataHistoryWidget: React.FC<IDataHistoryWidgetProps> = ({
                     <div className={classNames.header}>
                         <span className={classNames.title}>{displayName}</span>
                     </div>
-                    <DataHistoryWidgetErrorHandling errors={errors} />
+                    <DataHistoryErrorHandlingWrapper
+                        error={errors[0]}
+                        imgHeight={ERROR_IMAGE_HEIGHT}
+                        styles={classNames.subComponentStyles.errorWrapper}
+                    />
                 </>
             ) : (
                 <>
@@ -266,6 +285,7 @@ const getTwinIdPropertyMap = (
                   const [alias, ...propertyPath] = splittedArray;
                   if (twins && alias?.length && propertyPath?.length) {
                       return {
+                          seriesId: createGUID(),
                           label: ts.label,
                           twinId: twins[alias]?.$dtId,
                           twinPropertyName: propertyPath.join('.'),
@@ -275,28 +295,6 @@ const getTwinIdPropertyMap = (
               }
           })
         : null;
-
-/** Gets fetched adx time series data and data history widget time series to twin mapping information
- * to get the labels if defined for each series, and converts it into high chart series data to render in chart
- */
-const transformADXTimeSeriesToHighChartsSeries = (
-    adxTimeSeries: Array<ADXTimeSeries>,
-    twinIdPropertyMap: Array<IDataHistoryTimeSeriesTwin>
-): Array<IHighChartSeriesData> =>
-    adxTimeSeries && twinIdPropertyMap
-        ? adxTimeSeries.map(
-              (series) =>
-                  ({
-                      name:
-                          twinIdPropertyMap.find(
-                              (map) =>
-                                  map.twinId === series.id &&
-                                  map.twinPropertyName === series.key
-                          )?.label || series.id + ' ' + series.key, // this is the label for series to show in chart
-                      data: series.data
-                  } as IHighChartSeriesData)
-          )
-        : [];
 
 /** Generate placeholder mock data for timeseries to show in chart in preview mode
  */

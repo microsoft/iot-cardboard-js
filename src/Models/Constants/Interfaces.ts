@@ -4,9 +4,7 @@ import {
     ADTRelationshipsData,
     ADTRelationshipData,
     ADTTwinData,
-    KeyValuePairAdapterData,
-    SearchSpan,
-    TsiClientAdapterData
+    KeyValuePairAdapterData
 } from '../Classes';
 import {
     ADTAdapterModelsData,
@@ -41,7 +39,10 @@ import {
     AdapterMethodParamsForSearchADTTwins,
     AdapterMethodParamsForGetAzureResources,
     AzureAccessPermissionRoleGroups,
-    AdapterMethodParamsForSearchTwinsByQuery
+    AdapterMethodParamsForSearchTwinsByQuery,
+    AdapterMethodParamsForJobs,
+    AdapterCreateJobArgs,
+    TimeSeriesData
 } from './Types';
 import {
     ADTModel_ImgPropertyPositions_PropertyName,
@@ -69,12 +70,7 @@ import {
 import ADT3DSceneAdapter from '../../Adapters/ADT3DSceneAdapter';
 import { WrapperMode } from '../../Components/3DV/SceneView.types';
 import MockAdapter from '../../Adapters/MockAdapter';
-import {
-    DtdlInterface,
-    DtdlInterfaceContent,
-    DtdlProperty,
-    DtdlRelationship
-} from './dtdlInterfaces';
+import { DtdlInterface, DtdlProperty } from './dtdlInterfaces';
 import { IStyleFunctionOrObject } from '@fluentui/react';
 import { ISceneViewWrapperStyles } from '../../Components/3DV/SceneViewWrapper.types';
 import {
@@ -86,9 +82,9 @@ import {
     IADT3DViewerStyles
 } from '../../Components/ADT3DViewer/ADT3DViewer.types';
 import { BaseComponentProps } from '../../Components/BaseComponent/BaseComponent.types';
-import ADTAdapter from '../../Adapters/ADTAdapter';
 import ADTInstanceTimeSeriesConnectionData from '../Classes/AdapterDataClasses/ADTInstanceTimeSeriesConnectionData';
 import ADXTimeSeriesData from '../Classes/AdapterDataClasses/ADXTimeSeriesData';
+import { IOATNodeData } from '../../Components/OATGraphViewer/OATGraphViewer.types';
 
 export interface IAction {
     type: string;
@@ -147,7 +143,7 @@ export interface IConsumeCompositeCardProps extends ICardBaseProps {
 export interface IAuthService {
     login: () => void;
     getToken: (
-        tokenFor?: 'azureManagement' | 'adx' | 'storage'
+        tokenFor?: 'azureManagement' | 'adx' | 'storage' | 'powerBI'
     ) => Promise<string>;
 }
 
@@ -213,7 +209,7 @@ export interface IMockAdapter {
     /** If unset, random data is generated, if explicitly set, MockAdapter will use value for mocked data.
      *  To mock empty data, explicitly set { mockData: null }
      */
-    mockData?: any;
+    mockData?: IMockData;
 
     /** Mocked network timeout period, defaults to 0ms */
     networkTimeoutMillis?: number;
@@ -223,6 +219,13 @@ export interface IMockAdapter {
 
     /** Toggles seeding of random data (data remains constants between builds), defaults to true */
     isDataStatic?: boolean;
+}
+
+export interface IMockData {
+    scenesConfig?: I3DScenesConfig;
+    twins?: Array<IADTTwin>;
+    models?: DtdlInterface[];
+    timeSeriesDataList?: Array<Array<TimeSeriesData>>;
 }
 
 export interface IMockError {
@@ -362,6 +365,20 @@ export interface IADTTwin {
     };
     [propertyName: string]: any;
 }
+export interface IAdtApiJob {
+    id: string;
+    inputBlobUri: string;
+    outputBlobUri: string;
+    createdDateTime: string;
+    lastActionDateTime: string;
+    finishedDateTime: string;
+    purgeDateTime: string;
+    status: string;
+    error: {
+        code: string;
+        message: string;
+    };
+}
 
 export interface IADTRelationship {
     $etag: string;
@@ -441,15 +458,6 @@ export interface IKeyValuePairAdapter {
     ): AdapterReturnType<KeyValuePairAdapterData>;
 }
 
-export interface ITsiClientChartDataAdapter {
-    getTsiclientChartDataShape(
-        id: string,
-        searchSpan: SearchSpan,
-        properties: readonly string[],
-        additionalParameters?: Record<string, any>
-    ): AdapterReturnType<TsiClientAdapterData>;
-}
-
 export type IPropertyInspectorAdapter = Pick<
     IADTAdapter,
     | 'getADTTwin'
@@ -467,7 +475,7 @@ export interface IModelledPropertyBuilderAdapter {
     ): Promise<AdapterResult<ADTTwinToModelMappingData>>;
 }
 
-export type IQueryBuilderAdapter = ADTAdapter | MockAdapter;
+export type IQueryBuilderAdapter = IADTAdapter | MockAdapter;
 
 export interface IADT3DViewerAdapter {
     getSceneData(
@@ -529,6 +537,13 @@ export interface IADTAdapter
     ): Promise<AdapterResult<ADTRelationshipsData>>;
 }
 
+export interface IJobsAdapter extends ADT3DSceneAdapter {
+    /** TO-DO: Need to properly set the return types  */
+    createJob(params: AdapterCreateJobArgs): AdapterReturnType<any>;
+    deleteJob(params: AdapterMethodParamsForJobs): AdapterReturnType<any>;
+    cancelJob(params: AdapterMethodParamsForJobs): AdapterReturnType<any>;
+    getAllJobs(): AdapterReturnType<any>;
+}
 export interface IAzureManagementAdapter {
     getRoleAssignments: (
         resourceId: string,
@@ -576,9 +591,17 @@ export interface IADXAdapter {
     ) => void;
     getADXConnectionInformation: () => IADXConnection | null;
     getTimeSeriesData: (
+        seriesIds: Array<string>,
         query: string,
         connection?: IADXConnection
     ) => AdapterReturnType<ADXTimeSeriesData>;
+}
+
+export interface IADTDataHistoryAdapter
+    extends IADTAdapter,
+        IADXAdapter,
+        IAzureManagementAdapter {
+    updateADXConnectionInformation: () => AdapterReturnType<ADTInstanceTimeSeriesConnectionData>;
 }
 
 export interface IBaseStandardModelSearchAdapter {
@@ -801,7 +824,9 @@ export interface ISceneViewWrapperProps {
 export interface IADT3DViewerProps extends BaseComponentProps {
     adapter:
         | IADT3DViewerAdapter
-        | (IADT3DViewerAdapter & IPropertyInspectorAdapter & IADXAdapter);
+        | (IADT3DViewerAdapter &
+              IPropertyInspectorAdapter &
+              IADTDataHistoryAdapter);
     sceneId: string;
     scenesConfig: I3DScenesConfig;
     title?: string;
@@ -865,13 +890,6 @@ export interface IStorageBlob {
     Properties: Record<string, any>;
 }
 
-export interface IOATGraphCustomNodeProps extends IOATNodeElement {
-    isConnectable: boolean;
-}
-
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface IOATGraphCustomEdgeProps extends IOATRelationshipElement {}
-
 export interface IAliasedTwinProperty {
     alias: 'PrimaryTwin' | string;
     property: string;
@@ -919,7 +937,7 @@ export interface IOATRelationshipElement {
     target: string;
     targetHandle?: string;
     type?: string;
-    data?: DtdlRelationship | DtdlInterfaceContent;
+    data?: IOATNodeData;
 }
 
 export interface IOATLastPropertyFocused {
@@ -941,6 +959,7 @@ export interface IBlobServiceCorsRule {
 }
 
 export interface IDataHistoryTimeSeriesTwin {
+    seriesId: string;
     label?: string;
     twinId: string;
     twinPropertyName: string;
@@ -949,4 +968,10 @@ export interface IDataHistoryTimeSeriesTwin {
         color?: string;
         isTwinPropertyTypeCastedToNumber?: boolean;
     };
+}
+
+export interface IChartOption {
+    key: string;
+    text: string;
+    data?: number | string;
 }

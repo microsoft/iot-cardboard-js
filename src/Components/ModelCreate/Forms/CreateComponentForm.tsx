@@ -37,9 +37,9 @@ const CreateComponentForm: React.FC<CreateComponentFormProps> = ({
 
     const onClickCreate = () => {
         const component = new DTDLComponent(
-            id,
             name,
             schema,
+            id,
             comment,
             description,
             displayName

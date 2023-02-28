@@ -1,4 +1,5 @@
-import React, { useCallback, useMemo, useReducer } from 'react';
+import React, { useReducer } from 'react';
+import { getDebugLogger } from '../../Models/Services/Utils';
 import Editor from './Editor';
 import {
     OATPropertyEditorReducer,
@@ -6,36 +7,26 @@ import {
 } from './OATPropertyEditor.state';
 import { OATPropertyEditorProps } from './OATPropertyEditor.types';
 
-const OATPropertyEditor = ({
-    theme,
-    dispatch,
-    state,
-    languages
-}: OATPropertyEditorProps) => {
+const debugLogging = false;
+const logDebugConsole = getDebugLogger('OATPropertyEditor', debugLogging);
+
+const OATPropertyEditor = (props: OATPropertyEditorProps) => {
+    const { selectedThemeName, selectedItem, parentModelId } = props;
+
+    // state
     const [localState, localDispatch] = useReducer(
         OATPropertyEditorReducer,
         defaultOATPropertyEditorState
     );
 
-    const combinedState = useMemo(() => ({ ...state, ...localState }), [
-        localState,
-        state
-    ]);
-
-    const combinedDispatch = useCallback(
-        (action) => {
-            localDispatch(action);
-            dispatch(action);
-        },
-        [localDispatch, dispatch]
-    );
-
+    logDebugConsole('debug', 'Render. {selectedItem}', selectedItem);
     return (
         <Editor
-            theme={theme}
-            dispatch={combinedDispatch}
-            state={combinedState}
-            languages={languages}
+            editorDispatch={localDispatch}
+            editorState={localState}
+            parentModelId={parentModelId}
+            selectedItem={selectedItem}
+            selectedThemeName={selectedThemeName}
         />
     );
 };
