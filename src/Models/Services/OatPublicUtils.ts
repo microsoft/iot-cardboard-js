@@ -1,4 +1,3 @@
-import { createParser, ModelParsingOption } from 'azure-iot-dtdl-parser';
 import JSZip from 'jszip';
 import { DTDLSchema } from '../Classes/DTDL';
 import { DtdlInterface } from '../Constants/dtdlInterfaces';
