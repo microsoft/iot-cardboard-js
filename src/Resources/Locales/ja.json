@@ -1527,5 +1527,8 @@
       }
     },
     "jsonEditorTabName": "ティッカー"
+  },
+  "jobs": {
+    "addNew": "新規追加"
   }
 }

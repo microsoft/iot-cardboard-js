@@ -1519,5 +1519,8 @@
             "entityNotFound": "Database not found, cannot execute the query.",
             "forbidden": "Access was denied, you do not have query permissions."
         }
+    },
+    "jobs": {
+        "addNew": "Add new"
     }
 }

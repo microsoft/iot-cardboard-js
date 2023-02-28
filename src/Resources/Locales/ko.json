@@ -1527,5 +1527,8 @@
       }
     },
     "jsonEditorTabName": "증권 시세 표시기"
+  },
+  "jobs": {
+    "addNew": "새로 추가"
   }
 }

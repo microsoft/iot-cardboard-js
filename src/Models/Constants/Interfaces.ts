@@ -40,6 +40,8 @@ import {
     AdapterMethodParamsForGetAzureResources,
     AzureAccessPermissionRoleGroups,
     AdapterMethodParamsForSearchTwinsByQuery,
+    AdapterMethodParamsForJobs,
+    AdapterCreateJobArgs,
     TimeSeriesData
 } from './Types';
 import {
@@ -363,6 +365,20 @@ export interface IADTTwin {
     };
     [propertyName: string]: any;
 }
+export interface IAdtApiJob {
+    id: string;
+    inputBlobUri: string;
+    outputBlobUri: string;
+    createdDateTime: string;
+    lastActionDateTime: string;
+    finishedDateTime: string;
+    purgeDateTime: string;
+    status: string;
+    error: {
+        code: string;
+        message: string;
+    };
+}
 
 export interface IADTRelationship {
     $etag: string;
@@ -521,6 +537,13 @@ export interface IADTAdapter
     ): Promise<AdapterResult<ADTRelationshipsData>>;
 }
 
+export interface IJobsAdapter extends ADT3DSceneAdapter {
+    /** TO-DO: Need to properly set the return types  */
+    createJob(params: AdapterCreateJobArgs): AdapterReturnType<any>;
+    deleteJob(params: AdapterMethodParamsForJobs): AdapterReturnType<any>;
+    cancelJob(params: AdapterMethodParamsForJobs): AdapterReturnType<any>;
+    getAllJobs(): AdapterReturnType<any>;
+}
 export interface IAzureManagementAdapter {
     getRoleAssignments: (
         resourceId: string,

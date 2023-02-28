@@ -1527,5 +1527,8 @@
       }
     },
     "jsonEditorTabName": "DTDL"
+  },
+  "jobs": {
+    "addNew": "Új hozzáadása"
   }
 }

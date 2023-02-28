@@ -46,6 +46,7 @@ import {
     IADXConnection,
     ADXTimeSeries,
     IMockError,
+    AdapterMethodParamsForJobs,
     TimeSeriesData,
     IMockData
 } from '../Models/Constants';
@@ -1216,5 +1217,45 @@ export default class MockAdapter
                 errorInfo: { catastrophicError: err, errors: [err] }
             });
         }
+    }
+    /**TO-DO */
+    async createJob(
+        inputBlobUri: string,
+        outputBlobUri: string,
+        jobId: string
+    ) {
+        /**
+         * FILL THIS IN
+         */
+        inputBlobUri;
+        outputBlobUri;
+        jobId;
+        return null;
+    }
+
+    /**TO-DO */
+    async deleteJob(params: AdapterMethodParamsForJobs) {
+        /**
+         * FILL THIS IN
+         */
+        params.jobId;
+        return null;
+    }
+
+    /**TO-DO */
+    async cancelJob(params: AdapterMethodParamsForJobs) {
+        /**
+         * FILL THIS IN
+         */
+        params.jobId;
+        return null;
+    }
+
+    /**TO-DO */
+    async getAllJobs() {
+        /**
+         * FILL THIS IN
+         */
+        return null;
     }
 }
