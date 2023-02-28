@@ -10,6 +10,7 @@ import {
     ILayer,
     ILinkWidget,
     IPopoverVisual,
+    IPowerBIWidget,
     ITwinToObjectMapping,
     IValueRange,
     IValueWidget,
@@ -35,7 +36,8 @@ export enum WidgetType {
     Value = 'Value',
     Trend = 'Trend',
     Panel = 'Panel',
-    DataHistory = 'Data history'
+    DataHistory = 'Data history',
+    PowerBI = 'PowerBI'
 }
 
 export interface IWidgetLibraryItem {
@@ -168,6 +170,16 @@ export const defaultDataHistoryWidget: IDataHistoryWidget = {
             defaultQuickTimeSpanInMillis: 15 * 60 * 1000, // last 15 min by default
             yAxisType: 'shared' as IDataHistoryChartYAxisType
         }
+    }
+};
+
+export const defaultPowerBIWidget: IPowerBIWidget = {
+    id: '',
+    type: WidgetType.PowerBI,
+    widgetConfiguration: {
+        displayName: '',
+        type: 'Visual',
+        embedUrl: ''
     }
 };
 

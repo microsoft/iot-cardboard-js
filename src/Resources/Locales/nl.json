@@ -655,6 +655,42 @@
       },
       "headerMenu": "Widgetmenu gegevensgeschiedenis",
       "openQuery": "Query openen in Azure Data Explorer"
+    },
+    "powerBI": {
+      "title": "Power BI-widget",
+      "libraryName": "Power BI-visual",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
+      "type": {
+        "label": "Type",
+        "options": {
+          "report": "Rapport",
+          "dashboard": "Dashboard",
+          "tile": "Tegel",
+          "visual": "Visueel"
+        }
+      },
+      "pageName": {
+        "label": "Paginanaam",
+        "placeholder": "Paginanaam"
+      },
+      "visualName": {
+        "label": "Visuele naam",
+        "placeholder": "Visuele naam",
+        "suffix": "Voer de naam in van het specifieke element uit het rapport dat in deze widget moet worden weergegeven"
+      },
+      "dataFilters": {
+        "label": "Gegevensfilters"
+      },
+      "errors": {
+        "missingReportConfiguration": "Zorg ervoor dat uw widget correct is geconfigureerd",
+        "missingConfiguration": "Widgetconfiguratie ontbreekt of is ongeldig",
+        "missingAdapter": "Zorg ervoor dat de Power BI-adapter is geïnstalleerd en geconfigureerd"
+      },
+      "embedUrl": {
+        "label": "URL insluiten",
+        "placeholder": "https://embed.powerbi.com/groups/me/reports/{reportId}",
+        "description": "De URL die wordt gebruikt om rapportartefacten in te sluiten in externe hulpprogramma's"
+      }
     }
   },
   "sdkStrings": {

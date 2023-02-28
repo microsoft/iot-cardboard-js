@@ -655,6 +655,42 @@
       },
       "headerMenu": "Veri geçmişi widget menüsü",
       "openQuery": "Azure Veri Gezgini'nde sorgu açma"
+    },
+    "powerBI": {
+      "title": "Power BI pencere öğesi",
+      "libraryName": "Power BI Görsel",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
+      "type": {
+        "label": "Tür",
+        "options": {
+          "report": "Rapor",
+          "dashboard": "Tablo",
+          "tile": "Kiremit",
+          "visual": "Görsel"
+        }
+      },
+      "pageName": {
+        "label": "Sayfa Adı",
+        "placeholder": "Sayfa adı"
+      },
+      "visualName": {
+        "label": "Görsel Adı",
+        "placeholder": "Görsel ad",
+        "suffix": "Bu widget'ta gösterilecek rapordaki belirli öğenin adını girin"
+      },
+      "dataFilters": {
+        "label": "Veri Filtreleri"
+      },
+      "errors": {
+        "missingReportConfiguration": "Lütfen widget'ınızın doğru yapılandırıldığından emin olun",
+        "missingConfiguration": "Widget yapılandırması eksik veya geçersiz",
+        "missingAdapter": "Lütfen Power BI bağdaştırıcısının yüklü ve yapılandırılmış olduğundan emin olun"
+      },
+      "embedUrl": {
+        "label": "URL gömme",
+        "placeholder": "https://embed.powerbi.com/groups/me/reports/{reportId}",
+        "description": "Rapor yapıtlarını harici araçlara katıştırmak için kullanılan URL"
+      }
     }
   },
   "sdkStrings": {

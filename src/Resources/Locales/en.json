@@ -622,6 +622,42 @@
             "libraryName": "Panel",
             "description": "A layout panel"
         },
+        "powerBI": {
+            "title": "Power BI widget",
+            "libraryName": "Power BI Visual",
+            "description": "Render a Power BI visual or tile",
+            "type": {
+                "label": "Type",
+                "options": {
+                    "report": "Report",
+                    "dashboard": "Dashboard",
+                    "tile": "Tile",
+                    "visual": "Visual"
+                }
+            },
+            "embedUrl": {
+                "label": "Embed URL",
+                "placeholder": "https://embed.powerbi.com/groups/me/reports/{reportId}",
+                "description": "The URL used to embed report artifacts in external tools"
+            },
+            "pageName": {
+                "label": "Page Name",
+                "placeholder": "Page name"
+            },
+            "visualName": {
+                "label": "Visual Name",
+                "placeholder": "Visual name",
+                "suffix": "Enter the name of the specific element from the report to show in this widget"
+            },
+            "dataFilters": {
+                "label": "Data Filters"
+            },
+            "errors": {
+                "missingConfiguration": "Widget configuration is missing or is invalid",
+                "missingAdapter": "Please ensure that the Power BI adapter is installed and configured",
+                "missingReportConfiguration": "Please ensure that your widget is fully configured"
+            }
+        },
         "dataHistory": {
             "title": "Data history widget",
             "libraryName": "Data history",

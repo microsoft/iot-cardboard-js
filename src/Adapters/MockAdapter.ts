@@ -89,6 +89,10 @@ import ADTInstanceTimeSeriesConnectionData from '../Models/Classes/AdapterDataCl
 import { handleMigrations } from './BlobAdapterUtility';
 import ADXTimeSeriesData from '../Models/Classes/AdapterDataClasses/ADXTimeSeriesData';
 import { getMockTimeSeriesDataArrayInLocalTime } from '../Models/SharedUtils/DataHistoryUtils';
+import { IPowerBIWidgetBuilderAdapter } from '../Components/PowerBIWidget/Internal/PowerBIWidgetBuilder/PowerBIWidgetBuilder.types';
+import { IVisual, IPage } from 'powerbi-models';
+
+export const mockPage1 = 'page1';
 
 export default class MockAdapter
     implements
@@ -97,7 +101,8 @@ export default class MockAdapter
         IBlobAdapter,
         Partial<IADTAdapter>,
         IPropertyInspectorAdapter,
-        IModelledPropertyBuilderAdapter {
+        IModelledPropertyBuilderAdapter,
+        IPowerBIWidgetBuilderAdapter {
     private mockError: IMockError = null;
     public mockData: IMockData = {
         scenesConfig: mockVConfig as I3DScenesConfig,
@@ -139,6 +144,74 @@ export default class MockAdapter
                 : true;
 
         this.initializeMockTwinProperties();
+    }
+    getVisualsOnPage(reportUrl: string, pageName: string): Promise<IVisual[]> {
+        if (!reportUrl || !pageName) {
+            return Promise.resolve([]);
+        }
+        if (pageName === mockPage1) {
+            return Promise.resolve([
+                {
+                    name: 'visual1',
+                    title: 'visual1',
+                    type: 'barChart'
+                },
+                {
+                    name: 'visual2',
+                    title: 'visual2',
+                    type: 'textbox'
+                },
+                {
+                    name: 'visual3',
+                    title: 'visual3',
+                    type: 'lineChart'
+                },
+                {
+                    name: 'visual4',
+                    title: 'visual4',
+                    type: 'actionButton'
+                }
+            ]);
+        }
+        return Promise.resolve([
+            {
+                name: 'otherVisual1',
+                title: 'Other Visual1',
+                type: 'barChart'
+            },
+            {
+                name: 'otherVisual2',
+                title: 'Other Visual2',
+                type: 'textbox'
+            },
+            {
+                name: 'otherVisual3',
+                title: 'Other Visual3',
+                type: 'lineChart'
+            },
+            {
+                name: 'otherVisual4',
+                title: 'Other Visual4',
+                type: 'actionButton'
+            }
+        ]);
+    }
+    getPagesInReport(reportUrl: string): Promise<IPage[]> {
+        if (!reportUrl) {
+            return Promise.resolve([]);
+        }
+        return Promise.resolve([
+            {
+                name: mockPage1,
+                displayName: 'page1',
+                isActive: true
+            },
+            {
+                name: 'page2',
+                displayName: 'page2',
+                isActive: false
+            }
+        ]);
     }
 
     async mockNetwork() {

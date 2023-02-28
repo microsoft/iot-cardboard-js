@@ -143,7 +143,7 @@ export interface IConsumeCompositeCardProps extends ICardBaseProps {
 export interface IAuthService {
     login: () => void;
     getToken: (
-        tokenFor?: 'azureManagement' | 'adx' | 'storage'
+        tokenFor?: 'azureManagement' | 'adx' | 'storage' | 'powerBI'
     ) => Promise<string>;
 }
 

@@ -655,6 +655,42 @@
       },
       "headerMenu": "Nabídka widgetu Historie dat",
       "openQuery": "Otevřený dotaz v Azure Průzkumník dat"
+    },
+    "powerBI": {
+      "title": "Widget Power BI",
+      "libraryName": "Vizuál Power BI",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
+      "type": {
+        "label": "Typ",
+        "options": {
+          "report": "Zpráva",
+          "dashboard": "Palubní deska",
+          "tile": "Dlaždice",
+          "visual": "Vizuální"
+        }
+      },
+      "pageName": {
+        "label": "Název stránky",
+        "placeholder": "Název stránky"
+      },
+      "visualName": {
+        "label": "Název vizuálu",
+        "placeholder": "Název vizuálu",
+        "suffix": "Zadejte název konkrétního prvku ze sestavy, který se má zobrazit v tomto widgetu."
+      },
+      "dataFilters": {
+        "label": "Filtry dat"
+      },
+      "errors": {
+        "missingReportConfiguration": "Ujistěte se, že je váš widget správně nakonfigurován",
+        "missingConfiguration": "Konfigurace widgetu chybí nebo je neplatná",
+        "missingAdapter": "Ujistěte se, že je adaptér Power BI nainstalovaný a nakonfigurovaný"
+      },
+      "embedUrl": {
+        "label": "Adresa URL pro vložení",
+        "placeholder": "https://embed.powerbi.com/groups/me/reports/{reportId}",
+        "description": "Adresa URL použitá k vložení artefaktů sestavy do externích nástrojů"
+      }
     }
   },
   "sdkStrings": {

@@ -32,6 +32,7 @@ import {
 } from '../Models/Classes/AdapterDataClasses/AzureManagementData';
 import ADTInstanceTimeSeriesConnectionData from '../Models/Classes/AdapterDataClasses/ADTInstanceTimeSeriesConnectionData';
 import ADTDataHistoryAdapter from './ADTDataHistoryAdapter';
+import PowerBIWidgetBuilderAdapter from '../Components/PowerBIWidget/Internal/PowerBIWidgetBuilder/PowerBIWidgetBuilderAdapter';
 
 const forceCORS =
     localStorage.getItem(LOCAL_STORAGE_KEYS.FeatureFlags.Proxy.forceCORS) ===
@@ -249,7 +250,8 @@ export default class ADT3DSceneAdapter {
 
 export default interface ADT3DSceneAdapter
     extends BlobAdapter,
-        ADTDataHistoryAdapter {
+        ADTDataHistoryAdapter,
+        PowerBIWidgetBuilderAdapter {
     getMissingStorageContainerAccessRoles: (
         containerURLString?: string
     ) => Promise<AdapterResult<AzureMissingRoleDefinitionsData>>;
@@ -257,4 +259,8 @@ export default interface ADT3DSceneAdapter
         missingRoleDefinitionIds: AzureAccessPermissionRoleGroups
     ) => Promise<AdapterResult<AzureResourcesData>>;
 }
-applyMixins(ADT3DSceneAdapter, [BlobAdapter, ADTDataHistoryAdapter]);
+applyMixins(ADT3DSceneAdapter, [
+    BlobAdapter,
+    ADTDataHistoryAdapter,
+    PowerBIWidgetBuilderAdapter
+]);

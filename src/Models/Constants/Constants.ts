@@ -10,6 +10,7 @@ import {
     defaultDataHistoryWidget,
     defaultGaugeWidget,
     defaultLinkWidget,
+    defaultPowerBIWidget,
     defaultValueWidget,
     IWidgetLibraryItem
 } from '../Classes/3DVConfig';
@@ -94,6 +95,9 @@ export const LOCAL_STORAGE_KEYS = {
         },
         Proxy: {
             forceCORS: 'cardboard.feature.forceCORS' // force CORS to run instead of proxy
+        },
+        PowerBI: {
+            showWidgets: 'cardboard.feature.powerBIWidgets' // enables PowerBI widgets
         }
     },
     Environment: {
@@ -187,6 +191,16 @@ export const availableWidgets: Array<IWidgetLibraryItem> = [
         learnMoreLink: DOCUMENTATION_LINKS.dataHistory,
         iconName: 'Chart',
         data: defaultDataHistoryWidget
+    },
+    {
+        title: i18n.t('widgets.powerBI.title'),
+        description: i18n.t('widgets.powerBI.description'),
+        iconName: 'PowerBILogo',
+        data: defaultPowerBIWidget,
+        disabled:
+            localStorage.getItem(
+                LOCAL_STORAGE_KEYS.FeatureFlags.PowerBI.showWidgets
+            ) !== 'true'
     }
 ];
 export const twinRefreshMaxAge = 9000;

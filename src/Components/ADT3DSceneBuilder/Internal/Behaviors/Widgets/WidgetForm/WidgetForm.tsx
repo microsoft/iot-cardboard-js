@@ -6,7 +6,8 @@ import {
     defaultGaugeWidget,
     defaultLinkWidget,
     defaultValueWidget,
-    defaultDataHistoryWidget
+    defaultDataHistoryWidget,
+    defaultPowerBIWidget
 } from '../../../../../../Models/Classes/3DVConfig';
 import { WidgetFormMode } from '../../../../../../Models/Constants/Enums';
 import {
@@ -14,6 +15,7 @@ import {
     IDataHistoryWidget,
     IGaugeWidget,
     ILinkWidget,
+    IPowerBIWidget,
     IValueWidget,
     IWidget
 } from '../../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
@@ -30,6 +32,8 @@ import { getDebugLogger } from '../../../../../../Models/Services/Utils';
 import { useBehaviorFormContext } from '../../../../../../Models/Context/BehaviorFormContext/BehaviorFormContext';
 import { BehaviorFormContextActionType } from '../../../../../../Models/Context/BehaviorFormContext/BehaviorFormContext.types';
 import DataHistoryWidgetBuilder from '../WidgetBuilders/DataHistoryWidgetBuilder/DataHistoryWidgetBuilder';
+import PowerBIWidgetBuilder from '../../../../../PowerBIWidget/Internal/PowerBIWidgetBuilder/PowerBIWidgetBuilder';
+import { LOCAL_STORAGE_KEYS } from '../../../../../../Models/Constants';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('WidgetForm', debugLogging);
@@ -44,6 +48,8 @@ const getDefaultFormData = (widgetFormInfo: WidgetFormInfo) => {
             return defaultValueWidget;
         case WidgetType.DataHistory:
             return defaultDataHistoryWidget;
+        case WidgetType.PowerBI:
+            return defaultPowerBIWidget;
         default:
             return null;
     }
@@ -57,7 +63,7 @@ const getActiveWidget = (activeWidgetId: string, behavior: IBehavior) =>
     getWidgets(behavior).find((w) => w.id === activeWidgetId);
 
 const WidgetForm: React.FC = () => {
-    const { widgetFormInfo, setWidgetFormInfo } = useContext(
+    const { adapter, widgetFormInfo, setWidgetFormInfo } = useContext(
         SceneBuilderContext
     );
 
@@ -152,6 +158,22 @@ const WidgetForm: React.FC = () => {
                         setIsWidgetConfigValid={setIsWidgetConfigValid}
                     />
                 );
+            case WidgetType.PowerBI:
+                if (
+                    localStorage.getItem(
+                        LOCAL_STORAGE_KEYS.FeatureFlags.PowerBI.showWidgets
+                    ) === 'true'
+                ) {
+                    return (
+                        <PowerBIWidgetBuilder
+                            formData={widgetData as IPowerBIWidget}
+                            updateWidgetData={updateWidgetData}
+                            setIsWidgetConfigValid={setIsWidgetConfigValid}
+                            adapter={adapter}
+                        />
+                    );
+                }
+                return <></>;
             default:
                 return (
                     <div className="cb-widget-not-supported">
