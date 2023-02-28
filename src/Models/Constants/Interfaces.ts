@@ -85,7 +85,6 @@ import { BaseComponentProps } from '../../Components/BaseComponent/BaseComponent
 import ADTInstanceTimeSeriesConnectionData from '../Classes/AdapterDataClasses/ADTInstanceTimeSeriesConnectionData';
 import ADXTimeSeriesData from '../Classes/AdapterDataClasses/ADXTimeSeriesData';
 import { IOATNodeData } from '../../Components/OATGraphViewer/OATGraphViewer.types';
-import ADTJobsData from '../Classes/AdapterDataClasses/ADTJobsData';
 
 export interface IAction {
     type: string;
