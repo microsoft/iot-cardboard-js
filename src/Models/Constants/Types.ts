@@ -217,7 +217,7 @@ export type OatIconNames =
     | 'DocumentManagement'
     | 'Down'
     | 'GroupList'
-    | 'Permission'
+    | 'Permissions'
     | 'TextField'
     | 'ToggleRight'
     | 'Up'
