@@ -46,7 +46,7 @@ const DEFAULT_ARGS: Partial<IPropertyListItemProps> = {
 };
 const Template: PropertyListItemStory = (args) => {
     return (
-        <div style={{ marginLeft: 32 }}>
+        <div style={{ ma rginLeft: 32 }}>
             <OatPageContextProvider
                 disableLocalStorage={true}
                 initialState={{
