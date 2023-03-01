@@ -16,11 +16,13 @@ import {
 import { useExtendedTheme } from '../../../../Models/Hooks/useExtendedTheme';
 import {
     INGRESS_TRANSLATION_COMMON_PATH,
-    INGRESS_TRANSLATION_PATH,
-    PageNames
+    INGRESS_TRANSLATION_PATH
 } from '../../Models/Constants';
 import { useNavigationContext } from '../../Models/Context/NavigationContext';
-import { NavigationContextActionType } from '../../Models/Context/NavigationContext.types';
+import {
+    NavigationContextActionType,
+    PageNames
+} from '../../Models/Context/NavigationContext.types';
 import { useTranslation } from 'react-i18next';
 
 const getClassNames = classNamesFunction<

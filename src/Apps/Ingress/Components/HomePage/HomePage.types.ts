@@ -1,10 +1,9 @@
 import { IStyle, IStyleFunctionOrObject } from '@fluentui/react';
-import { MockAdapter } from '../../../../Adapters';
 import IngressAdapter from '../../../../Adapters/IngressAdapter';
 import { IExtendedTheme } from '../../../../Theming/Theme.types';
 
 export interface IHomePageProps {
-    adapter: IngressAdapter | MockAdapter;
+    adapter: IngressAdapter;
     /**
      * Call to provide customized styling that will layer on top of the variant rules.
      */

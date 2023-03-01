@@ -10,11 +10,14 @@ import { useExtendedTheme } from '../../../../Models/Hooks/useExtendedTheme';
 import BaseComponent from '../../../../Components/BaseComponent/BaseComponent';
 import HomePage from '../../Components/HomePage/HomePage';
 import {
+    getInitialState,
     NavigationContext,
     NavigationContextReducer
 } from '../../Models/Context/NavigationContext';
-import { PageNames } from '../../Models/Constants';
-import { NavigationContextActionType } from '../../Models/Context/NavigationContext.types';
+import {
+    NavigationContextActionType,
+    PageNames
+} from '../../Models/Context/NavigationContext.types';
 
 const getClassNames = classNamesFunction<
     IIngressAppStyleProps,
@@ -29,9 +32,7 @@ const IngressApp: React.FC<IIngressAppProps> = (props) => {
     // state
     const [navigationContextState, navigationContextDispatch] = useReducer(
         NavigationContextReducer,
-        {
-            currentPage: PageNames.Home
-        }
+        getInitialState()
     );
 
     // hooks

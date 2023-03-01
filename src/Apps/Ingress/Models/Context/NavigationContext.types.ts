@@ -1,5 +1,13 @@
 import React from 'react';
-import { PageNames } from '../Constants';
+
+// Interfaces, enums, types
+export enum PageNames {
+    Home = 'Home',
+    TemplatesForm = 'TemplatesForm',
+    SourceMappingForm = 'SourceMappingForm',
+    EventHandlerForm = 'EventHandlersForm',
+    SubscriptionsForm = 'SubscriptionsForm'
+}
 
 // Context types
 export interface INavigationContext {

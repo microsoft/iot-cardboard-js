@@ -19,5 +19,5 @@ const Template: IngressAppStory = (args) => {
     return <IngressApp {...args} />;
 };
 
-export const IngressLocal = Template.bind({}) as IngressAppStory;
-IngressLocal.args = {} as IIngressAppProps;
+export const IngressLive = Template.bind({}) as IngressAppStory;
+IngressLive.args = {} as IIngressAppProps;

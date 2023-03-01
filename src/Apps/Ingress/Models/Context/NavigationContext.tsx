@@ -1,13 +1,13 @@
 import produce from 'immer';
 import React, { useContext, useReducer } from 'react';
 import { getDebugLogger } from '../../../../Models/Services/Utils';
-import { PageNames } from '../Constants';
 import {
     INavigationContext,
     INavigationContextProviderProps,
     INavigationContextState,
     NavigationContextAction,
-    NavigationContextActionType
+    NavigationContextActionType,
+    PageNames
 } from './NavigationContext.types';
 
 export const NavigationContext = React.createContext<INavigationContext>(null);
@@ -40,16 +40,10 @@ export const NavigationContextProvider: React.FC<INavigationContextProviderProps
 ) => {
     const { children, initialState } = props;
 
-    const defaultState: INavigationContextState = {
-        currentPage:
-            initialState && initialState.currentPage
-                ? initialState.currentPage
-                : PageNames.Home
-    };
-
     const [navigationContextState, navigationContextDispatch] = useReducer(
         NavigationContextReducer,
-        defaultState
+        { ...emptyState, ...initialState },
+        getInitialState
     );
 
     return (
@@ -59,4 +53,20 @@ export const NavigationContextProvider: React.FC<INavigationContextProviderProps
             {children}
         </NavigationContext.Provider>
     );
+};
+
+const emptyState: INavigationContextState = {
+    currentPage: PageNames.Home
+};
+
+export const getInitialState = (initialState?: INavigationContextState) => {
+    // TODO: Include more properties here when they are needed.
+    const state: INavigationContextState = {
+        currentPage: PageNames.Home,
+        ...initialState
+    };
+
+    logDebugConsole('debug', 'Initialized context state. {state}', state);
+
+    return state;
 };
