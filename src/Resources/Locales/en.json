@@ -1522,5 +1522,16 @@
     },
     "jobs": {
         "addNew": "Add new"
+    },
+    "ingress": {
+        "common": {
+            "templates": "Source mapping templates",
+            "sourceMappings": "Source mappings",
+            "eventHandlers": "Event handlers",
+            "subscriptions": "Subscriptions"
+        },
+        "ingressHomePage": {
+            "title": "Ingress explorer"
+        }
     }
 }
