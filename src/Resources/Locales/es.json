@@ -1531,5 +1531,16 @@
   },
   "jobs": {
     "addNew": "Añadir nuevo"
+  },
+  "ingress": {
+    "common": {
+      "templates": "Plantillas de asignación de origen",
+      "sourceMappings": "Asignaciones de origen",
+      "eventHandlers": "Controladores de eventos",
+      "subscriptions": "Suscripciones"
+    },
+    "ingressHomePage": {
+      "title": "Explorador de entrada"
+    }
   }
 }

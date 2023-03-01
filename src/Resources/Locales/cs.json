@@ -1531,5 +1531,16 @@
   },
   "jobs": {
     "addNew": "Přidat nový"
+  },
+  "ingress": {
+    "common": {
+      "templates": "Šablony mapování zdroje",
+      "sourceMappings": "Mapování zdrojů",
+      "eventHandlers": "Obslužné rutiny událostí",
+      "subscriptions": "Předplatná"
+    },
+    "ingressHomePage": {
+      "title": "Průzkumník příchozího přenosu dat"
+    }
   }
 }

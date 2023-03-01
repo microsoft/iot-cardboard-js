@@ -1531,5 +1531,16 @@
   },
   "jobs": {
     "addNew": "Lägg till nya"
+  },
+  "ingress": {
+    "common": {
+      "templates": "Mallar för källmappning",
+      "sourceMappings": "Källor",
+      "eventHandlers": "Händelsehanterare",
+      "subscriptions": "Prenumerationer"
+    },
+    "ingressHomePage": {
+      "title": "Ingress-utforskaren"
+    }
   }
 }

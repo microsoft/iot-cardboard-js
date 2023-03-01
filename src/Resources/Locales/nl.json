@@ -1531,5 +1531,16 @@
   },
   "jobs": {
     "addNew": "Nieuwe toevoegen"
+  },
+  "ingress": {
+    "common": {
+      "templates": "Sjablonen voor brontoewijzing",
+      "sourceMappings": "Brontoewijzingen",
+      "eventHandlers": "Gebeurtenishandlers",
+      "subscriptions": "Abonnementen"
+    },
+    "ingressHomePage": {
+      "title": "Ingress ontdekkingsreiziger"
+    }
   }
 }

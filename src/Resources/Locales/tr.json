@@ -1531,5 +1531,16 @@
   },
   "jobs": {
     "addNew": "Yeni ekle"
+  },
+  "ingress": {
+    "common": {
+      "templates": "Kaynak eşleme şablonları",
+      "sourceMappings": "Kaynak eşlemeleri",
+      "eventHandlers": "Olay işleyicileri",
+      "subscriptions": "Abonelik"
+    },
+    "ingressHomePage": {
+      "title": "Giriş gezgini"
+    }
   }
 }
