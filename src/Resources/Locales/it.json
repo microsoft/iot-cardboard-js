@@ -1294,6 +1294,9 @@
       "Version3PreviewLabel": {
         "badgeText": "Anteprima",
         "badgeCalloutText": "Questo modello utilizza DTDL versione 3. Clicca per saperne di più"
+      },
+      "PropertyList": {
+        "mapKeyName": "Nome chiave mappa"
       }
     },
     "PropertyTypes": {
@@ -1461,8 +1464,6 @@
     "linestring": "linestring",
     "long": "lungo",
     "map": "mappa",
-    "mapKeyName": "Nome chiave mappa",
-    "mapValueName": "Nome valore mappa",
     "maxMultiplicityLabel": "Massima molteplicità",
     "minMultiplicityLabel": "Molteplicità minima",
     "minMultiplicityMessage": "DTDL V2 supporta solo una molteplicità minima di 0",

@@ -1294,6 +1294,9 @@
       "Version3PreviewLabel": {
         "badgeText": "미리 보기",
         "badgeCalloutText": "이 모델은 DTDL 버전 3을 사용합니다. 클릭하여 자세히 알아보기"
+      },
+      "PropertyList": {
+        "mapKeyName": "맵 키 이름"
       }
     },
     "PropertyTypes": {
@@ -1461,8 +1464,6 @@
     "linestring": "라인 문자열",
     "long": "오래",
     "map": "지도",
-    "mapKeyName": "맵 키 이름",
-    "mapValueName": "맵 값 이름",
     "maxMultiplicityLabel": "최대 다중성",
     "minMultiplicityLabel": "최소 다중성",
     "minMultiplicityMessage": "DTDL V2는 최소 복합성 0만 지원합니다.",

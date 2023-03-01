@@ -1030,6 +1030,9 @@
             "unsupportedPropertyType": "This property type is not available for the current context version of the associated model"
         },
         "PropertyEditor": {
+            "PropertyList": {
+                "mapKeyName": "Map key name"
+            },
             "Version3PreviewLabel": {
                 "badgeText": "Preview",
                 "badgeCalloutText": "This model uses DTDL version 3. Click to learn more"
@@ -1166,8 +1169,6 @@
         "linestring": "linestring",
         "long": "long",
         "map": "map",
-        "mapKeyName": "Map Key Name",
-        "mapValueName": "Map Value Name",
         "maxMultiplicityLabel": "Maximum multiplicity",
         "minMultiplicityLabel": "Minimum multiplicity",
         "minMultiplicityMessage": "DTDL V2 only supports a minimum multiplicity of 0",

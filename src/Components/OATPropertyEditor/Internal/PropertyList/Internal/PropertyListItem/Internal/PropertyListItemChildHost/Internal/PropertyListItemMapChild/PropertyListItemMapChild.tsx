@@ -9,11 +9,17 @@ import { classNamesFunction, styled } from '@fluentui/react';
 import { useExtendedTheme } from '../../../../../../../../../../Models/Hooks/useExtendedTheme';
 import PropertyListItem from '../../../../PropertyListItem';
 import { deepCopy } from '../../../../../../../../../../Models/Services/Utils';
+import { useTranslation } from 'react-i18next';
+import PropertyIcon from '../../../PropertyIcon/PropertyIcon';
 
 const getClassNames = classNamesFunction<
     IPropertyListItemMapChildStyleProps,
     IPropertyListItemMapChildStyles
 >();
+
+const LOC_KEYS = {
+    mapKeyIconTitle: 'OAT.PropertyEditor.PropertyList.mapKeyName'
+};
 
 const PropertyListItemMapChild: React.FC<IPropertyListItemMapChildProps> = (
     props
@@ -33,6 +39,7 @@ const PropertyListItemMapChild: React.FC<IPropertyListItemMapChildProps> = (
     // state
 
     // hooks
+    const { t } = useTranslation();
 
     // callbacks
 
@@ -60,6 +67,16 @@ const PropertyListItemMapChild: React.FC<IPropertyListItemMapChildProps> = (
                     onUpdateKey(keyCopy);
                 }}
                 onUpdateSchema={undefined} // not allowed to change, always string
+                optionHideMenu={true}
+                optionRenderCustomMenuIcon={() => (
+                    <PropertyIcon
+                        schema={undefined}
+                        overrideIcon={{
+                            name: 'Permissions',
+                            title: t(LOC_KEYS.mapKeyIconTitle)
+                        }}
+                    />
+                )}
                 parentModelContext={parentModelContext}
             />
             <PropertyListItem
