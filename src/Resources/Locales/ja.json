@@ -1294,6 +1294,9 @@
       "Version3PreviewLabel": {
         "badgeText": "プレビュー",
         "badgeCalloutText": "このモデルは DTDL バージョン 3 を使用します。クリックして詳細をご覧ください"
+      },
+      "PropertyList": {
+        "mapKeyName": "マップキー名"
       }
     },
     "PropertyTypes": {
@@ -1461,8 +1464,6 @@
     "linestring": "ラインストリング",
     "long": "長い",
     "map": "地図",
-    "mapKeyName": "マップ キー名",
-    "mapValueName": "マップ値の名前",
     "maxMultiplicityLabel": "最大多重度",
     "minMultiplicityLabel": "最小多重度",
     "minMultiplicityMessage": "DTDL V2 では、最小多重度 0 のみがサポートされます。",

@@ -1294,6 +1294,9 @@
       "Version3PreviewLabel": {
         "badgeText": "Предварительный просмотр",
         "badgeCalloutText": "Эта модель использует DTDL версии 3. Нажмите, чтобы узнать больше"
+      },
+      "PropertyList": {
+        "mapKeyName": "Имя ключа карты"
       }
     },
     "PropertyTypes": {
@@ -1461,8 +1464,6 @@
     "linestring": "линейная струна",
     "long": "длинный",
     "map": "карта",
-    "mapKeyName": "Имя ключа карты",
-    "mapValueName": "Имя значения карты",
     "maxMultiplicityLabel": "Максимальная кратность",
     "minMultiplicityLabel": "Минимальная кратность",
     "minMultiplicityMessage": "DTDL V2 поддерживает только минимальную кратность 0",

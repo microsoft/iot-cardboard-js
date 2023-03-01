@@ -1294,6 +1294,9 @@
       "Version3PreviewLabel": {
         "badgeText": "Önizleme",
         "badgeCalloutText": "Bu model DTDL sürüm 3'ü kullanır. Daha fazla bilgi için tıklayın"
+      },
+      "PropertyList": {
+        "mapKeyName": "Eşleme anahtarı adı"
       }
     },
     "PropertyTypes": {
@@ -1461,8 +1464,6 @@
     "linestring": "linestring",
     "long": "uzun",
     "map": "harita",
-    "mapKeyName": "Harita Anahtarı Adı",
-    "mapValueName": "Harita Değeri Adı",
     "maxMultiplicityLabel": "Maksimum çokluk",
     "minMultiplicityLabel": "Minimum çokluk",
     "minMultiplicityMessage": "DTDL V2 yalnızca minimum 0 çokluğunu destekler",

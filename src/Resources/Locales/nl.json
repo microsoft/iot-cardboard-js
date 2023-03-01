@@ -1294,6 +1294,9 @@
       "Version3PreviewLabel": {
         "badgeText": "Voorbeeld",
         "badgeCalloutText": "Dit model maakt gebruik van DTDL versie 3. Klik voor meer informatie"
+      },
+      "PropertyList": {
+        "mapKeyName": "Naam van de kaartsleutel"
       }
     },
     "PropertyTypes": {
@@ -1461,8 +1464,6 @@
     "linestring": "lijnenring",
     "long": "lang",
     "map": "kaart",
-    "mapKeyName": "Naam van kaartsleutel",
-    "mapValueName": "Naam van kaartwaarde",
     "maxMultiplicityLabel": "Maximale multipliciteit",
     "minMultiplicityLabel": "Minimale veelheid",
     "minMultiplicityMessage": "DTDL V2 ondersteunt alleen een minimale multipliciteit van 0",

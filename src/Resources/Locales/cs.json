@@ -1294,6 +1294,9 @@
       "Version3PreviewLabel": {
         "badgeText": "Náhled",
         "badgeCalloutText": "Tento model používá DTDL verze 3. Kliknutím se dozvíte více"
+      },
+      "PropertyList": {
+        "mapKeyName": "Název klíče mapy"
       }
     },
     "PropertyTypes": {
@@ -1461,8 +1464,6 @@
     "linestring": "Řetězec řádků",
     "long": "dlouhý",
     "map": "mapa",
-    "mapKeyName": "Název klíče mapování",
-    "mapValueName": "Název hodnoty mapy",
     "maxMultiplicityLabel": "Maximální násobnost",
     "minMultiplicityLabel": "Minimální násobnost",
     "minMultiplicityMessage": "DTDL V2 podporuje pouze minimální násobnost 0",

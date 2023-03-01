@@ -1294,6 +1294,9 @@
       "Version3PreviewLabel": {
         "badgeText": "预览",
         "badgeCalloutText": "此模型使用 DTDL 版本 3。点击了解更多"
+      },
+      "PropertyList": {
+        "mapKeyName": "映射键名称"
       }
     },
     "PropertyTypes": {
@@ -1461,8 +1464,6 @@
     "linestring": "线串",
     "long": "长",
     "map": "地图",
-    "mapKeyName": "映射键名称",
-    "mapValueName": "映射值名称",
     "maxMultiplicityLabel": "最大多重性",
     "minMultiplicityLabel": "最小多重性",
     "minMultiplicityMessage": "DTDL V2 仅支持最小多重性 0",
