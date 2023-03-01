@@ -1530,5 +1530,16 @@
   },
   "jobs": {
     "addNew": "새로 추가"
+  },
+  "ingress": {
+    "common": {
+      "templates": "원본 매핑 템플릿",
+      "sourceMappings": "원본 매핑",
+      "eventHandlers": "이벤트 처리기",
+      "subscriptions": "구독"
+    },
+    "ingressHomePage": {
+      "title": "수신 탐색기"
+    }
   }
 }

@@ -1530,5 +1530,16 @@
   },
   "jobs": {
     "addNew": "新增"
+  },
+  "ingress": {
+    "common": {
+      "templates": "源映射模板",
+      "sourceMappings": "源映射",
+      "eventHandlers": "事件处理程序",
+      "subscriptions": "订阅"
+    },
+    "ingressHomePage": {
+      "title": "入口浏览器"
+    }
   }
 }

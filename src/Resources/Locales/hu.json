@@ -1530,5 +1530,16 @@
   },
   "jobs": {
     "addNew": "Új hozzáadása"
+  },
+  "ingress": {
+    "common": {
+      "templates": "Forrásleképezési sablonok",
+      "sourceMappings": "Forrásleképezések",
+      "eventHandlers": "Eseménykezelők",
+      "subscriptions": "Előfizetések"
+    },
+    "ingressHomePage": {
+      "title": "Bejövő forgalom felfedezője"
+    }
   }
 }

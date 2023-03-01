@@ -1530,5 +1530,16 @@
   },
   "jobs": {
     "addNew": "Dodaj nowy"
+  },
+  "ingress": {
+    "common": {
+      "templates": "Szablony mapowania źródłowego",
+      "sourceMappings": "Mapowania źródłowe",
+      "eventHandlers": "Programy obsługi zdarzeń",
+      "subscriptions": "Subskrypcji"
+    },
+    "ingressHomePage": {
+      "title": "Eksplorator ruchu przychodzącego"
+    }
   }
 }

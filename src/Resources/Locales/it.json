@@ -1530,5 +1530,16 @@
   },
   "jobs": {
     "addNew": "Aggiungi nuovo"
+  },
+  "ingress": {
+    "common": {
+      "templates": "Modelli di mapping delle origini",
+      "sourceMappings": "Mapping di origine",
+      "eventHandlers": "Gestori eventi",
+      "subscriptions": "Sottoscrizioni"
+    },
+    "ingressHomePage": {
+      "title": "Esploratore di ingresso"
+    }
   }
 }

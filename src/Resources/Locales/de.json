@@ -1530,5 +1530,16 @@
   },
   "jobs": {
     "addNew": "Neu hinzufügen"
+  },
+  "ingress": {
+    "common": {
+      "templates": "Vorlagen für die Quellzuordnung",
+      "sourceMappings": "Quellzuordnungen",
+      "eventHandlers": "Ereignishandler",
+      "subscriptions": "Abonnements"
+    },
+    "ingressHomePage": {
+      "title": "Ingress-Explorer"
+    }
   }
 }

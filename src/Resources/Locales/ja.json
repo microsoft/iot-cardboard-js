@@ -1530,5 +1530,16 @@
   },
   "jobs": {
     "addNew": "新規追加"
+  },
+  "ingress": {
+    "common": {
+      "templates": "ソースマッピングテンプレート",
+      "sourceMappings": "ソースマッピング",
+      "eventHandlers": "イベント ハンドラー",
+      "subscriptions": "サブスクリプション"
+    },
+    "ingressHomePage": {
+      "title": "イングレス エクスプローラー"
+    }
   }
 }
