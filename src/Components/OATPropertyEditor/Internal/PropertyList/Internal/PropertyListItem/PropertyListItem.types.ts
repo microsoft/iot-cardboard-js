@@ -17,6 +17,10 @@ export type IOnUpdateNameCallbackArgs = {
 };
 export type IOnUpdateNameCallback = (args: IOnUpdateNameCallbackArgs) => void;
 
+interface IItem {
+    name: string;
+    schema: DTDLSchema;
+}
 export interface IPropertyListItemProps {
     /** the DTDL context of the model or source model (if relationship) */
     parentModelContext: DtdlContext;
@@ -27,17 +31,21 @@ export interface IPropertyListItemProps {
     /** Index of parent in the list. Key used for test automation for the row */
     indexKey: string;
     /** the item itself */
-    item: { name: string; schema: DTDLSchema };
+    item: IItem;
     /** Level in the nesting tree. index of 1 is not nested */
     level?: number;
-    /** disables the input field */
-    disableInput?: boolean;
     /** callback to store an updated version of the schema */
     onCopy: () => void | undefined;
     onUpdateSchema: (schema: DTDLSchema) => void | undefined;
     onReorderItem: (direction: 'Up' | 'Down') => void | undefined;
     onUpdateName: IOnUpdateNameCallback;
     onRemove: () => void | undefined;
+    /** disables the input field */
+    optionDisableInput?: boolean;
+    /** hides the overflow menu */
+    optionHideMenu?: boolean;
+    /** renders a custom icon for the list item instead of based on schema */
+    optionRenderCustomMenuIcon?: (item: IItem) => React.ReactNode;
     /**
      * Call to provide customized styling that will layer on top of the variant rules.
      */

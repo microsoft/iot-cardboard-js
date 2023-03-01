@@ -51,7 +51,7 @@ const getClassNames = classNamesFunction<
 const PropertyListItem: React.FC<IPropertyListItemProps> = (props) => {
     const {
         parentModelContext,
-        disableInput,
+        optionDisableInput,
         indexKey,
         item,
         isFirstItem,
@@ -62,6 +62,8 @@ const PropertyListItem: React.FC<IPropertyListItemProps> = (props) => {
         onUpdateSchema,
         onRemove,
         onReorderItem,
+        optionHideMenu,
+        optionRenderCustomMenuIcon,
         styles
     } = props;
 
@@ -344,18 +346,22 @@ const PropertyListItem: React.FC<IPropertyListItemProps> = (props) => {
                 )}
                 <Stack.Item grow>
                     <TextField
-                        disabled={disableInput}
+                        disabled={optionDisableInput}
                         readOnly={!onSaveName}
                         onRenderInput={(props, defaultRenderer) => {
                             return (
                                 <>
-                                    <PropertyIcon
-                                        schema={item.schema}
-                                        styles={
-                                            classNames.subComponentStyles
-                                                .inputIcon
-                                        }
-                                    />
+                                    {optionRenderCustomMenuIcon ? (
+                                        optionRenderCustomMenuIcon(item)
+                                    ) : (
+                                        <PropertyIcon
+                                            schema={item.schema}
+                                            styles={
+                                                classNames.subComponentStyles
+                                                    .inputIcon
+                                            }
+                                        />
+                                    )}
                                     {defaultRenderer(props)}
                                 </>
                             );
@@ -381,14 +387,18 @@ const PropertyListItem: React.FC<IPropertyListItemProps> = (props) => {
                 {!supportsAddingChildren && (
                     <span className={classNames.buttonSpacer} />
                 )}
-                <OverflowMenu
-                    index={indexKey}
-                    isFocusable={true}
-                    menuKey={'property-list'}
-                    menuProps={{
-                        items: overflowMenuItems
-                    }}
-                />
+                {optionHideMenu ? (
+                    <span className={classNames.buttonSpacer} />
+                ) : (
+                    <OverflowMenu
+                        index={indexKey}
+                        isFocusable={true}
+                        menuKey={'property-list'}
+                        menuProps={{
+                            items: overflowMenuItems
+                        }}
+                    />
+                )}
             </Stack>
             {isExpanded && hasComplexSchemaType(item) && (
                 <PropertyListItemChildHost

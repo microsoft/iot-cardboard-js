@@ -1294,6 +1294,9 @@
       "Version3PreviewLabel": {
         "badgeText": "Előnézet",
         "badgeCalloutText": "Ez a modell a DTDL 3-as verzióját használja. Kattintson ide, ha többet szeretne megtudni"
+      },
+      "PropertyList": {
+        "mapKeyName": "Leképezési kulcs neve"
       }
     },
     "PropertyTypes": {
@@ -1461,8 +1464,6 @@
     "linestring": "vonallánc",
     "long": "hosszú",
     "map": "térkép",
-    "mapKeyName": "Térkép kulcsának neve",
-    "mapValueName": "Térképérték neve",
     "maxMultiplicityLabel": "Maximális sokaság",
     "minMultiplicityLabel": "Minimális szorzás",
     "minMultiplicityMessage": "A DTDL V2 csak a 0 minimális szorzást támogatja",

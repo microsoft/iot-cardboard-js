@@ -355,7 +355,6 @@ const PropertyList: React.FC<IPropertyListProps> = (props) => {
                     selectedItemCopy,
                     property
                 );
-                // TODO: add to Undo stack
                 updateReference(selectedItem);
             }
         };

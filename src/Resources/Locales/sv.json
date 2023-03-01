@@ -1294,6 +1294,9 @@
       "Version3PreviewLabel": {
         "badgeText": "Förhandsvisning",
         "badgeCalloutText": "Den här modellen använder DTDL version 3. Klicka för att läsa mer"
+      },
+      "PropertyList": {
+        "mapKeyName": "Namn på kartnyckel"
       }
     },
     "PropertyTypes": {
@@ -1461,8 +1464,6 @@
     "linestring": "linjesträng",
     "long": "lång",
     "map": "karta",
-    "mapKeyName": "Namn på kartnyckel",
-    "mapValueName": "Namn på kartvärde",
     "maxMultiplicityLabel": "Maximal mångfald",
     "minMultiplicityLabel": "Minsta mångfald",
     "minMultiplicityMessage": "DTDL V2 stöder endast en minsta mångfald på 0",

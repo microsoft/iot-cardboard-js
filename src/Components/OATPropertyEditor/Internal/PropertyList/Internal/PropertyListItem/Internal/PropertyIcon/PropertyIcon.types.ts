@@ -4,6 +4,7 @@ import { IExtendedTheme } from '../../../../../../../../Theming/Theme.types';
 
 export interface IPropertyIconProps {
     schema: DTDLSchema;
+    overrideIcon?: { name: string; title: string };
     /**
      * Call to provide customized styling that will layer on top of the variant rules.
      */

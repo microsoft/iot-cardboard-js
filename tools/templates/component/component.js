@@ -8,6 +8,9 @@ module.exports = (componentName) => ({
     import { getStyles } from './${componentName}.styles';
     import { classNamesFunction, styled } from '@fluentui/react';
     import { useExtendedTheme } from '../../Models/Hooks/useExtendedTheme';
+
+    const debugLogging = false;
+    const logDebugConsole = getDebugLogger('${componentName}', debugLogging);
     
     const getClassNames = classNamesFunction<
         I${componentName}StyleProps,
@@ -32,6 +35,8 @@ module.exports = (componentName) => ({
             theme: useExtendedTheme()
         });
     
+        logDebugConsole('debug', 'Render');
+
         return <div className={classNames.root}>Hello ${componentName}!</div>;
     };
     
