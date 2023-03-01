@@ -55,7 +55,7 @@ const PropertyListItemArrayChild: React.FC<IPropertyListItemArrayChildProps> = (
                     ),
                     schema: item
                 }}
-                disableInput={true}
+                optionDisableInput={true}
                 onCopy={undefined}
                 onReorderItem={undefined}
                 onUpdateName={undefined}

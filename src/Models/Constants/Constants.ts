@@ -354,7 +354,7 @@ export const OAT_DISPLAY_NAME_LENGTH_LIMIT = 64;
 export const OAT_NAME_LENGTH_LIMIT = 64;
 export const OAT_ID_LENGTH_LIMIT = 2048;
 /** max limit for the total count of references in the ontology due to perf degredation above this */
-export const OAT_ONTOLOGY_MAX_REFERENCE_LIMIT = 200;
+export const OAT_ONTOLOGY_MAX_REFERENCE_LIMIT = 250;
 
 export const SelectedCameraInteractionKey = 'cb-camera-interaction';
 export const ViewerThemeStorageKey = 'cb-viewer-theme';

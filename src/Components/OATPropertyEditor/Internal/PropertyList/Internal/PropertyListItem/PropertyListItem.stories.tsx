@@ -19,6 +19,7 @@ import {
     DTDL_CONTEXT_VERSION_3
 } from '../../../../../../Models/Classes/DTDL';
 import { userEvent, within } from '@storybook/testing-library';
+import PropertyIcon from './Internal/PropertyIcon/PropertyIcon';
 
 const wrapperStyle = {
     width: '400px',
@@ -58,12 +59,12 @@ const Template: PropertyListItemStory = (args) => {
     );
 };
 
-export const OpenMenu = Template.bind({}) as PropertyListItemStory;
-OpenMenu.args = {
+export const MenuOpen = Template.bind({}) as PropertyListItemStory;
+MenuOpen.args = {
     ...DEFAULT_ARGS,
     item: getMockProperty({ type: 'boolean' })
 } as IPropertyListItemProps;
-OpenMenu.play = async ({ canvasElement }) => {
+MenuOpen.play = async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     const tab = await canvas.findByTestId(
         'context-menu-property-list-0-moreMenu'
@@ -71,6 +72,30 @@ OpenMenu.play = async ({ canvasElement }) => {
     userEvent.click(tab);
     await sleep(10);
 };
+
+export const MenuHidden = Template.bind({}) as PropertyListItemStory;
+MenuHidden.args = {
+    ...DEFAULT_ARGS,
+    item: getMockProperty({ type: 'boolean' }),
+    optionHideMenu: true
+} as IPropertyListItemProps;
+
+export const CustomIconName = Template.bind({}) as PropertyListItemStory;
+CustomIconName.args = {
+    ...DEFAULT_ARGS,
+    item: getMockProperty({ type: 'boolean' }),
+    optionRenderCustomMenuIcon: () => {
+        return (
+            <PropertyIcon
+                schema={undefined}
+                overrideIcon={{
+                    name: 'Permissions',
+                    title: 'key'
+                }}
+            />
+        );
+    }
+} as IPropertyListItemProps;
 
 export const PrimitiveBoolean = Template.bind({}) as PropertyListItemStory;
 PrimitiveBoolean.args = {
