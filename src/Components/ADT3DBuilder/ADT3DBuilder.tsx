@@ -12,6 +12,7 @@ import {
     IADT3DBuilderStyleProps,
     IADT3DBuilderStyles
 } from './ADT3DBuilder.types';
+import { AuthTokenTypes } from '../../Models/Constants';
 
 const getClassNames = classNamesFunction<
     IADT3DBuilderStyleProps,
@@ -83,7 +84,7 @@ const ADT3DBuilder: React.FC<IADT3DBuilderProps> = (props) => {
                         getToken: (adapter as any).authService
                             ? () =>
                                   (adapter as any).authService.getToken(
-                                      'storage'
+                                      AuthTokenTypes.storage
                                   )
                             : undefined,
                         allowModelDimensionErrorMessage: true

@@ -29,7 +29,8 @@ import {
     GlobeTheme,
     ViewerObjectStyle,
     AzureResourceTypes,
-    AzureAccessPermissionRoles
+    AzureAccessPermissionRoles,
+    AuthTokenTypes
 } from './Enums';
 import {
     AdapterReturnType,
@@ -138,10 +139,24 @@ export interface IConsumeCompositeCardProps extends ICardBaseProps {
 }
 
 export interface IAuthService {
-    login: () => void;
-    getToken: (
-        tokenFor?: 'azureManagement' | 'adx' | 'storage'
-    ) => Promise<string>;
+    /** the unique object id of the logged in user */
+    userObjectId?: string;
+    login: (continuation?: (params: any) => void) => void;
+    getToken: (tokenFor?: AuthTokenTypes) => Promise<string>;
+}
+
+export interface IAuthParams {
+    /** base login url for the auth service authority */
+    login: string;
+    clientId: string;
+    tenantId?: string;
+}
+
+export interface IMSALLoginContinuationParams {
+    name: string;
+    userName: string;
+    tenants: Array<any>;
+    accounts: Array<any>;
 }
 
 export interface IEnvironmentToConstantMapping {
@@ -516,12 +531,12 @@ export interface IADTAdapter
 export interface IAzureManagementAdapter {
     getRoleAssignments: (
         resourceId: string,
-        uniqueObjectId: string
+        userObjectId: string
     ) => AdapterReturnType<AzureResourcesData>;
     hasRoleDefinitions: (
         resourceId: string,
         accessRolesToCheck: AzureAccessPermissionRoleGroups,
-        uniqueObjectId: string
+        userObjectId: string
     ) => Promise<boolean>;
     getResources: (
         params: AdapterMethodParamsForGetAzureResources
@@ -533,7 +548,7 @@ export interface IAzureManagementAdapter {
     assignRole: (
         roleId: AzureAccessPermissionRoles,
         resourceId: string, // scope
-        uniqueObjectId: string
+        userObjectId: string
     ) => AdapterReturnType<AzureResourcesData>;
     getTimeSeriesConnectionInformation: (
         adtUrl: string

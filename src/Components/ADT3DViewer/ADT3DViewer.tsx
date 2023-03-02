@@ -53,6 +53,7 @@ import {
 } from './ADT3DViewer.types';
 import {
     ADT3DScenePageModes,
+    AuthTokenTypes,
     BehaviorModalMode,
     IADTBackgroundColor,
     IADTDataHistoryAdapter
@@ -742,7 +743,7 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
                         getToken: (adapter as any).authService
                             ? () =>
                                   (adapter as any).authService.getToken(
-                                      'storage'
+                                      AuthTokenTypes.storage
                                   )
                             : undefined
                     }}

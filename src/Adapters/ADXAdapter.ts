@@ -4,7 +4,11 @@ import {
     IAuthService
 } from '../Models/Constants/Interfaces';
 import AdapterMethodSandbox from '../Models/Classes/AdapterMethodSandbox';
-import { ADXTableColumns, ComponentErrorType } from '../Models/Constants/Enums';
+import {
+    ADXTableColumns,
+    AuthTokenTypes,
+    ComponentErrorType
+} from '../Models/Constants/Enums';
 import axios from 'axios';
 import ADXTimeSeriesData from '../Models/Classes/AdapterDataClasses/ADXTimeSeriesData';
 import {
@@ -181,7 +185,7 @@ export default class ADXAdapter implements IADXAdapter {
                 );
                 return new ADXTimeSeriesData(null);
             }
-        }, 'adx');
+        }, AuthTokenTypes.adx);
     }
 
     setADXConnectionInformation(adxConnectionInformation: IADXConnection) {

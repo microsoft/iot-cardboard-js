@@ -5,7 +5,8 @@ import {
     AxiosParams,
     IAdapterData,
     IAuthService,
-    ICancellablePromise
+    ICancellablePromise,
+    AuthTokenTypes
 } from '../Constants';
 import AdapterResult from './AdapterResult';
 import { ComponentError } from './Errors';
@@ -53,9 +54,7 @@ class AdapterMethodSandbox {
      * Fetch token wrapped in try / catch block.  If token fetch fails, will attach
      * catastrophic TokenRetrievalFailed error, halting further execution.
      */
-    private async safelyFetchToken(
-        tokenFor?: 'azureManagement' | 'adx' | 'storage'
-    ) {
+    private async safelyFetchToken(tokenFor?: AuthTokenTypes) {
         // If adapterMethodSandbox not constructed with authService, skip token fetching
         if (!this.authService) {
             return null;
@@ -89,7 +88,7 @@ class AdapterMethodSandbox {
      *  */
     async safelyFetchData<T extends IAdapterData>(
         fetchDataWithToken: (token?: string) => Promise<T>,
-        tokenFor?: 'azureManagement' | 'adx' | 'storage'
+        tokenFor?: AuthTokenTypes
     ) {
         try {
             // Fetch token
@@ -135,7 +134,7 @@ class AdapterMethodSandbox {
         returnDataClass: { new (data: any) },
         axiosParams: AxiosParams,
         dataTransformFunc?: (data) => any,
-        tokenFor?: 'azureManagement' | 'adx' | 'storage'
+        tokenFor?: AuthTokenTypes
     ): ICancellablePromise<AdapterResult<any>> {
         const { headers, ...restOfParams } = axiosParams;
         const cancelTokenSource = axios.CancelToken.source();

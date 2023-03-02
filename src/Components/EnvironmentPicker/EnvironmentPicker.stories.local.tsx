@@ -26,9 +26,7 @@ export const ADTEnvironmentPicker = (_args) => {
                         authenticationParameters.adt.aadParameters
                     ),
                     authenticationParameters.adt.hostUrl,
-                    authenticationParameters.storage.blobContainerUrl,
-                    authenticationParameters.adt.aadParameters.tenantId,
-                    authenticationParameters.adt.aadParameters.uniqueObjectId
+                    authenticationParameters.storage.blobContainerUrl
                 )
             }
             isLocalStorageEnabled={true}

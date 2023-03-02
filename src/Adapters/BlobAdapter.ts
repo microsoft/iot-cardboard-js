@@ -5,7 +5,7 @@ import {
     IBlobServiceCorsRule
 } from '../Models/Constants/Interfaces';
 import AdapterMethodSandbox from '../Models/Classes/AdapterMethodSandbox';
-import { ComponentErrorType } from '../Models/Constants/Enums';
+import { AuthTokenTypes, ComponentErrorType } from '../Models/Constants/Enums';
 import axios from 'axios';
 import ADTScenesConfigData from '../Models/Classes/AdapterDataClasses/ADTScenesConfigData';
 import {
@@ -81,7 +81,7 @@ export default class BlobAdapter implements IBlobAdapter {
                     rawError: error
                 });
             }
-        }, 'storage');
+        }, AuthTokenTypes.storage);
     }
 
     getBlobContainerURL() {
@@ -173,7 +173,7 @@ export default class BlobAdapter implements IBlobAdapter {
                         });
                 }
             }
-        }, 'storage');
+        }, AuthTokenTypes.storage);
     }
 
     putScenesConfig(config: I3DScenesConfig) {
@@ -194,7 +194,7 @@ export default class BlobAdapter implements IBlobAdapter {
                 data: config
             },
             undefined,
-            'storage'
+            AuthTokenTypes.storage
         );
     }
 
@@ -244,7 +244,7 @@ export default class BlobAdapter implements IBlobAdapter {
                     rawError: err
                 });
             }
-        }, 'storage');
+        }, AuthTokenTypes.storage);
     }
 
     // This method create/update existing blob in the container using Put Blob API (https://docs.microsoft.com/en-us/rest/api/storageservices/put-blob)
@@ -280,7 +280,7 @@ export default class BlobAdapter implements IBlobAdapter {
                 data: file
             },
             createBlobFileData,
-            'storage'
+            AuthTokenTypes.storage
         );
     }
 
@@ -420,7 +420,7 @@ export default class BlobAdapter implements IBlobAdapter {
                 }
             },
             getCorsData,
-            'storage'
+            AuthTokenTypes.storage
         );
     }
 
@@ -464,7 +464,7 @@ export default class BlobAdapter implements IBlobAdapter {
                 data: xmlContent
             },
             undefined,
-            'storage'
+            AuthTokenTypes.storage
         );
     }
 }

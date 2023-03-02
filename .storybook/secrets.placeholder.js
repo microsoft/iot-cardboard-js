@@ -2,12 +2,9 @@ export const AuthenticationParameters = {
     adt: {
         hostUrl: 'ADT_INSTANCE_URL',
         aadParameters: {
-            authority: 'AUTHORITY_PLACEHOLDER',
+            login: 'LOGIN_URL_PLACEHOLDER',
             clientId: 'CLIENTID_PLACEHOLDER',
-            scope: 'SCOPE_PLACEHOLDER',
-            redirectUri: 'REDIRECTURI_PLACEHOLDER',
-            tenantId: 'TENANTID_PLACEHOLDER',
-            uniqueObjectId: 'UNIQUE_OBJECTID_PLACEHOLDER'
+            tenantId: 'OPTIONAL_TENANTID_PLACEHOLDER'
         }
     },
     adx: {
@@ -15,20 +12,18 @@ export const AuthenticationParameters = {
         databaseName: 'ADX_DATABASE_NAME_IN_CLUSTER',
         tableName: 'ADX_TABLE_NAME_IN_DATABASE',
         aadParameters: {
-            authority: 'AUTHORITY_PLACEHOLDER',
+            login: 'LOGIN_URL_PLACEHOLDER',
             clientId: 'CLIENTID_PLACEHOLDER',
-            scope: 'SCOPE_PLACEHOLDER',
-            redirectUri: 'REDIRECTURI_PLACEHOLDER'
+            tenantId: 'OPTIONAL_TENANTID_PLACEHOLDER'
         }
     },
     storage: {
         blobContainerUrl: 'AZURE_STORAGE_BLOB_CONTAINER_URL',
         accountId: 'AZURE_STORAGE_ACCOUNT_ID',
         aadParameters: {
-            authority: 'AUTHORITY_PLACEHOLDER',
+            login: 'LOGIN_URL_PLACEHOLDER',
             clientId: 'CLIENTID_PLACEHOLDER',
-            scope: 'SCOPE_PLACEHOLDER',
-            redirectUri: 'REDIRECTURI_PLACEHOLDER'
+            tenantId: 'OPTIONAL_TENANTID_PLACEHOLDER'
         }
     }
 };

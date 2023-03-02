@@ -33,16 +33,12 @@ export default class ADTDataHistoryAdapter implements IADTDataHistoryAdapter {
         authService: IAuthService,
         adtHostUrl: string,
         adxConnectionInformation?: IADXConnection,
-        tenantId?: string,
-        uniqueObjectId?: string,
         adtProxyServerPath = '/proxy/adt',
         useProxy = true
     ) {
         this.adtHostUrl = adtHostUrl;
         this.adxConnectionInformation = adxConnectionInformation;
         this.authService = this.adxAuthService = authService;
-        this.tenantId = tenantId;
-        this.uniqueObjectId = uniqueObjectId;
         this.adtProxyServerPath = adtProxyServerPath;
 
         this.adtTwinCache = new AdapterEntityCache<ADTTwinData>(9000);

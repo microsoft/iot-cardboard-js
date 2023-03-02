@@ -31,9 +31,7 @@ export const BlobNotFoundError = () => {
                         authenticationParameters.adt.aadParameters
                     ),
                     authenticationParameters.adt.hostUrl,
-                    authenticationParameters.storage.blobContainerUrl,
-                    authenticationParameters.adt.aadParameters.tenantId,
-                    authenticationParameters.adt.aadParameters.uniqueObjectId
+                    authenticationParameters.storage.blobContainerUrl
                 )
             }
             errors={[
@@ -66,9 +64,7 @@ export const UnauthorizedAccessError = () => {
                             authenticationParameters.adt.aadParameters
                         ),
                         authenticationParameters.adt.hostUrl,
-                        authenticationParameters.storage.blobContainerUrl,
-                        authenticationParameters.adt.aadParameters.tenantId,
-                        authenticationParameters.adt.aadParameters.uniqueObjectId
+                        authenticationParameters.storage.blobContainerUrl
                     )
                 }
                 primaryClickAction={{
@@ -101,9 +97,7 @@ export const InternalServerError = () => {
                             authenticationParameters.adt.aadParameters
                         ),
                         authenticationParameters.adt.hostUrl,
-                        authenticationParameters.storage.blobContainerUrl,
-                        authenticationParameters.adt.aadParameters.tenantId,
-                        authenticationParameters.adt.aadParameters.uniqueObjectId
+                        authenticationParameters.storage.blobContainerUrl
                     )
                 }
                 errors={[

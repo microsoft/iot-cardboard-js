@@ -38,16 +38,12 @@ export default class ADT3DSceneAdapter {
         authService: IAuthService,
         adtHostUrl: string,
         blobContainerUrl?: string,
-        tenantId?: string,
-        uniqueObjectId?: string,
         adtProxyServerPath = '/proxy/adt',
         blobProxyServerPath = '/proxy/blob',
         useProxy = true
     ) {
         this.adtHostUrl = adtHostUrl;
         this.authService = this.blobAuthService = this.adxAuthService = authService;
-        this.tenantId = tenantId;
-        this.uniqueObjectId = uniqueObjectId;
         this.adtTwinCache = new AdapterEntityCache<ADTTwinData>(9000);
         this.adtModelsCache = new AdapterEntityCache<ADTAllModelsData>(
             modelRefreshMaxAge
@@ -131,7 +127,7 @@ export default class ADT3DSceneAdapter {
                     this.containerResourceId = storageResource.id;
                     const missingRoles = await this.getMissingRoleDefinitions(
                         storageResource.id,
-                        this.uniqueObjectId,
+                        this.authService.userObjectId,
                         RequiredAccessRoleGroupForStorageContainer
                     );
 
@@ -168,7 +164,7 @@ export default class ADT3DSceneAdapter {
                         this.assignRole(
                             roleDefinitionId,
                             this.containerResourceId,
-                            this.uniqueObjectId
+                            this.authService.userObjectId
                         )
                     )
                 );
@@ -189,7 +185,7 @@ export default class ADT3DSceneAdapter {
                                         'Storage Blob Data Contributor'
                                     ],
                                     this.containerResourceId,
-                                    this.uniqueObjectId
+                                    this.authService.userObjectId
                                 );
                             } else if (
                                 interchangeableGroup.includes(
@@ -200,14 +196,14 @@ export default class ADT3DSceneAdapter {
                                 return this.assignRole(
                                     AzureAccessPermissionRoles['Reader'],
                                     this.containerResourceId,
-                                    this.uniqueObjectId
+                                    this.authService.userObjectId
                                 );
                             } else if (interchangeableGroup.length) {
                                 // otherwise add the first item from each interchangeable group
                                 return this.assignRole(
                                     interchangeableGroup[0],
                                     this.containerResourceId,
-                                    this.uniqueObjectId
+                                    this.authService.userObjectId
                                 );
                             }
                         }

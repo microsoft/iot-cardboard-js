@@ -79,8 +79,6 @@ const debugLogging = false;
 const logDebugConsole = getDebugLogger('ADTAdapter', debugLogging);
 
 export default class ADTAdapter implements IADTAdapter {
-    public tenantId: string;
-    public uniqueObjectId: string;
     public authService: IAuthService;
     public adtHostUrl: string;
     protected adtProxyServerPath: string;
@@ -97,16 +95,12 @@ export default class ADTAdapter implements IADTAdapter {
     constructor(
         adtHostUrl: string,
         authService: IAuthService,
-        tenantId?: string,
-        uniqueObjectId?: string,
         adtProxyServerPath = '/proxy/adt',
         useProxy = true
     ) {
         this.setAdtHostUrl(adtHostUrl); // this should be the host name of the instace
         this.adtProxyServerPath = adtProxyServerPath;
         this.authService = authService;
-        this.tenantId = tenantId;
-        this.uniqueObjectId = uniqueObjectId;
         this.cachedTwinModelMap = new Map();
         this.adtTwinCache = new AdapterEntityCache<ADTTwinData>(
             twinRefreshMaxAge
@@ -801,7 +795,7 @@ export default class ADTAdapter implements IADTAdapter {
                 return axios({
                     method: 'get',
                     url: this.generateUrl(
-                        `${this.adtProxyServerPath}/models/${encodeURIComponent(
+                        `/models/${encodeURIComponent(
                             targetModelId
                         )}?includeModelDefinition=True`
                     ),

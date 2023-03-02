@@ -1,42 +1,53 @@
-import * as Msal from '@azure/msal-browser';
 import {
-    IEnvironmentToConstantMapping,
+    AccountInfo,
+    AuthenticationResult,
+    Configuration,
+    EndSessionRequest,
+    InteractionRequiredAuthError,
+    PopupRequest,
+    PublicClientApplication,
+    RedirectRequest,
+    SsoSilentRequest
+} from '@azure/msal-browser';
+import { AuthTokenTypes } from '../Constants/Enums';
+import {
+    IMSALLoginContinuationParams,
+    IAuthParams,
     IAuthService
 } from '../Constants/Interfaces';
 
+export const DEFAULT_TENANT_ID = 'common';
 export default class MsalAuthService implements IAuthService {
+    private MSALConfig: Configuration;
+    private MSALObj: PublicClientApplication;
+    private authParams: IAuthParams;
+    public tenantId: string;
+    public userObjectId: string;
+    private loginPopupRequest: PopupRequest;
+    private loginRedirectRequest: RedirectRequest;
+
     private getTokenCalls = [];
     private gettingToken = false;
     private isLoggingIn = true;
     private executeGetTokenSequentially = true;
-    private authContextConfig;
-    private authContext;
 
-    private environmentToConstantMapping: IEnvironmentToConstantMapping = {
-        authority: 'https://login.microsoftonline.com/organizations',
-
-        // valid redirect URI for this is client ID is https://adtexplorer-tsi-local.azurewebsites.net
-        // modify hosts file accordingly
-        clientId: 'e7e88070-28a1-43a3-9704-d8b986eb5f60',
-
-        scope: 'https://api.timeseries.azure.com/.default',
-
-        redirectUri: window.location.protocol + '//' + window.location.hostname
-
-        // // The resource URI for ADT should NOT end with a trailing slash as it will cause
-        // // authentication to fail.
-        // scope: 'https://digitaltwins.azure.net/.default'
+    private apiEndpoints = {
+        tsi: 'https://api.timeseries.azure.com',
+        management: 'https://management.azure.com',
+        adx: 'https://help.kusto.windows.net',
+        adt: 'https://digitaltwins.azure.net',
+        storage: 'https://storage.azure.com'
     };
 
-    constructor(environmentToConstantMapping?: IEnvironmentToConstantMapping) {
-        this.environmentToConstantMapping =
-            environmentToConstantMapping || this.environmentToConstantMapping;
+    constructor(authParams: IAuthParams) {
+        this.authParams = authParams;
+        this.tenantId = authParams.tenantId || DEFAULT_TENANT_ID;
 
-        this.authContextConfig = {
+        this.MSALConfig = {
             auth: {
-                clientId: this.environmentToConstantMapping.clientId,
-                authority: `${this.environmentToConstantMapping.authority}`,
-                redirectUri: this.environmentToConstantMapping.redirectUri,
+                clientId: this.authParams.clientId,
+                authority: `${this.authParams.login}${this.tenantId}`,
+                redirectUri: `${window.location.protocol}//${window.location.hostname}`,
                 navigateToLoginRequestUrl: true
             },
             cache: {
@@ -44,38 +55,105 @@ export default class MsalAuthService implements IAuthService {
                 storeAuthStateInCookie: true
             }
         };
-        this.authContext = new Msal.PublicClientApplication(
-            this.authContextConfig
-        );
+        this.MSALObj = new PublicClientApplication(this.MSALConfig);
+
+        this.loginPopupRequest = {
+            scopes: []
+        };
+        this.loginRedirectRequest = {
+            ...this.loginPopupRequest,
+            redirectStartPage: window.location.href
+        };
     }
 
-    public login = () => {
+    login = (continuation?: (params: IMSALLoginContinuationParams) => void) => {
         this.isLoggingIn = true;
 
-        const accounts = this.authContext.getAllAccounts();
-        if (accounts.length) {
-            this.authContext.setActiveAccount(accounts[0]);
-            this.isLoggingIn = false;
-            this.shiftAndExecuteGetTokenCall();
-        } else {
-            this.authContext
-                .loginPopup()
-                .then(() => {
-                    // In case multiple accounts exist, you can select
-                    const currentAccounts = this.authContext.getAllAccounts();
-                    this.authContext.setActiveAccount(currentAccounts[0]);
+        const getTenantsAndContinuation = (name, userName, accounts) => {
+            this.userObjectId = accounts.find(
+                (a: any) => a.tenantId === this.tenantId
+            )?.idTokenClaims.oid;
+            this.getManagementToken(true).then((token) => {
+                this.promiseHttpRequest(
+                    token,
+                    `https://management.azure.com/tenants?api-version=2020-01-01`,
+                    {},
+                    'GET'
+                )
+                    .then((tenants: any) => {
+                        let resolvedTenants;
+                        try {
+                            const responsePayload = JSON.parse(tenants);
+                            resolvedTenants = responsePayload.value;
+                        } catch (err) {
+                            resolvedTenants = [];
+                            console.log(err);
+                        }
+                        if (continuation) {
+                            continuation({
+                                name,
+                                userName,
+                                tenants: resolvedTenants,
+                                accounts
+                            });
+                        } else {
+                            this.ssoSilent(userName);
+                        }
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                        if (continuation) {
+                            continuation({
+                                name,
+                                userName,
+                                tenants: [],
+                                accounts
+                            });
+                        } else {
+                            this.ssoSilent(userName);
+                        }
+                    });
+            });
+        };
+
+        this.MSALObj.handleRedirectPromise().then(
+            (resp: AuthenticationResult | null) => {
+                if (resp !== null) {
                     this.isLoggingIn = false;
-                    this.shiftAndExecuteGetTokenCall();
-                })
-                .catch(function (error) {
-                    //login failure
-                    alert(error);
-                });
-        }
+                    const activeAccount = resp.account;
+                    this.MSALObj.setActiveAccount(activeAccount);
+                    getTenantsAndContinuation(
+                        activeAccount.name,
+                        activeAccount.username,
+                        [activeAccount]
+                    );
+                } else {
+                    const currentAccounts = this.MSALObj.getAllAccounts();
+                    if (!currentAccounts || currentAccounts.length < 1) {
+                        this.MSALObj.loginRedirect(this.loginRedirectRequest);
+                    } else {
+                        this.isLoggingIn = false;
+                        const activeAccount = currentAccounts[0];
+                        this.MSALObj.setActiveAccount(activeAccount);
+                        getTenantsAndContinuation(
+                            activeAccount.name,
+                            activeAccount.username,
+                            currentAccounts
+                        );
+                    }
+                }
+            }
+        );
     };
 
-    private logout = () => {
-        this.authContext.logout();
+    logout = () => {
+        const account: AccountInfo =
+            this.MSALObj.getActiveAccount() ?? undefined;
+        const logOutRequest: EndSessionRequest = {
+            account
+        };
+
+        this.MSALObj.logoutRedirect(logOutRequest);
     };
 
     private shiftAndExecuteGetTokenCall = () => {
@@ -102,23 +180,32 @@ export default class MsalAuthService implements IAuthService {
 
         return () => {
             this.gettingToken = true;
-            this.authContext
-                .acquireTokenSilent(scope)
+            this.MSALObj.acquireTokenSilent(scope)
                 .then(resolveToken)
                 .catch((error) => {
-                    if (error instanceof Msal.InteractionRequiredAuthError) {
+                    if (error instanceof InteractionRequiredAuthError) {
                         // popups are likely to be blocked by the browser
                         // notify the user that they should enable them
                         alert(
                             'Some authentication flows will require pop-ups, please make sure popups are enabled for this site.'
                         );
-                        this.authContext
-                            .acquireTokenPopup(scope)
+                        this.MSALObj.acquireTokenPopup(scope)
                             .then(resolveToken)
                             .catch((error) => {
                                 console.error(error);
                                 resolveToken(error);
                             });
+                    } else if (
+                        error &&
+                        error.errorCode &&
+                        error.errorCode === 'no_tokens_found'
+                    ) {
+                        this.MSALObj.logoutRedirect({
+                            onRedirectNavigate: (_url) => {
+                                // Return false if you would like to stop navigation after local logout
+                                return false;
+                            }
+                        }).then(() => location.reload());
                     } else {
                         console.error(error);
                         resolveToken(error);
@@ -131,7 +218,9 @@ export default class MsalAuthService implements IAuthService {
         scope,
         allowParallelGetTokenAfterComplete = false
     ) => {
-        scope.authority = `${this.environmentToConstantMapping.authority}`;
+        if (this.tenantId !== DEFAULT_TENANT_ID && !scope.authority) {
+            scope.authority = `${this.authParams.login}${this.tenantId}`;
+        }
         return (resolve, reject) => {
             const getTokenCall = this.createGetTokenCall(
                 scope,
@@ -149,45 +238,121 @@ export default class MsalAuthService implements IAuthService {
         };
     };
 
-    public getToken = (tokenFor?: 'azureManagement' | 'adx' | 'storage') => {
-        let scope;
-        if (tokenFor === 'azureManagement') {
-            scope = 'https://management.azure.com//.default';
-            return new Promise(
-                this.getGenericTokenPromiseCallback(
-                    {
-                        scopes: [scope]
-                    },
-                    true
-                )
-            ) as Promise<string>;
-        } else if (tokenFor === 'adx') {
-            scope = 'https://help.kusto.windows.net/user_impersonation';
-            return new Promise(
-                this.getGenericTokenPromiseCallback(
-                    {
-                        scopes: [scope]
-                    },
-                    true
-                )
-            ) as Promise<string>;
-        } else if (tokenFor === 'storage') {
-            scope = 'https://storage.azure.com/user_impersonation';
-            return new Promise(
-                this.getGenericTokenPromiseCallback(
-                    {
-                        scopes: [scope]
-                    },
-                    true
-                )
-            ) as Promise<string>;
-        } else {
-            scope = this.environmentToConstantMapping.scope;
-            return new Promise(
-                this.getGenericTokenPromiseCallback({
-                    scopes: [scope]
-                })
-            ) as Promise<string>;
+    getToken = (
+        tokenFor: AuthTokenTypes,
+        useLoginAuthority = false
+    ): Promise<string> => {
+        let promise: Promise<string>;
+        switch (tokenFor) {
+            case AuthTokenTypes.management:
+                promise = this.getManagementToken(useLoginAuthority);
+                break;
+            case AuthTokenTypes.adx:
+                promise = this.getAdxToken();
+                break;
+            case AuthTokenTypes.adt:
+                promise = this.getAdtToken();
+                break;
+            case AuthTokenTypes.storage:
+                promise = this.getStorageToken();
+                break;
+            default:
+                promise = this.getAdtToken();
+                break;
         }
+        return promise as Promise<string>;
+    };
+
+    private getAdtToken = (): Promise<string> => {
+        const adtApiEndpoint = this.apiEndpoints.adt;
+        return new Promise(
+            this.getGenericTokenPromiseCallback({
+                scopes: [`${adtApiEndpoint}/.default`]
+            })
+        );
+    };
+
+    private getAdxToken = (): Promise<string> => {
+        const adxApiEndpoint = this.apiEndpoints.adx;
+        return new Promise(
+            this.getGenericTokenPromiseCallback({
+                scopes: [`${adxApiEndpoint}/user_impersonation`]
+            })
+        );
+    };
+
+    private getStorageToken = (): Promise<string> => {
+        const storageApiEndpoint = this.apiEndpoints.storage;
+        return new Promise(
+            this.getGenericTokenPromiseCallback({
+                scopes: [`${storageApiEndpoint}/user_impersonation`]
+            })
+        );
+    };
+
+    private getManagementToken = (
+        useLoginAuthority = false
+    ): Promise<string> => {
+        const managementApiEndpoint = this.apiEndpoints.management;
+        const scope = { scopes: [`${managementApiEndpoint}/.default`] };
+        if (useLoginAuthority) {
+            scope['authority'] = `${this.authParams.login}organizations`;
+        }
+        return new Promise(this.getGenericTokenPromiseCallback(scope));
+    };
+
+    private promiseHttpRequest = (token, url, payload, verb = 'POST') =>
+        new Promise((resolve, reject) => {
+            const xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = () => {
+                if (xhr.readyState !== 4) {
+                    return;
+                }
+
+                if (xhr.status === 200 || xhr.status === 202) {
+                    if (xhr.responseText.length === 0) {
+                        resolve({});
+                    } else {
+                        resolve(xhr.responseText);
+                    }
+                } else {
+                    reject(xhr);
+                }
+            };
+            xhr.open(verb, url);
+            xhr.setRequestHeader('Authorization', `Bearer ${token}`);
+            xhr.send(payload);
+        });
+
+    ssoSilent = (userName, continuation?: () => void) => {
+        const request: SsoSilentRequest = {
+            authority: `${this.authParams.login}${this.tenantId}`,
+            loginHint: userName
+        };
+        const setAccountAndContinue = (response) => {
+            if (response.account) {
+                this.MSALObj.setActiveAccount(response.account);
+            }
+            continuation?.();
+        };
+        const catchLogic = (err) => {
+            console.error('SSO failed');
+            console.error(err);
+            continuation?.();
+        };
+        this.MSALObj.ssoSilent(request)
+            .then(setAccountAndContinue)
+            .catch((err) => {
+                if (err instanceof InteractionRequiredAuthError) {
+                    alert(
+                        'Some authentication flows will require pop-ups, please make sure popups are enabled for this site.'
+                    );
+                    this.MSALObj.loginPopup(this.loginPopupRequest)
+                        .then(setAccountAndContinue)
+                        .catch(catchLogic);
+                } else {
+                    catchLogic(err);
+                }
+            });
     };
 }

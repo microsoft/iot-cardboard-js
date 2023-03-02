@@ -24,7 +24,8 @@ import {
     IAzureTimeSeriesDatabaseConnection,
     AzureResourceFetchParams,
     AzureResourceFetchParamsForResourceGraph,
-    AzureResourceFetchParamsForResourceProvider
+    AzureResourceFetchParamsForResourceProvider,
+    AuthTokenTypes
 } from '../Models/Constants';
 import {
     createGUID,
@@ -38,19 +39,11 @@ const debugLogging = false;
 const logDebugConsole = getDebugLogger('AzureManagementAdapter', debugLogging);
 export default class AzureManagementAdapter implements IAzureManagementAdapter {
     public authService: IAuthService;
-    public tenantId: string;
-    public uniqueObjectId: string;
     protected timeSeriesConnectionCache: AdapterEntityCache<ADTInstanceTimeSeriesConnectionData>;
 
-    constructor(
-        authService: IAuthService,
-        tenantId?: string,
-        uniqueObjectId?: string
-    ) {
+    constructor(authService: IAuthService) {
         this.authService = authService;
         this.authService.login();
-        this.tenantId = tenantId;
-        this.uniqueObjectId = uniqueObjectId;
         this.timeSeriesConnectionCache = new AdapterEntityCache<ADTInstanceTimeSeriesConnectionData>(
             timeSeriesConnectionRefreshMaxAge
         );
@@ -153,7 +146,7 @@ export default class AzureManagementAdapter implements IAzureManagementAdapter {
 
     /** Given a resource id and user object id, it will return a list of all of the role assignments
      * of the user defined for that resource */
-    async getRoleAssignments(resourceId: string, uniqueObjectId: string) {
+    async getRoleAssignments(resourceId: string, userObjectId: string) {
         const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
         return await adapterMethodSandbox.safelyFetchData(async (token) => {
             const url = `https://management.azure.com${resourceId}/providers/Microsoft.Authorization/roleAssignments`;
@@ -166,11 +159,11 @@ export default class AzureManagementAdapter implements IAzureManagementAdapter {
                         AzureResourcesAPIVersions[
                             'Microsoft.Authorization/roleAssignments'
                         ],
-                    filter: `atScope() and assignedTo('${uniqueObjectId}')`
+                    filter: `atScope() and assignedTo('${userObjectId}')`
                 }
             );
             return new AzureResourcesData(roleAssignments);
-        }, 'azureManagement');
+        }, AuthTokenTypes.management);
     }
 
     /** Checks if a user has a list of certain role defintions like Reader, Writer, Storage Owner, and etc.
@@ -178,11 +171,11 @@ export default class AzureManagementAdapter implements IAzureManagementAdapter {
     async hasRoleDefinitions(
         resourceId: string,
         accessRolesToCheck: AzureAccessPermissionRoleGroups,
-        uniqueObjectId: string = this.uniqueObjectId
+        userObjectId: string = this.authService.userObjectId
     ) {
         const userRoleAssignments = await this.getRoleAssignments(
             resourceId,
-            uniqueObjectId
+            userObjectId
         );
         const resultRoleAssignments = userRoleAssignments?.result?.data;
         const assignedRoleIds: Array<AzureAccessPermissionRoles> = getRoleIdsFromRoleAssignments(
@@ -208,13 +201,13 @@ export default class AzureManagementAdapter implements IAzureManagementAdapter {
      * in user's current role assignments for a particular resource */
     async getMissingRoleDefinitions(
         resourceId: string,
-        uniqueObjectId: string,
+        userObjectId: string,
         requiredAccessRoles: AzureAccessPermissionRoleGroups
     ) {
         try {
             const userRoleAssignments = await this.getRoleAssignments(
                 resourceId,
-                uniqueObjectId
+                userObjectId
             );
             const resultRoleAssignments = userRoleAssignments?.result?.data;
             const assignedRoleIds = getRoleIdsFromRoleAssignments(
@@ -250,7 +243,7 @@ export default class AzureManagementAdapter implements IAzureManagementAdapter {
                 }
             );
             return new AzureResourcesData(containers);
-        }, 'azureManagement');
+        }, AuthTokenTypes.management);
     }
 
     /** Returns the Azure resource provided by its url string with the help of Resource Graph api calls */
@@ -333,7 +326,7 @@ export default class AzureManagementAdapter implements IAzureManagementAdapter {
             }
 
             return new AzureResourceData(resource);
-        }, 'azureManagement');
+        }, AuthTokenTypes.management);
     }
 
     /** Returns list of all the resources of the given type and access role ids */
@@ -476,7 +469,7 @@ export default class AzureManagementAdapter implements IAzureManagementAdapter {
                 );
                 return null;
             }
-        }, 'azureManagement');
+        }, AuthTokenTypes.management);
     }
 
     /** Returns list of all the resources of the given type and access role ids */
@@ -508,8 +501,7 @@ export default class AzureManagementAdapter implements IAzureManagementAdapter {
                             this.hasRoleDefinitions(
                                 resource.id,
                                 params.requiredAccessRoles,
-                                params.getResourcesParams.userData
-                                    ?.uniqueObjectId
+                                params.getResourcesParams.userData?.userObjectId
                             )
                         )
                     );
@@ -545,14 +537,14 @@ export default class AzureManagementAdapter implements IAzureManagementAdapter {
                 );
                 return null;
             }
-        }, 'azureManagement');
+        }, AuthTokenTypes.management);
     }
 
     /** Given a role id, resource id (scope) and object id it assigns the given role to that resource for that user */
     async assignRole(
         roleDefinitionId: AzureAccessPermissionRoles,
         resourceId: string,
-        uniqueObjectId?: string
+        userObjectId?: string
     ) {
         const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
         return await adapterMethodSandbox.safelyFetchData(async (token) => {
@@ -570,7 +562,7 @@ export default class AzureManagementAdapter implements IAzureManagementAdapter {
                 data: {
                     properties: {
                         roleDefinitionId: `${resourceId}/providers/Microsoft.Authorization/roleDefinitions/${roleDefinitionId}`,
-                        principalId: uniqueObjectId
+                        principalId: userObjectId
                     }
                 }
             }).catch((err) => {
@@ -587,7 +579,7 @@ export default class AzureManagementAdapter implements IAzureManagementAdapter {
                 newRoleAssignment = newRoleAssignmentResult.data;
             }
             return new AzureResourcesData([newRoleAssignment]);
-        }, 'azureManagement');
+        }, AuthTokenTypes.management);
     }
 
     /** either pass id or hostName as adtInstanceIdentifier */
@@ -662,7 +654,7 @@ export default class AzureManagementAdapter implements IAzureManagementAdapter {
                     });
                     return new ADTInstanceTimeSeriesConnectionData(null);
                 }
-            }, 'azureManagement');
+            }, AuthTokenTypes.management);
 
         if (useCache) {
             return this.timeSeriesConnectionCache.getEntity(

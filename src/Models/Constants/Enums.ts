@@ -305,3 +305,10 @@ export enum QuickTimeSpanKey {
     Last180Days = 'Last 180 days',
     LastYear = 'Last year'
 }
+
+export enum AuthTokenTypes {
+    'management',
+    'adx',
+    'adt',
+    'storage'
+}

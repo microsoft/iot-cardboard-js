@@ -1,5 +1,6 @@
 import React from 'react';
 import useAuthParams from '../../../.storybook/useAuthParams';
+import { AuthTokenTypes } from '../../Models/Constants';
 import MsalAuthService from '../../Models/Services/MsalAuthService';
 import SceneView from './SceneView';
 
@@ -28,7 +29,7 @@ export const BasicObjectWithAuth = () => {
         >
             <SceneView
                 modelUrl="https://cardboardresources.blob.core.windows.net/3dv-workspace-2/TruckBoxesEnginesPastmachine.gltf"
-                getToken={() => authService.getToken('storage')}
+                getToken={() => authService.getToken(AuthTokenTypes.storage)}
             />
         </div>
     );

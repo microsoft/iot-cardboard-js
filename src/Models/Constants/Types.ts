@@ -243,7 +243,7 @@ export type AdapterMethodParamsForGetAzureResources = {
     searchParams?: AzureResourceSearchParams;
     resourceProviderEndpoint?: string;
     userData?: {
-        uniqueObjectId: string;
+        userObjectId: string;
     };
 };
 

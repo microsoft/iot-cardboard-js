@@ -35,9 +35,7 @@ const Template: ResourcePickerStory = (args) => {
                 new AzureManagementAdapter(
                     new MsalAuthService(
                         authenticationParameters.adt.aadParameters
-                    ),
-                    authenticationParameters.adt.aadParameters.tenantId,
-                    authenticationParameters.adt.aadParameters.uniqueObjectId
+                    )
                 )
             }
             {...(args.resourceType ===

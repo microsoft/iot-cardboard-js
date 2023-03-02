@@ -828,7 +828,7 @@ export default class MockAdapter
     async hasRoleDefinitions(
         _resourceId: string,
         _accessRolesToCheck: AzureAccessPermissionRoleGroups,
-        _uniqueObjectId?: string
+        _userObjectId?: string
     ) {
         return true;
     }
@@ -866,7 +866,7 @@ export default class MockAdapter
                         this.hasRoleDefinitions(
                             resource.id,
                             params.requiredAccessRoles,
-                            params.getResourcesParams.userData?.uniqueObjectId
+                            params.getResourcesParams.userData?.userObjectId
                         )
                     )
                 );
