@@ -802,7 +802,7 @@ export default class ADTAdapter implements IADTAdapter {
                 return axios({
                     method: 'get',
                     url: this.generateUrl(
-                        `${this.adtProxyServerPath}/models/${encodeURIComponent(
+                        `/models/${encodeURIComponent(
                             targetModelId
                         )}?includeModelDefinition=True`
                     ),
