@@ -90,9 +90,6 @@ export const LOCAL_STORAGE_KEYS = {
         Telemetry: {
             debugLogging: 'cardboard.debug.telemetryLogging' // enables debug logging for all emitted telemetry events
         },
-        DataHistoryExplorer: {
-            showExplorer: 'cardboard.feature.dataHistoryExplorer' // enables data history explorer feature if supported
-        },
         Proxy: {
             forceCORS: 'cardboard.feature.forceCORS' // force CORS to run instead of proxy
         },
