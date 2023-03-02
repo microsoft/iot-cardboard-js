@@ -2,7 +2,6 @@ import React, { createContext } from 'react';
 import { TreeProps, PropertyTreeProps } from './PropertyTree.types';
 import './PropertyTree.scss';
 import TreeNode from './TreeComponents/TreeNode';
-import { LOCAL_STORAGE_KEYS } from '../../../Models/Constants/Constants';
 import DataHistoryExplorerModalControl from '../../DataHistoryExplorerModal/DataHistoryExplorerModalControl/DataHistoryExplorerModalControl';
 
 export const PropertyTreeContext = createContext<
