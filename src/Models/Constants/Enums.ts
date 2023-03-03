@@ -310,5 +310,6 @@ export enum AuthTokenTypes {
     'management',
     'adx',
     'adt',
-    'storage'
+    'storage',
+    'powerBI'
 }
