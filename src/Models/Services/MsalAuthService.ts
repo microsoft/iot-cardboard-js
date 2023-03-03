@@ -62,7 +62,8 @@ export default class MsalAuthService implements IAuthService {
         };
         this.loginRedirectRequest = {
             ...this.loginPopupRequest,
-            redirectStartPage: window.location.href
+            redirectStartPage: window.location.href,
+            prompt: 'select_account'
         };
     }
 
