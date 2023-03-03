@@ -655,6 +655,42 @@
       },
       "headerMenu": "Nabídka widgetu Historie dat",
       "openQuery": "Otevřený dotaz v Azure Průzkumník dat"
+    },
+    "powerBI": {
+      "title": "Widget Power BI",
+      "libraryName": "Vizuál Power BI",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
+      "type": {
+        "label": "Typ",
+        "options": {
+          "report": "Zpráva",
+          "dashboard": "Palubní deska",
+          "tile": "Dlaždice",
+          "visual": "Vizuální"
+        }
+      },
+      "pageName": {
+        "label": "Název stránky",
+        "placeholder": "Název stránky"
+      },
+      "visualName": {
+        "label": "Název vizuálu",
+        "placeholder": "Název vizuálu",
+        "suffix": "Zadejte název konkrétního prvku ze sestavy, který se má zobrazit v tomto widgetu."
+      },
+      "dataFilters": {
+        "label": "Filtry dat"
+      },
+      "errors": {
+        "missingReportConfiguration": "Ujistěte se, že je váš widget správně nakonfigurován",
+        "missingConfiguration": "Konfigurace widgetu chybí nebo je neplatná",
+        "missingAdapter": "Ujistěte se, že je adaptér Power BI nainstalovaný a nakonfigurovaný"
+      },
+      "embedUrl": {
+        "label": "Adresa URL pro vložení",
+        "placeholder": "https://embed.powerbi.com/groups/me/reports/{reportId}",
+        "description": "Adresa URL použitá k vložení artefaktů sestavy do externích nástrojů"
+      }
     }
   },
   "sdkStrings": {
@@ -962,8 +998,6 @@
     "inheritances": "Dědictví",
     "components": "Součásti",
     "runLayout": "Rozložení Spustit",
-    "errorRepeatedId": "Model se stejným ID již existuje",
-    "errorRepeatedEdgeName": "Vztah se stejným názvem již existuje",
     "errorDisplayNameLength": "Zobrazovaný název nesmí přesáhnout 64 znaků",
     "errorIdLength": "ID nesmí překročit 2048 znaků",
     "errorIdValidDTMI": "ID musí být platné DTMI",
@@ -1150,7 +1184,6 @@
   "advancedSearch": {
     "toggleSelection": "Přepnout na Vybrat dvojče",
     "selectRow": "Vybrané dvojče",
-    "inspectProperty": "Zkontrolovat nemovitost",
     "results": "Výsledky ({{twinCount}})",
     "noPropertiesFound": "Nebyly nalezeny žádné možnosti ubytování",
     "addNewButton": "Přidat nové",
@@ -1172,7 +1205,8 @@
     "columnPicker": "Výběr sloupců",
     "propertyCount": "{{selectedPropsCount}} vlastnosti vybrané",
     "availableProperties": "Rozbalovací nabídka dostupných ubytování",
-    "selectAdditionalColumns": "Výběr dalších sloupců"
+    "selectAdditionalColumns": "Výběr dalších sloupců",
+    "inspectProperties": "Kontrola vlastností"
   },
   "highcharts": {
     "shareQueryTitle": "Sdílet dotaz",
@@ -1260,6 +1294,9 @@
       "Version3PreviewLabel": {
         "badgeText": "Náhled",
         "badgeCalloutText": "Tento model používá DTDL verze 3. Kliknutím se dozvíte více"
+      },
+      "PropertyList": {
+        "mapKeyName": "Název klíče mapy"
       }
     },
     "PropertyTypes": {
@@ -1304,6 +1341,12 @@
     "ImportLimits": {
       "message": "V současné době je celkový počet vztahů, komponent a dědičností v ontologii omezen na {{count}} v Ontology Designer.",
       "title": "Dosažený referenční limit"
+    },
+    "Errors": {
+      "invalidJSONTitle": "Neplatný kód JSON",
+      "invalidJSONMessage": "Zadaný kód JSON je neplatný. Opravte prosím JSON a zkuste to znovu.",
+      "validationFailedTitle": "Ověření se nezdařilo",
+      "validationFailedMessage": "Při ověřování změn došlo k potížím."
     }
   },
   "dataHistoryErrorHandlingWrapper": {
@@ -1405,11 +1448,9 @@
     "errorDisplayName": "Zobrazovaný název nesmí být delší než 64 znaků",
     "errorIdLength": "ID nesmí překročit 2048 znaků",
     "errorIdValidDTMI": "Id musí být platný DTMI",
-    "errorInvalidJSON": "Neplatný kód JSON",
     "errorName": "Název může obsahovat pouze znaky a-z, A-Z, 0-9 a podtržítko",
     "errorNameLength": "Název nesmí být delší než 64 znaků",
     "errorRepeatedEnumValue": "Hodnota výčtu se stejnou hodnotou již existuje",
-    "errorRepeatedId": "Model se stejným ID již existuje",
     "errorRepeatedName": "Model se stejným názvem již existuje",
     "errorRepeatedPropertyName": "Vlastnost se stejným názvem již existuje",
     "expand": "Expandovat",
@@ -1419,13 +1460,10 @@
     "id": "Id",
     "info": "Informace",
     "integer": "celé číslo",
-    "json": "JSON",
     "key": "Klíč",
     "linestring": "Řetězec řádků",
     "long": "dlouhý",
     "map": "mapa",
-    "mapKeyName": "Název klíče mapování",
-    "mapValueName": "Název hodnoty mapy",
     "maxMultiplicityLabel": "Maximální násobnost",
     "minMultiplicityLabel": "Minimální násobnost",
     "minMultiplicityMessage": "DTDL V2 podporuje pouze minimální násobnost 0",
@@ -1488,6 +1526,10 @@
         "changeChildTypeLabelForEnum": "Změna typu výčtu",
         "editMetadataLabel": "Upravit metadata"
       }
-    }
+    },
+    "jsonEditorTabName": "DTDL"
+  },
+  "jobs": {
+    "addNew": "Přidat nový"
   }
 }

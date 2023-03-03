@@ -36,7 +36,8 @@ export default class MsalAuthService implements IAuthService {
         management: 'https://management.azure.com',
         adx: 'https://help.kusto.windows.net',
         adt: 'https://digitaltwins.azure.net',
-        storage: 'https://storage.azure.com'
+        storage: 'https://storage.azure.com',
+        powerBI: 'https://analysis.windows.net/powerbi/api'
     };
 
     constructor(authParams: IAuthParams) {
@@ -269,6 +270,9 @@ export default class MsalAuthService implements IAuthService {
             case AuthTokenTypes.storage:
                 promise = this.getStorageToken();
                 break;
+            case AuthTokenTypes.powerBI:
+                promise = this.getPowerBIToken();
+                break;
             default:
                 promise = this.getAdtToken();
                 break;
@@ -311,6 +315,12 @@ export default class MsalAuthService implements IAuthService {
         if (useLoginAuthority) {
             scope['authority'] = `${this.authParams.login}organizations`;
         }
+        return new Promise(this.getGenericTokenPromiseCallback(scope));
+    };
+
+    private getPowerBIToken = (): Promise<string> => {
+        const powerBIApiEndpoint = this.apiEndpoints.powerBI;
+        const scope = { scopes: [`${powerBIApiEndpoint}/.default`] };
         return new Promise(this.getGenericTokenPromiseCallback(scope));
     };
 

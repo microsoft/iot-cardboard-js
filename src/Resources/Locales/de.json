@@ -655,6 +655,42 @@
       },
       "headerMenu": "Menü des Widgets \"Datenverlauf\"",
       "openQuery": "Abfrage im Azure-Daten-Explorer öffnen"
+    },
+    "powerBI": {
+      "title": "Power BI-Widget",
+      "libraryName": "Power BI-Visualisierung",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
+      "type": {
+        "label": "Art",
+        "options": {
+          "report": "Bericht",
+          "dashboard": "Instrumententafel",
+          "tile": "Fliese",
+          "visual": "Visuell"
+        }
+      },
+      "pageName": {
+        "label": "Seitenname",
+        "placeholder": "Seitenname"
+      },
+      "visualName": {
+        "label": "Visueller Name",
+        "placeholder": "Visueller Name",
+        "suffix": "Geben Sie den Namen des spezifischen Elements aus dem Bericht ein, das in diesem Widget angezeigt werden soll."
+      },
+      "dataFilters": {
+        "label": "Datenfilter"
+      },
+      "errors": {
+        "missingReportConfiguration": "Bitte stellen Sie sicher, dass Ihr Widget richtig konfiguriert ist",
+        "missingConfiguration": "Widget-Konfiguration fehlt oder ist ungültig",
+        "missingAdapter": "Stellen Sie sicher, dass der Power BI-Adapter installiert und konfiguriert ist."
+      },
+      "embedUrl": {
+        "label": "URL einbetten",
+        "placeholder": "https://embed.powerbi.com/groups/me/reports/{reportId}",
+        "description": "Die URL zum Einbetten von Berichtsartefakten in externe Tools"
+      }
     }
   },
   "sdkStrings": {
@@ -1085,9 +1121,7 @@
     "errorNameLength": "Name darf 64 Zeichen nicht überschreiten",
     "errorIdLength": "ID darf 2048 Zeichen nicht überschreiten",
     "errorIdValidDTMI": "ID muss ein gültiges DTMI sein",
-    "errorRepeatedId": "Ein Modell mit derselben ID ist bereits vorhanden",
     "errorDisplayNameLength": "Anzeigename darf 64 Zeichen nicht überschreiten",
-    "errorRepeatedEdgeName": "Eine Beziehung mit demselben Namen existiert bereits",
     "runLayout": "Layout ausführen",
     "extends": "Erweitert",
     "loadingText": "Layoutpositionen berechnen"
@@ -1150,7 +1184,6 @@
   "advancedSearch": {
     "toggleSelection": "Zum Auswählen von Twin umschalten",
     "selectRow": "Twin Selected",
-    "inspectProperty": "Inspect-Eigenschaft",
     "results": "Ergebnisse ({{twinCount}})",
     "noPropertiesFound": "Keine Eigenschaften gefunden",
     "addNewButton": "Neues hinzufügen",
@@ -1172,7 +1205,8 @@
     "columnPicker": "Spaltenauswahl",
     "propertyCount": "{{selectedPropsCount}}-Eigenschaften ausgewählt",
     "availableProperties": "Dropdown-Liste der verfügbaren Eigenschaften",
-    "selectAdditionalColumns": "Zusätzliche Spalten auswählen"
+    "selectAdditionalColumns": "Zusätzliche Spalten auswählen",
+    "inspectProperties": "Eigenschaften prüfen"
   },
   "highcharts": {
     "shareQueryTitle": "Freigabeabfrage",
@@ -1260,6 +1294,9 @@
       "Version3PreviewLabel": {
         "badgeText": "Vorschau",
         "badgeCalloutText": "Dieses Modell verwendet DTDL Version 3. Klicken Sie hier, um mehr zu erfahren"
+      },
+      "PropertyList": {
+        "mapKeyName": "Name des Kartenschlüssels"
       }
     },
     "PropertyTypes": {
@@ -1304,6 +1341,12 @@
     "ImportLimits": {
       "message": "Derzeit ist die Gesamtzahl der Beziehungen, Komponenten und Vererbungen in einer Ontologie im Ontology Designer auf {{count}} beschränkt.",
       "title": "Referenzgrenzwert erreicht"
+    },
+    "Errors": {
+      "invalidJSONTitle": "Ungültiges JSON",
+      "invalidJSONMessage": "Der eingegebene JSON-Code ist ungültig. Bitte korrigieren Sie den JSON-Code und versuchen Sie es erneut.",
+      "validationFailedTitle": "Validierung fehlgeschlagen",
+      "validationFailedMessage": "Beim Überprüfen Ihrer Änderungen ist ein Problem aufgetreten."
     }
   },
   "dataHistoryErrorHandlingWrapper": {
@@ -1405,11 +1448,9 @@
     "errorDisplayName": "Anzeigename darf 64 Zeichen nicht überschreiten",
     "errorIdLength": "ID darf 2048 Zeichen nicht überschreiten",
     "errorIdValidDTMI": "ID muss ein gültiger DTMI sein",
-    "errorInvalidJSON": "Ungültiges JSON",
     "errorName": "Name darf nur die Zeichen a-z, A-Z, 0-9 und Unterstrich enthalten",
     "errorNameLength": "Name darf 64 Zeichen nicht überschreiten",
     "errorRepeatedEnumValue": "Ein Enumerationswert mit demselben Wert ist bereits vorhanden",
-    "errorRepeatedId": "Ein Modell mit derselben ID ist bereits vorhanden",
     "errorRepeatedName": "Ein gleichnamiges Modell existiert bereits",
     "errorRepeatedPropertyName": "Eine Eigenschaft mit demselben Namen ist bereits vorhanden",
     "expand": "Erweitern",
@@ -1419,13 +1460,10 @@
     "id": "Id",
     "info": "Info",
     "integer": "ganze Zahl",
-    "json": "JSON",
     "key": "Schlüssel",
     "linestring": "Zeilenzeichenfolge",
     "long": "lang",
     "map": "Landkarte",
-    "mapKeyName": "Name des Kartenschlüssels",
-    "mapValueName": "Name des Kartenwerts",
     "maxMultiplicityLabel": "Maximale Vielfalt",
     "minMultiplicityLabel": "Minimale Vielfalt",
     "minMultiplicityMessage": "DTDL V2 unterstützt nur eine minimale Multiplizität von 0",
@@ -1488,6 +1526,10 @@
         "changeChildTypeLabelForEnum": "Ändern des Enumerationswerttyps",
         "editMetadataLabel": "Metadaten bearbeiten"
       }
-    }
+    },
+    "jsonEditorTabName": "DTDL"
+  },
+  "jobs": {
+    "addNew": "Neu hinzufügen"
   }
 }

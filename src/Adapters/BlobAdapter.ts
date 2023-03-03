@@ -12,12 +12,14 @@ import {
     ADT3DSceneConfigFileNameInBlobStore,
     BlobStorageServiceCorsAllowedHeaders,
     BlobStorageServiceCorsAllowedMethods,
-    BlobStorageServiceCorsAllowedOrigins
+    BlobStorageServiceCorsAllowedOrigins,
+    LOCAL_STORAGE_KEYS
 } from '../Models/Constants/Constants';
 import {
     validate3DConfigWithSchema,
     getTimeStamp,
-    getUrlFromString
+    getUrlFromString,
+    validateExplorerOrigin
 } from '../Models/Services/Utils';
 import { XMLBuilder, XMLParser } from 'fast-xml-parser';
 import {
@@ -28,6 +30,11 @@ import { I3DScenesConfig } from '../Models/Types/Generated/3DScenesConfiguration
 import defaultConfig from './__mockData__/3DScenesConfiguration.default.json';
 import { ComponentError } from '../Models/Classes';
 import { handleMigrations, LogConfigFileTelemetry } from './BlobAdapterUtility';
+import { AxiosObjParam } from '../Models/Constants/Types';
+
+const forceCORS =
+    localStorage.getItem(LOCAL_STORAGE_KEYS.FeatureFlags.Proxy.forceCORS) ===
+    'true';
 
 export default class BlobAdapter implements IBlobAdapter {
     protected storageAccountName: string;
@@ -36,16 +43,57 @@ export default class BlobAdapter implements IBlobAdapter {
     protected containerResourceId: string; // resource scope
     protected blobAuthService: IAuthService;
     protected blobProxyServerPath: string;
+    protected useBlobProxy: boolean;
 
     constructor(
         blobContainerUrl: string,
         authService: IAuthService,
-        blobProxyServerPath = '/proxy/blob'
+        blobProxyServerPath = '/proxy/blob',
+        useBlobProxy = true
     ) {
         this.setBlobContainerPath(blobContainerUrl);
         this.blobAuthService = authService;
         this.blobAuthService.login();
         this.blobProxyServerPath = blobProxyServerPath;
+        /**
+         * Check if class has been initialized with CORS enabled or if origin matches dev or prod explorer urls,
+         * override if CORS is forced by feature flag
+         *  */
+        this.useBlobProxy =
+            (useBlobProxy || !validateExplorerOrigin(window.origin)) &&
+            !forceCORS;
+    }
+
+    getBlobContainerURL() {
+        return this.storageAccountHostName && this.containerName
+            ? `https://${this.storageAccountHostName}/${this.containerName}`
+            : '';
+    }
+
+    getStorageAccountURL() {
+        return this.storageAccountHostName
+            ? `https://${this.storageAccountHostName}`
+            : '';
+    }
+
+    generateBlobUrl(path: string) {
+        if (this.useBlobProxy) {
+            return `${this.blobProxyServerPath}${path}`;
+        } else {
+            // Need to have this done with only storage account since path will always include container name if required
+            return `${this.getStorageAccountURL()}${path}`;
+        }
+    }
+
+    generateBlobHeaders(headers: AxiosObjParam = {}) {
+        if (this.useBlobProxy) {
+            return {
+                ...headers,
+                'x-blob-host': this.storageAccountHostName
+            };
+        } else {
+            return headers;
+        }
     }
 
     async resetSceneConfig() {
@@ -55,18 +103,20 @@ export default class BlobAdapter implements IBlobAdapter {
         return await adapterMethodSandbox.safelyFetchData(async (token) => {
             const copyConfigBlob = async () => {
                 const todayDate = getTimeStamp();
+                const headers = {
+                    authorization: 'Bearer ' + token,
+                    'x-ms-version': '2017-11-09',
+                    'Content-Type': 'application/json',
+                    'x-ms-blob-type': 'BlockBlob',
+                    'x-ms-copy-source': `https://${this.storageAccountHostName}/${this.containerName}/${ADT3DSceneConfigFileNameInBlobStore}.json`,
+                    'x-ms-requires-sync': 'true'
+                };
                 await axios({
                     method: 'put',
-                    url: `${this.blobProxyServerPath}/${this.containerName}/3DScenesConfiguration_corrupted_${todayDate}.json`,
-                    headers: {
-                        authorization: 'Bearer ' + token,
-                        'x-ms-version': '2017-11-09',
-                        'Content-Type': 'application/json',
-                        'x-ms-blob-type': 'BlockBlob',
-                        'x-blob-host': this.storageAccountHostName,
-                        'x-ms-copy-source': `https://${this.storageAccountHostName}/${this.containerName}/${ADT3DSceneConfigFileNameInBlobStore}.json`,
-                        'x-ms-requires-sync': 'true'
-                    }
+                    url: this.generateBlobUrl(
+                        `/${this.containerName}/3DScenesConfiguration_corrupted_${todayDate}.json`
+                    ),
+                    headers: this.generateBlobHeaders(headers)
                 });
                 return new ADTScenesConfigData(null);
             };
@@ -82,12 +132,6 @@ export default class BlobAdapter implements IBlobAdapter {
                 });
             }
         }, AuthTokenTypes.storage);
-    }
-
-    getBlobContainerURL() {
-        return this.storageAccountHostName && this.containerName
-            ? `https://${this.storageAccountHostName}/${this.containerName}`
-            : '';
     }
 
     setBlobContainerPath(blobContainerURL: string) {
@@ -113,17 +157,18 @@ export default class BlobAdapter implements IBlobAdapter {
                 if (this.storageAccountHostName && this.containerName) {
                     const headers = {};
                     headers['x-ms-version'] = '2017-11-09';
-                    headers['x-blob-host'] = this.storageAccountHostName;
                     if (token) {
                         headers['Authorization'] = 'Bearer ' + token;
                     }
 
                     const scenesBlob = await axios({
                         method: 'GET',
-                        url: `${this.blobProxyServerPath}/${
-                            this.containerName
-                        }/${ADT3DSceneConfigFileNameInBlobStore}.json?cachebust=${new Date().valueOf()}`,
-                        headers: headers
+                        url: this.generateBlobUrl(
+                            `/${
+                                this.containerName
+                            }/${ADT3DSceneConfigFileNameInBlobStore}.json?cachebust=${new Date().valueOf()}`
+                        ),
+                        headers: this.generateBlobHeaders(headers)
                     });
                     if (scenesBlob.data) {
                         config = validate3DConfigWithSchema(scenesBlob.data);
@@ -180,17 +225,19 @@ export default class BlobAdapter implements IBlobAdapter {
         const adapterMethodSandbox = new AdapterMethodSandbox(
             this.blobAuthService
         );
+        const headers = {
+            'Content-Type': 'application/json',
+            'x-ms-version': '2017-11-09',
+            'x-ms-blob-type': 'BlockBlob'
+        };
         return adapterMethodSandbox.safelyFetchDataCancellableAxiosPromise(
             ADTScenesConfigData,
             {
                 method: 'put',
-                url: `${this.blobProxyServerPath}/${this.containerName}/${ADT3DSceneConfigFileNameInBlobStore}.json`,
-                headers: {
-                    'Content-Type': 'application/json',
-                    'x-ms-version': '2017-11-09',
-                    'x-blob-host': this.storageAccountHostName,
-                    'x-ms-blob-type': 'BlockBlob'
-                },
+                url: this.generateBlobUrl(
+                    `/${this.containerName}/${ADT3DSceneConfigFileNameInBlobStore}.json`
+                ),
+                headers: this.generateBlobHeaders(headers),
                 data: config
             },
             undefined,
@@ -206,17 +253,18 @@ export default class BlobAdapter implements IBlobAdapter {
         const adapterMethodSandbox = new AdapterMethodSandbox(
             this.blobAuthService
         );
+
         return await adapterMethodSandbox.safelyFetchData(async (token) => {
+            const headers = {
+                authorization: 'Bearer ' + token,
+                'Content-Type': 'application/json',
+                'x-ms-version': '2017-11-09'
+            };
             try {
                 const filesData = await axios({
                     method: 'GET',
-                    url: `${this.blobProxyServerPath}/${this.containerName}`,
-                    headers: {
-                        authorization: 'Bearer ' + token,
-                        'Content-Type': 'application/json',
-                        'x-ms-version': '2017-11-09',
-                        'x-blob-host': this.storageAccountHostName
-                    },
+                    url: this.generateBlobUrl(`/${this.containerName}`),
+                    headers: this.generateBlobHeaders(headers),
                     params: {
                         restype: 'container',
                         comp: 'list'
@@ -266,17 +314,19 @@ export default class BlobAdapter implements IBlobAdapter {
             }
         };
 
+        const headers = {
+            'x-ms-version': '2017-11-09',
+            'x-ms-blob-type': 'BlockBlob',
+            'Content-Type': 'application/octet-stream'
+        };
         return adapterMethodSandbox.safelyFetchDataCancellableAxiosPromise(
             StorageBlobsData,
             {
                 method: 'put',
-                url: `${this.blobProxyServerPath}/${this.containerName}/${file.name}`,
-                headers: {
-                    'x-ms-version': '2017-11-09',
-                    'x-blob-host': this.storageAccountHostName,
-                    'x-ms-blob-type': 'BlockBlob',
-                    'Content-Type': 'application/octet-stream'
-                },
+                url: this.generateBlobUrl(
+                    `/${this.containerName}/${file.name}`
+                ),
+                headers: this.generateBlobHeaders(headers),
                 data: file
             },
             createBlobFileData,
@@ -405,15 +455,16 @@ export default class BlobAdapter implements IBlobAdapter {
             }
         };
 
+        const headers = {
+            'x-ms-version': '2021-06-08'
+        };
         return adapterMethodSandbox.safelyFetchDataCancellableAxiosPromise(
             StorageBlobServiceCorsRulesData,
             {
                 method: 'get',
-                url: `${this.blobProxyServerPath}`,
-                headers: {
-                    'x-ms-version': '2021-06-08',
-                    'x-blob-host': this.storageAccountHostName
-                },
+                // URL here requires storage account with container name removed
+                url: this.generateBlobUrl(''),
+                headers: this.generateBlobHeaders(headers),
                 params: {
                     restype: 'service',
                     comp: 'properties'
@@ -447,16 +498,17 @@ export default class BlobAdapter implements IBlobAdapter {
             }
         });
 
+        const headers = {
+            'x-ms-version': '2020-08-04',
+            'Content-Type': 'text/xml'
+        };
         return adapterMethodSandbox.safelyFetchDataCancellableAxiosPromise(
             StorageBlobServiceCorsRulesData,
             {
                 method: 'put',
-                url: `${this.blobProxyServerPath}`,
-                headers: {
-                    'x-ms-version': '2020-08-04',
-                    'x-blob-host': this.storageAccountHostName,
-                    'Content-Type': 'text/xml'
-                },
+                // URL here requires storage account url with container name removed
+                url: this.generateBlobUrl(''),
+                headers: this.generateBlobHeaders(headers),
                 params: {
                     restype: 'service',
                     comp: 'properties'

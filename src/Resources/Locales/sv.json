@@ -655,6 +655,42 @@
       },
       "headerMenu": "Widgetmenyn Datahistorik",
       "openQuery": "Öppna frågan i Azure Data Explorer"
+    },
+    "powerBI": {
+      "title": "Power BI-widget",
+      "libraryName": "Visuellt Power BI-objekt",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
+      "type": {
+        "label": "Typ",
+        "options": {
+          "report": "Rapport",
+          "dashboard": "Instrumentbräda",
+          "tile": "Kakel",
+          "visual": "Visuell"
+        }
+      },
+      "pageName": {
+        "label": "Sidans namn",
+        "placeholder": "Sidans namn"
+      },
+      "visualName": {
+        "label": "Visuellt namn",
+        "placeholder": "Visuellt namn",
+        "suffix": "Ange namnet på det specifika elementet från rapporten som ska visas i den här widgeten"
+      },
+      "dataFilters": {
+        "label": "Datafilter"
+      },
+      "errors": {
+        "missingReportConfiguration": "Se till att din widget är korrekt konfigurerad",
+        "missingConfiguration": "Widgetkonfiguration saknas eller är ogiltig",
+        "missingAdapter": "Se till att Power BI-kortet är installerat och konfigurerat"
+      },
+      "embedUrl": {
+        "label": "URL för inbäddning",
+        "placeholder": "https://embed.powerbi.com/groups/me/reports/{reportId}",
+        "description": "URL:en som används för att bädda in rapportartefakter i externa verktyg"
+      }
     }
   },
   "sdkStrings": {
@@ -1085,9 +1121,7 @@
     "errorNameLength": "Namnet får inte överstiga 64 rödingar",
     "errorIdLength": "Id får inte överstiga 2048 rödingar",
     "errorIdValidDTMI": "ID måste vara ett giltigt DTMI",
-    "errorRepeatedId": "En modell med samma id finns redan",
     "errorDisplayNameLength": "Visningsnamn får inte överstiga 64 tecken",
-    "errorRepeatedEdgeName": "En relation med samma namn finns redan",
     "runLayout": "Kör layout",
     "extends": "Sträcker sig",
     "loadingText": "Positioner för datorlayout"
@@ -1150,7 +1184,6 @@
   "advancedSearch": {
     "toggleSelection": "Växla till Välj tvilling",
     "selectRow": "Tvilling vald",
-    "inspectProperty": "Inspektera egendom",
     "results": "Resultat ({{twinCount}})",
     "noPropertiesFound": "Inga fastigheter hittades",
     "addNewButton": "Lägg till ny",
@@ -1172,7 +1205,8 @@
     "columnPicker": "Kolumnväljare",
     "propertyCount": "{{selectedPropsCount}} egenskaper valda",
     "availableProperties": "Rullgardinsmeny med tillgängliga egenskaper",
-    "selectAdditionalColumns": "Välj ytterligare kolumner"
+    "selectAdditionalColumns": "Välj ytterligare kolumner",
+    "inspectProperties": "Inspektera egenskaper"
   },
   "highcharts": {
     "shareQueryTitle": "Dela fråga",
@@ -1260,6 +1294,9 @@
       "Version3PreviewLabel": {
         "badgeText": "Förhandsvisning",
         "badgeCalloutText": "Den här modellen använder DTDL version 3. Klicka för att läsa mer"
+      },
+      "PropertyList": {
+        "mapKeyName": "Namn på kartnyckel"
       }
     },
     "PropertyTypes": {
@@ -1304,6 +1341,12 @@
     "ImportLimits": {
       "message": "För närvarande är det totala antalet relationer, komponenter och arv i en ontologi begränsat till {{count}} i Ontology Designer.",
       "title": "Referensgränsen uppnådd"
+    },
+    "Errors": {
+      "invalidJSONTitle": "Ogiltig JSON",
+      "invalidJSONMessage": "Den JSON som du angav är ogiltig. Åtgärda JSON och försök igen.",
+      "validationFailedTitle": "Valideringen misslyckades",
+      "validationFailedMessage": "Det uppstod ett problem när du validerade ändringarna."
     }
   },
   "dataHistoryErrorHandlingWrapper": {
@@ -1405,11 +1448,9 @@
     "errorDisplayName": "Visningsnamnet får inte överstiga 64 tecken",
     "errorIdLength": "Id får inte överstiga 2048 tecken",
     "errorIdValidDTMI": "Id måste vara ett giltigt DTMI",
-    "errorInvalidJSON": "Ogiltig JSON",
     "errorName": "Namnet får bara innehålla tecknen a-z, A-Z, 0-9 och understreck",
     "errorNameLength": "Namnet får inte överstiga 64 tecken",
     "errorRepeatedEnumValue": "Det finns redan ett uppräkningsvärde med samma värde",
-    "errorRepeatedId": "Det finns redan en modell med samma ID",
     "errorRepeatedName": "En modell med samma namn finns redan",
     "errorRepeatedPropertyName": "En egenskap med samma namn finns redan",
     "expand": "Expandera",
@@ -1419,13 +1460,10 @@
     "id": "Id",
     "info": "Information",
     "integer": "heltal",
-    "json": "JSON",
     "key": "Nyckel",
     "linestring": "linjesträng",
     "long": "lång",
     "map": "karta",
-    "mapKeyName": "Namn på kartnyckel",
-    "mapValueName": "Namn på kartvärde",
     "maxMultiplicityLabel": "Maximal mångfald",
     "minMultiplicityLabel": "Minsta mångfald",
     "minMultiplicityMessage": "DTDL V2 stöder endast en minsta mångfald på 0",
@@ -1488,6 +1526,10 @@
         "changeChildTypeLabelForEnum": "Ändra uppräkningsvärdetyp",
         "editMetadataLabel": "Redigera metadata"
       }
-    }
+    },
+    "jsonEditorTabName": "DTDL"
+  },
+  "jobs": {
+    "addNew": "Lägg till nya"
   }
 }

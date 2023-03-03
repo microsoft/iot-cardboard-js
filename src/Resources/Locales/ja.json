@@ -655,6 +655,42 @@
       },
       "headerMenu": "データ履歴ウィジェットメニュー",
       "openQuery": "Azure データ エクスプローラーでクエリを開く"
+    },
+    "powerBI": {
+      "title": "Power BI ウィジェット",
+      "libraryName": "Power BI Visual",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
+      "type": {
+        "label": "種類",
+        "options": {
+          "report": "報告",
+          "dashboard": "ダッシュボード",
+          "tile": "瓦",
+          "visual": "ビジュアル"
+        }
+      },
+      "pageName": {
+        "label": "ページ名",
+        "placeholder": "ページ名"
+      },
+      "visualName": {
+        "label": "ビジュアル名",
+        "placeholder": "ビジュアル名",
+        "suffix": "このウィジェットに表示するレポートの特定の要素の名前を入力します。"
+      },
+      "dataFilters": {
+        "label": "データフィルタ"
+      },
+      "errors": {
+        "missingReportConfiguration": "ウィジェットが正しく構成されていることを確認してください",
+        "missingConfiguration": "ウィジェットの構成が見つからないか、無効です",
+        "missingAdapter": "Power BI アダプターがインストールされ、構成されていることを確認してください。"
+      },
+      "embedUrl": {
+        "label": "埋め込み URL",
+        "placeholder": "https://embed.powerbi.com/groups/me/reports/{reportId}",
+        "description": "外部ツールにレポート成果物を埋め込むために使用される URL"
+      }
     }
   },
   "sdkStrings": {
@@ -1085,9 +1121,7 @@
     "errorNameLength": "名前は 64 文字を超えてはなりません。",
     "errorIdLength": "ID は 2048 文字を超えてはなりません",
     "errorIdValidDTMI": "ID は有効な DTMI である必要があります。",
-    "errorRepeatedId": "同じ ID のモデルが既に存在します",
     "errorDisplayNameLength": "表示名は 64 文字を超えてはなりません。",
-    "errorRepeatedEdgeName": "同じ名前の関係が既に存在します",
     "runLayout": "実行レイアウト",
     "extends": "拡張",
     "loadingText": "レイアウト位置の計算"
@@ -1150,7 +1184,6 @@
   "advancedSearch": {
     "toggleSelection": "ツインの選択に切り替えます",
     "selectRow": "選択されたツイン",
-    "inspectProperty": "プロパティの検査",
     "results": "結果 ({{twinCount}})",
     "noPropertiesFound": "プロパティが見つかりません",
     "addNewButton": "新規追加",
@@ -1172,7 +1205,8 @@
     "columnPicker": "列ピッカー",
     "propertyCount": "{{selectedPropsCount}} プロパティが選択されました",
     "availableProperties": "利用可能なプロパティのドロップダウン",
-    "selectAdditionalColumns": "追加の列の選択"
+    "selectAdditionalColumns": "追加の列の選択",
+    "inspectProperties": "プロパティの検査"
   },
   "highcharts": {
     "shareQueryTitle": "共有クエリ",
@@ -1260,6 +1294,9 @@
       "Version3PreviewLabel": {
         "badgeText": "プレビュー",
         "badgeCalloutText": "このモデルは DTDL バージョン 3 を使用します。クリックして詳細をご覧ください"
+      },
+      "PropertyList": {
+        "mapKeyName": "マップキー名"
       }
     },
     "PropertyTypes": {
@@ -1304,6 +1341,12 @@
     "ImportLimits": {
       "message": "現在、オントロジー内の関係、コンポーネント、継承の総数は、オントロジーデザイナーの{{count}}に制限されています。",
       "title": "参照制限に達しました"
+    },
+    "Errors": {
+      "invalidJSONTitle": "無効な JSON",
+      "invalidJSONMessage": "入力した JSON は無効です。JSONを修正して、もう一度やり直してください。",
+      "validationFailedTitle": "検証に失敗しました",
+      "validationFailedMessage": "変更の検証中に問題が発生しました。"
     }
   },
   "dataHistoryErrorHandlingWrapper": {
@@ -1405,11 +1448,9 @@
     "errorDisplayName": "表示名は 64 文字を超えることはできません",
     "errorIdLength": "ID は 2048 文字を超えることはできません",
     "errorIdValidDTMI": "ID は有効な DTMI である必要があります",
-    "errorInvalidJSON": "無効な JSON",
     "errorName": "名前に使用できるのは、文字 a から z、A から Z、0 から 9、およびアンダースコアのみです。",
     "errorNameLength": "名前は 64 文字以下にする必要があります",
     "errorRepeatedEnumValue": "同じ値の列挙値が既に存在します",
-    "errorRepeatedId": "同じ ID を持つモデルが既に存在する",
     "errorRepeatedName": "同じ名前のモデルが既に存在する",
     "errorRepeatedPropertyName": "同じ名前のプロパティが既に存在します",
     "expand": "膨らむ",
@@ -1419,13 +1460,10 @@
     "id": "身分証明書",
     "info": "情報",
     "integer": "整数",
-    "json": "ティッカー",
     "key": "鍵",
     "linestring": "ラインストリング",
     "long": "長い",
     "map": "地図",
-    "mapKeyName": "マップ キー名",
-    "mapValueName": "マップ値の名前",
     "maxMultiplicityLabel": "最大多重度",
     "minMultiplicityLabel": "最小多重度",
     "minMultiplicityMessage": "DTDL V2 では、最小多重度 0 のみがサポートされます。",
@@ -1488,6 +1526,10 @@
         "changeChildTypeLabelForEnum": "列挙値の型を変更する",
         "editMetadataLabel": "メタデータの編集"
       }
-    }
+    },
+    "jsonEditorTabName": "ティッカー"
+  },
+  "jobs": {
+    "addNew": "新規追加"
   }
 }

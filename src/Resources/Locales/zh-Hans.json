@@ -655,6 +655,42 @@
       },
       "headerMenu": "“数据历史记录”小组件菜单",
       "openQuery": "在 Azure 数据资源管理器中打开查询"
+    },
+    "powerBI": {
+      "title": "Power BI 小组件",
+      "libraryName": "Power BI Visual",
+      "description": "Lorem ipsum dolor sit amet， consectetur adipiscing elit， sed do eiusmod tempor",
+      "type": {
+        "label": "类型",
+        "options": {
+          "report": "报告",
+          "dashboard": "挡泥板",
+          "tile": "瓦",
+          "visual": "视觉"
+        }
+      },
+      "pageName": {
+        "label": "页面名称",
+        "placeholder": "页面名称"
+      },
+      "visualName": {
+        "label": "视觉对象名称",
+        "placeholder": "视觉对象名称",
+        "suffix": "输入报表中要在此小组件中显示的特定元素的名称"
+      },
+      "dataFilters": {
+        "label": "数据过滤器"
+      },
+      "errors": {
+        "missingReportConfiguration": "请确保您的小部件配置正确",
+        "missingConfiguration": "小组件配置缺失或无效",
+        "missingAdapter": "请确保已安装并配置 Power BI 适配器"
+      },
+      "embedUrl": {
+        "label": "嵌入网址",
+        "placeholder": "https://embed.powerbi.com/groups/me/reports/{reportId}",
+        "description": "用于在外部工具中嵌入报表项目的 URL"
+      }
     }
   },
   "sdkStrings": {
@@ -1085,9 +1121,7 @@
     "errorNameLength": "姓名不得超过 64 个字符",
     "errorIdLength": "Id 不得超过 2048 个字符",
     "errorIdValidDTMI": "ID 必须是有效的 DTMI",
-    "errorRepeatedId": "具有相同 ID 的模型已存在",
     "errorDisplayNameLength": "显示名称不得超过 64 个字符",
-    "errorRepeatedEdgeName": "具有相同名称的关系已存在",
     "runLayout": "运行布局",
     "extends": "延伸",
     "loadingText": "计算布局位置"
@@ -1150,7 +1184,6 @@
   "advancedSearch": {
     "toggleSelection": "切换为选择双胞胎",
     "selectRow": "选择双床间",
-    "inspectProperty": "检查属性",
     "results": "Results （{{twinCount}}）",
     "noPropertiesFound": "未找到任何属性",
     "addNewButton": "添加新的",
@@ -1172,7 +1205,8 @@
     "columnPicker": "列选取器",
     "propertyCount": "{{选定的属性计数}} 属性已选择",
     "availableProperties": "可用属性的下拉列表",
-    "selectAdditionalColumns": "选择其他列"
+    "selectAdditionalColumns": "选择其他列",
+    "inspectProperties": "检查属性"
   },
   "highcharts": {
     "shareQueryTitle": "共享查询",
@@ -1260,6 +1294,9 @@
       "Version3PreviewLabel": {
         "badgeText": "预览",
         "badgeCalloutText": "此模型使用 DTDL 版本 3。点击了解更多"
+      },
+      "PropertyList": {
+        "mapKeyName": "映射键名称"
       }
     },
     "PropertyTypes": {
@@ -1304,6 +1341,12 @@
     "ImportLimits": {
       "message": "目前，本体中关系、组件和继承的总数在本体设计器中限制为 {{count}}。",
       "title": "已达到参考限制"
+    },
+    "Errors": {
+      "invalidJSONTitle": "无效的 JSON",
+      "invalidJSONMessage": "您输入的 JSON 无效。请修复 JSON，然后重试。",
+      "validationFailedTitle": "验证失败",
+      "validationFailedMessage": "验证更改时出现问题。"
     }
   },
   "dataHistoryErrorHandlingWrapper": {
@@ -1405,11 +1448,9 @@
     "errorDisplayName": "显示名称不得超过 64 个字符",
     "errorIdLength": "Id 不得超过 2048 个字符",
     "errorIdValidDTMI": "ID 必须是有效的 DTMI",
-    "errorInvalidJSON": "无效的 JSON",
     "errorName": "名称只能包含字符 a-z、A-Z、0-9 和下划线",
     "errorNameLength": "姓名不得超过 64 个字符",
     "errorRepeatedEnumValue": "具有相同值的枚举值已存在",
-    "errorRepeatedId": "具有相同 ID 的模型已存在",
     "errorRepeatedName": "同名模型已存在",
     "errorRepeatedPropertyName": "具有相同名称的属性已存在",
     "expand": "扩大",
@@ -1419,13 +1460,10 @@
     "id": "编号",
     "info": "信息",
     "integer": "整数",
-    "json": "杰伦",
     "key": "钥匙",
     "linestring": "线串",
     "long": "长",
     "map": "地图",
-    "mapKeyName": "映射键名称",
-    "mapValueName": "映射值名称",
     "maxMultiplicityLabel": "最大多重性",
     "minMultiplicityLabel": "最小多重性",
     "minMultiplicityMessage": "DTDL V2 仅支持最小多重性 0",
@@ -1488,6 +1526,10 @@
         "changeChildTypeLabelForEnum": "更改枚举值类型",
         "editMetadataLabel": "编辑元数据"
       }
-    }
+    },
+    "jsonEditorTabName": "DTDL"
+  },
+  "jobs": {
+    "addNew": "新增"
   }
 }

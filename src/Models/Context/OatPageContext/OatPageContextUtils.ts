@@ -357,7 +357,7 @@ export const updateModelId = (
     models.forEach((m) =>
         m.contents.forEach((c) => {
             const r = c as DtdlRelationship;
-            if (r && r.target === oldId) {
+            if (r && r.target && ensureIsArray(r.target)[0] === oldId) {
                 r.target = newId;
             }
             if (r && r['@id'] === oldId) {
@@ -493,6 +493,16 @@ export const addTargetedRelationship = (
         return;
     }
 
+    if (!isValidRelationship(sourceModelId, targetModelId, relationshipType)) {
+        console.error(
+            'Invalid relationship. {source, target, relationshipType}',
+            sourceModelId,
+            targetModelId,
+            relationshipType
+        );
+        return;
+    }
+
     let newRelationship: DtdlInterfaceContent | string;
     if (
         relationshipType === DTDLType.Component ||
@@ -517,7 +527,7 @@ export const addTargetedRelationship = (
         sourceModel.contents = [...sourceModel.contents, newRelationship];
     } else if (relationshipType === 'Extend') {
         // extends
-        const existing = new Set(sourceModel.extends);
+        const existing = new Set(ensureIsArray(sourceModel.extends));
         existing.add(targetModelId);
         sourceModel.extends = Array.from(existing).sort(sortCaseInsensitive());
         newRelationship = targetModelId;
@@ -532,6 +542,22 @@ export const addTargetedRelationship = (
     );
     return newRelationship;
 };
+
+const isValidRelationship = (
+    sourceModelId: string,
+    targetModelId: string,
+    relationshipType: OatReferenceType
+): boolean => {
+    if (
+        sourceModelId === targetModelId &&
+        (relationshipType === DTDLType.Component ||
+            relationshipType === 'Extend')
+    ) {
+        return false;
+    }
+    return true;
+};
+
 export const addUntargetedRelationship = (
     state: IOatPageContextState,
     sourceModelId: string,

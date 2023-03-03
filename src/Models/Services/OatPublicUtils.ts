@@ -26,18 +26,28 @@ const logDebugConsole = getDebugLogger('OATPublicUtils', debugLogging);
  * @returns a string containing the errors or empty string if successful
  */
 export async function parseModels(models: DtdlInterface[]): Promise<string> {
+    const innerModels = stripV3Features(models);
     const modelParser = createParser(
         ModelParsingOption.PermitAnyTopLevelElement
     );
     try {
-        await modelParser.parse([JSON.stringify(models)]);
+        await modelParser.parse([JSON.stringify(innerModels)]);
         return '';
     } catch (err) {
-        console.error('Error while parsing models {input, error}', models, err);
+        console.error(
+            'Error while parsing models {input, error}',
+            innerModels,
+            err
+        );
         if (err.name === 'ParsingException') {
             console.error('Parsing errors {errors}', err._parsingErrors);
             return err._parsingErrors
-                .map((e) => `${e.cause} ${e.action}`)
+                .map((e) => {
+                    const updatedCause = e.cause.endsWith('.')
+                        ? e.cause
+                        : `${e.cause}.`;
+                    return `${updatedCause} ${e.action}`;
+                })
                 .join('\n');
         }
 
@@ -211,7 +221,7 @@ const getModelsFromFiles = async (
     // run the parser for full validations
     const combinedModels = [...currentModels, ...newModels];
 
-    const error = await parseModels(stripV3Features(deepCopy(combinedModels)));
+    const error = await parseModels(deepCopy(combinedModels));
     if (error) {
         filesErrors.push(
             translate(localizationKeys.ImportFailedMessage, {

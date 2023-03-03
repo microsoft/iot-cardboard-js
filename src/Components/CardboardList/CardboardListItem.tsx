@@ -12,7 +12,7 @@ import { OverflowMenu } from '../OverflowMenu/OverflowMenu';
 import { ICardboardListItemPropsInternal } from './CardboardList.types';
 import { getStyles, getButtonStyles } from './CardboardListItem.styles';
 
-export const CardboardListItem = <T extends unknown>(
+export const CardboardListItem = <T,>(
     props: ICardboardListItemPropsInternal<T> & { children?: ReactNode }
 ) => {
     const {

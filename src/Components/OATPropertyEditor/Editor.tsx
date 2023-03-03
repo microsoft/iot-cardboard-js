@@ -1,8 +1,7 @@
-import React, { useCallback, useRef } from 'react';
+import React, { useCallback } from 'react';
 import { classNamesFunction, Pivot, PivotItem, styled } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import NoResultImg from '../../Resources/Static/emptyClipboard.svg';
-import TemplateColumn from './Internal/TemplateColumn';
 import {
     SET_OAT_PROPERTY_MODAL_BODY,
     SET_OAT_PROPERTY_MODAL_OPEN
@@ -50,12 +49,11 @@ const Editor: React.FC<IEditorProps> = (props) => {
 
     // styles
     const classNames = getClassNames(styles, {
-        theme: useExtendedTheme()
+        theme: useExtendedTheme(),
+        selectedTab: oatPageState.selectedPropertyEditorTab
     });
 
     // state
-    const enteredTemplateRef = useRef(null);
-    const enteredPropertyRef = useRef(null);
 
     // callbacks
     const onTabClick = useCallback(
@@ -135,9 +133,9 @@ const Editor: React.FC<IEditorProps> = (props) => {
                         />
                     </PivotItem>
                     <PivotItem
-                        headerText={t('OATPropertyEditor.json')}
+                        headerText={t('OATPropertyEditor.jsonEditorTabName')}
                         className={classNames.pivotItem}
-                        itemKey={IOatPropertyEditorTabKey.Json}
+                        itemKey={IOatPropertyEditorTabKey.DTDL}
                         // remove pivot height - padding
                         style={{
                             height: `calc(100vh - ${PANEL_VERTICAL_SPACING}px - 32px - 36px)` // 32px=padding, 36px=tab headers
@@ -155,14 +153,6 @@ const Editor: React.FC<IEditorProps> = (props) => {
                             <Version3PreviewLabel />
                         </div>
                     )}
-                {oatPageState.templatesActive && (
-                    <TemplateColumn
-                        enteredPropertyRef={enteredPropertyRef}
-                        enteredTemplateRef={enteredTemplateRef}
-                        dispatch={editorDispatch}
-                        state={editorState}
-                    />
-                )}
             </div>
             <OATModal
                 isOpen={editorState.modalOpen}

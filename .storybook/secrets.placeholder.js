@@ -25,5 +25,10 @@ export const AuthenticationParameters = {
             clientId: 'CLIENTID_PLACEHOLDER',
             tenantId: 'OPTIONAL_TENANTID_PLACEHOLDER'
         }
+    },
+    powerBI: {
+        embedUrl: 'POWERBI_EMBED_URL',
+        pageName: 'POWERBI_PAGE_NAME',
+        visualName: 'POWERBI_VISUAL_NAME'
     }
 };

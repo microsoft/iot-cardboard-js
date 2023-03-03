@@ -655,6 +655,42 @@
       },
       "headerMenu": "Menu widżetu Historia danych",
       "openQuery": "Otwieranie zapytania w usłudze Azure Data Explorer"
+    },
+    "powerBI": {
+      "title": "Widżet usługi Power BIPower BI widget",
+      "libraryName": "Power BI Visual",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
+      "type": {
+        "label": "Typ",
+        "options": {
+          "report": "Sprawozdanie",
+          "dashboard": "Deska rozdzielcza",
+          "tile": "Kafelek",
+          "visual": "Wizualny"
+        }
+      },
+      "pageName": {
+        "label": "Nazwa strony",
+        "placeholder": "Nazwa strony"
+      },
+      "visualName": {
+        "label": "Nazwa wizualna",
+        "placeholder": "Nazwa wizualna",
+        "suffix": "Wprowadź nazwę określonego elementu z raportu, który ma być wyświetlany w tym widżecie"
+      },
+      "dataFilters": {
+        "label": "Filtry danych"
+      },
+      "errors": {
+        "missingReportConfiguration": "Upewnij się, że widżet jest poprawnie skonfigurowany",
+        "missingConfiguration": "Brak konfiguracji widżetu lub jest on nieprawidłowy",
+        "missingAdapter": "Upewnij się, że karta Power BI jest zainstalowana i skonfigurowana."
+      },
+      "embedUrl": {
+        "label": "Umieść adres URL",
+        "placeholder": "https://embed.powerbi.com/groups/me/reports/{reportId}",
+        "description": "Adres URL używany do osadzania artefaktów raportu w narzędziach zewnętrznych"
+      }
     }
   },
   "sdkStrings": {
@@ -1085,9 +1121,7 @@
     "errorNameLength": "Nazwa nie może przekraczać 64 znaków",
     "errorIdLength": "Id nie może przekraczać 2048 znaków",
     "errorIdValidDTMI": "Identyfikator musi być prawidłowym kodem DTMI",
-    "errorRepeatedId": "Model o tym samym identyfikatorze już istnieje",
     "errorDisplayNameLength": "Nazwa wyświetlana nie może przekraczać 64 znaków",
-    "errorRepeatedEdgeName": "Relacja o tej samej nazwie już istnieje",
     "runLayout": "Uruchom układ",
     "extends": "Rozszerza",
     "loadingText": "Pozycje układu obliczeniowego"
@@ -1150,7 +1184,6 @@
   "advancedSearch": {
     "toggleSelection": "Przełącz na Wybierz Twin",
     "selectRow": "Twin Selected",
-    "inspectProperty": "Sprawdź nieruchomość",
     "results": "Wyniki ({{twinCount}})",
     "noPropertiesFound": "Nie znaleziono obiektów",
     "addNewButton": "Dodaj nowy",
@@ -1172,7 +1205,8 @@
     "columnPicker": "Selektor kolumn",
     "propertyCount": "Wybrano właściwości {{selectedPropsCount}}",
     "availableProperties": "Lista rozwijana dostępnych właściwości",
-    "selectAdditionalColumns": "Zaznaczanie dodatkowych kolumn"
+    "selectAdditionalColumns": "Zaznaczanie dodatkowych kolumn",
+    "inspectProperties": "Sprawdzanie właściwości"
   },
   "highcharts": {
     "shareQueryTitle": "Udostępnianie zapytania",
@@ -1260,6 +1294,9 @@
       "Version3PreviewLabel": {
         "badgeText": "Prapremiera",
         "badgeCalloutText": "Ten model korzysta z DTDL w wersji 3. Kliknij, aby dowiedzieć się więcej"
+      },
+      "PropertyList": {
+        "mapKeyName": "Nazwa klucza mapy"
       }
     },
     "PropertyTypes": {
@@ -1304,6 +1341,12 @@
     "ImportLimits": {
       "message": "Obecnie całkowita liczba relacji, składników i dziedziczeń w ontologii jest ograniczona do {{count}} w Ontology Designer.",
       "title": "Osiągnięta granica odniesienia"
+    },
+    "Errors": {
+      "invalidJSONTitle": "Nieprawidłowy JSON",
+      "invalidJSONMessage": "Wprowadzony kod JSON jest nieprawidłowy. Napraw JSON i spróbuj ponownie.",
+      "validationFailedTitle": "Sprawdzanie poprawności nie powiodło się",
+      "validationFailedMessage": "Wystąpił problem podczas sprawdzania poprawności zmian."
     }
   },
   "dataHistoryErrorHandlingWrapper": {
@@ -1405,11 +1448,9 @@
     "errorDisplayName": "Nazwa wyświetlana nie może przekraczać 64 znaków",
     "errorIdLength": "Identyfikator nie może przekraczać 2048 znaków",
     "errorIdValidDTMI": "Identyfikator musi być prawidłowym kodem DTMI",
-    "errorInvalidJSON": "Nieprawidłowy JSON",
     "errorName": "Nazwa może zawierać tylko znaki a-z, A-Z, 0-9 i podkreślenie",
     "errorNameLength": "Nazwa nie może przekraczać 64 znaków",
     "errorRepeatedEnumValue": "Wartość wyliczenia o tej samej wartości już istnieje",
-    "errorRepeatedId": "Model o tym samym identyfikatorze już istnieje",
     "errorRepeatedName": "Model o tej samej nazwie już istnieje",
     "errorRepeatedPropertyName": "Właściwość o tej samej nazwie już istnieje",
     "expand": "Rozszerzać",
@@ -1419,13 +1460,10 @@
     "id": "Id",
     "info": "Informacji",
     "integer": "liczba całkowita",
-    "json": "JSON",
     "key": "Klucz",
     "linestring": "Ciąg liniowy",
     "long": "długi",
     "map": "mapa",
-    "mapKeyName": "Nazwa klucza mapy",
-    "mapValueName": "Nazwa wartości mapy",
     "maxMultiplicityLabel": "Maksymalna wielokrotność",
     "minMultiplicityLabel": "Minimalna wielokrotność",
     "minMultiplicityMessage": "DTDL V2 obsługuje tylko minimalną wielokrotność 0",
@@ -1488,6 +1526,10 @@
         "changeChildTypeLabelForEnum": "Zmienianie typu wartości wyliczenia",
         "editMetadataLabel": "Edytowanie metadanych"
       }
-    }
+    },
+    "jsonEditorTabName": "DTDL"
+  },
+  "jobs": {
+    "addNew": "Dodaj nowy"
   }
 }

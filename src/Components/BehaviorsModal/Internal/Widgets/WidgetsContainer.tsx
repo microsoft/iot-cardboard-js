@@ -1,10 +1,12 @@
 import { useTheme } from '@fluentui/react';
 import React, { useContext } from 'react';
 import { WidgetType } from '../../../../Models/Classes/3DVConfig';
+import { LOCAL_STORAGE_KEYS } from '../../../../Models/Constants';
 import {
     IPopoverVisual,
     IWidget
 } from '../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
+import PowerBIWidget from '../../../PowerBIWidget/PowerBIWidget';
 import { BehaviorsModalContext } from '../../BehaviorsModal';
 import DataHistoryWidget from './DataHistoryWidget/DataHistoryWidget';
 import GaugeWidget from './GaugeWidget/GaugeWidget';
@@ -29,6 +31,15 @@ const makeWidget = (widget: IWidget) => {
             return <ValueWidget key={widget.id} widget={widget} />;
         case WidgetType.DataHistory:
             return <DataHistoryWidget key={widget.id} widget={widget} />;
+        case WidgetType.PowerBI:
+            if (
+                localStorage.getItem(
+                    LOCAL_STORAGE_KEYS.FeatureFlags.PowerBI.showWidgets
+                ) === 'true'
+            ) {
+                return <PowerBIWidget key={widget.id} widget={widget} />;
+            }
+            return null;
         default:
             return null;
     }
@@ -46,7 +57,8 @@ const WidgetsContainer: React.FC<IWidgetContainerProps> = ({
                 <div
                     key={widget.id}
                     className={
-                        widget.type === WidgetType.DataHistory
+                        widget.type === WidgetType.DataHistory ||
+                        widget.type === WidgetType.PowerBI
                             ? getWidgetClassNames(
                                   theme,
                                   mode,

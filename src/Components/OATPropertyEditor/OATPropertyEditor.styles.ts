@@ -3,8 +3,7 @@ import {
     mergeStyleSets,
     useTheme,
     FontSizes,
-    IButtonStyles,
-    ISeparatorStyles
+    IButtonStyles
 } from '@fluentui/react';
 import { CardboardClassNamePrefix } from '../../Models/Constants';
 import { useExtendedTheme } from '../../Models/Hooks/useExtendedTheme';
@@ -225,41 +224,6 @@ export const getPropertyEditorTextFieldStyles = () => {
     };
 };
 
-/* Property Selector */
-
-export const getPropertySelectorStyles = () => {
-    const theme = useTheme();
-    return {
-        root: {
-            display: 'flex',
-            flexDirection: 'row',
-            backgroundColor: theme.semanticColors.listBackground,
-            borderRadius: '4px',
-            borderBottom: `1px solid ${theme.semanticColors.variantBorder}`,
-            zIndex: 100,
-            boxShadow: '0px 5px 10px 1px rgba(0,0,0,0.05)',
-            position: 'absolute',
-            left: '-50%',
-            bottom: '100%'
-        }
-    };
-};
-
-export const getPropertySelectorSeparatorStyles = () => {
-    const theme = useTheme();
-    return {
-        root: {
-            width: '100%',
-            height: 'fill-available',
-            padding: 0,
-            margin: '2px 0px',
-            ':after': {
-                backgroundColor: theme.semanticColors.variantBorder
-            }
-        }
-    } as Partial<ISeparatorStyles>;
-};
-
 /* Template Column */
 
 export const getTemplateColumnStyles = () => {
@@ -302,31 +266,4 @@ export const getRadioGroupRowStyles = () => {
             }
         }
     };
-};
-
-export const getModalTextFieldStyles = () => {
-    return {
-        root: {
-            width: '100%',
-            minWidth: '100%'
-        }
-    };
-};
-
-export const getCancelButtonStyles = () => {
-    return {
-        root: {
-            zIndex: '202',
-            marginRight: '8px',
-            float: 'right'
-        }
-    } as IButtonStyles;
-};
-export const getSaveButtonStyles = () => {
-    return {
-        root: {
-            zIndex: '202',
-            float: 'right'
-        }
-    } as IButtonStyles;
 };

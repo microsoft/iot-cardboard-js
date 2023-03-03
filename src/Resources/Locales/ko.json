@@ -655,6 +655,42 @@
       },
       "headerMenu": "데이터 기록 위젯 메뉴",
       "openQuery": "Azure 데이터 탐색기에서 쿼리 열기"
+    },
+    "powerBI": {
+      "title": "Power BI 위젯",
+      "libraryName": "Power BI Visual",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
+      "type": {
+        "label": "형",
+        "options": {
+          "report": "보고서",
+          "dashboard": "대시보드",
+          "tile": "타일",
+          "visual": "시각의"
+        }
+      },
+      "pageName": {
+        "label": "페이지 이름",
+        "placeholder": "페이지 이름"
+      },
+      "visualName": {
+        "label": "시각적 개체 이름",
+        "placeholder": "시각적 개체 이름",
+        "suffix": "이 위젯에 표시할 보고서의 특정 요소 이름을 입력합니다."
+      },
+      "dataFilters": {
+        "label": "데이터 필터"
+      },
+      "errors": {
+        "missingReportConfiguration": "위젯이 올바르게 구성되었는지 확인하십시오.",
+        "missingConfiguration": "위젯 구성이 누락되었거나 잘못되었습니다.",
+        "missingAdapter": "Power BI 어댑터가 설치 및 구성되어 있는지 확인하세요."
+      },
+      "embedUrl": {
+        "label": "URL 포함",
+        "placeholder": "https://embed.powerbi.com/groups/me/reports/{보고서 ID}",
+        "description": "외부 도구에 보고서 아티팩트를 포함하는 데 사용되는 URL"
+      }
     }
   },
   "sdkStrings": {
@@ -1085,9 +1121,7 @@
     "errorNameLength": "이름은 64자를 초과할 수 없습니다.",
     "errorIdLength": "ID는 2048자를 초과할 수 없습니다.",
     "errorIdValidDTMI": "ID는 유효한 DTMI여야 합니다.",
-    "errorRepeatedId": "동일한 ID를 가진 모델이 이미 존재합니다.",
     "errorDisplayNameLength": "표시 이름은 64자를 초과할 수 없습니다.",
-    "errorRepeatedEdgeName": "같은 이름의 관계가 이미 존재합니다.",
     "runLayout": "실행 레이아웃",
     "extends": "확장",
     "loadingText": "레이아웃 위치 계산"
@@ -1150,7 +1184,6 @@
   "advancedSearch": {
     "toggleSelection": "트윈 선택으로 전환",
     "selectRow": "트윈 선택",
-    "inspectProperty": "속성 검사",
     "results": "결과 ({{twinCount}})",
     "noPropertiesFound": "속성을 찾을 수 없음",
     "addNewButton": "새로 추가",
@@ -1172,7 +1205,8 @@
     "columnPicker": "열 선택기",
     "propertyCount": "{{selectedPropsCount}} 속성 선택됨",
     "availableProperties": "사용 가능한 속성의 드롭다운",
-    "selectAdditionalColumns": "추가 열 선택"
+    "selectAdditionalColumns": "추가 열 선택",
+    "inspectProperties": "속성 검사"
   },
   "highcharts": {
     "shareQueryTitle": "쿼리 공유",
@@ -1260,6 +1294,9 @@
       "Version3PreviewLabel": {
         "badgeText": "미리 보기",
         "badgeCalloutText": "이 모델은 DTDL 버전 3을 사용합니다. 클릭하여 자세히 알아보기"
+      },
+      "PropertyList": {
+        "mapKeyName": "맵 키 이름"
       }
     },
     "PropertyTypes": {
@@ -1304,6 +1341,12 @@
     "ImportLimits": {
       "message": "현재 온톨로지의 관계, 구성 요소 및 상속의 총 수는 온톨로지 디자이너에서 {{count}}로 제한됩니다.",
       "title": "참조 한계에 도달했습니다."
+    },
+    "Errors": {
+      "invalidJSONTitle": "잘못된 JSON",
+      "invalidJSONMessage": "입력한 JSON이 잘못되었습니다. JSON을 수정하고 다시 시도하십시오.",
+      "validationFailedTitle": "유효성 검사 실패",
+      "validationFailedMessage": "변경 내용의 유효성을 검사하는 동안 문제가 발생했습니다."
     }
   },
   "dataHistoryErrorHandlingWrapper": {
@@ -1405,11 +1448,9 @@
     "errorDisplayName": "표시 이름은 64자를 초과할 수 없습니다.",
     "errorIdLength": "ID는 2048자를 초과할 수 없습니다.",
     "errorIdValidDTMI": "ID는 유효한 DTMI여야 합니다.",
-    "errorInvalidJSON": "잘못된 JSON",
     "errorName": "이름에는 a-z, A-Z, 0-9 및 밑줄만 포함될 수 있습니다.",
     "errorNameLength": "이름은 64자를 초과할 수 없습니다.",
     "errorRepeatedEnumValue": "동일한 값을 가진 열거형 값이 이미 있습니다.",
-    "errorRepeatedId": "ID가 동일한 모델이 이미 존재합니다.",
     "errorRepeatedName": "이름이 같은 모델이 이미 있습니다.",
     "errorRepeatedPropertyName": "이름이 같은 속성이 이미 있습니다.",
     "expand": "넓히다",
@@ -1419,13 +1460,10 @@
     "id": "아이디",
     "info": "정보",
     "integer": "정수",
-    "json": "증권 시세 표시기",
     "key": "열쇠",
     "linestring": "라인 문자열",
     "long": "오래",
     "map": "지도",
-    "mapKeyName": "맵 키 이름",
-    "mapValueName": "맵 값 이름",
     "maxMultiplicityLabel": "최대 다중성",
     "minMultiplicityLabel": "최소 다중성",
     "minMultiplicityMessage": "DTDL V2는 최소 복합성 0만 지원합니다.",
@@ -1488,6 +1526,10 @@
         "changeChildTypeLabelForEnum": "열거형 값 형식 변경",
         "editMetadataLabel": "메타데이터 편집"
       }
-    }
+    },
+    "jsonEditorTabName": "증권 시세 표시기"
+  },
+  "jobs": {
+    "addNew": "새로 추가"
   }
 }

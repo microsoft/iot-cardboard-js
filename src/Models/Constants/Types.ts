@@ -154,6 +154,16 @@ export type AdapterMethodParamsForGetScenes = {
     continuationToken?: string;
 };
 
+export type AdapterMethodParamsForJobs = {
+    jobId: string;
+};
+
+export type AdapterCreateJobArgs = {
+    outputBlobUri: string;
+    inputBlobUri: string;
+    jobId: string;
+};
+
 export type ADTRelationshipsApiData = {
     value: IADTRelationship[];
     nextLink: string;
@@ -207,6 +217,7 @@ export type OatIconNames =
     | 'DocumentManagement'
     | 'Down'
     | 'GroupList'
+    | 'Permissions'
     | 'TextField'
     | 'ToggleRight'
     | 'Up'

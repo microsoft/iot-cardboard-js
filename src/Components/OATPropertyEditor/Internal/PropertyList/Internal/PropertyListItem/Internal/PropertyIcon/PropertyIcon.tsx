@@ -18,7 +18,7 @@ const getClassNames = classNamesFunction<
 >();
 
 const PropertyIcon: React.FC<IPropertyIconProps> = (props) => {
-    const { schema, styles } = props;
+    const { overrideIcon, schema, styles } = props;
 
     // contexts
 
@@ -38,6 +38,13 @@ const PropertyIcon: React.FC<IPropertyIconProps> = (props) => {
 
     // data
     const { iconSource, iconTitle, iconType } = useMemo(() => {
+        if (overrideIcon) {
+            return {
+                iconSource: overrideIcon.name,
+                iconTitle: overrideIcon.title,
+                iconType: 'Fluent'
+            };
+        }
         const iconData = PROPERTY_ICON_DATA.get(getSchemaType(schema));
         return {
             iconSource:
@@ -47,7 +54,7 @@ const PropertyIcon: React.FC<IPropertyIconProps> = (props) => {
             iconTitle: iconData?.title ? t(iconData.title) : '',
             iconType: iconData?.source
         };
-    }, [schema, t]);
+    }, [overrideIcon, schema, t]);
 
     return (
         <div className={classNames.root}>

@@ -40,7 +40,10 @@ import {
     AdapterMethodParamsForSearchADTTwins,
     AdapterMethodParamsForGetAzureResources,
     AzureAccessPermissionRoleGroups,
-    AdapterMethodParamsForSearchTwinsByQuery
+    AdapterMethodParamsForSearchTwinsByQuery,
+    AdapterMethodParamsForJobs,
+    AdapterCreateJobArgs,
+    TimeSeriesData
 } from './Types';
 import {
     ADTModel_ImgPropertyPositions_PropertyName,
@@ -221,7 +224,7 @@ export interface IMockAdapter {
     /** If unset, random data is generated, if explicitly set, MockAdapter will use value for mocked data.
      *  To mock empty data, explicitly set { mockData: null }
      */
-    mockData?: any;
+    mockData?: IMockData;
 
     /** Mocked network timeout period, defaults to 0ms */
     networkTimeoutMillis?: number;
@@ -231,6 +234,13 @@ export interface IMockAdapter {
 
     /** Toggles seeding of random data (data remains constants between builds), defaults to true */
     isDataStatic?: boolean;
+}
+
+export interface IMockData {
+    scenesConfig?: I3DScenesConfig;
+    twins?: Array<IADTTwin>;
+    models?: DtdlInterface[];
+    timeSeriesDataList?: Array<Array<TimeSeriesData>>;
 }
 
 export interface IMockError {
@@ -369,6 +379,20 @@ export interface IADTTwin {
         [propertyName: string]: any;
     };
     [propertyName: string]: any;
+}
+export interface IAdtApiJob {
+    id: string;
+    inputBlobUri: string;
+    outputBlobUri: string;
+    createdDateTime: string;
+    lastActionDateTime: string;
+    finishedDateTime: string;
+    purgeDateTime: string;
+    status: string;
+    error: {
+        code: string;
+        message: string;
+    };
 }
 
 export interface IADTRelationship {
@@ -528,6 +552,13 @@ export interface IADTAdapter
     ): Promise<AdapterResult<ADTRelationshipsData>>;
 }
 
+export interface IJobsAdapter extends ADT3DSceneAdapter {
+    /** TO-DO: Need to properly set the return types  */
+    createJob(params: AdapterCreateJobArgs): AdapterReturnType<any>;
+    deleteJob(params: AdapterMethodParamsForJobs): AdapterReturnType<any>;
+    cancelJob(params: AdapterMethodParamsForJobs): AdapterReturnType<any>;
+    getAllJobs(): AdapterReturnType<any>;
+}
 export interface IAzureManagementAdapter {
     getRoleAssignments: (
         resourceId: string,

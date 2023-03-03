@@ -10,6 +10,7 @@ import {
     defaultDataHistoryWidget,
     defaultGaugeWidget,
     defaultLinkWidget,
+    defaultPowerBIWidget,
     defaultValueWidget,
     IWidgetLibraryItem
 } from '../Classes/3DVConfig';
@@ -89,11 +90,11 @@ export const LOCAL_STORAGE_KEYS = {
         Telemetry: {
             debugLogging: 'cardboard.debug.telemetryLogging' // enables debug logging for all emitted telemetry events
         },
-        DataHistoryExplorer: {
-            showExplorer: 'cardboard.feature.dataHistoryExplorer' // enables data history explorer feature if supported
-        },
         Proxy: {
-            forceProxy: 'cardboard.feature.forceProxy' // force proxy to run instead of CORS
+            forceCORS: 'cardboard.feature.forceCORS' // force CORS to run instead of proxy
+        },
+        PowerBI: {
+            showWidgets: 'cardboard.feature.powerBIWidgets' // enables PowerBI widgets
         }
     },
     Environment: {
@@ -187,6 +188,16 @@ export const availableWidgets: Array<IWidgetLibraryItem> = [
         learnMoreLink: DOCUMENTATION_LINKS.dataHistory,
         iconName: 'Chart',
         data: defaultDataHistoryWidget
+    },
+    {
+        title: i18n.t('widgets.powerBI.title'),
+        description: i18n.t('widgets.powerBI.description'),
+        iconName: 'PowerBILogo',
+        data: defaultPowerBIWidget,
+        disabled:
+            localStorage.getItem(
+                LOCAL_STORAGE_KEYS.FeatureFlags.PowerBI.showWidgets
+            ) !== 'true'
     }
 ];
 export const twinRefreshMaxAge = 9000;
@@ -340,7 +351,7 @@ export const OAT_DISPLAY_NAME_LENGTH_LIMIT = 64;
 export const OAT_NAME_LENGTH_LIMIT = 64;
 export const OAT_ID_LENGTH_LIMIT = 2048;
 /** max limit for the total count of references in the ontology due to perf degredation above this */
-export const OAT_ONTOLOGY_MAX_REFERENCE_LIMIT = 200;
+export const OAT_ONTOLOGY_MAX_REFERENCE_LIMIT = 250;
 
 export const SelectedCameraInteractionKey = 'cb-camera-interaction';
 export const ViewerThemeStorageKey = 'cb-viewer-theme';
@@ -609,3 +620,5 @@ export const AggregationTypeDropdownOptions: Array<IChartOption> = [
         text: 'max'
     }
 ];
+
+export const DataHistoryStaticMaxDateInMillis = new Date(2023, 0, 1).getTime();

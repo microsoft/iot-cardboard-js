@@ -655,6 +655,42 @@
       },
       "headerMenu": "Меню виджета истории данных",
       "openQuery": "Открытие запроса в обозревателе данных Azure"
+    },
+    "powerBI": {
+      "title": "Виджет Power BI",
+      "libraryName": "Визуальный элемент Power BI",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
+      "type": {
+        "label": "Тип",
+        "options": {
+          "report": "Сообщать",
+          "dashboard": "Щиток",
+          "tile": "Кафель",
+          "visual": "Зрительный"
+        }
+      },
+      "pageName": {
+        "label": "Название страницы",
+        "placeholder": "Название страницы"
+      },
+      "visualName": {
+        "label": "Визуальное имя",
+        "placeholder": "Визуальное имя",
+        "suffix": "Введите имя конкретного элемента из отчета, который будет отображаться в этом виджете"
+      },
+      "dataFilters": {
+        "label": "Фильтры данных"
+      },
+      "errors": {
+        "missingReportConfiguration": "Пожалуйста, убедитесь, что ваш виджет правильно настроен",
+        "missingConfiguration": "Конфигурация виджета отсутствует или недопустима",
+        "missingAdapter": "Убедитесь, что адаптер Power BI установлен и настроен"
+      },
+      "embedUrl": {
+        "label": "Встроить URL-адрес",
+        "placeholder": "https://embed.powerbi.com/groups/me/reports/{reportId}",
+        "description": "URL-адрес, используемый для внедрения артефактов отчета во внешние инструменты"
+      }
     }
   },
   "sdkStrings": {
@@ -1085,9 +1121,7 @@
     "errorNameLength": "Имя не должно превышать 64 символов",
     "errorIdLength": "Id не может превышать 2048 символов",
     "errorIdValidDTMI": "Идентификатор должен быть допустимым DTMI",
-    "errorRepeatedId": "Модель с таким же идентификатором уже существует",
     "errorDisplayNameLength": "Отображаемое имя не должно превышать 64 символов",
-    "errorRepeatedEdgeName": "Связь с таким же именем уже существует",
     "runLayout": "Макет запуска",
     "extends": "Расширяет",
     "loadingText": "Вычислительные позиции макета"
@@ -1150,7 +1184,6 @@
   "advancedSearch": {
     "toggleSelection": "Переключение на выбор Twin",
     "selectRow": "Выбран близнец",
-    "inspectProperty": "Инспекция имущества",
     "results": "Результаты ({{twinCount}})",
     "noPropertiesFound": "Недвижимость не найдена",
     "addNewButton": "Добавить новый",
@@ -1172,7 +1205,8 @@
     "columnPicker": "Средство выбора столбцов",
     "propertyCount": "Выбрано свойство {{selectedPropsCount}}",
     "availableProperties": "Раскрывающийся список доступных свойств",
-    "selectAdditionalColumns": "Выбор дополнительных столбцов"
+    "selectAdditionalColumns": "Выбор дополнительных столбцов",
+    "inspectProperties": "Проверка свойств"
   },
   "highcharts": {
     "shareQueryTitle": "Общий доступ к запросу",
@@ -1260,6 +1294,9 @@
       "Version3PreviewLabel": {
         "badgeText": "Предварительный просмотр",
         "badgeCalloutText": "Эта модель использует DTDL версии 3. Нажмите, чтобы узнать больше"
+      },
+      "PropertyList": {
+        "mapKeyName": "Имя ключа карты"
       }
     },
     "PropertyTypes": {
@@ -1304,6 +1341,12 @@
     "ImportLimits": {
       "message": "В настоящее время общее число связей, компонентов и наследований в онтологии ограничено {{count}} в конструкторе онтологий.",
       "title": "Достигнут контрольный предел"
+    },
+    "Errors": {
+      "invalidJSONTitle": "Недопустимый JSON",
+      "invalidJSONMessage": "Введенный JSON недействителен. Исправьте JSON и повторите попытку.",
+      "validationFailedTitle": "Сбой проверки",
+      "validationFailedMessage": "Возникла проблема при проверке изменений."
     }
   },
   "dataHistoryErrorHandlingWrapper": {
@@ -1405,11 +1448,9 @@
     "errorDisplayName": "Отображаемое имя не должно превышать 64 символов",
     "errorIdLength": "Id не может превышать 2048 символов",
     "errorIdValidDTMI": "Идентификатор должен быть допустимым DTMI",
-    "errorInvalidJSON": "Недопустимый JSON",
     "errorName": "Имя может содержать только символы a-z, A-Z, 0-9 и подчеркивание",
     "errorNameLength": "Длина имени не должна превышать 64 символа",
     "errorRepeatedEnumValue": "Значение перечисления с таким же значением уже существует",
-    "errorRepeatedId": "Модель с таким же идентификатором уже существует",
     "errorRepeatedName": "Модель с таким именем уже существует",
     "errorRepeatedPropertyName": "Свойство с таким именем уже существует",
     "expand": "Расширять",
@@ -1419,13 +1460,10 @@
     "id": "Идентификатор",
     "info": "Информация",
     "integer": "целое число",
-    "json": "JSON",
     "key": "Ключ",
     "linestring": "линейная струна",
     "long": "длинный",
     "map": "карта",
-    "mapKeyName": "Имя ключа карты",
-    "mapValueName": "Имя значения карты",
     "maxMultiplicityLabel": "Максимальная кратность",
     "minMultiplicityLabel": "Минимальная кратность",
     "minMultiplicityMessage": "DTDL V2 поддерживает только минимальную кратность 0",
@@ -1488,6 +1526,10 @@
         "changeChildTypeLabelForEnum": "Изменение типа значения перечисления",
         "editMetadataLabel": "Редактирование метаданных"
       }
-    }
+    },
+    "jsonEditorTabName": "DTDL"
+  },
+  "jobs": {
+    "addNew": "Добавить новый"
   }
 }

@@ -622,6 +622,42 @@
             "libraryName": "Panel",
             "description": "A layout panel"
         },
+        "powerBI": {
+            "title": "Power BI widget",
+            "libraryName": "Power BI Visual",
+            "description": "Render a Power BI visual or tile",
+            "type": {
+                "label": "Type",
+                "options": {
+                    "report": "Report",
+                    "dashboard": "Dashboard",
+                    "tile": "Tile",
+                    "visual": "Visual"
+                }
+            },
+            "embedUrl": {
+                "label": "Embed URL",
+                "placeholder": "https://embed.powerbi.com/groups/me/reports/{reportId}",
+                "description": "The URL used to embed report artifacts in external tools"
+            },
+            "pageName": {
+                "label": "Page Name",
+                "placeholder": "Page name"
+            },
+            "visualName": {
+                "label": "Visual Name",
+                "placeholder": "Visual name",
+                "suffix": "Enter the name of the specific element from the report to show in this widget"
+            },
+            "dataFilters": {
+                "label": "Data Filters"
+            },
+            "errors": {
+                "missingConfiguration": "Widget configuration is missing or is invalid",
+                "missingAdapter": "Please ensure that the Power BI adapter is installed and configured",
+                "missingReportConfiguration": "Please ensure that your widget is fully configured"
+            }
+        },
         "dataHistory": {
             "title": "Data history widget",
             "libraryName": "Data history",
@@ -927,6 +963,12 @@
             "unhandledExceptionMessage": "Something unexpected happened. Please try again.",
             "versionDocumentationLink": "Learn more about DTDL version 3"
         },
+        "Errors": {
+            "validationFailedTitle": "Validation failed",
+            "validationFailedMessage": "There was a problem while validating your changes.",
+            "invalidJSONTitle": "Invalid JSON",
+            "invalidJSONMessage": "The JSON you entered is invalid. Please fix the JSON and try again."
+        },
         "Header": {
             "ManageOntologyModal": {
                 "deleteButtonText": "Delete ontology",
@@ -988,6 +1030,9 @@
             "unsupportedPropertyType": "This property type is not available for the current context version of the associated model"
         },
         "PropertyEditor": {
+            "PropertyList": {
+                "mapKeyName": "Map key name"
+            },
             "Version3PreviewLabel": {
                 "badgeText": "Preview",
                 "badgeCalloutText": "This model uses DTDL version 3. Click to learn more"
@@ -1062,8 +1107,6 @@
         "extends": "Extends",
         "components": "Components",
         "runLayout": "Run Layout",
-        "errorRepeatedId": "A model with the same ID already exists",
-        "errorRepeatedEdgeName": "A relationship with the same name already exists",
         "errorDisplayNameLength": "Display Name may not exceed 64 characters",
         "errorIdLength": "Id may not exceed 2048 characters",
         "errorIdValidDTMI": "Id must be a valid DTMI",
@@ -1109,11 +1152,9 @@
         "errorDisplayName": "Display Name may not exceed 64 characters",
         "errorIdLength": "Id may not exceed 2048 characters",
         "errorIdValidDTMI": "Id must be a valid DTMI",
-        "errorInvalidJSON": "Invalid JSON",
         "errorName": "Name may only contain the characters a-z, A-Z, 0-9, and underscore",
         "errorNameLength": "Name may not exceed 64 characters",
         "errorRepeatedEnumValue": "An enum value with the same value already exists",
-        "errorRepeatedId": "A model with the same ID already exists",
         "errorRepeatedName": "A model with the same name already exists",
         "errorRepeatedPropertyName": "A property with the same name already exists",
         "expand": "Expand",
@@ -1123,13 +1164,11 @@
         "id": "Id",
         "info": "Info",
         "integer": "integer",
-        "json": "JSON",
+        "jsonEditorTabName": "DTDL",
         "key": "Key",
         "linestring": "linestring",
         "long": "long",
         "map": "map",
-        "mapKeyName": "Map Key Name",
-        "mapValueName": "Map Value Name",
         "maxMultiplicityLabel": "Maximum multiplicity",
         "minMultiplicityLabel": "Minimum multiplicity",
         "minMultiplicityMessage": "DTDL V2 only supports a minimum multiplicity of 0",
@@ -1373,7 +1412,7 @@
     "advancedSearch": {
         "toggleSelection": "Toggle to Select Twin",
         "selectRow": "Twin Selected",
-        "inspectProperty": "Inspect Property",
+        "inspectProperties": "Inspect properties",
         "results": "Results ({{twinCount}})",
         "addNewButton": "Add new",
         "andOrColumnHeader": "And/Or",
@@ -1481,5 +1520,8 @@
             "entityNotFound": "Database not found, cannot execute the query.",
             "forbidden": "Access was denied, you do not have query permissions."
         }
+    },
+    "jobs": {
+        "addNew": "Add new"
     }
 }

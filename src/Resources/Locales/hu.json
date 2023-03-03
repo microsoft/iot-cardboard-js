@@ -655,6 +655,42 @@
       },
       "headerMenu": "Adatelőzmények widget menü",
       "openQuery": "Lekérdezés megnyitása a Azure Data Explorer"
+    },
+    "powerBI": {
+      "title": "Power BI-widget",
+      "libraryName": "Power BI-vizualizáció",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
+      "type": {
+        "label": "Típus",
+        "options": {
+          "report": "Jelentés",
+          "dashboard": "Műszerfal",
+          "tile": "Cserép",
+          "visual": "Vizuális"
+        }
+      },
+      "pageName": {
+        "label": "Oldal neve",
+        "placeholder": "Oldal neve"
+      },
+      "visualName": {
+        "label": "Vizualizáció neve",
+        "placeholder": "Vizualizáció neve",
+        "suffix": "Adja meg a jelentésben szereplő adott elem nevét, amelyet ebben a widgetben szeretne megjeleníteni"
+      },
+      "dataFilters": {
+        "label": "Adatszűrők"
+      },
+      "errors": {
+        "missingReportConfiguration": "Kérjük, ellenőrizze, hogy a widget megfelelően van-e konfigurálva",
+        "missingConfiguration": "A widget konfigurációja hiányzik vagy érvénytelen",
+        "missingAdapter": "Győződjön meg arról, hogy a Power BI-adapter telepítve és konfigurálva van"
+      },
+      "embedUrl": {
+        "label": "Beágyazási URL-cím",
+        "placeholder": "https://embed.powerbi.com/groups/me/reports/{reportId}",
+        "description": "A jelentés-összetevők külső eszközökbe való beágyazásához használt URL-cím"
+      }
     }
   },
   "sdkStrings": {
@@ -1085,9 +1121,7 @@
     "errorNameLength": "A név nem haladhatja meg a 64 karakter",
     "errorIdLength": "Az azonosító nem haladhatja meg a 2048 karaktert",
     "errorIdValidDTMI": "Az azonosítónak érvényes DTMI-nek kell lennie",
-    "errorRepeatedId": "Már létezik egy azonos azonosítóval rendelkező modell",
     "errorDisplayNameLength": "A megjelenítendő név nem haladhatja meg a 64 karaktert",
-    "errorRepeatedEdgeName": "Az azonos nevű kapcsolat már létezik",
     "runLayout": "Elrendezés futtatása",
     "extends": "Kiterjeszti",
     "loadingText": "Elrendezési pozíciók számítása"
@@ -1150,7 +1184,6 @@
   "advancedSearch": {
     "toggleSelection": "Váltás az iker kiválasztásához",
     "selectRow": "Iker kiválasztva",
-    "inspectProperty": "Ingatlan ellenőrzése",
     "results": "Eredmények ({{twinCount}})",
     "noPropertiesFound": "Nem található tulajdonság",
     "addNewButton": "Új hozzáadása",
@@ -1172,7 +1205,8 @@
     "columnPicker": "Oszlopválasztó",
     "propertyCount": "{{selectedPropsCount}} tulajdonságok ki vannak választva",
     "availableProperties": "Az elérhető szállások legördülő menüje",
-    "selectAdditionalColumns": "További oszlopok kijelölése"
+    "selectAdditionalColumns": "További oszlopok kijelölése",
+    "inspectProperties": "Tulajdonságok vizsgálata"
   },
   "highcharts": {
     "shareQueryTitle": "Lekérdezés megosztása",
@@ -1260,6 +1294,9 @@
       "Version3PreviewLabel": {
         "badgeText": "Előnézet",
         "badgeCalloutText": "Ez a modell a DTDL 3-as verzióját használja. Kattintson ide, ha többet szeretne megtudni"
+      },
+      "PropertyList": {
+        "mapKeyName": "Leképezési kulcs neve"
       }
     },
     "PropertyTypes": {
@@ -1304,6 +1341,12 @@
     "ImportLimits": {
       "message": "Jelenleg egy ontológia kapcsolatainak, összetevőinek és öröklődéseinek teljes száma az Ontology Designerben {{count}} értékre korlátozódik.",
       "title": "Elérte a referenciakorlátot"
+    },
+    "Errors": {
+      "invalidJSONTitle": "Érvénytelen JSON",
+      "invalidJSONMessage": "A megadott JSON érvénytelen. Javítsa ki a JSON-t, és próbálkozzon újra.",
+      "validationFailedTitle": "Az érvényesítés sikertelen",
+      "validationFailedMessage": "Probléma merült fel a módosítások érvényesítése közben."
     }
   },
   "dataHistoryErrorHandlingWrapper": {
@@ -1405,11 +1448,9 @@
     "errorDisplayName": "A megjelenítendő név nem haladhatja meg a 64 karaktert",
     "errorIdLength": "Az azonosító nem haladhatja meg a 2048 karaktert",
     "errorIdValidDTMI": "Az azonosítónak érvényes DTMI-nek kell lennie",
-    "errorInvalidJSON": "Érvénytelen JSON",
     "errorName": "A név csak az a-z, A-Z, 0-9 és aláhúzás karaktereket tartalmazhatja.",
     "errorNameLength": "A név nem lehet hosszabb 64 karakternél",
     "errorRepeatedEnumValue": "Már létezik azonos értékű felsorolási érték",
-    "errorRepeatedId": "Már létezik egy azonos azonosítóval rendelkező modell",
     "errorRepeatedName": "Már létezik azonos nevű modell",
     "errorRepeatedPropertyName": "Már létezik azonos nevű tulajdonság",
     "expand": "Kibővít",
@@ -1419,13 +1460,10 @@
     "id": "Azonosító",
     "info": "Infó",
     "integer": "egész szám",
-    "json": "JSON",
     "key": "Kulcs",
     "linestring": "vonallánc",
     "long": "hosszú",
     "map": "térkép",
-    "mapKeyName": "Térkép kulcsának neve",
-    "mapValueName": "Térképérték neve",
     "maxMultiplicityLabel": "Maximális sokaság",
     "minMultiplicityLabel": "Minimális szorzás",
     "minMultiplicityMessage": "A DTDL V2 csak a 0 minimális szorzást támogatja",
@@ -1488,6 +1526,10 @@
         "changeChildTypeLabelForEnum": "A felsorolás értéktípusának módosítása",
         "editMetadataLabel": "Metaadatok szerkesztése"
       }
-    }
+    },
+    "jsonEditorTabName": "DTDL"
+  },
+  "jobs": {
+    "addNew": "Új hozzáadása"
   }
 }

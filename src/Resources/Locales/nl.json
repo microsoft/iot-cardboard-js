@@ -655,6 +655,42 @@
       },
       "headerMenu": "Widgetmenu gegevensgeschiedenis",
       "openQuery": "Query openen in Azure Data Explorer"
+    },
+    "powerBI": {
+      "title": "Power BI-widget",
+      "libraryName": "Power BI-visual",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
+      "type": {
+        "label": "Type",
+        "options": {
+          "report": "Rapport",
+          "dashboard": "Dashboard",
+          "tile": "Tegel",
+          "visual": "Visueel"
+        }
+      },
+      "pageName": {
+        "label": "Paginanaam",
+        "placeholder": "Paginanaam"
+      },
+      "visualName": {
+        "label": "Visuele naam",
+        "placeholder": "Visuele naam",
+        "suffix": "Voer de naam in van het specifieke element uit het rapport dat in deze widget moet worden weergegeven"
+      },
+      "dataFilters": {
+        "label": "Gegevensfilters"
+      },
+      "errors": {
+        "missingReportConfiguration": "Zorg ervoor dat uw widget correct is geconfigureerd",
+        "missingConfiguration": "Widgetconfiguratie ontbreekt of is ongeldig",
+        "missingAdapter": "Zorg ervoor dat de Power BI-adapter is geïnstalleerd en geconfigureerd"
+      },
+      "embedUrl": {
+        "label": "URL insluiten",
+        "placeholder": "https://embed.powerbi.com/groups/me/reports/{reportId}",
+        "description": "De URL die wordt gebruikt om rapportartefacten in te sluiten in externe hulpprogramma's"
+      }
     }
   },
   "sdkStrings": {
@@ -1085,9 +1121,7 @@
     "errorNameLength": "Naam mag niet meer dan 64 tekens bevatten",
     "errorIdLength": "Id mag niet groter zijn dan 2048 tekens",
     "errorIdValidDTMI": "Id moet een geldige DTMI zijn",
-    "errorRepeatedId": "Er bestaat al een model met dezelfde id",
     "errorDisplayNameLength": "Weergavenaam mag niet meer dan 64 tekens bevatten",
-    "errorRepeatedEdgeName": "Er bestaat al een relatie met dezelfde naam",
     "runLayout": "Lay-out uitvoeren",
     "extends": "Breidt",
     "loadingText": "Lay-outposities berekenen"
@@ -1150,7 +1184,6 @@
   "advancedSearch": {
     "toggleSelection": "Schakel in om Twin te selecteren",
     "selectRow": "Twin geselecteerd",
-    "inspectProperty": "Inspecteer onroerend goed",
     "results": "Resultaten ({{twinCount}})",
     "noPropertiesFound": "Geen accommodaties gevonden",
     "addNewButton": "Nieuwe toevoegen",
@@ -1172,7 +1205,8 @@
     "columnPicker": "Kolomkiezer",
     "propertyCount": "{{selectedPropsCount}} eigenschappen geselecteerd",
     "availableProperties": "Dropdown van beschikbare eigenschappen",
-    "selectAdditionalColumns": "Extra kolommen selecteren"
+    "selectAdditionalColumns": "Extra kolommen selecteren",
+    "inspectProperties": "Eigenschappen inspecteren"
   },
   "highcharts": {
     "shareQueryTitle": "Query delen",
@@ -1260,6 +1294,9 @@
       "Version3PreviewLabel": {
         "badgeText": "Voorbeeld",
         "badgeCalloutText": "Dit model maakt gebruik van DTDL versie 3. Klik voor meer informatie"
+      },
+      "PropertyList": {
+        "mapKeyName": "Naam van de kaartsleutel"
       }
     },
     "PropertyTypes": {
@@ -1304,6 +1341,12 @@
     "ImportLimits": {
       "message": "Momenteel is het totale aantal relaties, componenten en overervingen in een ontologie beperkt tot {{count}} in de Ontology Designer.",
       "title": "Referentiegrens bereikt"
+    },
+    "Errors": {
+      "invalidJSONTitle": "Ongeldige JSON",
+      "invalidJSONMessage": "De JSON die u hebt ingevoerd, is ongeldig. Repareer de JSON en probeer het opnieuw.",
+      "validationFailedTitle": "Validatie mislukt",
+      "validationFailedMessage": "Er is een probleem opgetreden tijdens het valideren van uw wijzigingen."
     }
   },
   "dataHistoryErrorHandlingWrapper": {
@@ -1405,11 +1448,9 @@
     "errorDisplayName": "De weergavenaam mag niet langer zijn dan 64 tekens",
     "errorIdLength": "Id mag niet langer zijn dan 2048 tekens",
     "errorIdValidDTMI": "Id moet een geldige DTMI zijn",
-    "errorInvalidJSON": "Ongeldige JSON",
     "errorName": "Naam mag alleen de tekens a-z, A-Z, 0-9 en onderstrepingsteken bevatten",
     "errorNameLength": "Naam mag niet langer zijn dan 64 tekens",
     "errorRepeatedEnumValue": "Er bestaat al een opsommingswaarde met dezelfde waarde",
-    "errorRepeatedId": "Er bestaat al een model met dezelfde ID",
     "errorRepeatedName": "Een model met dezelfde naam bestaat al",
     "errorRepeatedPropertyName": "Een woning met dezelfde naam bestaat al",
     "expand": "Uitbreiden",
@@ -1419,13 +1460,10 @@
     "id": "Legitimatiebewijs",
     "info": "Info",
     "integer": "geheel getal",
-    "json": "JSON",
     "key": "Sleutel",
     "linestring": "lijnenring",
     "long": "lang",
     "map": "kaart",
-    "mapKeyName": "Naam van kaartsleutel",
-    "mapValueName": "Naam van kaartwaarde",
     "maxMultiplicityLabel": "Maximale multipliciteit",
     "minMultiplicityLabel": "Minimale veelheid",
     "minMultiplicityMessage": "DTDL V2 ondersteunt alleen een minimale multipliciteit van 0",
@@ -1488,6 +1526,10 @@
         "changeChildTypeLabelForEnum": "Type opsommingswaarde wijzigen",
         "editMetadataLabel": "Metagegevens bewerken"
       }
-    }
+    },
+    "jsonEditorTabName": "DTDL"
+  },
+  "jobs": {
+    "addNew": "Nieuwe toevoegen"
   }
 }
