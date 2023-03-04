@@ -22,6 +22,7 @@ export default class MsalAuthService implements IAuthService {
     private MSALObj: PublicClientApplication;
     private authParams: IAuthParams;
     public tenantId: string;
+    public targetTenantId: string;
     public userObjectId: string;
     private loginPopupRequest: PopupRequest;
     private loginRedirectRequest: RedirectRequest;
@@ -42,7 +43,8 @@ export default class MsalAuthService implements IAuthService {
 
     constructor(authParams: IAuthParams) {
         this.authParams = authParams;
-        this.tenantId = authParams.tenantId || DEFAULT_TENANT_ID;
+        this.targetTenantId = authParams.tenantId;
+        this.tenantId = DEFAULT_TENANT_ID;
 
         this.MSALConfig = {
             auth: {
@@ -110,10 +112,12 @@ export default class MsalAuthService implements IAuthService {
         this.MSALObj.handleRedirectPromise().then(
             (resp: AuthenticationResult | null) => {
                 if (resp !== null) {
+                    debugger;
                     this.isLoggingIn = false;
                     const activeAccount = resp.account;
                     this.MSALObj.setActiveAccount(activeAccount);
                     this.userObjectId = activeAccount.idTokenClaims['oid'];
+                    this.tenantId = activeAccount.tenantId;
                     if (continuation) {
                         getTenantsAndContinuation(
                             activeAccount.name,
@@ -127,6 +131,7 @@ export default class MsalAuthService implements IAuthService {
                         this.shiftAndExecuteGetTokenCall();
                     }
                 } else {
+                    debugger;
                     this.isLoggingIn = false;
                     const allAccounts = this.MSALObj.getAllAccounts();
                     if (!allAccounts || allAccounts.length < 1) {
@@ -134,14 +139,26 @@ export default class MsalAuthService implements IAuthService {
                     } else {
                         let activeAccount;
                         if (this.tenantId !== DEFAULT_TENANT_ID) {
-                            activeAccount = allAccounts.find(
-                                (a: any) => a.tenantId === this.tenantId
-                            );
+                            if (
+                                this.targetTenantId &&
+                                this.targetTenantId !== DEFAULT_TENANT_ID
+                            ) {
+                                activeAccount = allAccounts.find(
+                                    (a: any) =>
+                                        a.tenantId === this.targetTenantId
+                                );
+                            } else {
+                                activeAccount = allAccounts.find(
+                                    (a: any) => a.tenantId === this.tenantId
+                                );
+                            }
                         } else {
                             activeAccount = allAccounts[0];
                         }
                         this.MSALObj.setActiveAccount(activeAccount);
-                        this.userObjectId = activeAccount.idTokenClaims.oid;
+                        this.userObjectId = activeAccount?.idTokenClaims.oid;
+                        this.tenantId =
+                            activeAccount?.tenantId || DEFAULT_TENANT_ID;
                         if (continuation) {
                             getTenantsAndContinuation(
                                 activeAccount.name,

@@ -1,4 +1,4 @@
-import { IAuthService } from '../../../../Models/Constants';
+import { AuthTokenTypes, IAuthService } from '../../../../Models/Constants';
 import { IPowerBIWidgetBuilderAdapter } from './PowerBIWidgetBuilder.types';
 import { service, factories, Report } from 'powerbi-client';
 import { createGUID } from '../../../../Models/Services/Utils';
@@ -52,7 +52,9 @@ export default class PowerBIWidgetBuilderAdapter
         const isNew = !this.report;
         this.report = powerBIService.embed(this.element, {
             type: 'report',
-            accessToken: await this.authService.getToken('powerBI'),
+            accessToken: await this.authService.getToken(
+                AuthTokenTypes.powerBI
+            ),
             embedUrl: reportUrl,
             settings: {
                 filterPaneEnabled: false,
