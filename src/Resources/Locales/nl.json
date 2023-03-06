@@ -1529,6 +1529,15 @@
     "jsonEditorTabName": "DTDL"
   },
   "jobs": {
-    "addNew": "Nieuwe toevoegen"
+    "addJob": "Nieuwe vacature toevoegen",
+    "jobName": "Functie",
+    "jobsNamePlaceholder": "MyJob1",
+    "inputBlobContainerName": "Naam van invoerbloobcontainer",
+    "inputBlobUriDescription": "Dit is een beschrijvingszin",
+    "inputBlobUriPlaceholder": "Voer de ndjson-bestand uri in",
+    "outputBlobContainerName": "Naam van uitvoer blobcontainer",
+    "outputBlobUriDescription": "Dit is een beschrijvingszin",
+    "outputBlobUriPlaceholder": "Voer de uri van het uitvoerbestand in",
+    "duplicateContainerNames": "Invoerblostroopcontainer kan niet hetzelfde zijn als uitvoer-blobcontainer"
   }
 }

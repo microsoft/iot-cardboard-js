@@ -1529,6 +1529,15 @@
     "jsonEditorTabName": "DTDL"
   },
   "jobs": {
-    "addNew": "新增"
+    "addJob": "添加新作业",
+    "jobName": "作业名称",
+    "jobsNamePlaceholder": "我的作业1",
+    "inputBlobContainerName": "输入 Blob 容器名称",
+    "inputBlobUriDescription": "这是一个描述句",
+    "inputBlobUriPlaceholder": "输入 ndjson 文件 uri",
+    "outputBlobContainerName": "输出 Blob 容器名称",
+    "outputBlobUriDescription": "这是一个描述句",
+    "outputBlobUriPlaceholder": "输入输出文件 uri",
+    "duplicateContainerNames": "输入 Blob 容器不能与输出 Blob 容器相同"
   }
 }

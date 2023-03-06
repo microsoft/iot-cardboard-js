@@ -1529,6 +1529,15 @@
     "jsonEditorTabName": "cesaret"
   },
   "jobs": {
-    "addNew": "Yeni ekle"
+    "addJob": "Yeni iş ekle",
+    "jobName": "İş Adı",
+    "jobsNamePlaceholder": "MyJob1 (İngilizce)",
+    "inputBlobContainerName": "Giriş blobu kapsayıcı adıInput blob container nameInput blob container name",
+    "inputBlobUriDescription": "Bu bir açıklama cümlesidir",
+    "inputBlobUriPlaceholder": "Ndjson dosya uri'sini girin",
+    "outputBlobContainerName": "Çıkış blobu kapsayıcı adıOutput blob container nameOutput blob container nameT",
+    "outputBlobUriDescription": "Bu bir açıklama cümlesidir",
+    "outputBlobUriPlaceholder": "Çıktı dosyası uri'sini girin",
+    "duplicateContainerNames": "Giriş blob kapsayıcısı, çıkış blob kapsayıcısıyla aynı olamaz"
   }
 }

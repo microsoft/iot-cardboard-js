@@ -1529,6 +1529,15 @@
     "jsonEditorTabName": "ティッカー"
   },
   "jobs": {
-    "addNew": "新規追加"
+    "addJob": "新しいジョブの追加",
+    "jobName": "ジョブ名",
+    "jobsNamePlaceholder": "マイジョブ1",
+    "inputBlobContainerName": "BLOB コンテナー名の入力",
+    "inputBlobUriDescription": "これは説明文です",
+    "inputBlobUriPlaceholder": "ndjson ファイルの URI を入力します。",
+    "outputBlobContainerName": "出力 BLOB コンテナー名",
+    "outputBlobUriDescription": "これは説明文です",
+    "outputBlobUriPlaceholder": "出力ファイルの URI を入力します。",
+    "duplicateContainerNames": "入力 BLOB コンテナーを出力 BLOB コンテナーと同じにすることはできません"
   }
 }

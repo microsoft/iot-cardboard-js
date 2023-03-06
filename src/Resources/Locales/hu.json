@@ -1529,6 +1529,15 @@
     "jsonEditorTabName": "DTDL"
   },
   "jobs": {
-    "addNew": "Új hozzáadása"
+    "addJob": "Új feladat hozzáadása",
+    "jobName": "Feladat neve",
+    "jobsNamePlaceholder": "Saját munka1",
+    "inputBlobContainerName": "Bemeneti blobtároló neve",
+    "inputBlobUriDescription": "Ez egy leíró mondat",
+    "inputBlobUriPlaceholder": "Adja meg az ndjson-fájl uri-ját",
+    "outputBlobContainerName": "Kimeneti blobtároló neve",
+    "outputBlobUriDescription": "Ez egy leíró mondat",
+    "outputBlobUriPlaceholder": "Adja meg a kimeneti fájl uri-ját",
+    "duplicateContainerNames": "A bemeneti blobtároló nem lehet ugyanaz, mint a kimeneti blobtároló"
   }
 }
