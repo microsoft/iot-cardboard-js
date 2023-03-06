@@ -1529,6 +1529,15 @@
     "jsonEditorTabName": "DTDL"
   },
   "jobs": {
-    "addNew": "Добавить новый"
+    "addJob": "Добавить новое задание",
+    "jobName": "Имя задания",
+    "jobsNamePlaceholder": "Моя Работа1",
+    "inputBlobContainerName": "Имя контейнера BLOB-объектов",
+    "inputBlobUriDescription": "Это предложение описания",
+    "inputBlobUriPlaceholder": "Введите URI файла ndjson",
+    "outputBlobContainerName": "Выходное имя контейнера BLOB-объектов",
+    "outputBlobUriDescription": "Это предложение описания",
+    "outputBlobUriPlaceholder": "Введите URI выходного файла",
+    "duplicateContainerNames": "Входной контейнер BLOB-объектов не может совпадать с контейнером выходных BLOB-объектов"
   }
 }

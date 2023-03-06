@@ -1529,6 +1529,15 @@
     "jsonEditorTabName": "증권 시세 표시기"
   },
   "jobs": {
-    "addNew": "새로 추가"
+    "addJob": "새 작업 추가",
+    "jobName": "작업 이름",
+    "jobsNamePlaceholder": "마이잡1",
+    "inputBlobContainerName": "입력 Blob 컨테이너 이름",
+    "inputBlobUriDescription": "이것은 설명 문장입니다",
+    "inputBlobUriPlaceholder": "ndjson 파일 URI를 입력하십시오.",
+    "outputBlobContainerName": "출력 Blob 컨테이너 이름",
+    "outputBlobUriDescription": "이것은 설명 문장입니다",
+    "outputBlobUriPlaceholder": "출력 파일 uri를 입력하십시오.",
+    "duplicateContainerNames": "입력 Blob 컨테이너는 출력 Blob 컨테이너와 같을 수 없습니다."
   }
 }

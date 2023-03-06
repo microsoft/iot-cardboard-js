@@ -1529,6 +1529,15 @@
     "jsonEditorTabName": "DTDL"
   },
   "jobs": {
-    "addNew": "Lägg till nya"
+    "addJob": "Lägg till nytt jobb",
+    "jobName": "Jobbets namn",
+    "jobsNamePlaceholder": "MyJob1",
+    "inputBlobContainerName": "Namn på indatablobcontainern",
+    "inputBlobUriDescription": "Detta är en beskrivningsmening",
+    "inputBlobUriPlaceholder": "Ange ndjson-fil-URI:n",
+    "outputBlobContainerName": "Namn på utdatablobcontainer",
+    "outputBlobUriDescription": "Detta är en beskrivningsmening",
+    "outputBlobUriPlaceholder": "Ange utdatafilens URI",
+    "duplicateContainerNames": "Indatablobcontainern kan inte vara samma som utdatablobcontainern"
   }
 }

@@ -1529,6 +1529,15 @@
     "jsonEditorTabName": "DTDL"
   },
   "jobs": {
-    "addNew": "Aggiungi nuovo"
+    "addJob": "Aggiungi nuovo lavoro",
+    "jobName": "Nome del lavoro",
+    "jobsNamePlaceholder": "Il mio lavoro1",
+    "inputBlobContainerName": "Nome del contenitore BLOB di input",
+    "inputBlobUriDescription": "Questa è una frase descrittiva",
+    "inputBlobUriPlaceholder": "Inserisci l'uri del file ndjson",
+    "outputBlobContainerName": "Nome contenitore BLOB di output",
+    "outputBlobUriDescription": "Questa è una frase descrittiva",
+    "outputBlobUriPlaceholder": "Inserisci l'uri del file di output",
+    "duplicateContainerNames": "Il contenitore BLOB di input non può essere uguale al contenitore BLOB di output"
   }
 }

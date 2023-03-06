@@ -1529,6 +1529,15 @@
     "jsonEditorTabName": "DTDL"
   },
   "jobs": {
-    "addNew": "Přidat nový"
+    "addJob": "Přidat novou práci",
+    "jobName": "Název úlohy",
+    "jobsNamePlaceholder": "MyJob1",
+    "inputBlobContainerName": "Název vstupního kontejneru objektů BLOB",
+    "inputBlobUriDescription": "Toto je popisná věta",
+    "inputBlobUriPlaceholder": "Zadejte identifikátor URI souboru ndjson",
+    "outputBlobContainerName": "Název výstupního kontejneru objektů BLOB",
+    "outputBlobUriDescription": "Toto je popisná věta",
+    "outputBlobUriPlaceholder": "Zadejte identifikátor uri výstupního souboru",
+    "duplicateContainerNames": "Vstupní kontejner objektů BLOB nemůže být stejný jako výstupní kontejner objektů BLOB"
   }
 }
