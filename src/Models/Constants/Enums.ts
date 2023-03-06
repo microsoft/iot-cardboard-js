@@ -60,7 +60,8 @@ export enum ComponentErrorType {
     NoADTInstanceUrl = 'NoADTInstanceUrl',
     ConnectionError = 'ConnectionError',
     BadRequestException = 'BadRequestException',
-    TimeSeriesDatabaseConnectionFetchFailed = 'TimeSeriesDatabaseConnectionFetchFailed'
+    TimeSeriesDatabaseConnectionFetchFailed = 'TimeSeriesDatabaseConnectionFetchFailed',
+    JobUploadFailed = 'JobUploadFailed'
 }
 
 export enum ErrorImages {

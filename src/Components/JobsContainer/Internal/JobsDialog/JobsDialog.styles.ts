@@ -3,13 +3,21 @@ import { CardboardClassNamePrefix } from '../../../../Models/Constants/Constants
 
 const classPrefix = `${CardboardClassNamePrefix}-jobsdialog`;
 const classNames = {
-    root: `${classPrefix}-root`
+    root: `${classPrefix}-root`,
+    errorText: `${classPrefix}-errorText`
 };
 
-// export const JOBSDIALOG_CLASS_NAMES = classNames;
-export const getStyles = (_props: IJobsDialogStyleProps): IJobsDialogStyles => {
+export const getStyles = ({
+    theme
+}: IJobsDialogStyleProps): IJobsDialogStyles => {
     return {
         root: [classNames.root],
+        errorText: [
+            classNames.errorText,
+            {
+                color: theme.semanticColors.errorText
+            }
+        ],
         subComponentStyles: {}
     };
 };

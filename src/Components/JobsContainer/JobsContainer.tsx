@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react';
 import {
     IJobsContainerProps,
     IJobsContainerStyleProps,
-    IJobsContainerStyles,
-    IJobsData
+    IJobsContainerStyles
 } from './JobsContainer.types';
 import { getStyles } from './JobsContainer.styles';
 import { classNamesFunction, CommandBar, styled } from '@fluentui/react';
@@ -19,11 +18,9 @@ const getClassNames = classNamesFunction<
 >();
 
 const JobsContainer: React.FC<IJobsContainerProps> = ({ adapter, styles }) => {
-    // contexts
-
     // state
     const [isJobsDialogOpen, setIsJobsDialogOpen] = useState(false);
-    const [listOfJobs, setListOfJobs] = useState<Array<IJobsData>>([]);
+    const [listOfJobs, setListOfJobs] = useState<Array<IAdtApiJob>>([]);
 
     // hooks
     const deleteJob = () => {
@@ -44,11 +41,13 @@ const JobsContainer: React.FC<IJobsContainerProps> = ({ adapter, styles }) => {
         });
     };
 
-    // callbacks
-
-    // side effects
+    const onAddJob = (newJob: IAdtApiJob) => {
+        setListOfJobs((prevJobs) => {
+            return { newJob, ...prevJobs };
+        });
+    };
     useEffect(() => {
-        const jobs: IJobsData[] = []; //getAllJobs.callAdapter();
+        const jobs: IAdtApiJob[] = []; //getAllJobs.callAdapter();
         setListOfJobs(jobs);
     }, []);
 
@@ -56,13 +55,7 @@ const JobsContainer: React.FC<IJobsContainerProps> = ({ adapter, styles }) => {
     const classNames = getClassNames(styles, {
         theme: useExtendedTheme()
     });
-    const onAddJob = (newJob: IAdtApiJob) => {
-        /** TO-DO
-         *
-         * apart from API call to jobs, what other actions will occur when a job is added
-         */
-        console.log(newJob, listOfJobs);
-    };
+
     const _items = [
         {
             key: 'newItem',

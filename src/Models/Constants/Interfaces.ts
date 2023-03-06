@@ -85,6 +85,7 @@ import { BaseComponentProps } from '../../Components/BaseComponent/BaseComponent
 import ADTInstanceTimeSeriesConnectionData from '../Classes/AdapterDataClasses/ADTInstanceTimeSeriesConnectionData';
 import ADXTimeSeriesData from '../Classes/AdapterDataClasses/ADXTimeSeriesData';
 import { IOATNodeData } from '../../Components/OATGraphViewer/OATGraphViewer.types';
+import { ADTJobData } from '../Classes/AdapterDataClasses/ADTJobsData';
 
 export interface IAction {
     type: string;
@@ -539,7 +540,7 @@ export interface IADTAdapter
 
 export interface IJobsAdapter extends ADT3DSceneAdapter {
     /** TO-DO: Need to properly set the return types  */
-    createJob(params: AdapterCreateJobArgs): AdapterReturnType<any>;
+    createJob(params: AdapterCreateJobArgs): AdapterReturnType<ADTJobData>;
     deleteJob(params: AdapterMethodParamsForJobs): AdapterReturnType<any>;
     cancelJob(params: AdapterMethodParamsForJobs): AdapterReturnType<any>;
     getAllJobs(): AdapterReturnType<any>;

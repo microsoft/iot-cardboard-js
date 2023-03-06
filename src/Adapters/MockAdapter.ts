@@ -48,7 +48,8 @@ import {
     IMockError,
     AdapterMethodParamsForJobs,
     TimeSeriesData,
-    IMockData
+    IMockData,
+    AdapterCreateJobArgs
 } from '../Models/Constants';
 import seedRandom from 'seedrandom';
 import { ADTRelationship, KeyValuePairData } from '../Models/Constants/Types';
@@ -866,6 +867,16 @@ export default class MockAdapter
                 properties: {
                     publicAccess: 'Container'
                 }
+            },
+            {
+                name: 'container456',
+                id:
+                    '/subscriptions/subscription123/resourceGroups/resourceGroup123/providers/Microsoft.Storage/storageAccounts/storageAccount123/blobServices/default/containers/container456',
+                type: AzureResourceTypes.StorageBlobContainer,
+                subscriptionName: 'subscription123',
+                properties: {
+                    publicAccess: 'Container'
+                }
             }
         ];
         const mockStorageAccountResources: Array<IAzureResource> = [
@@ -1219,17 +1230,10 @@ export default class MockAdapter
         }
     }
     /**TO-DO */
-    async createJob(
-        inputBlobUri: string,
-        outputBlobUri: string,
-        jobId: string
-    ) {
+    async createJob(_params: AdapterCreateJobArgs) {
         /**
          * FILL THIS IN
          */
-        inputBlobUri;
-        outputBlobUri;
-        jobId;
         return null;
     }
 

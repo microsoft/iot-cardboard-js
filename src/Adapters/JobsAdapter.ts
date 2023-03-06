@@ -1,6 +1,11 @@
+import { ADTJobData } from '../Models/Classes/AdapterDataClasses/ADTJobsData';
+import AdapterMethodSandbox from '../Models/Classes/AdapterMethodSandbox';
+import AdapterResult from '../Models/Classes/AdapterResult';
 import {
     AdapterCreateJobArgs,
     AdapterMethodParamsForJobs,
+    ADT_ApiVersion,
+    ComponentErrorType,
     IAuthService,
     IJobsAdapter,
     LOCAL_STORAGE_KEYS
@@ -45,8 +50,33 @@ export default class JobsAdapter implements IJobsAdapter {
     }
 
     createJob = async (params: AdapterCreateJobArgs) => {
-        console.log(params);
-        return null;
+        const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
+        return await adapterMethodSandbox.safelyFetchData(async (token) => {
+            const payload = {
+                inputBlobUri: params.inputBlobUri,
+                outputBlobUri: params.outputBlobUri
+            };
+            const axiosResult = await this.axiosInstance({
+                method: 'put',
+                url: this.generateUrl(`/jobs/import/${params.jobId}`),
+                headers: this.generateHeaders({
+                    'Content-Type': 'application/json',
+                    authorization: 'Bearer ' + token
+                }),
+                data: payload,
+                params: {
+                    'api-version': ADT_ApiVersion
+                }
+            }).catch((err) => {
+                adapterMethodSandbox.pushError({
+                    type: ComponentErrorType.JobUploadFailed,
+                    isCatastrophic: true,
+                    rawError: err
+                });
+                return null;
+            });
+            return new ADTJobData(axiosResult?.data);
+        });
     };
 
     deleteJob = async (params: AdapterMethodParamsForJobs) => {
@@ -68,6 +98,8 @@ export default interface JobsAdapter extends ADT3DSceneAdapter {
     getAllJobs: () => Promise<any>;
     cancelJob: (params: AdapterMethodParamsForJobs) => Promise<any>;
     deleteJob: (params: AdapterMethodParamsForJobs) => Promise<any>;
-    createJob: (params: AdapterCreateJobArgs) => Promise<any>;
+    createJob: (
+        params: AdapterCreateJobArgs
+    ) => Promise<AdapterResult<ADTJobData>>;
 }
 applyMixins(JobsAdapter, [ADT3DSceneAdapter]);

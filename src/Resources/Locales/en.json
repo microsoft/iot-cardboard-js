@@ -1521,6 +1521,15 @@
         }
     },
     "jobs": {
-        "addNew": "Add new"
+        "addJob": "Add new job",
+        "jobName": "Job Name",
+        "jobsNamePlaceholder": "MyJob1",
+        "inputBlobContainerName": "Input blob container name",
+        "inputBlobUriDescription": "This is a description sentence",
+        "inputBlobUriPlaceholder": "Enter the ndjson file uri",
+        "outputBlobContainerName": "Output blob container name",
+        "outputBlobUriDescription": "This is a description sentence",
+        "outputBlobUriPlaceholder": "Enter the output file uri",
+        "duplicateContainerNames": "Input blob container cannot be the same as output blob container"
     }
 }

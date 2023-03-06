@@ -29,7 +29,9 @@ const Template: JobsPageStory = (args) => {
                     authenticationParameters.adt.hostUrl,
                     new MsalAuthService(
                         authenticationParameters.adt.aadParameters
-                    )
+                    ),
+                    authenticationParameters.adt.aadParameters.tenantId,
+                    authenticationParameters.adt.aadParameters.uniqueObjectId
                 )
             }
             {...args}

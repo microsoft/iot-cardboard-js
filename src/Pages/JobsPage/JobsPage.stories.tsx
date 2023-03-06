@@ -13,8 +13,6 @@ export default {
     decorators: [getDefaultStoryDecorator<IJobsPageProps>(wrapperStyle)]
 };
 
-const mockEnvironmentHostName =
-    'https://mockADTInstanceResourceName.api.wcus.digitaltwins.azure.net';
 type JobsPageStory = ComponentStory<typeof JobsPage>;
 
 const Template: JobsPageStory = (args) => {
@@ -23,6 +21,5 @@ const Template: JobsPageStory = (args) => {
 
 export const MockJobsPage = Template.bind({}) as JobsPageStory;
 MockJobsPage.args = {
-    adapter: new MockAdapter(),
-    adtInstanceUrl: mockEnvironmentHostName
+    adapter: new MockAdapter()
 } as IJobsPageProps;

@@ -8,7 +8,7 @@ import MockAdapter from '../../../../Adapters/MockAdapter';
 const wrapperStyle = { width: '100%', height: '600px', padding: 8 };
 
 export default {
-    title: 'Components-Jobs/Jobs',
+    title: 'Components-Jobs/Jobs/JobsDialog',
     component: JobsDialog,
     decorators: [getDefaultStoryDecorator<IJobsDialogProps>(wrapperStyle)]
 };
@@ -19,8 +19,8 @@ const Template: JobsDialogStory = (args) => {
     return <JobsDialog {...args} />;
 };
 
-export const jobsDialog = Template.bind({}) as JobsDialogStory;
-jobsDialog.args = {
+export const mockJobsDialog = Template.bind({}) as JobsDialogStory;
+mockJobsDialog.args = {
     adapter: new MockAdapter(),
     isOpen: true
 } as IJobsDialogProps;

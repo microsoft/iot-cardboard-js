@@ -1,8 +1,9 @@
-import { IStyle, IStyleFunctionOrObject } from '@fluentui/react';
+import { IDialogStyles, IStyle, IStyleFunctionOrObject } from '@fluentui/react';
 import { MockAdapter } from '../../../../Adapters';
 import JobsAdapter from '../../../../Adapters/JobsAdapter';
-import { IAdtApiJob } from '../../../../Models/Constants/Interfaces';
+import { IAdtApiJob } from '../../../../Models/Constants';
 import { IExtendedTheme } from '../../../../Theming/Theme.types';
+import { IResourcePickerStyles } from '../../../ResourcePicker/ResourcePicker.types';
 
 export interface IJobsDialogProps {
     adapter: JobsAdapter | MockAdapter;
@@ -20,6 +21,7 @@ export interface IJobsDialogStyleProps {
 }
 export interface IJobsDialogStyles {
     root: IStyle;
+    errorText: IStyle;
 
     /**
      * SubComponent styles.
@@ -27,5 +29,7 @@ export interface IJobsDialogStyles {
     subComponentStyles?: IJobsDialogSubComponentStyles;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface IJobsDialogSubComponentStyles {}
+export interface IJobsDialogSubComponentStyles {
+    dialog?: IDialogStyles;
+    resourcePicker?: IResourcePickerStyles;
+}

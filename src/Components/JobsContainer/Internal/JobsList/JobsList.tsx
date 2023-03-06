@@ -31,7 +31,11 @@ const JobsList: React.FC<IJobsListProps> = (props) => {
         theme: useExtendedTheme()
     });
 
-    return <div className={classNames.root}>Hello JobsList!</div>;
+    const printJob = props.jobs.map((job) => {
+        <p>{job.id}</p>;
+    });
+
+    return <div className={classNames.root}>{printJob}</div>;
 };
 
 export default styled<IJobsListProps, IJobsListStyleProps, IJobsListStyles>(
