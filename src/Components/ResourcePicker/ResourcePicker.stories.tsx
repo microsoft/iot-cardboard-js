@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { CSSProperties } from 'react';
 import { ComponentStory } from '@storybook/react';
 import { getDefaultStoryDecorator } from '../../Models/Services/StoryUtilities';
 import ResourcePicker from './ResourcePicker';
@@ -12,7 +12,11 @@ import {
     RequiredAccessRoleGroupForStorageContainer
 } from '../../Models/Constants';
 
-const wrapperStyle = { width: '400px', padding: 8 };
+const wrapperStyle = {
+    width: '400px',
+    padding: 8,
+    overflowY: 'unset'
+} as CSSProperties;
 
 export default {
     title: 'Components/ResourcePicker/Mock',

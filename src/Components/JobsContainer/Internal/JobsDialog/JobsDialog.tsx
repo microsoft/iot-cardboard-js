@@ -28,14 +28,16 @@ import {
     AzureResourceDisplayFields,
     AzureResourceTypes
 } from '../../../../Models/Constants/Enums';
-import { RequiredAccessRoleGroupForStorageContainer } from '../../../../Models/Constants/Constants';
 import {
     AdapterCreateJobArgs,
     IAdtApiJob,
-    IAzureResource
+    IAzureResource,
+    IAzureStorageAccount
 } from '../../../../Models/Constants';
 import useAdapter from '../../../../Models/Hooks/useAdapter';
 import { useBoolean } from '@fluentui/react-hooks';
+import { getStorageAccountId } from '../../../EnvironmentPicker/EnvironmentPickerManager';
+import { getResourceUrl } from '../../../../Models/Services/Utils';
 
 const getClassNames = classNamesFunction<
     IJobsDialogStyleProps,
@@ -50,6 +52,9 @@ const JobsDialog: React.FC<IJobsDialogProps> = ({
 }) => {
     // state
     const [jobName, setJobName] = useState<string>('');
+    const [selectedStorageAccount, setSelectedStorageAccount] = useState<
+        string | IAzureStorageAccount
+    >(null);
     const [inputBlobUri, setInputBlobUri] = useState<IAzureResource | string>(
         ''
     );
@@ -58,6 +63,7 @@ const JobsDialog: React.FC<IJobsDialogProps> = ({
     );
     const [
         invalidContainerSelection,
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         { toggle: setInvalidContainerSelection }
     ] = useBoolean(false);
 
@@ -65,6 +71,7 @@ const JobsDialog: React.FC<IJobsDialogProps> = ({
         false
     );
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [isSubmitButtonDisabled, { toggle: setSubmitButton }] = useBoolean(
         true
     );
@@ -80,20 +87,20 @@ const JobsDialog: React.FC<IJobsDialogProps> = ({
         setJobName(newName);
     }, []);
 
-    useMemo(() => {
-        if (inputBlobUri === outputBlobUri && !inputBlobUri && !outputBlobUri) {
-            setInvalidContainerSelection;
-        }
-        if (inputBlobUri && outputBlobUri && jobName) {
-            setSubmitButton;
-        }
-    }, [inputBlobUri, outputBlobUri, jobName]);
+    // useMemo(() => {
+    //     if (inputBlobUri === outputBlobUri && !inputBlobUri && !outputBlobUri) {
+    //         setInvalidContainerSelection;
+    //     }
+    //     if (inputBlobUri && outputBlobUri && jobName) {
+    //         setSubmitButton;
+    //     }
+    // }, [inputBlobUri, outputBlobUri, jobName]);
 
     const handleSubmit = async () => {
         const newJob: AdapterCreateJobArgs = {
             jobId: jobName,
             outputBlobUri: outputBlobUri as string,
-            inputBlobUri: outputBlobUri as string
+            inputBlobUri: inputBlobUri as string
         };
         await addJobsData.callAdapter(newJob);
         if (addJobsData.adapterResult?.result?.data) {
@@ -121,15 +128,36 @@ const JobsDialog: React.FC<IJobsDialogProps> = ({
         () => ({
             layerProps: { eventBubblingEnabled: true }, // this is for making react-dropzone work in dialog
             isBlocking: true,
-            className: 'cb-jobs-list-dialog-wrapper'
+            className: 'cb-jobs-list-dialog-wrapper',
+            styles: {
+                main: {
+                    width: '640px !important',
+                    maxWidth: 'unset !important',
+                    minHeight: 'fit-content',
+                    overflow: 'visible'
+                },
+                scrollableContent: {
+                    overflow: 'visible',
+                    '> div:first-child': { overflow: 'visible' }
+                }
+            }
         }),
         []
     );
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const handleInputContainerChange = useCallback((resource) => {
+        setInputBlobUri(resource);
+    }, []);
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const handleOutputContainerChange = useCallback((resource) => {
+        setOutputBlobUri(resource);
+    }, []);
+
     return (
         <div className={classNames.root}>
             <Dialog
-                minWidth={640}
                 hidden={false}
                 onDismiss={onClose}
                 dialogContentProps={dialogContentProps}
@@ -147,28 +175,75 @@ const JobsDialog: React.FC<IJobsDialogProps> = ({
                     <ResourcePicker
                         adapter={adapter}
                         displayField={AzureResourceDisplayFields.name}
-                        resourceType={AzureResourceTypes.StorageBlobContainer}
-                        label={t('jobs.inputBlobContainerName')}
-                        requiredAccessRoles={
-                            RequiredAccessRoleGroupForStorageContainer
-                        }
-                        searchParams={{ take: 1000 }}
-                        onChange={(resource) => {
-                            setInputBlobUri(resource);
+                        resourceType={AzureResourceTypes.StorageAccount}
+                        requiredAccessRoles={{
+                            enforced: [],
+                            interchangeables: []
+                        }}
+                        label={t('environmentPicker.storageAccountUrl')}
+                        onChange={(resource: string | IAzureStorageAccount) => {
+                            setSelectedStorageAccount(resource);
                         }}
                     />
                     <ResourcePicker
+                        key={`${getResourceUrl(
+                            selectedStorageAccount,
+                            AzureResourceTypes.StorageAccount
+                        )}-input`}
+                        adapter={adapter}
+                        displayField={AzureResourceDisplayFields.name}
+                        resourceType={AzureResourceTypes.StorageBlobContainer}
+                        label={t('jobs.inputBlobContainerName')}
+                        requiredAccessRoles={{
+                            enforced: [],
+                            interchangeables: []
+                        }}
+                        // onChange={handleInputContainerChange} // figure out what causes infinite loop or rerendering
+                        searchParams={{
+                            additionalParams: selectedStorageAccount
+                                ? {
+                                      storageAccountId: getStorageAccountId(
+                                          selectedStorageAccount
+                                      ),
+                                      storageAccountBlobUrl: getResourceUrl(
+                                          selectedStorageAccount,
+                                          AzureResourceTypes.StorageAccount
+                                      )
+                                  }
+                                : undefined,
+                            isAdditionalParamsRequired: true
+                        }}
+                        shouldFetchResourcesOnMount={!!selectedStorageAccount}
+                    />
+                    <ResourcePicker
+                        key={`${getResourceUrl(
+                            selectedStorageAccount,
+                            AzureResourceTypes.StorageAccount
+                        )}-output`}
                         adapter={adapter}
                         displayField={AzureResourceDisplayFields.name}
                         resourceType={AzureResourceTypes.StorageBlobContainer}
                         label={t('jobs.outputBlobContainerName')}
-                        requiredAccessRoles={
-                            RequiredAccessRoleGroupForStorageContainer
-                        }
-                        searchParams={{ take: 1000 }}
-                        onChange={(resource) => {
-                            setOutputBlobUri(resource);
+                        requiredAccessRoles={{
+                            enforced: [],
+                            interchangeables: []
                         }}
+                        // onChange={handleOutputContainerChange} // figure out what causes infinite loop or rerendering
+                        searchParams={{
+                            additionalParams: selectedStorageAccount
+                                ? {
+                                      storageAccountId: getStorageAccountId(
+                                          selectedStorageAccount
+                                      ),
+                                      storageAccountBlobUrl: getResourceUrl(
+                                          selectedStorageAccount,
+                                          AzureResourceTypes.StorageAccount
+                                      )
+                                  }
+                                : undefined,
+                            isAdditionalParamsRequired: true
+                        }}
+                        shouldFetchResourcesOnMount={!!selectedStorageAccount}
                     />
                 </Stack>
                 {invalidContainerSelection && (
