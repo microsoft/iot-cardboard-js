@@ -1296,7 +1296,11 @@
         "badgeCalloutText": "Den här modellen använder DTDL version 3. Klicka för att läsa mer"
       },
       "PropertyList": {
+<<<<<<< HEAD
         "mapKeyName1": "namn på kartnyckel"
+=======
+        "mapKeyName": "namn på kartnyckel"
+>>>>>>> origin/main
       }
     },
     "PropertyTypes": {
