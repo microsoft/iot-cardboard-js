@@ -1031,7 +1031,7 @@
         },
         "PropertyEditor": {
             "PropertyList": {
-                "mapKeyName1": "map key name"
+                "mapKeyName": "map key name"
             },
             "Version3PreviewLabel": {
                 "badgeText": "Preview",
