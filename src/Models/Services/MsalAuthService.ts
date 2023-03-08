@@ -112,7 +112,6 @@ export default class MsalAuthService implements IAuthService {
         this.MSALObj.handleRedirectPromise().then(
             (resp: AuthenticationResult | null) => {
                 if (resp !== null) {
-                    debugger;
                     this.isLoggingIn = false;
                     const activeAccount = resp.account;
                     this.MSALObj.setActiveAccount(activeAccount);
@@ -131,14 +130,13 @@ export default class MsalAuthService implements IAuthService {
                         this.shiftAndExecuteGetTokenCall();
                     }
                 } else {
-                    debugger;
                     this.isLoggingIn = false;
                     const allAccounts = this.MSALObj.getAllAccounts();
                     if (!allAccounts || allAccounts.length < 1) {
                         this.MSALObj.loginRedirect(this.loginRedirectRequest);
                     } else {
                         let activeAccount;
-                        if (this.tenantId !== DEFAULT_TENANT_ID) {
+                        if (this.tenantId === DEFAULT_TENANT_ID) {
                             if (
                                 this.targetTenantId &&
                                 this.targetTenantId !== DEFAULT_TENANT_ID
@@ -148,12 +146,12 @@ export default class MsalAuthService implements IAuthService {
                                         a.tenantId === this.targetTenantId
                                 );
                             } else {
-                                activeAccount = allAccounts.find(
-                                    (a: any) => a.tenantId === this.tenantId
-                                );
+                                activeAccount = allAccounts[0];
                             }
                         } else {
-                            activeAccount = allAccounts[0];
+                            activeAccount = allAccounts.find(
+                                (a: any) => a.tenantId === this.tenantId
+                            );
                         }
                         this.MSALObj.setActiveAccount(activeAccount);
                         this.userObjectId = activeAccount?.idTokenClaims.oid;
