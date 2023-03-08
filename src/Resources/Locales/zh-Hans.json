@@ -1296,7 +1296,7 @@
         "badgeCalloutText": "此模型使用 DTDL 版本 3。点击了解更多"
       },
       "PropertyList": {
-        "mapKeyName": "映射键名称"
+        "mapKeyName1": "映射键名称"
       }
     },
     "PropertyTypes": {

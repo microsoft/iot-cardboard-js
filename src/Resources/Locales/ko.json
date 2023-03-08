@@ -1296,7 +1296,7 @@
         "badgeCalloutText": "이 모델은 DTDL 버전 3을 사용합니다. 클릭하여 자세히 알아보기"
       },
       "PropertyList": {
-        "mapKeyName": "맵 키 이름"
+        "mapKeyName1": "맵 키 이름"
       }
     },
     "PropertyTypes": {

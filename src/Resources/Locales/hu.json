@@ -1296,7 +1296,7 @@
         "badgeCalloutText": "Ez a modell a DTDL 3-as verzióját használja. Kattintson ide, ha többet szeretne megtudni"
       },
       "PropertyList": {
-        "mapKeyName": "Leképezési kulcs neve"
+        "mapKeyName1": "Térképkulcs neve"
       }
     },
     "PropertyTypes": {
