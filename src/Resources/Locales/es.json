@@ -1296,7 +1296,7 @@
         "badgeCalloutText": "Este modelo utiliza DTDL versión 3. Haga clic para obtener más información"
       },
       "PropertyList": {
-        "mapKeyName": "Nombre de clave de mapa"
+        "mapKeyName1": "Nombre de clave de mapa"
       }
     },
     "PropertyTypes": {

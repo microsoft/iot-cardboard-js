@@ -1296,7 +1296,7 @@
         "badgeCalloutText": "Dit model maakt gebruik van DTDL versie 3. Klik voor meer informatie"
       },
       "PropertyList": {
-        "mapKeyName": "Naam van de kaartsleutel"
+        "mapKeyName1": "naam van de kaartsleutel"
       }
     },
     "PropertyTypes": {

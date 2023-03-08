@@ -1296,7 +1296,7 @@
         "badgeCalloutText": "Den här modellen använder DTDL version 3. Klicka för att läsa mer"
       },
       "PropertyList": {
-        "mapKeyName": "Namn på kartnyckel"
+        "mapKeyName1": "namn på kartnyckel"
       }
     },
     "PropertyTypes": {
