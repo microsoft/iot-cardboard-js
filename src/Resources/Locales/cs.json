@@ -1296,7 +1296,7 @@
         "badgeCalloutText": "Tento model používá DTDL verze 3. Kliknutím se dozvíte více"
       },
       "PropertyList": {
-        "mapKeyName1": "Název klíče mapování"
+        "mapKeyName": "Název klíče mapování"
       }
     },
     "PropertyTypes": {

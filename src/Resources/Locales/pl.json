@@ -1296,7 +1296,7 @@
         "badgeCalloutText": "Ten model korzysta z DTDL w wersji 3. Kliknij, aby dowiedzieć się więcej"
       },
       "PropertyList": {
-        "mapKeyName1": "Nazwa klucza mapy"
+        "mapKeyName": "Nazwa klucza mapy"
       }
     },
     "PropertyTypes": {
