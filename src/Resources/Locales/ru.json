@@ -1296,7 +1296,7 @@
         "badgeCalloutText": "Эта модель использует DTDL версии 3. Нажмите, чтобы узнать больше"
       },
       "PropertyList": {
-        "mapKeyName": "Имя ключа карты"
+        "mapKeyName": "имя ключа карты"
       }
     },
     "PropertyTypes": {
