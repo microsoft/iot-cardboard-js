@@ -1296,7 +1296,7 @@
         "badgeCalloutText": "Ce modèle utilise DTDL version 3. Cliquez pour en savoir plus"
       },
       "PropertyList": {
-        "mapKeyName1": "Nom de la clé de mappage"
+        "mapKeyName": "Nom de la clé de mappage"
       }
     },
     "PropertyTypes": {

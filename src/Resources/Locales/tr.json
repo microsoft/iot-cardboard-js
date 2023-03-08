@@ -1296,11 +1296,7 @@
         "badgeCalloutText": "Bu model DTDL sürüm 3'ü kullanır. Daha fazla bilgi için tıklayın"
       },
       "PropertyList": {
-<<<<<<< HEAD
-        "mapKeyName1": "harita anahtarı adı"
-=======
         "mapKeyName": "harita anahtarı adı"
->>>>>>> origin/main
       }
     },
     "PropertyTypes": {
