@@ -16,7 +16,12 @@ import {
 } from './SampleGraph.types';
 import { getStyles } from './SampleGraph.styles';
 import CustomGraphNode from './Internal/CustomGraphNode/CustomGraphNode';
-import { IGraphData, ICustomNodeConfig } from './GraphTypes.types';
+import {
+    IGraphData,
+    ICustomNodeConfig,
+    ICustomEdgeData,
+    ICustomEdgeDefintion
+} from './GraphTypes.types';
 import ONTOLOGY_DATA from './CityOntology.json';
 import { IOATFile } from '../../Pages/OATEditorPage/Internal/Classes/OatTypes';
 import { ensureIsArray, parseModelId } from '../../Models/Services/OatUtils';
@@ -339,9 +344,95 @@ const CUSTOM_NODE_NAME = 'react-node';
 const DEFAULT_NODE = {
     type: 'rect'
 };
-console.log('[START] Registering');
 Graphin.registerNode(CUSTOM_NODE_NAME, createNodeFromReact(CustomGraphNode));
-console.log('[END] Registering');
+
+function AddNodes(
+    allModels: DtdlInterface[],
+    currentModel: DtdlInterface,
+    graphData: IGraphData
+) {
+    const findRelatedNodeIds = (model: DtdlInterface): string[] => {
+        // look for any references TO the current model
+        const related = allModels
+            .filter((x) => {
+                if (
+                    ensureIsArray(x.extends)?.find(
+                        (y) => y['@id'] === model['@id']
+                    )
+                ) {
+                    return true;
+                } else if (
+                    ensureIsArray(x.contents)?.find(
+                        (y) => isDTDLReference(y) && y['@id'] === model['@id']
+                    )
+                ) {
+                    return true;
+                }
+                return false;
+            })
+            .map((x) => (x ? x['@id'] : ''));
+
+        const relatedSet = new Set<string>(related);
+
+        // add all the relationships FROM the current model
+        ensureIsArray(model.extends).forEach((x) => x && relatedSet.add(x));
+        ensureIsArray(model.contents).forEach((x) => {
+            isDTDLReference(x) && relatedSet.add(x['@id']);
+        });
+
+        // sort them to get consistent ordering across nodes
+        const results =
+            Array.from(relatedSet.values()).sort(sortCaseInsensitive()) || [];
+        return results;
+    };
+    const relatedNodesKey = findRelatedNodeIds(currentModel).join(',') ?? '';
+
+    // add the model node
+    graphData.nodes.push({
+        id: currentModel['@id'],
+        label: parseModelId(currentModel['@id']).name,
+        data: {
+            itemType: 'Node',
+            id: currentModel['@id'],
+            name: parseModelId(currentModel['@id']).name,
+            relatedNodesKey: relatedNodesKey
+        }
+    });
+}
+
+function AddEdges(model: DtdlInterface, data: IGraphData) {
+    model.contents?.forEach((content) => {
+        if (isDTDLReference(content)) {
+            data.edges.push({
+                source: model['@id'],
+                target: content['@id'],
+                label: content.name,
+                data: {
+                    itemType: 'Edge',
+                    name: content.name,
+                    source: model['@id'],
+                    target: content['@id'],
+                    type: content['@type']
+                }
+            });
+        }
+    });
+    // add extends edges
+    ensureIsArray(model.extends).forEach((content) => {
+        data.edges.push({
+            source: model['@id'],
+            target: content,
+            label: 'Extends',
+            data: {
+                itemType: 'Edge',
+                name: 'Extends',
+                source: model['@id'],
+                target: content,
+                type: OAT_EXTEND_HANDLE_NAME
+            }
+        });
+    });
+}
 
 const SampleGraph: React.FC<ISampleGraphProps> = (props) => {
     const { styles } = props;
@@ -388,87 +479,9 @@ const SampleGraph: React.FC<ISampleGraphProps> = (props) => {
     };
     const ontologyModels = (ONTOLOGY_DATA as IOATFile).data.models;
     ontologyModels.forEach((model) => {
-        const findRelatedNodeIds = (model: DtdlInterface): string[] => {
-            // look for any references TO the current model
-            const related = ontologyModels
-                .filter((x) => {
-                    if (
-                        ensureIsArray(x.extends)?.find(
-                            (y) => y['@id'] === model['@id']
-                        )
-                    ) {
-                        return true;
-                    } else if (
-                        ensureIsArray(x.contents)?.find(
-                            (y) =>
-                                isDTDLReference(y) && y['@id'] === model['@id']
-                        )
-                    ) {
-                        return true;
-                    }
-                    return false;
-                })
-                .map((x) => (x ? x['@id'] : ''));
-
-            const relatedSet = new Set<string>(related);
-
-            // add all the relationships FROM the current model
-            ensureIsArray(model.extends).forEach((x) => x && relatedSet.add(x));
-            ensureIsArray(model.contents).forEach((x) => {
-                isDTDLReference(x) && relatedSet.add(x['@id']);
-            });
-
-            // sort them to get consistent ordering across nodes
-            const results =
-                Array.from(relatedSet.values()).sort(sortCaseInsensitive()) ||
-                [];
-            return results;
-        };
-        const relatedNodesKey = findRelatedNodeIds(model).join(',') ?? '';
-
-        // add the model node
-        data.nodes.push({
-            id: model['@id'],
-            label: parseModelId(model['@id']).name,
-            data: {
-                itemType: 'Node',
-                id: model['@id'],
-                name: parseModelId(model['@id']).name,
-                relatedNodesKey: relatedNodesKey
-            }
-        });
+        AddNodes(ontologyModels, model, data);
         //add the reference edges
-        model.contents?.forEach((content) => {
-            if (isDTDLReference(content)) {
-                data.edges.push({
-                    source: model['@id'],
-                    target: content['@id'],
-                    label: content.name,
-                    data: {
-                        itemType: 'Edge',
-                        name: content.name,
-                        source: model['@id'],
-                        target: content['@id'],
-                        type: content['@type']
-                    }
-                });
-            }
-        });
-        // add extends edges
-        ensureIsArray(model.extends).forEach((content) => {
-            data.edges.push({
-                source: model['@id'],
-                target: content,
-                label: 'Extends',
-                data: {
-                    itemType: 'Edge',
-                    name: 'Extends', // TODO: localize
-                    source: model['@id'],
-                    target: content,
-                    type: OAT_EXTEND_HANDLE_NAME
-                }
-            });
-        });
+        AddEdges(model, data);
     });
 
     // contexts

@@ -3,7 +3,6 @@ import { IOATSelection } from '../../../Pages/OATEditorPage/OATEditorPage.types'
 import { ICustomEdgeData, ICustomNodeData } from '../GraphTypes.types';
 
 const getSelectionIdentifier = (data: ICustomEdgeData) => {
-    console.log('getSelectionIdentifier', data);
     switch (data.type) {
         case OAT_EXTEND_HANDLE_NAME:
             return data.source;
@@ -21,7 +20,6 @@ export const getSelectionFromGraphItem = (
             modelId: edge.source,
             contentId: getSelectionIdentifier(selectedItem)
         };
-        console.log('getSelectionFromGraphItem', payload);
         return payload;
     }
 

@@ -13,7 +13,7 @@ import {
 } from '../../GraphTypes.types';
 import { getSelectionFromGraphItem } from '../../Utils/GraphUtils';
 
-const debugLogging = true;
+const debugLogging = false;
 const logDebugConsole = getDebugLogger('CustomClickHandler', debugLogging);
 
 const CustomClickHandler: React.FC<ICustomClickHandlerProps> = (_props) => {
