@@ -2,7 +2,7 @@ import React from 'react';
 import { classNamesFunction, styled } from '@fluentui/react';
 import { useId } from '@fluentui/react-hooks';
 import { createNodeFromReact } from '@antv/g6-react-node';
-import Graphin, { Components, LegendChildrenProps } from '@antv/graphin';
+import Graphin from '@antv/graphin';
 import { CreateEdge } from '@antv/graphin-components';
 import { useExtendedTheme } from '../../Models/Hooks/useExtendedTheme';
 import {
@@ -23,6 +23,7 @@ import { ensureIsArray, parseModelId } from '../../Models/Services/OatUtils';
 import { isDTDLReference } from '../../Models/Services/DtdlUtils';
 import { DtdlInterface, OAT_EXTEND_HANDLE_NAME } from '../../Models/Constants';
 import CustomClickHandler from './Hooks/CustomClickHandler/CustomClickHandler';
+import CustomLegend from './Internal/CustomLegend/CustomLegend';
 
 const debugLogging = true;
 const logDebugConsole = getDebugLogger('SampleGraph', debugLogging);
@@ -432,7 +433,6 @@ function AddEdges(model: DtdlInterface, data: IGraphData) {
 const SampleGraph: React.FC<ISampleGraphProps> = (props) => {
     const { styles } = props;
     console.log('[START] Render');
-    const { Legend } = Components;
 
     // hooks
     const graphContainerId = useId('graph-container');
@@ -524,24 +524,7 @@ const SampleGraph: React.FC<ISampleGraphProps> = (props) => {
                     defaultNode={DEFAULT_NODE}
                     height={height}
                 >
-                    <Legend bindType={'edge'} sortKey={'data.type'}>
-                        {/* TODO: write custom legend node */}
-                        {(renderProps: LegendChildrenProps) => {
-                            console.log('renderProps', renderProps);
-                            return (
-                                <Legend.Node
-                                    {...renderProps}
-                                    onChange={(checked, types) => {
-                                        console.log(
-                                            'Clicked item {checked, types}',
-                                            checked,
-                                            types
-                                        );
-                                    }}
-                                />
-                            );
-                        }}
-                    </Legend>
+                    <CustomLegend />
                     <CustomClickHandler />
                     <CreateEdge
                         active={false}
