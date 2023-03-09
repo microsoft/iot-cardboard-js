@@ -622,7 +622,7 @@
             "libraryName": "Panel",
             "description": "A layout panel"
         },
-        "powerBI": {
+        "powerBI-1": {
             "title": "Power BI widget",
             "libraryName": "Power BI Visual",
             "description": "Embed a Power BI visual or tile",
