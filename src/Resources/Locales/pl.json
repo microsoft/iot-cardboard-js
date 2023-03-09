@@ -656,10 +656,10 @@
       "headerMenu": "Menu widżetu Historia danych",
       "openQuery": "Otwieranie zapytania w usłudze Azure Data Explorer"
     },
-    "powerBI": {
+    "powerBI-1": {
       "title": "Widżet usługi Power BIPower BI widget",
       "libraryName": "Power BI Visual",
-      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
+      "description": "Osadzanie wizualizacji lub kafelka usługi Power BI",
       "type": {
         "label": "Typ",
         "options": {
@@ -668,6 +668,12 @@
           "tile": "Kafelek",
           "visual": "Wizualny"
         }
+      },
+      "embedUrl": {
+        "label": "Umieść adres URL",
+        "placeholder": "Wpisz adres URL",
+        "description": "Ten adres URL służy do osadzania artefaktów raportu w narzędziach zewnętrznych",
+        "tooltip": "To pole jest wymagane do wyboru nazwy strony i wizualizacji"
       },
       "pageName": {
         "label": "Nazwa strony",
@@ -682,15 +688,9 @@
         "label": "Filtry danych"
       },
       "errors": {
-        "missingReportConfiguration": "Upewnij się, że widżet jest poprawnie skonfigurowany",
         "missingConfiguration": "Brak konfiguracji widżetu lub jest on nieprawidłowy",
-        "missingAdapter": "Upewnij się, że karta Power BI jest zainstalowana i skonfigurowana."
-      },
-      "embedUrl": {
-        "label": "Umieść adres URL",
-        "placeholder": "https://embed.powerbi.com/groups/me/reports/{reportId}",
-        "description": "Adres URL używany do osadzania artefaktów raportu w narzędziach zewnętrznych",
-        "tooltip": "To pole jest wymagane do wyboru nazwy strony i wizualizacji"
+        "missingAdapter": "Upewnij się, że karta Power BI jest zainstalowana i skonfigurowana.",
+        "missingReportConfiguration": "Konfigurowanie widżetu do wyświetlania szczegółów"
       }
     }
   },

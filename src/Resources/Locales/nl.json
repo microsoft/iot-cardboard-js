@@ -656,10 +656,10 @@
       "headerMenu": "Widgetmenu gegevensgeschiedenis",
       "openQuery": "Query openen in Azure Data Explorer"
     },
-    "powerBI": {
+    "powerBI-1": {
       "title": "Power BI-widget",
       "libraryName": "Power BI-visual",
-      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
+      "description": "Een Power BI-visual of -tegel insluiten",
       "type": {
         "label": "Type",
         "options": {
@@ -668,6 +668,12 @@
           "tile": "Tegel",
           "visual": "Visueel"
         }
+      },
+      "embedUrl": {
+        "label": "URL insluiten",
+        "placeholder": "Voer de URL in",
+        "description": "Deze URL wordt gebruikt om rapportartefacten in te sluiten in externe hulpprogramma's",
+        "tooltip": "Dit veld is vereist voor het selecteren van pagina's en visuele namen"
       },
       "pageName": {
         "label": "Paginanaam",
@@ -682,15 +688,9 @@
         "label": "Gegevensfilters"
       },
       "errors": {
-        "missingReportConfiguration": "Zorg ervoor dat uw widget correct is geconfigureerd",
         "missingConfiguration": "Widgetconfiguratie ontbreekt of is ongeldig",
-        "missingAdapter": "Zorg ervoor dat de Power BI-adapter is geïnstalleerd en geconfigureerd"
-      },
-      "embedUrl": {
-        "label": "URL insluiten",
-        "placeholder": "https://embed.powerbi.com/groups/me/reports/{reportId}",
-        "description": "De URL die wordt gebruikt om rapportartefacten in te sluiten in externe hulpprogramma's",
-        "tooltip": "Dit veld is vereist voor het selecteren van pagina's en visuele namen"
+        "missingAdapter": "Zorg ervoor dat de Power BI-adapter is geïnstalleerd en geconfigureerd",
+        "missingReportConfiguration": "Widget configureren om details weer te geven"
       }
     }
   },

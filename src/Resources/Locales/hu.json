@@ -656,10 +656,10 @@
       "headerMenu": "Adatelőzmények widget menü",
       "openQuery": "Lekérdezés megnyitása a Azure Data Explorer"
     },
-    "powerBI": {
+    "powerBI-1": {
       "title": "Power BI-widget",
       "libraryName": "Power BI-vizualizáció",
-      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
+      "description": "Power BI-vizualizáció vagy -csempe beágyazása",
       "type": {
         "label": "Típus",
         "options": {
@@ -668,6 +668,12 @@
           "tile": "Cserép",
           "visual": "Vizuális"
         }
+      },
+      "embedUrl": {
+        "label": "Beágyazási URL-cím",
+        "placeholder": "Írja be az URL-t",
+        "description": "Ez az URL-cím a jelentés-összetevők külső eszközökbe való beágyazására szolgál",
+        "tooltip": "Ez a mező kötelező az oldal- és vizualizációnév kiválasztásához"
       },
       "pageName": {
         "label": "Oldal neve",
@@ -682,15 +688,9 @@
         "label": "Adatszűrők"
       },
       "errors": {
-        "missingReportConfiguration": "Kérjük, ellenőrizze, hogy a widget megfelelően van-e konfigurálva",
         "missingConfiguration": "A widget konfigurációja hiányzik vagy érvénytelen",
-        "missingAdapter": "Győződjön meg arról, hogy a Power BI-adapter telepítve és konfigurálva van"
-      },
-      "embedUrl": {
-        "label": "Beágyazási URL-cím",
-        "placeholder": "https://embed.powerbi.com/groups/me/reports/{reportId}",
-        "description": "A jelentés-összetevők külső eszközökbe való beágyazásához használt URL-cím",
-        "tooltip": "Ez a mező kötelező az oldal- és vizualizációnév kiválasztásához"
+        "missingAdapter": "Győződjön meg arról, hogy a Power BI-adapter telepítve és konfigurálva van",
+        "missingReportConfiguration": "Widget konfigurálása a részletek megjelenítéséhez"
       }
     }
   },

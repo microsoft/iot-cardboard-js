@@ -656,10 +656,10 @@
       "headerMenu": "Menu de widget do histórico de dados",
       "openQuery": "Consulta aberta no Azure Data Explorer"
     },
-    "powerBI": {
+    "powerBI-1": {
       "title": "Widget do Power BI",
       "libraryName": "Power BI Visual",
-      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
+      "description": "Incorporar um visual ou bloco do Power BI",
       "type": {
         "label": "Tipo",
         "options": {
@@ -669,12 +669,18 @@
           "visual": "Visual"
         }
       },
+      "embedUrl": {
+        "label": "URL de incorporação",
+        "placeholder": "Digite o URL",
+        "description": "Essa URL é usada para incorporar artefatos de relatório em ferramentas externas",
+        "tooltip": "Este campo é obrigatório para a seleção de página e nome visual"
+      },
       "pageName": {
         "label": "Nome da página",
         "placeholder": "Nome da página"
       },
       "visualName": {
-        "label": "Nome Visual",
+        "label": "Nome visual",
         "placeholder": "Nome visual",
         "suffix": "Insira o nome do elemento específico do relatório a ser exibido neste widget"
       },
@@ -682,15 +688,9 @@
         "label": "Filtros de dados"
       },
       "errors": {
-        "missingReportConfiguration": "Certifique-se de que o widget está configurado corretamente",
         "missingConfiguration": "A configuração do widget está ausente ou é inválida",
-        "missingAdapter": "Certifique-se de que o adaptador do Power BI está instalado e configurado"
-      },
-      "embedUrl": {
-        "label": "URL de incorporação",
-        "placeholder": "https://embed.powerbi.com/groups/me/reports/{reportId}",
-        "description": "A URL usada para incorporar artefatos de relatório em ferramentas externas",
-        "tooltip": "Este campo é obrigatório para a seleção de página e nome visual"
+        "missingAdapter": "Certifique-se de que o adaptador do Power BI está instalado e configurado",
+        "missingReportConfiguration": "Configurar widget para exibir detalhes"
       }
     }
   },
