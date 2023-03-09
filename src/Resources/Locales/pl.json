@@ -689,7 +689,8 @@
       "embedUrl": {
         "label": "Umieść adres URL",
         "placeholder": "https://embed.powerbi.com/groups/me/reports/{reportId}",
-        "description": "Adres URL używany do osadzania artefaktów raportu w narzędziach zewnętrznych"
+        "description": "Adres URL używany do osadzania artefaktów raportu w narzędziach zewnętrznych",
+        "tooltip": "To pole jest wymagane do wyboru nazwy strony i wizualizacji"
       }
     }
   },

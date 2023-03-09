@@ -689,7 +689,8 @@
       "embedUrl": {
         "label": "URL d’intégration",
         "placeholder": "https://embed.powerbi.com/groups/me/reports/{reportId}",
-        "description": "URL utilisée pour incorporer des artefacts de rapport dans des outils externes"
+        "description": "URL utilisée pour incorporer des artefacts de rapport dans des outils externes",
+        "tooltip": "Ce champ est obligatoire pour la sélection du nom de la page et du visuel"
       }
     }
   },

@@ -689,7 +689,8 @@
       "embedUrl": {
         "label": "URL för inbäddning",
         "placeholder": "https://embed.powerbi.com/groups/me/reports/{reportId}",
-        "description": "URL:en som används för att bädda in rapportartefakter i externa verktyg"
+        "description": "URL:en som används för att bädda in rapportartefakter i externa verktyg",
+        "tooltip": "Det här fältet är obligatoriskt för val av sidnamn och visuellt namn"
       }
     }
   },

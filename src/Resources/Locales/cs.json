@@ -689,7 +689,8 @@
       "embedUrl": {
         "label": "Adresa URL pro vložení",
         "placeholder": "https://embed.powerbi.com/groups/me/reports/{reportId}",
-        "description": "Adresa URL použitá k vložení artefaktů sestavy do externích nástrojů"
+        "description": "Adresa URL použitá k vložení artefaktů sestavy do externích nástrojů",
+        "tooltip": "Toto pole je povinné pro výběr názvu stránky a vizuálu"
       }
     }
   },

@@ -689,7 +689,8 @@
       "embedUrl": {
         "label": "URL di incorporamento",
         "placeholder": "https://embed.powerbi.com/groups/me/reports/{reportId}",
-        "description": "URL utilizzato per incorporare gli elementi del report negli strumenti esterni"
+        "description": "URL utilizzato per incorporare gli elementi del report negli strumenti esterni",
+        "tooltip": "Questo campo è obbligatorio per la selezione della pagina e del nome visivo"
       }
     }
   },

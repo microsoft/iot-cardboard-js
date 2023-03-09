@@ -689,7 +689,8 @@
       "embedUrl": {
         "label": "URL insluiten",
         "placeholder": "https://embed.powerbi.com/groups/me/reports/{reportId}",
-        "description": "De URL die wordt gebruikt om rapportartefacten in te sluiten in externe hulpprogramma's"
+        "description": "De URL die wordt gebruikt om rapportartefacten in te sluiten in externe hulpprogramma's",
+        "tooltip": "Dit veld is vereist voor het selecteren van pagina's en visuele namen"
       }
     }
   },

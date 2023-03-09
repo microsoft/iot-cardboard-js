@@ -689,7 +689,8 @@
       "embedUrl": {
         "label": "埋め込み URL",
         "placeholder": "https://embed.powerbi.com/groups/me/reports/{reportId}",
-        "description": "外部ツールにレポート成果物を埋め込むために使用される URL"
+        "description": "外部ツールにレポート成果物を埋め込むために使用される URL",
+        "tooltip": "このフィールドは、ページ名とビジュアル名の選択に必要です。"
       }
     }
   },

@@ -689,7 +689,8 @@
       "embedUrl": {
         "label": "URL 포함",
         "placeholder": "https://embed.powerbi.com/groups/me/reports/{보고서 ID}",
-        "description": "외부 도구에 보고서 아티팩트를 포함하는 데 사용되는 URL"
+        "description": "외부 도구에 보고서 아티팩트를 포함하는 데 사용되는 URL",
+        "tooltip": "이 필드는 페이지 및 시각적 개체 이름 선택에 필요합니다."
       }
     }
   },

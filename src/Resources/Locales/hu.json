@@ -689,7 +689,8 @@
       "embedUrl": {
         "label": "Beágyazási URL-cím",
         "placeholder": "https://embed.powerbi.com/groups/me/reports/{reportId}",
-        "description": "A jelentés-összetevők külső eszközökbe való beágyazásához használt URL-cím"
+        "description": "A jelentés-összetevők külső eszközökbe való beágyazásához használt URL-cím",
+        "tooltip": "Ez a mező kötelező az oldal- és vizualizációnév kiválasztásához"
       }
     }
   },

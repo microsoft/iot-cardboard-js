@@ -689,7 +689,8 @@
       "embedUrl": {
         "label": "嵌入网址",
         "placeholder": "https://embed.powerbi.com/groups/me/reports/{reportId}",
-        "description": "用于在外部工具中嵌入报表项目的 URL"
+        "description": "用于在外部工具中嵌入报表项目的 URL",
+        "tooltip": "此字段是页面和视觉对象名称选择所必需的"
       }
     }
   },

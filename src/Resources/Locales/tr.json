@@ -689,7 +689,8 @@
       "embedUrl": {
         "label": "URL gömme",
         "placeholder": "https://embed.powerbi.com/groups/me/reports/{reportId}",
-        "description": "Rapor yapıtlarını harici araçlara katıştırmak için kullanılan URL"
+        "description": "Rapor yapıtlarını harici araçlara katıştırmak için kullanılan URL",
+        "tooltip": "Bu alan sayfa ve görsel ad seçimi için gereklidir"
       }
     }
   },
