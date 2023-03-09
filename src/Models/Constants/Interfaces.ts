@@ -144,7 +144,9 @@ export interface IConsumeCompositeCardProps extends ICardBaseProps {
 export interface IAuthService {
     /** the unique object id of the logged in user */
     userObjectId?: string;
+    setActiveAccount: (account: any) => void;
     login: (continuation?: (params: any) => void) => void;
+    logout: () => void;
     getToken: (tokenFor?: AuthTokenTypes) => Promise<string>;
 }
 

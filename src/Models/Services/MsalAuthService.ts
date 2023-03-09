@@ -114,9 +114,7 @@ export default class MsalAuthService implements IAuthService {
                 if (resp !== null) {
                     this.isLoggingIn = false;
                     const activeAccount = resp.account;
-                    this.MSALObj.setActiveAccount(activeAccount);
-                    this.userObjectId = activeAccount.idTokenClaims['oid'];
-                    this.tenantId = activeAccount.tenantId;
+                    this.setActiveAccount(activeAccount);
                     if (continuation) {
                         getTenantsAndContinuation(
                             activeAccount.name,
@@ -153,10 +151,7 @@ export default class MsalAuthService implements IAuthService {
                                 (a: any) => a.tenantId === this.tenantId
                             );
                         }
-                        this.MSALObj.setActiveAccount(activeAccount);
-                        this.userObjectId = activeAccount?.idTokenClaims.oid;
-                        this.tenantId =
-                            activeAccount?.tenantId || DEFAULT_TENANT_ID;
+                        this.setActiveAccount(activeAccount);
                         if (continuation) {
                             getTenantsAndContinuation(
                                 activeAccount.name,
@@ -183,6 +178,12 @@ export default class MsalAuthService implements IAuthService {
         };
 
         this.MSALObj.logoutRedirect(logOutRequest);
+    };
+
+    setActiveAccount = (account: AccountInfo) => {
+        this.MSALObj.setActiveAccount(account);
+        this.tenantId = account?.tenantId || DEFAULT_TENANT_ID;
+        this.userObjectId = account?.idTokenClaims['oid'];
     };
 
     private shiftAndExecuteGetTokenCall = () => {
@@ -369,7 +370,7 @@ export default class MsalAuthService implements IAuthService {
         };
         const setAccountAndContinue = (response) => {
             if (response.account) {
-                this.MSALObj.setActiveAccount(response.account);
+                this.setActiveAccount(response.account);
             }
             continuation?.();
         };
