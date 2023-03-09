@@ -17,8 +17,9 @@ export interface IPowerBIWidgetStyleProps {
 }
 export interface IPowerBIWidgetStyles {
     root: IStyle;
-    header?: IStyle;
-    description?: IStyle;
+    header: IStyle;
+    description: IStyle;
+    error: IStyle;
 
     /**
      * SubComponent styles.

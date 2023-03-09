@@ -625,7 +625,7 @@
         "powerBI": {
             "title": "Power BI widget",
             "libraryName": "Power BI Visual",
-            "description": "Render a Power BI visual or tile",
+            "description": "Embed a Power BI visual or tile",
             "type": {
                 "label": "Type",
                 "options": {
@@ -637,15 +637,16 @@
             },
             "embedUrl": {
                 "label": "Embed URL",
-                "placeholder": "https://embed.powerbi.com/groups/me/reports/{reportId}",
-                "description": "The URL used to embed report artifacts in external tools"
+                "placeholder": "Enter URL",
+                "description": "This URL is used to embed report artifacts in external tools",
+                "tooltip": "This field is required for page and visual name selection"
             },
             "pageName": {
-                "label": "Page Name",
+                "label": "Page name",
                 "placeholder": "Page name"
             },
             "visualName": {
-                "label": "Visual Name",
+                "label": "Visual name",
                 "placeholder": "Visual name",
                 "suffix": "Enter the name of the specific element from the report to show in this widget"
             },
@@ -655,7 +656,7 @@
             "errors": {
                 "missingConfiguration": "Widget configuration is missing or is invalid",
                 "missingAdapter": "Please ensure that the Power BI adapter is installed and configured",
-                "missingReportConfiguration": "Please ensure that your widget is fully configured"
+                "missingReportConfiguration": "Configure widget to display details"
             }
         },
         "dataHistory": {

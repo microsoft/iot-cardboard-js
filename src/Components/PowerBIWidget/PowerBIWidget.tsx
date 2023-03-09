@@ -72,7 +72,7 @@ const PowerBIWidget: React.FC<IPowerBIWidgetProps> = (props) => {
     }
     return (
         <div className={classNames.root}>
-            <div className={classNames.header}>
+            <div className={classNames.error}>
                 {t('widgets.powerBI.errors.missingReportConfiguration')}
             </div>
         </div>
