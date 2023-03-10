@@ -1,4 +1,12 @@
 import { useState, useMemo } from 'react';
+import {
+    AppRegion,
+    ComponentName,
+    TelemetryEvents
+} from '../../../../Models/Constants/OatTelemetryConstants';
+import { TelemetryTrigger } from '../../../../Models/Constants/TelemetryConstants';
+import { TelemetryService } from '../../../../Models/Services';
+import { TelemetryEvent } from '../../../../Models/Services/TelemetryService/Telemetry';
 import { getDebugLogger } from '../../../../Models/Services/Utils';
 
 interface ICommandRecord {
@@ -50,6 +58,15 @@ export const useCommandHistory = (
         if (canRedo) {
             history[index].doFn();
             setIndex((previousIndex) => previousIndex + 1);
+            // Log event
+            TelemetryService.sendEvent(
+                new TelemetryEvent({
+                    name: TelemetryEvents.redo,
+                    appRegion: AppRegion.OAT,
+                    triggerType: TelemetryTrigger.UserAction,
+                    componentName: ComponentName.OAT
+                })
+            );
         }
     };
 
@@ -61,6 +78,15 @@ export const useCommandHistory = (
         if (canUndo) {
             history[index - 1].undoFn();
             setIndex((previousIndex) => previousIndex - 1);
+            // Log event
+            TelemetryService.sendEvent(
+                new TelemetryEvent({
+                    name: TelemetryEvents.undo,
+                    appRegion: AppRegion.OAT,
+                    triggerType: TelemetryTrigger.UserAction,
+                    componentName: ComponentName.OAT
+                })
+            );
         }
     };
 

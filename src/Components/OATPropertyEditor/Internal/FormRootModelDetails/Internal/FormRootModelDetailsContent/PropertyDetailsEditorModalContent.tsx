@@ -56,6 +56,13 @@ import {
 } from '../../../../../../Models/Services/Utils';
 import Version3UpgradeButton from '../../../Version3UpgradeButton/Version3UpgradeButton';
 import { DTDL_CONTEXT_VERSION_3 } from '../../../../../../Models/Classes/DTDL';
+import useTelemetry from '../../../../../../Models/Hooks/useTelemetry';
+import { TelemetryTrigger } from '../../../../../../Models/Constants/TelemetryConstants';
+import {
+    AppRegion,
+    ComponentName,
+    TelemetryEvents
+} from '../../../../../../Models/Constants/OatTelemetryConstants';
 
 const SINGLE_LANGUAGE_KEY = 'singleLanguage';
 const MULTI_LANGUAGE_KEY = 'multiLanguage';
@@ -82,6 +89,7 @@ const PropertyDetailsEditorModalContent: React.FC<IModalFormRootModelContentProp
 
     // hooks
     const { t } = useTranslation();
+    const { sendEventTelemetry } = useTelemetry();
 
     // contexts
     const { oatPageState } = useOatPageContext();
@@ -158,7 +166,13 @@ const PropertyDetailsEditorModalContent: React.FC<IModalFormRootModelContentProp
                 );
             })
         );
-    }, [onUpdateItem]);
+        sendEventTelemetry({
+            name: TelemetryEvents.upgradeVersion,
+            triggerType: TelemetryTrigger.UserAction,
+            appRegion: AppRegion.OAT,
+            componentName: ComponentName.OAT
+        });
+    }, [onUpdateItem, sendEventTelemetry]);
 
     // data
     const displayNameMultiLangOptions: IChoiceGroupOption[] = [

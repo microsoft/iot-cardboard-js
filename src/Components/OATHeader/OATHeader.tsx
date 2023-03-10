@@ -38,6 +38,14 @@ import {
 } from '../../Models/Services/OatPublicUtils';
 import { getTotalReferenceCount } from '../../Models/Context/OatPageContext/OatPageContextUtils';
 import { OAT_ONTOLOGY_MAX_REFERENCE_LIMIT } from '../../Models/Constants/Constants';
+import useTelemetry from '../../Models/Hooks/useTelemetry';
+import {
+    AppRegion,
+    ComponentName,
+    TelemetryEvents
+} from '../../Models/Constants/OatTelemetryConstants';
+import { TelemetryTrigger } from '../../Models/Constants/TelemetryConstants';
+import { getOatMetricsForModels } from '../../Models/Services/OatTelemetryUtils';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('OATHeader', debugLogging);
@@ -66,11 +74,14 @@ export const EXPORT_LOC_KEYS: IExportLocalizationKeys = {
 
 const OATHeader: React.FC<IOATHeaderProps> = (props) => {
     const { styles } = props;
+    const componentName = ComponentName.OAT;
+    const appRegion = AppRegion.OAT;
 
     // hooks
     const { t } = useTranslation();
     const commandContex = useContext(CommandHistoryContext);
     const { undo, redo, canUndo, canRedo } = commandContex;
+    const { sendEventTelemetry } = useTelemetry();
 
     // contexts
     const { oatPageDispatch, oatPageState } = useOatPageContext();
@@ -111,15 +122,23 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
                 getTotalReferenceCount(result.data) >=
                 OAT_ONTOLOGY_MAX_REFERENCE_LIMIT
             ) {
-                (result.status = 'Failed'),
-                    (result.errors = [
-                        {
-                            title: t('OAT.ImportLimits.title'),
-                            message: t('OAT.ImportLimits.message', {
-                                count: OAT_ONTOLOGY_MAX_REFERENCE_LIMIT
-                            })
-                        }
-                    ]);
+                result.status = 'Failed';
+                result.errors = [
+                    {
+                        title: t('OAT.ImportLimits.title'),
+                        message: t('OAT.ImportLimits.message', {
+                            count: OAT_ONTOLOGY_MAX_REFERENCE_LIMIT
+                        })
+                    }
+                ];
+                // Log limit exceeded
+                sendEventTelemetry({
+                    name: TelemetryEvents.importFailLimit,
+                    triggerType: TelemetryTrigger.UserAction,
+                    appRegion: appRegion,
+                    componentName: componentName,
+                    customProperties: getOatMetricsForModels(result.data)
+                });
             }
             if (result.status === 'Success') {
                 oatPageDispatch({
@@ -132,6 +151,14 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
                 oatPageDispatch({
                     type: OatPageContextActionType.IMPORT_MODELS,
                     payload: { models: result.data }
+                });
+                // Log success
+                sendEventTelemetry({
+                    name: TelemetryEvents.importSuccess,
+                    triggerType: TelemetryTrigger.UserAction,
+                    appRegion: appRegion,
+                    componentName: componentName,
+                    customProperties: getOatMetricsForModels(result.data)
                 });
             } else if (result.status === 'Failed') {
                 // show error
@@ -155,13 +182,31 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
                         state: 'closed'
                     }
                 });
+                // Log import error
+                sendEventTelemetry({
+                    name: TelemetryEvents.importFailException,
+                    triggerType: TelemetryTrigger.UserAction,
+                    appRegion: appRegion,
+                    componentName: componentName,
+                    customProperties: {
+                        errorTitle: error.title,
+                        errorMessage: error.message
+                    }
+                });
             }
             // Reset value of input element so that it can be reused with the same file
             uploadFolderInputRef.current.value = null;
             uploadFileInputRef.current.value = null;
             logDebugConsole('debug', '[IMPORT] [END] Files upload.', result);
         },
-        [oatPageDispatch, oatPageState.currentOntologyModels, t]
+        [
+            appRegion,
+            componentName,
+            oatPageDispatch,
+            oatPageState.currentOntologyModels,
+            sendEventTelemetry,
+            t
+        ]
     );
 
     const onExportClick = useCallback(() => {
@@ -192,6 +237,16 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
                     fileName = `${oatPageState.currentOntologyProjectName}-models.zip`;
                 }
                 downloadFile(content, fileName);
+                // Log success
+                sendEventTelemetry({
+                    name: TelemetryEvents.exportSuccess,
+                    triggerType: TelemetryTrigger.UserAction,
+                    appRegion: appRegion,
+                    componentName: componentName,
+                    customProperties: getOatMetricsForModels(
+                        oatPageState.currentOntologyModels
+                    )
+                });
             });
         } else {
             // show error
@@ -209,11 +264,28 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
                     message: error.message
                 }
             });
+            // Log success
+            sendEventTelemetry({
+                name: TelemetryEvents.exportFail,
+                triggerType: TelemetryTrigger.UserAction,
+                appRegion: appRegion,
+                componentName: componentName,
+                customProperties: {
+                    errorTitle: error.title,
+                    errorMessage: error.message,
+                    ...getOatMetricsForModels(
+                        oatPageState.currentOntologyModels
+                    )
+                }
+            });
         }
     }, [
         oatPageState.currentOntologyModels,
         oatPageState.currentOntologyProjectName,
         t,
+        sendEventTelemetry,
+        appRegion,
+        componentName,
         oatPageDispatch
     ]);
 

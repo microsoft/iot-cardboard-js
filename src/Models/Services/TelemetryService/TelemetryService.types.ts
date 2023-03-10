@@ -3,6 +3,10 @@ import {
     ComponentName,
     TelemetryTrigger
 } from '../../Constants/TelemetryConstants';
+import {
+    AppRegion as OatAppRegion,
+    ComponentName as OatComponentName
+} from '../../Constants/OatTelemetryConstants';
 
 /** Loosely based on the Application insights telemetry data model
  * https://docs.microsoft.com/en-us/azure/azure-monitor/app/data-model
@@ -68,18 +72,18 @@ interface IEventTelemetryParamsBase extends IBaseTelemetryParams {
 }
 type IEventTelemetryForComponentAction = IEventTelemetryParamsBase & {
     triggerType: TelemetryTrigger.UserAction;
-    componentName: ComponentName;
-    appRegion: AppRegion;
+    componentName: ComponentName | OatComponentName;
+    appRegion: AppRegion | OatAppRegion;
 };
 type IEventTelemetryForComponentView = IEventTelemetryParamsBase & {
     triggerType: TelemetryTrigger.UserView;
-    componentName: ComponentName;
-    appRegion: AppRegion;
+    componentName: ComponentName | OatComponentName;
+    appRegion: AppRegion | OatAppRegion;
 };
 type IEventTelemetryForService = IEventTelemetryParamsBase & {
     triggerType: TelemetryTrigger.SystemAction;
-    componentName?: ComponentName;
-    appRegion?: AppRegion;
+    componentName?: ComponentName | OatComponentName;
+    appRegion?: AppRegion | OatAppRegion;
 };
 
 export interface IMetricTelemetryParams extends IBaseTelemetryParams {

@@ -44,6 +44,13 @@ import { getTargetFromSelection } from '../Utils';
 import ModelPropertyHeader from './ModelPropertyHeader/ModelPropertyHeader';
 import PropertyDetailsEditorModal from './FormRootModelDetails/PropertyDetailsEditorModal';
 import { DtdlInterface, DtdlInterfaceContent } from '../../../Models/Constants';
+import useTelemetry from '../../../Models/Hooks/useTelemetry';
+import { TelemetryTrigger } from '../../../Models/Constants/TelemetryConstants';
+import {
+    AppRegion,
+    ComponentName,
+    TelemetryEvents
+} from '../../../Models/Constants/OatTelemetryConstants';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('PropertiesModelSummary', debugLogging);
@@ -62,6 +69,7 @@ export const PropertiesModelSummary: React.FC<IPropertiesModelSummaryProps> = (
 
     // hooks
     const { t } = useTranslation();
+    const { sendEventTelemetry } = useTelemetry();
 
     // contexts
     const { execute } = useContext(CommandHistoryContext);
@@ -235,11 +243,21 @@ export const PropertiesModelSummary: React.FC<IPropertiesModelSummaryProps> = (
             setModelUniqueName(value.trim());
         }
     }, []);
-    const onChangePath = useCallback((_ev, value: string) => {
-        if (isValidDtmiPath(value.trim(), false)) {
-            setModelPath(value.trim());
-        }
-    }, []);
+    const onChangePath = useCallback(
+        (_ev, value: string) => {
+            if (isValidDtmiPath(value.trim(), false)) {
+                setModelPath(value.trim());
+                // Log event for path
+                sendEventTelemetry({
+                    name: TelemetryEvents.modalChangePath,
+                    triggerType: TelemetryTrigger.UserAction,
+                    appRegion: AppRegion.OAT,
+                    componentName: ComponentName.OAT
+                });
+            }
+        },
+        [sendEventTelemetry]
+    );
     const onChangeVersion = useCallback(
         (_ev, value: string) => {
             if (

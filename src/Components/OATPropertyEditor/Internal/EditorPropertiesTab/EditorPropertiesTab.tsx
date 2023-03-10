@@ -27,6 +27,13 @@ import { OatPageContextActionType } from '../../../../Models/Context/OatPageCont
 import { getDebugLogger, deepCopy } from '../../../../Models/Services/Utils';
 import { useCommandHistoryContext } from '../../../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
 import { getPropertyInspectorStyles } from '../../OATPropertyEditor.styles';
+import useTelemetry from '../../../../Models/Hooks/useTelemetry';
+import { TelemetryTrigger } from '../../../../Models/Constants/TelemetryConstants';
+import {
+    AppRegion,
+    ComponentName,
+    TelemetryEvents
+} from '../../../../Models/Constants/OatTelemetryConstants';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('EditorPropertiesTab', debugLogging);
@@ -47,6 +54,7 @@ const EditorPropertiesTab: React.FC<IEditorPropertiesTabProps> = (props) => {
 
     // hooks
     const { t } = useTranslation();
+    const { sendEventTelemetry } = useTelemetry();
 
     // data
     const propertiesKeyName = getModelPropertyCollectionName(
@@ -115,6 +123,16 @@ const EditorPropertiesTab: React.FC<IEditorPropertiesTabProps> = (props) => {
                             model: selectedItemCopy
                         }
                     });
+                    // Add type telemetry
+                    sendEventTelemetry({
+                        name: TelemetryEvents.propertyModelAddSuccess,
+                        triggerType: TelemetryTrigger.UserAction,
+                        appRegion: AppRegion.OAT,
+                        componentName: ComponentName.OAT,
+                        customProperties: {
+                            type: data.schema
+                        }
+                    });
                 };
 
                 const undoUpdate = () => {
@@ -125,6 +143,16 @@ const EditorPropertiesTab: React.FC<IEditorPropertiesTabProps> = (props) => {
                             positions:
                                 oatPageState.currentOntologyModelPositions,
                             selection: oatPageState.selection
+                        }
+                    });
+                    // Add type telemetry undo
+                    sendEventTelemetry({
+                        name: TelemetryEvents.propertyModelAddUndo,
+                        triggerType: TelemetryTrigger.UserAction,
+                        appRegion: AppRegion.OAT,
+                        componentName: ComponentName.OAT,
+                        customProperties: {
+                            type: data.schema
                         }
                     });
                 };
@@ -139,6 +167,16 @@ const EditorPropertiesTab: React.FC<IEditorPropertiesTabProps> = (props) => {
                             reference: selectedItemCopy
                         }
                     });
+                    // Add type reference telemetry
+                    sendEventTelemetry({
+                        name: TelemetryEvents.propertyReferenceAddSuccess,
+                        triggerType: TelemetryTrigger.UserAction,
+                        appRegion: AppRegion.OAT,
+                        componentName: ComponentName.OAT,
+                        customProperties: {
+                            type: data.schema
+                        }
+                    });
                 };
 
                 const undoUpdate = () => {
@@ -149,6 +187,16 @@ const EditorPropertiesTab: React.FC<IEditorPropertiesTabProps> = (props) => {
                             positions:
                                 oatPageState.currentOntologyModelPositions,
                             selection: oatPageState.selection
+                        }
+                    });
+                    // Add type reference telemetry undo
+                    sendEventTelemetry({
+                        name: TelemetryEvents.propertyReferenceAddUndo,
+                        triggerType: TelemetryTrigger.UserAction,
+                        appRegion: AppRegion.OAT,
+                        componentName: ComponentName.OAT,
+                        customProperties: {
+                            type: data.schema
                         }
                     });
                 };
@@ -164,7 +212,8 @@ const EditorPropertiesTab: React.FC<IEditorPropertiesTabProps> = (props) => {
             oatPageState.selection,
             parentModelId,
             propertiesKeyName,
-            selectedItem
+            selectedItem,
+            sendEventTelemetry
         ]
     );
 
