@@ -134,7 +134,7 @@ export default class ADT3DSceneAdapter {
                     this.containerResourceId = storageResource.id;
                     const missingRoles = await this.getMissingRoleDefinitions(
                         storageResource.id,
-                        this.authService.userObjectId,
+                        this.authService.getUserObjectId(),
                         RequiredAccessRoleGroupForStorageContainer
                     );
 
@@ -171,7 +171,7 @@ export default class ADT3DSceneAdapter {
                         this.assignRole(
                             roleDefinitionId,
                             this.containerResourceId,
-                            this.authService.userObjectId
+                            this.authService.getUserObjectId()
                         )
                     )
                 );
@@ -192,7 +192,7 @@ export default class ADT3DSceneAdapter {
                                         'Storage Blob Data Contributor'
                                     ],
                                     this.containerResourceId,
-                                    this.authService.userObjectId
+                                    this.authService.getUserObjectId()
                                 );
                             } else if (
                                 interchangeableGroup.includes(
@@ -203,14 +203,14 @@ export default class ADT3DSceneAdapter {
                                 return this.assignRole(
                                     AzureAccessPermissionRoles['Reader'],
                                     this.containerResourceId,
-                                    this.authService.userObjectId
+                                    this.authService.getUserObjectId()
                                 );
                             } else if (interchangeableGroup.length) {
                                 // otherwise add the first item from each interchangeable group
                                 return this.assignRole(
                                     interchangeableGroup[0],
                                     this.containerResourceId,
-                                    this.authService.userObjectId
+                                    this.authService.getUserObjectId()
                                 );
                             }
                         }

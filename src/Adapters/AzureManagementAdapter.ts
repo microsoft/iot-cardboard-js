@@ -171,7 +171,7 @@ export default class AzureManagementAdapter implements IAzureManagementAdapter {
     async hasRoleDefinitions(
         resourceId: string,
         accessRolesToCheck: AzureAccessPermissionRoleGroups,
-        userObjectId: string = this.authService.userObjectId
+        userObjectId: string = this.authService.getUserObjectId()
     ) {
         const userRoleAssignments = await this.getRoleAssignments(
             resourceId,

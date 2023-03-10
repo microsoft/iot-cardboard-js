@@ -21,9 +21,9 @@ export default class MsalAuthService implements IAuthService {
     private MSALConfig: Configuration;
     private MSALObj: PublicClientApplication;
     private authParams: IAuthParams;
-    public tenantId: string;
-    public targetTenantId: string;
-    public userObjectId: string;
+    private tenantId: string;
+    private targetTenantId: string;
+    private userObjectId: string;
     private loginPopupRequest: PopupRequest;
     private loginRedirectRequest: RedirectRequest;
 
@@ -178,6 +178,10 @@ export default class MsalAuthService implements IAuthService {
         };
 
         this.MSALObj.logoutRedirect(logOutRequest);
+    };
+
+    getUserObjectId = () => {
+        return this.userObjectId;
     };
 
     setActiveAccount = (account: AccountInfo) => {
