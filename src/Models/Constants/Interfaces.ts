@@ -86,6 +86,7 @@ import { BaseComponentProps } from '../../Components/BaseComponent/BaseComponent
 import ADTInstanceTimeSeriesConnectionData from '../Classes/AdapterDataClasses/ADTInstanceTimeSeriesConnectionData';
 import ADXTimeSeriesData from '../Classes/AdapterDataClasses/ADXTimeSeriesData';
 import { IOATNodeData } from '../../Components/OATGraphViewer/OATGraphViewer.types';
+import { AccountInfo } from '@azure/msal-browser';
 
 export interface IAction {
     type: string;
@@ -159,8 +160,8 @@ export interface IAuthParams {
 export interface IMSALLoginContinuationParams {
     name: string;
     userName: string;
-    tenants: Array<any>;
-    accounts: Array<any>;
+    tenants: Array<IAzureADTenant>;
+    accounts: Array<AccountInfo>;
 }
 
 export interface IEnvironmentToConstantMapping {
@@ -990,4 +991,10 @@ export interface IChartOption {
     key: string;
     text: string;
     data?: number | string;
+}
+
+export interface IAzureADTenant {
+    id: string;
+    tenantId: string;
+    [key: string]: any;
 }
