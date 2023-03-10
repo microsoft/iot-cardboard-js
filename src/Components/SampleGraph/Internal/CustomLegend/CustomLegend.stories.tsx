@@ -4,7 +4,7 @@ import Graphin from '@antv/graphin';
 import { getDefaultStoryDecorator } from '../../../../Models/Services/StoryUtilities';
 import CustomLegend from './CustomLegend';
 import { ICustomLegendProps } from './CustomLegend.types';
-import { IGraphData } from '../../GraphTypes.types';
+import { ICustomGraphData } from '../../GraphTypes.types';
 import { DTDLType } from '../../../../Models/Classes/DTDL';
 
 const wrapperStyle = { width: '100%', height: '600px', padding: 8 };
@@ -18,7 +18,7 @@ export default {
 type CustomLegendStory = ComponentStory<typeof CustomLegend>;
 
 const Template: CustomLegendStory = (args) => {
-    const data: IGraphData = {
+    const data: ICustomGraphData = {
         nodes: [
             {
                 id: 'model1',

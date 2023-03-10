@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { classNamesFunction, styled } from '@fluentui/react';
 import { useId } from '@fluentui/react-hooks';
 import { createNodeFromReact } from '@antv/g6-react-node';
-import Graphin from '@antv/graphin';
+import Graphin, { EdgeStyle } from '@antv/graphin';
 import { CreateEdge } from '@antv/graphin-components';
 import { useExtendedTheme } from '../../Models/Hooks/useExtendedTheme';
 import {
@@ -16,14 +16,30 @@ import {
 } from './SampleGraph.types';
 import { getStyles } from './SampleGraph.styles';
 import CustomGraphNode from './Internal/CustomGraphNode/CustomGraphNode';
-import { IGraphData, ICustomNodeConfig } from './GraphTypes.types';
-import ONTOLOGY_DATA from './CityOntology.json';
+import {
+    ICustomGraphData,
+    ICustomNodeConfig,
+    IDefaultEdge,
+    IDefaultNode
+} from './GraphTypes.types';
 import { IOATFile } from '../../Pages/OATEditorPage/Internal/Classes/OatTypes';
 import { ensureIsArray, parseModelId } from '../../Models/Services/OatUtils';
-import { isDTDLReference } from '../../Models/Services/DtdlUtils';
-import { DtdlInterface, OAT_EXTEND_HANDLE_NAME } from '../../Models/Constants';
+import {
+    isDTDLComponentReference,
+    isDTDLReference,
+    isDTDLRelationshipReference
+} from '../../Models/Services/DtdlUtils';
+import {
+    DtdlInterface,
+    OatGraphReferenceType,
+    OAT_EXTEND_HANDLE_NAME
+} from '../../Models/Constants';
+import ONTOLOGY_DATA from './CityOntology.json';
 import CustomClickHandler from './Hooks/CustomClickHandler/CustomClickHandler';
 import CustomLegend from './Internal/CustomLegend/CustomLegend';
+import { useOatPageContext } from '../../Models/Context/OatPageContext/OatPageContext';
+import { IExtendedTheme } from '../../Theming/Theme.types';
+import { DTDLType } from '../../Models/Classes/DTDL';
 
 const debugLogging = true;
 const logDebugConsole = getDebugLogger('SampleGraph', debugLogging);
@@ -337,15 +353,59 @@ const getClassNames = classNamesFunction<
 // );
 
 const CUSTOM_NODE_NAME = 'react-node';
-const DEFAULT_NODE = {
+const DEFAULT_NODE: IDefaultNode = {
     type: 'rect'
 };
+const DEFAULT_EDGE: IDefaultEdge = {
+    type: 'graphin-line' // as any // forcing type since Graphin has an opinion for some reason
+};
 Graphin.registerNode(CUSTOM_NODE_NAME, createNodeFromReact(CustomGraphNode));
+
+function getEdgeStyle(
+    _type: OatGraphReferenceType,
+    theme: IExtendedTheme
+): Partial<EdgeStyle> {
+    let edgeColor = 'black';
+    switch (_type) {
+        case DTDLType.Relationship:
+            edgeColor = theme.palette.yellow;
+            break;
+        case DTDLType.Component:
+            edgeColor = theme.palette.blue;
+            break;
+        case 'Extend':
+            edgeColor = theme.palette.green;
+            break;
+        case 'Untargeted':
+            edgeColor = theme.palette.yellow;
+    }
+    return {
+        keyshape: {
+            stroke: edgeColor
+        },
+        status: {
+            hover: {
+                halo: {
+                    stroke: 'yellow',
+                    fill: 'blue',
+                    visible: true
+                }
+            },
+            selected: {
+                halo: {
+                    stroke: 'red',
+                    fill: 'green',
+                    visible: true
+                }
+            }
+        }
+    };
+}
 
 function AddNodes(
     allModels: DtdlInterface[],
     currentModel: DtdlInterface,
-    graphData: IGraphData
+    graphData: ICustomGraphData
 ) {
     const findRelatedNodeIds = (model: DtdlInterface): string[] => {
         // look for any references TO the current model
@@ -396,24 +456,42 @@ function AddNodes(
     });
 }
 
-function AddEdges(model: DtdlInterface, data: IGraphData) {
+function AddEdges(
+    model: DtdlInterface,
+    data: ICustomGraphData,
+    theme: IExtendedTheme
+) {
     model.contents?.forEach((content) => {
         if (isDTDLReference(content)) {
+            let source = '';
+            let target = '';
+            if (isDTDLRelationshipReference(content)) {
+                source = model['@id'];
+                target = content.target;
+            } else if (isDTDLComponentReference(content)) {
+                source = model['@id'];
+                target =
+                    typeof content.schema === 'object'
+                        ? content.schema['@id']
+                        : content.schema;
+            }
             data.edges.push({
-                source: model['@id'],
-                target: content['@id'],
+                source: source,
+                target: target,
                 label: content.name,
                 data: {
                     itemType: 'Edge',
                     name: content.name,
-                    source: model['@id'],
-                    target: content['@id'],
+                    source: source,
+                    target: target,
                     type: content['@type']
-                }
+                },
+                style: getEdgeStyle(content['@type'], theme)
             });
         }
     });
     // add extends edges
+    const extendsStyle = getEdgeStyle('Extend', theme);
     ensureIsArray(model.extends).forEach((content) => {
         data.edges.push({
             source: model['@id'],
@@ -425,7 +503,8 @@ function AddEdges(model: DtdlInterface, data: IGraphData) {
                 source: model['@id'],
                 target: content,
                 type: OAT_EXTEND_HANDLE_NAME
-            }
+            },
+            style: extendsStyle
         });
     });
 }
@@ -434,8 +513,12 @@ const SampleGraph: React.FC<ISampleGraphProps> = (props) => {
     const { styles } = props;
     console.log('[START] Render');
 
+    // context
+    const { oatPageState } = useOatPageContext();
+
     // hooks
     const graphContainerId = useId('graph-container');
+    const theme = useExtendedTheme();
 
     console.log('Custom node', createNodeFromReact(CustomGraphNode));
 
@@ -469,7 +552,7 @@ const SampleGraph: React.FC<ISampleGraphProps> = (props) => {
     //     ]
     // };
 
-    const data: IGraphData = {
+    const data: ICustomGraphData = {
         edges: [],
         nodes: []
     };
@@ -477,8 +560,31 @@ const SampleGraph: React.FC<ISampleGraphProps> = (props) => {
     ontologyModels.forEach((model) => {
         AddNodes(ontologyModels, model, data);
         //add the reference edges
-        AddEdges(model, data);
+        AddEdges(model, data, theme);
     });
+
+    useEffect(() => {
+        const selection = oatPageState.selection;
+        if (!selection) {
+            return;
+        }
+        if (selection.contentId) {
+            const edge = data.edges.find(
+                (x) => x.data.source === selection.contentId
+            );
+            if (edge) {
+                console.log('Setting edge as selected', edge);
+                edge.status = { ...edge.status, selected: true };
+            } else {
+                console.log('Could not find edge', edge);
+            }
+        } else {
+            const node = data.nodes.find((x) => x.id === selection.modelId);
+            if (node) {
+                node.status = { ...node.status, selected: true };
+            }
+        }
+    }, [data.edges, data.nodes, oatPageState.selection]);
 
     // contexts
 
@@ -502,8 +608,10 @@ const SampleGraph: React.FC<ISampleGraphProps> = (props) => {
         <div className={classNames.root}>
             <div className={classNames.graphContainer} id={graphContainerId}>
                 <Graphin
-                    // modes={['drag-canvas', 'zoom-canvas', 'drag-node']}
                     data={data}
+                    defaultEdge={DEFAULT_EDGE}
+                    defaultNode={DEFAULT_NODE}
+                    height={height}
                     layout={{
                         type: 'force2',
                         animate: true,
@@ -521,8 +629,6 @@ const SampleGraph: React.FC<ISampleGraphProps> = (props) => {
                             console.log('layout end');
                         }
                     }}
-                    defaultNode={DEFAULT_NODE}
-                    height={height}
                 >
                     <CustomLegend />
                     <CustomClickHandler />

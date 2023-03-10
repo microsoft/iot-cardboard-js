@@ -2,7 +2,7 @@ import React from 'react';
 import { createNodeFromReact } from '@antv/g6-react-node';
 import Graphin from '@antv/graphin';
 import { getDefaultStoryDecorator } from '../../../../Models/Services/StoryUtilities';
-import { IGraphData, ICustomNodeDefintion } from '../../GraphTypes.types';
+import { ICustomGraphData, ICustomNodeDefintion } from '../../GraphTypes.types';
 import CustomGraphNode from './CustomGraphNode';
 import { ICustomGraphNodeProps } from './CustomGraphNode.types';
 
@@ -25,7 +25,7 @@ const DEFAULT_NODE = {
 };
 Graphin.registerNode(CUSTOM_NODE_NAME, createNodeFromReact(CustomGraphNode));
 const Template: CustomGraphNodeStory = (args) => {
-    const data: IGraphData = {
+    const data: ICustomGraphData = {
         nodes: [args.nodeData],
         edges: []
     };

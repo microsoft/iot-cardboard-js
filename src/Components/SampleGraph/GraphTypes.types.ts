@@ -1,9 +1,15 @@
 import { NodeConfig, EdgeConfig } from '@antv/g6';
-import { GraphinData, IUserNode, IUserEdge } from '@antv/graphin';
+import {
+    EdgeStyle,
+    GraphinData,
+    IUserEdge,
+    IUserNode,
+    NodeStyle
+} from '@antv/graphin';
 import { OatGraphReferenceType } from '../../Models/Constants/Constants';
 
 /** data passed to the graph. Overriding nodes, so we can define the custom properties we add for rendering */
-export interface IGraphData extends GraphinData {
+export interface ICustomGraphData extends GraphinData {
     nodes: ICustomNodeDefintion[]; // override root definition
     edges: ICustomEdgeDefintion[]; // override root definition
 }
@@ -50,4 +56,17 @@ export interface ICustomEdgeData {
     target: string;
     type: OatGraphReferenceType;
 }
+// #endregion
+
+// #region Built-in Graph Types
+export type IDefaultNode = Partial<{
+    type?: string;
+    style: NodeStyle;
+    [key: string]: any;
+}>;
+export type IDefaultEdge = Partial<{
+    type?: 'graphin-line';
+    style: EdgeStyle;
+    [key: string]: any;
+}>;
 // #endregion
