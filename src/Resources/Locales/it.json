@@ -656,7 +656,7 @@
       "headerMenu": "Menu widget Cronologia dati",
       "openQuery": "Aprire query in Esplora dati di Azure"
     },
-    "powerBI-1": {
+    "powerBI": {
       "title": "Widget Power BI",
       "libraryName": "Oggetto visivo di Power BI",
       "description": "Incorporare un oggetto visivo o un riquadro di Power BI",

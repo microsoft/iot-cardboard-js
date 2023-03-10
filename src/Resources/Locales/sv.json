@@ -656,7 +656,7 @@
       "headerMenu": "Widgetmenyn Datahistorik",
       "openQuery": "Öppna frågan i Azure Data Explorer"
     },
-    "powerBI-1": {
+    "powerBI": {
       "title": "Power BI-widget",
       "libraryName": "Visuellt Power BI-objekt",
       "description": "Bädda in ett visuellt Power BI-objekt eller en panel",

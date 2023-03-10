@@ -656,7 +656,7 @@
       "headerMenu": "Adatelőzmények widget menü",
       "openQuery": "Lekérdezés megnyitása a Azure Data Explorer"
     },
-    "powerBI-1": {
+    "powerBI": {
       "title": "Power BI-widget",
       "libraryName": "Power BI-vizualizáció",
       "description": "Power BI-vizualizáció vagy -csempe beágyazása",

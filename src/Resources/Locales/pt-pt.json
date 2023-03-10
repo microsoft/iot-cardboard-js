@@ -656,7 +656,7 @@
       "headerMenu": "Menu widget de histórico de dados",
       "openQuery": "Consulta aberta no Azure Data Explorer"
     },
-    "powerBI-1": {
+    "powerBI": {
       "title": "Widget do Power BI",
       "libraryName": "Power BI Visual",
       "description": "Incorporar um visual ou bloco do Power BI",

@@ -656,7 +656,7 @@
       "headerMenu": "Nabídka widgetu Historie dat",
       "openQuery": "Otevřený dotaz v Azure Průzkumník dat"
     },
-    "powerBI-1": {
+    "powerBI": {
       "title": "Widget Power BI",
       "libraryName": "Vizuál Power BI",
       "description": "Vložení vizuálu nebo dlaždice Power BI",

@@ -656,7 +656,7 @@
       "headerMenu": "“数据历史记录”小组件菜单",
       "openQuery": "在 Azure 数据资源管理器中打开查询"
     },
-    "powerBI-1": {
+    "powerBI": {
       "title": "Power BI 小组件",
       "libraryName": "Power BI Visual",
       "description": "嵌入 Power BI 视觉对象或磁贴",

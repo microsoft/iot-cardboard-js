@@ -656,7 +656,7 @@
       "headerMenu": "Menu du widget Historique des données",
       "openQuery": "Ouvrir une requête dans l’Explorateur de données Azure"
     },
-    "powerBI-1": {
+    "powerBI": {
       "title": "Widget Power BI",
       "libraryName": "Visuel Power BI",
       "description": "Incorporer un visuel ou une vignette Power BI",

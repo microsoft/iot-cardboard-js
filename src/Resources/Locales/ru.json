@@ -656,7 +656,7 @@
       "headerMenu": "Меню виджета истории данных",
       "openQuery": "Открытие запроса в обозревателе данных Azure"
     },
-    "powerBI-1": {
+    "powerBI": {
       "title": "Виджет Power BI",
       "libraryName": "Визуальный элемент Power BI",
       "description": "Внедрение визуального элемента или плитки Power BI",

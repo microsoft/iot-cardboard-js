@@ -656,7 +656,7 @@
       "headerMenu": "Veri geçmişi widget menüsü",
       "openQuery": "Azure Veri Gezgini'nde sorgu açma"
     },
-    "powerBI-1": {
+    "powerBI": {
       "title": "Power BI pencere öğesi",
       "libraryName": "Power BI Görsel",
       "description": "Power BI görseli veya kutucuğu ekleme",

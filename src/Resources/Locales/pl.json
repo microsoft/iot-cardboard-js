@@ -656,7 +656,7 @@
       "headerMenu": "Menu widżetu Historia danych",
       "openQuery": "Otwieranie zapytania w usłudze Azure Data Explorer"
     },
-    "powerBI-1": {
+    "powerBI": {
       "title": "Widżet usługi Power BIPower BI widget",
       "libraryName": "Power BI Visual",
       "description": "Osadzanie wizualizacji lub kafelka usługi Power BI",

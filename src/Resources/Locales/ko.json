@@ -656,7 +656,7 @@
       "headerMenu": "데이터 기록 위젯 메뉴",
       "openQuery": "Azure 데이터 탐색기에서 쿼리 열기"
     },
-    "powerBI-1": {
+    "powerBI": {
       "title": "Power BI 위젯",
       "libraryName": "Power BI Visual",
       "description": "Power BI 시각적 개체 또는 타일 포함",

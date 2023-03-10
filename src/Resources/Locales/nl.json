@@ -656,7 +656,7 @@
       "headerMenu": "Widgetmenu gegevensgeschiedenis",
       "openQuery": "Query openen in Azure Data Explorer"
     },
-    "powerBI-1": {
+    "powerBI": {
       "title": "Power BI-widget",
       "libraryName": "Power BI-visual",
       "description": "Een Power BI-visual of -tegel insluiten",

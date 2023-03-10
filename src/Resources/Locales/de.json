@@ -656,7 +656,7 @@
       "headerMenu": "Menü des Widgets \"Datenverlauf\"",
       "openQuery": "Abfrage im Azure-Daten-Explorer öffnen"
     },
-    "powerBI-1": {
+    "powerBI": {
       "title": "Power BI-Widget",
       "libraryName": "Power BI-Visualisierung",
       "description": "Einbetten einer Power BI-Visualisierung oder -Kachel",

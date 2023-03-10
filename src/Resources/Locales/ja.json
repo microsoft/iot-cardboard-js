@@ -656,7 +656,7 @@
       "headerMenu": "データ履歴ウィジェットメニュー",
       "openQuery": "Azure データ エクスプローラーでクエリを開く"
     },
-    "powerBI-1": {
+    "powerBI": {
       "title": "Power BI ウィジェット",
       "libraryName": "Power BI Visual",
       "description": "Power BI のビジュアルまたはタイルを埋め込む",
