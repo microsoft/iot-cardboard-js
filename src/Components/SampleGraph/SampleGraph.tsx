@@ -509,6 +509,35 @@ function AddEdges(
     });
 }
 
+const FORCE_LAYOUT = {
+    type: 'force2',
+    animate: true,
+    // clustering: true,
+    // nodeClusterBy: 'relatedNodesKey',
+    nodeSpacing: (node: ICustomNodeConfig) => {
+        if (node.data.name.length > 15) {
+            return 100;
+        }
+        return 20;
+    },
+    nodeSize: 20,
+    preventOverlap: true,
+    onLayoutEnd: () => {
+        console.log('layout end');
+    }
+};
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const RADIAL_LAYOUT = {
+    type: 'radial',
+    animate: true,
+    workerEnabled: true,
+    linkDistance: 100,
+    unitRadius: 200,
+    nodeSize: 40,
+    preventOverlap: true
+};
+
 const SampleGraph: React.FC<ISampleGraphProps> = (props) => {
     const { styles } = props;
     console.log('[START] Render');
@@ -612,23 +641,10 @@ const SampleGraph: React.FC<ISampleGraphProps> = (props) => {
                     defaultEdge={DEFAULT_EDGE}
                     defaultNode={DEFAULT_NODE}
                     height={height}
-                    layout={{
-                        type: 'force2',
-                        animate: true,
-                        // clustering: true,
-                        // nodeClusterBy: 'relatedNodesKey',
-                        nodeSpacing: (node: ICustomNodeConfig) => {
-                            if (node.data.name.length > 15) {
-                                return 100;
-                            }
-                            return 20;
-                        },
-                        nodeSize: 20,
-                        preventOverlap: true,
-                        onLayoutEnd: () => {
-                            console.log('layout end');
-                        }
-                    }}
+                    layout={
+                        FORCE_LAYOUT
+                        // RADIAL_LAYOUT
+                    }
                 >
                     <CustomLegend />
                     <CustomClickHandler />
