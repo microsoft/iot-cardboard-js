@@ -238,11 +238,21 @@ export const PropertiesModelSummary: React.FC<IPropertiesModelSummaryProps> = (
             oatPageState.selection
         ]
     );
-    const onChangeUniqueName = useCallback((_ev, value: string) => {
-        if (isValidModelName(value.trim(), false)) {
-            setModelUniqueName(value.trim());
-        }
-    }, []);
+    const onChangeUniqueName = useCallback(
+        (_ev, value: string) => {
+            if (isValidModelName(value.trim(), false)) {
+                setModelUniqueName(value.trim());
+                // Log event for name change
+                sendEventTelemetry({
+                    name: TelemetryEvents.modelChangeName,
+                    triggerType: TelemetryTrigger.UserAction,
+                    appRegion: AppRegion.OAT,
+                    componentName: ComponentName.OAT
+                });
+            }
+        },
+        [sendEventTelemetry]
+    );
     const onChangePath = useCallback(
         (_ev, value: string) => {
             if (isValidDtmiPath(value.trim(), false)) {
@@ -268,9 +278,16 @@ export const PropertiesModelSummary: React.FC<IPropertiesModelSummaryProps> = (
                 )
             ) {
                 setModelVersion(value.trim());
+                // Log event for name change
+                sendEventTelemetry({
+                    name: TelemetryEvents.modelChangeVersion,
+                    triggerType: TelemetryTrigger.UserAction,
+                    appRegion: AppRegion.OAT,
+                    componentName: ComponentName.OAT
+                });
             }
         },
-        [modelContext]
+        [modelContext, sendEventTelemetry]
     );
     const onChangeRelationshipName = useCallback(
         (_ev, value: string) => {

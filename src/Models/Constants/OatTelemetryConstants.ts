@@ -42,8 +42,10 @@ export const TelemetryEvents = {
     undo: `${BASE_PATH}.Undo.Clicked`,
     // Upgrade version
     upgradeModelVersion: `${BASE_PATH}.ModelVersion.Upgrade`,
-    // Modal path change
+    // Model field changes
     modelChangePath: `${BASE_PATH}.ModelPath.Update`,
+    modelChangeName: `${BASE_PATH}.ModelName.Update`,
+    modelChangeVersion: `${BASE_PATH}.ModelVersion.Update`,
     // Dtdl JSON edit
     dtdlJsonSuccess: `${BASE_PATH}.DtdlUpdate.Success`,
     dtdlJsonCancelled: `${BASE_PATH}.DtdlUpdate.Cancelled`,
