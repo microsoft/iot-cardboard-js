@@ -10,12 +10,13 @@ const logDebugConsole = getDebugLogger('CustomGraphNode', debugLogging);
 const CustomGraphNode: React.FC<ICustomGraphNodeProps> = (args) => {
     const { data } = args.cfg;
 
-    logDebugConsole('debug', 'Render. {args}', args);
+    logDebugConsole('debug', 'Render. {data}', data);
 
     // const theme = useExtendedTheme();
     const styles = getStyles({ theme: undefined });
 
     if (!data) {
+        logDebugConsole('warn', 'No data found for node, will not render');
         return null;
     }
 
@@ -28,44 +29,6 @@ const CustomGraphNode: React.FC<ICustomGraphNodeProps> = (args) => {
                 <Text style={styles.idText} draggable>
                     {data.id}
                 </Text>
-                {/* <DefaultButton
-                    text={collapsed ? '-' : '+'}
-                    styles={{
-                        root: {
-                            background: collapsed ? 'blue' : 'red'
-                        }
-                    }}
-                    onClick={(evt, node, shape, graph) => {
-                        graph.updateItem(node, {
-                            collapsed: !collapsed
-                        });
-                    }}
-                /> */}
-                {/* <Circle
-                    style={{
-                        position: 'absolute',
-                        x: 380,
-                        y: 20,
-                        r: 5,
-                        fill: collapsed ? 'blue' : 'green'
-                    }}
-                >
-                    <Text
-                        style={{
-                            fill: '#fff',
-                            fontSize: 10,
-                            margin: [-6, -3, 0],
-                            cursor: 'pointer'
-                        }}
-                        onClick={(evt, node, shape, graph) => {
-                            graph.updateItem(node, {
-                                collapsed: !collapsed
-                            });
-                        }}
-                    >
-                        {}
-                    </Text>
-                </Circle> */}
             </Rect>
         </Group>
     );

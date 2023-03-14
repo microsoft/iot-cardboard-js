@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { classNamesFunction, styled } from '@fluentui/react';
 import { useId } from '@fluentui/react-hooks';
 import { createNodeFromReact } from '@antv/g6-react-node';
@@ -354,19 +354,18 @@ const getClassNames = classNamesFunction<
 
 const CUSTOM_NODE_NAME = 'react-node';
 const DEFAULT_NODE: IDefaultNode = {
-    type: 'rect'
+    type: CUSTOM_NODE_NAME // 'rect'
 };
 const DEFAULT_EDGE: IDefaultEdge = {
     type: 'graphin-line' // as any // forcing type since Graphin has an opinion for some reason
 };
-Graphin.registerNode(CUSTOM_NODE_NAME, createNodeFromReact(CustomGraphNode));
 
 function getEdgeStyle(
-    _type: OatGraphReferenceType,
+    type: OatGraphReferenceType,
     theme: IExtendedTheme
 ): Partial<EdgeStyle> {
     let edgeColor = 'black';
-    switch (_type) {
+    switch (type) {
         case DTDLType.Relationship:
             edgeColor = theme.palette.yellow;
             break;
@@ -548,38 +547,6 @@ const SampleGraph: React.FC<ISampleGraphProps> = (props) => {
     const graphContainerId = useId('graph-container');
     const theme = useExtendedTheme();
 
-    console.log('Custom node', createNodeFromReact(CustomGraphNode));
-
-    // const data: IGraphData = {
-    //     nodes: [
-    //         {
-    //             id: 'node1',
-    //             data: {
-    //                 name: 'model1',
-    //                 id: 'dtmi:folder1:folder2:model1;1'
-    //             }
-    //         },
-    //         {
-    //             id: 'node2',
-    //             data: {
-    //                 name: 'model2',
-    //                 id: 'dtmi:folder1:model2;1'
-    //             }
-    //         },
-    //         {
-    //             id: 'node3',
-    //             data: {
-    //                 name: 'model3',
-    //                 id: 'dtmi:folder1:folder2:model3;1'
-    //             }
-    //         }
-    //     ],
-    //     edges: [
-    //         { source: 'node1', target: 'node2', label: 'has a relationship' },
-    //         { source: 'node1', target: 'node3', label: 'another relationship' }
-    //     ]
-    // };
-
     const data: ICustomGraphData = {
         edges: [],
         nodes: []
@@ -590,6 +557,25 @@ const SampleGraph: React.FC<ISampleGraphProps> = (props) => {
         //add the reference edges
         AddEdges(model, data, theme);
     });
+
+    // contexts
+
+    // state
+    const isMounted = useRef(false);
+
+    // hooks
+
+    // callbacks
+
+    // side effects
+    useEffect(() => {
+        if (!isMounted.current) {
+            const node = createNodeFromReact(CustomGraphNode);
+            Graphin.registerNode(CUSTOM_NODE_NAME, node);
+            console.log('registering node', node);
+            isMounted.current = true;
+        }
+    }, []);
 
     useEffect(() => {
         const selection = oatPageState.selection;
@@ -632,16 +618,6 @@ const SampleGraph: React.FC<ISampleGraphProps> = (props) => {
             }
         }
     }, [data.edges, data.nodes, oatPageState.selection]);
-
-    // contexts
-
-    // state
-
-    // hooks
-
-    // callbacks
-
-    // side effects
 
     // styles
     const classNames = getClassNames(styles, {
