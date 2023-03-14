@@ -88,7 +88,7 @@ const OATModelList: React.FC<IOATModelListProps> = (props) => {
     // callbacks
     const sendSearchTelemetry = useCallback(() => {
         sendEventTelemetry({
-            name: TelemetryEvents.modelSearch,
+            name: TelemetryEvents.modelListSearch,
             triggerType: TelemetryTrigger.UserAction,
             appRegion: AppRegion.OAT,
             componentName: ComponentName.OAT
@@ -195,7 +195,11 @@ const OATModelList: React.FC<IOATModelListProps> = (props) => {
                     placeholder={t('OAT.ModelList.searchModels')}
                     onChange={(_, value) => {
                         setFilter(value);
-                        sendSearchTelemetry();
+                    }}
+                    onBlur={() => {
+                        if (filter && filter.length) {
+                            sendSearchTelemetry();
+                        }
                     }}
                     styles={classNames.subComponentStyles.searchbox}
                     data-testid={'models-list-search-box'}

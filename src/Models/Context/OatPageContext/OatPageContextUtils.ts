@@ -45,12 +45,12 @@ import {
 import { isOatContextStorageEnabled, logDebugConsole } from './OatPageContext';
 import { IOatPageContextState } from './OatPageContext.types';
 import {
-    getDtdlVersionFromContext,
     hasType,
     isDTDLComponentReference,
     isDTDLProperty,
     isDTDLReference,
-    isDTDLRelationshipReference
+    isDTDLRelationshipReference,
+    modelHasVersion3Context
 } from '../../Services/DtdlUtils';
 
 //#region Add/remove models
@@ -402,76 +402,46 @@ export const getTotalReferenceCount = (models: DtdlInterface[]): number => {
     return referenceList.length;
 };
 
-/** gets number of inheritances in the ontology. Done for telemetry */
-export const getTotalInheritanceCount = (models: DtdlInterface[]): number => {
-    let inheritanceCount = 0;
-    models.forEach((m) => {
-        if (!m.extends) {
-            return;
-        } else if (typeof m.extends == 'object') {
-            inheritanceCount = inheritanceCount + m.extends.length;
-        } else {
-            inheritanceCount = inheritanceCount + 1;
-        }
-    });
-    return inheritanceCount;
-};
-
-/** get property count */
-export const getTotalPropertyCount = (models: DtdlInterface[]): number => {
-    const countProperties = (contents: DtdlInterfaceContent[]): number => {
-        let count = 0;
-        contents.forEach((c) => {
-            if (isDTDLProperty(c)) count = count + 1;
-        });
-        return count;
-    };
-
-    let propertyCount = 0;
-    models.forEach((m) => {
-        if (!m.contents) {
-            return;
-        } else {
-            propertyCount = propertyCount + countProperties(m.contents);
-        }
-    });
-    return propertyCount;
-};
-
-/** get component count */
-export const getTotalComponentCount = (models: DtdlInterface[]): number => {
-    const countComponents = (contents: DtdlInterfaceContent[]): number => {
-        let count = 0;
-        contents.forEach((c) => {
-            if (isDTDLComponentReference(c)) count = count + 1;
-        });
-        return count;
-    };
-
-    let componentCount = 0;
-    models.forEach((m) => {
-        if (!m.contents) {
-            return;
-        } else {
-            componentCount = componentCount + countComponents(m.contents);
-        }
-    });
-    return componentCount;
-};
-
-/** get model version count */
-export const getModelVersionCount = (
+/** Calculate model metrics for telemetry
+ * Includes references, relationships, components, inheritances, version counts
+ */
+export const getModelMetricsForTelemetry = (
     models: DtdlInterface[]
-): [number, number] => {
+): {
+    relationshipCount: number;
+    inheritanceCount: number;
+    componentCount: number;
+    v2ModelCount: number;
+    v3ModelCount: number;
+} => {
+    let relationshipCount = 0;
+    let inheritanceCount = 0;
+    let componentCount = 0;
     let v2ModelCount = 0;
     let v3ModelCount = 0;
+
     models.forEach((m) => {
-        const version = getDtdlVersionFromContext(m['@context']);
-        version === '2'
-            ? (v2ModelCount = v2ModelCount + 1)
-            : (v3ModelCount = v3ModelCount + 1);
+        // Calculate relationships
+        const relationships =
+            m.contents.filter((x) => isDTDLRelationshipReference(x)) ?? [];
+        relationshipCount += relationships.length;
+        // Calculate inheritance
+        inheritanceCount += ensureIsArray(m.extends).length;
+        // Calculate components
+        const components =
+            m.contents.filter((x) => isDTDLComponentReference(x)) ?? [];
+        componentCount += components.length;
+        // Calculate model versions
+        modelHasVersion3Context(m) ? (v3ModelCount += 1) : (v2ModelCount += 1);
     });
-    return [v2ModelCount, v3ModelCount];
+
+    return {
+        relationshipCount: relationshipCount,
+        inheritanceCount: inheritanceCount,
+        componentCount: componentCount,
+        v2ModelCount: v2ModelCount,
+        v3ModelCount: v3ModelCount
+    };
 };
 
 //#region Creating new relationship

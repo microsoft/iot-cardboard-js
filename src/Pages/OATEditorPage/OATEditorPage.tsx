@@ -24,7 +24,7 @@ import {
     TelemetryEvents
 } from '../../Models/Constants/OatTelemetryConstants';
 import { TelemetryTrigger } from '../../Models/Constants/TelemetryConstants';
-import { getOatMetrics } from '../../Models/Services/OatTelemetryUtils';
+import { getOatGlobalMetrics } from '../../Models/Services/OatTelemetryUtils';
 
 const OATEditorPageContent: React.FC<IOATEditorPageProps> = (props) => {
     const { locale, localeStrings, selectedThemeName } = props;
@@ -42,7 +42,9 @@ const OATEditorPageContent: React.FC<IOATEditorPageProps> = (props) => {
                 triggerType: TelemetryTrigger.SystemAction,
                 appRegion: AppRegion.OAT,
                 componentName: ComponentName.OAT,
-                customProperties: getOatMetrics(oatPageState.ontologyFiles)
+                customProperties: getOatGlobalMetrics(
+                    oatPageState.ontologyFiles
+                )
             });
             isMounted.current = true;
         }

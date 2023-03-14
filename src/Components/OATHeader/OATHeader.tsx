@@ -72,10 +72,11 @@ export const EXPORT_LOC_KEYS: IExportLocalizationKeys = {
     ExceptionMessage: 'OAT.Common.unhandledExceptionMessage'
 };
 
+const TELEMETRY_COMPONENT_NAME = ComponentName.OAT;
+const TELEMETRY_APP_REGION = AppRegion.OAT;
+
 const OATHeader: React.FC<IOATHeaderProps> = (props) => {
     const { styles } = props;
-    const componentName = ComponentName.OAT;
-    const appRegion = AppRegion.OAT;
 
     // hooks
     const { t } = useTranslation();
@@ -133,11 +134,15 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
                 ];
                 // Log limit exceeded
                 sendEventTelemetry({
-                    name: TelemetryEvents.importFailLimit,
+                    name: TelemetryEvents.import,
                     triggerType: TelemetryTrigger.UserAction,
-                    appRegion: appRegion,
-                    componentName: componentName,
-                    customProperties: getOatMetricsForModels(result.data)
+                    appRegion: TELEMETRY_APP_REGION,
+                    componentName: TELEMETRY_COMPONENT_NAME,
+                    customProperties: {
+                        success: false,
+                        reason: 'Limit exceeded',
+                        ...getOatMetricsForModels(result.data)
+                    }
                 });
             }
             if (result.status === 'Success') {
@@ -154,11 +159,14 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
                 });
                 // Log success
                 sendEventTelemetry({
-                    name: TelemetryEvents.importSuccess,
+                    name: TelemetryEvents.import,
                     triggerType: TelemetryTrigger.UserAction,
-                    appRegion: appRegion,
-                    componentName: componentName,
-                    customProperties: getOatMetricsForModels(result.data)
+                    appRegion: TELEMETRY_APP_REGION,
+                    componentName: TELEMETRY_COMPONENT_NAME,
+                    customProperties: {
+                        success: true,
+                        ...getOatMetricsForModels(result.data)
+                    }
                 });
             } else if (result.status === 'Failed') {
                 // show error
@@ -184,13 +192,13 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
                 });
                 // Log import error
                 sendEventTelemetry({
-                    name: TelemetryEvents.importFailException,
+                    name: TelemetryEvents.import,
                     triggerType: TelemetryTrigger.UserAction,
-                    appRegion: appRegion,
-                    componentName: componentName,
+                    appRegion: TELEMETRY_APP_REGION,
+                    componentName: TELEMETRY_COMPONENT_NAME,
                     customProperties: {
-                        errorTitle: error.title,
-                        errorMessage: error.message
+                        success: false,
+                        reason: 'Unhandled exception'
                     }
                 });
             }
@@ -200,8 +208,6 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
             logDebugConsole('debug', '[IMPORT] [END] Files upload.', result);
         },
         [
-            appRegion,
-            componentName,
             oatPageDispatch,
             oatPageState.currentOntologyModels,
             sendEventTelemetry,
@@ -239,13 +245,16 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
                 downloadFile(content, fileName);
                 // Log success
                 sendEventTelemetry({
-                    name: TelemetryEvents.exportSuccess,
+                    name: TelemetryEvents.export,
                     triggerType: TelemetryTrigger.UserAction,
-                    appRegion: appRegion,
-                    componentName: componentName,
-                    customProperties: getOatMetricsForModels(
-                        oatPageState.currentOntologyModels
-                    )
+                    appRegion: TELEMETRY_APP_REGION,
+                    componentName: TELEMETRY_COMPONENT_NAME,
+                    customProperties: {
+                        success: true,
+                        ...getOatMetricsForModels(
+                            oatPageState.currentOntologyModels
+                        )
+                    }
                 });
             });
         } else {
@@ -264,15 +273,15 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
                     message: error.message
                 }
             });
-            // Log success
+            // Log error
             sendEventTelemetry({
-                name: TelemetryEvents.exportFail,
+                name: TelemetryEvents.export,
                 triggerType: TelemetryTrigger.UserAction,
-                appRegion: appRegion,
-                componentName: componentName,
+                appRegion: TELEMETRY_APP_REGION,
+                componentName: TELEMETRY_COMPONENT_NAME,
                 customProperties: {
-                    errorTitle: error.title,
-                    errorMessage: error.message,
+                    success: false,
+                    reason: 'Unhandled exception',
                     ...getOatMetricsForModels(
                         oatPageState.currentOntologyModels
                     )
@@ -284,8 +293,6 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
         oatPageState.currentOntologyProjectName,
         t,
         sendEventTelemetry,
-        appRegion,
-        componentName,
         oatPageDispatch
     ]);
 

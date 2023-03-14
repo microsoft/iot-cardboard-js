@@ -249,7 +249,7 @@ export const PropertiesModelSummary: React.FC<IPropertiesModelSummaryProps> = (
                 setModelPath(value.trim());
                 // Log event for path
                 sendEventTelemetry({
-                    name: TelemetryEvents.modalChangePath,
+                    name: TelemetryEvents.modelChangePath,
                     triggerType: TelemetryTrigger.UserAction,
                     appRegion: AppRegion.OAT,
                     componentName: ComponentName.OAT

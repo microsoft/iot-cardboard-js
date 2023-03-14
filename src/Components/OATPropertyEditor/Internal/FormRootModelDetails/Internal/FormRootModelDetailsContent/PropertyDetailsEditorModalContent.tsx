@@ -167,7 +167,7 @@ const PropertyDetailsEditorModalContent: React.FC<IModalFormRootModelContentProp
             })
         );
         sendEventTelemetry({
-            name: TelemetryEvents.upgradeVersion,
+            name: TelemetryEvents.upgradeModelVersion,
             triggerType: TelemetryTrigger.UserAction,
             appRegion: AppRegion.OAT,
             componentName: ComponentName.OAT

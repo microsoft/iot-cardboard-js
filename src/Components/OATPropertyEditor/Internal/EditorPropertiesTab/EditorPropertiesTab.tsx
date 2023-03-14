@@ -125,7 +125,7 @@ const EditorPropertiesTab: React.FC<IEditorPropertiesTabProps> = (props) => {
                     });
                     // Add type telemetry
                     sendEventTelemetry({
-                        name: TelemetryEvents.propertyModelAddSuccess,
+                        name: TelemetryEvents.propertyAddToModel,
                         triggerType: TelemetryTrigger.UserAction,
                         appRegion: AppRegion.OAT,
                         componentName: ComponentName.OAT,
@@ -143,16 +143,6 @@ const EditorPropertiesTab: React.FC<IEditorPropertiesTabProps> = (props) => {
                             positions:
                                 oatPageState.currentOntologyModelPositions,
                             selection: oatPageState.selection
-                        }
-                    });
-                    // Add type telemetry undo
-                    sendEventTelemetry({
-                        name: TelemetryEvents.propertyModelAddUndo,
-                        triggerType: TelemetryTrigger.UserAction,
-                        appRegion: AppRegion.OAT,
-                        componentName: ComponentName.OAT,
-                        customProperties: {
-                            type: data.schema
                         }
                     });
                 };
@@ -169,7 +159,7 @@ const EditorPropertiesTab: React.FC<IEditorPropertiesTabProps> = (props) => {
                     });
                     // Add type reference telemetry
                     sendEventTelemetry({
-                        name: TelemetryEvents.propertyReferenceAddSuccess,
+                        name: TelemetryEvents.propertyAddToReference,
                         triggerType: TelemetryTrigger.UserAction,
                         appRegion: AppRegion.OAT,
                         componentName: ComponentName.OAT,
@@ -187,16 +177,6 @@ const EditorPropertiesTab: React.FC<IEditorPropertiesTabProps> = (props) => {
                             positions:
                                 oatPageState.currentOntologyModelPositions,
                             selection: oatPageState.selection
-                        }
-                    });
-                    // Add type reference telemetry undo
-                    sendEventTelemetry({
-                        name: TelemetryEvents.propertyReferenceAddUndo,
-                        triggerType: TelemetryTrigger.UserAction,
-                        appRegion: AppRegion.OAT,
-                        componentName: ComponentName.OAT,
-                        customProperties: {
-                            type: data.schema
                         }
                     });
                 };

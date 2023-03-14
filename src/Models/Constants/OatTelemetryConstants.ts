@@ -1,18 +1,17 @@
 import { OatPageContextActionType } from '../Context/OatPageContext/OatPageContext.types';
 
 /** Common metrics interface */
-export interface OatGlobalMetrics extends OatMetrics {
+export interface OatOnMountMetrics extends OatImportExportMetrics {
     projectCount: number;
 }
 
-export interface OatMetrics {
+export interface OatImportExportMetrics {
     modelCount: number;
     v2ModelCount: number;
     v3ModelCount: number;
     relationshipCount: number;
     inheritanceCount: number;
     componentCount: number;
-    propertyCount: number;
 }
 
 /** Highest level sections of the app */
@@ -35,32 +34,26 @@ export const TelemetryEvents = {
     // Initialize
     init: `${BASE_PATH}.Initialize`,
     // Import
-    importFailLimit: `${BASE_PATH}.Import.Failure.LimitExceeded`,
-    importFailException: `${BASE_PATH}.Import.Failure.UnhandledException`,
-    importSuccess: `${BASE_PATH}.Import.Success`,
+    import: `${BASE_PATH}.Import`,
     // Export
-    exportFail: `${BASE_PATH}.Export.Success`,
-    exportSuccess: `${BASE_PATH}.Export.Failure`,
+    export: `${BASE_PATH}.Export`,
     // Command history
     redo: `${BASE_PATH}.Redo.Clicked`,
     undo: `${BASE_PATH}.Undo.Clicked`,
     // Upgrade version
-    upgradeVersion: `${BASE_PATH}.ModelVersion.Upgrade`,
+    upgradeModelVersion: `${BASE_PATH}.ModelVersion.Upgrade`,
     // Modal path change
-    modalChangePath: `${BASE_PATH}.ModalPath.Update`,
+    modelChangePath: `${BASE_PATH}.ModelPath.Update`,
     // Dtdl JSON edit
     dtdlJsonSuccess: `${BASE_PATH}.DtdlUpdate.Success`,
     dtdlJsonCancelled: `${BASE_PATH}.DtdlUpdate.Cancelled`,
-    dtdlJsonUndo: `${BASE_PATH}.DtdlUpdate.Undo`,
     // Search
-    modelSearch: `${BASE_PATH}.ModelSearch`,
+    modelListSearch: `${BASE_PATH}.ModelListSearch`,
     // Auto layout
     autoLayout: `${BASE_PATH}.AutoLayout.Clicked`,
     // Property addition
-    propertyModelAddSuccess: `${BASE_PATH}.ModelProperty.Add`,
-    propertyModelAddUndo: `${BASE_PATH}.ModelProperty.Undo`,
-    propertyReferenceAddSuccess: `${BASE_PATH}.ReferenceProperty.Add`,
-    propertyReferenceAddUndo: `${BASE_PATH}.ReferenceProperty.Undo`
+    propertyAddToModel: `${BASE_PATH}.ModelProperty.Add`,
+    propertyAddToReference: `${BASE_PATH}.ReferenceProperty.Add`
 };
 
 export const OatIncludedEvents = [
@@ -81,18 +74,18 @@ export const OatIncludedEvents = [
 ];
 
 export const ActionToEventMapping = {
-    CREATE_PROJECT: `${BASE_PATH}.CreateProject`,
-    EDIT_PROJECT: `${BASE_PATH}.EditProject`,
-    DUPLICATE_PROJECT: `${BASE_PATH}.DuplicateProject`,
-    SWITCH_CURRENT_PROJECT: `${BASE_PATH}.SwitchProject`,
-    DELETE_MODEL: `${BASE_PATH}.DeleteModel`,
-    DELETE_REFERENCE: `${BASE_PATH}.DeleteReference`,
-    SET_CURRENT_NAMESPACE: `${BASE_PATH}.SetCurrentNamespace`,
-    SET_CURRENT_PROJECT_NAME: `${BASE_PATH}.SetCurrentProjectName`,
-    UPDATE_MODEL_ID: `${BASE_PATH}.UpdateModelId`,
-    ADD_NEW_MODEL: `${BASE_PATH}.AddNewModel`,
-    ADD_NEW_RELATIONSHIP: `${BASE_PATH}.AddNewRelationship`,
-    ADD_NEW_MODEL_WITH_RELATIONSHIP: `${BASE_PATH}.AddNewModelWithRelationShip`,
-    SET_SELECTED_PROPERTY_EDITOR_TAB: `${BASE_PATH}.SetSelectedPropertyEditorTab`,
-    SET_OAT_SELECTED_MODEL: `${BASE_PATH}.SetOatSelectedModel`
+    [OatPageContextActionType.CREATE_PROJECT]: `${BASE_PATH}.CreateProject`,
+    [OatPageContextActionType.EDIT_PROJECT]: `${BASE_PATH}.EditProject`,
+    [OatPageContextActionType.DUPLICATE_PROJECT]: `${BASE_PATH}.DuplicateProject`,
+    [OatPageContextActionType.SWITCH_CURRENT_PROJECT]: `${BASE_PATH}.SwitchProject`,
+    [OatPageContextActionType.DELETE_MODEL]: `${BASE_PATH}.DeleteModel`,
+    [OatPageContextActionType.DELETE_REFERENCE]: `${BASE_PATH}.DeleteReference`,
+    [OatPageContextActionType.SET_CURRENT_NAMESPACE]: `${BASE_PATH}.SetCurrentNamespace`,
+    [OatPageContextActionType.SET_CURRENT_PROJECT_NAME]: `${BASE_PATH}.SetCurrentProjectName`,
+    [OatPageContextActionType.UPDATE_MODEL_ID]: `${BASE_PATH}.UpdateModelId`,
+    [OatPageContextActionType.ADD_NEW_MODEL]: `${BASE_PATH}.AddNewModel`,
+    [OatPageContextActionType.ADD_NEW_RELATIONSHIP]: `${BASE_PATH}.AddNewRelationship`,
+    [OatPageContextActionType.ADD_NEW_MODEL_WITH_RELATIONSHIP]: `${BASE_PATH}.AddNewModelWithRelationShip`,
+    [OatPageContextActionType.SET_SELECTED_PROPERTY_EDITOR_TAB]: `${BASE_PATH}.SetSelectedPropertyEditorTab`,
+    [OatPageContextActionType.SET_OAT_SELECTED_MODEL]: `${BASE_PATH}.SetOatSelectedModel`
 };

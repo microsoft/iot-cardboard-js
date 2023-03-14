@@ -151,12 +151,6 @@ const JSONEditor: React.FC<IJSONEditorProps> = (props) => {
                     type: OatPageContextActionType.SET_CURRENT_MODELS,
                     payload: { models: oatPageState.currentOntologyModels }
                 });
-                sendEventTelemetry({
-                    name: TelemetryEvents.dtdlJsonUndo,
-                    triggerType: TelemetryTrigger.UserAction,
-                    appRegion: AppRegion.OAT,
-                    componentName: ComponentName.OAT
-                });
             };
 
             execute(save, undoSave);
