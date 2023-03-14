@@ -540,7 +540,6 @@ const RADIAL_LAYOUT = {
 
 const SampleGraph: React.FC<ISampleGraphProps> = (props) => {
     const { styles } = props;
-    console.log('[START] Render');
 
     // context
     const { oatPageState } = useOatPageContext();
@@ -602,15 +601,34 @@ const SampleGraph: React.FC<ISampleGraphProps> = (props) => {
                 (x) => x.data.source === selection.contentId
             );
             if (edge) {
-                console.log('Setting edge as selected', edge);
                 edge.status = { ...edge.status, selected: true };
+                logDebugConsole(
+                    'info',
+                    'Setting edge as selected. {edge}',
+                    edge
+                );
             } else {
-                console.log('Could not find edge', edge);
+                logDebugConsole(
+                    'warn',
+                    'Could not find edge. {selection}',
+                    selection
+                );
             }
         } else {
             const node = data.nodes.find((x) => x.id === selection.modelId);
             if (node) {
                 node.status = { ...node.status, selected: true };
+                logDebugConsole(
+                    'info',
+                    'Setting node as selected. {node}',
+                    node
+                );
+            } else {
+                logDebugConsole(
+                    'warn',
+                    'Could not find node. {selection}',
+                    selection
+                );
             }
         }
     }, [data.edges, data.nodes, oatPageState.selection]);
