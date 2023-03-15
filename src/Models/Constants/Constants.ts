@@ -61,6 +61,8 @@ const OVERVIEW_3D_SCENES = 'https://go.microsoft.com/fwlink/?linkid=2195695';
 const GITHUB_REPO = 'https://github.com/microsoft/iot-cardboard-js';
 const ADT_DATA_HISTORY_WITH_ADX =
     'https://go.microsoft.com/fwlink/?linkid=2214431';
+const STORAGE_CORS_DOC =
+    'https://learn.microsoft.com/en-us/rest/api/storageservices/cross-origin-resource-sharing--cors--support-for-the-azure-storage-services';
 export const DOCUMENTATION_LINKS = {
     overviewDoc: OVERVIEW_3D_SCENES,
     overviewDocSetupSection: `${OVERVIEW_3D_SCENES}#set-up`,
@@ -76,7 +78,8 @@ export const DOCUMENTATION_LINKS = {
     ontologyConcepts: 'https://go.microsoft.com/fwlink/?linkid=2209943',
     // https://learn.microsoft.com/azure/digital-twins/concepts-models#supported-dtdl-versions
     ontologyConceptsVersions: 'https://go.microsoft.com/fwlink/?linkid=2225628',
-    dataHistory: ADT_DATA_HISTORY_WITH_ADX
+    dataHistory: ADT_DATA_HISTORY_WITH_ADX,
+    storageCORS: STORAGE_CORS_DOC
 };
 
 /** this is the minimum frequency we support for fetching data from ADT */
@@ -534,8 +537,11 @@ export const BlobStorageServiceCorsAllowedMethods = [
 
 export const BlobStorageServiceCorsAllowedHeaders = [
     'Authorization',
+    'Content-Type',
     'x-ms-version',
-    'x-ms-blob-type'
+    'x-ms-blob-type',
+    'x-ms-copy-source',
+    'x-ms-requires-sync'
 ];
 
 export const EnforcedStorageAccountAccessRoleIds: Array<AzureAccessPermissionRoles> = [];

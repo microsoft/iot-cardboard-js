@@ -182,8 +182,13 @@ const ScenePageErrorHandlingWrapper: React.FC<ScenePageErrorHandlingWrapperProps
                     <IllustrationMessage
                         headerText={errors?.[0]?.name}
                         descriptionText={
-                            errors?.[0]?.rawError?.message ??
-                            errors?.[0]?.message
+                            (errors?.[0]?.rawError as any)?.request?.status ===
+                            0 // network error which can be due to CORS, invalid url or internet connectivity, hard to know
+                                ? t(
+                                      'scenePageErrorHandling.networkErrorMessage'
+                                  )
+                                : errors?.[0]?.rawError?.message ??
+                                  errors?.[0]?.message
                         }
                         type={'error'}
                         width={'wide'}

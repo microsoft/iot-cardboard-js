@@ -67,21 +67,25 @@ export default class BlobAdapter implements IBlobAdapter {
     getBlobContainerURL() {
         return this.storageAccountHostName && this.containerName
             ? `https://${this.storageAccountHostName}/${this.containerName}`
-            : '';
+            : null;
     }
 
     getStorageAccountURL() {
         return this.storageAccountHostName
             ? `https://${this.storageAccountHostName}`
-            : '';
+            : null;
     }
 
     generateBlobUrl(path: string) {
         if (this.useBlobProxy) {
             return `${this.blobProxyServerPath}${path}`;
         } else {
-            // Need to have this done with only storage account since path will always include container name if required
-            return `${this.getStorageAccountURL()}${path}`;
+            if (this.getStorageAccountURL()) {
+                // Need to have this done with only storage account since path will always include container name if required
+                return `${this.getStorageAccountURL()}${path}`;
+            } else {
+                return null;
+            }
         }
     }
 
@@ -391,13 +395,13 @@ export default class BlobAdapter implements IBlobAdapter {
                     originToMethodsAndHeadersMapping[origin] = {
                         allowedMethods: corsRules.reduce((acc, rule) => {
                             if (rule.AllowedOrigins.includes(origin)) {
-                                acc.push(rule.AllowedMethods);
+                                acc = [...acc, ...rule.AllowedMethods];
                             }
                             return acc;
                         }, []),
                         allowedHeaders: corsRules.reduce((acc, rule) => {
                             if (rule.AllowedOrigins.includes(origin)) {
-                                acc.push(rule.AllowedHeaders);
+                                acc = [...acc, ...rule.AllowedHeaders];
                             }
                             return acc;
                         }, [])
@@ -418,7 +422,7 @@ export default class BlobAdapter implements IBlobAdapter {
                             .map((mapping) => mapping.allowedMethods)
                             .reduce(
                                 (acc: boolean, methodGroup) =>
-                                    acc && methodGroup[0].includes(method),
+                                    acc && methodGroup.includes(method),
                                 true
                             )
                 );
@@ -429,7 +433,12 @@ export default class BlobAdapter implements IBlobAdapter {
                                 .map((mapping) => mapping.allowedHeaders)
                                 .reduce(
                                     (acc: boolean, headerGroup) =>
-                                        acc && headerGroup[0].includes(header),
+                                        acc &&
+                                        headerGroup?.findIndex(
+                                            (h) =>
+                                                h.toLowerCase() ===
+                                                header.toLowerCase()
+                                        ) !== -1,
                                     true
                                 )
                     ) ||
@@ -438,7 +447,7 @@ export default class BlobAdapter implements IBlobAdapter {
                             .map((mapping) => mapping.allowedHeaders)
                             .reduce(
                                 (acc: boolean, headerGroup) =>
-                                    acc && headerGroup[0].includes(header),
+                                    acc && headerGroup?.includes(header),
                                 true
                             )
                     );

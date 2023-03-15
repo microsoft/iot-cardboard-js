@@ -1358,6 +1358,7 @@
         "noADTInstanceUrlTitle": "ADT instance not set",
         "noADTInstanceUrlMessage": "Your ADT instance url is not set. Click below to set it.",
         "configureEnvironment": "Configure environment",
+        "networkErrorMessage": "This could be a CORS issue, invalid url or a network error. Please contact the owner of the resource or try again later.",
         "sceneView": {
             "3dAssetLoadingErrorTitle": "Error loading model",
             "3dAssetLoadingNetworkErrorMessage": "This could be a CORS issue, invalid blob url or a network error. Please contact the owner of the container where this asset file is stored or try again later.",

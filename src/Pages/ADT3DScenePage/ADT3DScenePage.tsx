@@ -100,13 +100,14 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
 
     const getCorsPropertiesAdapterData = useAdapter({
         adapterMethod: () => adapter.getBlobServiceCorsProperties(),
-        refetchDependencies: [adapter, deeplinkState.storageUrl]
+        isAdapterCalledOnMount: false,
+        refetchDependencies: []
     });
 
     const setCorsPropertiesAdapterData = useAdapter({
         adapterMethod: () => adapter.setBlobServiceCorsProperties(),
         isAdapterCalledOnMount: false,
-        refetchDependencies: [adapter, deeplinkState.storageUrl]
+        refetchDependencies: []
     });
 
     const scenesConfig = useAdapter({
@@ -275,6 +276,15 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
     // update the adapter if the Storage instance changes
     useEffect(() => {
         adapter.setBlobContainerPath(deeplinkState.storageUrl);
+        if (environmentPickerOptions?.storage?.selectedItemLocalStorageKey) {
+            setLocalStorageItem(
+                // TODO: instead should we expose a prop in ConsumerDeepLinkContext like "onContainerChange" and
+                // do this update in the consumer side not to rely on environmentPickerOptions local storage key?
+                environmentPickerOptions.storage.selectedItemLocalStorageKey,
+                deeplinkState.storageUrl
+            );
+        }
+        getCorsPropertiesAdapterData.callAdapter();
     }, [adapter, deeplinkState.storageUrl]);
 
     // update the adapter when adx connection information changes
@@ -380,6 +390,26 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
                             ),
                             buttonAction: async () => {
                                 setCorsPropertiesAdapterData.callAdapter();
+                                errorCallbackSetRef.current = false;
+                            }
+                        }
+                    }
+                });
+            } else if (
+                state?.errors?.[0]?.type ===
+                    ComponentErrorType.DataFetchFailed &&
+                (state?.errors[0].rawError as any).request.status === 0 &&
+                !errorCallbackSetRef.current
+            ) {
+                // mark that we already set the callback so we don't get an infinite loop of setting
+                errorCallbackSetRef.current = true;
+                dispatch({
+                    type: ADT3DScenePageActionTypes.SET_ERROR_CALLBACK,
+                    payload: {
+                        errorCallback: {
+                            buttonText: t('learnMore'),
+                            buttonAction: () => {
+                                window.open(DOCUMENTATION_LINKS.storageCORS);
                                 errorCallbackSetRef.current = false;
                             }
                         }
@@ -493,7 +523,11 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
                 // We want to swallow all non-2xx errors on checking CORS because users could have valid access to the content of a container
                 // But may not have read access to CORS properties (which results in 403)
                 // This means that users who cannot read CORS configuration may not be able to load 3D models if CORS is misconfigured
-                if (errors?.[0]?.type === ComponentErrorType.CORSError) {
+                if (
+                    errors?.[0]?.type === ComponentErrorType.CORSError ||
+                    (errors?.[0]?.type === ComponentErrorType.DataFetchFailed &&
+                        (errors[0].rawError as any).request.status === 0) // it means 'Network Error' which might be due to CORS or internet connection, hard to know
+                ) {
                     errorCallbackSetRef.current = false;
                     dispatch({
                         type: ADT3DScenePageActionTypes.SET_ERRORS,

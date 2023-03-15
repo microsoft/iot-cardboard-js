@@ -98,6 +98,7 @@ const EnvironmentPicker = ({
     onDismiss,
     isLocalStorageEnabled,
     localStorageKey,
+    selectedItemLocalStorageKey,
     adtInstanceUrl,
     onAdtInstanceChange,
     storage,
@@ -188,7 +189,7 @@ const EnvironmentPicker = ({
         }
         if (isLocalStorageEnabled) {
             const selectedAdtInstanceInLocalStorage = getSelectedAdtInstanceFromLocalStorage(
-                localStorageKey
+                selectedItemLocalStorageKey
             );
             adtInstanceToEdit =
                 adtInstanceToEdit ?? selectedAdtInstanceInLocalStorage?.url;
