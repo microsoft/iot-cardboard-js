@@ -1103,7 +1103,8 @@
       "3dAssetLoadingGenericErrorMessage": "Błąd ładowania modelu. Spróbuj wyczyścić pamięć podręczną i spróbuj ponownie lub sprawdź dostęp do tego pliku.",
       "3dAssetDimensionError": "Może wystąpić problem z wymiarami modelu, sprawdź, czy nie ma błędnych siatek."
     },
-    "missingPermissionsMessage": "Brakuje Ci uprawnień. Będziesz potrzebować dostępu jako czytelnik (co najmniej) i właściciel danych obiektów blob magazynu lub współtwórca danych obiektów blob magazynu."
+    "missingPermissionsMessage": "Brakuje Ci uprawnień. Będziesz potrzebować dostępu jako czytelnik (co najmniej) i właściciel danych obiektów blob magazynu lub współtwórca danych obiektów blob magazynu.",
+    "networkErrorMessage": "Może to być problem z CORS, nieprawidłowy adres URL lub błąd sieci. Skontaktuj się z właścicielem zasobu lub spróbuj ponownie później."
   },
   "fieldRequired": "To pole jest wymagane",
   "OATGraphViewer": {

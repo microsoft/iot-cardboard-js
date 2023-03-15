@@ -1103,7 +1103,8 @@
       "3dAssetLoadingGenericErrorMessage": "Model yüklenirken hata oluştu. Önbelleğinizi temizlemeyi deneyin ve yeniden deneyin veya bu dosya için erişiminizi denetleyin.",
       "3dAssetDimensionError": "Model boyutlarınızla ilgili bir sorun olabilir, lütfen hatalı kafes olmadığından emin olun."
     },
-    "missingPermissionsMessage": "Eksik izinleriniz var. Okuyucu (en azından) ve Depolama Blobu Veri Sahibi veya Depolama Blobu Veri Katılımcısı olarak erişime ihtiyacınız olacaktır."
+    "missingPermissionsMessage": "Eksik izinleriniz var. Okuyucu (en azından) ve Depolama Blobu Veri Sahibi veya Depolama Blobu Veri Katılımcısı olarak erişime ihtiyacınız olacaktır.",
+    "networkErrorMessage": "Bu bir CORS sorunu, geçersiz URL veya ağ hatası olabilir. Lütfen kaynağın sahibine başvurun veya daha sonra yeniden deneyin."
   },
   "fieldRequired": "Bu alan zorunludur",
   "OATGraphViewer": {

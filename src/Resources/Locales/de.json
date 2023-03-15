@@ -1103,7 +1103,8 @@
       "3dAssetLoadingGenericErrorMessage": "Fehler beim Laden des Modells. Versuchen Sie, den Cache zu leeren, und versuchen Sie es erneut, oder überprüfen Sie Ihren Zugriff auf diese Datei.",
       "3dAssetDimensionError": "Möglicherweise liegt ein Problem mit den Abmessungen Ihres Modells vor, bitte überprüfen Sie, ob keine fehlerhaften Netze vorhanden sind."
     },
-    "missingPermissionsMessage": "Sie haben fehlende Berechtigungen. Sie benötigen Zugriff als Reader (mindestens) und entweder als Storage Blob Data Owner oder Storage Blob Data Contributor."
+    "missingPermissionsMessage": "Sie haben fehlende Berechtigungen. Sie benötigen Zugriff als Reader (mindestens) und entweder als Storage Blob Data Owner oder Storage Blob Data Contributor.",
+    "networkErrorMessage": "Dies kann ein CORS-Problem, eine ungültige URL oder ein Netzwerkfehler sein. Wenden Sie sich an den Besitzer der Ressource oder versuchen Sie es später erneut."
   },
   "fieldRequired": "Dieses Feld ist ein Pflichtfeld",
   "OATGraphViewer": {

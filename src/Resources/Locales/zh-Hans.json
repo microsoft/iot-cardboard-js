@@ -1103,7 +1103,8 @@
       "3dAssetLoadingGenericErrorMessage": "加载模型时出错。请尝试清除缓存，然后重试或检查您对该文件的访问权限。",
       "3dAssetDimensionError": "您的模型尺寸可能存在问题，请检查是否有错误的网格。"
     },
-    "missingPermissionsMessage": "您缺少权限。需要以读取者身份（至少）和存储 Blob 数据所有者或存储 Blob 数据参与者进行访问。"
+    "missingPermissionsMessage": "您缺少权限。需要以读取者身份（至少）和存储 Blob 数据所有者或存储 Blob 数据参与者进行访问。",
+    "networkErrorMessage": "这可能是 CORS 问题、无效 URL 或网络错误。请与资源的所有者联系，或稍后重试。"
   },
   "fieldRequired": "此字段为必填项",
   "OATGraphViewer": {
