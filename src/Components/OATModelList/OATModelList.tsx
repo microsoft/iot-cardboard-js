@@ -1,4 +1,10 @@
-import React, { useEffect, useState, useContext, useRef } from 'react';
+import React, {
+    useEffect,
+    useState,
+    useContext,
+    useRef,
+    useCallback
+} from 'react';
 import {
     classNamesFunction,
     IButtonProps,
@@ -31,6 +37,13 @@ import { useExtendedTheme } from '../../Models/Hooks/useExtendedTheme';
 import { TFunction } from 'i18next';
 import { parseModelId } from '../../Models/Services/OatUtils';
 import IllustrationMessage from '../IllustrationMessage/IllustrationMessage';
+import useTelemetry from '../../Models/Hooks/useTelemetry';
+import { TelemetryTrigger } from '../../Models/Constants/TelemetryConstants';
+import {
+    AppRegion,
+    ComponentName,
+    TelemetryEvents
+} from '../../Models/Constants/OatTelemetryConstants';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('OatModelList', debugLogging);
@@ -47,6 +60,7 @@ const OATModelList: React.FC<IOATModelListProps> = (props) => {
 
     // hooks
     const { t } = useTranslation();
+    const { sendEventTelemetry } = useTelemetry();
 
     // contexts
     const { execute } = useContext(CommandHistoryContext);
@@ -70,6 +84,16 @@ const OATModelList: React.FC<IOATModelListProps> = (props) => {
             classNames
         )
     );
+
+    // callbacks
+    const sendSearchTelemetry = useCallback(() => {
+        sendEventTelemetry({
+            name: TelemetryEvents.modelListSearch,
+            triggerType: TelemetryTrigger.UserAction,
+            appRegion: AppRegion.OAT,
+            componentName: ComponentName.OAT
+        });
+    }, [sendEventTelemetry]);
 
     // update the list items anytime a new model is added to the context
     useEffect(() => {
@@ -169,7 +193,14 @@ const OATModelList: React.FC<IOATModelListProps> = (props) => {
             ) : (
                 <SearchBox
                     placeholder={t('OAT.ModelList.searchModels')}
-                    onChange={(_, value) => setFilter(value)}
+                    onChange={(_, value) => {
+                        setFilter(value);
+                    }}
+                    onBlur={() => {
+                        if (filter && filter.length) {
+                            sendSearchTelemetry();
+                        }
+                    }}
                     styles={classNames.subComponentStyles.searchbox}
                     data-testid={'models-list-search-box'}
                 />

@@ -49,7 +49,8 @@ import {
     isDTDLComponentReference,
     isDTDLProperty,
     isDTDLReference,
-    isDTDLRelationshipReference
+    isDTDLRelationshipReference,
+    modelHasVersion3Context
 } from '../../Services/DtdlUtils';
 
 //#region Add/remove models
@@ -399,6 +400,48 @@ export const getTotalReferenceCount = (models: DtdlInterface[]): number => {
         referenceList.push(...localRefs);
     });
     return referenceList.length;
+};
+
+/** Calculate model metrics for telemetry
+ * Includes references, relationships, components, inheritances, version counts
+ */
+export const getModelMetricsForTelemetry = (
+    models: DtdlInterface[]
+): {
+    relationshipCount: number;
+    inheritanceCount: number;
+    componentCount: number;
+    v2ModelCount: number;
+    v3ModelCount: number;
+} => {
+    let relationshipCount = 0;
+    let inheritanceCount = 0;
+    let componentCount = 0;
+    let v2ModelCount = 0;
+    let v3ModelCount = 0;
+
+    models.forEach((m) => {
+        // Calculate relationships & components
+        m.contents.forEach((content) => {
+            if (isDTDLRelationshipReference(content)) {
+                relationshipCount += 1;
+            } else if (isDTDLComponentReference(content)) {
+                componentCount += 1;
+            }
+        });
+        // Calculate inheritance
+        inheritanceCount += ensureIsArray(m.extends).length;
+        // Calculate model versions
+        modelHasVersion3Context(m) ? (v3ModelCount += 1) : (v2ModelCount += 1);
+    });
+
+    return {
+        relationshipCount: relationshipCount,
+        inheritanceCount: inheritanceCount,
+        componentCount: componentCount,
+        v2ModelCount: v2ModelCount,
+        v3ModelCount: v3ModelCount
+    };
 };
 
 //#region Creating new relationship

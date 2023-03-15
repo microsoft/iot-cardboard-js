@@ -1,5 +1,3 @@
-import { FitViewFunc, Node, XYPosition } from 'react-flow-renderer';
-
 import { IOatProjectData } from './ProjectData';
 
 export interface IOATFile {
@@ -19,10 +17,14 @@ interface ViewportHelperFunctionOptions {
  * NOTE: there are more actions than this, this is just what we were using.
  */
 export interface IReactFlowInstance {
-    getNodes: () => Node[];
     zoomOut: (options?: ViewportHelperFunctionOptions) => void;
     zoomTo: (options?: ViewportHelperFunctionOptions) => void;
     zoomIn: (options?: ViewportHelperFunctionOptions) => void;
-    fitView: FitViewFunc;
+    fitView: () => void; // does take args, so check the docs if you need them
     project: (position: XYPosition) => XYPosition;
+}
+
+interface XYPosition {
+    x: number;
+    y: number;
 }
