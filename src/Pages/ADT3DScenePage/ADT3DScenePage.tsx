@@ -284,7 +284,9 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
                 deeplinkState.storageUrl
             );
         }
-        getCorsPropertiesAdapterData.callAdapter();
+        if (deeplinkState.storageUrl) {
+            getCorsPropertiesAdapterData.callAdapter();
+        }
     }, [adapter, deeplinkState.storageUrl]);
 
     // update the adapter when adx connection information changes
