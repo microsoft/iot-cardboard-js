@@ -1134,7 +1134,8 @@
       "3dAssetLoadingGenericErrorMessage": "Chyba při načítání modelu. Zkuste vymazat mezipaměť a zkuste to znovu nebo zkontrolujte přístup k tomuto souboru.",
       "3dAssetDimensionError": "Může se jednat o problém s rozměry modelu, zkontrolujte, zda nejsou žádné chybné sítě."
     },
-    "missingPermissionsMessage": "Chybí vám oprávnění. Budete potřebovat přístup jako čtenář (minimálně) a buď vlastník dat objektů BLOB úložiště, nebo přispěvatel dat objektů BLOB úložiště."
+    "missingPermissionsMessage": "Chybí vám oprávnění. Budete potřebovat přístup jako čtenář (minimálně) a buď vlastník dat objektů BLOB úložiště, nebo přispěvatel dat objektů BLOB úložiště.",
+    "networkErrorMessage": "Může se jednat o problém CORS, neplatnou adresu URL nebo chybu sítě. Obraťte se na vlastníka prostředku nebo akci opakujte později."
   },
   "fieldRequired": "Toto pole je povinné",
   "duration": {

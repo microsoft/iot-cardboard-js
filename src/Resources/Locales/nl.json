@@ -1103,7 +1103,8 @@
       "3dAssetLoadingGenericErrorMessage": "Fout bij het laden van model. Probeer de cache te wissen en probeer het opnieuw of controleer uw toegang voor dat bestand.",
       "3dAssetDimensionError": "Er kan een probleem zijn met de afmetingen van uw model, controleer of er geen foutieve mazen zijn."
     },
-    "missingPermissionsMessage": "U hebt ontbrekende machtigingen. U hebt toegang nodig als lezer (minimaal) en opslag-blobgegevenseigenaar of opslag-blobgegevensbijdrager."
+    "missingPermissionsMessage": "U hebt ontbrekende machtigingen. U hebt toegang nodig als lezer (minimaal) en opslag-blobgegevenseigenaar of opslag-blobgegevensbijdrager.",
+    "networkErrorMessage": "Dit kan een CORS-probleem, ongeldige URL of een netwerkfout zijn. Neem contact op met de eigenaar van de bron of probeer het later opnieuw."
   },
   "fieldRequired": "Dit veld is verplicht",
   "OATGraphViewer": {
