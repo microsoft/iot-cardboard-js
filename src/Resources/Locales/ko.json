@@ -659,7 +659,7 @@
     "powerBI": {
       "title": "Power BI 위젯",
       "libraryName": "Power BI Visual",
-      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
+      "description": "Power BI 시각적 개체 또는 타일 포함",
       "type": {
         "label": "형",
         "options": {
@@ -668,6 +668,12 @@
           "tile": "타일",
           "visual": "시각의"
         }
+      },
+      "embedUrl": {
+        "label": "URL 포함",
+        "placeholder": "URL 입력",
+        "description": "이 URL은 외부 도구에 보고서 아티팩트를 포함하는 데 사용됩니다.",
+        "tooltip": "이 필드는 페이지 및 시각적 개체 이름 선택에 필요합니다."
       },
       "pageName": {
         "label": "페이지 이름",
@@ -682,14 +688,9 @@
         "label": "데이터 필터"
       },
       "errors": {
-        "missingReportConfiguration": "위젯이 올바르게 구성되었는지 확인하십시오.",
         "missingConfiguration": "위젯 구성이 누락되었거나 잘못되었습니다.",
-        "missingAdapter": "Power BI 어댑터가 설치 및 구성되어 있는지 확인하세요."
-      },
-      "embedUrl": {
-        "label": "URL 포함",
-        "placeholder": "https://embed.powerbi.com/groups/me/reports/{보고서 ID}",
-        "description": "외부 도구에 보고서 아티팩트를 포함하는 데 사용되는 URL"
+        "missingAdapter": "Power BI 어댑터가 설치 및 구성되어 있는지 확인하세요.",
+        "missingReportConfiguration": "세부 정보를 표시하도록 위젯 구성"
       }
     }
   },

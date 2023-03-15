@@ -659,7 +659,7 @@
     "powerBI": {
       "title": "Виджет Power BI",
       "libraryName": "Визуальный элемент Power BI",
-      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
+      "description": "Внедрение визуального элемента или плитки Power BI",
       "type": {
         "label": "Тип",
         "options": {
@@ -668,6 +668,12 @@
           "tile": "Кафель",
           "visual": "Зрительный"
         }
+      },
+      "embedUrl": {
+        "label": "Встроить URL-адрес",
+        "placeholder": "Введите URL-адрес",
+        "description": "Этот URL-адрес используется для внедрения артефактов отчета во внешние инструменты",
+        "tooltip": "Это поле обязательно для выбора страницы и визуального имени"
       },
       "pageName": {
         "label": "Название страницы",
@@ -682,14 +688,9 @@
         "label": "Фильтры данных"
       },
       "errors": {
-        "missingReportConfiguration": "Пожалуйста, убедитесь, что ваш виджет правильно настроен",
         "missingConfiguration": "Конфигурация виджета отсутствует или недопустима",
-        "missingAdapter": "Убедитесь, что адаптер Power BI установлен и настроен"
-      },
-      "embedUrl": {
-        "label": "Встроить URL-адрес",
-        "placeholder": "https://embed.powerbi.com/groups/me/reports/{reportId}",
-        "description": "URL-адрес, используемый для внедрения артефактов отчета во внешние инструменты"
+        "missingAdapter": "Убедитесь, что адаптер Power BI установлен и настроен",
+        "missingReportConfiguration": "Настройка виджета для отображения сведений"
       }
     }
   },

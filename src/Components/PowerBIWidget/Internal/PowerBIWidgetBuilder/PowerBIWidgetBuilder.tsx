@@ -13,8 +13,12 @@ import {
     Stack,
     TextField,
     ComboBox,
-    IComboBoxOption
+    IComboBoxOption,
+    ITextFieldProps,
+    Icon,
+    Label
 } from '@fluentui/react';
+import { useId } from '@fluentui/react-hooks';
 import { useTranslation } from 'react-i18next';
 import { getWidgetFormStyles } from '../../../ADT3DSceneBuilder/Internal/Behaviors/Widgets/WidgetForm/WidgetForm.styles';
 
@@ -87,6 +91,8 @@ const PowerBIWidgetBuilder: React.FC<IPowerBIWidgetBuilderProps> = ({
 
     // hooks
     const { t } = useTranslation();
+    const iconButtonId = useId('iconButton');
+    const reportUrlId = useId('reportUrl');
 
     // callbacks
     const onLabelChange = useCallback(
@@ -158,6 +164,28 @@ const PowerBIWidgetBuilder: React.FC<IPowerBIWidgetBuilderProps> = ({
         },
         [formData, reportVisuals, updateWidgetData]
     );
+
+    const renderReportUrlLabel = (props: ITextFieldProps) => {
+        return (
+            <Stack
+                horizontal
+                verticalAlign="center"
+                tokens={{
+                    childrenGap: 4
+                }}
+            >
+                <Label id={props.id} htmlFor={reportUrlId}>
+                    {props.label}
+                </Label>
+                <Icon
+                    id={iconButtonId}
+                    iconName="Info"
+                    title={t('widgets.powerBI.embedUrl.tooltip')}
+                    style={{ cursor: 'default' }}
+                />
+            </Stack>
+        );
+    };
 
     // side effects
     useEffect(() => {
@@ -255,12 +283,14 @@ const PowerBIWidgetBuilder: React.FC<IPowerBIWidgetBuilderProps> = ({
                 />
                 {/** Report Url */}
                 <TextField
+                    id={reportUrlId}
                     label={t('widgets.powerBI.embedUrl.label')}
                     placeholder={t('widgets.powerBI.embedUrl.placeholder')}
                     value={reportUrl}
                     onChange={onReportUrlChange}
                     required={true}
                     description={t('widgets.powerBI.embedUrl.description')}
+                    onRenderLabel={renderReportUrlLabel}
                 />
                 {/** Page Name */}
                 <ComboBox

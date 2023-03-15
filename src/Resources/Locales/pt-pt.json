@@ -657,17 +657,23 @@
       "openQuery": "Consulta aberta no Azure Data Explorer"
     },
     "powerBI": {
-      "title": "Widget Power BI",
+      "title": "Widget do Power BI",
       "libraryName": "Power BI Visual",
-      "description": "Lorem ipsum dolor senta-se amet, consectetur adipiscing elit, sed do eiusmod tempor",
+      "description": "Incorporar um visual ou bloco do Power BI",
       "type": {
         "label": "Tipo",
         "options": {
           "report": "Relatório",
-          "dashboard": "Painel de instrumentos",
-          "tile": "Azulejo",
-          "visual": "Visual"
+          "dashboard": "Painel de controle",
+          "tile": "Telha",
+          "visual": "Aspetos visuais"
         }
+      },
+      "embedUrl": {
+        "label": "URL de incorporação",
+        "placeholder": "Insira o URL",
+        "description": "Este URL é usado para incorporar artefatos de relatório em ferramentas externas",
+        "tooltip": "Este campo é obrigatório para a seleção de página e nome visual"
       },
       "pageName": {
         "label": "Nome da página",
@@ -676,20 +682,15 @@
       "visualName": {
         "label": "Nome visual",
         "placeholder": "Nome visual",
-        "suffix": "Introduza o nome do elemento específico do relatório para mostrar neste widget"
+        "suffix": "Insira o nome do elemento específico do relatório a ser exibido neste widget"
       },
       "dataFilters": {
         "label": "Filtros de dados"
       },
       "errors": {
-        "missingReportConfiguration": "Certifique-se de que o seu widget está devidamente configurado",
-        "missingConfiguration": "A configruência widget está em falta ou é inválida",
-        "missingAdapter": "Certifique-se de que o adaptador Power BI está instalado e configurado"
-      },
-      "embedUrl": {
-        "label": "URL de incorporação",
-        "placeholder": "https://embed.powerbi.com/groups/me/reports/{reportId}",
-        "description": "A URL usada para incorporar artefatos de relatório em ferramentas externas"
+        "missingConfiguration": "A configuração do widget está ausente ou é inválida",
+        "missingAdapter": "Verifique se o adaptador do Power BI está instalado e configurado",
+        "missingReportConfiguration": "Configurar widget para exibir detalhes"
       }
     }
   },

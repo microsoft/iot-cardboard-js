@@ -659,7 +659,7 @@
     "powerBI": {
       "title": "Power BI pencere öğesi",
       "libraryName": "Power BI Görsel",
-      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
+      "description": "Power BI görseli veya kutucuğu ekleme",
       "type": {
         "label": "Tür",
         "options": {
@@ -669,12 +669,18 @@
           "visual": "Görsel"
         }
       },
+      "embedUrl": {
+        "label": "URL gömme",
+        "placeholder": "URL girin",
+        "description": "Bu URL, rapor yapıtlarını harici araçlara katıştırmak için kullanılır",
+        "tooltip": "Bu alan sayfa ve görsel ad seçimi için gereklidir"
+      },
       "pageName": {
-        "label": "Sayfa Adı",
+        "label": "Sayfa adı",
         "placeholder": "Sayfa adı"
       },
       "visualName": {
-        "label": "Görsel Adı",
+        "label": "Görsel ad",
         "placeholder": "Görsel ad",
         "suffix": "Bu widget'ta gösterilecek rapordaki belirli öğenin adını girin"
       },
@@ -682,14 +688,9 @@
         "label": "Veri Filtreleri"
       },
       "errors": {
-        "missingReportConfiguration": "Lütfen widget'ınızın doğru yapılandırıldığından emin olun",
         "missingConfiguration": "Widget yapılandırması eksik veya geçersiz",
-        "missingAdapter": "Lütfen Power BI bağdaştırıcısının yüklü ve yapılandırılmış olduğundan emin olun"
-      },
-      "embedUrl": {
-        "label": "URL gömme",
-        "placeholder": "https://embed.powerbi.com/groups/me/reports/{reportId}",
-        "description": "Rapor yapıtlarını harici araçlara katıştırmak için kullanılan URL"
+        "missingAdapter": "Lütfen Power BI bağdaştırıcısının yüklü ve yapılandırılmış olduğundan emin olun",
+        "missingReportConfiguration": "Widget'ı ayrıntıları görüntüleyecek şekilde yapılandırma"
       }
     }
   },

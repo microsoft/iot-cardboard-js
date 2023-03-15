@@ -659,7 +659,7 @@
     "powerBI": {
       "title": "Power BI-widget",
       "libraryName": "Visuellt Power BI-objekt",
-      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
+      "description": "Bädda in ett visuellt Power BI-objekt eller en panel",
       "type": {
         "label": "Typ",
         "options": {
@@ -668,6 +668,12 @@
           "tile": "Kakel",
           "visual": "Visuell"
         }
+      },
+      "embedUrl": {
+        "label": "URL för inbäddning",
+        "placeholder": "Ange URL",
+        "description": "Den här URL:en används för att bädda in rapportartefakter i externa verktyg",
+        "tooltip": "Det här fältet är obligatoriskt för val av sidnamn och visuellt namn"
       },
       "pageName": {
         "label": "Sidans namn",
@@ -682,14 +688,9 @@
         "label": "Datafilter"
       },
       "errors": {
-        "missingReportConfiguration": "Se till att din widget är korrekt konfigurerad",
-        "missingConfiguration": "Widgetkonfiguration saknas eller är ogiltig",
-        "missingAdapter": "Se till att Power BI-kortet är installerat och konfigurerat"
-      },
-      "embedUrl": {
-        "label": "URL för inbäddning",
-        "placeholder": "https://embed.powerbi.com/groups/me/reports/{reportId}",
-        "description": "URL:en som används för att bädda in rapportartefakter i externa verktyg"
+        "missingConfiguration": "Widgetkonfigurationen saknas eller är ogiltig",
+        "missingAdapter": "Se till att Power BI-kortet är installerat och konfigurerat",
+        "missingReportConfiguration": "Konfigurera widget för att visa information"
       }
     }
   },

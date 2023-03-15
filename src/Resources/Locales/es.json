@@ -659,7 +659,7 @@
     "powerBI": {
       "title": "Widget de Power BI",
       "libraryName": "Power BI Visual",
-      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
+      "description": "Insertar un objeto visual o un icono de Power BI",
       "type": {
         "label": "Tipo",
         "options": {
@@ -669,8 +669,14 @@
           "visual": "Visual"
         }
       },
+      "embedUrl": {
+        "label": "URL de inserción",
+        "placeholder": "Introduzca la URL",
+        "description": "Esta dirección URL se usa para incrustar artefactos de informe en herramientas externas",
+        "tooltip": "Este campo es necesario para la selección de páginas y nombres visuales"
+      },
       "pageName": {
-        "label": "Nombre de página",
+        "label": "Nombre de la página",
         "placeholder": "Nombre de la página"
       },
       "visualName": {
@@ -682,14 +688,9 @@
         "label": "Filtros de datos"
       },
       "errors": {
-        "missingReportConfiguration": "Asegúrese de que su widget esté configurado correctamente",
         "missingConfiguration": "Falta la configuración del widget o no es válida",
-        "missingAdapter": "Asegúrese de que el adaptador de Power BI esté instalado y configurado"
-      },
-      "embedUrl": {
-        "label": "URL de inserción",
-        "placeholder": "https://embed.powerbi.com/groups/me/reports/{reportId}",
-        "description": "La dirección URL utilizada para incrustar artefactos de informe en herramientas externas"
+        "missingAdapter": "Asegúrese de que el adaptador de Power BI esté instalado y configurado",
+        "missingReportConfiguration": "Configurar widget para mostrar detalles"
       }
     }
   },

@@ -8,7 +8,8 @@ export const classPrefix = 'cb-powerbiwidget';
 const classNames = {
     root: `${classPrefix}-root`,
     header: `${classPrefix}-header`,
-    description: `${classPrefix}-description`
+    description: `${classPrefix}-description`,
+    error: `${classPrefix}-error`
 };
 export const getStyles = (
     props: IPowerBIWidgetStyleProps
@@ -40,6 +41,17 @@ export const getStyles = (
             {
                 fontSize: FontSizes.medium,
                 marginTop: '0 !important'
+            }
+        ],
+        error: [
+            classNames.error,
+            {
+                width: '100%',
+                height: '100%',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                fontSize: FontSizes.size12
             }
         ],
         subComponentStyles: {}

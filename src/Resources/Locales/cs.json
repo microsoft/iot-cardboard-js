@@ -659,7 +659,7 @@
     "powerBI": {
       "title": "Widget Power BI",
       "libraryName": "Vizuál Power BI",
-      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
+      "description": "Vložení vizuálu nebo dlaždice Power BI",
       "type": {
         "label": "Typ",
         "options": {
@@ -668,6 +668,12 @@
           "tile": "Dlaždice",
           "visual": "Vizuální"
         }
+      },
+      "embedUrl": {
+        "label": "Adresa URL pro vložení",
+        "placeholder": "Zadejte adresu URL",
+        "description": "Tato adresa URL se používá k vložení artefaktů sestavy do externích nástrojů",
+        "tooltip": "Toto pole je povinné pro výběr názvu stránky a vizuálu"
       },
       "pageName": {
         "label": "Název stránky",
@@ -682,14 +688,9 @@
         "label": "Filtry dat"
       },
       "errors": {
-        "missingReportConfiguration": "Ujistěte se, že je váš widget správně nakonfigurován",
         "missingConfiguration": "Konfigurace widgetu chybí nebo je neplatná",
-        "missingAdapter": "Ujistěte se, že je adaptér Power BI nainstalovaný a nakonfigurovaný"
-      },
-      "embedUrl": {
-        "label": "Adresa URL pro vložení",
-        "placeholder": "https://embed.powerbi.com/groups/me/reports/{reportId}",
-        "description": "Adresa URL použitá k vložení artefaktů sestavy do externích nástrojů"
+        "missingAdapter": "Ujistěte se, že je adaptér Power BI nainstalovaný a nakonfigurovaný",
+        "missingReportConfiguration": "Konfigurace widgetu pro zobrazení podrobností"
       }
     }
   },
