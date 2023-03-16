@@ -1104,7 +1104,11 @@
       "3dAssetDimensionError": "모델 치수에 문제가있을 수 있으므로 잘못된 메쉬가 없는지 확인하십시오."
     },
     "missingPermissionsMessage": "사용 권한이 누락되었습니다. 최소한 읽기 권한자로, 저장소 Blob 데이터 소유자 또는 저장소 Blob 데이터 기여자로 액세스해야 합니다.",
-    "networkErrorMessage": "CORS 문제, 잘못된 URL 또는 네트워크 오류일 수 있습니다. 리소스 소유자에게 문의하거나 나중에 다시 시도하세요."
+    "networkErrorMessage": "CORS 문제, 잘못된 URL 또는 네트워크 오류일 수 있습니다. 리소스 소유자에게 문의하거나 나중에 다시 시도하세요.",
+    "partialCorsErrorTitle": "CORS 업데이트 필요",
+    "partialCorsErrorMessage": "최근 기능 변경으로 인해 장면에서 3D 자산을 계속 사용할 수 있도록 스토리지 계정에서 업데이트해야 하는 몇 가지 CORS 규칙이 있습니다.",
+    "networkErrorTitle": "연결 오류",
+    "applyUpdates": "업데이트 적용"
   },
   "fieldRequired": "이 필드는 필수입니다.",
   "OATGraphViewer": {

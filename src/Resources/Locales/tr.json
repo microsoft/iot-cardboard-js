@@ -1104,7 +1104,11 @@
       "3dAssetDimensionError": "Model boyutlarınızla ilgili bir sorun olabilir, lütfen hatalı kafes olmadığından emin olun."
     },
     "missingPermissionsMessage": "Eksik izinleriniz var. Okuyucu (en azından) ve Depolama Blobu Veri Sahibi veya Depolama Blobu Veri Katılımcısı olarak erişime ihtiyacınız olacaktır.",
-    "networkErrorMessage": "Bu bir CORS sorunu, geçersiz URL veya ağ hatası olabilir. Lütfen kaynağın sahibine başvurun veya daha sonra yeniden deneyin."
+    "networkErrorMessage": "Bu bir CORS sorunu, geçersiz URL veya ağ hatası olabilir. Lütfen kaynağın sahibine başvurun veya daha sonra yeniden deneyin.",
+    "partialCorsErrorTitle": "CORS güncellemesi gerekli",
+    "partialCorsErrorMessage": "Son özellik değişiklikleri nedeniyle, sahnelerinizde 3B varlıkları kullanmaya devam edebilmek için depolama hesabınızda güncelleştirilmesi gereken bazı CORS kuralları vardır.",
+    "networkErrorTitle": "Bağlantı hatası",
+    "applyUpdates": "Güncellemeleri uygulama"
   },
   "fieldRequired": "Bu alan zorunludur",
   "OATGraphViewer": {

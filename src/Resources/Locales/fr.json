@@ -1104,7 +1104,11 @@
       "3dAssetDimensionError": "Il peut y avoir un problème avec les dimensions de votre modèle, veuillez vérifier qu’il n’y a pas de maillages erronés."
     },
     "missingPermissionsMessage": "Vous avez des autorisations manquantes. Vous aurez besoin d’un accès en tant que lecteur (au minimum) et soit propriétaire des données d’objet blob de stockage, soit contributeur de données d’objets blob de stockage.",
-    "networkErrorMessage": "Il peut s’agir d’un problème CORS, d’une URL non valide ou d’une erreur réseau. Veuillez contacter le propriétaire de la ressource ou réessayer plus tard."
+    "networkErrorMessage": "Il peut s’agir d’un problème CORS, d’une URL non valide ou d’une erreur réseau. Veuillez contacter le propriétaire de la ressource ou réessayer plus tard.",
+    "partialCorsErrorTitle": "Mise à jour CORS requise",
+    "partialCorsErrorMessage": "En raison des modifications récentes apportées aux fonctionnalités, certaines règles CORS doivent être mises à jour sur votre compte de stockage pour pouvoir continuer à utiliser des ressources 3D dans vos scènes.",
+    "networkErrorTitle": "Erreur de connexion",
+    "applyUpdates": "Appliquer les mises à jour"
   },
   "fieldRequired": "Ce champ est obligatoire",
   "OATGraphViewer": {

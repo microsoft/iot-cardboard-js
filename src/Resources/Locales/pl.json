@@ -1104,7 +1104,11 @@
       "3dAssetDimensionError": "Może wystąpić problem z wymiarami modelu, sprawdź, czy nie ma błędnych siatek."
     },
     "missingPermissionsMessage": "Brakuje Ci uprawnień. Będziesz potrzebować dostępu jako czytelnik (co najmniej) i właściciel danych obiektów blob magazynu lub współtwórca danych obiektów blob magazynu.",
-    "networkErrorMessage": "Może to być problem z CORS, nieprawidłowy adres URL lub błąd sieci. Skontaktuj się z właścicielem zasobu lub spróbuj ponownie później."
+    "networkErrorMessage": "Może to być problem z CORS, nieprawidłowy adres URL lub błąd sieci. Skontaktuj się z właścicielem zasobu lub spróbuj ponownie później.",
+    "partialCorsErrorTitle": "Wymagana aktualizacja CORS",
+    "partialCorsErrorMessage": "Ze względu na ostatnie zmiany funkcji istnieją pewne reguły CORS, które należy zaktualizować na koncie magazynu, aby móc nadal używać zasobów 3D w scenach.",
+    "networkErrorTitle": "Błąd połączenia",
+    "applyUpdates": "Stosowanie aktualizacji"
   },
   "fieldRequired": "To pole jest wymagane",
   "OATGraphViewer": {

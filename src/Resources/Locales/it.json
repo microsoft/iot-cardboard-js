@@ -1104,7 +1104,11 @@
       "3dAssetDimensionError": "Potrebbe esserci un problema con le dimensioni del modello, si prega di verificare che non ci siano maglie errate."
     },
     "missingPermissionsMessage": "Mancano le autorizzazioni. Sarà necessario accedere come lettore (come minimo) e proprietario dei dati BLOB di archiviazione o collaboratore dei dati BLOB di archiviazione.",
-    "networkErrorMessage": "Potrebbe trattarsi di un problema CORS, di un URL non valido o di un errore di rete. Contatta il proprietario della risorsa o riprova più tardi."
+    "networkErrorMessage": "Potrebbe trattarsi di un problema CORS, di un URL non valido o di un errore di rete. Contatta il proprietario della risorsa o riprova più tardi.",
+    "partialCorsErrorTitle": "Aggiornamento CORS richiesto",
+    "partialCorsErrorMessage": "A causa delle recenti modifiche apportate alle funzionalità, è necessario aggiornare alcune regole CORS nell'account di archiviazione per poter continuare a utilizzare le risorse 3D nelle scene.",
+    "networkErrorTitle": "Errore di connessione",
+    "applyUpdates": "Applicare aggiornamenti"
   },
   "fieldRequired": "Questo campo è obbligatorio",
   "OATGraphViewer": {

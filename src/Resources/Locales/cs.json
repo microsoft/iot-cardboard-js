@@ -1135,7 +1135,11 @@
       "3dAssetDimensionError": "Může se jednat o problém s rozměry modelu, zkontrolujte, zda nejsou žádné chybné sítě."
     },
     "missingPermissionsMessage": "Chybí vám oprávnění. Budete potřebovat přístup jako čtenář (minimálně) a buď vlastník dat objektů BLOB úložiště, nebo přispěvatel dat objektů BLOB úložiště.",
-    "networkErrorMessage": "Může se jednat o problém CORS, neplatnou adresu URL nebo chybu sítě. Obraťte se na vlastníka prostředku nebo akci opakujte později."
+    "networkErrorMessage": "Může se jednat o problém CORS, neplatnou adresu URL nebo chybu sítě. Obraťte se na vlastníka prostředku nebo akci opakujte později.",
+    "partialCorsErrorTitle": "Je vyžadována aktualizace CORS",
+    "partialCorsErrorMessage": "Vzhledem k nedávným změnám funkcí je potřeba v účtu úložiště aktualizovat některá pravidla CORS, aby bylo možné ve scénách dál používat 3D datové zdroje.",
+    "networkErrorTitle": "Chyba připojení",
+    "applyUpdates": "Použití aktualizací"
   },
   "fieldRequired": "Toto pole je povinné",
   "duration": {
