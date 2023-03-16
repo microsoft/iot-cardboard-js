@@ -326,12 +326,14 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
                 type: ADT3DScenePageActionTypes.SET_ERRORS,
                 payload: { errors: nullContainerError }
             });
+            errorCallbackSetRef.current = false;
         }
         if (!deeplinkState.adtUrl || deeplinkState.adtUrl === '') {
             dispatch({
                 type: ADT3DScenePageActionTypes.SET_ERRORS,
                 payload: { errors: nullAdtInstanceError }
             });
+            errorCallbackSetRef.current = false;
         }
     }, [deeplinkState.storageUrl, deeplinkState.adtUrl]);
 
@@ -342,6 +344,10 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
             dispatch({
                 type: ADT3DScenePageActionTypes.SET_ADT_SCENE_CONFIG,
                 payload: { scenesConfig: config }
+            });
+            dispatch({
+                type: ADT3DScenePageActionTypes.SET_ERRORS,
+                payload: { errors: [] }
             });
         } else {
             dispatch({
@@ -355,11 +361,7 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
                 type: ADT3DScenePageActionTypes.SET_ERRORS,
                 payload: { errors }
             });
-        } else {
-            dispatch({
-                type: ADT3DScenePageActionTypes.SET_ERRORS,
-                payload: { errors: [] }
-            });
+            errorCallbackSetRef.current = false;
         }
     }, [scenesConfig.adapterResult]);
 
