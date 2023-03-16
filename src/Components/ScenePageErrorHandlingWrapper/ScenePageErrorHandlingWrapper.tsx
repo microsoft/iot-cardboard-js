@@ -46,6 +46,29 @@ const ScenePageErrorHandlingWrapper: React.FC<ScenePageErrorHandlingWrapperProps
                     />
                 );
                 break;
+            case ComponentErrorType.SetCorsPropertiesNotAuthorized: // currently this specific type or error is handled only for blob service responses and handled differently by an internal component as multiple steps required to resolve
+                content = (
+                    <IllustrationMessage
+                        headerText={t(
+                            'scenePageErrorHandling.unauthorizedAccessErrorTitle'
+                        )}
+                        descriptionText={t(
+                            'scenePageErrorHandling.setCorsPropertiesNotAuthorizedMessage'
+                        )}
+                        type={'error'}
+                        width={'wide'}
+                        imageProps={{
+                            src: PriviledgedAccessImg,
+                            height: 200
+                        }}
+                        buttonProps={{
+                            onClick: primaryClickAction.onClick,
+                            text: primaryClickAction.buttonText
+                        }}
+                        styles={{ container: { height: 'auto', flexGrow: 1 } }}
+                    />
+                );
+                break;
             case ComponentErrorType.UnauthorizedAccess: // currently this specific type or error is handled only for blob service responses and handled differently by an internal component as multiple steps required to resolve
                 content = (
                     <UnauthorizedAccessHandling

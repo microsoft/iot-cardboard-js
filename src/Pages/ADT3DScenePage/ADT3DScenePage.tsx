@@ -71,6 +71,12 @@ const nullAdtInstanceError: IComponentError[] = [
         type: ComponentErrorType.NoADTInstanceUrl
     }
 ];
+// Set cors properties perm error which is a special case of UnauthorizedAccess error
+const setCorsPropertiesNotAuthorizedError: IComponentError[] = [
+    {
+        type: ComponentErrorType.SetCorsPropertiesNotAuthorized
+    }
+];
 
 const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
     adapter,
@@ -465,6 +471,25 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
                         }
                     }
                 });
+            } else if (
+                state?.errors?.[0]?.type ===
+                    ComponentErrorType.SetCorsPropertiesNotAuthorized &&
+                !errorCallbackSetRef.current
+            ) {
+                // mark that we already set the callback so we don't get an infinite loop of setting
+                errorCallbackSetRef.current = true;
+                dispatch({
+                    type: ADT3DScenePageActionTypes.SET_ERROR_CALLBACK,
+                    payload: {
+                        errorCallback: {
+                            buttonText: t('learnMore'),
+                            buttonAction: () => {
+                                window.open(DOCUMENTATION_LINKS.storageCORS);
+                                errorCallbackSetRef.current = false;
+                            }
+                        }
+                    }
+                });
             } else if (!errorCallbackSetRef.current) {
                 // mark that we already set the callback so we don't get an infinite loop of setting
                 errorCallbackSetRef.current = true;
@@ -539,10 +564,17 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
             scenesConfig.callAdapter();
         } else if (setCorsPropertiesAdapterData?.adapterResult.getErrors()) {
             const errors: Array<IComponentError> = setCorsPropertiesAdapterData?.adapterResult.getErrors();
-            dispatch({
-                type: ADT3DScenePageActionTypes.SET_ERRORS,
-                payload: { errors: errors }
-            });
+            if (errors[0].type === ComponentErrorType.UnauthorizedAccess) {
+                dispatch({
+                    type: ADT3DScenePageActionTypes.SET_ERRORS,
+                    payload: { errors: setCorsPropertiesNotAuthorizedError }
+                });
+            } else {
+                dispatch({
+                    type: ADT3DScenePageActionTypes.SET_ERRORS,
+                    payload: { errors: errors }
+                });
+            }
             errorCallbackSetRef.current = false;
         }
     }, [setCorsPropertiesAdapterData?.adapterResult]);

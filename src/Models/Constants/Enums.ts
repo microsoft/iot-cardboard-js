@@ -60,7 +60,8 @@ export enum ComponentErrorType {
     NoADTInstanceUrl = 'NoADTInstanceUrl',
     ConnectionError = 'ConnectionError',
     BadRequestException = 'BadRequestException',
-    TimeSeriesDatabaseConnectionFetchFailed = 'TimeSeriesDatabaseConnectionFetchFailed'
+    TimeSeriesDatabaseConnectionFetchFailed = 'TimeSeriesDatabaseConnectionFetchFailed',
+    SetCorsPropertiesNotAuthorized = 'SetCorsPropertiesNotAuthorized' // specific UnauthorizedAccess error
 }
 
 export enum ErrorImages {

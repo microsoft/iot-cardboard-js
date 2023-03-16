@@ -1363,6 +1363,7 @@
         "networkErrorTitle": "Connection error",
         "networkErrorMessage": "This could be a CORS issue, invalid url or a network error. Please contact the owner of the resource or try again later.",
         "applyUpdates": "Apply updates",
+        "setCorsPropertiesNotAuthorizedMessage": "You do not have access to the storage account to make this change. Please contact the resource owner to make the required changes on CORS settings of the storage account.",
         "sceneView": {
             "3dAssetLoadingErrorTitle": "Error loading model",
             "3dAssetLoadingNetworkErrorMessage": "This could be a CORS issue, invalid blob url or a network error. Please contact the owner of the container where this asset file is stored or try again later.",
