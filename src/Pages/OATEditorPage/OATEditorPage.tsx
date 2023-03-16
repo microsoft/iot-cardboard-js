@@ -36,7 +36,7 @@ const OATEditorPageContent: React.FC<IOATEditorPageProps> = (props) => {
     // hooks
     const { sendEventTelemetry } = useTelemetry();
     useEffect(() => {
-        if (!isMounted) {
+        if (!isMounted.current) {
             sendEventTelemetry({
                 name: TelemetryEvents.init,
                 triggerType: TelemetryTrigger.SystemAction,
