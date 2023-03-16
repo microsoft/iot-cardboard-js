@@ -1104,7 +1104,11 @@
       "3dAssetDimensionError": "Probléma lehet a modell méreteivel, kérjük, ellenőrizze, hogy nincsenek-e hibás hálók."
     },
     "missingPermissionsMessage": "Hiányzó engedélyekkel rendelkezik. Olvasóként (legalább) és Storage Blob Data Contributorként kell hozzáférnie, és Storage Blob Data Contributorként kell hozzáférnie.",
-    "networkErrorMessage": "Ez lehet CORS-probléma, érvénytelen URL vagy hálózati hiba. Lépjen kapcsolatba az erőforrás tulajdonosával, vagy próbálkozzon újra később."
+    "networkErrorMessage": "Ez lehet CORS-probléma, érvénytelen URL vagy hálózati hiba. Lépjen kapcsolatba az erőforrás tulajdonosával, vagy próbálkozzon újra később.",
+    "partialCorsErrorTitle": "CORS-frissítés szükséges",
+    "partialCorsErrorMessage": "A funkciók legutóbbi változásai miatt vannak olyan CORS-szabályok, amelyeket frissíteni kell a tárfiókon, hogy továbbra is használhassa a 3D-s kellékeket a jelenetekben.",
+    "networkErrorTitle": "Csatlakozási hiba",
+    "applyUpdates": "Frissítések alkalmazása"
   },
   "fieldRequired": "A mező kitöltése kötelező",
   "OATGraphViewer": {

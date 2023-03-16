@@ -1104,7 +1104,11 @@
       "3dAssetDimensionError": "Möglicherweise liegt ein Problem mit den Abmessungen Ihres Modells vor, bitte überprüfen Sie, ob keine fehlerhaften Netze vorhanden sind."
     },
     "missingPermissionsMessage": "Sie haben fehlende Berechtigungen. Sie benötigen Zugriff als Reader (mindestens) und entweder als Storage Blob Data Owner oder Storage Blob Data Contributor.",
-    "networkErrorMessage": "Dies kann ein CORS-Problem, eine ungültige URL oder ein Netzwerkfehler sein. Wenden Sie sich an den Besitzer der Ressource oder versuchen Sie es später erneut."
+    "networkErrorMessage": "Dies kann ein CORS-Problem, eine ungültige URL oder ein Netzwerkfehler sein. Wenden Sie sich an den Besitzer der Ressource oder versuchen Sie es später erneut.",
+    "partialCorsErrorTitle": "CORS-Aktualisierung erforderlich",
+    "partialCorsErrorMessage": "Aufgrund der jüngsten Funktionsänderungen gibt es einige CORS-Regeln, die in Ihrem Speicherkonto aktualisiert werden müssen, um weiterhin 3D-Assets in Ihren Szenen verwenden zu können.",
+    "networkErrorTitle": "Verbindungsfehler",
+    "applyUpdates": "Anwenden von Updates"
   },
   "fieldRequired": "Dieses Feld ist ein Pflichtfeld",
   "OATGraphViewer": {

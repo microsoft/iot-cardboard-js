@@ -1104,7 +1104,11 @@
       "3dAssetDimensionError": "Det kan finnas ett problem med dina modelldimensioner, kontrollera att det inte finns några felaktiga maskor."
     },
     "missingPermissionsMessage": "Du saknar behörigheter. Du behöver åtkomst som läsare (minst) och antingen Storage Blob Data-ägare eller Storage Blob Data-deltagare.",
-    "networkErrorMessage": "Detta kan vara ett CORS-problem, ogiltig url eller ett nätverksfel. Kontakta resursens ägare eller försök igen senare."
+    "networkErrorMessage": "Detta kan vara ett CORS-problem, ogiltig url eller ett nätverksfel. Kontakta resursens ägare eller försök igen senare.",
+    "partialCorsErrorTitle": "CORS-uppdatering krävs",
+    "partialCorsErrorMessage": "På grund av de senaste funktionsändringarna finns det vissa CORS-regler som måste uppdateras på ditt lagringskonto för att kunna fortsätta använda 3D-resurser i dina scener.",
+    "networkErrorTitle": "Fel vid anslutning",
+    "applyUpdates": "Tillämpa uppdateringar"
   },
   "fieldRequired": "Det här fältet är obligatoriskt",
   "OATGraphViewer": {
