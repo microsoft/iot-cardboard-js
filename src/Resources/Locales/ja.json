@@ -1108,7 +1108,8 @@
     "partialCorsErrorTitle": "CORS の更新が必要",
     "partialCorsErrorMessage": "最近の機能変更により、シーンで 3D アセットを引き続き使用できるようにするには、ストレージ アカウントで更新する必要がある CORS ルールがいくつかあります。",
     "networkErrorTitle": "接続エラー",
-    "applyUpdates": "更新プログラムの適用"
+    "applyUpdates": "更新プログラムの適用",
+    "setCorsPropertiesNotAuthorizedMessage": "この変更を行うためのストレージ アカウントへのアクセス権がありません。リソース所有者に連絡して、ストレージ アカウントの CORS 設定に必要な変更を加えてください。"
   },
   "fieldRequired": "このフィールドは必須です",
   "OATGraphViewer": {

@@ -1108,7 +1108,8 @@
     "partialCorsErrorTitle": "CORS-uppdatering krävs",
     "partialCorsErrorMessage": "På grund av de senaste funktionsändringarna finns det vissa CORS-regler som måste uppdateras på ditt lagringskonto för att kunna fortsätta använda 3D-resurser i dina scener.",
     "networkErrorTitle": "Fel vid anslutning",
-    "applyUpdates": "Tillämpa uppdateringar"
+    "applyUpdates": "Tillämpa uppdateringar",
+    "setCorsPropertiesNotAuthorizedMessage": "Du har inte åtkomst till lagringskontot för att göra den här ändringen. Kontakta resursägaren för att göra de ändringar som krävs i CORS-inställningarna för lagringskontot."
   },
   "fieldRequired": "Det här fältet är obligatoriskt",
   "OATGraphViewer": {

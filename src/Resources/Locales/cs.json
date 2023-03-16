@@ -1139,7 +1139,8 @@
     "partialCorsErrorTitle": "Je vyžadována aktualizace CORS",
     "partialCorsErrorMessage": "Vzhledem k nedávným změnám funkcí je potřeba v účtu úložiště aktualizovat některá pravidla CORS, aby bylo možné ve scénách dál používat 3D datové zdroje.",
     "networkErrorTitle": "Chyba připojení",
-    "applyUpdates": "Použití aktualizací"
+    "applyUpdates": "Použití aktualizací",
+    "setCorsPropertiesNotAuthorizedMessage": "K provedení této změny nemáte přístup k účtu úložiště. Obraťte se na vlastníka prostředku a proveďte požadované změny nastavení CORS účtu úložiště."
   },
   "fieldRequired": "Toto pole je povinné",
   "duration": {

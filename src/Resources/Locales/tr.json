@@ -1108,7 +1108,8 @@
     "partialCorsErrorTitle": "CORS güncellemesi gerekli",
     "partialCorsErrorMessage": "Son özellik değişiklikleri nedeniyle, sahnelerinizde 3B varlıkları kullanmaya devam edebilmek için depolama hesabınızda güncelleştirilmesi gereken bazı CORS kuralları vardır.",
     "networkErrorTitle": "Bağlantı hatası",
-    "applyUpdates": "Güncellemeleri uygulama"
+    "applyUpdates": "Güncellemeleri uygulama",
+    "setCorsPropertiesNotAuthorizedMessage": "Bu değişikliği yapmak için depolama hesabına erişiminiz yok. Depolama hesabının CORS ayarlarında gerekli değişiklikleri yapmak için lütfen kaynak sahibine başvurun."
   },
   "fieldRequired": "Bu alan zorunludur",
   "OATGraphViewer": {
