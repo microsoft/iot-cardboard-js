@@ -113,11 +113,7 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
     const scenesConfig = useAdapter({
         adapterMethod: () => adapter.getScenesConfig(),
         isAdapterCalledOnMount: false, // don't fetch scenes config until making sure cors is all good with getCorsPropertiesAdapterData call
-        refetchDependencies: [
-            adapter,
-            deeplinkState.storageUrl,
-            state.selectedScene
-        ]
+        refetchDependencies: []
     });
     const resetConfig = useAdapter({
         adapterMethod: () => adapter.resetSceneConfig(),
@@ -318,59 +314,48 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
         [setSelectedSceneId, setCurrentStep]
     );
 
+    useEffect(() => {
+        if (!deeplinkState.storageUrl || deeplinkState.storageUrl === '') {
+            dispatch({
+                type: ADT3DScenePageActionTypes.SET_ERRORS,
+                payload: { errors: nullContainerError }
+            });
+        }
+        if (!deeplinkState.adtUrl || deeplinkState.adtUrl === '') {
+            dispatch({
+                type: ADT3DScenePageActionTypes.SET_ERRORS,
+                payload: { errors: nullAdtInstanceError }
+            });
+        }
+    }, [deeplinkState.storageUrl, deeplinkState.adtUrl]);
+
     // store the scene config when the fetch resolves
     useEffect(() => {
-        const storageContainerNotSet =
-            !deeplinkState.storageUrl || deeplinkState.storageUrl === '';
-        const adtUrlNotSet =
-            !deeplinkState.adtUrl || deeplinkState.adtUrl === '';
-        if (
-            scenesConfig.adapterResult &&
-            (storageContainerNotSet || adtUrlNotSet)
-        ) {
-            if (storageContainerNotSet) {
-                dispatch({
-                    type: ADT3DScenePageActionTypes.SET_ERRORS,
-                    payload: { errors: nullContainerError }
-                });
-            }
-            if (adtUrlNotSet) {
-                dispatch({
-                    type: ADT3DScenePageActionTypes.SET_ERRORS,
-                    payload: { errors: nullAdtInstanceError }
-                });
-            }
+        if (!scenesConfig.adapterResult.hasNoData()) {
+            const config: I3DScenesConfig = scenesConfig.adapterResult.getData();
+            dispatch({
+                type: ADT3DScenePageActionTypes.SET_ADT_SCENE_CONFIG,
+                payload: { scenesConfig: config }
+            });
         } else {
-            if (!scenesConfig.adapterResult.hasNoData()) {
-                const config: I3DScenesConfig = scenesConfig.adapterResult.getData();
-                dispatch({
-                    type: ADT3DScenePageActionTypes.SET_ADT_SCENE_CONFIG,
-                    payload: { scenesConfig: config }
-                });
-            } else {
-                dispatch({
-                    type: ADT3DScenePageActionTypes.SET_ADT_SCENE_CONFIG,
-                    payload: { scenesConfig: null }
-                });
-            }
-            if (scenesConfig?.adapterResult.getErrors()) {
-                const errors: Array<IComponentError> = scenesConfig?.adapterResult.getErrors();
-                dispatch({
-                    type: ADT3DScenePageActionTypes.SET_ERRORS,
-                    payload: { errors }
-                });
-            } else {
-                dispatch({
-                    type: ADT3DScenePageActionTypes.SET_ERRORS,
-                    payload: { errors: [] }
-                });
-            }
+            dispatch({
+                type: ADT3DScenePageActionTypes.SET_ADT_SCENE_CONFIG,
+                payload: { scenesConfig: null }
+            });
         }
-    }, [
-        deeplinkState.adtUrl,
-        deeplinkState.storageUrl,
-        scenesConfig.adapterResult
-    ]);
+        if (scenesConfig?.adapterResult.getErrors()) {
+            const errors: Array<IComponentError> = scenesConfig?.adapterResult.getErrors();
+            dispatch({
+                type: ADT3DScenePageActionTypes.SET_ERRORS,
+                payload: { errors }
+            });
+        } else {
+            dispatch({
+                type: ADT3DScenePageActionTypes.SET_ERRORS,
+                payload: { errors: [] }
+            });
+        }
+    }, [scenesConfig.adapterResult]);
 
     // set the error callbacks for button actions of the ScenePageErrorHandlingWrapper component
     // ScenePageErrorHandlingWrapper is intended to have single action with learn more button and illustration by default if not specified otherwise
@@ -387,9 +372,9 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
                     type: ADT3DScenePageActionTypes.SET_ERROR_CALLBACK,
                     payload: {
                         errorCallback: {
-                            buttonText: t(
-                                'scenePageErrorHandling.resolveIssues'
-                            ),
+                            buttonText: state?.errors?.[0]?.isCatastrophic
+                                ? t('scenePageErrorHandling.resolveIssues')
+                                : t('scenePageErrorHandling.applyUpdates'),
                             buttonAction: async () => {
                                 setCorsPropertiesAdapterData.callAdapter();
                                 errorCallbackSetRef.current = false;
@@ -399,8 +384,7 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
                 });
             } else if (
                 state?.errors?.[0]?.type ===
-                    ComponentErrorType.DataFetchFailed &&
-                (state?.errors[0].rawError as any).request.status === 0 &&
+                    ComponentErrorType.ConnectionError &&
                 !errorCallbackSetRef.current
             ) {
                 // mark that we already set the callback so we don't get an infinite loop of setting
@@ -513,36 +497,28 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
     // otherwise if there is no issues, clear the errors and with CORS fetch scenes config
     useEffect(() => {
         if (getCorsPropertiesAdapterData?.adapterResult.getErrors()) {
-            if (!deeplinkState.storageUrl || deeplinkState.storageUrl === '') {
+            const errors: Array<IComponentError> = getCorsPropertiesAdapterData?.adapterResult.getErrors();
+            // Only set errors if it is a genuine CORSError (2xx, with invalid CORS configuration)
+            // This means we will swallow non-2xx errors when we check CORS
+            // We want to swallow all non-2xx errors on checking CORS because users could have valid access to the content of a container
+            // But may not have read access to CORS properties (which results in 403)
+            // This means that users who cannot read CORS configuration may not be able to load 3D models if CORS is misconfigured
+            if (
+                errors?.[0]?.type === ComponentErrorType.CORSError ||
+                errors?.[0]?.type === ComponentErrorType.ConnectionError // which might be due to CORS or internet connection, hard to know
+            ) {
+                errorCallbackSetRef.current = false;
                 dispatch({
                     type: ADT3DScenePageActionTypes.SET_ERRORS,
-                    payload: { errors: nullContainerError }
+                    payload: { errors }
                 });
             } else {
-                const errors: Array<IComponentError> = getCorsPropertiesAdapterData?.adapterResult.getErrors();
-                // Only set errors if it is a genuine CORSError (2xx, with invalid CORS configuration)
-                // This means we will swallow non-2xx errors when we check CORS
-                // We want to swallow all non-2xx errors on checking CORS because users could have valid access to the content of a container
-                // But may not have read access to CORS properties (which results in 403)
-                // This means that users who cannot read CORS configuration may not be able to load 3D models if CORS is misconfigured
-                if (
-                    errors?.[0]?.type === ComponentErrorType.CORSError ||
-                    (errors?.[0]?.type === ComponentErrorType.DataFetchFailed &&
-                        (errors[0].rawError as any).request.status === 0) // it means 'Network Error' which might be due to CORS or internet connection, hard to know
-                ) {
-                    errorCallbackSetRef.current = false;
-                    dispatch({
-                        type: ADT3DScenePageActionTypes.SET_ERRORS,
-                        payload: { errors }
-                    });
-                } else {
-                    dispatch({
-                        type: ADT3DScenePageActionTypes.SET_ERRORS,
-                        payload: { errors: [] }
-                    });
-                    errorCallbackSetRef.current = false;
-                    scenesConfig.callAdapter();
-                }
+                dispatch({
+                    type: ADT3DScenePageActionTypes.SET_ERRORS,
+                    payload: { errors: [] }
+                });
+                errorCallbackSetRef.current = false;
+                scenesConfig.callAdapter();
             }
         } else if (getCorsPropertiesAdapterData?.adapterResult.getData()) {
             dispatch({
@@ -552,7 +528,7 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
             errorCallbackSetRef.current = false;
             scenesConfig.callAdapter();
         }
-    }, [deeplinkState.storageUrl, getCorsPropertiesAdapterData?.adapterResult]);
+    }, [getCorsPropertiesAdapterData?.adapterResult]);
 
     // if setting CORS rules is successful fetch scenes config
     useEffect(() => {
@@ -561,6 +537,13 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
             !setCorsPropertiesAdapterData?.adapterResult.getErrors()
         ) {
             scenesConfig.callAdapter();
+        } else if (setCorsPropertiesAdapterData?.adapterResult.getErrors()) {
+            const errors: Array<IComponentError> = setCorsPropertiesAdapterData?.adapterResult.getErrors();
+            dispatch({
+                type: ADT3DScenePageActionTypes.SET_ERRORS,
+                payload: { errors: errors }
+            });
+            errorCallbackSetRef.current = false;
         }
     }, [setCorsPropertiesAdapterData?.adapterResult]);
 

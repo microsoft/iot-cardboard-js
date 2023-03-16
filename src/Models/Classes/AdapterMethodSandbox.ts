@@ -153,18 +153,32 @@ class AdapterMethodSandbox {
                     cancelToken: cancelTokenSource.token
                 });
             } catch (err) {
-                if (axios.isCancel(err)) {
+                if (err?.request.status === 0) {
                     this.pushError({
-                        type: ComponentErrorType.DataFetchFailed,
-                        isCatastrophic: false,
+                        type: ComponentErrorType.ConnectionError,
+                        isCatastrophic: axios.isCancel(err) ? false : true,
                         rawError: err
                     });
                 } else {
-                    this.pushError({
-                        type: ComponentErrorType.DataFetchFailed,
-                        isCatastrophic: true,
-                        rawError: err
-                    });
+                    switch (err?.response?.status) {
+                        case 403:
+                            this.pushError({
+                                type: ComponentErrorType.UnauthorizedAccess,
+                                isCatastrophic: axios.isCancel(err)
+                                    ? false
+                                    : true,
+                                rawError: err
+                            });
+                            break;
+                        default:
+                            this.pushError({
+                                type: ComponentErrorType.DataFetchFailed,
+                                isCatastrophic: axios.isCancel(err)
+                                    ? false
+                                    : true,
+                                rawError: err
+                            });
+                    }
                 }
             }
             const result = axiosData?.data;

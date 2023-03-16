@@ -453,6 +453,11 @@ export default class BlobAdapter implements IBlobAdapter {
                     );
                 if (hasProperOrigins && hasProperMethods && hasProperHeaders) {
                     return corsRules;
+                } else if (hasProperOrigins && hasProperMethods) {
+                    adapterMethodSandbox.pushError({
+                        type: ComponentErrorType.CORSError,
+                        isCatastrophic: false
+                    });
                 } else {
                     adapterMethodSandbox.pushError({
                         type: ComponentErrorType.CORSError,

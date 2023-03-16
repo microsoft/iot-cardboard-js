@@ -94,10 +94,20 @@ const ScenePageErrorHandlingWrapper: React.FC<ScenePageErrorHandlingWrapperProps
             case ComponentErrorType.CORSError:
                 content = (
                     <IllustrationMessage
-                        headerText={t('scenePageErrorHandling.corsErrorTitle')}
-                        descriptionText={t(
-                            'scenePageErrorHandling.corsErrorMessage'
-                        )}
+                        headerText={
+                            errors?.[0]?.isCatastrophic
+                                ? t('scenePageErrorHandling.corsErrorTitle')
+                                : t(
+                                      'scenePageErrorHandling.partialCorsErrorTitle'
+                                  )
+                        }
+                        descriptionText={
+                            errors?.[0]?.isCatastrophic
+                                ? t('scenePageErrorHandling.corsErrorMessage')
+                                : t(
+                                      'scenePageErrorHandling.partialCorsErrorMessage'
+                                  )
+                        }
                         type={'error'}
                         width={'wide'}
                         imageProps={{
@@ -177,18 +187,35 @@ const ScenePageErrorHandlingWrapper: React.FC<ScenePageErrorHandlingWrapperProps
                     />
                 );
                 break;
+            case ComponentErrorType.ConnectionError:
+                content = (
+                    <IllustrationMessage
+                        headerText={t(
+                            'scenePageErrorHandling.networkErrorTitle'
+                        )}
+                        descriptionText={t(
+                            'scenePageErrorHandling.networkErrorMessage'
+                        )}
+                        type={'error'}
+                        width={'wide'}
+                        imageProps={{
+                            src: CorsErrorImg,
+                            height: 200
+                        }}
+                        buttonProps={{
+                            onClick: primaryClickAction.onClick,
+                            text: primaryClickAction.buttonText
+                        }}
+                    />
+                );
+                break;
             default:
                 content = (
                     <IllustrationMessage
                         headerText={errors?.[0]?.name}
                         descriptionText={
-                            (errors?.[0]?.rawError as any)?.request?.status ===
-                            0 // network error which can be due to CORS, invalid url or internet connectivity, hard to know
-                                ? t(
-                                      'scenePageErrorHandling.networkErrorMessage'
-                                  )
-                                : errors?.[0]?.rawError?.message ??
-                                  errors?.[0]?.message
+                            errors?.[0]?.rawError?.message ??
+                            errors?.[0]?.message
                         }
                         type={'error'}
                         width={'wide'}

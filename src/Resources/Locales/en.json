@@ -1341,6 +1341,8 @@
         "unknownErrorTitle": "Unknown error",
         "corsErrorTitle": "CORS error",
         "corsErrorMessage": "Your storage account needs to have certain CORS properties enabled to be able to use 3D assets in your scenes.",
+        "partialCorsErrorTitle": "CORS update required",
+        "partialCorsErrorMessage": "Due to recent feature changes, there are some CORS rules which need to be updated on your storage account to be able to continue using 3D assets in your scenes.",
         "internalServerErrorMessage": "Internal server error, please check server logs.",
         "diagnoseAccessPermissions": "Diagnose access permissions",
         "checkingPermissions": "Checking permissions...",
@@ -1358,7 +1360,9 @@
         "noADTInstanceUrlTitle": "ADT instance not set",
         "noADTInstanceUrlMessage": "Your ADT instance url is not set. Click below to set it.",
         "configureEnvironment": "Configure environment",
+        "networkErrorTitle": "Connection error",
         "networkErrorMessage": "This could be a CORS issue, invalid url or a network error. Please contact the owner of the resource or try again later.",
+        "applyUpdates": "Apply updates",
         "sceneView": {
             "3dAssetLoadingErrorTitle": "Error loading model",
             "3dAssetLoadingNetworkErrorMessage": "This could be a CORS issue, invalid blob url or a network error. Please contact the owner of the container where this asset file is stored or try again later.",
