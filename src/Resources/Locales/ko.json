@@ -1108,7 +1108,8 @@
     "partialCorsErrorTitle": "CORS 업데이트 필요",
     "partialCorsErrorMessage": "최근 기능 변경으로 인해 장면에서 3D 자산을 계속 사용할 수 있도록 스토리지 계정에서 업데이트해야 하는 몇 가지 CORS 규칙이 있습니다.",
     "networkErrorTitle": "연결 오류",
-    "applyUpdates": "업데이트 적용"
+    "applyUpdates": "업데이트 적용",
+    "setCorsPropertiesNotAuthorizedMessage": "이 변경을 수행하기 위해 저장소 계정에 액세스할 수 없습니다. 리소스 소유자에게 문의하여 스토리지 계정의 CORS 설정에 필요한 변경을 수행하세요."
   },
   "fieldRequired": "이 필드는 필수입니다.",
   "OATGraphViewer": {

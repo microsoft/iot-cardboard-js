@@ -1108,7 +1108,8 @@
     "partialCorsErrorTitle": "Se requiere actualización de CORS",
     "partialCorsErrorMessage": "Debido a los recientes cambios en las funciones, hay algunas reglas de CORS que deben actualizarse en su cuenta de almacenamiento para poder seguir utilizando activos 3D en sus escenas.",
     "networkErrorTitle": "Error de conexión",
-    "applyUpdates": "Aplicar actualizaciones"
+    "applyUpdates": "Aplicar actualizaciones",
+    "setCorsPropertiesNotAuthorizedMessage": "No tiene acceso a la cuenta de almacenamiento para realizar este cambio. Póngase en contacto con el propietario del recurso para realizar los cambios necesarios en la configuración de CORS de la cuenta de almacenamiento."
   },
   "fieldRequired": "Este campo es obligatorio",
   "OATGraphViewer": {

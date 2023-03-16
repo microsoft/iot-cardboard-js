@@ -1108,7 +1108,8 @@
     "partialCorsErrorTitle": "CORS-update vereist",
     "partialCorsErrorMessage": "Vanwege recente functiewijzigingen zijn er enkele CORS-regels die moeten worden bijgewerkt in uw opslagaccount om 3D-elementen in uw scènes te kunnen blijven gebruiken.",
     "networkErrorTitle": "Verbindingsfout",
-    "applyUpdates": "Updates toepassen"
+    "applyUpdates": "Updates toepassen",
+    "setCorsPropertiesNotAuthorizedMessage": "U hebt geen toegang tot het opslagaccount om deze wijziging aan te brengen. Neem contact op met de eigenaar van de bron om de vereiste wijzigingen aan te brengen in de CORS-instellingen van het opslagaccount."
   },
   "fieldRequired": "Dit veld is verplicht",
   "OATGraphViewer": {

@@ -1108,7 +1108,8 @@
     "partialCorsErrorTitle": "Aggiornamento CORS richiesto",
     "partialCorsErrorMessage": "A causa delle recenti modifiche apportate alle funzionalità, è necessario aggiornare alcune regole CORS nell'account di archiviazione per poter continuare a utilizzare le risorse 3D nelle scene.",
     "networkErrorTitle": "Errore di connessione",
-    "applyUpdates": "Applicare aggiornamenti"
+    "applyUpdates": "Applicare aggiornamenti",
+    "setCorsPropertiesNotAuthorizedMessage": "Non si dispone dell'accesso all'account di archiviazione per apportare questa modifica. Contattare il proprietario della risorsa per apportare le modifiche necessarie alle impostazioni CORS dell'account di archiviazione."
   },
   "fieldRequired": "Questo campo è obbligatorio",
   "OATGraphViewer": {
