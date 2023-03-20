@@ -426,7 +426,7 @@ export default class ADTAdapter implements IADTAdapter {
                     const id = event.dtId;
                     const config: AxiosRequestConfig = {
                         method: 'patch',
-                        url: this.generateUrl(`/digitaltiwns/${id}`),
+                        url: this.generateUrl(`/digitaltwins/${id}`),
                         data: event.patchJSON,
                         headers: this.generateHeaders({
                             'Content-Type': 'application/json',
