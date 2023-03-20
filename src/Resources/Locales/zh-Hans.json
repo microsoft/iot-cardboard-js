@@ -1106,10 +1106,10 @@
     "missingPermissionsMessage": "您缺少权限。需要以读取者身份（至少）和存储 Blob 数据所有者或存储 Blob 数据参与者进行访问。",
     "networkErrorMessage": "这可能是 CORS 问题、无效 URL 或网络错误。请与资源的所有者联系，或稍后重试。",
     "partialCorsErrorTitle": "需要更新 CORS",
-    "partialCorsErrorMessage": "由于最近的功能更改，需要在存储帐户上更新一些 CORS 规则，以便能够继续在场景中使用 3D 资产。",
     "networkErrorTitle": "连接错误",
     "applyUpdates": "应用更新",
-    "setCorsPropertiesNotAuthorizedMessage": "你无权访问存储帐户以进行此更改。请联系资源所有者，对存储帐户的 CORS 设置进行所需的更改。"
+    "setCorsPropertiesNotAuthorizedMessage": "你无权访问存储帐户以进行此更改。请联系资源所有者，对存储帐户的 CORS 设置进行所需的更改。",
+    "partialCorsErrorMessag": "为了继续使用 3D 场景，需要在存储帐户上更新一些 CORS 规则。"
   },
   "fieldRequired": "此字段为必填项",
   "OATGraphViewer": {

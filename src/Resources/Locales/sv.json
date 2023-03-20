@@ -1106,10 +1106,10 @@
     "missingPermissionsMessage": "Du saknar behörigheter. Du behöver åtkomst som läsare (minst) och antingen Storage Blob Data-ägare eller Storage Blob Data-deltagare.",
     "networkErrorMessage": "Detta kan vara ett CORS-problem, ogiltig url eller ett nätverksfel. Kontakta resursens ägare eller försök igen senare.",
     "partialCorsErrorTitle": "CORS-uppdatering krävs",
-    "partialCorsErrorMessage": "På grund av de senaste funktionsändringarna finns det vissa CORS-regler som måste uppdateras på ditt lagringskonto för att kunna fortsätta använda 3D-resurser i dina scener.",
     "networkErrorTitle": "Fel vid anslutning",
     "applyUpdates": "Tillämpa uppdateringar",
-    "setCorsPropertiesNotAuthorizedMessage": "Du har inte åtkomst till lagringskontot för att göra den här ändringen. Kontakta resursägaren för att göra de ändringar som krävs i CORS-inställningarna för lagringskontot."
+    "setCorsPropertiesNotAuthorizedMessage": "Du har inte åtkomst till lagringskontot för att göra den här ändringen. Kontakta resursägaren för att göra de ändringar som krävs i CORS-inställningarna för lagringskontot.",
+    "partialCorsErrorMessag": "För att kunna fortsätta använda 3D-scener finns det vissa CORS-regler som måste uppdateras på ditt lagringskonto."
   },
   "fieldRequired": "Det här fältet är obligatoriskt",
   "OATGraphViewer": {

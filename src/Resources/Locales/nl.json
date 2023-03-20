@@ -1106,10 +1106,10 @@
     "missingPermissionsMessage": "U hebt ontbrekende machtigingen. U hebt toegang nodig als lezer (minimaal) en opslag-blobgegevenseigenaar of opslag-blobgegevensbijdrager.",
     "networkErrorMessage": "Dit kan een CORS-probleem, ongeldige URL of een netwerkfout zijn. Neem contact op met de eigenaar van de bron of probeer het later opnieuw.",
     "partialCorsErrorTitle": "CORS-update vereist",
-    "partialCorsErrorMessage": "Vanwege recente functiewijzigingen zijn er enkele CORS-regels die moeten worden bijgewerkt in uw opslagaccount om 3D-elementen in uw scènes te kunnen blijven gebruiken.",
     "networkErrorTitle": "Verbindingsfout",
     "applyUpdates": "Updates toepassen",
-    "setCorsPropertiesNotAuthorizedMessage": "U hebt geen toegang tot het opslagaccount om deze wijziging aan te brengen. Neem contact op met de eigenaar van de bron om de vereiste wijzigingen aan te brengen in de CORS-instellingen van het opslagaccount."
+    "setCorsPropertiesNotAuthorizedMessage": "U hebt geen toegang tot het opslagaccount om deze wijziging aan te brengen. Neem contact op met de eigenaar van de bron om de vereiste wijzigingen aan te brengen in de CORS-instellingen van het opslagaccount.",
+    "partialCorsErrorMessag": "Om 3D-scènes te blijven gebruiken, zijn er enkele CORS-regels die moeten worden bijgewerkt op uw opslagaccount."
   },
   "fieldRequired": "Dit veld is verplicht",
   "OATGraphViewer": {
