@@ -1109,7 +1109,7 @@
     "networkErrorTitle": "连接错误",
     "applyUpdates": "应用更新",
     "setCorsPropertiesNotAuthorizedMessage": "你无权访问存储帐户以进行此更改。请联系资源所有者，对存储帐户的 CORS 设置进行所需的更改。",
-    "partialCorsErrorMessag": "为了继续使用 3D 场景，需要在存储帐户上更新一些 CORS 规则。"
+    "partialCorsErrorMessage": "为了继续使用 3D 场景，需要在存储帐户上更新一些 CORS 规则。"
   },
   "fieldRequired": "此字段为必填项",
   "OATGraphViewer": {

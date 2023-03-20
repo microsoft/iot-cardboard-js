@@ -1109,7 +1109,7 @@
     "networkErrorTitle": "Errore di connessione",
     "applyUpdates": "Applicare aggiornamenti",
     "setCorsPropertiesNotAuthorizedMessage": "Non si dispone dell'accesso all'account di archiviazione per apportare questa modifica. Contattare il proprietario della risorsa per apportare le modifiche necessarie alle impostazioni CORS dell'account di archiviazione.",
-    "partialCorsErrorMessag": "Per continuare a utilizzare le scene 3D, esistono alcune regole CORS che devono essere aggiornate nell'account di archiviazione."
+    "partialCorsErrorMessage": "Per continuare a utilizzare le scene 3D, esistono alcune regole CORS che devono essere aggiornate nell'account di archiviazione."
   },
   "fieldRequired": "Questo campo è obbligatorio",
   "OATGraphViewer": {

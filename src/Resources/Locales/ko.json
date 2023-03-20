@@ -1109,7 +1109,7 @@
     "networkErrorTitle": "연결 오류",
     "applyUpdates": "업데이트 적용",
     "setCorsPropertiesNotAuthorizedMessage": "이 변경을 수행하기 위해 저장소 계정에 액세스할 수 없습니다. 리소스 소유자에게 문의하여 스토리지 계정의 CORS 설정에 필요한 변경을 수행하세요.",
-    "partialCorsErrorMessag": "3D 장면을 계속 사용하려면 스토리지 계정에서 업데이트해야 하는 몇 가지 CORS 규칙이 있습니다."
+    "partialCorsErrorMessage": "3D 장면을 계속 사용하려면 스토리지 계정에서 업데이트해야 하는 몇 가지 CORS 규칙이 있습니다."
   },
   "fieldRequired": "이 필드는 필수입니다.",
   "OATGraphViewer": {

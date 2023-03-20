@@ -1109,7 +1109,7 @@
     "networkErrorTitle": "接続エラー",
     "applyUpdates": "更新プログラムの適用",
     "setCorsPropertiesNotAuthorizedMessage": "この変更を行うためのストレージ アカウントへのアクセス権がありません。リソース所有者に連絡して、ストレージ アカウントの CORS 設定に必要な変更を加えてください。",
-    "partialCorsErrorMessag": "3D シーンを使い続けるには、ストレージ アカウントで更新する必要がある CORS ルールがいくつかあります。"
+    "partialCorsErrorMessage": "3D シーンを使い続けるには、ストレージ アカウントで更新する必要がある CORS ルールがいくつかあります。"
   },
   "fieldRequired": "このフィールドは必須です",
   "OATGraphViewer": {

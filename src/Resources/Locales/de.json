@@ -1109,7 +1109,7 @@
     "networkErrorTitle": "Verbindungsfehler",
     "applyUpdates": "Anwenden von Updates",
     "setCorsPropertiesNotAuthorizedMessage": "Sie haben keinen Zugriff auf das Speicherkonto, um diese Änderung vorzunehmen. Wenden Sie sich an den Ressourcenbesitzer, um die erforderlichen Änderungen an den CORS-Einstellungen des Speicherkontos vorzunehmen.",
-    "partialCorsErrorMessag": "Um weiterhin 3D-Szenen verwenden zu können, gibt es einige CORS-Regeln, die in Ihrem Speicherkonto aktualisiert werden müssen."
+    "partialCorsErrorMessage": "Um weiterhin 3D-Szenen verwenden zu können, gibt es einige CORS-Regeln, die in Ihrem Speicherkonto aktualisiert werden müssen."
   },
   "fieldRequired": "Dieses Feld ist ein Pflichtfeld",
   "OATGraphViewer": {

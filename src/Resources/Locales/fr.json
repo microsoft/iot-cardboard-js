@@ -1109,7 +1109,7 @@
     "networkErrorTitle": "Erreur de connexion",
     "applyUpdates": "Appliquer les mises à jour",
     "setCorsPropertiesNotAuthorizedMessage": "Vous n’avez pas accès au compte de stockage pour effectuer cette modification. Veuillez contacter le propriétaire de la ressource pour apporter les modifications requises aux paramètres CORS du compte de stockage.",
-    "partialCorsErrorMessag": "Afin de continuer à utiliser des scènes 3D, certaines règles CORS doivent être mises à jour sur votre compte de stockage."
+    "partialCorsErrorMessage": "Afin de continuer à utiliser des scènes 3D, certaines règles CORS doivent être mises à jour sur votre compte de stockage."
   },
   "fieldRequired": "Ce champ est obligatoire",
   "OATGraphViewer": {

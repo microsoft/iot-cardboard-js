@@ -1140,7 +1140,7 @@
     "networkErrorTitle": "Chyba připojení",
     "applyUpdates": "Použití aktualizací",
     "setCorsPropertiesNotAuthorizedMessage": "K provedení této změny nemáte přístup k účtu úložiště. Obraťte se na vlastníka prostředku a proveďte požadované změny nastavení CORS účtu úložiště.",
-    "partialCorsErrorMessag": "Aby bylo možné dál používat 3D scény, existují některá pravidla CORS, která je potřeba ve vašem účtu úložiště aktualizovat."
+    "partialCorsErrorMessage": "Aby bylo možné dál používat 3D scény, existují některá pravidla CORS, která je potřeba ve vašem účtu úložiště aktualizovat."
   },
   "fieldRequired": "Toto pole je povinné",
   "duration": {

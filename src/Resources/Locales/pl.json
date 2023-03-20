@@ -1109,7 +1109,7 @@
     "networkErrorTitle": "Błąd połączenia",
     "applyUpdates": "Stosowanie aktualizacji",
     "setCorsPropertiesNotAuthorizedMessage": "Nie masz dostępu do konta magazynu, aby wprowadzić tę zmianę. Skontaktuj się z właścicielem zasobu, aby wprowadzić wymagane zmiany w ustawieniach CORS konta magazynu.",
-    "partialCorsErrorMessag": "Aby nadal korzystać ze scen 3D, istnieją pewne reguły CORS, które należy zaktualizować na koncie magazynu."
+    "partialCorsErrorMessage": "Aby nadal korzystać ze scen 3D, istnieją pewne reguły CORS, które należy zaktualizować na koncie magazynu."
   },
   "fieldRequired": "To pole jest wymagane",
   "OATGraphViewer": {
