@@ -371,7 +371,6 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
     useEffect(() => {
         if (state?.errors.length > 0) {
             if (!errorCallbackSetRef.current) {
-                debugger;
                 switch (state?.errors?.[0]?.type) {
                     case ComponentErrorType.CORSError:
                         dispatch({
