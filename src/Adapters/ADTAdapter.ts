@@ -128,11 +128,7 @@ export default class ADTAdapter implements IADTAdapter {
             (useAdtProxy || !validateExplorerOrigin(window.origin)) &&
             !forceCORS;
         this.authService.login();
-        this.axiosInstance = axios.create({
-            baseURL: this.useAdtProxy
-                ? this.adtProxyServerPath
-                : this.adtHostUrl
-        });
+        this.axiosInstance = axios.create();
         axiosRetry(this.axiosInstance, {
             retries: 3,
             retryCondition: (axiosError: AxiosError) => {
