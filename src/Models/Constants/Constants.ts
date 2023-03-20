@@ -536,6 +536,7 @@ export const BlobStorageServiceCorsAllowedMethods = [
 export const BlobStorageServiceCorsAllowedHeaders = [
     'Authorization',
     'Content-Type',
+    'Content-Length',
     'x-ms-version',
     'x-ms-blob-type',
     'x-ms-copy-source',
