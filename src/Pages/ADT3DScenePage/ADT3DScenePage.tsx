@@ -403,7 +403,9 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
                         errorCallback: {
                             buttonText: t('learnMore'),
                             buttonAction: () => {
-                                window.open(DOCUMENTATION_LINKS.storageCORS);
+                                window.open(
+                                    DOCUMENTATION_LINKS.howToPrerequisites
+                                );
                                 errorCallbackSetRef.current = false;
                             }
                         }
@@ -486,7 +488,9 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
                         errorCallback: {
                             buttonText: t('learnMore'),
                             buttonAction: () => {
-                                window.open(DOCUMENTATION_LINKS.storageCORS);
+                                window.open(
+                                    DOCUMENTATION_LINKS.howToPrerequisites
+                                );
                                 errorCallbackSetRef.current = false;
                             }
                         }

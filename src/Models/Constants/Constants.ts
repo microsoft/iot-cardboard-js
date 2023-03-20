@@ -61,8 +61,6 @@ const OVERVIEW_3D_SCENES = 'https://go.microsoft.com/fwlink/?linkid=2195695';
 const GITHUB_REPO = 'https://github.com/microsoft/iot-cardboard-js';
 const ADT_DATA_HISTORY_WITH_ADX =
     'https://go.microsoft.com/fwlink/?linkid=2214431';
-const STORAGE_CORS_DOC =
-    'https://learn.microsoft.com/en-us/rest/api/storageservices/cross-origin-resource-sharing--cors--support-for-the-azure-storage-services';
 export const DOCUMENTATION_LINKS = {
     overviewDoc: OVERVIEW_3D_SCENES,
     overviewDocSetupSection: `${OVERVIEW_3D_SCENES}#set-up`,
@@ -74,12 +72,12 @@ export const DOCUMENTATION_LINKS = {
     howToLayers: `${HOW_TO_DOC}#manage-layers`,
     howToTwins: `${HOW_TO_DOC}#twins`,
     howToWidgets: `${HOW_TO_DOC}#widgets`,
+    howToPrerequisites: `${HOW_TO_DOC}#prerequisites`,
     // https://learn.microsoft.com/azure/digital-twins/concepts-ontologies
     ontologyConcepts: 'https://go.microsoft.com/fwlink/?linkid=2209943',
     // https://learn.microsoft.com/azure/digital-twins/concepts-models#supported-dtdl-versions
     ontologyConceptsVersions: 'https://go.microsoft.com/fwlink/?linkid=2225628',
-    dataHistory: ADT_DATA_HISTORY_WITH_ADX,
-    storageCORS: STORAGE_CORS_DOC
+    dataHistory: ADT_DATA_HISTORY_WITH_ADX
 };
 
 /** this is the minimum frequency we support for fetching data from ADT */
