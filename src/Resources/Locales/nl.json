@@ -1109,7 +1109,7 @@
     "networkErrorTitle": "Verbindingsfout",
     "applyUpdates": "Updates toepassen",
     "setCorsPropertiesNotAuthorizedMessage": "U hebt geen toegang tot het opslagaccount om deze wijziging aan te brengen. Neem contact op met de eigenaar van de bron om de vereiste wijzigingen aan te brengen in de CORS-instellingen van het opslagaccount.",
-    "partialCorsErrorMessag": "Om 3D-scènes te blijven gebruiken, zijn er enkele CORS-regels die moeten worden bijgewerkt op uw opslagaccount."
+    "partialCorsErrorMessage": "Om 3D-scènes te blijven gebruiken, zijn er enkele CORS-regels die moeten worden bijgewerkt op uw opslagaccount."
   },
   "fieldRequired": "Dit veld is verplicht",
   "OATGraphViewer": {

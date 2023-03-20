@@ -1109,7 +1109,7 @@
     "networkErrorTitle": "Bağlantı hatası",
     "applyUpdates": "Güncellemeleri uygulama",
     "setCorsPropertiesNotAuthorizedMessage": "Bu değişikliği yapmak için depolama hesabına erişiminiz yok. Depolama hesabının CORS ayarlarında gerekli değişiklikleri yapmak için lütfen kaynak sahibine başvurun.",
-    "partialCorsErrorMessag": "3B sahneleri kullanmaya devam etmek için depolama hesabınızda güncellenmesi gereken bazı CORS kuralları vardır."
+    "partialCorsErrorMessage": "3B sahneleri kullanmaya devam etmek için depolama hesabınızda güncellenmesi gereken bazı CORS kuralları vardır."
   },
   "fieldRequired": "Bu alan zorunludur",
   "OATGraphViewer": {

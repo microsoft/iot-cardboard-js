@@ -1109,7 +1109,7 @@
     "networkErrorTitle": "Csatlakozási hiba",
     "applyUpdates": "Frissítések alkalmazása",
     "setCorsPropertiesNotAuthorizedMessage": "A módosításhoz nincs hozzáférése a tárfiókhoz. Lépjen kapcsolatba az erőforrás tulajdonosával a tárfiók CORS-beállításainak szükséges módosításainak elvégzéséhez.",
-    "partialCorsErrorMessag": "A 3D-jelenetek használatának folytatása érdekében néhány CORS-szabályt frissíteni kell a tárfiókban."
+    "partialCorsErrorMessage": "A 3D-jelenetek használatának folytatása érdekében néhány CORS-szabályt frissíteni kell a tárfiókban."
   },
   "fieldRequired": "A mező kitöltése kötelező",
   "OATGraphViewer": {
