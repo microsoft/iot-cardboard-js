@@ -1106,10 +1106,10 @@
     "missingPermissionsMessage": "Tem permissões que faltam. Necessitará de acesso como Leitor (no mínimo) e proprietário de dados de armazenamento blob ou colaborador de dados de blob de armazenamento.",
     "networkErrorMessage": "Isso pode ser um problema de CORS, url inválido ou um erro de rede. Entre em contato com o proprietário do recurso ou tente novamente mais tarde.",
     "partialCorsErrorTitle": "Atualização do CORS necessária",
-    "partialCorsErrorMessage": "Devido às recentes alterações de recursos, existem algumas regras CORS que precisam ser atualizadas em sua conta de armazenamento para poder continuar usando ativos 3D em suas cenas.",
     "networkErrorTitle": "Erro de conexão",
     "applyUpdates": "Aplicar atualizações",
-    "setCorsPropertiesNotAuthorizedMessage": "Você não tem acesso à conta de armazenamento para fazer essa alteração. Entre em contato com o proprietário do recurso para fazer as alterações necessárias nas configurações CORS da conta de armazenamento."
+    "setCorsPropertiesNotAuthorizedMessage": "Você não tem acesso à conta de armazenamento para fazer essa alteração. Entre em contato com o proprietário do recurso para fazer as alterações necessárias nas configurações CORS da conta de armazenamento.",
+    "partialCorsErrorMessag": "Para continuar usando cenas 3D, existem algumas regras CORS que precisam ser atualizadas em sua conta de armazenamento."
   },
   "fieldRequired": "Este campo é necessário",
   "OATGraphViewer": {

@@ -1106,10 +1106,10 @@
     "missingPermissionsMessage": "アクセス許可がありません。読者として (少なくとも) アクセスし、ストレージ BLOB データ所有者またはストレージ BLOB データ共同作成者としてアクセスする必要があります。",
     "networkErrorMessage": "これは、CORSの問題、無効なURL、またはネットワークエラーである可能性があります。リソースの所有者に連絡するか、後でもう一度やり直してください。",
     "partialCorsErrorTitle": "CORS の更新が必要",
-    "partialCorsErrorMessage": "最近の機能変更により、シーンで 3D アセットを引き続き使用できるようにするには、ストレージ アカウントで更新する必要がある CORS ルールがいくつかあります。",
     "networkErrorTitle": "接続エラー",
     "applyUpdates": "更新プログラムの適用",
-    "setCorsPropertiesNotAuthorizedMessage": "この変更を行うためのストレージ アカウントへのアクセス権がありません。リソース所有者に連絡して、ストレージ アカウントの CORS 設定に必要な変更を加えてください。"
+    "setCorsPropertiesNotAuthorizedMessage": "この変更を行うためのストレージ アカウントへのアクセス権がありません。リソース所有者に連絡して、ストレージ アカウントの CORS 設定に必要な変更を加えてください。",
+    "partialCorsErrorMessag": "3D シーンを使い続けるには、ストレージ アカウントで更新する必要がある CORS ルールがいくつかあります。"
   },
   "fieldRequired": "このフィールドは必須です",
   "OATGraphViewer": {

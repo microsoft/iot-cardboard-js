@@ -1106,10 +1106,10 @@
     "missingPermissionsMessage": "Brakuje Ci uprawnień. Będziesz potrzebować dostępu jako czytelnik (co najmniej) i właściciel danych obiektów blob magazynu lub współtwórca danych obiektów blob magazynu.",
     "networkErrorMessage": "Może to być problem z CORS, nieprawidłowy adres URL lub błąd sieci. Skontaktuj się z właścicielem zasobu lub spróbuj ponownie później.",
     "partialCorsErrorTitle": "Wymagana aktualizacja CORS",
-    "partialCorsErrorMessage": "Ze względu na ostatnie zmiany funkcji istnieją pewne reguły CORS, które należy zaktualizować na koncie magazynu, aby móc nadal używać zasobów 3D w scenach.",
     "networkErrorTitle": "Błąd połączenia",
     "applyUpdates": "Stosowanie aktualizacji",
-    "setCorsPropertiesNotAuthorizedMessage": "Nie masz dostępu do konta magazynu, aby wprowadzić tę zmianę. Skontaktuj się z właścicielem zasobu, aby wprowadzić wymagane zmiany w ustawieniach CORS konta magazynu."
+    "setCorsPropertiesNotAuthorizedMessage": "Nie masz dostępu do konta magazynu, aby wprowadzić tę zmianę. Skontaktuj się z właścicielem zasobu, aby wprowadzić wymagane zmiany w ustawieniach CORS konta magazynu.",
+    "partialCorsErrorMessag": "Aby nadal korzystać ze scen 3D, istnieją pewne reguły CORS, które należy zaktualizować na koncie magazynu."
   },
   "fieldRequired": "To pole jest wymagane",
   "OATGraphViewer": {
