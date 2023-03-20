@@ -49,7 +49,7 @@ export const ImageAndText = Template.bind({}) as TemplateStory;
 ImageAndText.args = illustrationMessageImageAndText;
 
 /** Illustration message full capabilities */
-const illustrationMessageFull: IllustrationMessageProps = {
+const illustrationMessageWithPrimaryButton: IllustrationMessageProps = {
     headerText: 'No elements created yet',
     descriptionText: 'This is description text that should wrap.',
     type: 'info',
@@ -58,9 +58,36 @@ const illustrationMessageFull: IllustrationMessageProps = {
         height: 100,
         src: NoLayers
     },
-    buttonProps: {
+    primaryButtonProps: {
         onClick: () => alert('Button clicked'),
         text: 'Click me'
+    },
+    linkProps: {
+        onClick: () => alert('Link clicked')
+    },
+    linkText: 'Learn more.'
+};
+
+export const WithOnlyPrimaryButton = Template.bind({}) as TemplateStory;
+WithOnlyPrimaryButton.args = illustrationMessageWithPrimaryButton;
+
+/** Illustration message full capabilities */
+const illustrationMessageFull: IllustrationMessageProps = {
+    headerText: 'No elements created yet',
+    descriptionText: 'This is description text that should wrap.',
+    type: 'info',
+    width: 'wide',
+    imageProps: {
+        height: 100,
+        src: NoLayers
+    },
+    primaryButtonProps: {
+        onClick: () => alert('Primary button clicked'),
+        text: 'Click me'
+    },
+    defaultButtonProps: {
+        onClick: () => alert('Secondary button clicked'),
+        text: 'Dismiss'
     },
     linkProps: {
         onClick: () => alert('Link clicked')
@@ -82,7 +109,7 @@ const illustrationMessageWideError: IllustrationMessageProps = {
         height: 200,
         src: BlobError
     },
-    buttonProps: {
+    primaryButtonProps: {
         onClick: () => alert('Button clicked'),
         text: 'Click me'
     },

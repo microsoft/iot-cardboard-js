@@ -493,7 +493,7 @@ const SceneList: React.FC<SceneListProps> = ({
                         headerText={t('scenes.noScenes')}
                         type={'error'}
                         width={'wide'}
-                        buttonProps={{
+                        primaryButtonProps={{
                             text: t('scenes.addScene'),
                             onClick: () => {
                                 setIsSceneDialogOpen(true);

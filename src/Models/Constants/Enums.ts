@@ -56,6 +56,7 @@ export enum ComponentErrorType {
     TwinsRetrievalFailed = 'TwinsRetrievalFailed',
     InternalServerError = 'InternalServerError',
     CORSError = 'CORSError',
+    ForceCORSError = 'ForceCORSError',
     NoContainerUrl = 'NoContainerUrl',
     NoADTInstanceUrl = 'NoADTInstanceUrl',
     ConnectionError = 'ConnectionError',

@@ -370,149 +370,191 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
     // but for a certain type of error - ComponentErrorType.UnauthorizedAccess - we handle it internally with a stepper wizard since multiple steps required
     useEffect(() => {
         if (state?.errors.length > 0) {
-            if (
-                state?.errors?.[0]?.type === ComponentErrorType.CORSError &&
-                !errorCallbackSetRef.current
-            ) {
+            if (!errorCallbackSetRef.current) {
+                debugger;
+                switch (state?.errors?.[0]?.type) {
+                    case ComponentErrorType.CORSError:
+                        dispatch({
+                            type: ADT3DScenePageActionTypes.SET_ERROR_CALLBACK,
+                            payload: {
+                                errorCallback: {
+                                    primary: {
+                                        buttonText: state?.errors?.[0]
+                                            ?.isCatastrophic
+                                            ? t(
+                                                  'scenePageErrorHandling.resolveIssues'
+                                              )
+                                            : t(
+                                                  'scenePageErrorHandling.applyUpdates'
+                                              ),
+                                        buttonAction: async () => {
+                                            setCorsPropertiesAdapterData.callAdapter();
+                                            errorCallbackSetRef.current = false;
+                                        }
+                                    },
+                                    ...(!state?.errors?.[0]?.isCatastrophic && {
+                                        secondary: {
+                                            buttonText: t('dismiss'),
+                                            buttonAction: () => {
+                                                errorCallbackSetRef.current = false;
+                                                scenesConfig.callAdapter();
+                                            }
+                                        }
+                                    }),
+                                    link: {
+                                        buttonText: t('learnMore'),
+                                        buttonAction: () => {
+                                            window.open(
+                                                DOCUMENTATION_LINKS.howToPrerequisites
+                                            );
+                                            errorCallbackSetRef.current = false;
+                                        }
+                                    }
+                                }
+                            }
+                        });
+                        break;
+                    case ComponentErrorType.ForceCORSError:
+                        dispatch({
+                            type: ADT3DScenePageActionTypes.SET_ERROR_CALLBACK,
+                            payload: {
+                                errorCallback: {
+                                    primary: {
+                                        buttonText: t('learnMore'),
+                                        buttonAction: async () => {
+                                            window.open(
+                                                DOCUMENTATION_LINKS.howToPrerequisites
+                                            );
+                                            errorCallbackSetRef.current = false;
+                                        }
+                                    }
+                                }
+                            }
+                        });
+                        break;
+                    case ComponentErrorType.ConnectionError:
+                        dispatch({
+                            type: ADT3DScenePageActionTypes.SET_ERROR_CALLBACK,
+                            payload: {
+                                errorCallback: {
+                                    primary: {
+                                        buttonText: t('learnMore'),
+                                        buttonAction: () => {
+                                            window.open(
+                                                DOCUMENTATION_LINKS.howToPrerequisites
+                                            );
+                                            errorCallbackSetRef.current = false;
+                                        }
+                                    }
+                                }
+                            }
+                        });
+                        break;
+                    case ComponentErrorType.JsonSchemaError:
+                        dispatch({
+                            type: ADT3DScenePageActionTypes.SET_ERROR_CALLBACK,
+                            payload: {
+                                errorCallback: {
+                                    primary: {
+                                        buttonText: t(
+                                            'scenePageErrorHandling.resetConfigFile'
+                                        ),
+                                        buttonAction: async () => {
+                                            await resetConfig.callAdapter();
+                                            await scenesConfig.callAdapter();
+                                            errorCallbackSetRef.current = false;
+                                        }
+                                    }
+                                }
+                            }
+                        });
+                        break;
+                    case ComponentErrorType.NoContainerUrl:
+                        dispatch({
+                            type: ADT3DScenePageActionTypes.SET_ERROR_CALLBACK,
+                            payload: {
+                                errorCallback: {
+                                    primary: {
+                                        buttonText: t(
+                                            'scenePageErrorHandling.configureEnvironment'
+                                        ),
+                                        buttonAction: () => {
+                                            errorCallbackSetRef.current = false;
+                                            setIsEnvironmentPickerDialogOpen(
+                                                true
+                                            );
+                                        }
+                                    }
+                                }
+                            }
+                        });
+                        break;
+                    case ComponentErrorType.NoADTInstanceUrl:
+                        dispatch({
+                            type: ADT3DScenePageActionTypes.SET_ERROR_CALLBACK,
+                            payload: {
+                                errorCallback: {
+                                    primary: {
+                                        buttonText: t(
+                                            'scenePageErrorHandling.configureEnvironment'
+                                        ),
+                                        buttonAction: () => {
+                                            errorCallbackSetRef.current = false;
+                                            setIsEnvironmentPickerDialogOpen(
+                                                true
+                                            );
+                                        }
+                                    }
+                                }
+                            }
+                        });
+                        break;
+                    case ComponentErrorType.SetCorsPropertiesNotAuthorized:
+                        dispatch({
+                            type: ADT3DScenePageActionTypes.SET_ERROR_CALLBACK,
+                            payload: {
+                                errorCallback: {
+                                    primary: {
+                                        buttonText: t('learnMore'),
+                                        buttonAction: () => {
+                                            window.open(
+                                                DOCUMENTATION_LINKS.howToPrerequisites
+                                            );
+                                            errorCallbackSetRef.current = false;
+                                        }
+                                    },
+                                    secondary: {
+                                        buttonText: t('dismiss'),
+                                        buttonAction: () => {
+                                            errorCallbackSetRef.current = false;
+                                            scenesConfig.callAdapter();
+                                        }
+                                    }
+                                }
+                            }
+                        });
+                        break;
+                    default:
+                        dispatch({
+                            type: ADT3DScenePageActionTypes.SET_ERROR_CALLBACK,
+                            payload: {
+                                errorCallback: {
+                                    primary: {
+                                        buttonText: t('learnMore'),
+                                        buttonAction: () => {
+                                            window.open(
+                                                DOCUMENTATION_LINKS.overviewDocSetupSection
+                                            );
+                                            errorCallbackSetRef.current = false;
+                                        }
+                                    }
+                                }
+                            }
+                        });
+                        break;
+                }
                 // mark that we already set the callback so we don't get an infinite loop of setting
                 errorCallbackSetRef.current = true;
-                dispatch({
-                    type: ADT3DScenePageActionTypes.SET_ERROR_CALLBACK,
-                    payload: {
-                        errorCallback: {
-                            buttonText: state?.errors?.[0]?.isCatastrophic
-                                ? t('scenePageErrorHandling.resolveIssues')
-                                : t('scenePageErrorHandling.applyUpdates'),
-                            buttonAction: async () => {
-                                setCorsPropertiesAdapterData.callAdapter();
-                                errorCallbackSetRef.current = false;
-                            }
-                        }
-                    }
-                });
-            } else if (
-                state?.errors?.[0]?.type ===
-                    ComponentErrorType.ConnectionError &&
-                !errorCallbackSetRef.current
-            ) {
-                // mark that we already set the callback so we don't get an infinite loop of setting
-                errorCallbackSetRef.current = true;
-                dispatch({
-                    type: ADT3DScenePageActionTypes.SET_ERROR_CALLBACK,
-                    payload: {
-                        errorCallback: {
-                            buttonText: t('learnMore'),
-                            buttonAction: () => {
-                                window.open(
-                                    DOCUMENTATION_LINKS.howToPrerequisites
-                                );
-                                errorCallbackSetRef.current = false;
-                            }
-                        }
-                    }
-                });
-            } else if (
-                state?.errors?.[0]?.type ===
-                    ComponentErrorType.JsonSchemaError &&
-                !errorCallbackSetRef.current
-            ) {
-                // mark that we already set the callback so we don't get an infinite loop of setting
-                errorCallbackSetRef.current = true;
-                dispatch({
-                    type: ADT3DScenePageActionTypes.SET_ERROR_CALLBACK,
-                    payload: {
-                        errorCallback: {
-                            buttonText: t(
-                                'scenePageErrorHandling.resetConfigFile'
-                            ),
-                            buttonAction: async () => {
-                                await resetConfig.callAdapter();
-                                await scenesConfig.callAdapter();
-                                errorCallbackSetRef.current = false;
-                            }
-                        }
-                    }
-                });
-            } else if (
-                state?.errors?.[0]?.type ===
-                    ComponentErrorType.NoContainerUrl &&
-                !errorCallbackSetRef.current
-            ) {
-                // mark that we already set the callback so we don't get an infinite loop of setting
-                errorCallbackSetRef.current = true;
-                dispatch({
-                    type: ADT3DScenePageActionTypes.SET_ERROR_CALLBACK,
-                    payload: {
-                        errorCallback: {
-                            buttonText: t(
-                                'scenePageErrorHandling.configureEnvironment'
-                            ),
-                            buttonAction: () => {
-                                errorCallbackSetRef.current = false;
-                                setIsEnvironmentPickerDialogOpen(true);
-                            }
-                        }
-                    }
-                });
-            } else if (
-                state?.errors?.[0]?.type ===
-                    ComponentErrorType.NoADTInstanceUrl &&
-                !errorCallbackSetRef.current
-            ) {
-                // mark that we already set the callback so we don't get an infinite loop of setting
-                errorCallbackSetRef.current = true;
-                dispatch({
-                    type: ADT3DScenePageActionTypes.SET_ERROR_CALLBACK,
-                    payload: {
-                        errorCallback: {
-                            buttonText: t(
-                                'scenePageErrorHandling.configureEnvironment'
-                            ),
-                            buttonAction: () => {
-                                errorCallbackSetRef.current = false;
-                                setIsEnvironmentPickerDialogOpen(true);
-                            }
-                        }
-                    }
-                });
-            } else if (
-                state?.errors?.[0]?.type ===
-                    ComponentErrorType.SetCorsPropertiesNotAuthorized &&
-                !errorCallbackSetRef.current
-            ) {
-                // mark that we already set the callback so we don't get an infinite loop of setting
-                errorCallbackSetRef.current = true;
-                dispatch({
-                    type: ADT3DScenePageActionTypes.SET_ERROR_CALLBACK,
-                    payload: {
-                        errorCallback: {
-                            buttonText: t('learnMore'),
-                            buttonAction: () => {
-                                window.open(
-                                    DOCUMENTATION_LINKS.howToPrerequisites
-                                );
-                                errorCallbackSetRef.current = false;
-                            }
-                        }
-                    }
-                });
-            } else if (!errorCallbackSetRef.current) {
-                // mark that we already set the callback so we don't get an infinite loop of setting
-                errorCallbackSetRef.current = true;
-                dispatch({
-                    type: ADT3DScenePageActionTypes.SET_ERROR_CALLBACK,
-                    payload: {
-                        errorCallback: {
-                            buttonText: t('learnMore'),
-                            buttonAction: () => {
-                                window.open(
-                                    DOCUMENTATION_LINKS.overviewDocSetupSection
-                                );
-                                errorCallbackSetRef.current = false;
-                            }
-                        }
-                    }
-                });
             }
         }
     }, [
@@ -536,6 +578,7 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
             // This means that users who cannot read CORS configuration may not be able to load 3D models if CORS is misconfigured
             if (
                 errors?.[0]?.type === ComponentErrorType.CORSError ||
+                errors?.[0]?.type === ComponentErrorType.ForceCORSError ||
                 errors?.[0]?.type === ComponentErrorType.ConnectionError // which might be due to CORS or internet connection, hard to know
             ) {
                 errorCallbackSetRef.current = false;
@@ -712,9 +755,35 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
                             adapter={adapter}
                             errors={state.errors}
                             primaryClickAction={{
-                                buttonText: state?.errorCallback?.buttonText,
-                                onClick: state?.errorCallback?.buttonAction
+                                buttonText:
+                                    state?.errorCallback?.primary.buttonText,
+                                onClick:
+                                    state?.errorCallback?.primary.buttonAction
                             }}
+                            secondaryClickAction={
+                                state?.errorCallback?.secondary
+                                    ? {
+                                          buttonText:
+                                              state?.errorCallback?.secondary
+                                                  .buttonText,
+                                          onClick:
+                                              state?.errorCallback?.secondary
+                                                  .buttonAction
+                                      }
+                                    : undefined
+                            }
+                            linkAction={
+                                state?.errorCallback?.link
+                                    ? {
+                                          linkText:
+                                              state?.errorCallback?.link
+                                                  .buttonText,
+                                          onClick:
+                                              state?.errorCallback?.link
+                                                  .buttonAction
+                                      }
+                                    : undefined
+                            }
                             verifyCallbackAdapterData={scenesConfig}
                         />
                     ) : (

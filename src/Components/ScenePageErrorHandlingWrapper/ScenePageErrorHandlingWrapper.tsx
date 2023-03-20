@@ -16,6 +16,8 @@ const ScenePageErrorHandlingWrapper: React.FC<ScenePageErrorHandlingWrapperProps
     adapter,
     errors,
     primaryClickAction,
+    secondaryClickAction,
+    linkAction,
     verifyCallbackAdapterData
 }) => {
     const { t } = useTranslation();
@@ -39,7 +41,7 @@ const ScenePageErrorHandlingWrapper: React.FC<ScenePageErrorHandlingWrapperProps
                             src: BlobErrorImg,
                             height: 200
                         }}
-                        buttonProps={{
+                        primaryButtonProps={{
                             onClick: primaryClickAction.onClick,
                             text: primaryClickAction.buttonText
                         }}
@@ -61,10 +63,18 @@ const ScenePageErrorHandlingWrapper: React.FC<ScenePageErrorHandlingWrapperProps
                             src: PriviledgedAccessImg,
                             height: 200
                         }}
-                        buttonProps={{
+                        primaryButtonProps={{
                             onClick: primaryClickAction.onClick,
                             text: primaryClickAction.buttonText
                         }}
+                        defaultButtonProps={
+                            secondaryClickAction
+                                ? {
+                                      onClick: secondaryClickAction.onClick,
+                                      text: secondaryClickAction.buttonText
+                                  }
+                                : undefined
+                        }
                         styles={{ container: { height: 'auto', flexGrow: 1 } }}
                     />
                 );
@@ -107,28 +117,39 @@ const ScenePageErrorHandlingWrapper: React.FC<ScenePageErrorHandlingWrapperProps
                             src: BlobErrorImg,
                             height: 200
                         }}
-                        buttonProps={{
+                        primaryButtonProps={{
                             onClick: primaryClickAction.onClick,
                             text: primaryClickAction.buttonText
                         }}
                     />
                 );
                 break;
+            case ComponentErrorType.ForceCORSError:
             case ComponentErrorType.CORSError:
                 content = (
                     <IllustrationMessage
                         headerText={
-                            errors?.[0]?.isCatastrophic
+                            errors?.[0]?.type ===
+                            ComponentErrorType.ForceCORSError
+                                ? t(
+                                      'scenePageErrorHandling.requiredCorsUpdateTitle'
+                                  )
+                                : errors?.[0]?.isCatastrophic
                                 ? t('scenePageErrorHandling.corsErrorTitle')
                                 : t(
-                                      'scenePageErrorHandling.partialCorsErrorTitle'
+                                      'scenePageErrorHandling.availableCorsUpdateTitle'
                                   )
                         }
                         descriptionText={
-                            errors?.[0]?.isCatastrophic
+                            errors?.[0]?.type ===
+                            ComponentErrorType.ForceCORSError
+                                ? t(
+                                      'scenePageErrorHandling.requiredCorsUpdateMessage'
+                                  )
+                                : errors?.[0]?.isCatastrophic
                                 ? t('scenePageErrorHandling.corsErrorMessage')
                                 : t(
-                                      'scenePageErrorHandling.partialCorsErrorMessage'
+                                      'scenePageErrorHandling.availableCorsUpdateMessage'
                                   )
                         }
                         type={'error'}
@@ -137,10 +158,24 @@ const ScenePageErrorHandlingWrapper: React.FC<ScenePageErrorHandlingWrapperProps
                             src: CorsErrorImg,
                             height: 200
                         }}
-                        buttonProps={{
+                        primaryButtonProps={{
                             onClick: primaryClickAction.onClick,
                             text: primaryClickAction.buttonText
                         }}
+                        defaultButtonProps={
+                            secondaryClickAction
+                                ? {
+                                      onClick: secondaryClickAction.onClick,
+                                      text: secondaryClickAction.buttonText
+                                  }
+                                : undefined
+                        }
+                        linkText={linkAction ? linkAction.linkText : undefined}
+                        linkProps={
+                            linkAction
+                                ? { onClick: linkAction.onClick }
+                                : undefined
+                        }
                         styles={{ container: { height: 'auto', flexGrow: 1 } }}
                     />
                 );
@@ -158,7 +193,7 @@ const ScenePageErrorHandlingWrapper: React.FC<ScenePageErrorHandlingWrapperProps
                             src: PriviledgedAccessImg,
                             height: 200
                         }}
-                        buttonProps={{
+                        primaryButtonProps={{
                             onClick: primaryClickAction.onClick,
                             text: primaryClickAction.buttonText
                         }}
@@ -181,7 +216,7 @@ const ScenePageErrorHandlingWrapper: React.FC<ScenePageErrorHandlingWrapperProps
                             src: BlobErrorImg,
                             height: 200
                         }}
-                        buttonProps={{
+                        primaryButtonProps={{
                             onClick: primaryClickAction.onClick,
                             text: primaryClickAction.buttonText
                         }}
@@ -203,7 +238,7 @@ const ScenePageErrorHandlingWrapper: React.FC<ScenePageErrorHandlingWrapperProps
                             src: BlobErrorImg,
                             height: 200
                         }}
-                        buttonProps={{
+                        primaryButtonProps={{
                             onClick: primaryClickAction.onClick,
                             text: primaryClickAction.buttonText
                         }}
@@ -225,10 +260,18 @@ const ScenePageErrorHandlingWrapper: React.FC<ScenePageErrorHandlingWrapperProps
                             src: CorsErrorImg,
                             height: 200
                         }}
-                        buttonProps={{
+                        primaryButtonProps={{
                             onClick: primaryClickAction.onClick,
                             text: primaryClickAction.buttonText
                         }}
+                        defaultButtonProps={
+                            secondaryClickAction
+                                ? {
+                                      onClick: secondaryClickAction.onClick,
+                                      text: secondaryClickAction.buttonText
+                                  }
+                                : undefined
+                        }
                     />
                 );
                 break;
@@ -246,7 +289,7 @@ const ScenePageErrorHandlingWrapper: React.FC<ScenePageErrorHandlingWrapperProps
                             src: DefaultErrorImg,
                             height: 200
                         }}
-                        buttonProps={{
+                        primaryButtonProps={{
                             onClick: primaryClickAction.onClick,
                             text: primaryClickAction.buttonText
                         }}
