@@ -1105,11 +1105,13 @@
     },
     "missingPermissionsMessage": "Mancano le autorizzazioni. Sarà necessario accedere come lettore (come minimo) e proprietario dei dati BLOB di archiviazione o collaboratore dei dati BLOB di archiviazione.",
     "networkErrorMessage": "Potrebbe trattarsi di un problema CORS, di un URL non valido o di un errore di rete. Contatta il proprietario della risorsa o riprova più tardi.",
-    "partialCorsErrorTitle": "Aggiornamento CORS richiesto",
     "networkErrorTitle": "Errore di connessione",
     "applyUpdates": "Applicare aggiornamenti",
     "setCorsPropertiesNotAuthorizedMessage": "Non si dispone dell'accesso all'account di archiviazione per apportare questa modifica. Contattare il proprietario della risorsa per apportare le modifiche necessarie alle impostazioni CORS dell'account di archiviazione.",
-    "partialCorsErrorMessage": "Per continuare a utilizzare le scene 3D, esistono alcune regole CORS che devono essere aggiornate nell'account di archiviazione."
+    "availableCorsUpdateTitle": "Aggiornamento CORS disponibile",
+    "availableCorsUpdateMessage": "Alcune proprietà devono essere aggiornate nell'account di archiviazione per poter utilizzare scene 3D con CORS.",
+    "requiredCorsUpdateTitle": "Aggiornamento CORS richiesto",
+    "requiredCorsUpdateMessage": "Per continuare a utilizzare le scene 3D, esistono alcune regole CORS che devono essere aggiornate nell'account di archiviazione. Contatta il proprietario della risorsa per aggiungere tali regole."
   },
   "fieldRequired": "Questo campo è obbligatorio",
   "OATGraphViewer": {
@@ -1537,5 +1539,6 @@
   },
   "jobs": {
     "addNew": "Aggiungi nuovo"
-  }
+  },
+  "dismiss": "Licenziare"
 }

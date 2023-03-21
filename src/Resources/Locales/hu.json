@@ -1105,11 +1105,13 @@
     },
     "missingPermissionsMessage": "Hiányzó engedélyekkel rendelkezik. Olvasóként (legalább) és Storage Blob Data Contributorként kell hozzáférnie, és Storage Blob Data Contributorként kell hozzáférnie.",
     "networkErrorMessage": "Ez lehet CORS-probléma, érvénytelen URL vagy hálózati hiba. Lépjen kapcsolatba az erőforrás tulajdonosával, vagy próbálkozzon újra később.",
-    "partialCorsErrorTitle": "CORS-frissítés szükséges",
     "networkErrorTitle": "Csatlakozási hiba",
     "applyUpdates": "Frissítések alkalmazása",
     "setCorsPropertiesNotAuthorizedMessage": "A módosításhoz nincs hozzáférése a tárfiókhoz. Lépjen kapcsolatba az erőforrás tulajdonosával a tárfiók CORS-beállításainak szükséges módosításainak elvégzéséhez.",
-    "partialCorsErrorMessage": "A 3D-jelenetek használatának folytatása érdekében néhány CORS-szabályt frissíteni kell a tárfiókban."
+    "availableCorsUpdateTitle": "CORS-frissítés érhető el",
+    "availableCorsUpdateMessage": "Vannak olyan tulajdonságok, amelyeket frissíteni kell a tárfiókban, hogy 3D-jeleneteket használhasson a CORS-szal.",
+    "requiredCorsUpdateTitle": "CORS-frissítés szükséges",
+    "requiredCorsUpdateMessage": "A 3D-jelenetek használatának folytatása érdekében néhány CORS-szabályt frissíteni kell a tárfiókban. A szabályok hozzáadásához lépjen kapcsolatba az erőforrás tulajdonosával."
   },
   "fieldRequired": "A mező kitöltése kötelező",
   "OATGraphViewer": {
@@ -1537,5 +1539,6 @@
   },
   "jobs": {
     "addNew": "Új hozzáadása"
-  }
+  },
+  "dismiss": "Elbocsát"
 }

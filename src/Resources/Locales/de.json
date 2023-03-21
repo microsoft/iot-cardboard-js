@@ -1105,11 +1105,13 @@
     },
     "missingPermissionsMessage": "Sie haben fehlende Berechtigungen. Sie benötigen Zugriff als Reader (mindestens) und entweder als Storage Blob Data Owner oder Storage Blob Data Contributor.",
     "networkErrorMessage": "Dies kann ein CORS-Problem, eine ungültige URL oder ein Netzwerkfehler sein. Wenden Sie sich an den Besitzer der Ressource oder versuchen Sie es später erneut.",
-    "partialCorsErrorTitle": "CORS-Aktualisierung erforderlich",
     "networkErrorTitle": "Verbindungsfehler",
     "applyUpdates": "Anwenden von Updates",
     "setCorsPropertiesNotAuthorizedMessage": "Sie haben keinen Zugriff auf das Speicherkonto, um diese Änderung vorzunehmen. Wenden Sie sich an den Ressourcenbesitzer, um die erforderlichen Änderungen an den CORS-Einstellungen des Speicherkontos vorzunehmen.",
-    "partialCorsErrorMessage": "Um weiterhin 3D-Szenen verwenden zu können, gibt es einige CORS-Regeln, die in Ihrem Speicherkonto aktualisiert werden müssen."
+    "availableCorsUpdateTitle": "CORS-Update verfügbar",
+    "availableCorsUpdateMessage": "Es gibt einige Eigenschaften, die in Ihrem Speicherkonto aktualisiert werden müssen, um 3D-Szenen mit CORS verwenden zu können.",
+    "requiredCorsUpdateTitle": "CORS-Aktualisierung erforderlich",
+    "requiredCorsUpdateMessage": "Um weiterhin 3D-Szenen verwenden zu können, gibt es einige CORS-Regeln, die in Ihrem Speicherkonto aktualisiert werden müssen. Wenden Sie sich an den Ressourcenbesitzer, um diese Regeln hinzuzufügen."
   },
   "fieldRequired": "Dieses Feld ist ein Pflichtfeld",
   "OATGraphViewer": {
@@ -1537,5 +1539,6 @@
   },
   "jobs": {
     "addNew": "Neu hinzufügen"
-  }
+  },
+  "dismiss": "Entlassen"
 }
