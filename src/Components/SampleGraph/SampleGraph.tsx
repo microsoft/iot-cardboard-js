@@ -41,6 +41,7 @@ import { useOatPageContext } from '../../Models/Context/OatPageContext/OatPageCo
 import { IExtendedTheme } from '../../Theming/Theme.types';
 import { DTDLType } from '../../Models/Classes/DTDL';
 import { CustomNode } from './Internal/CustomNode';
+import CustomLassoHandler from './Hooks/CustomLassoHandler/CustomLassoHandler';
 
 const debugLogging = true;
 const logDebugConsole = getDebugLogger('SampleGraph', debugLogging);
@@ -337,8 +338,8 @@ const SampleGraph: React.FC<ISampleGraphProps> = (props) => {
             <div className={classNames.graphContainer} id={graphContainerId}>
                 <Graphin
                     data={data}
-                    defaultEdge={DEFAULT_EDGE}
-                    defaultNode={DEFAULT_NODE}
+                    // defaultEdge={DEFAULT_EDGE}
+                    // defaultNode={DEFAULT_NODE}
                     height={height}
                     layout={
                         { type: 'preset' }
@@ -346,14 +347,15 @@ const SampleGraph: React.FC<ISampleGraphProps> = (props) => {
                         // RADIAL_LAYOUT
                     }
                 >
-                    <CustomLegend />
+                    <CustomLassoHandler />
+                    {/* <CustomLegend />
                     <CustomClickHandler />
                     <CreateEdge
                         active={false}
                         onClick={() => {
                             alert('clicked');
                         }}
-                    />
+                    /> */}
                 </Graphin>
             </div>
         </div>
