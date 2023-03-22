@@ -7,3 +7,4 @@ export { default as BlobAdapter } from './BlobAdapter';
 export { default as ADT3DSceneAdapter } from './ADT3DSceneAdapter';
 export { default as AzureManagementAdapter } from './AzureManagementAdapter';
 export { default as ADTDataHistoryAdapter } from './ADTDataHistoryAdapter';
+export { default as LegionAdapter } from './LegionAdapter';
