@@ -7,7 +7,7 @@ import useAuthParams from '../../../../../.storybook/useAuthParams';
 import MsalAuthService from '../../../../Models/Services/MsalAuthService';
 import LegionAdapter from '../../Adapters/Mixin/LegionAdapter';
 
-const wrapperStyle = { width: '400px', height: '540px', padding: 8 };
+const wrapperStyle = { width: '800px', height: '540px', padding: 8 };
 
 export default {
     title: 'Components/Apps/Legion/DataPusher',

@@ -15,6 +15,7 @@ export interface IDataPusherStyleProps {
 }
 export interface IDataPusherStyles {
     root: IStyle;
+    tableContainer: IStyle;
 
     /**
      * SubComponent styles.

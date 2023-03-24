@@ -148,7 +148,6 @@ const DataPusher: React.FC<IDataPusherProps> = (props) => {
                     setTableOptions(data.map((d) => ({ value: d, label: d })));
                     break;
                 case DataFetchType.row:
-                    debugger;
                     setRows(data);
                     break;
                 default:
@@ -181,7 +180,10 @@ const DataPusher: React.FC<IDataPusherProps> = (props) => {
     return (
         <div className={classNames.root}>
             <h3 style={{ marginTop: 0 }}>Connect and push data</h3>
-            <Stack tokens={{ childrenGap: 8 }}>
+            <Stack
+                styles={{ root: { width: 300 } }}
+                tokens={{ childrenGap: 8 }}
+            >
                 <StackItem>
                     <CreatableSelect
                         onChange={handleDatabaseChange}
@@ -190,6 +192,7 @@ const DataPusher: React.FC<IDataPusherProps> = (props) => {
                         placeholder="Select database"
                         styles={selectStyles}
                         value={selectedDatabase}
+                        isLoading={!selectedDatabase && getDataState.isLoading}
                     />
                     {pushDataState.isLoading && selectedDatabase?.__isNew__ && (
                         <Spinner
@@ -206,6 +209,7 @@ const DataPusher: React.FC<IDataPusherProps> = (props) => {
                         placeholder="Select table"
                         styles={selectStyles}
                         value={selectedTable}
+                        isLoading={!selectedTable && getDataState.isLoading}
                     />
                     {pushDataState.isLoading && selectedTable?.__isNew__ && (
                         <Spinner
@@ -226,16 +230,20 @@ const DataPusher: React.FC<IDataPusherProps> = (props) => {
             </Stack>
 
             {rows?.Rows.length > 0 && (
-                <DetailsList
-                    items={rows.Rows}
-                    columns={rows.Columns.map((c) => ({
-                        key: c,
-                        name: c,
-                        minWidth: 20
-                    }))}
-                    isHeaderVisible={true}
-                    selectionMode={SelectionMode.none}
-                />
+                <div className={classNames.tableContainer}>
+                    <DetailsList
+                        items={rows.Rows}
+                        columns={rows.Columns.map((c, idx) => ({
+                            key: c,
+                            name: c,
+                            minWidth: 20,
+                            maxWidth: 100,
+                            onRender: (item) => item[idx]
+                        }))}
+                        isHeaderVisible={true}
+                        selectionMode={SelectionMode.none}
+                    />
+                </div>
             )}
         </div>
     );

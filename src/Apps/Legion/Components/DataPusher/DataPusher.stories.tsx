@@ -5,7 +5,7 @@ import DataPusher from './DataPusher';
 import { IDataPusherProps } from './DataPusher.types';
 import MockDataManagementAdapter from '../../Adapters/Standalone/DataManagement/MockDataManagementAdapter';
 
-const wrapperStyle = { width: '400px', height: '540px', padding: 8 };
+const wrapperStyle = { width: '800px', height: '540px', padding: 8 };
 
 export default {
     title: 'Components/Apps/Legion/DataPusher',

@@ -79,55 +79,50 @@ export default class ADXAdapter
         const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
         return await adapterMethodSandbox.safelyFetchData(async (token) => {
             if (!params.databaseName) {
-                const getResourceAxios = await adapterMethodSandbox.safelyFetchData(
-                    async (armToken) => {
-                        const resourceResult = await axios({
-                            method: 'post',
-                            url:
-                                'https://management.azure.com/providers/Microsoft.ResourceGraph/resources',
+                await adapterMethodSandbox.safelyFetchData(async (armToken) => {
+                    const resourceResult = await axios({
+                        method: 'post',
+                        url:
+                            'https://management.azure.com/providers/Microsoft.ResourceGraph/resources',
+                        headers: {
+                            Authorization: 'Bearer ' + armToken,
+                            Accept: 'application/json',
+                            'Content-Type': 'application/json'
+                        },
+                        params: { 'api-version': '2021-03-01' },
+                        data: {
+                            query: `Resources | where type =~ 'Microsoft.Kusto/clusters' | where properties.uri =~ '${this.connectionSource}' | project id, name, location, type, tenantId, subscriptionId | order by name asc`
+                        }
+                    }).catch((err) => {
+                        console.log(err);
+                        return null;
+                    });
+                    const resource = resourceResult?.data?.data[0];
+                    if (resource) {
+                        const putDatabase = await axios({
+                            method: 'put',
+                            url: `https://management.azure.com${resource.id}/databases/${params.data}`,
                             headers: {
                                 Authorization: 'Bearer ' + armToken,
                                 Accept: 'application/json',
                                 'Content-Type': 'application/json'
                             },
-                            params: { 'api-version': '2021-03-01' },
+                            params: { 'api-version': '2022-12-29' },
                             data: {
-                                query: `Resources | where type =~ 'Microsoft.Kusto/clusters' | where properties.uri =~ '${this.connectionSource}' | project id, name, location, type, tenantId, subscriptionId | order by name asc`
+                                location: resource.location,
+                                kind: 'ReadWrite'
                             }
                         }).catch((err) => {
-                            console.log(err);
+                            adapterMethodSandbox.pushError({
+                                type: ComponentErrorType.DataUploadFailed,
+                                isCatastrophic: true,
+                                rawError: err
+                            });
                             return null;
                         });
-                        const resource = resourceResult?.data?.data[0];
-                        if (resource) {
-                            const putDatabase = await axios({
-                                method: 'put',
-                                url: `https://management.azure.com${resource.id}/databases/${params.data}`,
-                                headers: {
-                                    Authorization: 'Bearer ' + armToken,
-                                    Accept: 'application/json',
-                                    'Content-Type': 'application/json'
-                                },
-                                params: { 'api-version': '2022-12-29' },
-                                data: {
-                                    location: resource.location,
-                                    kind: 'ReadWrite'
-                                }
-                            }).catch((err) => {
-                                adapterMethodSandbox.pushError({
-                                    type: ComponentErrorType.DataUploadFailed,
-                                    isCatastrophic: true,
-                                    rawError: err
-                                });
-                                return null;
-                            });
-                            return new DataManagementAdapterData(
-                                putDatabase.data
-                            );
-                        }
-                    },
-                    'azureManagement'
-                );
+                        return new DataManagementAdapterData(putDatabase.data);
+                    }
+                }, 'azureManagement');
             } else if (!params.tableName) {
                 console.log('add table');
             } else {
