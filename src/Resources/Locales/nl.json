@@ -1532,5 +1532,22 @@
   },
   "jobs": {
     "addNew": "Nieuwe toevoegen"
+  },
+  "legionApp": {
+    "dataPusher": {
+      "title": "Gegevens verbinden en pushen",
+      "database": "Databank",
+      "table": "Tafel",
+      "simulationType": "Simulatie type",
+      "selectDatabasePlaceholder": "Selecteer database",
+      "selectTablePlaceholder": "Selecteer tabel",
+      "selectSimulationTypePlaceholder": "Selecteer simulatietype",
+      "primaryActionLabel": "Simulatiegegevens verbinden en pushen",
+      "progress": {
+        "createDatabase": "Database maken...",
+        "createTable": "Tabel maken...",
+        "createTables": "Tabellen maken..."
+      }
+    }
   }
 }

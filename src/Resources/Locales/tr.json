@@ -1532,5 +1532,22 @@
   },
   "jobs": {
     "addNew": "Yeni ekle"
+  },
+  "legionApp": {
+    "dataPusher": {
+      "title": "Verileri bağlama ve gönderme",
+      "database": "Veritabanı",
+      "table": "Masa",
+      "simulationType": "Simülasyon türü",
+      "selectDatabasePlaceholder": "Veritabanı seç",
+      "selectTablePlaceholder": "Tablo seçin",
+      "selectSimulationTypePlaceholder": "Simülasyon türünü seçin",
+      "primaryActionLabel": "Simülasyon verilerini bağlayın ve gönderin",
+      "progress": {
+        "createDatabase": "Veritabanı oluşturuluyor...",
+        "createTable": "Tablo oluşturuluyor...",
+        "createTables": "Tablo oluşturma..."
+      }
+    }
   }
 }

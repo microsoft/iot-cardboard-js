@@ -1532,5 +1532,22 @@
   },
   "jobs": {
     "addNew": "Ajouter un nouveau"
+  },
+  "legionApp": {
+    "dataPusher": {
+      "title": "Connecter et pousser des données",
+      "database": "Base de données",
+      "table": "Table",
+      "simulationType": "Type de simulation",
+      "selectDatabasePlaceholder": "Sélectionner une base de données",
+      "selectTablePlaceholder": "Sélectionner une table",
+      "selectSimulationTypePlaceholder": "Sélectionnez le type de simulation",
+      "primaryActionLabel": "Connecter et pousser les données de simulation",
+      "progress": {
+        "createDatabase": "Création d’une base de données...",
+        "createTable": "Création d’une table...",
+        "createTables": "Création de tables..."
+      }
+    }
   }
 }

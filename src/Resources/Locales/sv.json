@@ -1532,5 +1532,22 @@
   },
   "jobs": {
     "addNew": "Lägg till nya"
+  },
+  "legionApp": {
+    "dataPusher": {
+      "title": "Anslut och skicka data",
+      "database": "Databas",
+      "table": "Bord",
+      "simulationType": "Typ av simulering",
+      "selectDatabasePlaceholder": "Välj databas",
+      "selectTablePlaceholder": "Välj tabell",
+      "selectSimulationTypePlaceholder": "Välj simuleringstyp",
+      "primaryActionLabel": "Anslut och skicka simuleringsdata",
+      "progress": {
+        "createDatabase": "Skapa databas...",
+        "createTable": "Skapa tabell...",
+        "createTables": "Skapa tabeller..."
+      }
+    }
   }
 }

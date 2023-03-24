@@ -1532,5 +1532,22 @@
   },
   "jobs": {
     "addNew": "Aggiungi nuovo"
+  },
+  "legionApp": {
+    "dataPusher": {
+      "title": "Connessione e invio dei dati",
+      "database": "Banca dati",
+      "table": "Tavolo",
+      "simulationType": "Tipo di simulazione",
+      "selectDatabasePlaceholder": "Seleziona database",
+      "selectTablePlaceholder": "Seleziona tabella",
+      "selectSimulationTypePlaceholder": "Seleziona il tipo di simulazione",
+      "primaryActionLabel": "Connessione e invio dei dati di simulazione",
+      "progress": {
+        "createDatabase": "Creazione di database...",
+        "createTable": "Creazione tabella...",
+        "createTables": "Creazione di tabelle..."
+      }
+    }
   }
 }

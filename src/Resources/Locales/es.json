@@ -1532,5 +1532,22 @@
   },
   "jobs": {
     "addNew": "Añadir nuevo"
+  },
+  "legionApp": {
+    "dataPusher": {
+      "title": "Conectar y enviar datos",
+      "database": "Base de datos",
+      "table": "Mesa",
+      "simulationType": "Tipo de simulación",
+      "selectDatabasePlaceholder": "Seleccionar base de datos",
+      "selectTablePlaceholder": "Seleccionar tabla",
+      "selectSimulationTypePlaceholder": "Seleccione el tipo de simulación",
+      "primaryActionLabel": "Conecte y envíe datos de simulación",
+      "progress": {
+        "createDatabase": "Creando base de datos...",
+        "createTable": "Creando tabla...",
+        "createTables": "Creando tablas..."
+      }
+    }
   }
 }

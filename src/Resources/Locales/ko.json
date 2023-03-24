@@ -1532,5 +1532,22 @@
   },
   "jobs": {
     "addNew": "새로 추가"
+  },
+  "legionApp": {
+    "dataPusher": {
+      "title": "데이터 연결 및 푸시",
+      "database": "데이터베이스",
+      "table": "테이블",
+      "simulationType": "시뮬레이션 유형",
+      "selectDatabasePlaceholder": "데이터베이스 선택",
+      "selectTablePlaceholder": "테이블 선택",
+      "selectSimulationTypePlaceholder": "시뮬레이션 유형 선택",
+      "primaryActionLabel": "시뮬레이션 데이터 연결 및 푸시",
+      "progress": {
+        "createDatabase": "데이터베이스 작성 중...",
+        "createTable": "테이블 생성 중...",
+        "createTables": "테이블 만들기..."
+      }
+    }
   }
 }
