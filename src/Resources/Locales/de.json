@@ -1532,5 +1532,22 @@
   },
   "jobs": {
     "addNew": "Neu hinzufügen"
+  },
+  "legionApp": {
+    "dataPusher": {
+      "title": "Verbinden und Übertragen von Daten",
+      "database": "Datenbank",
+      "table": "Tisch",
+      "simulationType": "Art der Simulation",
+      "selectDatabasePlaceholder": "Datenbank auswählen",
+      "selectTablePlaceholder": "Tabelle auswählen",
+      "selectSimulationTypePlaceholder": "Auswählen des Simulationstyps",
+      "primaryActionLabel": "Verbinden und Pushen von Simulationsdaten",
+      "progress": {
+        "createDatabase": "Datenbank wird erstellt...",
+        "createTable": "Tabelle wird erstellt...",
+        "createTables": "Erstellen von Tabellen..."
+      }
+    }
   }
 }

@@ -1532,5 +1532,22 @@
   },
   "jobs": {
     "addNew": "Dodaj nowy"
+  },
+  "legionApp": {
+    "dataPusher": {
+      "title": "Łączenie i przesyłanie danych",
+      "database": "Baza danych",
+      "table": "Stół",
+      "simulationType": "Typ symulacji",
+      "selectDatabasePlaceholder": "Wybierz bazę danych",
+      "selectTablePlaceholder": "Wybierz tabelę",
+      "selectSimulationTypePlaceholder": "Wybierz typ symulacji",
+      "primaryActionLabel": "Łączenie i przesyłanie danych symulacyjnych",
+      "progress": {
+        "createDatabase": "Tworzenie bazy danych...",
+        "createTable": "Tworzenie tabeli...",
+        "createTables": "Tworzenie tabel..."
+      }
+    }
   }
 }
