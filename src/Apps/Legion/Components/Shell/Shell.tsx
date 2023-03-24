@@ -2,6 +2,7 @@ import React from 'react';
 import { IShellProps, IShellStyleProps, IShellStyles } from './Shell.types';
 import { getStyles } from './Shell.styles';
 import { classNamesFunction, styled } from '@fluentui/react';
+import { useExtendedTheme } from '../../../../Models/Hooks/useExtendedTheme';
 import { getDebugLogger } from '../../Services/Utils';
 
 const debugLogging = false;
@@ -23,7 +24,9 @@ const Shell: React.FC<IShellProps> = (props) => {
     // side effects
 
     // styles
-    const classNames = getClassNames(styles, {});
+    const classNames = getClassNames(styles, {
+        theme: useExtendedTheme()
+    });
 
     logDebugConsole('debug', 'Render');
 

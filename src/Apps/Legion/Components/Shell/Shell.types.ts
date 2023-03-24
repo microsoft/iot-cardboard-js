@@ -1,4 +1,5 @@
 import { IStyle, IStyleFunctionOrObject } from '@fluentui/react';
+import { IExtendedTheme } from '../../../../Theming/Theme.types';
 
 export interface IShellProps {
     /**
@@ -7,9 +8,9 @@ export interface IShellProps {
     styles?: IStyleFunctionOrObject<IShellStyleProps, IShellStyles>;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface IShellStyleProps {}
-
+export interface IShellStyleProps {
+    theme: IExtendedTheme;
+}
 export interface IShellStyles {
     root: IStyle;
 

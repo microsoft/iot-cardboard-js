@@ -20,7 +20,6 @@
         "eslint:fix": "eslint src/**/*.{js,ts,tsx} --cache --fix",
         "generate-schema": "node .\\tools\\generate-3d-schema-types.js",
         "generate": "node ./tools/generate-component-template.js",
-        "generateLegion": "node ./tools/generate-legioncomponent-template.js",
         "generateCerts": "mkdirp certificates && cd certificates && mkcert create-ca && mkcert create-cert",
         "lint:check": "npm run eslint:check && npm run prettier:check && npm run stylelint:check",
         "lint": "npm run prettier:fix && npm run stylelint:fix",

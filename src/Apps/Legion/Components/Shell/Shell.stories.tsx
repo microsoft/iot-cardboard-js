@@ -1,8 +1,8 @@
 import React from 'react';
 import { ComponentStory } from '@storybook/react';
+import { getDefaultStoryDecorator } from '../../Services/StoryUtilities';
 import Shell from './Shell';
 import { IShellProps } from './Shell.types';
-import { getDefaultStoryDecorator } from '../../Services/StoryUtilities';
 
 const wrapperStyle = { width: '100%', height: '600px', padding: 8 };
 
