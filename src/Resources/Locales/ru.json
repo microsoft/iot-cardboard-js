@@ -1532,5 +1532,22 @@
   },
   "jobs": {
     "addNew": "Добавить новый"
+  },
+  "legionApp": {
+    "dataPusher": {
+      "title": "Подключение и отправка данных",
+      "database": "База данных",
+      "table": "Стол",
+      "simulationType": "Тип моделирования",
+      "selectDatabasePlaceholder": "Выберите базу данных",
+      "selectTablePlaceholder": "Выберите таблицу",
+      "selectSimulationTypePlaceholder": "Выберите тип моделирования",
+      "primaryActionLabel": "Подключение и отправка данных моделирования",
+      "progress": {
+        "createDatabase": "Создание базы данных...",
+        "createTable": "Создание таблицы...",
+        "createTables": "Создание таблиц..."
+      }
+    }
   }
 }

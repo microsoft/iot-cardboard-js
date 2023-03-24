@@ -1532,5 +1532,22 @@
   },
   "jobs": {
     "addNew": "新增"
+  },
+  "legionApp": {
+    "dataPusher": {
+      "title": "连接和推送数据",
+      "database": "数据库",
+      "table": "桌子",
+      "simulationType": "模拟类型",
+      "selectDatabasePlaceholder": "选择数据库",
+      "selectTablePlaceholder": "选择表格",
+      "selectSimulationTypePlaceholder": "选择模拟类型",
+      "primaryActionLabel": "连接和推送仿真数据",
+      "progress": {
+        "createDatabase": "正在创建数据库...",
+        "createTable": "正在创建表...",
+        "createTables": "正在创建表..."
+      }
+    }
   }
 }

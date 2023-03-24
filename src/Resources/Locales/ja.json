@@ -1532,5 +1532,22 @@
   },
   "jobs": {
     "addNew": "新規追加"
+  },
+  "legionApp": {
+    "dataPusher": {
+      "title": "データの接続とプッシュ",
+      "database": "データベース",
+      "table": "テーブル",
+      "simulationType": "シミュレーションの種類",
+      "selectDatabasePlaceholder": "データベースの選択",
+      "selectTablePlaceholder": "テーブルを選択",
+      "selectSimulationTypePlaceholder": "シミュレーションタイプを選択",
+      "primaryActionLabel": "シミュレーションデータの接続とプッシュ",
+      "progress": {
+        "createDatabase": "データベースを作成しています...",
+        "createTable": "テーブルを作成しています...",
+        "createTables": "テーブルを作成しています..."
+      }
+    }
   }
 }

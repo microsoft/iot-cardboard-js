@@ -1524,5 +1524,22 @@
     },
     "jobs": {
         "addNew": "Add new"
+    },
+    "legionApp": {
+        "dataPusher": {
+            "title": "Connect and push data",
+            "database": "Database",
+            "table": "Table",
+            "simulationType": "Simulation type",
+            "selectDatabasePlaceholder": "Select database",
+            "selectTablePlaceholder": "Select table",
+            "selectSimulationTypePlaceholder": "Select simulation type",
+            "primaryActionLabel": "Connect and push simulation data",
+            "progress": {
+                "createDatabase": "Creating database...",
+                "createTable": "Creating table...",
+                "createTables": "Creating tables..."
+            }
+        }
     }
 }

@@ -1532,5 +1532,22 @@
   },
   "jobs": {
     "addNew": "Přidat nový"
+  },
+  "legionApp": {
+    "dataPusher": {
+      "title": "Připojení a nabízení dat",
+      "database": "Databáze",
+      "table": "Stůl",
+      "simulationType": "Typ simulace",
+      "selectDatabasePlaceholder": "Vybrat databázi",
+      "selectTablePlaceholder": "Vybrat tabulku",
+      "selectSimulationTypePlaceholder": "Vyberte typ simulace",
+      "primaryActionLabel": "Připojení a odesílání dat simulace",
+      "progress": {
+        "createDatabase": "Tvorba databáze...",
+        "createTable": "Vytváření tabulky...",
+        "createTables": "Vytváření tabulek..."
+      }
+    }
   }
 }

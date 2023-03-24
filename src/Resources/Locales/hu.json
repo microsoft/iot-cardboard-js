@@ -1532,5 +1532,22 @@
   },
   "jobs": {
     "addNew": "Új hozzáadása"
+  },
+  "legionApp": {
+    "dataPusher": {
+      "title": "Adatok csatlakoztatása és leküldése",
+      "database": "Adatbázis",
+      "table": "Asztal",
+      "simulationType": "Szimuláció típusa",
+      "selectDatabasePlaceholder": "Adatbázis kiválasztása",
+      "selectTablePlaceholder": "Asztal kiválasztása",
+      "selectSimulationTypePlaceholder": "Válassza ki a szimuláció típusát",
+      "primaryActionLabel": "Szimulációs adatok csatlakoztatása és leküldése",
+      "progress": {
+        "createDatabase": "Adatbázis létrehozása...",
+        "createTable": "Táblázat létrehozása...",
+        "createTables": "Táblázatok létrehozása..."
+      }
+    }
   }
 }
