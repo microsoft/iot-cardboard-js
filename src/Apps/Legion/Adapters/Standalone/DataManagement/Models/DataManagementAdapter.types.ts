@@ -5,33 +5,53 @@ import { DataManagementAdapterData } from './DataManagementAdapter.data';
 export interface IDataManagementAdapter extends IBaseAdapter {
     /** ambigious connection source; can be either a string or an object type or totally different structure, e.g. Kusto cluster url */
     connectionSource: any;
-    /** ambigious get data method; can have very custom implementation through params passed, e.g. getting Kusto tables using database name */
-    getData: (
-        params?: any
-    ) => AdapterReturnType<DataManagementAdapterData<any>>;
-    /** ambigious push data method; can have very custom implementation through params passed, e.g. putting tables into a Kusto database using database name or putting rows into a Kusto table using database name and table name */
-    pushData: (
-        data: any,
-        params?: any
-    ) => AdapterReturnType<DataManagementAdapterData<any>>;
-
-    /**
-     * Or, methods can be more granular like the following if we are sure there is going to be "databases" or "tables" in the storage:
-    listDatabases: () => Promise<AdapterResult<IDataManagementAdapterData>>;
-    createDatabase: (databaseName: string) => void;
-    listTables: () => Promise<AdapterResult<IDataManagementAdapterData>>;
-    createTable: (tableName: string) => void;
-    sendDataToTable: (tableName: string, data: any) => void
-     */
+    getDatabases: () => AdapterReturnType<
+        DataManagementAdapterData<Array<string>>
+    >;
+    createDatabase: (
+        databaseName: string
+    ) => AdapterReturnType<DataManagementAdapterData<boolean>>;
+    getTables: (
+        databaseName: string
+    ) => AdapterReturnType<DataManagementAdapterData<Array<string>>>;
+    createTable: (
+        databaseName: string,
+        tableName: string
+    ) => AdapterReturnType<DataManagementAdapterData<boolean>>;
+    upsertTable: (
+        databaseName: string,
+        tableName: string,
+        data: Array<IIngestRow>
+    ) => AdapterReturnType<DataManagementAdapterData<boolean>>;
+    getTable: (
+        databaseName: string,
+        tableName: string
+    ) => AdapterReturnType<DataManagementAdapterData<ITable>>;
 }
 
-export interface IGetDataAdapterParams {
-    databaseName?: string;
-    tableName?: string;
+export interface ICreateDatabaseAdapterParams {
+    databaseName: string;
 }
 
-export interface IPushDataAdapterParams {
-    databaseName?: string;
-    tableName?: string;
-    data?: string | Array<string | number | null>;
+export interface IGetTablesAdapterParams {
+    databaseName: string;
+}
+
+export interface ICreateTableAdapterParams {
+    databaseName: string;
+    tableName: string;
+}
+
+export interface IGetTableAdapterParams {
+    databaseName: string;
+    tableName: string;
+}
+
+export interface ITable {
+    Columns: Array<string>;
+    Rows: Array<Array<any>>;
+}
+
+export interface IIngestRow {
+    [key: string]: any;
 }

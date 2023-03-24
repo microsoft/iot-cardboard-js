@@ -3,8 +3,8 @@ import BaseAdapter from '../../BaseAdapter';
 import { DataManagementAdapterData } from './Models/DataManagementAdapter.data';
 import {
     IDataManagementAdapter,
-    IGetDataAdapterParams,
-    IPushDataAdapterParams
+    IIngestRow,
+    ITable
 } from './Models/DataManagementAdapter.types';
 
 export default class MockDataManagementAdapter
@@ -30,25 +30,14 @@ export default class MockDataManagementAdapter
         }
     }
 
-    async getData(params: IGetDataAdapterParams) {
+    async getDatabases() {
         try {
             await this.mockNetwork();
-            return new AdapterResult<
-                DataManagementAdapterData<
-                    | Array<string>
-                    | { Columns: Array<string>; Rows: Array<Array<any>> }
-                >
-            >({
-                result: new DataManagementAdapterData(
-                    !params.databaseName
-                        ? ['MockDatabase1', 'MockDatabase2']
-                        : !params.tableName
-                        ? ['MockTable1', 'MockTable2']
-                        : {
-                              Columns: ['Timestamp'],
-                              Rows: [['mockTimestamp1'], ['mockTimestamp2']]
-                          }
-                ),
+            return new AdapterResult<DataManagementAdapterData<Array<string>>>({
+                result: new DataManagementAdapterData([
+                    'MockDatabase1',
+                    'MockDatabase2'
+                ]),
                 errorInfo: null
             });
         } catch (err) {
@@ -58,18 +47,84 @@ export default class MockDataManagementAdapter
             });
         }
     }
-
-    async pushData(params: IPushDataAdapterParams) {
+    async createDatabase(_databaseName: string) {
+        try {
+            await this.mockNetwork();
+            return new AdapterResult<DataManagementAdapterData<boolean>>({
+                result: new DataManagementAdapterData(true),
+                errorInfo: null
+            });
+        } catch (err) {
+            return new AdapterResult<DataManagementAdapterData<boolean>>({
+                result: null,
+                errorInfo: { catastrophicError: err, errors: [err] }
+            });
+        }
+    }
+    async getTables(_databaseName: string) {
         try {
             await this.mockNetwork();
             return new AdapterResult<DataManagementAdapterData<Array<string>>>({
-                result: new DataManagementAdapterData(
-                    params.data as Array<string>
-                ),
+                result: new DataManagementAdapterData([
+                    'MockTable1',
+                    'MockTable2'
+                ]),
                 errorInfo: null
             });
         } catch (err) {
             return new AdapterResult<DataManagementAdapterData<Array<string>>>({
+                result: null,
+                errorInfo: { catastrophicError: err, errors: [err] }
+            });
+        }
+    }
+    async createTable(_databaseName: string, _tableName: string) {
+        try {
+            await this.mockNetwork();
+            return new AdapterResult<DataManagementAdapterData<boolean>>({
+                result: new DataManagementAdapterData(true),
+                errorInfo: null
+            });
+        } catch (err) {
+            return new AdapterResult<DataManagementAdapterData<boolean>>({
+                result: null,
+                errorInfo: { catastrophicError: err, errors: [err] }
+            });
+        }
+    }
+    async upsertTable(
+        _databaseName: string,
+        _tableName: string,
+        _data: IIngestRow[]
+    ) {
+        try {
+            await this.mockNetwork();
+            return new AdapterResult<DataManagementAdapterData<boolean>>({
+                result: new DataManagementAdapterData(true),
+                errorInfo: null
+            });
+        } catch (err) {
+            return new AdapterResult<DataManagementAdapterData<boolean>>({
+                result: null,
+                errorInfo: { catastrophicError: err, errors: [err] }
+            });
+        }
+    }
+    async getTable(_databaseName: string, _tableName: string) {
+        try {
+            await this.mockNetwork();
+            return new AdapterResult<DataManagementAdapterData<ITable>>({
+                result: new DataManagementAdapterData({
+                    Columns: ['Id', 'Timestamp', 'Temperature'],
+                    Rows: [
+                        ['Salt_Machine_01', '2018-11-14 11:34', 12],
+                        ['Salt_Machine_02', '2018-11-15 18:07', 15]
+                    ]
+                }),
+                errorInfo: null
+            });
+        } catch (err) {
+            return new AdapterResult<DataManagementAdapterData<ITable>>({
                 result: null,
                 errorInfo: { catastrophicError: err, errors: [err] }
             });
