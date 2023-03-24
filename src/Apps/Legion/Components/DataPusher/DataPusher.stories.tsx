@@ -3,8 +3,9 @@ import { ComponentStory } from '@storybook/react';
 import { getDefaultStoryDecorator } from '../../../../Models/Services/StoryUtilities';
 import DataPusher from './DataPusher';
 import { IDataPusherProps } from './DataPusher.types';
+import MockDataManagementAdapter from '../../Adapters/Standalone/DataManagement/MockDataManagementAdapter';
 
-const wrapperStyle = { width: '100%', height: '600px', padding: 8 };
+const wrapperStyle = { width: '400px', height: '540px', padding: 8 };
 
 export default {
     title: 'Components/Apps/Legion/DataPusher',
@@ -18,5 +19,7 @@ const Template: DataPusherStory = (args) => {
     return <DataPusher {...args} />;
 };
 
-export const Base = Template.bind({}) as DataPusherStory;
-Base.args = {} as IDataPusherProps;
+export const Mock = Template.bind({}) as DataPusherStory;
+Mock.args = {
+    adapter: new MockDataManagementAdapter()
+} as IDataPusherProps;

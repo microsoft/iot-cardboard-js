@@ -1,15 +1,16 @@
-import { ADXAdapter } from '../../../../Adapters';
 import { IAuthService } from '../../../../Models/Constants/Interfaces';
 import { applyMixins } from '../../../../Models/Services/Utils';
-import MockDataManagementAdapter from '../Standalone/DataManagement/MockDataManagementAdapter';
+import ADXAdapter from '../Standalone/DataManagement/ADXAdapter';
 
 export default class LegionAdapter {
-    constructor(authService: IAuthService) {
+    constructor(authService: IAuthService, connectionSource: string) {
         this.authService = authService;
+        this.connectionSource = connectionSource;
+        this.authService.login();
     }
 }
 
-export default interface LegionAdapter
-    extends ADXAdapter,
-        MockDataManagementAdapter {}
-applyMixins(LegionAdapter, [ADXAdapter, MockDataManagementAdapter]);
+export default interface LegionAdapter extends ADXAdapter {
+    additionalFunc: () => void;
+}
+applyMixins(LegionAdapter, [ADXAdapter]);
