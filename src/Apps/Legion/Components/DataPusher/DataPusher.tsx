@@ -19,16 +19,21 @@ import {
     IDropdownOption,
     PrimaryButton,
     SelectionMode,
+    Spinner,
+    SpinnerSize,
     Stack,
+    StackItem,
     styled
 } from '@fluentui/react';
 import { useExtendedTheme } from '../../../../Models/Hooks/useExtendedTheme';
 import { getDebugLogger } from '../../../../Models/Services/Utils';
 import CreatableSelect from 'react-select/creatable';
-import { ActionMeta, InputActionMeta } from 'react-select';
+import { ActionMeta } from 'react-select';
 import useAdapter from '../../../../Models/Hooks/useAdapter';
-import { IGetDataAdapterParams } from '../../Adapters/Standalone/DataManagement/Models/DataManagementAdapter.types';
-import Select from 'react-select/dist/declarations/src/Select';
+import {
+    IGetDataAdapterParams,
+    IPushDataAdapterParams
+} from '../../Adapters/Standalone/DataManagement/Models/DataManagementAdapter.types';
 import { getReactSelectStyles } from '../../../../Resources/Styles/ReactSelect.styles';
 import { AdtPusherSimulationType } from '../../../../Models/Constants/Interfaces';
 import { useTranslation } from 'react-i18next';
@@ -47,15 +52,17 @@ const DataPusher: React.FC<IDataPusherProps> = (props) => {
     // state
     const [databaseOptions, setDatabaseOptions] = useState([]);
     const [tableOptions, setTableOptions] = useState([]);
-    const [rows, setRows] = useState([]);
+    const [rows, setRows] = useState(null);
 
     const [selectedDatabase, setSelectedDatabase] = useState<{
         value: string;
         label: string;
+        __isNew__: boolean;
     }>(null);
     const [selectedTable, setSelectedTable] = useState<{
         value: string;
         label: string;
+        __isNew__: boolean;
     }>(null);
     const [selectedSimulationType, setSelectedSimulationType] = useState(null);
 
@@ -74,11 +81,8 @@ const DataPusher: React.FC<IDataPusherProps> = (props) => {
         refetchDependencies: [adapter]
     });
     const pushDataState = useAdapter({
-        adapterMethod: (params: {
-            databaseName: string;
-            tableName: string;
-            data: Array<any>;
-        }) => adapter.pushData(params),
+        adapterMethod: (params: IPushDataAdapterParams) =>
+            adapter.pushData(params),
         isAdapterCalledOnMount: false,
         refetchDependencies: [adapter]
     });
@@ -89,7 +93,7 @@ const DataPusher: React.FC<IDataPusherProps> = (props) => {
             setSelectedDatabase(newValue);
             setSelectedTable(null); // reset tables
             if (actionMeta.action === 'create-option') {
-                // create db
+                pushDataState.callAdapter({ data: newValue.label });
                 setDatabaseOptions(databaseOptions.concat(newValue));
             } else {
                 // fetch tables of selected database
@@ -99,12 +103,12 @@ const DataPusher: React.FC<IDataPusherProps> = (props) => {
                 });
             }
         },
-        [getDataState, databaseOptions]
+        [getDataState, pushDataState, databaseOptions]
     );
     const handleTableChange = useCallback(
         (newValue: any, actionMeta: ActionMeta<any>) => {
             setSelectedTable(newValue);
-            setRows([]); // reset rows
+            setRows(null); // reset rows
             if (actionMeta.action === 'create-option') {
                 // create table
                 setTableOptions(tableOptions.concat(newValue));
@@ -112,12 +116,12 @@ const DataPusher: React.FC<IDataPusherProps> = (props) => {
                 // fetch rows of selected table
                 dataFetchType.current = DataFetchType.row;
                 getDataState.callAdapter({
-                    databaseName: newValue.label,
+                    databaseName: selectedDatabase.label,
                     tableName: newValue.label
                 });
             }
         },
-        [getDataState, tableOptions]
+        [getDataState, tableOptions, selectedDatabase]
     );
     const handleSimulationTypeChange = useCallback(
         (_event, option: IDropdownOption) => {
@@ -144,6 +148,7 @@ const DataPusher: React.FC<IDataPusherProps> = (props) => {
                     setTableOptions(data.map((d) => ({ value: d, label: d })));
                     break;
                 case DataFetchType.row:
+                    debugger;
                     setRows(data);
                     break;
                 default:
@@ -177,22 +182,38 @@ const DataPusher: React.FC<IDataPusherProps> = (props) => {
         <div className={classNames.root}>
             <h3 style={{ marginTop: 0 }}>Connect and push data</h3>
             <Stack tokens={{ childrenGap: 8 }}>
-                <CreatableSelect
-                    onChange={handleDatabaseChange}
-                    isClearable
-                    options={databaseOptions}
-                    placeholder="Select database"
-                    styles={selectStyles}
-                    value={selectedDatabase}
-                />
-                <CreatableSelect
-                    onChange={handleTableChange}
-                    isClearable
-                    options={tableOptions}
-                    placeholder="Select table"
-                    styles={selectStyles}
-                    value={selectedTable}
-                />
+                <StackItem>
+                    <CreatableSelect
+                        onChange={handleDatabaseChange}
+                        isClearable
+                        options={databaseOptions}
+                        placeholder="Select database"
+                        styles={selectStyles}
+                        value={selectedDatabase}
+                    />
+                    {pushDataState.isLoading && selectedDatabase?.__isNew__ && (
+                        <Spinner
+                            label={'Creating database...'}
+                            size={SpinnerSize.small}
+                        />
+                    )}
+                </StackItem>
+                <StackItem>
+                    <CreatableSelect
+                        onChange={handleTableChange}
+                        isClearable
+                        options={tableOptions}
+                        placeholder="Select table"
+                        styles={selectStyles}
+                        value={selectedTable}
+                    />
+                    {pushDataState.isLoading && selectedTable?.__isNew__ && (
+                        <Spinner
+                            label={'Creating table...'}
+                            size={SpinnerSize.small}
+                        />
+                    )}
+                </StackItem>
                 <Dropdown
                     onChange={handleSimulationTypeChange}
                     options={simulationOptions}
@@ -204,16 +225,14 @@ const DataPusher: React.FC<IDataPusherProps> = (props) => {
                 />
             </Stack>
 
-            {rows.length > 0 && (
+            {rows?.Rows.length > 0 && (
                 <DetailsList
-                    items={rows}
-                    columns={[
-                        {
-                            key: 'column1',
-                            name: 'column1',
-                            minWidth: 20
-                        }
-                    ]}
+                    items={rows.Rows}
+                    columns={rows.Columns.map((c) => ({
+                        key: c,
+                        name: c,
+                        minWidth: 20
+                    }))}
                     isHeaderVisible={true}
                     selectionMode={SelectionMode.none}
                 />

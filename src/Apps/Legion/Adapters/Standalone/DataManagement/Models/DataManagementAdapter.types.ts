@@ -26,12 +26,12 @@ export interface IDataManagementAdapter extends IBaseAdapter {
 }
 
 export interface IGetDataAdapterParams {
-    databaseName: string;
+    databaseName?: string;
     tableName?: string;
 }
 
 export interface IPushDataAdapterParams {
     databaseName?: string;
     tableName?: string;
-    data?: Array<string | number | null>;
+    data?: string | Array<string | number | null>;
 }
