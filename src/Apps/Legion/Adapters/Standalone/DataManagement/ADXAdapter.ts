@@ -20,6 +20,7 @@ export default class ADXAdapter
         this.connectionSource = connectionSource;
         this.authService.login();
     }
+
     async getDatabases() {
         const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
         return await adapterMethodSandbox.safelyFetchData(async (token) => {
@@ -50,6 +51,7 @@ export default class ADXAdapter
             );
         }, 'adx');
     }
+
     async createDatabase(databaseName: string) {
         const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
         return await adapterMethodSandbox.safelyFetchData(async (armToken) => {
@@ -97,6 +99,7 @@ export default class ADXAdapter
             }
         }, 'azureManagement');
     }
+
     async getTables(databaseName: string) {
         const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
         return await adapterMethodSandbox.safelyFetchData(async (token) => {
