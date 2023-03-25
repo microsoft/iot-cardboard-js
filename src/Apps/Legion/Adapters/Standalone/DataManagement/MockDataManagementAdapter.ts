@@ -47,6 +47,7 @@ export default class MockDataManagementAdapter
             });
         }
     }
+
     async createDatabase(_databaseName: string) {
         try {
             await this.mockNetwork();
@@ -61,6 +62,7 @@ export default class MockDataManagementAdapter
             });
         }
     }
+
     async getTables(_databaseName: string) {
         try {
             await this.mockNetwork();
@@ -78,6 +80,7 @@ export default class MockDataManagementAdapter
             });
         }
     }
+
     async createTable(_databaseName: string, _tableName: string) {
         try {
             await this.mockNetwork();
@@ -92,6 +95,7 @@ export default class MockDataManagementAdapter
             });
         }
     }
+
     async upsertTable(
         _databaseName: string,
         _tableName: string,
@@ -110,6 +114,7 @@ export default class MockDataManagementAdapter
             });
         }
     }
+
     async getTable(_databaseName: string, _tableName: string) {
         try {
             await this.mockNetwork();
