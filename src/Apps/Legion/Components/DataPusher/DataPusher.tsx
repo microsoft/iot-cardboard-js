@@ -9,6 +9,7 @@ import {
     classNamesFunction,
     DetailsList,
     Dropdown,
+    IColumn,
     IDropdownOption,
     Label,
     PrimaryButton,
@@ -27,7 +28,8 @@ import useAdapter from '../../../../Models/Hooks/useAdapter';
 import {
     ICreateDatabaseAdapterParams,
     IGetTableAdapterParams,
-    IGetTablesAdapterParams
+    IGetTablesAdapterParams,
+    ITable
 } from '../../Adapters/Standalone/DataManagement/Models/DataManagementAdapter.types';
 import { getReactSelectStyles } from '../../../../Resources/Styles/ReactSelect.styles';
 import { AdtPusherSimulationType } from '../../../../Models/Constants/Interfaces';
@@ -45,21 +47,40 @@ const DataPusher: React.FC<IDataPusherProps> = (props) => {
     const { adapter, styles } = props;
 
     // state
-    const [databaseOptions, setDatabaseOptions] = useState([]);
-    const [tableOptions, setTableOptions] = useState([]);
-    const [tableData, setTableData] = useState(null);
+    const [sourceDatabaseOptions, setSourceDatabaseOptions] = useState<
+        Array<IDropdownOption>
+    >([]);
+    const [targetDatabaseOptions, setTargetDatabaseOptions] = useState<
+        Array<IDropdownOption>
+    >([]);
+    const [sourceTableOptions, setSourceTableOptions] = useState<
+        Array<IDropdownOption>
+    >([]);
+    const [sourceTableColumnOptions, setSourceTableColumnOptions] = useState<
+        Array<IDropdownOption>
+    >([]);
+    const [tableData, setTableData] = useState<ITable>(null);
 
-    const [selectedDatabase, setSelectedDatabase] = useState<{
+    const [selectedTargetDatabase, setSelectedTargetDatabase] = useState<{
         value: string;
         label: string;
         __isNew__: boolean;
     }>(null);
-    const [selectedTable, setSelectedTable] = useState<{
-        value: string;
-        label: string;
-        __isNew__: boolean;
-    }>(null);
-    const [selectedSimulationType, setSelectedSimulationType] = useState(null);
+    const [
+        selectedSourceDatabase,
+        setSelectedSourceDatabase
+    ] = useState<string>(null);
+    const [selectedSourceTable, setSelectedSourceTable] = useState<string>(
+        null
+    );
+    const [
+        selectedSourceTwinIDColumn,
+        setSelectedSourceTwinIDColumn
+    ] = useState<string>(null);
+    const [
+        selectedSimulationType,
+        setSelectedSimulationType
+    ] = useState<string>(null);
 
     // hooks
     const { t } = useTranslation();
@@ -87,34 +108,30 @@ const DataPusher: React.FC<IDataPusherProps> = (props) => {
         isAdapterCalledOnMount: false,
         refetchDependencies: [adapter]
     });
-    const tableColumns = useMemo(
+    const tableColumns = useMemo<Array<IColumn>>(
         () =>
-            tableData?.Columns.map(
-                (c, idx) =>
-                    ({
-                        key: c,
-                        name: c,
-                        minWidth: 20,
-                        maxWidth: 100,
-                        onRender: (item) => item[idx]
-                    } || [])
-            ),
+            tableData?.Columns.map((c, idx) => ({
+                key: c,
+                name: c,
+                minWidth: 20,
+                maxWidth: 100,
+                onRender: (item) => item[idx]
+            })) || [],
         [tableData]
     );
 
     // callbacks
-    const handleDatabaseChange = useCallback(
+    const handleTargetDatabaseChange = useCallback(
         (newValue: any, actionMeta: ActionMeta<any>) => {
-            setSelectedDatabase(newValue);
-            setSelectedTable(null);
-            setTableOptions([]);
-            setTableData(null);
+            setSelectedTargetDatabase(newValue);
 
             if (actionMeta.action === 'create-option') {
                 createDatabaseState.callAdapter({
                     databaseName: newValue.label
                 });
-                setDatabaseOptions(databaseOptions.concat(newValue));
+                setTargetDatabaseOptions(
+                    targetDatabaseOptions.concat(newValue)
+                );
             } else {
                 // fetch tables of selected database
                 getTablesState.callAdapter({
@@ -122,24 +139,37 @@ const DataPusher: React.FC<IDataPusherProps> = (props) => {
                 });
             }
         },
-        [getTablesState, createDatabaseState, databaseOptions]
+        [getTablesState, createDatabaseState, targetDatabaseOptions]
     );
-    const handleTableChange = useCallback(
-        (newValue: any, actionMeta: ActionMeta<any>) => {
-            setSelectedTable(newValue);
-            setTableData(null);
-            if (actionMeta.action === 'create-option') {
-                // create table
-                setTableOptions(tableOptions.concat(newValue));
-            } else {
-                getTableState.callAdapter({
-                    databaseName: selectedDatabase.label,
-                    tableName: newValue.label
-                });
-            }
+    const handleSourceDatabaseChange = useCallback(
+        (_event, option: IDropdownOption) => {
+            setSelectedSourceDatabase(option.text);
+
+            // fetch tables of selected database
+            getTablesState.callAdapter({
+                databaseName: option.text
+            });
         },
-        [getTableState, tableOptions, selectedDatabase]
+        [getTablesState]
     );
+    const handleSourceTableChange = useCallback(
+        (_event, option: IDropdownOption) => {
+            setSelectedSourceTable(option.text);
+            setTableData(null);
+            getTableState.callAdapter({
+                databaseName: selectedSourceDatabase,
+                tableName: option.text
+            });
+        },
+        [getTableState, selectedSourceDatabase]
+    );
+    const handleSourceTwinIDColumnChange = useCallback(
+        (_event, option: IDropdownOption) => {
+            setSelectedSourceTwinIDColumn(option.text);
+        },
+        []
+    );
+
     const handleSimulationTypeChange = useCallback(
         (_event, option: IDropdownOption) => {
             setSelectedSimulationType(option.text);
@@ -155,21 +185,25 @@ const DataPusher: React.FC<IDataPusherProps> = (props) => {
     useEffect(() => {
         if (getDatabasesState?.adapterResult?.result) {
             const data = getDatabasesState.adapterResult.getData();
-            setDatabaseOptions(data.map((d) => ({ value: d, label: d })));
+            setSourceDatabaseOptions(data.map((d) => ({ key: d, text: d })));
+            setTargetDatabaseOptions(data.map((d) => ({ key: d, text: d })));
         }
     }, [getDatabasesState?.adapterResult]);
 
     useEffect(() => {
         if (getTablesState?.adapterResult?.result) {
             const data = getTablesState.adapterResult.getData();
-            setTableOptions(data.map((d) => ({ value: d, label: d })));
+            setSourceTableOptions(data.map((d) => ({ key: d, text: d })));
         }
     }, [getTablesState?.adapterResult]);
 
     useEffect(() => {
         if (getTableState?.adapterResult?.result) {
-            const data = getTableState.adapterResult.getData();
+            const data = getTableState.adapterResult.getData() as ITable;
             setTableData(data);
+            setSourceTableColumnOptions(
+                data.Columns.map((d) => ({ key: d, text: d }))
+            );
         }
     }, [getTableState?.adapterResult]);
 
@@ -202,40 +236,52 @@ const DataPusher: React.FC<IDataPusherProps> = (props) => {
                 tokens={{ childrenGap: 8 }}
             >
                 <StackItem>
-                    <Label>{t('legionApp.dataPusher.database')}</Label>
-                    <CreatableSelect
-                        onChange={handleDatabaseChange}
-                        isClearable
-                        options={databaseOptions}
+                    <Dropdown
+                        label={t('legionApp.dataPusher.sourceDatabase')}
+                        onChange={handleSourceDatabaseChange}
+                        options={sourceDatabaseOptions}
                         placeholder={t(
-                            'legionApp.dataPusher.selectDatabasePlaceholder'
+                            'legionApp.dataPusher.selectSourceDatabasePlaceholder'
+                        )}
+                    />
+                    <Dropdown
+                        label={t('legionApp.dataPusher.sourceTable')}
+                        onChange={handleSourceTableChange}
+                        options={sourceTableOptions}
+                        placeholder={t(
+                            'legionApp.dataPusher.selectSourceTablePlaceholder'
+                        )}
+                    />
+                    <Dropdown
+                        label={t('legionApp.dataPusher.sourceTwinIDColumn')}
+                        onChange={handleSourceTwinIDColumnChange}
+                        options={sourceTableColumnOptions}
+                        placeholder={t(
+                            'legionApp.dataPusher.selectSourceTwinIDColumnPlaceholder'
+                        )}
+                    />
+                </StackItem>
+                <StackItem>
+                    <Label>{t('legionApp.dataPusher.targetDatabase')}</Label>
+                    <CreatableSelect
+                        onChange={handleTargetDatabaseChange}
+                        isClearable
+                        options={targetDatabaseOptions}
+                        placeholder={t(
+                            'legionApp.dataPusher.selectTargetDatabasePlaceholder'
                         )}
                         styles={selectStyles}
-                        value={selectedDatabase}
+                        value={selectedTargetDatabase}
                         isLoading={getDatabasesState.isLoading}
                     />
                     {createDatabaseState.isLoading && (
                         <Spinner
                             label={t(
-                                'legionApp.dataPusher.progress.createDatabase'
+                                'legionApp.dataPusher.progress.createTargetDatabase'
                             )}
                             size={SpinnerSize.small}
                         />
                     )}
-                </StackItem>
-                <StackItem>
-                    <Label>{t('legionApp.dataPusher.table')}</Label>
-                    <CreatableSelect
-                        onChange={handleTableChange}
-                        isClearable
-                        options={tableOptions}
-                        placeholder={t(
-                            'legionApp.dataPusher.selectTablePlaceholder'
-                        )}
-                        styles={selectStyles}
-                        value={selectedTable}
-                        isLoading={getTablesState.isLoading}
-                    />
                 </StackItem>
                 <StackItem>
                     <Label>{t('legionApp.dataPusher.simulationType')}</Label>

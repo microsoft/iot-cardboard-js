@@ -1528,15 +1528,19 @@
     "legionApp": {
         "dataPusher": {
             "title": "Connect and push data",
-            "database": "Database",
-            "table": "Table",
+            "sourceDatabase": "Source database",
+            "targetDatabase": "Target database",
+            "sourceTable": "Source table",
+            "sourceTwinIDColumn": "Source twin ID column",
             "simulationType": "Simulation type",
-            "selectDatabasePlaceholder": "Select database",
-            "selectTablePlaceholder": "Select table",
+            "selectSourceDatabasePlaceholder": "Select source database",
+            "selectTargetDatabasePlaceholder": "Select target database",
+            "selectSourceTablePlaceholder": "Select source table",
+            "selectSourceTwinIDColumnPlaceholder": "Select source twin ID column",
             "selectSimulationTypePlaceholder": "Select simulation type",
             "primaryActionLabel": "Connect and push simulation data",
             "progress": {
-                "createDatabase": "Creating database...",
+                "createTargetDatabase": "Creating target database...",
                 "createTable": "Creating table...",
                 "createTables": "Creating tables..."
             }
