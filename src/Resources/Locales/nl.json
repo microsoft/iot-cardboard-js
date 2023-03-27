@@ -1536,18 +1536,22 @@
   "legionApp": {
     "dataPusher": {
       "title": "Gegevens verbinden en pushen",
-      "database": "Databank",
-      "table": "Tafel",
       "simulationType": "Simulatie type",
-      "selectDatabasePlaceholder": "Selecteer database",
-      "selectTablePlaceholder": "Selecteer tabel",
       "selectSimulationTypePlaceholder": "Selecteer simulatietype",
       "primaryActionLabel": "Simulatiegegevens verbinden en pushen",
       "progress": {
-        "createDatabase": "Database maken...",
         "createTable": "Tabel maken...",
-        "createTables": "Tabellen maken..."
-      }
+        "createTables": "Tabellen maken...",
+        "createTargetDatabase": "Doeldatabase maken..."
+      },
+      "sourceDatabase": "Brondatabase",
+      "targetDatabase": "Doeldatabase",
+      "sourceTable": "Brontabel",
+      "sourceTwinIDColumn": "Kolom brontwin-ID",
+      "selectSourceDatabasePlaceholder": "Selecteer brondatabase",
+      "selectTargetDatabasePlaceholder": "Selecteer doeldatabase",
+      "selectSourceTablePlaceholder": "Brontabel selecteren",
+      "selectSourceTwinIDColumnPlaceholder": "Kolom dubbele id van bron selecteren"
     }
   }
 }

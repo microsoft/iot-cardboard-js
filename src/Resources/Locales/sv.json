@@ -1536,18 +1536,22 @@
   "legionApp": {
     "dataPusher": {
       "title": "Anslut och skicka data",
-      "database": "Databas",
-      "table": "Bord",
       "simulationType": "Typ av simulering",
-      "selectDatabasePlaceholder": "Välj databas",
-      "selectTablePlaceholder": "Välj tabell",
       "selectSimulationTypePlaceholder": "Välj simuleringstyp",
       "primaryActionLabel": "Anslut och skicka simuleringsdata",
       "progress": {
-        "createDatabase": "Skapa databas...",
         "createTable": "Skapa tabell...",
-        "createTables": "Skapa tabeller..."
-      }
+        "createTables": "Skapa tabeller...",
+        "createTargetDatabase": "Skapa måldatabas..."
+      },
+      "sourceDatabase": "Källor",
+      "targetDatabase": "Måldatabas",
+      "sourceTable": "Källor",
+      "sourceTwinIDColumn": "Kolumn för källtvilling-ID",
+      "selectSourceDatabasePlaceholder": "Välj källdatabas",
+      "selectTargetDatabasePlaceholder": "Välj måldatabas",
+      "selectSourceTablePlaceholder": "Välj källtabell",
+      "selectSourceTwinIDColumnPlaceholder": "Välj kolumn för källtvilling-ID"
     }
   }
 }
