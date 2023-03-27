@@ -1538,7 +1538,8 @@
             "selectSourceTablePlaceholder": "Select source table",
             "selectSourceTwinIDPropertyPlaceholder": "Select source twin ID property",
             "selectSimulationTypePlaceholder": "Select simulation type",
-            "primaryActionLabel": "Connect and push simulation data",
+            "cookButtonLabel": "Cook twins graph based on source",
+            "pushSimulationButtonLabel": "Push simulation data to source table",
             "progress": {
                 "createTargetDatabase": "Creating target database...",
                 "createTable": "Creating table...",

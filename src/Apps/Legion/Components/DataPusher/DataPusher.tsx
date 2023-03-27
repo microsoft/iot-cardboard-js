@@ -174,9 +174,11 @@ const DataPusher: React.FC<IDataPusherProps> = (props) => {
         },
         []
     );
-    const handlePrimaryButtonClick = useCallback(() => {
-        // push data
-        alert('clicked!');
+    const handleCookButtonClick = useCallback(() => {
+        alert('cook clicked!');
+    }, []);
+    const handlePushSimulationButtonClick = useCallback(() => {
+        alert('push simulation clicked!');
     }, []);
 
     // side effects
@@ -286,18 +288,28 @@ const DataPusher: React.FC<IDataPusherProps> = (props) => {
                     )}
                 </StackItem>
                 <StackItem>
-                    <Label>{t('legionApp.dataPusher.simulationType')}</Label>
-                    <Dropdown
-                        onChange={handleSimulationTypeChange}
-                        options={simulationOptions}
-                        placeholder={t(
-                            'legionApp.dataPusher.selectSimulationTypePlaceholder'
-                        )}
+                    <PrimaryButton
+                        text={t('legionApp.dataPusher.cookButtonLabel')}
+                        onClick={handleCookButtonClick}
                     />
                 </StackItem>
+            </Stack>
+
+            <Stack
+                styles={{ root: { width: 300, paddingTop: 8 } }}
+                tokens={{ childrenGap: 8 }}
+            >
+                <Dropdown
+                    label={t('legionApp.dataPusher.simulationType')}
+                    onChange={handleSimulationTypeChange}
+                    options={simulationOptions}
+                    placeholder={t(
+                        'legionApp.dataPusher.selectSimulationTypePlaceholder'
+                    )}
+                />
                 <PrimaryButton
-                    text={t('legionApp.dataPusher.primaryActionLabel')}
-                    onClick={handlePrimaryButtonClick}
+                    text={t('legionApp.dataPusher.pushSimulationButtonLabel')}
+                    onClick={handlePushSimulationButtonClick}
                 />
             </Stack>
 
