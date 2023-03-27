@@ -1538,7 +1538,6 @@
       "title": "Verbinden und Übertragen von Daten",
       "simulationType": "Art der Simulation",
       "selectSimulationTypePlaceholder": "Auswählen des Simulationstyps",
-      "primaryActionLabel": "Verbinden und Pushen von Simulationsdaten",
       "progress": {
         "createTable": "Tabelle wird erstellt...",
         "createTables": "Erstellen von Tabellen...",
@@ -1547,11 +1546,13 @@
       "sourceDatabase": "Quelldatenbank",
       "targetDatabase": "Zieldatenbank",
       "sourceTable": "Quelltabelle",
-      "sourceTwinIDColumn": "Quell-Zwillings-ID-Spalte",
       "selectSourceDatabasePlaceholder": "Quelldatenbank auswählen",
       "selectTargetDatabasePlaceholder": "Zieldatenbank auswählen",
       "selectSourceTablePlaceholder": "Quelltabelle auswählen",
-      "selectSourceTwinIDColumnPlaceholder": "Quell-Zwillings-ID-Spalte auswählen"
+      "sourceTwinIDProperty": "Quell-Zwillings-ID-Eigenschaft",
+      "selectSourceTwinIDPropertyPlaceholder": "Quell-Zwillings-ID-Eigenschaft auswählen",
+      "cookButtonLabel": "Diagramm der Cook-Zwillinge basierend auf der Quelle",
+      "pushSimulationButtonLabel": "Übertragen von Simulationsdaten in die Quelltabelle"
     }
   }
 }

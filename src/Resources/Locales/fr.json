@@ -1538,7 +1538,6 @@
       "title": "Connecter et pousser des données",
       "simulationType": "Type de simulation",
       "selectSimulationTypePlaceholder": "Sélectionnez le type de simulation",
-      "primaryActionLabel": "Connecter et pousser les données de simulation",
       "progress": {
         "createTable": "Création d’une table...",
         "createTables": "Création de tables...",
@@ -1547,11 +1546,13 @@
       "sourceDatabase": "Base de données source",
       "targetDatabase": "Base de données cible",
       "sourceTable": "Table source",
-      "sourceTwinIDColumn": "Colonne ID du jumeau source",
       "selectSourceDatabasePlaceholder": "Sélectionner la base de données source",
       "selectTargetDatabasePlaceholder": "Sélectionner la base de données cible",
       "selectSourceTablePlaceholder": "Sélectionner la table source",
-      "selectSourceTwinIDColumnPlaceholder": "Sélectionner la colonne ID du jumeau source"
+      "sourceTwinIDProperty": "Propriété ID du jumeau source",
+      "selectSourceTwinIDPropertyPlaceholder": "Sélectionner la propriété ID du jumeau source",
+      "cookButtonLabel": "Graphique des jumeaux Cook basé sur la source",
+      "pushSimulationButtonLabel": "Envoyer les données de simulation à la table source"
     }
   }
 }

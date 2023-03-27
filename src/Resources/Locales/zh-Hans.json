@@ -1538,7 +1538,6 @@
       "title": "连接和推送数据",
       "simulationType": "模拟类型",
       "selectSimulationTypePlaceholder": "选择模拟类型",
-      "primaryActionLabel": "连接和推送仿真数据",
       "progress": {
         "createTable": "正在创建表...",
         "createTables": "正在创建表...",
@@ -1547,11 +1546,13 @@
       "sourceDatabase": "源数据库",
       "targetDatabase": "目标数据库",
       "sourceTable": "源表",
-      "sourceTwinIDColumn": "源孪生体 ID 列",
       "selectSourceDatabasePlaceholder": "选择源数据库",
       "selectTargetDatabasePlaceholder": "选择目标数据库",
       "selectSourceTablePlaceholder": "选择源表",
-      "selectSourceTwinIDColumnPlaceholder": "选择源孪生体 ID 列"
+      "sourceTwinIDProperty": "源孪生 ID 属性",
+      "selectSourceTwinIDPropertyPlaceholder": "选择源孪生 ID 属性",
+      "cookButtonLabel": "基于源的库克双胞胎图",
+      "pushSimulationButtonLabel": "将仿真数据推送到源表"
     }
   }
 }

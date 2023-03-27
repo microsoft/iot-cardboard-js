@@ -1538,7 +1538,6 @@
       "title": "Anslut och skicka data",
       "simulationType": "Typ av simulering",
       "selectSimulationTypePlaceholder": "Välj simuleringstyp",
-      "primaryActionLabel": "Anslut och skicka simuleringsdata",
       "progress": {
         "createTable": "Skapa tabell...",
         "createTables": "Skapa tabeller...",
@@ -1547,11 +1546,13 @@
       "sourceDatabase": "Källor",
       "targetDatabase": "Måldatabas",
       "sourceTable": "Källor",
-      "sourceTwinIDColumn": "Kolumn för källtvilling-ID",
       "selectSourceDatabasePlaceholder": "Välj källdatabas",
       "selectTargetDatabasePlaceholder": "Välj måldatabas",
       "selectSourceTablePlaceholder": "Välj källtabell",
-      "selectSourceTwinIDColumnPlaceholder": "Välj kolumn för källtvilling-ID"
+      "sourceTwinIDProperty": "Egenskapen Källtvilling-ID",
+      "selectSourceTwinIDPropertyPlaceholder": "Välj egenskap för källtvilling-ID",
+      "cookButtonLabel": "Cook tvillingar graf baserat på källa",
+      "pushSimulationButtonLabel": "Skicka simuleringsdata till källtabellen"
     }
   }
 }

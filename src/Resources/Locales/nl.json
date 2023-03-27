@@ -1538,7 +1538,6 @@
       "title": "Gegevens verbinden en pushen",
       "simulationType": "Simulatie type",
       "selectSimulationTypePlaceholder": "Selecteer simulatietype",
-      "primaryActionLabel": "Simulatiegegevens verbinden en pushen",
       "progress": {
         "createTable": "Tabel maken...",
         "createTables": "Tabellen maken...",
@@ -1547,11 +1546,13 @@
       "sourceDatabase": "Brondatabase",
       "targetDatabase": "Doeldatabase",
       "sourceTable": "Brontabel",
-      "sourceTwinIDColumn": "Kolom brontwin-ID",
       "selectSourceDatabasePlaceholder": "Selecteer brondatabase",
       "selectTargetDatabasePlaceholder": "Selecteer doeldatabase",
       "selectSourceTablePlaceholder": "Brontabel selecteren",
-      "selectSourceTwinIDColumnPlaceholder": "Kolom dubbele id van bron selecteren"
+      "sourceTwinIDProperty": "Eigenschap Source twin ID",
+      "selectSourceTwinIDPropertyPlaceholder": "Eigenschap brontwee-ID selecteren",
+      "cookButtonLabel": "Cook twins grafiek op basis van bron",
+      "pushSimulationButtonLabel": "Simulatiegegevens naar de brontabel pushen"
     }
   }
 }

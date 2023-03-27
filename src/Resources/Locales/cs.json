@@ -1538,7 +1538,6 @@
       "title": "Připojení a nabízení dat",
       "simulationType": "Typ simulace",
       "selectSimulationTypePlaceholder": "Vyberte typ simulace",
-      "primaryActionLabel": "Připojení a odesílání dat simulace",
       "progress": {
         "createTable": "Vytváření tabulky...",
         "createTables": "Vytváření tabulek...",
@@ -1547,11 +1546,13 @@
       "sourceDatabase": "Zdrojová databáze",
       "targetDatabase": "Cílová databáze",
       "sourceTable": "Zdrojová tabulka",
-      "sourceTwinIDColumn": "Sloupec ID zdrojového dvojčete",
       "selectSourceDatabasePlaceholder": "Vybrat zdrojovou databázi",
       "selectTargetDatabasePlaceholder": "Vybrat cílovou databázi",
       "selectSourceTablePlaceholder": "Vybrat zdrojovou tabulku",
-      "selectSourceTwinIDColumnPlaceholder": "Vyberte sloupec ID dvojčete zdroje"
+      "sourceTwinIDProperty": "Vlastnost ID zdrojového dvojčete",
+      "selectSourceTwinIDPropertyPlaceholder": "Vyberte vlastnost ID dvojčete zdroje",
+      "cookButtonLabel": "Graf dvojčat Cook založený na zdroji",
+      "pushSimulationButtonLabel": "Odesílání dat simulace do zdrojové tabulky"
     }
   }
 }

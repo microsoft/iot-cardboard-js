@@ -1538,7 +1538,6 @@
       "title": "Подключение и отправка данных",
       "simulationType": "Тип моделирования",
       "selectSimulationTypePlaceholder": "Выберите тип моделирования",
-      "primaryActionLabel": "Подключение и отправка данных моделирования",
       "progress": {
         "createTable": "Создание таблицы...",
         "createTables": "Создание таблиц...",
@@ -1547,11 +1546,13 @@
       "sourceDatabase": "Исходная база данных",
       "targetDatabase": "Целевая база данных",
       "sourceTable": "Исходная таблица",
-      "sourceTwinIDColumn": "Двойной столбец идентификатора источника",
       "selectSourceDatabasePlaceholder": "Выберите исходную базу данных",
       "selectTargetDatabasePlaceholder": "Выберите целевую базу данных",
       "selectSourceTablePlaceholder": "Выбор исходной таблицы",
-      "selectSourceTwinIDColumnPlaceholder": "Выбор двойного столбца идентификатора источника"
+      "sourceTwinIDProperty": "Свойство идентификатора двойного идентификатора источника",
+      "selectSourceTwinIDPropertyPlaceholder": "Выберите свойство идентификатора двойного идентификатора источника",
+      "cookButtonLabel": "График близнецов Кука на основе источника",
+      "pushSimulationButtonLabel": "Отправка данных моделирования в исходную таблицу"
     }
   }
 }

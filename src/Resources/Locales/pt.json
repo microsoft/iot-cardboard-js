@@ -1538,7 +1538,6 @@
       "title": "Conectar e enviar dados por push",
       "simulationType": "Tipo de simulação",
       "selectSimulationTypePlaceholder": "Selecione o tipo de simulação",
-      "primaryActionLabel": "Conectar e enviar dados de simulação por push",
       "progress": {
         "createTable": "Criando tabela...",
         "createTables": "Criando tabelas...",
@@ -1547,11 +1546,13 @@
       "sourceDatabase": "Banco de dados de origem",
       "targetDatabase": "Banco de dados de destino",
       "sourceTable": "Tabela de origem",
-      "sourceTwinIDColumn": "Coluna ID gêmea de origem",
       "selectSourceDatabasePlaceholder": "Selecionar banco de dados de origem",
       "selectTargetDatabasePlaceholder": "Selecionar banco de dados de destino",
       "selectSourceTablePlaceholder": "Selecionar tabela de origem",
-      "selectSourceTwinIDColumnPlaceholder": "Selecionar coluna ID gêmea de origem"
+      "sourceTwinIDProperty": "Propriedade ID de gêmeo de origem",
+      "selectSourceTwinIDPropertyPlaceholder": "Selecionar propriedade de ID de gêmeo de origem",
+      "cookButtonLabel": "Gráfico de gêmeos de cozinheiro baseado na fonte",
+      "pushSimulationButtonLabel": "Enviar dados de simulação por push para a tabela de origem"
     }
   }
 }

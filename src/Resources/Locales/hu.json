@@ -1538,7 +1538,6 @@
       "title": "Adatok csatlakoztatása és leküldése",
       "simulationType": "Szimuláció típusa",
       "selectSimulationTypePlaceholder": "Válassza ki a szimuláció típusát",
-      "primaryActionLabel": "Szimulációs adatok csatlakoztatása és leküldése",
       "progress": {
         "createTable": "Táblázat létrehozása...",
         "createTables": "Táblázatok létrehozása...",
@@ -1547,11 +1546,13 @@
       "sourceDatabase": "Forrás-adatbázis",
       "targetDatabase": "Céladatbázis",
       "sourceTable": "Forrástábla",
-      "sourceTwinIDColumn": "Forrás ikerazonosító oszlopa",
       "selectSourceDatabasePlaceholder": "Válassza ki a forrásadatbázist",
       "selectTargetDatabasePlaceholder": "Céladatbázis kiválasztása",
       "selectSourceTablePlaceholder": "Válassza ki a forrástáblát",
-      "selectSourceTwinIDColumnPlaceholder": "Válassza ki az ikereszköz-forrás azonosítója oszlopot"
+      "sourceTwinIDProperty": "Forrás ikerazonosító tulajdonsága",
+      "selectSourceTwinIDPropertyPlaceholder": "Válassza ki az ikereszköz-azonosító tulajdonságot",
+      "cookButtonLabel": "Ikrek főzési grafikonja forrás alapján",
+      "pushSimulationButtonLabel": "Szimulációs adatok leküldése a forrástáblába"
     }
   }
 }

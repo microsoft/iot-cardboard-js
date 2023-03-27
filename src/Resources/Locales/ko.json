@@ -1538,7 +1538,6 @@
       "title": "데이터 연결 및 푸시",
       "simulationType": "시뮬레이션 유형",
       "selectSimulationTypePlaceholder": "시뮬레이션 유형 선택",
-      "primaryActionLabel": "시뮬레이션 데이터 연결 및 푸시",
       "progress": {
         "createTable": "테이블 생성 중...",
         "createTables": "테이블 만들기...",
@@ -1547,11 +1546,13 @@
       "sourceDatabase": "원본 데이터베이스",
       "targetDatabase": "대상 데이터베이스",
       "sourceTable": "원본 테이블",
-      "sourceTwinIDColumn": "원본 쌍 ID 열",
       "selectSourceDatabasePlaceholder": "원본 데이터베이스 선택",
       "selectTargetDatabasePlaceholder": "대상 데이터베이스 선택",
       "selectSourceTablePlaceholder": "원본 테이블 선택",
-      "selectSourceTwinIDColumnPlaceholder": "원본 쌍 ID 열 선택"
+      "sourceTwinIDProperty": "원본 쌍 ID 속성",
+      "selectSourceTwinIDPropertyPlaceholder": "원본 쌍 ID 속성 선택",
+      "cookButtonLabel": "소스를 기반으로 한 쌍둥이 그래프",
+      "pushSimulationButtonLabel": "시뮬레이션 데이터를 소스 테이블로 푸시"
     }
   }
 }

@@ -1538,7 +1538,6 @@
       "title": "Verileri bağlama ve gönderme",
       "simulationType": "Simülasyon türü",
       "selectSimulationTypePlaceholder": "Simülasyon türünü seçin",
-      "primaryActionLabel": "Simülasyon verilerini bağlayın ve gönderin",
       "progress": {
         "createTable": "Tablo oluşturuluyor...",
         "createTables": "Tablo oluşturma...",
@@ -1547,11 +1546,13 @@
       "sourceDatabase": "Kaynak veritabanı",
       "targetDatabase": "Hedef veritabanı",
       "sourceTable": "Kaynak tablo",
-      "sourceTwinIDColumn": "Kaynak ikiz kimlik sütunu",
       "selectSourceDatabasePlaceholder": "Kaynak veritabanını seçme",
       "selectTargetDatabasePlaceholder": "Hedef veritabanını seç",
       "selectSourceTablePlaceholder": "Kaynak tabloyu seç",
-      "selectSourceTwinIDColumnPlaceholder": "Kaynak ikiz kimlik sütununu seçin"
+      "sourceTwinIDProperty": "Kaynak ikiz kimlik özelliği",
+      "selectSourceTwinIDPropertyPlaceholder": "Kaynak ikiz kimliği özelliğini seçin",
+      "cookButtonLabel": "Kaynağa dayalı ikizler grafiği pişirin",
+      "pushSimulationButtonLabel": "Simülasyon verilerini kaynak tabloya göndermePush simulation data to source table"
     }
   }
 }

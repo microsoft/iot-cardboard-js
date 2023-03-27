@@ -1538,7 +1538,6 @@
       "title": "Conectar y enviar datos",
       "simulationType": "Tipo de simulación",
       "selectSimulationTypePlaceholder": "Seleccione el tipo de simulación",
-      "primaryActionLabel": "Conecte y envíe datos de simulación",
       "progress": {
         "createTable": "Creando tabla...",
         "createTables": "Creando tablas...",
@@ -1547,11 +1546,13 @@
       "sourceDatabase": "Base de datos de origen",
       "targetDatabase": "Base de datos de destino",
       "sourceTable": "Tabla de origen",
-      "sourceTwinIDColumn": "Columna de ID gemela de origen",
       "selectSourceDatabasePlaceholder": "Seleccionar base de datos de origen",
       "selectTargetDatabasePlaceholder": "Seleccionar base de datos de destino",
       "selectSourceTablePlaceholder": "Seleccionar tabla de origen",
-      "selectSourceTwinIDColumnPlaceholder": "Seleccionar columna de ID gemelo de origen"
+      "sourceTwinIDProperty": "Propiedad Source twin ID",
+      "selectSourceTwinIDPropertyPlaceholder": "Seleccionar la propiedad de ID gemelo de origen",
+      "cookButtonLabel": "Gráfico de gemelos de Cook basado en la fuente",
+      "pushSimulationButtonLabel": "Inserción de datos de simulación en la tabla de origen"
     }
   }
 }

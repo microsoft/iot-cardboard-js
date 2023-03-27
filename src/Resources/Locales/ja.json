@@ -1538,7 +1538,6 @@
       "title": "データの接続とプッシュ",
       "simulationType": "シミュレーションの種類",
       "selectSimulationTypePlaceholder": "シミュレーションタイプを選択",
-      "primaryActionLabel": "シミュレーションデータの接続とプッシュ",
       "progress": {
         "createTable": "テーブルを作成しています...",
         "createTables": "テーブルを作成しています...",
@@ -1547,11 +1546,13 @@
       "sourceDatabase": "ソース データベース",
       "targetDatabase": "ターゲット データベース",
       "sourceTable": "ソース テーブル",
-      "sourceTwinIDColumn": "ソース ツイン ID 列",
       "selectSourceDatabasePlaceholder": "ソース データベースの選択",
       "selectTargetDatabasePlaceholder": "ターゲット・データベースの選択",
       "selectSourceTablePlaceholder": "ソース テーブルの選択",
-      "selectSourceTwinIDColumnPlaceholder": "ソース ツイン ID 列の選択"
+      "sourceTwinIDProperty": "ソース ツイン ID プロパティ",
+      "selectSourceTwinIDPropertyPlaceholder": "ソース ツイン ID プロパティの選択",
+      "cookButtonLabel": "ソースに基づくクック双子のグラフ",
+      "pushSimulationButtonLabel": "シミュレーションデータをソーステーブルにプッシュ"
     }
   }
 }

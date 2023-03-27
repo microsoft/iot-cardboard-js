@@ -1538,7 +1538,6 @@
       "title": "Łączenie i przesyłanie danych",
       "simulationType": "Typ symulacji",
       "selectSimulationTypePlaceholder": "Wybierz typ symulacji",
-      "primaryActionLabel": "Łączenie i przesyłanie danych symulacyjnych",
       "progress": {
         "createTable": "Tworzenie tabeli...",
         "createTables": "Tworzenie tabel...",
@@ -1547,11 +1546,13 @@
       "sourceDatabase": "Źródłowa baza danych",
       "targetDatabase": "Docelowa baza danych",
       "sourceTable": "Tabela źródłowa",
-      "sourceTwinIDColumn": "Kolumna identyfikatora bliźniaczej źródła",
       "selectSourceDatabasePlaceholder": "Wybierz źródłową bazę danych",
       "selectTargetDatabasePlaceholder": "Wybierz docelową bazę danych",
       "selectSourceTablePlaceholder": "Wybierz tabelę źródłową",
-      "selectSourceTwinIDColumnPlaceholder": "Wybierz kolumnę identyfikatora źródłowej bliźniaczki"
+      "sourceTwinIDProperty": "Właściwość identyfikatora bliźniaczej źródła",
+      "selectSourceTwinIDPropertyPlaceholder": "Wybierz właściwość źródłowego identyfikatora bliźniaczej",
+      "cookButtonLabel": "Wykres bliźniaków kucharskich oparty na źródle",
+      "pushSimulationButtonLabel": "Wypychanie danych symulacji do tabeli źródłowej"
     }
   }
 }
