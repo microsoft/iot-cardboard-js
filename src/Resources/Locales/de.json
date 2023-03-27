@@ -1536,18 +1536,22 @@
   "legionApp": {
     "dataPusher": {
       "title": "Verbinden und Übertragen von Daten",
-      "database": "Datenbank",
-      "table": "Tisch",
       "simulationType": "Art der Simulation",
-      "selectDatabasePlaceholder": "Datenbank auswählen",
-      "selectTablePlaceholder": "Tabelle auswählen",
       "selectSimulationTypePlaceholder": "Auswählen des Simulationstyps",
       "primaryActionLabel": "Verbinden und Pushen von Simulationsdaten",
       "progress": {
-        "createDatabase": "Datenbank wird erstellt...",
         "createTable": "Tabelle wird erstellt...",
-        "createTables": "Erstellen von Tabellen..."
-      }
+        "createTables": "Erstellen von Tabellen...",
+        "createTargetDatabase": "Zieldatenbank wird erstellt..."
+      },
+      "sourceDatabase": "Quelldatenbank",
+      "targetDatabase": "Zieldatenbank",
+      "sourceTable": "Quelltabelle",
+      "sourceTwinIDColumn": "Quell-Zwillings-ID-Spalte",
+      "selectSourceDatabasePlaceholder": "Quelldatenbank auswählen",
+      "selectTargetDatabasePlaceholder": "Zieldatenbank auswählen",
+      "selectSourceTablePlaceholder": "Quelltabelle auswählen",
+      "selectSourceTwinIDColumnPlaceholder": "Quell-Zwillings-ID-Spalte auswählen"
     }
   }
 }

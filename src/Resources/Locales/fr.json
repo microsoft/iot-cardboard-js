@@ -1536,18 +1536,22 @@
   "legionApp": {
     "dataPusher": {
       "title": "Connecter et pousser des données",
-      "database": "Base de données",
-      "table": "Table",
       "simulationType": "Type de simulation",
-      "selectDatabasePlaceholder": "Sélectionner une base de données",
-      "selectTablePlaceholder": "Sélectionner une table",
       "selectSimulationTypePlaceholder": "Sélectionnez le type de simulation",
       "primaryActionLabel": "Connecter et pousser les données de simulation",
       "progress": {
-        "createDatabase": "Création d’une base de données...",
         "createTable": "Création d’une table...",
-        "createTables": "Création de tables..."
-      }
+        "createTables": "Création de tables...",
+        "createTargetDatabase": "Création d’une base de données cible..."
+      },
+      "sourceDatabase": "Base de données source",
+      "targetDatabase": "Base de données cible",
+      "sourceTable": "Table source",
+      "sourceTwinIDColumn": "Colonne ID du jumeau source",
+      "selectSourceDatabasePlaceholder": "Sélectionner la base de données source",
+      "selectTargetDatabasePlaceholder": "Sélectionner la base de données cible",
+      "selectSourceTablePlaceholder": "Sélectionner la table source",
+      "selectSourceTwinIDColumnPlaceholder": "Sélectionner la colonne ID du jumeau source"
     }
   }
 }

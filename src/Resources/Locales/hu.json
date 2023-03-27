@@ -1536,18 +1536,22 @@
   "legionApp": {
     "dataPusher": {
       "title": "Adatok csatlakoztatása és leküldése",
-      "database": "Adatbázis",
-      "table": "Asztal",
       "simulationType": "Szimuláció típusa",
-      "selectDatabasePlaceholder": "Adatbázis kiválasztása",
-      "selectTablePlaceholder": "Asztal kiválasztása",
       "selectSimulationTypePlaceholder": "Válassza ki a szimuláció típusát",
       "primaryActionLabel": "Szimulációs adatok csatlakoztatása és leküldése",
       "progress": {
-        "createDatabase": "Adatbázis létrehozása...",
         "createTable": "Táblázat létrehozása...",
-        "createTables": "Táblázatok létrehozása..."
-      }
+        "createTables": "Táblázatok létrehozása...",
+        "createTargetDatabase": "Céladatbázis létrehozása..."
+      },
+      "sourceDatabase": "Forrás-adatbázis",
+      "targetDatabase": "Céladatbázis",
+      "sourceTable": "Forrástábla",
+      "sourceTwinIDColumn": "Forrás ikerazonosító oszlopa",
+      "selectSourceDatabasePlaceholder": "Válassza ki a forrásadatbázist",
+      "selectTargetDatabasePlaceholder": "Céladatbázis kiválasztása",
+      "selectSourceTablePlaceholder": "Válassza ki a forrástáblát",
+      "selectSourceTwinIDColumnPlaceholder": "Válassza ki az ikereszköz-forrás azonosítója oszlopot"
     }
   }
 }

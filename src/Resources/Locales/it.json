@@ -1536,18 +1536,22 @@
   "legionApp": {
     "dataPusher": {
       "title": "Connessione e invio dei dati",
-      "database": "Banca dati",
-      "table": "Tavolo",
       "simulationType": "Tipo di simulazione",
-      "selectDatabasePlaceholder": "Seleziona database",
-      "selectTablePlaceholder": "Seleziona tabella",
       "selectSimulationTypePlaceholder": "Seleziona il tipo di simulazione",
       "primaryActionLabel": "Connessione e invio dei dati di simulazione",
       "progress": {
-        "createDatabase": "Creazione di database...",
         "createTable": "Creazione tabella...",
-        "createTables": "Creazione di tabelle..."
-      }
+        "createTables": "Creazione di tabelle...",
+        "createTargetDatabase": "Creazione di database di destinazione..."
+      },
+      "sourceDatabase": "Database di origine",
+      "targetDatabase": "Database di destinazione",
+      "sourceTable": "Tabella di origine",
+      "sourceTwinIDColumn": "Colonna ID gemello di origine",
+      "selectSourceDatabasePlaceholder": "Seleziona database di origine",
+      "selectTargetDatabasePlaceholder": "Seleziona il database di destinazione",
+      "selectSourceTablePlaceholder": "Seleziona tabella di origine",
+      "selectSourceTwinIDColumnPlaceholder": "Seleziona colonna ID gemello di origine"
     }
   }
 }

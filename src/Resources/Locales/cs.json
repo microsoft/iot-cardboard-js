@@ -1536,18 +1536,22 @@
   "legionApp": {
     "dataPusher": {
       "title": "Připojení a nabízení dat",
-      "database": "Databáze",
-      "table": "Stůl",
       "simulationType": "Typ simulace",
-      "selectDatabasePlaceholder": "Vybrat databázi",
-      "selectTablePlaceholder": "Vybrat tabulku",
       "selectSimulationTypePlaceholder": "Vyberte typ simulace",
       "primaryActionLabel": "Připojení a odesílání dat simulace",
       "progress": {
-        "createDatabase": "Tvorba databáze...",
         "createTable": "Vytváření tabulky...",
-        "createTables": "Vytváření tabulek..."
-      }
+        "createTables": "Vytváření tabulek...",
+        "createTargetDatabase": "Vytvoření cílové databáze..."
+      },
+      "sourceDatabase": "Zdrojová databáze",
+      "targetDatabase": "Cílová databáze",
+      "sourceTable": "Zdrojová tabulka",
+      "sourceTwinIDColumn": "Sloupec ID zdrojového dvojčete",
+      "selectSourceDatabasePlaceholder": "Vybrat zdrojovou databázi",
+      "selectTargetDatabasePlaceholder": "Vybrat cílovou databázi",
+      "selectSourceTablePlaceholder": "Vybrat zdrojovou tabulku",
+      "selectSourceTwinIDColumnPlaceholder": "Vyberte sloupec ID dvojčete zdroje"
     }
   }
 }

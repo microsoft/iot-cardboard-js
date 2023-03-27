@@ -1536,18 +1536,22 @@
   "legionApp": {
     "dataPusher": {
       "title": "Conectar e enviar dados por push",
-      "database": "Base de dados",
-      "table": "Tabela",
       "simulationType": "Tipo de simulação",
-      "selectDatabasePlaceholder": "Selecionar banco de dados",
-      "selectTablePlaceholder": "Selecionar tabela",
       "selectSimulationTypePlaceholder": "Selecione o tipo de simulação",
       "primaryActionLabel": "Conectar e enviar dados de simulação por push",
       "progress": {
-        "createDatabase": "A criar base de dados...",
         "createTable": "A criar tabela...",
-        "createTables": "A criar tabelas..."
-      }
+        "createTables": "A criar tabelas...",
+        "createTargetDatabase": "Criando banco de dados de destino..."
+      },
+      "sourceDatabase": "Base de dados de origem",
+      "targetDatabase": "Base de dados de destino",
+      "sourceTable": "Tabela de origem",
+      "sourceTwinIDColumn": "Coluna ID dupla de origem",
+      "selectSourceDatabasePlaceholder": "Selecionar banco de dados de origem",
+      "selectTargetDatabasePlaceholder": "Selecionar banco de dados de destino",
+      "selectSourceTablePlaceholder": "Selecionar tabela de origem",
+      "selectSourceTwinIDColumnPlaceholder": "Selecionar coluna de ID duplo de origem"
     }
   }
 }

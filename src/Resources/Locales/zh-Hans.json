@@ -1536,18 +1536,22 @@
   "legionApp": {
     "dataPusher": {
       "title": "连接和推送数据",
-      "database": "数据库",
-      "table": "桌子",
       "simulationType": "模拟类型",
-      "selectDatabasePlaceholder": "选择数据库",
-      "selectTablePlaceholder": "选择表格",
       "selectSimulationTypePlaceholder": "选择模拟类型",
       "primaryActionLabel": "连接和推送仿真数据",
       "progress": {
-        "createDatabase": "正在创建数据库...",
         "createTable": "正在创建表...",
-        "createTables": "正在创建表..."
-      }
+        "createTables": "正在创建表...",
+        "createTargetDatabase": "正在创建目标数据库..."
+      },
+      "sourceDatabase": "源数据库",
+      "targetDatabase": "目标数据库",
+      "sourceTable": "源表",
+      "sourceTwinIDColumn": "源孪生体 ID 列",
+      "selectSourceDatabasePlaceholder": "选择源数据库",
+      "selectTargetDatabasePlaceholder": "选择目标数据库",
+      "selectSourceTablePlaceholder": "选择源表",
+      "selectSourceTwinIDColumnPlaceholder": "选择源孪生体 ID 列"
     }
   }
 }

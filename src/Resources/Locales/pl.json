@@ -1536,18 +1536,22 @@
   "legionApp": {
     "dataPusher": {
       "title": "Łączenie i przesyłanie danych",
-      "database": "Baza danych",
-      "table": "Stół",
       "simulationType": "Typ symulacji",
-      "selectDatabasePlaceholder": "Wybierz bazę danych",
-      "selectTablePlaceholder": "Wybierz tabelę",
       "selectSimulationTypePlaceholder": "Wybierz typ symulacji",
       "primaryActionLabel": "Łączenie i przesyłanie danych symulacyjnych",
       "progress": {
-        "createDatabase": "Tworzenie bazy danych...",
         "createTable": "Tworzenie tabeli...",
-        "createTables": "Tworzenie tabel..."
-      }
+        "createTables": "Tworzenie tabel...",
+        "createTargetDatabase": "Tworzenie docelowej bazy danych..."
+      },
+      "sourceDatabase": "Źródłowa baza danych",
+      "targetDatabase": "Docelowa baza danych",
+      "sourceTable": "Tabela źródłowa",
+      "sourceTwinIDColumn": "Kolumna identyfikatora bliźniaczej źródła",
+      "selectSourceDatabasePlaceholder": "Wybierz źródłową bazę danych",
+      "selectTargetDatabasePlaceholder": "Wybierz docelową bazę danych",
+      "selectSourceTablePlaceholder": "Wybierz tabelę źródłową",
+      "selectSourceTwinIDColumnPlaceholder": "Wybierz kolumnę identyfikatora źródłowej bliźniaczki"
     }
   }
 }
