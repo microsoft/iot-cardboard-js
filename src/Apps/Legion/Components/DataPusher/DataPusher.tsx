@@ -50,9 +50,7 @@ const DataPusher: React.FC<IDataPusherProps> = (props) => {
     const [sourceDatabaseOptions, setSourceDatabaseOptions] = useState<
         Array<IDropdownOption>
     >([]);
-    const [targetDatabaseOptions, setTargetDatabaseOptions] = useState<
-        Array<IDropdownOption>
-    >([]);
+    const [targetDatabaseOptions, setTargetDatabaseOptions] = useState([]);
     const [sourceTableOptions, setSourceTableOptions] = useState<
         Array<IDropdownOption>
     >([]);
@@ -185,8 +183,12 @@ const DataPusher: React.FC<IDataPusherProps> = (props) => {
     useEffect(() => {
         if (getDatabasesState?.adapterResult?.result) {
             const data = getDatabasesState.adapterResult.getData();
-            setSourceDatabaseOptions(data.map((d) => ({ key: d, text: d })));
-            setTargetDatabaseOptions(data.map((d) => ({ key: d, text: d })));
+            setSourceDatabaseOptions(
+                data.map((d) => ({ key: `source-${d}`, text: d }))
+            );
+            setTargetDatabaseOptions(
+                data.map((d) => ({ key: `target-${d}`, value: d, label: d }))
+            );
         }
     }, [getDatabasesState?.adapterResult]);
 
@@ -253,11 +255,11 @@ const DataPusher: React.FC<IDataPusherProps> = (props) => {
                         )}
                     />
                     <Dropdown
-                        label={t('legionApp.dataPusher.sourceTwinIDColumn')}
+                        label={t('legionApp.dataPusher.sourceTwinIDProperty')}
                         onChange={handleSourceTwinIDColumnChange}
                         options={sourceTableColumnOptions}
                         placeholder={t(
-                            'legionApp.dataPusher.selectSourceTwinIDColumnPlaceholder'
+                            'legionApp.dataPusher.selectSourceTwinIDPropertyPlaceholder'
                         )}
                     />
                 </StackItem>

@@ -3,9 +3,9 @@ import { applyMixins } from '../../../../Models/Services/Utils';
 import ADXAdapter from '../Standalone/DataManagement/ADXAdapter';
 
 export default class LegionAdapter {
-    constructor(authService: IAuthService, connectionSource: string) {
+    constructor(authService: IAuthService, connectionString: string) {
         this.authService = authService;
-        this.connectionSource = connectionSource;
+        this.connectionString = connectionString;
         this.authService.login();
     }
 }

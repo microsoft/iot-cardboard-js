@@ -11,12 +11,12 @@ export default class MockDataManagementAdapter
     extends BaseAdapter
     implements IDataManagementAdapter {
     private networkTimeoutMillis;
-    connectionSource: string;
+    connectionString: string;
 
     constructor() {
         super();
         this.networkTimeoutMillis = 0;
-        this.connectionSource = 'mockConnectionString';
+        this.connectionString = 'mockConnectionString';
     }
 
     async mockNetwork() {

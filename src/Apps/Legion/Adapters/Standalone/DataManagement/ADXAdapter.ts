@@ -13,11 +13,11 @@ import {
 export default class ADXAdapter
     extends BaseAdapter
     implements IDataManagementAdapter {
-    connectionSource: string;
+    connectionString: string;
 
-    constructor(authService: IAuthService, connectionSource: string) {
+    constructor(authService: IAuthService, connectionString: string) {
         super(authService);
-        this.connectionSource = connectionSource;
+        this.connectionString = connectionString;
         this.authService.login();
     }
 
@@ -26,7 +26,7 @@ export default class ADXAdapter
         return await adapterMethodSandbox.safelyFetchData(async (token) => {
             const axiosResult = await axios({
                 method: 'post',
-                url: `${this.connectionSource}/v1/rest/query`,
+                url: `${this.connectionString}/v1/rest/query`,
                 headers: {
                     Authorization: 'Bearer ' + token,
                     Accept: 'application/json',
@@ -66,7 +66,7 @@ export default class ADXAdapter
                 },
                 params: { 'api-version': '2021-03-01' },
                 data: {
-                    query: `Resources | where type =~ 'Microsoft.Kusto/clusters' | where properties.uri =~ '${this.connectionSource}' | project id, name, location, type, tenantId, subscriptionId | order by name asc`
+                    query: `Resources | where type =~ 'Microsoft.Kusto/clusters' | where properties.uri =~ '${this.connectionString}' | project id, name, location, type, tenantId, subscriptionId | order by name asc`
                 }
             }).catch((err) => {
                 console.log(err);
@@ -99,13 +99,13 @@ export default class ADXAdapter
             }
         }, 'azureManagement');
     }
-    
+
     async getTables(databaseName: string) {
         const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
         return await adapterMethodSandbox.safelyFetchData(async (token) => {
             const axiosResult = await axios({
                 method: 'post',
-                url: `${this.connectionSource}/v1/rest/query`,
+                url: `${this.connectionString}/v1/rest/query`,
                 headers: {
                     Authorization: 'Bearer ' + token,
                     Accept: 'application/json',
@@ -150,12 +150,12 @@ export default class ADXAdapter
             console.log('Not implemented.');
             const axiosResult = await axios({
                 method: 'post',
-                url: `${this.connectionSource}/v1/rest/ingest/${databaseName}/${tableName}`,
+                url: `${this.connectionString}/v1/rest/ingest/${databaseName}/${tableName}`,
                 headers: {
                     Authorization: 'Bearer ' + token,
                     Accept: 'application/json',
                     'Content-Type': 'application/json',
-                    Host: new URL(this.connectionSource).hostname
+                    Host: new URL(this.connectionString).hostname
                 },
                 params: { streamFormat: 'JSON' },
                 data: {
@@ -178,7 +178,7 @@ export default class ADXAdapter
         return await adapterMethodSandbox.safelyFetchData(async (token) => {
             const axiosResult = await axios({
                 method: 'post',
-                url: `${this.connectionSource}/v1/rest/query`,
+                url: `${this.connectionString}/v1/rest/query`,
                 headers: {
                     Authorization: 'Bearer ' + token,
                     Accept: 'application/json',

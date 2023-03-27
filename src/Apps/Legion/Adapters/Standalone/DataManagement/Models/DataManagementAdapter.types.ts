@@ -3,8 +3,7 @@ import { IBaseAdapter } from '../../../../Models/Interfaces';
 import { DataManagementAdapterData } from './DataManagementAdapter.data';
 
 export interface IDataManagementAdapter extends IBaseAdapter {
-    /** ambigious connection source; can be either a string or an object type or totally different structure, e.g. Kusto cluster url */
-    connectionSource: any;
+    connectionString: string;
     getDatabases: () => AdapterReturnType<
         DataManagementAdapterData<Array<string>>
     >;
