@@ -3,7 +3,7 @@ import { IShellProps, IShellStyleProps, IShellStyles } from './Shell.types';
 import { getStyles } from './Shell.styles';
 import { classNamesFunction, styled } from '@fluentui/react';
 import { useExtendedTheme } from '../../../../Models/Hooks/useExtendedTheme';
-import { getDebugLogger } from '../../Services/Utils';
+import { getDebugLogger } from '../../../../Models/Services/Utils';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('Shell', debugLogging);
