@@ -42,6 +42,7 @@ import { IExtendedTheme } from '../../Theming/Theme.types';
 import { DTDLType } from '../../Models/Classes/DTDL';
 import { CustomNode } from './Internal/CustomNode';
 import CustomLassoHandler from './Hooks/CustomLassoHandler/CustomLassoHandler';
+import CustomContextMenu from './Internal/CustomContextMenu/CustomContextMenu';
 
 const debugLogging = true;
 const logDebugConsole = getDebugLogger('SampleGraph', debugLogging);
@@ -348,6 +349,7 @@ const SampleGraph: React.FC<ISampleGraphProps> = (props) => {
                     }
                 >
                     <CustomLassoHandler />
+                    <CustomContextMenu />
                     {/* <CustomLegend />
                     <CustomClickHandler />
                     <CreateEdge
