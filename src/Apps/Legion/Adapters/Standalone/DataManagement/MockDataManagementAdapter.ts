@@ -4,7 +4,8 @@ import { DataManagementAdapterData } from './Models/DataManagementAdapter.data';
 import {
     IDataManagementAdapter,
     IIngestRow,
-    ITable
+    ITable,
+    ITableColumn
 } from './Models/DataManagementAdapter.types';
 
 export default class MockDataManagementAdapter
@@ -81,7 +82,11 @@ export default class MockDataManagementAdapter
         }
     }
 
-    async createTable(_databaseName: string, _tableName: string) {
+    async createTable(
+        _databaseName: string,
+        _tableName: string,
+        _columns: Array<ITableColumn>
+    ) {
         try {
             await this.mockNetwork();
             return new AdapterResult<DataManagementAdapterData<boolean>>({

@@ -27,9 +27,11 @@ import { ActionMeta } from 'react-select';
 import useAdapter from '../../../../Models/Hooks/useAdapter';
 import {
     ICreateDatabaseAdapterParams,
+    ICreateTableAdapterParams,
     IGetTableAdapterParams,
     IGetTablesAdapterParams,
-    ITable
+    ITable,
+    ITableColumn
 } from '../../Adapters/Standalone/DataManagement/Models/DataManagementAdapter.types';
 import { getReactSelectStyles } from '../../../../Resources/Styles/ReactSelect.styles';
 import { AdtPusherSimulationType } from '../../../../Models/Constants/Interfaces';
@@ -106,6 +108,16 @@ const DataPusher: React.FC<IDataPusherProps> = (props) => {
         isAdapterCalledOnMount: false,
         refetchDependencies: [adapter]
     });
+    const createTableState = useAdapter({
+        adapterMethod: (params: ICreateTableAdapterParams) =>
+            adapter.createTable(
+                params.databaseName,
+                params.tableName,
+                params.columns
+            ),
+        isAdapterCalledOnMount: false,
+        refetchDependencies: [adapter]
+    });
     const tableColumns = useMemo<Array<IColumn>>(
         () =>
             tableData?.Columns.map((c, idx) => ({
@@ -177,6 +189,21 @@ const DataPusher: React.FC<IDataPusherProps> = (props) => {
     const handleCookButtonClick = useCallback(() => {
         alert('cook clicked!');
     }, []);
+    const handleCreateTableButtonClick = useCallback(() => {
+        const sparseColumns: Array<ITableColumn> = [
+            { column: 'ID', dataType: 'string' },
+            { column: 'Timestamp', dataType: 'datetime' },
+            { column: 'Temperature', dataType: 'real' },
+            { column: 'Pressure', dataType: 'real' },
+            { column: 'FanSpeed', dataType: 'real' },
+            { column: 'FlowRate', dataType: 'real' }
+        ];
+        createTableState.callAdapter({
+            databaseName: selectedSourceDatabase,
+            tableName: 'SparseTable',
+            columns: sparseColumns
+        });
+    }, [createTableState, selectedSourceDatabase]);
     const handlePushSimulationButtonClick = useCallback(() => {
         alert('push simulation clicked!');
     }, []);
@@ -293,6 +320,16 @@ const DataPusher: React.FC<IDataPusherProps> = (props) => {
                         onClick={handleCookButtonClick}
                     />
                 </StackItem>
+            </Stack>
+
+            <Stack
+                styles={{ root: { width: 300 } }}
+                tokens={{ childrenGap: 8 }}
+            >
+                <PrimaryButton
+                    text={'Create sparse table in source database'}
+                    onClick={handleCreateTableButtonClick}
+                />
             </Stack>
 
             <Stack

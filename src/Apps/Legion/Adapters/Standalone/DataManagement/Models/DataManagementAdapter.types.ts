@@ -15,7 +15,8 @@ export interface IDataManagementAdapter extends IBaseAdapter {
     ) => AdapterReturnType<DataManagementAdapterData<Array<string>>>;
     createTable: (
         databaseName: string,
-        tableName: string
+        tableName: string,
+        columns: Array<ITableColumn>
     ) => AdapterReturnType<DataManagementAdapterData<boolean>>;
     upsertTable: (
         databaseName: string,
@@ -46,9 +47,20 @@ export interface IGetTableAdapterParams {
     tableName: string;
 }
 
+export interface ICreateTableAdapterParams {
+    databaseName: string;
+    tableName: string;
+    columns: Array<ITableColumn>;
+}
+
 export interface ITable {
     Columns: Array<string>;
     Rows: Array<Array<any>>;
+}
+
+export interface ITableColumn {
+    column: string;
+    dataType: any;
 }
 
 export interface IIngestRow {

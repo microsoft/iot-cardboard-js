@@ -7,7 +7,8 @@ import { DataManagementAdapterData } from './Models/DataManagementAdapter.data';
 import {
     IDataManagementAdapter,
     IIngestRow,
-    ITable
+    ITable,
+    ITableColumn
 } from './Models/DataManagementAdapter.types';
 
 export default class ADXAdapter
@@ -132,11 +133,52 @@ export default class ADXAdapter
         }, 'adx');
     }
 
-    async createTable(_databaseName: string, _tableName: string) {
+    async createTable(
+        databaseName: string,
+        tableName: string,
+        columns: Array<ITableColumn>
+    ) {
         const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
         return await adapterMethodSandbox.safelyFetchData(async (token) => {
-            console.log('Not implemented.');
-            return new DataManagementAdapterData<boolean>(true);
+            const axiosResult = await axios({
+                method: 'post',
+                url: `${this.connectionString}/v1/rest/mgmt`,
+                headers: {
+                    Authorization: 'Bearer ' + token,
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                    Host: new URL(this.connectionString).hostname
+                },
+                data: {
+                    db: databaseName,
+                    csl: `.create table ${tableName} (`.concat(
+                        columns.reduce(function (acc, curr, idx) {
+                            acc =
+                                acc +
+                                ''
+                                    .concat(curr.column, ':')
+                                    .concat(curr.dataType);
+
+                            if (idx < columns.length - 1) {
+                                acc = acc.concat(', ');
+                            }
+
+                            return acc;
+                        }, ''),
+                        ')'
+                    )
+                }
+            }).catch((err) => {
+                adapterMethodSandbox.pushError({
+                    type: ComponentErrorType.DataUploadFailed,
+                    isCatastrophic: true,
+                    rawError: err
+                });
+                return null;
+            });
+            return new DataManagementAdapterData<boolean>(
+                axiosResult.data ? true : false
+            );
         }, 'adx');
     }
 
