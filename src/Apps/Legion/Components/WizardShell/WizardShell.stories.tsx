@@ -9,7 +9,7 @@ import { WizardNavigationContextProvider } from '../../Models/Context/WizardNavi
 const wrapperStyle = { width: '100%', height: '600px', padding: 8 };
 
 export default {
-    title: 'Components/WizardShell',
+    title: 'Components/Apps/Legion/WizardShell',
     component: WizardShell,
     decorators: [getDefaultStoryDecorator<IWizardShellProps>(wrapperStyle)]
 };

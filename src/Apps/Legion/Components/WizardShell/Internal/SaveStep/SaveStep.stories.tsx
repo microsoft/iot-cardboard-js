@@ -7,7 +7,7 @@ import { getDefaultStoryDecorator } from '../../../../../../Models/Services/Stor
 const wrapperStyle = { width: '100%', height: '600px', padding: 8 };
 
 export default {
-    title: 'Components/SaveStep',
+    title: 'Components/Apps/Legion/SaveStep',
     component: SaveStep,
     decorators: [getDefaultStoryDecorator<ISaveStepProps>(wrapperStyle)]
 };

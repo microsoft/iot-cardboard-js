@@ -7,11 +7,12 @@ import {
     StepperWizardType
 } from './StepperWizard.types';
 import { getDefaultStoryDecorator } from '../../../../Models/Services/StoryUtilities';
+import { WizardNavigationContextProvider } from '../../Models/Context/WizardNavigationContext/WizardNavigationContext';
 
 const wrapperStyle = { width: 'fit-content', height: 'auto' };
 
 export default {
-    title: 'Components/StepperWizard',
+    title: 'Components/Apps/Legion/StepperWizard',
     component: StepperWizard,
     decorators: [getDefaultStoryDecorator(wrapperStyle)]
 };
@@ -39,7 +40,14 @@ const steps: Array<IStepperWizardStep> = [
 
 type TemplateStory = ComponentStory<typeof StepperWizard>;
 const Template: TemplateStory = (args: IStepperWizardProps) => (
-    <StepperWizard {...args} />
+    <WizardNavigationContextProvider
+        initialState={{
+            steps: steps,
+            currentStep: 0
+        }}
+    >
+        <StepperWizard {...args} />
+    </WizardNavigationContextProvider>
 );
 
 const horizontalProps: IStepperWizardProps = {

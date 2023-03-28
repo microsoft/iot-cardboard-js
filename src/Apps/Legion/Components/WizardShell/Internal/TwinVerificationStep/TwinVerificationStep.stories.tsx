@@ -7,7 +7,7 @@ import { getDefaultStoryDecorator } from '../../../../../../Models/Services/Stor
 const wrapperStyle = { width: '100%', height: '600px', padding: 8 };
 
 export default {
-    title: 'Components/TwinVerificationStep',
+    title: 'Components/Apps/Legion/TwinVerificationStep',
     component: TwinVerificationStep,
     decorators: [
         getDefaultStoryDecorator<ITwinVerificationStepProps>(wrapperStyle)
