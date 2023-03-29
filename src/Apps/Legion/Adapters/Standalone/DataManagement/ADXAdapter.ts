@@ -7,8 +7,10 @@ import { DataManagementAdapterData } from './Models/DataManagementAdapter.data';
 import {
     IDataManagementAdapter,
     IIngestRow,
+    INGESTION_MAPPING_NAME,
     ITable,
-    ITableColumn
+    ITableColumn,
+    ITableIngestionMapping
 } from './Models/DataManagementAdapter.types';
 
 export default class ADXAdapter
@@ -136,31 +138,27 @@ export default class ADXAdapter
     async createTable(
         databaseName: string,
         tableName: string,
-        columns: Array<ITableColumn>
+        columns: Array<ITableColumn>,
+        ingestionMapping?: Array<ITableIngestionMapping>
     ) {
         const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
         return await adapterMethodSandbox.safelyFetchData(async (token) => {
-            const axiosResult = await axios({
+            const createResult = await axios({
                 method: 'post',
                 url: `${this.connectionString}/v1/rest/mgmt`,
                 headers: {
                     Authorization: 'Bearer ' + token,
                     Accept: 'application/json',
-                    'Content-Type': 'application/json',
-                    Host: new URL(this.connectionString).hostname
+                    'Content-Type': 'application/json'
                 },
                 data: {
                     db: databaseName,
                     csl: `.create table ${tableName} (`.concat(
                         columns.reduce(function (acc, curr, idx) {
-                            acc =
-                                acc +
-                                ''
-                                    .concat(curr.column, ':')
-                                    .concat(curr.dataType);
+                            acc = acc.concat(`${curr.column}:${curr.dataType}`);
 
                             if (idx < columns.length - 1) {
-                                acc = acc.concat(', ');
+                                acc = acc + ', ';
                             }
 
                             return acc;
@@ -176,8 +174,65 @@ export default class ADXAdapter
                 });
                 return null;
             });
+            let ingestionPolicyResult;
+            if (createResult?.data) {
+                ingestionPolicyResult = await axios({
+                    method: 'post',
+                    url: `${this.connectionString}/v1/rest/mgmt`,
+                    headers: {
+                        Authorization: 'Bearer ' + token,
+                        Accept: 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    data: {
+                        db: databaseName,
+                        csl: `.alter table ${tableName} policy streamingingestion enable`
+                    }
+                }).catch((err) => {
+                    adapterMethodSandbox.pushError({
+                        type: ComponentErrorType.DataUploadFailed,
+                        isCatastrophic: true,
+                        rawError: err
+                    });
+                    return null;
+                });
+            }
+            let ingestionMappingResult;
+            if (ingestionPolicyResult?.data) {
+                ingestionMappingResult = await axios({
+                    method: 'post',
+                    url: `${this.connectionString}/v1/rest/mgmt`,
+                    headers: {
+                        Authorization: 'Bearer ' + token,
+                        Accept: 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    data: {
+                        db: databaseName,
+                        csl: `.create table ${tableName} ingestion json mapping '${INGESTION_MAPPING_NAME}' '${JSON.stringify(
+                            ingestionMapping
+                                ? ingestionMapping
+                                : columns.map(
+                                      (c) =>
+                                          ({
+                                              column: c.column,
+                                              path: `$.${c.column}`
+                                          } as ITableIngestionMapping)
+                                  )
+                        )}'`
+                    }
+                }).catch((err) => {
+                    adapterMethodSandbox.pushError({
+                        type: ComponentErrorType.DataUploadFailed,
+                        isCatastrophic: true,
+                        rawError: err
+                    });
+                    return null;
+                });
+            }
+
             return new DataManagementAdapterData<boolean>(
-                axiosResult.data ? true : false
+                ingestionMappingResult?.data ? true : false
             );
         }, 'adx');
     }
@@ -185,24 +240,29 @@ export default class ADXAdapter
     async upsertTable(
         databaseName: string,
         tableName: string,
-        data: Array<IIngestRow>
+        rows: Array<IIngestRow>
     ) {
         const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
         return await adapterMethodSandbox.safelyFetchData(async (token) => {
-            console.log('Not implemented.');
             const axiosResult = await axios({
                 method: 'post',
                 url: `${this.connectionString}/v1/rest/ingest/${databaseName}/${tableName}`,
                 headers: {
                     Authorization: 'Bearer ' + token,
                     Accept: 'application/json',
-                    'Content-Type': 'application/json',
-                    Host: new URL(this.connectionString).hostname
+                    'Content-Type': 'text/plain'
                 },
-                params: { streamFormat: 'JSON' },
-                data: {
-                    data
-                }
+                params: {
+                    streamFormat: 'JSON',
+                    mappingName: INGESTION_MAPPING_NAME
+                },
+                data: rows.reduce((acc, row, idx) => {
+                    acc = acc.concat(JSON.stringify(row));
+                    if (idx < rows.length - 1) {
+                        acc = acc.concat('\n');
+                    }
+                    return acc;
+                }, '')
             }).catch((err) => {
                 adapterMethodSandbox.pushError({
                     type: ComponentErrorType.DataFetchFailed,
@@ -211,7 +271,9 @@ export default class ADXAdapter
                 });
                 return null;
             });
-            return new DataManagementAdapterData<boolean>(true);
+            return new DataManagementAdapterData<boolean>(
+                axiosResult?.data ? true : false
+            );
         }, 'adx');
     }
 
@@ -228,7 +290,7 @@ export default class ADXAdapter
                 },
                 data: {
                     db: databaseName,
-                    csl: `${tableName} | order by TimeStamp desc | take 100`
+                    csl: `${tableName} | order by Timestamp desc | take 100`
                 }
             }).catch((err) => {
                 adapterMethodSandbox.pushError({

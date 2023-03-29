@@ -53,6 +53,12 @@ export interface ICreateTableAdapterParams {
     columns: Array<ITableColumn>;
 }
 
+export interface IUpsertTableAdapterParams {
+    databaseName: string;
+    tableName: string;
+    rows: Array<IIngestRow>;
+}
+
 export interface ITable {
     Columns: Array<string>;
     Rows: Array<Array<any>>;
@@ -63,6 +69,13 @@ export interface ITableColumn {
     dataType: any;
 }
 
+export interface ITableIngestionMapping {
+    column: string;
+    path: string; // in "$.{key}" form, e.g, "$.id"
+}
+
 export interface IIngestRow {
     [key: string]: any;
 }
+
+export const INGESTION_MAPPING_NAME = 'DataPusherMapping';

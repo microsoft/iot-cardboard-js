@@ -30,8 +30,10 @@ import {
     ICreateTableAdapterParams,
     IGetTableAdapterParams,
     IGetTablesAdapterParams,
+    IIngestRow,
     ITable,
-    ITableColumn
+    ITableColumn,
+    IUpsertTableAdapterParams
 } from '../../Adapters/Standalone/DataManagement/Models/DataManagementAdapter.types';
 import { getReactSelectStyles } from '../../../../Resources/Styles/ReactSelect.styles';
 import { AdtPusherSimulationType } from '../../../../Models/Constants/Interfaces';
@@ -114,6 +116,16 @@ const DataPusher: React.FC<IDataPusherProps> = (props) => {
                 params.databaseName,
                 params.tableName,
                 params.columns
+            ),
+        isAdapterCalledOnMount: false,
+        refetchDependencies: [adapter]
+    });
+    const upsertTableState = useAdapter({
+        adapterMethod: (params: IUpsertTableAdapterParams) =>
+            adapter.upsertTable(
+                params.databaseName,
+                params.tableName,
+                params.rows
             ),
         isAdapterCalledOnMount: false,
         refetchDependencies: [adapter]
@@ -204,6 +216,35 @@ const DataPusher: React.FC<IDataPusherProps> = (props) => {
             columns: sparseColumns
         });
     }, [createTableState, selectedSourceDatabase]);
+    const handleIngestRowsButtonClick = useCallback(() => {
+        const sparseRows: Array<IIngestRow> = [
+            { ID: 'Past_1', Timestamp: '2018-11-14 11:34:00', Temperature: 12 },
+            { ID: 'Past_1', Timestamp: '2018-11-14 11:35:00', Pressure: 14 },
+            { ID: 'Salt_1', Timestamp: '2018-11-14 11:36:00', FanSpeed: 16 },
+            {
+                ID: 'Salt_1',
+                Timestamp: '2018-11-14 11:37:00',
+                FlowRate: 11
+            },
+            {
+                ID: 'Past_2',
+                Timestamp: '2018-11-14 11:37:00',
+                Temperature: 13,
+                Pressure: 16
+            },
+            {
+                ID: 'Dryer_1',
+                Timestamp: '2018-11-14 11:38:00',
+                Pressure: 7,
+                FanSpeed: 9
+            }
+        ];
+        upsertTableState.callAdapter({
+            databaseName: selectedSourceDatabase,
+            tableName: selectedSourceTable,
+            rows: sparseRows
+        });
+    }, [upsertTableState, selectedSourceDatabase, selectedSourceTable]);
     const handlePushSimulationButtonClick = useCallback(() => {
         alert('push simulation clicked!');
     }, []);
@@ -329,6 +370,10 @@ const DataPusher: React.FC<IDataPusherProps> = (props) => {
                 <PrimaryButton
                     text={'Create sparse table in source database'}
                     onClick={handleCreateTableButtonClick}
+                />
+                <PrimaryButton
+                    text={'Ingest rows to sparse table in source database'}
+                    onClick={handleIngestRowsButtonClick}
                 />
             </Stack>
 
