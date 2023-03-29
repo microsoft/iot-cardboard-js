@@ -31,6 +31,18 @@ export function AddNodes<N>(
             itemType: 'Node',
             id: id,
             name: label
+        },
+        style: {
+            badges: [],
+            halo: {},
+            icon: {},
+            keyshape: {
+                stroke: model.color || null,
+                fill: model.color || null
+            },
+            label: {
+                value: label
+            }
         }
     });
 }

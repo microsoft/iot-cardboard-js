@@ -60,12 +60,12 @@ export interface ICustomEdgeData {
 // #region Built-in Graph Types
 export type IDefaultNode = Partial<{
     type?: string;
-    style: NodeStyle;
+    style?: NodeStyle;
     [key: string]: any;
 }>;
 export type IDefaultEdge = Partial<{
     type?: 'graphin-line';
-    style: EdgeStyle;
+    style?: EdgeStyle;
     [key: string]: any;
 }>;
 // #endregion

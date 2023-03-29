@@ -5,18 +5,22 @@ import { createNodeFromReact } from '@antv/g6-react-node';
 import Graphin from '@antv/graphin';
 import { useExtendedTheme } from '../../Models/Hooks/useExtendedTheme';
 import { getDebugLogger } from '../../Models/Services/Utils';
+import CustomGraphNode from './Internal/CustomGraphNode/CustomGraphNode';
+import { CustomNode } from './Internal/CustomNode';
+import CustomLassoHandler from './Hooks/CustomLassoHandler/CustomLassoHandler';
+import CustomContextMenu from './Internal/CustomContextMenu/CustomContextMenu';
+import CustomClickHandler from './Hooks/CustomClickHandler/CustomClickHandler';
+import {
+    ICustomGraphData,
+    ICustomNodeConfig,
+    IDefaultNode
+} from './GraphTypes.types';
 import {
     ISampleGraphProps,
     ISampleGraphStyleProps,
     ISampleGraphStyles
 } from './SampleGraph.types';
 import { getStyles } from './SampleGraph.styles';
-import CustomGraphNode from './Internal/CustomGraphNode/CustomGraphNode';
-import { ICustomGraphData, ICustomNodeConfig } from './GraphTypes.types';
-import { CustomNode } from './Internal/CustomNode';
-import CustomLassoHandler from './Hooks/CustomLassoHandler/CustomLassoHandler';
-import CustomContextMenu from './Internal/CustomContextMenu/CustomContextMenu';
-import CustomClickHandler from './Hooks/CustomClickHandler/CustomClickHandler';
 import { AddNodes } from './SampleGraph.utils';
 
 const debugLogging = true;
@@ -28,7 +32,26 @@ const getClassNames = classNamesFunction<
 >();
 
 const CUSTOM_NODE_NAME = 'react-node';
+const DEFAULT_NODE: IDefaultNode = {
+    type: 'graphin-circle', // CUSTOM_NODE_NAME // 'rect'
+    style: {
+        badges: [],
+        halo: {},
+        icon: {},
+        keyshape: {
+            fillOpacity: 0.2
+        },
+        label: {
+            offset: [10, 5],
+            position: 'right'
+        }
+    }
+};
+// const DEFAULT_EDGE: IDefaultEdge = {
+//     type: 'graphin-line' // as any // forcing type since Graphin has an opinion for some reason
+// };
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const FORCE_LAYOUT = {
     type: 'force2',
     animate: true,
@@ -47,7 +70,6 @@ const FORCE_LAYOUT = {
     }
 };
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const RADIAL_LAYOUT = {
     type: 'radial',
     animate: true,
@@ -115,12 +137,12 @@ const SampleGraph = <N extends object>(
                 <Graphin
                     data={data}
                     // defaultEdge={DEFAULT_EDGE}
-                    // defaultNode={DEFAULT_NODE}
+                    defaultNode={DEFAULT_NODE}
                     height={height}
                     layout={
                         // { type: 'preset' }
-                        FORCE_LAYOUT
-                        // RADIAL_LAYOUT
+                        // FORCE_LAYOUT
+                        RADIAL_LAYOUT
                     }
                 >
                     <CustomLassoHandler />
