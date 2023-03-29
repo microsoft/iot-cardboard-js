@@ -95,6 +95,13 @@ import {
     isDTDLComponentReference,
     isDTDLRelationshipReference
 } from '../../Models/Services/DtdlUtils';
+import useTelemetry from '../../Models/Hooks/useTelemetry';
+import {
+    AppRegion,
+    ComponentName,
+    TelemetryEvents
+} from '../../Models/Constants/OatTelemetryConstants';
+import { TelemetryTrigger } from '../../Models/Constants/TelemetryConstants';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('OATGraphViewer', debugLogging);
@@ -121,6 +128,7 @@ const OATGraphViewerContent: React.FC<IOATGraphViewerProps> = (props) => {
     // hooks
     const { t } = useTranslation();
     const theme = useExtendedTheme();
+    const { sendEventTelemetry } = useTelemetry();
 
     // contexts
     const { execute } = useContext(CommandHistoryContext);
@@ -538,7 +546,14 @@ const OATGraphViewerContent: React.FC<IOATGraphViewerProps> = (props) => {
     /** Forces the auto layout of the current elements on the graph */
     const forceGraphLayout = useCallback(() => {
         applyLayoutToElements(elements);
-    }, [applyLayoutToElements, elements]);
+        // Log auto layout telemetry
+        sendEventTelemetry({
+            name: TelemetryEvents.autoLayout,
+            triggerType: TelemetryTrigger.UserAction,
+            appRegion: AppRegion.OAT,
+            componentName: ComponentName.OAT
+        });
+    }, [applyLayoutToElements, elements, sendEventTelemetry]);
 
     const clearSelectedModel = () => {
         logDebugConsole('info', 'Clearing selected model');

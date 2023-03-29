@@ -32,6 +32,13 @@ import { DtdlInterface } from '../../../../../../Models/Constants';
 import { getDebugLogger } from '../../../../../../Models/Services/Utils';
 import Editor from '@monaco-editor/react';
 import { validateItemChangeBeforeSaving } from '../../../../../../Models/Services/DtdlUtils';
+import useTelemetry from '../../../../../../Models/Hooks/useTelemetry';
+import {
+    AppRegion,
+    ComponentName,
+    TelemetryEvents
+} from '../../../../../../Models/Constants/OatTelemetryConstants';
+import { TelemetryTrigger } from '../../../../../../Models/Constants/TelemetryConstants';
 
 const debugLogging = false;
 export const logDebugConsole = getDebugLogger('JSONEditor', debugLogging);
@@ -70,6 +77,7 @@ const JSONEditor: React.FC<IJSONEditorProps> = (props) => {
 
     // hooks
     const { t } = useTranslation();
+    const { sendEventTelemetry } = useTelemetry();
 
     // data
     const selectedItem = useMemo(() => {
@@ -110,7 +118,13 @@ const JSONEditor: React.FC<IJSONEditorProps> = (props) => {
             type: OatPageContextActionType.SET_OAT_MODIFIED,
             payload: { isModified: false }
         });
-    }, [selectedItem, oatPageDispatch]);
+        sendEventTelemetry({
+            name: TelemetryEvents.dtdlJsonCancelled,
+            triggerType: TelemetryTrigger.UserAction,
+            appRegion: AppRegion.OAT,
+            componentName: ComponentName.OAT
+        });
+    }, [selectedItem, oatPageDispatch, sendEventTelemetry]);
 
     const onSaveClick = useCallback(async () => {
         logDebugConsole('debug', '[SAVE] Start {content}', content);
@@ -123,6 +137,12 @@ const JSONEditor: React.FC<IJSONEditorProps> = (props) => {
                 oatPageDispatch({
                     type: OatPageContextActionType.SET_OAT_MODIFIED,
                     payload: { isModified: false }
+                });
+                sendEventTelemetry({
+                    name: TelemetryEvents.dtdlJsonSuccess,
+                    triggerType: TelemetryTrigger.UserAction,
+                    appRegion: AppRegion.OAT,
+                    componentName: ComponentName.OAT
                 });
             };
 
@@ -170,7 +190,8 @@ const JSONEditor: React.FC<IJSONEditorProps> = (props) => {
         oatPageDispatch,
         oatPageState.currentOntologyModels,
         oatPageState.selection.modelId,
-        selectedItem
+        selectedItem,
+        sendEventTelemetry
     ]);
 
     // side effects

@@ -659,7 +659,7 @@
     "powerBI": {
       "title": "Power BI-Widget",
       "libraryName": "Power BI-Visualisierung",
-      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
+      "description": "Einbetten einer Power BI-Visualisierung oder -Kachel",
       "type": {
         "label": "Art",
         "options": {
@@ -668,6 +668,12 @@
           "tile": "Fliese",
           "visual": "Visuell"
         }
+      },
+      "embedUrl": {
+        "label": "URL einbetten",
+        "placeholder": "URL eingeben",
+        "description": "Diese URL wird zum Einbetten von Berichtsartefakten in externe Tools verwendet.",
+        "tooltip": "Dieses Feld ist für die Auswahl von Seiten und visuellen Namen erforderlich."
       },
       "pageName": {
         "label": "Seitenname",
@@ -682,14 +688,9 @@
         "label": "Datenfilter"
       },
       "errors": {
-        "missingReportConfiguration": "Bitte stellen Sie sicher, dass Ihr Widget richtig konfiguriert ist",
         "missingConfiguration": "Widget-Konfiguration fehlt oder ist ungültig",
-        "missingAdapter": "Stellen Sie sicher, dass der Power BI-Adapter installiert und konfiguriert ist."
-      },
-      "embedUrl": {
-        "label": "URL einbetten",
-        "placeholder": "https://embed.powerbi.com/groups/me/reports/{reportId}",
-        "description": "Die URL zum Einbetten von Berichtsartefakten in externe Tools"
+        "missingAdapter": "Stellen Sie sicher, dass der Power BI-Adapter installiert und konfiguriert ist.",
+        "missingReportConfiguration": "Konfigurieren des Widgets zum Anzeigen von Details"
       }
     }
   },
@@ -1531,5 +1532,22 @@
   },
   "jobs": {
     "addNew": "Neu hinzufügen"
+  },
+  "legionApp": {
+    "dataPusher": {
+      "title": "Verbinden und Übertragen von Daten",
+      "database": "Datenbank",
+      "table": "Tisch",
+      "simulationType": "Art der Simulation",
+      "selectDatabasePlaceholder": "Datenbank auswählen",
+      "selectTablePlaceholder": "Tabelle auswählen",
+      "selectSimulationTypePlaceholder": "Auswählen des Simulationstyps",
+      "primaryActionLabel": "Verbinden und Pushen von Simulationsdaten",
+      "progress": {
+        "createDatabase": "Datenbank wird erstellt...",
+        "createTable": "Tabelle wird erstellt...",
+        "createTables": "Erstellen von Tabellen..."
+      }
+    }
   }
 }

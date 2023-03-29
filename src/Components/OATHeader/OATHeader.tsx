@@ -38,6 +38,14 @@ import {
 } from '../../Models/Services/OatPublicUtils';
 import { getTotalReferenceCount } from '../../Models/Context/OatPageContext/OatPageContextUtils';
 import { OAT_ONTOLOGY_MAX_REFERENCE_LIMIT } from '../../Models/Constants/Constants';
+import useTelemetry from '../../Models/Hooks/useTelemetry';
+import {
+    AppRegion,
+    ComponentName,
+    TelemetryEvents
+} from '../../Models/Constants/OatTelemetryConstants';
+import { TelemetryTrigger } from '../../Models/Constants/TelemetryConstants';
+import { getOatMetricsForModels } from '../../Models/Services/OatTelemetryUtils';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('OATHeader', debugLogging);
@@ -64,6 +72,9 @@ export const EXPORT_LOC_KEYS: IExportLocalizationKeys = {
     ExceptionMessage: 'OAT.Common.unhandledExceptionMessage'
 };
 
+const TELEMETRY_COMPONENT_NAME = ComponentName.OAT;
+const TELEMETRY_APP_REGION = AppRegion.OAT;
+
 const OATHeader: React.FC<IOATHeaderProps> = (props) => {
     const { styles } = props;
 
@@ -71,6 +82,7 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
     const { t } = useTranslation();
     const commandContex = useContext(CommandHistoryContext);
     const { undo, redo, canUndo, canRedo } = commandContex;
+    const { sendEventTelemetry } = useTelemetry();
 
     // contexts
     const { oatPageDispatch, oatPageState } = useOatPageContext();
@@ -111,15 +123,27 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
                 getTotalReferenceCount(result.data) >=
                 OAT_ONTOLOGY_MAX_REFERENCE_LIMIT
             ) {
-                (result.status = 'Failed'),
-                    (result.errors = [
-                        {
-                            title: t('OAT.ImportLimits.title'),
-                            message: t('OAT.ImportLimits.message', {
-                                count: OAT_ONTOLOGY_MAX_REFERENCE_LIMIT
-                            })
-                        }
-                    ]);
+                result.status = 'Failed';
+                result.errors = [
+                    {
+                        title: t('OAT.ImportLimits.title'),
+                        message: t('OAT.ImportLimits.message', {
+                            count: OAT_ONTOLOGY_MAX_REFERENCE_LIMIT
+                        })
+                    }
+                ];
+                // Log limit exceeded
+                sendEventTelemetry({
+                    name: TelemetryEvents.import,
+                    triggerType: TelemetryTrigger.UserAction,
+                    appRegion: TELEMETRY_APP_REGION,
+                    componentName: TELEMETRY_COMPONENT_NAME,
+                    customProperties: {
+                        success: false,
+                        reason: 'Limit exceeded',
+                        ...getOatMetricsForModels(result.data)
+                    }
+                });
             }
             if (result.status === 'Success') {
                 oatPageDispatch({
@@ -132,6 +156,17 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
                 oatPageDispatch({
                     type: OatPageContextActionType.IMPORT_MODELS,
                     payload: { models: result.data }
+                });
+                // Log success
+                sendEventTelemetry({
+                    name: TelemetryEvents.import,
+                    triggerType: TelemetryTrigger.UserAction,
+                    appRegion: TELEMETRY_APP_REGION,
+                    componentName: TELEMETRY_COMPONENT_NAME,
+                    customProperties: {
+                        success: true,
+                        ...getOatMetricsForModels(result.data)
+                    }
                 });
             } else if (result.status === 'Failed') {
                 // show error
@@ -155,13 +190,29 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
                         state: 'closed'
                     }
                 });
+                // Log import error
+                sendEventTelemetry({
+                    name: TelemetryEvents.import,
+                    triggerType: TelemetryTrigger.UserAction,
+                    appRegion: TELEMETRY_APP_REGION,
+                    componentName: TELEMETRY_COMPONENT_NAME,
+                    customProperties: {
+                        success: false,
+                        reason: 'Unhandled exception'
+                    }
+                });
             }
             // Reset value of input element so that it can be reused with the same file
             uploadFolderInputRef.current.value = null;
             uploadFileInputRef.current.value = null;
             logDebugConsole('debug', '[IMPORT] [END] Files upload.', result);
         },
-        [oatPageDispatch, oatPageState.currentOntologyModels, t]
+        [
+            oatPageDispatch,
+            oatPageState.currentOntologyModels,
+            sendEventTelemetry,
+            t
+        ]
     );
 
     const onExportClick = useCallback(() => {
@@ -192,6 +243,19 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
                     fileName = `${oatPageState.currentOntologyProjectName}-models.zip`;
                 }
                 downloadFile(content, fileName);
+                // Log success
+                sendEventTelemetry({
+                    name: TelemetryEvents.export,
+                    triggerType: TelemetryTrigger.UserAction,
+                    appRegion: TELEMETRY_APP_REGION,
+                    componentName: TELEMETRY_COMPONENT_NAME,
+                    customProperties: {
+                        success: true,
+                        ...getOatMetricsForModels(
+                            oatPageState.currentOntologyModels
+                        )
+                    }
+                });
             });
         } else {
             // show error
@@ -209,11 +273,26 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
                     message: error.message
                 }
             });
+            // Log error
+            sendEventTelemetry({
+                name: TelemetryEvents.export,
+                triggerType: TelemetryTrigger.UserAction,
+                appRegion: TELEMETRY_APP_REGION,
+                componentName: TELEMETRY_COMPONENT_NAME,
+                customProperties: {
+                    success: false,
+                    reason: 'Unhandled exception',
+                    ...getOatMetricsForModels(
+                        oatPageState.currentOntologyModels
+                    )
+                }
+            });
         }
     }, [
         oatPageState.currentOntologyModels,
         oatPageState.currentOntologyProjectName,
         t,
+        sendEventTelemetry,
         oatPageDispatch
     ]);
 

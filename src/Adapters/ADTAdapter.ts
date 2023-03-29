@@ -128,11 +128,7 @@ export default class ADTAdapter implements IADTAdapter {
             (useAdtProxy || !validateExplorerOrigin(window.origin)) &&
             !forceCORS;
         this.authService.login();
-        this.axiosInstance = axios.create({
-            baseURL: this.useAdtProxy
-                ? this.adtProxyServerPath
-                : this.adtHostUrl
-        });
+        this.axiosInstance = axios.create();
         axiosRetry(this.axiosInstance, {
             retries: 3,
             retryCondition: (axiosError: AxiosError) => {
@@ -426,7 +422,7 @@ export default class ADTAdapter implements IADTAdapter {
                     const id = event.dtId;
                     const config: AxiosRequestConfig = {
                         method: 'patch',
-                        url: this.generateUrl(`/digitaltiwns/${id}`),
+                        url: this.generateUrl(`/digitaltwins/${id}`),
                         data: event.patchJSON,
                         headers: this.generateHeaders({
                             'Content-Type': 'application/json',

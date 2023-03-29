@@ -659,7 +659,7 @@
     "powerBI": {
       "title": "Power BI 小组件",
       "libraryName": "Power BI Visual",
-      "description": "Lorem ipsum dolor sit amet， consectetur adipiscing elit， sed do eiusmod tempor",
+      "description": "嵌入 Power BI 视觉对象或磁贴",
       "type": {
         "label": "类型",
         "options": {
@@ -668,6 +668,12 @@
           "tile": "瓦",
           "visual": "视觉"
         }
+      },
+      "embedUrl": {
+        "label": "嵌入网址",
+        "placeholder": "输入网址",
+        "description": "此 URL 用于在外部工具中嵌入报表工件",
+        "tooltip": "此字段是页面和视觉对象名称选择所必需的"
       },
       "pageName": {
         "label": "页面名称",
@@ -682,14 +688,9 @@
         "label": "数据过滤器"
       },
       "errors": {
-        "missingReportConfiguration": "请确保您的小部件配置正确",
         "missingConfiguration": "小组件配置缺失或无效",
-        "missingAdapter": "请确保已安装并配置 Power BI 适配器"
-      },
-      "embedUrl": {
-        "label": "嵌入网址",
-        "placeholder": "https://embed.powerbi.com/groups/me/reports/{reportId}",
-        "description": "用于在外部工具中嵌入报表项目的 URL"
+        "missingAdapter": "请确保已安装并配置 Power BI 适配器",
+        "missingReportConfiguration": "配置小组件以显示详细信息"
       }
     }
   },
@@ -1531,5 +1532,22 @@
   },
   "jobs": {
     "addNew": "新增"
+  },
+  "legionApp": {
+    "dataPusher": {
+      "title": "连接和推送数据",
+      "database": "数据库",
+      "table": "桌子",
+      "simulationType": "模拟类型",
+      "selectDatabasePlaceholder": "选择数据库",
+      "selectTablePlaceholder": "选择表格",
+      "selectSimulationTypePlaceholder": "选择模拟类型",
+      "primaryActionLabel": "连接和推送仿真数据",
+      "progress": {
+        "createDatabase": "正在创建数据库...",
+        "createTable": "正在创建表...",
+        "createTables": "正在创建表..."
+      }
+    }
   }
 }

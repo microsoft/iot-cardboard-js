@@ -659,7 +659,7 @@
     "powerBI": {
       "title": "Widget Power BI",
       "libraryName": "Oggetto visivo di Power BI",
-      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
+      "description": "Incorporare un oggetto visivo o un riquadro di Power BI",
       "type": {
         "label": "Digitare",
         "options": {
@@ -668,6 +668,12 @@
           "tile": "Tegola",
           "visual": "Visivo"
         }
+      },
+      "embedUrl": {
+        "label": "URL di incorporamento",
+        "placeholder": "Inserisci l'URL",
+        "description": "Questo URL viene utilizzato per incorporare elementi del report in strumenti esterni",
+        "tooltip": "Questo campo è obbligatorio per la selezione della pagina e del nome visivo"
       },
       "pageName": {
         "label": "Nome della pagina",
@@ -682,14 +688,9 @@
         "label": "Filtri dati"
       },
       "errors": {
-        "missingReportConfiguration": "Assicurati che il tuo widget sia configurato correttamente",
-        "missingConfiguration": "La configurazione del widget è mancante o non è valida",
-        "missingAdapter": "Assicurarsi che l'adattatore Power BI sia installato e configurato"
-      },
-      "embedUrl": {
-        "label": "URL di incorporamento",
-        "placeholder": "https://embed.powerbi.com/groups/me/reports/{reportId}",
-        "description": "URL utilizzato per incorporare gli elementi del report negli strumenti esterni"
+        "missingConfiguration": "La configurazione del widget è mancante o non valida",
+        "missingAdapter": "Assicurarsi che l'adattatore Power BI sia installato e configurato",
+        "missingReportConfiguration": "Configurare il widget per visualizzare i dettagli"
       }
     }
   },
@@ -1531,5 +1532,22 @@
   },
   "jobs": {
     "addNew": "Aggiungi nuovo"
+  },
+  "legionApp": {
+    "dataPusher": {
+      "title": "Connessione e invio dei dati",
+      "database": "Banca dati",
+      "table": "Tavolo",
+      "simulationType": "Tipo di simulazione",
+      "selectDatabasePlaceholder": "Seleziona database",
+      "selectTablePlaceholder": "Seleziona tabella",
+      "selectSimulationTypePlaceholder": "Seleziona il tipo di simulazione",
+      "primaryActionLabel": "Connessione e invio dei dati di simulazione",
+      "progress": {
+        "createDatabase": "Creazione di database...",
+        "createTable": "Creazione tabella...",
+        "createTables": "Creazione di tabelle..."
+      }
+    }
   }
 }

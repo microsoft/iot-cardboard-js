@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo, useRef } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 
 import OATHeader from '../../Components/OATHeader/OATHeader';
@@ -17,14 +17,38 @@ import BaseComponent from '../../Components/BaseComponent/BaseComponent';
 import { getTargetFromSelection } from '../../Components/OATPropertyEditor/Utils';
 import { isDTDLReference } from '../../Models/Services/DtdlUtils';
 import OATImportProgressDialog from '../../Components/OATImportProgressDialog/OATImportProgressDialog';
+import useTelemetry from '../../Models/Hooks/useTelemetry';
+import {
+    AppRegion,
+    ComponentName,
+    TelemetryEvents
+} from '../../Models/Constants/OatTelemetryConstants';
+import { TelemetryTrigger } from '../../Models/Constants/TelemetryConstants';
+import { getOatGlobalMetrics } from '../../Models/Services/OatTelemetryUtils';
 
 const OATEditorPageContent: React.FC<IOATEditorPageProps> = (props) => {
     const { locale, localeStrings, selectedThemeName } = props;
-
-    // hooks
+    const isMounted = useRef(false);
 
     // contexts
     const { oatPageState } = useOatPageContext();
+
+    // hooks
+    const { sendEventTelemetry } = useTelemetry();
+    useEffect(() => {
+        if (!isMounted.current) {
+            sendEventTelemetry({
+                name: TelemetryEvents.init,
+                triggerType: TelemetryTrigger.SystemAction,
+                appRegion: AppRegion.OAT,
+                componentName: ComponentName.OAT,
+                customProperties: getOatGlobalMetrics(
+                    oatPageState.ontologyFiles
+                )
+            });
+            isMounted.current = true;
+        }
+    }, [oatPageState.ontologyFiles, sendEventTelemetry]);
 
     // data
     const selectedItem = useMemo(() => {

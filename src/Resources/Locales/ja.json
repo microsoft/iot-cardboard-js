@@ -659,7 +659,7 @@
     "powerBI": {
       "title": "Power BI ウィジェット",
       "libraryName": "Power BI Visual",
-      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
+      "description": "Power BI のビジュアルまたはタイルを埋め込む",
       "type": {
         "label": "種類",
         "options": {
@@ -668,6 +668,12 @@
           "tile": "瓦",
           "visual": "ビジュアル"
         }
+      },
+      "embedUrl": {
+        "label": "埋め込み URL",
+        "placeholder": "URLを入力",
+        "description": "この URL は、外部ツールにレポート成果物を埋め込むために使用されます。",
+        "tooltip": "このフィールドは、ページ名とビジュアル名の選択に必要です。"
       },
       "pageName": {
         "label": "ページ名",
@@ -682,14 +688,9 @@
         "label": "データフィルタ"
       },
       "errors": {
-        "missingReportConfiguration": "ウィジェットが正しく構成されていることを確認してください",
-        "missingConfiguration": "ウィジェットの構成が見つからないか、無効です",
-        "missingAdapter": "Power BI アダプターがインストールされ、構成されていることを確認してください。"
-      },
-      "embedUrl": {
-        "label": "埋め込み URL",
-        "placeholder": "https://embed.powerbi.com/groups/me/reports/{reportId}",
-        "description": "外部ツールにレポート成果物を埋め込むために使用される URL"
+        "missingConfiguration": "ウィジェット構成が見つからないか無効です",
+        "missingAdapter": "Power BI アダプターがインストールされ、構成されていることを確認してください。",
+        "missingReportConfiguration": "詳細を表示するようにウィジェットを構成する"
       }
     }
   },
@@ -1531,5 +1532,22 @@
   },
   "jobs": {
     "addNew": "新規追加"
+  },
+  "legionApp": {
+    "dataPusher": {
+      "title": "データの接続とプッシュ",
+      "database": "データベース",
+      "table": "テーブル",
+      "simulationType": "シミュレーションの種類",
+      "selectDatabasePlaceholder": "データベースの選択",
+      "selectTablePlaceholder": "テーブルを選択",
+      "selectSimulationTypePlaceholder": "シミュレーションタイプを選択",
+      "primaryActionLabel": "シミュレーションデータの接続とプッシュ",
+      "progress": {
+        "createDatabase": "データベースを作成しています...",
+        "createTable": "テーブルを作成しています...",
+        "createTables": "テーブルを作成しています..."
+      }
+    }
   }
 }

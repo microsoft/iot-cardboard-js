@@ -659,7 +659,7 @@
     "powerBI": {
       "title": "Widżet usługi Power BIPower BI widget",
       "libraryName": "Power BI Visual",
-      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
+      "description": "Osadzanie wizualizacji lub kafelka usługi Power BI",
       "type": {
         "label": "Typ",
         "options": {
@@ -668,6 +668,12 @@
           "tile": "Kafelek",
           "visual": "Wizualny"
         }
+      },
+      "embedUrl": {
+        "label": "Umieść adres URL",
+        "placeholder": "Wpisz adres URL",
+        "description": "Ten adres URL służy do osadzania artefaktów raportu w narzędziach zewnętrznych",
+        "tooltip": "To pole jest wymagane do wyboru nazwy strony i wizualizacji"
       },
       "pageName": {
         "label": "Nazwa strony",
@@ -682,14 +688,9 @@
         "label": "Filtry danych"
       },
       "errors": {
-        "missingReportConfiguration": "Upewnij się, że widżet jest poprawnie skonfigurowany",
         "missingConfiguration": "Brak konfiguracji widżetu lub jest on nieprawidłowy",
-        "missingAdapter": "Upewnij się, że karta Power BI jest zainstalowana i skonfigurowana."
-      },
-      "embedUrl": {
-        "label": "Umieść adres URL",
-        "placeholder": "https://embed.powerbi.com/groups/me/reports/{reportId}",
-        "description": "Adres URL używany do osadzania artefaktów raportu w narzędziach zewnętrznych"
+        "missingAdapter": "Upewnij się, że karta Power BI jest zainstalowana i skonfigurowana.",
+        "missingReportConfiguration": "Konfigurowanie widżetu do wyświetlania szczegółów"
       }
     }
   },
@@ -1531,5 +1532,22 @@
   },
   "jobs": {
     "addNew": "Dodaj nowy"
+  },
+  "legionApp": {
+    "dataPusher": {
+      "title": "Łączenie i przesyłanie danych",
+      "database": "Baza danych",
+      "table": "Stół",
+      "simulationType": "Typ symulacji",
+      "selectDatabasePlaceholder": "Wybierz bazę danych",
+      "selectTablePlaceholder": "Wybierz tabelę",
+      "selectSimulationTypePlaceholder": "Wybierz typ symulacji",
+      "primaryActionLabel": "Łączenie i przesyłanie danych symulacyjnych",
+      "progress": {
+        "createDatabase": "Tworzenie bazy danych...",
+        "createTable": "Tworzenie tabeli...",
+        "createTables": "Tworzenie tabel..."
+      }
+    }
   }
 }

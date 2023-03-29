@@ -6,20 +6,10 @@ const AppSourceDir = path.join(__dirname, '..', 'src');
 module.exports = {
     stories:
         process.env.NODE_ENV === 'production'
-            ? // Change below to ['../src/Components/**/*.stories.tsx'] to include Card stories
-              [
-                  '../src/Components/**/*.stories.tsx',
-                  '../src/Models/**/*.stories.tsx',
-                  '../src/Pages/**/*.stories.tsx'
-              ]
-            : // Change below to ['../src/**/*.stories.tsx', '../src/**/*.stories.local.tsx'] to include Card stories
-              [
-                  '../src/Components/**/*.stories.tsx',
-                  '../src/Models/**/*.stories.tsx',
-                  '../src/Pages/**/*.stories.tsx',
-                  '../src/Components/**/*.stories.local.tsx',
-                  '../src/Models/**/*.stories.local.tsx',
-                  '../src/Pages/**/*.stories.local.tsx'
+            ? ['../src/Apps/**/*.stories.tsx']
+            : [
+                  '../src/Apps/**/*.stories.tsx',
+                  '../src/Apps/**/*.stories.local.tsx'
               ],
     // Add any Storybook addons you want here: https://storybook.js.org/addons/
     addons: [

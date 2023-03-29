@@ -659,7 +659,7 @@
     "powerBI": {
       "title": "Widget Power BI",
       "libraryName": "Visuel Power BI",
-      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
+      "description": "Incorporer un visuel ou une vignette Power BI",
       "type": {
         "label": "Type",
         "options": {
@@ -668,6 +668,12 @@
           "tile": "Carreau",
           "visual": "Visuel"
         }
+      },
+      "embedUrl": {
+        "label": "URL d’intégration",
+        "placeholder": "Entrez l’URL",
+        "description": "Cette URL est utilisée pour incorporer des artefacts de rapport dans des outils externes",
+        "tooltip": "Ce champ est obligatoire pour la sélection du nom de la page et du visuel"
       },
       "pageName": {
         "label": "Nom de la page",
@@ -682,14 +688,9 @@
         "label": "Filtres de données"
       },
       "errors": {
-        "missingReportConfiguration": "Assurez-vous que votre widget est correctement configuré",
         "missingConfiguration": "La configuration du widget est manquante ou non valide",
-        "missingAdapter": "Assurez-vous que l’adaptateur Power BI est installé et configuré"
-      },
-      "embedUrl": {
-        "label": "URL d’intégration",
-        "placeholder": "https://embed.powerbi.com/groups/me/reports/{reportId}",
-        "description": "URL utilisée pour incorporer des artefacts de rapport dans des outils externes"
+        "missingAdapter": "Assurez-vous que l’adaptateur Power BI est installé et configuré",
+        "missingReportConfiguration": "Configurer le widget pour afficher les détails"
       }
     }
   },
@@ -1531,5 +1532,22 @@
   },
   "jobs": {
     "addNew": "Ajouter un nouveau"
+  },
+  "legionApp": {
+    "dataPusher": {
+      "title": "Connecter et pousser des données",
+      "database": "Base de données",
+      "table": "Table",
+      "simulationType": "Type de simulation",
+      "selectDatabasePlaceholder": "Sélectionner une base de données",
+      "selectTablePlaceholder": "Sélectionner une table",
+      "selectSimulationTypePlaceholder": "Sélectionnez le type de simulation",
+      "primaryActionLabel": "Connecter et pousser les données de simulation",
+      "progress": {
+        "createDatabase": "Création d’une base de données...",
+        "createTable": "Création d’une table...",
+        "createTables": "Création de tables..."
+      }
+    }
   }
 }

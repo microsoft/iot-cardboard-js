@@ -15,10 +15,19 @@ import {
     OAT_ONTOLOGY_MAX_REFERENCE_LIMIT
 } from '../../Constants/Constants';
 import {
+    AppRegion,
+    ComponentName,
+    OatIncludedEvents
+} from '../../Constants/OatTelemetryConstants';
+import { TelemetryTrigger } from '../../Constants/TelemetryConstants';
+import { TelemetryService } from '../../Services';
+import { getNameFromAction } from '../../Services/OatTelemetryUtils';
+import {
     getOntologiesFromStorage,
     getLastUsedProjectId,
     getAvailableLanguages
 } from '../../Services/OatUtils';
+import { TelemetryEvent } from '../../Services/TelemetryService/Telemetry';
 import { createGUID, deepCopy, getDebugLogger } from '../../Services/Utils';
 import {
     IOatPageContext,
@@ -65,6 +74,11 @@ export const OatPageContextReducer: (
             `Updating OAT Page context ${action.type} with payload: `,
             (action as any).payload // sometimes doesn't have payload
         );
+        // Telemetry values
+        const customProperties = {};
+        const triggerType = TelemetryTrigger.UserAction; // Default to user action, change to system based on action
+        let cancelTelemetry = false;
+
         switch (action.type) {
             case OatPageContextActionType.CREATE_PROJECT: {
                 createProject(
@@ -114,6 +128,7 @@ export const OatPageContextReducer: (
                         'warn',
                         `Could not find project to delete with id: ${action.payload.id}`
                     );
+                    cancelTelemetry = true;
                 }
                 saveData(draft);
                 break;
@@ -199,6 +214,7 @@ export const OatPageContextReducer: (
                         'warn',
                         `Could not find model (id: ${action.payload.id}) to delete in state.`
                     );
+                    cancelTelemetry = true;
                     break;
                 }
                 setSelectedModel(null, draft);
@@ -224,6 +240,7 @@ export const OatPageContextReducer: (
                         'warn',
                         `Could not find model (id: ${modelId}) to modify.`
                     );
+                    cancelTelemetry = true;
                     break;
                 }
                 setSelectedModel(null, draft);
@@ -380,15 +397,6 @@ export const OatPageContextReducer: (
                 break;
             }
             case OatPageContextActionType.ADD_NEW_MODEL: {
-                // if (draft.currentOntologyModels?.length >= MAX_MODEL_COUNT) {
-                //     draft.error = {
-                //         title: i18n.t('OAT.ImportLimits.title'),
-                //         message: i18n.t('OAT.ImportLimits.message', {
-                //             count: MAX_MODEL_COUNT
-                //         })
-                //     };
-                //     break;
-                // }
                 const newModel = addNewModelToState(draft);
                 setSelectedModel(
                     {
@@ -415,7 +423,10 @@ export const OatPageContextReducer: (
                             count: OAT_ONTOLOGY_MAX_REFERENCE_LIMIT
                         })
                     };
+                    // Log unsuccessful new relationship additions
+                    customProperties['success'] = false;
                 }
+                customProperties['success'] = true;
                 if (action.payload.type === 'Targeted') {
                     const {
                         relationshipType,
@@ -452,8 +463,11 @@ export const OatPageContextReducer: (
                             count: OAT_ONTOLOGY_MAX_REFERENCE_LIMIT
                         })
                     };
+                    // Log unsuccessful new model + relationship additions
+                    customProperties['success'] = false;
                     saveData(draft);
                 } else {
+                    customProperties['success'] = true;
                     addTargetedRelationship(
                         draft,
                         sourceModelId,
@@ -518,6 +532,17 @@ export const OatPageContextReducer: (
                 break;
             }
         }
+
+        if (OatIncludedEvents.includes(action.type) && !cancelTelemetry)
+            TelemetryService.sendEvent(
+                new TelemetryEvent({
+                    name: getNameFromAction(action.type),
+                    triggerType: triggerType,
+                    appRegion: AppRegion.OAT,
+                    componentName: ComponentName.OAT,
+                    customProperties: customProperties
+                })
+            );
     }
 );
 
