@@ -41,7 +41,7 @@ const TemplateContent = () => {
                 root: { height: '100%' }
             }}
         >
-            <div>Selected nodes: {graphState.selectedNodes.join(', ')}</div>
+            <div>Selected nodes: {graphState.selectedNodeIds.join(', ')}</div>
             <Stack.Item grow={1}>
                 <SampleGraph />
             </Stack.Item>

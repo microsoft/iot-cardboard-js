@@ -53,7 +53,6 @@ export interface ICustomEdgeData {
     name: string;
     source: string;
     target: string;
-    type: OatGraphReferenceType;
 }
 // #endregion
 

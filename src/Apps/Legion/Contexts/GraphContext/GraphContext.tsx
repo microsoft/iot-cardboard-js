@@ -1,9 +1,10 @@
+/* eslint-disable no-case-declarations */
 /**
  * This context is for managing the state and actions on the Ontology Authoring Tool page
  */
 import produce from 'immer';
 import React, { ReactNode, useContext, useReducer } from 'react';
-import { getDebugLogger } from '../../../../Models/Services/Utils';
+import { createGUID, getDebugLogger } from '../../../../Models/Services/Utils';
 import {
     IGraphContext,
     IGraphContextProviderProps,
@@ -12,7 +13,7 @@ import {
     GraphContextActionType,
     IGraphNode
 } from './GraphContext.types';
-import { GetGraphData } from './GraphContext.utils';
+import { AddEdge, AddNode, GetGraphData } from './GraphContext.utils';
 
 const debugLogging = false;
 export const logDebugConsole = getDebugLogger('GraphContext', debugLogging);
@@ -32,7 +33,28 @@ export const GraphContextReducer: (
         );
         switch (action.type) {
             case GraphContextActionType.SET_SELECTED_NODES:
-                draft.selectedNodes = action.payload.nodeIds;
+                draft.selectedNodeIds = action.payload.nodeIds;
+                break;
+            case GraphContextActionType.ADD_PARENT:
+                const newId = createGUID();
+                // add a new node
+                AddNode(
+                    { id: newId, label: 'Parent', data: {} },
+                    draft.graphData
+                );
+
+                // connect selected nodes to the new node
+                draft.selectedNodeIds.forEach((childNodeId) => {
+                    AddEdge(
+                        {
+                            label: 'Parent',
+                            sourceId: newId,
+                            targetId: childNodeId
+                        },
+                        draft.graphData
+                    );
+                });
+                draft.selectedNodeIds = [];
                 break;
         }
     }
@@ -75,7 +97,7 @@ const emptyState: IGraphContextState = {
         edges: [],
         nodes: []
     },
-    selectedNodes: []
+    selectedNodeIds: []
 };
 
 function getInitialState<N>(

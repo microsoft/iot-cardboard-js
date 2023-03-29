@@ -31,20 +31,25 @@ export interface IGraphContext {
  */
 export interface IGraphContextState {
     graphData: ICustomGraphData<any>;
-    selectedNodes: string[];
+    selectedNodeIds: string[];
 }
 
 /**
  * The actions to update the state
  */
 export enum GraphContextActionType {
-    SET_SELECTED_NODES = 'SET_SELECTED_NODES'
+    SET_SELECTED_NODES = 'SET_SELECTED_NODES',
+    ADD_PARENT = 'ADD_PARENT'
 }
 
 /** The actions to update the state */
-export type GraphContextAction = {
-    type: GraphContextActionType.SET_SELECTED_NODES;
-    payload: {
-        nodeIds: string[];
-    };
-};
+export type GraphContextAction =
+    | {
+          type: GraphContextActionType.SET_SELECTED_NODES;
+          payload: {
+              nodeIds: string[];
+          };
+      }
+    | {
+          type: GraphContextActionType.ADD_PARENT;
+      };

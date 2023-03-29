@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { classNamesFunction } from '@fluentui/react';
 import type { ContextMenuValue as ContextMenuProps } from '@antv/graphin';
 import { Components } from '@antv/graphin';
@@ -12,6 +12,8 @@ import {
 } from './CustomContextMenu.types';
 import { CardboardList } from '../../../CardboardList';
 import { ICardboardListItem } from '../../../CardboardList/CardboardList.types';
+import { useGraphContext } from '../../../../Apps/Legion/Contexts/GraphContext/GraphContext';
+import { GraphContextActionType } from '../../../../Apps/Legion/Contexts/GraphContext/GraphContext.types';
 
 const { ContextMenu } = Components;
 
@@ -25,10 +27,16 @@ const getClassNames = classNamesFunction<
 
 const CustomMenu = (props: ContextMenuProps) => {
     const { onClose } = props;
-    const handleClick = (e: string) => {
-        alert(`You clicked on ${e}`);
+
+    // context
+    const { graphDispatch } = useGraphContext();
+
+    // callbacks
+
+    const handleClick = useCallback(() => {
+        graphDispatch({ type: GraphContextActionType.ADD_PARENT });
         onClose();
-    };
+    }, [graphDispatch, onClose]);
 
     // styles
     const classNames = getClassNames(
@@ -40,11 +48,11 @@ const CustomMenu = (props: ContextMenuProps) => {
 
     const menuItems: ICardboardListItem<string>[] = [
         {
-            item: 'test',
-            textPrimary: 'test',
-            ariaLabel: 'test',
+            item: '',
+            textPrimary: 'Add parent',
+            ariaLabel: 'Add parent',
             onClick: () => {
-                handleClick('test');
+                handleClick();
             }
         }
     ];

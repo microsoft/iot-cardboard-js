@@ -9,7 +9,7 @@ import { GetNodeIdsFromSelection } from '../../Utils/GraphUtils';
 
 const { LassoSelect } = Behaviors;
 
-const debugLogging = true;
+const debugLogging = false;
 const logDebugConsole = getDebugLogger('CustomLassoHandler', debugLogging);
 
 const CustomLassoHandler: React.FC<ICustomLassoHandlerProps> = (_props) => {

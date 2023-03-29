@@ -8,15 +8,12 @@ export function GetGraphData<N>(nodeData: IGraphNode<N>[]) {
         edges: []
     };
     nodeData.forEach((model) => {
-        AddNodes(model, graphData);
-    });
-    nodeData.forEach((model) => {
-        AddEdges(model, graphData);
+        AddNode(model, graphData);
     });
     return graphData;
 }
 
-export function AddNodes<N>(
+export function AddNode<N>(
     model: IGraphNode<N>,
     graphData: ICustomGraphData<N>
 ) {
@@ -36,10 +33,12 @@ export function AddNodes<N>(
             badges: [],
             halo: {},
             icon: {},
-            keyshape: {
-                stroke: model.color || null,
-                fill: model.color || null
-            },
+            keyshape: model.color
+                ? {
+                      stroke: model.color,
+                      fill: model.color
+                  }
+                : undefined,
             label: {
                 value: label
             }
@@ -47,6 +46,23 @@ export function AddNodes<N>(
     });
 }
 
-export function AddEdges<N>(_model: IGraphNode<N>, _data: ICustomGraphData<N>) {
-    return;
+interface IEdgeData {
+    sourceId: string;
+    targetId: string;
+    label: string;
+}
+export function AddEdge<N>(
+    edgeData: IEdgeData,
+    graphData: ICustomGraphData<N>
+) {
+    graphData.edges.push({
+        source: edgeData.sourceId,
+        target: edgeData.targetId,
+        data: {
+            itemType: 'Edge',
+            name: 'Parent',
+            source: edgeData.sourceId,
+            target: edgeData.targetId
+        }
+    });
 }

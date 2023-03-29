@@ -19,7 +19,7 @@ import {
 import { getStyles } from './SampleGraph.styles';
 import { useGraphContext } from '../../Apps/Legion/Contexts/GraphContext/GraphContext';
 
-const debugLogging = true;
+const debugLogging = false;
 const logDebugConsole = getDebugLogger('SampleGraph', debugLogging);
 
 const getClassNames = classNamesFunction<
@@ -47,7 +47,6 @@ const DEFAULT_NODE: IDefaultNode = {
 //     type: 'graphin-line' // as any // forcing type since Graphin has an opinion for some reason
 // };
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const FORCE_LAYOUT = {
     type: 'force2',
     animate: true,
@@ -62,10 +61,11 @@ const FORCE_LAYOUT = {
     nodeSize: 20,
     preventOverlap: true,
     onLayoutEnd: () => {
-        console.log('layout end');
+        // console.log('layout end');
     }
 };
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const RADIAL_LAYOUT = {
     type: 'radial',
     animate: true,
@@ -105,7 +105,7 @@ const SampleGraph: React.FC<ISampleGraphProps> = (props) => {
             };
             const nodeToRegiser = CustomNode;
             Graphin.registerNode(CUSTOM_NODE_NAME, nodeToRegiser, 'rect');
-            console.log('registering node', nodeToRegiser);
+            // console.log('registering node', nodeToRegiser);
             isMounted.current = true;
         }
     }, []);
@@ -128,8 +128,8 @@ const SampleGraph: React.FC<ISampleGraphProps> = (props) => {
                     height={height}
                     layout={
                         // { type: 'preset' }
-                        // FORCE_LAYOUT
-                        RADIAL_LAYOUT
+                        FORCE_LAYOUT
+                        // RADIAL_LAYOUT
                     }
                 >
                     <CustomLassoHandler />
