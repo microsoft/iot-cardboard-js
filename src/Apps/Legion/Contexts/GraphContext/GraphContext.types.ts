@@ -1,5 +1,3 @@
-import { ICustomNodeConfig } from '../../../../Components/SampleGraph/GraphTypes.types';
-
 export interface IGraphContextProviderProps {
     initialState?: Partial<IGraphContextState>;
 }
@@ -16,7 +14,7 @@ export interface IGraphContext {
  * The state of the context
  */
 export interface IGraphContextState {
-    selectedNodes: ICustomNodeConfig[];
+    selectedNodes: string[];
 }
 
 /**
@@ -30,6 +28,6 @@ export enum GraphContextActionType {
 export type GraphContextAction = {
     type: GraphContextActionType.SET_SELECTED_NODES;
     payload: {
-        nodes: ICustomNodeConfig[];
+        nodeIds: string[];
     };
 };

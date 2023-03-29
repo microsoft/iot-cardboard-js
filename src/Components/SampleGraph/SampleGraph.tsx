@@ -39,6 +39,7 @@ import { DTDLType } from '../../Models/Classes/DTDL';
 import { CustomNode } from './Internal/CustomNode';
 import CustomLassoHandler from './Hooks/CustomLassoHandler/CustomLassoHandler';
 import CustomContextMenu from './Internal/CustomContextMenu/CustomContextMenu';
+import CustomClickHandler from './Hooks/CustomClickHandler/CustomClickHandler';
 
 const debugLogging = true;
 const logDebugConsole = getDebugLogger('SampleGraph', debugLogging);
@@ -300,11 +301,12 @@ const SampleGraph: React.FC<ISampleGraphProps> = (props) => {
                         // FORCE_LAYOUT
                         // RADIAL_LAYOUT
                     }
+                    on
                 >
                     <CustomLassoHandler />
                     <CustomContextMenu />
-                    {/* <CustomLegend />
                     <CustomClickHandler />
+                    {/* <CustomLegend />
                     <CreateEdge
                         active={false}
                         onClick={() => {

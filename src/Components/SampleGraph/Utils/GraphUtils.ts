@@ -1,6 +1,11 @@
 import { OAT_EXTEND_HANDLE_NAME } from '../../..';
 import { IOATSelection } from '../../../Pages/OATEditorPage/OATEditorPage.types';
 import { ICustomEdgeData, ICustomNodeData } from '../GraphTypes.types';
+import { INode } from '@antv/g6';
+
+export function GetNodeIdsFromSelection(nodes: INode[]): string[] {
+    return nodes.map((node) => node.getModel().id);
+}
 
 const getSelectionIdentifier = (data: ICustomEdgeData) => {
     switch (data.type) {

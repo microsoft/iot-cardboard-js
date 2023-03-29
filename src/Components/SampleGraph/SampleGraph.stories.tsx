@@ -3,14 +3,14 @@ import { ComponentStory } from '@storybook/react';
 import { getDefaultStoryDecorator } from '../../Models/Services/StoryUtilities';
 import SampleGraph from './SampleGraph';
 import { ISampleGraphProps } from './SampleGraph.types';
-import {
-    OatPageContextProvider,
-    useOatPageContext
-} from '../../Models/Context/OatPageContext/OatPageContext';
-import { getMockFile } from '../../Models/Context/OatPageContext/OatPageContext.mock';
+import { useOatPageContext } from '../../Models/Context/OatPageContext/OatPageContext';
 import { Stack } from '@fluentui/react';
+import {
+    GraphContextProvider,
+    useGraphContext
+} from '../../Apps/Legion/Contexts/GraphContext/GraphContext';
 
-const wrapperStyle = {
+const wrapperStyle: any = {
     width: '100%',
     height: '100%',
     padding: 8,
@@ -28,25 +28,20 @@ type SampleGraphStory = ComponentStory<typeof SampleGraph>;
 
 const Template: SampleGraphStory = (args) => {
     return (
-        <OatPageContextProvider
-            initialState={{
-                ontologyFiles: [getMockFile(0, '123', '234')]
-            }}
-            disableLocalStorage={true}
-        >
+        <GraphContextProvider>
             <TemplateContent {...args} />
-        </OatPageContextProvider>
+        </GraphContextProvider>
     );
 };
 const TemplateContent: SampleGraphStory = (args) => {
-    const { oatPageState } = useOatPageContext();
+    const { graphState } = useGraphContext();
     return (
         <Stack
             styles={{
                 root: { height: '100%' }
             }}
         >
-            <div>Selected item: {JSON.stringify(oatPageState.selection)}</div>
+            <div>Selected nodes: {graphState.selectedNodes.join(', ')}</div>
             <Stack.Item grow={1}>
                 <SampleGraph {...args} />
             </Stack.Item>

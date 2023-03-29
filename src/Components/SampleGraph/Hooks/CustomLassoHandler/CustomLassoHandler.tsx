@@ -1,14 +1,15 @@
 import React, { useCallback } from 'react';
 import { Behaviors } from '@antv/graphin';
+import { IEdge, INode } from '@antv/g6';
 import { getDebugLogger } from '../../../../Models/Services/Utils';
 import { ICustomLassoHandlerProps } from './CustomLassoHandler.types';
-import { ICustomNodeConfig, ICustomEdgeConfig } from '../../GraphTypes.types';
 import { GraphContextActionType } from '../../../../Apps/Legion/Contexts/GraphContext/GraphContext.types';
-import { useGraphContext } from '../../../../Apps/Legion/Contexts/GraphContext/GarphContext';
+import { useGraphContext } from '../../../../Apps/Legion/Contexts/GraphContext/GraphContext';
+import { GetNodeIdsFromSelection } from '../../Utils/GraphUtils';
 
 const { LassoSelect } = Behaviors;
 
-const debugLogging = false;
+const debugLogging = true;
 const logDebugConsole = getDebugLogger('CustomLassoHandler', debugLogging);
 
 const CustomLassoHandler: React.FC<ICustomLassoHandlerProps> = (_props) => {
@@ -17,10 +18,11 @@ const CustomLassoHandler: React.FC<ICustomLassoHandlerProps> = (_props) => {
 
     // callbacks
     const setSelectedNodes = useCallback(
-        (nodeData: ICustomNodeConfig[]) => {
+        (nodeData: INode[]) => {
+            logDebugConsole('info', 'setSelectedNodes. {nodes}', nodeData);
             graphDispatch({
                 type: GraphContextActionType.SET_SELECTED_NODES,
-                payload: { nodes: nodeData }
+                payload: { nodeIds: GetNodeIdsFromSelection(nodeData) }
             });
         },
         [graphDispatch]
@@ -36,12 +38,9 @@ const CustomLassoHandler: React.FC<ICustomLassoHandlerProps> = (_props) => {
                 includeEdges={false}
                 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                 // @ts-ignore
-                onSelect={(
-                    nodes: ICustomNodeConfig[],
-                    _edges: ICustomEdgeConfig[]
-                ) => {
-                    if (nodes.length > 0) {
-                        setSelectedNodes(nodes);
+                onSelect={(selectedNodes: INode[], _selectedEdges: IEdge[]) => {
+                    if (selectedNodes.length > 0) {
+                        setSelectedNodes(selectedNodes);
                     }
                 }}
             />

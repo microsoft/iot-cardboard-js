@@ -30,7 +30,7 @@ export const GraphContextReducer: (
         );
         switch (action.type) {
             case GraphContextActionType.SET_SELECTED_NODES:
-                draft.selectedNodes = action.payload.nodes;
+                draft.selectedNodes = action.payload.nodeIds;
                 break;
         }
     }
