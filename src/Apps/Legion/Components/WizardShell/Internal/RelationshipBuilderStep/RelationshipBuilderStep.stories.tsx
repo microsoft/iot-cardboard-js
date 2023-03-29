@@ -7,7 +7,7 @@ import { getDefaultStoryDecorator } from '../../../../../../Models/Services/Stor
 const wrapperStyle = { width: '100%', height: '600px', padding: 8 };
 
 export default {
-    title: 'Components/Apps/Legion/RelationshipBuilderStep',
+    title: 'Components/Apps/Legion/WizardShell/RelationshipBuilderStep',
     component: RelationshipBuilderStep,
     decorators: [
         getDefaultStoryDecorator<IRelationshipBuilderStepProps>(wrapperStyle)
