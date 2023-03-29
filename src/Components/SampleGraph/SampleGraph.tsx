@@ -1,4 +1,4 @@
-import React, { ReactNode, useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { classNamesFunction, styled } from '@fluentui/react';
 import { useId } from '@fluentui/react-hooks';
 import { createNodeFromReact } from '@antv/g6-react-node';
@@ -10,18 +10,14 @@ import { CustomNode } from './Internal/CustomNode';
 import CustomLassoHandler from './Hooks/CustomLassoHandler/CustomLassoHandler';
 import CustomContextMenu from './Internal/CustomContextMenu/CustomContextMenu';
 import CustomClickHandler from './Hooks/CustomClickHandler/CustomClickHandler';
-import {
-    ICustomGraphData,
-    ICustomNodeConfig,
-    IDefaultNode
-} from './GraphTypes.types';
+import { ICustomNodeConfig, IDefaultNode } from './GraphTypes.types';
 import {
     ISampleGraphProps,
     ISampleGraphStyleProps,
     ISampleGraphStyles
 } from './SampleGraph.types';
 import { getStyles } from './SampleGraph.styles';
-import { AddNodes } from './SampleGraph.utils';
+import { useGraphContext } from '../../Apps/Legion/Contexts/GraphContext/GraphContext';
 
 const debugLogging = true;
 const logDebugConsole = getDebugLogger('SampleGraph', debugLogging);
@@ -80,23 +76,14 @@ const RADIAL_LAYOUT = {
     preventOverlap: true
 };
 
-const SampleGraph = <N extends object>(
-    props: ISampleGraphProps<N> & { children?: ReactNode }
-) => {
-    const { nodes, styles } = props;
+const SampleGraph: React.FC<ISampleGraphProps> = (props) => {
+    const { styles } = props;
 
     // context
+    const { graphState } = useGraphContext();
 
     // hooks
     const graphContainerId = useId('graph-container');
-
-    const data: ICustomGraphData<N> = {
-        edges: [],
-        nodes: []
-    };
-    nodes.forEach((model) => {
-        AddNodes(model, data);
-    });
 
     // contexts
 
@@ -128,14 +115,14 @@ const SampleGraph = <N extends object>(
         theme: useExtendedTheme()
     });
 
-    logDebugConsole('debug', 'Render', data);
+    logDebugConsole('debug', 'Render', graphState.graphData);
 
     const height = document.getElementById(graphContainerId)?.scrollHeight;
     return (
         <div className={classNames.root}>
             <div className={classNames.graphContainer} id={graphContainerId}>
                 <Graphin
-                    data={data}
+                    data={graphState.graphData}
                     // defaultEdge={DEFAULT_EDGE}
                     defaultNode={DEFAULT_NODE}
                     height={height}
@@ -162,7 +149,7 @@ const SampleGraph = <N extends object>(
 };
 
 export default styled<
-    ISampleGraphProps<any>,
+    ISampleGraphProps,
     ISampleGraphStyleProps,
     ISampleGraphStyles
 >(SampleGraph, getStyles);

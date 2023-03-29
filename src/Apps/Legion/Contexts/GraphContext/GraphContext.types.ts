@@ -1,5 +1,21 @@
-export interface IGraphContextProviderProps {
-    initialState?: Partial<IGraphContextState>;
+import { ICustomGraphData } from '../../../../Components/SampleGraph/GraphTypes.types';
+
+export interface IGraphNode<T> {
+    /** color of the node */
+    color?: string;
+    /** data bag to attach to the node */
+    data: T;
+    /** icon to show on the node */
+    icon?: string;
+    /** unique id for the node. Must be unique on the graph */
+    id: string;
+    /** label to show for the node */
+    label: string;
+}
+
+export interface IGraphContextProviderProps<N> {
+    nodeData: IGraphNode<N>[];
+    initialState?: Partial<Omit<IGraphContextState, 'graphData'>>;
 }
 
 /**
@@ -14,6 +30,7 @@ export interface IGraphContext {
  * The state of the context
  */
 export interface IGraphContextState {
+    graphData: ICustomGraphData<any>;
     selectedNodes: string[];
 }
 

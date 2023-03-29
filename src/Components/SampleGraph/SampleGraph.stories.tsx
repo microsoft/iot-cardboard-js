@@ -1,13 +1,12 @@
 import React from 'react';
 import { Stack } from '@fluentui/react';
-import { ComponentStory } from '@storybook/react';
 import { getDefaultStoryDecorator } from '../../Models/Services/StoryUtilities';
 import SampleGraph from './SampleGraph';
-import { ISampleGraphProps } from './SampleGraph.types';
 import {
     GraphContextProvider,
     useGraphContext
 } from '../../Apps/Legion/Contexts/GraphContext/GraphContext';
+import { IGraphNode } from '../../Apps/Legion/Contexts/GraphContext/GraphContext.types';
 
 const wrapperStyle: any = {
     width: '100%',
@@ -20,21 +19,21 @@ const wrapperStyle: any = {
 export default {
     title: 'Components - OAT/Graph',
     component: SampleGraph,
-    decorators: [
-        getDefaultStoryDecorator<ISampleGraphProps<INodeData>>(wrapperStyle)
-    ]
+    decorators: [getDefaultStoryDecorator<StoryArgs>(wrapperStyle)]
 };
 
-type SampleGraphStory = ComponentStory<typeof SampleGraph>;
+type StoryArgs = {
+    graphData: IGraphNode<INodeData>[];
+};
 
-const Template: SampleGraphStory = (args) => {
+const Template = (args: StoryArgs) => {
     return (
-        <GraphContextProvider>
-            <TemplateContent {...args} />
+        <GraphContextProvider nodeData={args.graphData}>
+            <TemplateContent />
         </GraphContextProvider>
     );
 };
-const TemplateContent: SampleGraphStory = (args) => {
+const TemplateContent = () => {
     const { graphState } = useGraphContext();
     return (
         <Stack
@@ -44,7 +43,7 @@ const TemplateContent: SampleGraphStory = (args) => {
         >
             <div>Selected nodes: {graphState.selectedNodes.join(', ')}</div>
             <Stack.Item grow={1}>
-                <SampleGraph {...args} />
+                <SampleGraph />
             </Stack.Item>
         </Stack>
     );
@@ -54,9 +53,9 @@ interface INodeData {
     property1: string;
 }
 
-export const Base = Template.bind({}) as SampleGraphStory;
+export const Base = Template.bind({});
 Base.args = {
-    nodes: [
+    graphData: [
         {
             id: '1',
             label: 'Node 1',
@@ -93,4 +92,4 @@ Base.args = {
             data: { property1: 'something' }
         }
     ]
-} as ISampleGraphProps<INodeData>;
+} as StoryArgs;

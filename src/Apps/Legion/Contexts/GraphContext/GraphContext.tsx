@@ -2,15 +2,17 @@
  * This context is for managing the state and actions on the Ontology Authoring Tool page
  */
 import produce from 'immer';
-import React, { useContext, useReducer } from 'react';
+import React, { ReactNode, useContext, useReducer } from 'react';
 import { getDebugLogger } from '../../../../Models/Services/Utils';
 import {
     IGraphContext,
     IGraphContextProviderProps,
     IGraphContextState,
     GraphContextAction,
-    GraphContextActionType
+    GraphContextActionType,
+    IGraphNode
 } from './GraphContext.types';
+import { GetGraphData } from './GraphContext.utils';
 
 const debugLogging = false;
 export const logDebugConsole = getDebugLogger('GraphContext', debugLogging);
@@ -36,9 +38,11 @@ export const GraphContextReducer: (
     }
 );
 
-export const GraphContextProvider: React.FC<IGraphContextProviderProps> = React.memo(
-    (props) => {
-        const { children, initialState } = props;
+export const GraphContextProvider = React.memo(
+    <T extends object>(
+        props: IGraphContextProviderProps<T> & { children?: ReactNode }
+    ) => {
+        const { children, initialState, nodeData } = props;
 
         // skip wrapping if the context already exists
         const existingContext = useGraphContext();
@@ -48,7 +52,7 @@ export const GraphContextProvider: React.FC<IGraphContextProviderProps> = React.
 
         const [state, dispatch] = useReducer(
             GraphContextReducer,
-            { ...emptyState, ...initialState },
+            { ...emptyState, ...initialState, nodes: nodeData },
             getInitialState
         );
 
@@ -67,17 +71,22 @@ export const GraphContextProvider: React.FC<IGraphContextProviderProps> = React.
 );
 
 const emptyState: IGraphContextState = {
+    graphData: {
+        edges: [],
+        nodes: []
+    },
     selectedNodes: []
 };
 
-const getInitialState = (
-    initialState: IGraphContextState
-): IGraphContextState => {
+function getInitialState<N>(
+    initialState: IGraphContextState & { nodes: IGraphNode<N>[] }
+): IGraphContextState {
     const state: IGraphContextState = {
-        ...initialState
+        ...initialState,
+        graphData: GetGraphData(initialState.nodes)
     };
 
     logDebugConsole('debug', 'Initialized context state. {state}', state);
 
     return state;
-};
+}

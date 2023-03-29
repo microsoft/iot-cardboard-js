@@ -4,6 +4,10 @@ import { IGraphContextState } from './GraphContext.types';
 
 export const GET_MOCK_OAT_CONTEXT_STATE = (): IGraphContextState => {
     return {
-        selectedNodes: []
+        selectedNodes: [],
+        graphData: {
+            edges: [],
+            nodes: []
+        }
     };
 };
