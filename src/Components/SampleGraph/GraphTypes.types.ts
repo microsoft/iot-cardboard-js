@@ -9,8 +9,8 @@ import {
 import { OatGraphReferenceType } from '../../Models/Constants/Constants';
 
 /** data passed to the graph. Overriding nodes, so we can define the custom properties we add for rendering */
-export interface ICustomGraphData extends GraphinData {
-    nodes: ICustomNodeDefintion[]; // override root definition
+export interface ICustomGraphData<T> extends GraphinData {
+    nodes: ICustomNodeDefintion<T>[]; // override root definition
     edges: ICustomEdgeDefintion[]; // override root definition
 }
 
@@ -22,8 +22,8 @@ export interface ICustomNodeConfig extends NodeConfig {
 }
 
 /** used to define a node at config time */
-export interface ICustomNodeDefintion extends IUserNode {
-    data: ICustomNodeData;
+export interface ICustomNodeDefintion<T> extends IUserNode {
+    data: ICustomNodeData & T;
 }
 
 /** custom data to pass to a node for rendering purposes */
@@ -31,7 +31,6 @@ export interface ICustomNodeData {
     itemType: 'Node';
     id: string;
     name: string;
-    relatedNodesKey: string;
 }
 
 // #endregion

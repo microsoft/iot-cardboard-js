@@ -1,10 +1,9 @@
 import React from 'react';
+import { Stack } from '@fluentui/react';
 import { ComponentStory } from '@storybook/react';
 import { getDefaultStoryDecorator } from '../../Models/Services/StoryUtilities';
 import SampleGraph from './SampleGraph';
 import { ISampleGraphProps } from './SampleGraph.types';
-import { useOatPageContext } from '../../Models/Context/OatPageContext/OatPageContext';
-import { Stack } from '@fluentui/react';
 import {
     GraphContextProvider,
     useGraphContext
@@ -21,7 +20,9 @@ const wrapperStyle: any = {
 export default {
     title: 'Components - OAT/Graph',
     component: SampleGraph,
-    decorators: [getDefaultStoryDecorator<ISampleGraphProps>(wrapperStyle)]
+    decorators: [
+        getDefaultStoryDecorator<ISampleGraphProps<INodeData>>(wrapperStyle)
+    ]
 };
 
 type SampleGraphStory = ComponentStory<typeof SampleGraph>;
@@ -49,5 +50,47 @@ const TemplateContent: SampleGraphStory = (args) => {
     );
 };
 
+interface INodeData {
+    property1: string;
+}
+
 export const Base = Template.bind({}) as SampleGraphStory;
-Base.args = {} as ISampleGraphProps;
+Base.args = {
+    nodes: [
+        {
+            id: '1',
+            label: 'Node 1',
+            icon: 'CircleRing',
+            color: 'red',
+            data: { property1: 'something' }
+        },
+        {
+            id: '2',
+            label: 'Node 2',
+            icon: 'CircleRing',
+            color: 'blue',
+            data: { property1: 'something' }
+        },
+        {
+            id: '3',
+            label: 'Node 3',
+            icon: 'CircleRing',
+            color: 'red',
+            data: { property1: 'something' }
+        },
+        {
+            id: '4',
+            label: 'Node 4',
+            icon: 'CircleRing',
+            color: 'yellow',
+            data: { property1: 'something' }
+        },
+        {
+            id: '5',
+            label: 'Node 5',
+            icon: 'CircleRing',
+            color: 'yellow',
+            data: { property1: 'something' }
+        }
+    ]
+} as ISampleGraphProps<INodeData>;
