@@ -10,7 +10,8 @@ import {
     INGESTION_MAPPING_NAME,
     ITable,
     ITableColumn,
-    ITableIngestionMapping
+    ITableIngestionMapping,
+    TIMESTAMP_COLUMN_NAME
 } from './Models/DataManagementAdapter.types';
 
 export default class ADXAdapter
@@ -290,7 +291,7 @@ export default class ADXAdapter
                 },
                 data: {
                     db: databaseName,
-                    csl: `${tableName} | order by Timestamp desc | take 100`
+                    csl: `${tableName} | order by ${TIMESTAMP_COLUMN_NAME} desc | take 100`
                 }
             }).catch((err) => {
                 adapterMethodSandbox.pushError({

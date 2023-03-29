@@ -16,7 +16,7 @@ export default class MockDataManagementAdapter
 
     constructor() {
         super();
-        this.networkTimeoutMillis = 0;
+        this.networkTimeoutMillis = 2000;
         this.connectionString = 'mockConnectionString';
     }
 
@@ -127,8 +127,16 @@ export default class MockDataManagementAdapter
                 result: new DataManagementAdapterData({
                     Columns: ['Id', 'Timestamp', 'Temperature'],
                     Rows: [
-                        ['Salt_Machine_01', '2018-11-14 11:34', 12],
-                        ['Salt_Machine_02', '2018-11-15 18:07', 15]
+                        [
+                            'Salt_Machine_01',
+                            new Date().toISOString(),
+                            Math.floor(Math.random() * 100)
+                        ],
+                        [
+                            'Salt_Machine_02',
+                            new Date().toISOString(),
+                            Math.floor(Math.random() * 100)
+                        ]
                     ]
                 }),
                 errorInfo: null

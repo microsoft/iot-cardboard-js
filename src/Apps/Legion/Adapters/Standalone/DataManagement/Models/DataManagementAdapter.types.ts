@@ -78,4 +78,5 @@ export interface IIngestRow {
     [key: string]: any;
 }
 
+export const TIMESTAMP_COLUMN_NAME = 'Timestamp';
 export const INGESTION_MAPPING_NAME = 'DataPusherMapping';

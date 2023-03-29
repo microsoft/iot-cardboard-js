@@ -1527,23 +1527,39 @@
     },
     "legionApp": {
         "dataPusher": {
-            "title": "Connect and push data",
-            "sourceDatabase": "Source database",
-            "targetDatabase": "Target database",
-            "sourceTable": "Source table",
-            "sourceTwinIDProperty": "Source twin ID property",
+            "title": "Data pusher",
             "simulationType": "Simulation type",
-            "selectSourceDatabasePlaceholder": "Select source database",
-            "selectTargetDatabasePlaceholder": "Select target database",
-            "selectSourceTablePlaceholder": "Select source table",
-            "selectSourceTwinIDPropertyPlaceholder": "Select source twin ID property",
-            "selectSimulationTypePlaceholder": "Select simulation type",
-            "cookButtonLabel": "Cook twins graph based on source",
-            "pushSimulationButtonLabel": "Push simulation data to source table",
+            "selectSimulationType": "Select simulation type",
+            "tabs": {
+                "setup": "Setup",
+                "ingest": "Ingest",
+                "cook": "Cook"
+            },
+            "source": {
+                "database": "Source database",
+                "selectDatabase": "Select source database",
+                "table": "Source table",
+                "selectTable": "Select source table",
+                "tableType": "Source table type",
+                "selectTableType": "Select source table type",
+                "twinIDProperty": "Source twin ID property",
+                "selectTwinIDProperty": "Select source twin ID property"
+            },
+            "target": {
+                "database": "Target database",
+                "selectDatabase": "Select target database"
+            },
+            "actions": {
+                "ingest": "Ingest data to source table",
+                "cook": "Cook twins graph",
+                "pushTwinsGraph": "Push twins graph to target database"
+            },
             "progress": {
+                "createSourceDatabase": "Creating source database...",
                 "createTargetDatabase": "Creating target database...",
                 "createTable": "Creating table...",
-                "createTables": "Creating tables..."
+                "createTables": "Creating tables...",
+                "ingest": "Ingesting..."
             }
         }
     }
