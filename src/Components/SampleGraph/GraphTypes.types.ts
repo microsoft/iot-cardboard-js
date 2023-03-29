@@ -16,7 +16,7 @@ export interface ICustomGraphData extends GraphinData {
 
 // #region Nodes
 
-/** data passed into a node at run time */
+/** data passed into a node at runtime */
 export interface ICustomNodeConfig extends NodeConfig {
     data: ICustomNodeData;
 }

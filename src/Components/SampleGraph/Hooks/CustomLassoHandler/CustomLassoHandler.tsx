@@ -1,34 +1,52 @@
-import React, { useContext, useEffect } from 'react';
-import { GraphinContext } from '@antv/graphin';
+import React, { useCallback } from 'react';
+import { Behaviors } from '@antv/graphin';
 import { getDebugLogger } from '../../../../Models/Services/Utils';
 import { ICustomLassoHandlerProps } from './CustomLassoHandler.types';
+import { ICustomNodeConfig, ICustomEdgeConfig } from '../../GraphTypes.types';
+import { GraphContextActionType } from '../../../../Apps/Legion/Contexts/GraphContext/GraphContext.types';
+import { useGraphContext } from '../../../../Apps/Legion/Contexts/GraphContext/GarphContext';
+
+const { LassoSelect } = Behaviors;
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('CustomLassoHandler', debugLogging);
 
 const CustomLassoHandler: React.FC<ICustomLassoHandlerProps> = (_props) => {
     // contexts
-    const { graph, apis } = useContext(GraphinContext);
+    const { graphDispatch } = useGraphContext();
 
     // callbacks
-
-    // NODE CALLBACKS
+    const setSelectedNodes = useCallback(
+        (nodeData: ICustomNodeConfig[]) => {
+            graphDispatch({
+                type: GraphContextActionType.SET_SELECTED_NODES,
+                payload: { nodes: nodeData }
+            });
+        },
+        [graphDispatch]
+    );
 
     // side effects
-    // register for node click events
-    useEffect(() => {
-        logDebugConsole('debug', 'Register NODE click handler');
-        graph.setMode('dragLasso');
 
-        // graph.on('node:click', handleClick);
-        return () => {
-            logDebugConsole('debug', 'Unregister NODE click handler');
-            graph.setMode('default');
-            // graph.off('node:click', handleClick);
-        };
-    }, [apis, graph]);
+    logDebugConsole('debug', 'Render');
 
-    return null;
+    return (
+        <>
+            <LassoSelect
+                includeEdges={false}
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-ignore
+                onSelect={(
+                    nodes: ICustomNodeConfig[],
+                    _edges: ICustomEdgeConfig[]
+                ) => {
+                    if (nodes.length > 0) {
+                        setSelectedNodes(nodes);
+                    }
+                }}
+            />
+        </>
+    );
 };
 
 export default CustomLassoHandler;

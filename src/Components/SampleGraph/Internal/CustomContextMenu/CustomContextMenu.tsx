@@ -1,10 +1,5 @@
 import React from 'react';
-import {
-    classNamesFunction,
-    ContextualMenu,
-    IContextualMenuItem,
-    styled
-} from '@fluentui/react';
+import { classNamesFunction } from '@fluentui/react';
 import type { ContextMenuValue as ContextMenuProps } from '@antv/graphin';
 import { Components } from '@antv/graphin';
 
@@ -15,7 +10,8 @@ import {
     ICustomContextMenuStyleProps,
     ICustomContextMenuStyles
 } from './CustomContextMenu.types';
-import { getStyles } from './CustomContextMenu.styles';
+import { CardboardList } from '../../../CardboardList';
+import { ICardboardListItem } from '../../../CardboardList/CardboardList.types';
 
 const { ContextMenu } = Components;
 
@@ -28,9 +24,9 @@ const getClassNames = classNamesFunction<
 >();
 
 const CustomMenu = (props: ContextMenuProps) => {
-    const { onClose, id } = props;
-    const handleClick = (e: IContextualMenuItem) => {
-        alert(`${e.key}:${id}`);
+    const { onClose } = props;
+    const handleClick = (e: string) => {
+        alert(`You clicked on ${e}`);
         onClose();
     };
 
@@ -42,39 +38,23 @@ const CustomMenu = (props: ContextMenuProps) => {
         }
     );
 
-    const menuItems: IContextualMenuItem[] = [];
+    const menuItems: ICardboardListItem<string>[] = [
+        {
+            item: 'test',
+            textPrimary: 'test',
+            ariaLabel: 'test',
+            onClick: () => {
+                handleClick('test');
+            }
+        }
+    ];
 
     return (
-        <ContextualMenu
+        <CardboardList
+            className={classNames.root}
             items={menuItems}
-            hidden={false}
-            // target={linkRef}
-            onItemClick={(_ev, item) => handleClick(item)}
-            onDismiss={onClose}
+            listKey={'context-menu'}
         />
-        // <ul>
-        //     <li
-        //         onClick={() => {
-        //             handleClick({ key: '1' });
-        //         }}
-        //     >
-        //         Add parent
-        //     </li>
-        //     <li
-        //         onClick={() => {
-        //             handleClick({ key: '2' });
-        //         }}
-        //     >
-        //         menu item 2
-        //     </li>
-        //     <li
-        //         onClick={() => {
-        //             handleClick({ key: '3' });
-        //         }}
-        //     >
-        //         menu item 3
-        //     </li>
-        // </ul>
     );
 };
 

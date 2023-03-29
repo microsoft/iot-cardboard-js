@@ -3,7 +3,6 @@ import { classNamesFunction, styled } from '@fluentui/react';
 import { useId } from '@fluentui/react-hooks';
 import { createNodeFromReact } from '@antv/g6-react-node';
 import Graphin, { EdgeStyle } from '@antv/graphin';
-import { CreateEdge } from '@antv/graphin-components';
 import { useExtendedTheme } from '../../Models/Hooks/useExtendedTheme';
 import {
     getDebugLogger,
@@ -35,9 +34,6 @@ import {
     OAT_EXTEND_HANDLE_NAME
 } from '../../Models/Constants';
 import ONTOLOGY_DATA from './CityOntology.json';
-import CustomClickHandler from './Hooks/CustomClickHandler/CustomClickHandler';
-import CustomLegend from './Internal/CustomLegend/CustomLegend';
-import { useOatPageContext } from '../../Models/Context/OatPageContext/OatPageContext';
 import { IExtendedTheme } from '../../Theming/Theme.types';
 import { DTDLType } from '../../Models/Classes/DTDL';
 import { CustomNode } from './Internal/CustomNode';
@@ -242,7 +238,6 @@ const SampleGraph: React.FC<ISampleGraphProps> = (props) => {
     const { styles } = props;
 
     // context
-    const { oatPageState } = useOatPageContext();
 
     // hooks
     const graphContainerId = useId('graph-container');
@@ -283,48 +278,6 @@ const SampleGraph: React.FC<ISampleGraphProps> = (props) => {
             isMounted.current = true;
         }
     }, []);
-
-    useEffect(() => {
-        const selection = oatPageState.selection;
-        if (!selection) {
-            return;
-        }
-        if (selection.contentId) {
-            const edge = data.edges.find(
-                (x) => x.data.source === selection.contentId
-            );
-            if (edge) {
-                edge.status = { ...edge.status, selected: true };
-                logDebugConsole(
-                    'info',
-                    'Setting edge as selected. {edge}',
-                    edge
-                );
-            } else {
-                logDebugConsole(
-                    'warn',
-                    'Could not find edge. {selection}',
-                    selection
-                );
-            }
-        } else {
-            const node = data.nodes.find((x) => x.id === selection.modelId);
-            if (node) {
-                node.status = { ...node.status, selected: true };
-                logDebugConsole(
-                    'info',
-                    'Setting node as selected. {node}',
-                    node
-                );
-            } else {
-                logDebugConsole(
-                    'warn',
-                    'Could not find node. {selection}',
-                    selection
-                );
-            }
-        }
-    }, [data.edges, data.nodes, oatPageState.selection]);
 
     // styles
     const classNames = getClassNames(styles, {
