@@ -1537,22 +1537,38 @@
     "dataPusher": {
       "title": "Verileri bağlama ve gönderme",
       "simulationType": "Simülasyon türü",
-      "selectSimulationTypePlaceholder": "Simülasyon türünü seçin",
       "progress": {
         "createTable": "Tablo oluşturuluyor...",
         "createTables": "Tablo oluşturma...",
-        "createTargetDatabase": "Hedef veritabanı oluşturuluyor..."
+        "createTargetDatabase": "Hedef veritabanı oluşturuluyor...",
+        "createSourceDatabase": "Kaynak veritabanı oluşturuluyor...",
+        "ingest": "Ingesting..."
       },
-      "sourceDatabase": "Kaynak veritabanı",
-      "targetDatabase": "Hedef veritabanı",
-      "sourceTable": "Kaynak tablo",
-      "selectSourceDatabasePlaceholder": "Kaynak veritabanını seçme",
-      "selectTargetDatabasePlaceholder": "Hedef veritabanını seç",
-      "selectSourceTablePlaceholder": "Kaynak tabloyu seç",
-      "sourceTwinIDProperty": "Kaynak ikiz kimlik özelliği",
-      "selectSourceTwinIDPropertyPlaceholder": "Kaynak ikiz kimliği özelliğini seçin",
-      "cookButtonLabel": "Kaynağa dayalı ikizler grafiği pişirin",
-      "pushSimulationButtonLabel": "Simülasyon verilerini kaynak tabloya göndermePush simulation data to source table"
+      "selectSimulationType": "Simülasyon türünü seçin",
+      "tabs": {
+        "setup": "Kurulum",
+        "ingest": "Yutmayın",
+        "cook": "Pişirmek"
+      },
+      "source": {
+        "database": "Kaynak veritabanı",
+        "selectDatabase": "Kaynak veritabanını seçme",
+        "table": "Kaynak tablo",
+        "selectTable": "Kaynak tabloyu seç",
+        "tableType": "Kaynak tablo türü",
+        "selectTableType": "Kaynak tablo türünü seçme",
+        "twinIDProperty": "Kaynak ikiz kimlik özelliği",
+        "selectTwinIDProperty": "Kaynak ikiz kimliği özelliğini seçin"
+      },
+      "target": {
+        "database": "Hedef veritabanı",
+        "selectDatabase": "Hedef veritabanını seç"
+      },
+      "actions": {
+        "ingest": "Kaynak tabloya veri alma",
+        "cook": "Cook ikizleri grafiği",
+        "pushTwinsGraph": "İkizler grafiğini hedef veritabanına gönderme"
+      }
     }
   }
 }

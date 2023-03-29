@@ -1537,22 +1537,38 @@
     "dataPusher": {
       "title": "Conectar e enviar dados por push",
       "simulationType": "Tipo de simulação",
-      "selectSimulationTypePlaceholder": "Selecione o tipo de simulação",
       "progress": {
         "createTable": "Criando tabela...",
         "createTables": "Criando tabelas...",
-        "createTargetDatabase": "Criando banco de dados de destino..."
+        "createTargetDatabase": "Criando banco de dados de destino...",
+        "createSourceDatabase": "Criando banco de dados de origem...",
+        "ingest": "Ingestão..."
       },
-      "sourceDatabase": "Banco de dados de origem",
-      "targetDatabase": "Banco de dados de destino",
-      "sourceTable": "Tabela de origem",
-      "selectSourceDatabasePlaceholder": "Selecionar banco de dados de origem",
-      "selectTargetDatabasePlaceholder": "Selecionar banco de dados de destino",
-      "selectSourceTablePlaceholder": "Selecionar tabela de origem",
-      "sourceTwinIDProperty": "Propriedade ID de gêmeo de origem",
-      "selectSourceTwinIDPropertyPlaceholder": "Selecionar propriedade de ID de gêmeo de origem",
-      "cookButtonLabel": "Gráfico de gêmeos de cozinheiro baseado na fonte",
-      "pushSimulationButtonLabel": "Enviar dados de simulação por push para a tabela de origem"
+      "selectSimulationType": "Selecione o tipo de simulação",
+      "tabs": {
+        "setup": "Configuração",
+        "ingest": "Ingerir",
+        "cook": "Cozinhar"
+      },
+      "source": {
+        "database": "Banco de dados de origem",
+        "selectDatabase": "Selecionar banco de dados de origem",
+        "table": "Tabela de origem",
+        "selectTable": "Selecionar tabela de origem",
+        "tableType": "Tipo de tabela de origem",
+        "selectTableType": "Selecionar tipo de tabela de origem",
+        "twinIDProperty": "Propriedade ID de gêmeo de origem",
+        "selectTwinIDProperty": "Selecionar propriedade de ID de gêmeo de origem"
+      },
+      "target": {
+        "database": "Banco de dados de destino",
+        "selectDatabase": "Selecionar banco de dados de destino"
+      },
+      "actions": {
+        "ingest": "Ingerir dados na tabela de origem",
+        "cook": "Gráfico de gêmeos de cozinheiro",
+        "pushTwinsGraph": "Enviar o gráfico de gêmeos para o banco de dados de destino"
+      }
     }
   }
 }

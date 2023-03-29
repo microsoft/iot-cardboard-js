@@ -1537,22 +1537,38 @@
     "dataPusher": {
       "title": "Подключение и отправка данных",
       "simulationType": "Тип моделирования",
-      "selectSimulationTypePlaceholder": "Выберите тип моделирования",
       "progress": {
         "createTable": "Создание таблицы...",
         "createTables": "Создание таблиц...",
-        "createTargetDatabase": "Создание целевой базы данных..."
+        "createTargetDatabase": "Создание целевой базы данных...",
+        "createSourceDatabase": "Создание исходной базы данных...",
+        "ingest": "Глотая..."
       },
-      "sourceDatabase": "Исходная база данных",
-      "targetDatabase": "Целевая база данных",
-      "sourceTable": "Исходная таблица",
-      "selectSourceDatabasePlaceholder": "Выберите исходную базу данных",
-      "selectTargetDatabasePlaceholder": "Выберите целевую базу данных",
-      "selectSourceTablePlaceholder": "Выбор исходной таблицы",
-      "sourceTwinIDProperty": "Свойство идентификатора двойного идентификатора источника",
-      "selectSourceTwinIDPropertyPlaceholder": "Выберите свойство идентификатора двойного идентификатора источника",
-      "cookButtonLabel": "График близнецов Кука на основе источника",
-      "pushSimulationButtonLabel": "Отправка данных моделирования в исходную таблицу"
+      "selectSimulationType": "Выберите тип моделирования",
+      "tabs": {
+        "setup": "Настройка",
+        "ingest": "Глотать",
+        "cook": "Повар"
+      },
+      "source": {
+        "database": "Исходная база данных",
+        "selectDatabase": "Выберите исходную базу данных",
+        "table": "Исходная таблица",
+        "selectTable": "Выбор исходной таблицы",
+        "tableType": "Тип исходной таблицы",
+        "selectTableType": "Выбор типа исходной таблицы",
+        "twinIDProperty": "Свойство идентификатора двойного идентификатора источника",
+        "selectTwinIDProperty": "Выберите свойство идентификатора двойного идентификатора источника"
+      },
+      "target": {
+        "database": "Целевая база данных",
+        "selectDatabase": "Выберите целевую базу данных"
+      },
+      "actions": {
+        "ingest": "Прием данных в исходную таблицу",
+        "cook": "График близнецов Кука",
+        "pushTwinsGraph": "Отправка графа близнецов в целевую базу данных"
+      }
     }
   }
 }

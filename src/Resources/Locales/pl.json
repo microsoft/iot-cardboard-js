@@ -1537,22 +1537,38 @@
     "dataPusher": {
       "title": "Łączenie i przesyłanie danych",
       "simulationType": "Typ symulacji",
-      "selectSimulationTypePlaceholder": "Wybierz typ symulacji",
       "progress": {
         "createTable": "Tworzenie tabeli...",
         "createTables": "Tworzenie tabel...",
-        "createTargetDatabase": "Tworzenie docelowej bazy danych..."
+        "createTargetDatabase": "Tworzenie docelowej bazy danych...",
+        "createSourceDatabase": "Tworzenie źródłowej bazy danych...",
+        "ingest": "Spożyciu..."
       },
-      "sourceDatabase": "Źródłowa baza danych",
-      "targetDatabase": "Docelowa baza danych",
-      "sourceTable": "Tabela źródłowa",
-      "selectSourceDatabasePlaceholder": "Wybierz źródłową bazę danych",
-      "selectTargetDatabasePlaceholder": "Wybierz docelową bazę danych",
-      "selectSourceTablePlaceholder": "Wybierz tabelę źródłową",
-      "sourceTwinIDProperty": "Właściwość identyfikatora bliźniaczej źródła",
-      "selectSourceTwinIDPropertyPlaceholder": "Wybierz właściwość źródłowego identyfikatora bliźniaczej",
-      "cookButtonLabel": "Wykres bliźniaków kucharskich oparty na źródle",
-      "pushSimulationButtonLabel": "Wypychanie danych symulacji do tabeli źródłowej"
+      "selectSimulationType": "Wybierz typ symulacji",
+      "tabs": {
+        "setup": "Instalacji",
+        "ingest": "Spożywać",
+        "cook": "Kucharz"
+      },
+      "source": {
+        "database": "Źródłowa baza danych",
+        "selectDatabase": "Wybierz źródłową bazę danych",
+        "table": "Tabela źródłowa",
+        "selectTable": "Wybierz tabelę źródłową",
+        "tableType": "Typ tabeli źródłowej",
+        "selectTableType": "Wybierz typ tabeli źródłowej",
+        "twinIDProperty": "Właściwość identyfikatora bliźniaczej źródła",
+        "selectTwinIDProperty": "Wybierz właściwość źródłowego identyfikatora bliźniaczej"
+      },
+      "target": {
+        "database": "Docelowa baza danych",
+        "selectDatabase": "Wybierz docelową bazę danych"
+      },
+      "actions": {
+        "ingest": "Pozyskiwanie danych do tabeli źródłowej",
+        "cook": "Wykres bliźniaków kucharskich",
+        "pushTwinsGraph": "Wypychanie wykresu bliźniaków do docelowej bazy danych"
+      }
     }
   }
 }

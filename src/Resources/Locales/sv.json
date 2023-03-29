@@ -1537,22 +1537,38 @@
     "dataPusher": {
       "title": "Anslut och skicka data",
       "simulationType": "Typ av simulering",
-      "selectSimulationTypePlaceholder": "Välj simuleringstyp",
       "progress": {
         "createTable": "Skapa tabell...",
         "createTables": "Skapa tabeller...",
-        "createTargetDatabase": "Skapa måldatabas..."
+        "createTargetDatabase": "Skapa måldatabas...",
+        "createSourceDatabase": "Skapa källdatabas...",
+        "ingest": "Intag..."
       },
-      "sourceDatabase": "Källor",
-      "targetDatabase": "Måldatabas",
-      "sourceTable": "Källor",
-      "selectSourceDatabasePlaceholder": "Välj källdatabas",
-      "selectTargetDatabasePlaceholder": "Välj måldatabas",
-      "selectSourceTablePlaceholder": "Välj källtabell",
-      "sourceTwinIDProperty": "Egenskapen Källtvilling-ID",
-      "selectSourceTwinIDPropertyPlaceholder": "Välj egenskap för källtvilling-ID",
-      "cookButtonLabel": "Cook tvillingar graf baserat på källa",
-      "pushSimulationButtonLabel": "Skicka simuleringsdata till källtabellen"
+      "selectSimulationType": "Välj simuleringstyp",
+      "tabs": {
+        "setup": "Installationen",
+        "ingest": "Äter",
+        "cook": "Kock"
+      },
+      "source": {
+        "database": "Källor",
+        "selectDatabase": "Välj källdatabas",
+        "table": "Källor",
+        "selectTable": "Välj källtabell",
+        "tableType": "Typ av källtabell",
+        "selectTableType": "Välj källtabelltyp",
+        "twinIDProperty": "Egenskapen Källtvilling-ID",
+        "selectTwinIDProperty": "Välj egenskap för källtvilling-ID"
+      },
+      "target": {
+        "database": "Måldatabas",
+        "selectDatabase": "Välj måldatabas"
+      },
+      "actions": {
+        "ingest": "Mata in data till källtabellen",
+        "cook": "Cook tvillingar graf",
+        "pushTwinsGraph": "Skicka tvillingdiagram till måldatabasen"
+      }
     }
   }
 }

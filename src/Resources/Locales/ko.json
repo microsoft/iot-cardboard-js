@@ -1537,22 +1537,38 @@
     "dataPusher": {
       "title": "데이터 연결 및 푸시",
       "simulationType": "시뮬레이션 유형",
-      "selectSimulationTypePlaceholder": "시뮬레이션 유형 선택",
       "progress": {
         "createTable": "테이블 생성 중...",
         "createTables": "테이블 만들기...",
-        "createTargetDatabase": "대상 데이터베이스 생성 중..."
+        "createTargetDatabase": "대상 데이터베이스 생성 중...",
+        "createSourceDatabase": "원본 데이터베이스 만드는 중...",
+        "ingest": "복용..."
       },
-      "sourceDatabase": "원본 데이터베이스",
-      "targetDatabase": "대상 데이터베이스",
-      "sourceTable": "원본 테이블",
-      "selectSourceDatabasePlaceholder": "원본 데이터베이스 선택",
-      "selectTargetDatabasePlaceholder": "대상 데이터베이스 선택",
-      "selectSourceTablePlaceholder": "원본 테이블 선택",
-      "sourceTwinIDProperty": "원본 쌍 ID 속성",
-      "selectSourceTwinIDPropertyPlaceholder": "원본 쌍 ID 속성 선택",
-      "cookButtonLabel": "소스를 기반으로 한 쌍둥이 그래프",
-      "pushSimulationButtonLabel": "시뮬레이션 데이터를 소스 테이블로 푸시"
+      "selectSimulationType": "시뮬레이션 유형 선택",
+      "tabs": {
+        "setup": "설치",
+        "ingest": "섭취",
+        "cook": "요리사"
+      },
+      "source": {
+        "database": "원본 데이터베이스",
+        "selectDatabase": "원본 데이터베이스 선택",
+        "table": "원본 테이블",
+        "selectTable": "원본 테이블 선택",
+        "tableType": "원본 테이블 형식",
+        "selectTableType": "원본 테이블 유형 선택",
+        "twinIDProperty": "원본 쌍 ID 속성",
+        "selectTwinIDProperty": "원본 쌍 ID 속성 선택"
+      },
+      "target": {
+        "database": "대상 데이터베이스",
+        "selectDatabase": "대상 데이터베이스 선택"
+      },
+      "actions": {
+        "ingest": "원본 테이블에 데이터 수집",
+        "cook": "쌍둥이 그래프 쿡",
+        "pushTwinsGraph": "쌍 그래프를 대상 데이터베이스로 푸시"
+      }
     }
   }
 }
