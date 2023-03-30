@@ -11,6 +11,18 @@ export interface IModelProperty {
     id: string;
     name: string;
     sourcePropName: string;
+    /** scalar data types in KQL */
+    dataType:
+        | 'bool'
+        | 'datetime'
+        | 'dynamic'
+        | 'guid'
+        | 'int'
+        | 'long'
+        | 'real'
+        | 'string'
+        | 'timespan'
+        | 'decimal';
 }
 
 export interface ITwin {
