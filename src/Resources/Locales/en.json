@@ -1527,7 +1527,7 @@
     },
     "legionApp": {
         "dataPusher": {
-            "title": "Data pusher",
+            "titl": "Data pusher",
             "simulationType": "Simulation type",
             "selectSimulationType": "Select simulation type",
             "tabs": {
