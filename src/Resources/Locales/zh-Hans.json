@@ -1535,7 +1535,6 @@
   },
   "legionApp": {
     "dataPusher": {
-      "title": "连接和推送数据",
       "simulationType": "模拟类型",
       "progress": {
         "createTable": "正在创建表...",
@@ -1568,7 +1567,8 @@
         "ingest": "将数据引入源表",
         "cook": "库克双胞胎图",
         "pushTwinsGraph": "将孪生体图推送到目标数据库"
-      }
+      },
+      "titl": "数据推送器"
     }
   }
 }

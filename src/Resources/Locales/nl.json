@@ -1535,7 +1535,6 @@
   },
   "legionApp": {
     "dataPusher": {
-      "title": "Gegevens verbinden en pushen",
       "simulationType": "Simulatie type",
       "progress": {
         "createTable": "Tabel maken...",
@@ -1568,7 +1567,8 @@
         "ingest": "Gegevens opnemen in de brontabel",
         "cook": "Cook twins grafiek",
         "pushTwinsGraph": "Push twins graph naar doeldatabase"
-      }
+      },
+      "titl": "Data pusher |"
     }
   }
 }

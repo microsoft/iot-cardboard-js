@@ -1535,7 +1535,6 @@
   },
   "legionApp": {
     "dataPusher": {
-      "title": "Conectar y enviar datos",
       "simulationType": "Tipo de simulación",
       "progress": {
         "createTable": "Creando tabla...",
@@ -1568,7 +1567,8 @@
         "ingest": "Ingesta de datos en la tabla de origen",
         "cook": "Gráfico de gemelos cocinados",
         "pushTwinsGraph": "Insertar gráfico de gemelos a la base de datos de destino"
-      }
+      },
+      "titl": "Empujador de datos"
     }
   }
 }

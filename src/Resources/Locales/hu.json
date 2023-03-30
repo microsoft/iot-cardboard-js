@@ -1535,7 +1535,6 @@
   },
   "legionApp": {
     "dataPusher": {
-      "title": "Adatok csatlakoztatása és leküldése",
       "simulationType": "Szimuláció típusa",
       "progress": {
         "createTable": "Táblázat létrehozása...",
@@ -1568,7 +1567,8 @@
         "ingest": "Adatok betöltése forrástáblába",
         "cook": "Ikrek főzési grafikonja",
         "pushTwinsGraph": "Ikereszközök gráfjának leküldése a céladatbázisba"
-      }
+      },
+      "titl": "Adatleküldő"
     }
   }
 }

@@ -1535,7 +1535,6 @@
   },
   "legionApp": {
     "dataPusher": {
-      "title": "데이터 연결 및 푸시",
       "simulationType": "시뮬레이션 유형",
       "progress": {
         "createTable": "테이블 생성 중...",
@@ -1568,7 +1567,8 @@
         "ingest": "원본 테이블에 데이터 수집",
         "cook": "쌍둥이 그래프 쿡",
         "pushTwinsGraph": "쌍 그래프를 대상 데이터베이스로 푸시"
-      }
+      },
+      "titl": "데이터 푸셔"
     }
   }
 }
