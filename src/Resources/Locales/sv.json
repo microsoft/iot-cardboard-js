@@ -1535,7 +1535,6 @@
   },
   "legionApp": {
     "dataPusher": {
-      "title": "Anslut och skicka data",
       "simulationType": "Typ av simulering",
       "progress": {
         "createTable": "Skapa tabell...",
@@ -1568,7 +1567,8 @@
         "ingest": "Mata in data till källtabellen",
         "cook": "Cook tvillingar graf",
         "pushTwinsGraph": "Skicka tvillingdiagram till måldatabasen"
-      }
+      },
+      "titl": "Data pusher"
     }
   }
 }

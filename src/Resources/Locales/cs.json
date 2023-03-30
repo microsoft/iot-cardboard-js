@@ -1535,7 +1535,6 @@
   },
   "legionApp": {
     "dataPusher": {
-      "title": "Připojení a nabízení dat",
       "simulationType": "Typ simulace",
       "progress": {
         "createTable": "Vytváření tabulky...",
@@ -1568,7 +1567,8 @@
         "ingest": "Ingestování dat do zdrojové tabulky",
         "cook": "Graf Cook dvojčat",
         "pushTwinsGraph": "Odeslání grafu dvojčat do cílové databáze"
-      }
+      },
+      "titl": "Posunovač dat"
     }
   }
 }

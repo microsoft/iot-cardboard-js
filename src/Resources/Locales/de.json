@@ -1535,7 +1535,6 @@
   },
   "legionApp": {
     "dataPusher": {
-      "title": "Verbinden und Übertragen von Daten",
       "simulationType": "Art der Simulation",
       "progress": {
         "createTable": "Tabelle wird erstellt...",
@@ -1568,7 +1567,8 @@
         "ingest": "Erfassen von Daten in der Quelltabelle",
         "cook": "Cook-Zwillings-Diagramm",
         "pushTwinsGraph": "Übertragen des Zwillingsdiagramms in die Zieldatenbank"
-      }
+      },
+      "titl": "Daten-Pusher"
     }
   }
 }

@@ -1535,7 +1535,6 @@
   },
   "legionApp": {
     "dataPusher": {
-      "title": "Verileri bağlama ve gönderme",
       "simulationType": "Simülasyon türü",
       "progress": {
         "createTable": "Tablo oluşturuluyor...",
@@ -1568,7 +1567,8 @@
         "ingest": "Kaynak tabloya veri alma",
         "cook": "Cook ikizleri grafiği",
         "pushTwinsGraph": "İkizler grafiğini hedef veritabanına gönderme"
-      }
+      },
+      "titl": "Veri itici"
     }
   }
 }

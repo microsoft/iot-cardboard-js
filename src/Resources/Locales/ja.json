@@ -1535,7 +1535,6 @@
   },
   "legionApp": {
     "dataPusher": {
-      "title": "データの接続とプッシュ",
       "simulationType": "シミュレーションの種類",
       "progress": {
         "createTable": "テーブルを作成しています...",
@@ -1568,7 +1567,8 @@
         "ingest": "ソース テーブルへのデータの取り込み",
         "cook": "クック双子グラフ",
         "pushTwinsGraph": "ツイン グラフをターゲット データベースにプッシュする"
-      }
+      },
+      "titl": "データプッシャー"
     }
   }
 }
