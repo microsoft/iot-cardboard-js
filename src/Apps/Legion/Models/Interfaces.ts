@@ -31,3 +31,16 @@ export interface IRelationship {
     sourceTwinId: string; // FK for ITwin
     targetTwinId: string; // FK for ITwin
 }
+
+/** to be used after cooking is done from Source table to pass Step-2&Step-3 */
+export interface ICookAssets {
+    models: Array<IModel>;
+    properties: Array<IModelProperty>;
+    twins: Array<ITwin>;
+}
+
+/** to be used for Step-4 and final object to be used to upsert to Target database */
+export interface ITwinGraph extends ICookAssets {
+    relationshipModels: Array<IRelationshipModel>;
+    relationships: Array<IRelationship>;
+}
