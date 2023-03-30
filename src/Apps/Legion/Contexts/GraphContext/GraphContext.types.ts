@@ -1,4 +1,4 @@
-import { ICustomGraphData } from '../../../../Components/SampleGraph/GraphTypes.types';
+import { ICustomGraphData } from '../../Components/GraphVisualizer/GraphTypes.types';
 
 export interface IGraphNode<T> {
     /** color of the node */

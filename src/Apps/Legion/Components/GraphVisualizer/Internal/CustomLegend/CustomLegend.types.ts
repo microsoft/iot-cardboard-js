@@ -1,5 +1,5 @@
 import { IStyle, IStyleFunctionOrObject } from '@fluentui/react';
-import { IExtendedTheme } from '../../../../Theming/Theme.types';
+import { IExtendedTheme } from '../../../../../../Theming/Theme.types';
 
 export interface ICustomLegendProps {
     /**

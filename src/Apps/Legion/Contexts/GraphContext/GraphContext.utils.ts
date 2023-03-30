@@ -1,5 +1,5 @@
-import { ICustomGraphData } from '../../../../Components/SampleGraph/GraphTypes.types';
 import { createGUID } from '../../../../Models/Services/Utils';
+import { ICustomGraphData } from '../../Components/GraphVisualizer/GraphTypes.types';
 import { IGraphNode } from './GraphContext.types';
 
 export function GetGraphData<N>(nodeData: IGraphNode<N>[]) {

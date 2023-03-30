@@ -1,5 +1,5 @@
 import { IStyle } from '@fluentui/react';
-import { IExtendedTheme } from '../../../../Theming/Theme.types';
+import { IExtendedTheme } from '../../../../../../Theming/Theme.types';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface ICustomContextMenuProps {}

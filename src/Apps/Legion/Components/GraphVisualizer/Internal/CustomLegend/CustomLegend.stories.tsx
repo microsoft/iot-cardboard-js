@@ -1,16 +1,15 @@
 import React from 'react';
 import { ComponentStory } from '@storybook/react';
 import Graphin from '@antv/graphin';
-import { getDefaultStoryDecorator } from '../../../../Models/Services/StoryUtilities';
+import { getDefaultStoryDecorator } from '../../../../../../Models/Services/StoryUtilities';
 import CustomLegend from './CustomLegend';
 import { ICustomLegendProps } from './CustomLegend.types';
 import { ICustomGraphData } from '../../GraphTypes.types';
-import { DTDLType } from '../../../../Models/Classes/DTDL';
 
 const wrapperStyle = { width: '100%', height: '600px', padding: 8 };
 
 export default {
-    title: 'Components - OAT/Graph/CustomLegend',
+    title: 'Components/Apps/Legion/GraphVisualizer/CustomLegend',
     component: CustomLegend,
     decorators: [getDefaultStoryDecorator<ICustomLegendProps>(wrapperStyle)]
 };
@@ -18,7 +17,7 @@ export default {
 type CustomLegendStory = ComponentStory<typeof CustomLegend>;
 
 const Template: CustomLegendStory = (args) => {
-    const data: ICustomGraphData = {
+    const data: ICustomGraphData<any> = {
         nodes: [
             {
                 id: 'model1',
@@ -67,7 +66,6 @@ const Template: CustomLegendStory = (args) => {
                 target: 'model2',
                 data: {
                     itemType: 'Edge',
-                    type: DTDLType.Relationship,
                     name: 'Test Edge',
                     source: 'model1',
                     target: 'model2'
@@ -78,7 +76,6 @@ const Template: CustomLegendStory = (args) => {
                 target: 'model3',
                 data: {
                     itemType: 'Edge',
-                    type: DTDLType.Component,
                     name: 'Test Edge',
                     source: 'model1',
                     target: 'model2'
@@ -89,7 +86,6 @@ const Template: CustomLegendStory = (args) => {
                 target: 'model4',
                 data: {
                     itemType: 'Edge',
-                    type: 'Extend',
                     name: 'Test Edge',
                     source: 'model1',
                     target: 'model2'
@@ -100,7 +96,6 @@ const Template: CustomLegendStory = (args) => {
                 target: 'model3',
                 data: {
                     itemType: 'Edge',
-                    type: 'Untargeted',
                     name: 'Test Edge',
                     source: 'model1',
                     target: 'model2'

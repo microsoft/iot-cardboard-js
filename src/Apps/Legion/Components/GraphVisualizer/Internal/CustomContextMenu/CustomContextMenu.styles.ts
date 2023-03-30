@@ -2,7 +2,7 @@ import {
     ICustomContextMenuStyleProps,
     ICustomContextMenuStyles
 } from './CustomContextMenu.types';
-import { CardboardClassNamePrefix } from '../../../../Models/Constants/Constants';
+import { CardboardClassNamePrefix } from '../../../../../../Models/Constants/Constants';
 
 const classPrefix = `${CardboardClassNamePrefix}-customcontextmenu`;
 const classNames = {

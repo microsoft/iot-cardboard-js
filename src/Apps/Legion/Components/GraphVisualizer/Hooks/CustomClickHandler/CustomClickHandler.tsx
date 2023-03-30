@@ -1,11 +1,11 @@
 import React, { useCallback, useContext, useEffect } from 'react';
 import { IG6GraphEvent, GraphinContext } from '@antv/graphin';
-import { getDebugLogger } from '../../../../Models/Services/Utils';
+import { getDebugLogger } from '../../../../../../Models/Services/Utils';
 import { ICustomClickHandlerProps } from './CustomClickHandler.types';
 import { INode } from '@antv/g6';
 import { ICustomNodeConfig, ICustomNodeData } from '../../GraphTypes.types';
-import { useGraphContext } from '../../../../Apps/Legion/Contexts/GraphContext/GraphContext';
-import { GraphContextActionType } from '../../../../Apps/Legion/Contexts/GraphContext/GraphContext.types';
+import { useGraphContext } from '../../../../Contexts/GraphContext/GraphContext';
+import { GraphContextActionType } from '../../../../Contexts/GraphContext/GraphContext.types';
 
 const debugLogging = true;
 const logDebugConsole = getDebugLogger('CustomClickHandler', debugLogging);

@@ -1,10 +1,10 @@
 import React, { useCallback } from 'react';
 import { Behaviors } from '@antv/graphin';
 import { IEdge, INode } from '@antv/g6';
-import { getDebugLogger } from '../../../../Models/Services/Utils';
+import { getDebugLogger } from '../../../../../../Models/Services/Utils';
 import { ICustomLassoHandlerProps } from './CustomLassoHandler.types';
-import { GraphContextActionType } from '../../../../Apps/Legion/Contexts/GraphContext/GraphContext.types';
-import { useGraphContext } from '../../../../Apps/Legion/Contexts/GraphContext/GraphContext';
+import { GraphContextActionType } from '../../../../Contexts/GraphContext/GraphContext.types';
+import { useGraphContext } from '../../../../Contexts/GraphContext/GraphContext';
 import { GetNodeIdsFromSelection } from '../../Utils/GraphUtils';
 
 const { LassoSelect } = Behaviors;

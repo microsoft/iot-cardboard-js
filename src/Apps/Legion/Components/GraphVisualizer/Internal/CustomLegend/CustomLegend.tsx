@@ -1,8 +1,8 @@
 import React from 'react';
 import { classNamesFunction, styled } from '@fluentui/react';
 import { Components, LegendChildrenProps } from '@antv/graphin';
-import { useExtendedTheme } from '../../../../Models/Hooks/useExtendedTheme';
-import { getDebugLogger } from '../../../../Models/Services/Utils';
+import { useExtendedTheme } from '../../../../../../Models/Hooks/useExtendedTheme';
+import { getDebugLogger } from '../../../../../../Models/Services/Utils';
 import {
     ICustomLegendProps,
     ICustomLegendStyleProps,

@@ -3,17 +3,17 @@ import { classNamesFunction } from '@fluentui/react';
 import type { ContextMenuValue as ContextMenuProps } from '@antv/graphin';
 import { Components } from '@antv/graphin';
 
-import { useExtendedTheme } from '../../../../Models/Hooks/useExtendedTheme';
-import { getDebugLogger } from '../../../../Models/Services/Utils';
+import { useExtendedTheme } from '../../../../../../Models/Hooks/useExtendedTheme';
+import { getDebugLogger } from '../../../../../../Models/Services/Utils';
 import {
     ICustomContextMenuProps,
     ICustomContextMenuStyleProps,
     ICustomContextMenuStyles
 } from './CustomContextMenu.types';
-import { CardboardList } from '../../../CardboardList';
-import { ICardboardListItem } from '../../../CardboardList/CardboardList.types';
-import { useGraphContext } from '../../../../Apps/Legion/Contexts/GraphContext/GraphContext';
-import { GraphContextActionType } from '../../../../Apps/Legion/Contexts/GraphContext/GraphContext.types';
+import { CardboardList } from '../../../../../../Components/CardboardList';
+import { ICardboardListItem } from '../../../../../../Components/CardboardList/CardboardList.types';
+import { useGraphContext } from '../../../../Contexts/GraphContext/GraphContext';
+import { GraphContextActionType } from '../../../../Contexts/GraphContext/GraphContext.types';
 
 const { ContextMenu } = Components;
 

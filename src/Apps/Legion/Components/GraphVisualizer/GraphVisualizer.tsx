@@ -3,8 +3,8 @@ import { classNamesFunction, styled } from '@fluentui/react';
 import { useId } from '@fluentui/react-hooks';
 import { createNodeFromReact } from '@antv/g6-react-node';
 import Graphin from '@antv/graphin';
-import { useExtendedTheme } from '../../Models/Hooks/useExtendedTheme';
-import { getDebugLogger } from '../../Models/Services/Utils';
+import { useExtendedTheme } from '../../../../Models/Hooks/useExtendedTheme';
+import { getDebugLogger } from '../../../../Models/Services/Utils';
 import CustomGraphNode from './Internal/CustomGraphNode/CustomGraphNode';
 import { CustomNode } from './Internal/CustomNode';
 import CustomLassoHandler from './Hooks/CustomLassoHandler/CustomLassoHandler';
@@ -12,19 +12,19 @@ import CustomContextMenu from './Internal/CustomContextMenu/CustomContextMenu';
 import CustomClickHandler from './Hooks/CustomClickHandler/CustomClickHandler';
 import { ICustomNodeConfig, IDefaultNode } from './GraphTypes.types';
 import {
-    ISampleGraphProps,
-    ISampleGraphStyleProps,
-    ISampleGraphStyles
-} from './SampleGraph.types';
-import { getStyles } from './SampleGraph.styles';
-import { useGraphContext } from '../../Apps/Legion/Contexts/GraphContext/GraphContext';
+    IGraphVisualizerProps,
+    IGraphVisualizerStyleProps,
+    IGraphVisualizerStyles
+} from './GraphVisualizer.types';
+import { getStyles } from './GraphVisualizer.styles';
+import { useGraphContext } from '../../Contexts/GraphContext/GraphContext';
 
 const debugLogging = false;
-const logDebugConsole = getDebugLogger('SampleGraph', debugLogging);
+const logDebugConsole = getDebugLogger('GraphVisualizer', debugLogging);
 
 const getClassNames = classNamesFunction<
-    ISampleGraphStyleProps,
-    ISampleGraphStyles
+    IGraphVisualizerStyleProps,
+    IGraphVisualizerStyles
 >();
 
 const CUSTOM_NODE_NAME = 'react-node';
@@ -76,7 +76,7 @@ const RADIAL_LAYOUT = {
     preventOverlap: true
 };
 
-const SampleGraph: React.FC<ISampleGraphProps> = (props) => {
+const GraphVisualizer: React.FC<IGraphVisualizerProps> = (props) => {
     const { styles } = props;
 
     // context
@@ -149,7 +149,7 @@ const SampleGraph: React.FC<ISampleGraphProps> = (props) => {
 };
 
 export default styled<
-    ISampleGraphProps,
-    ISampleGraphStyleProps,
-    ISampleGraphStyles
->(SampleGraph, getStyles);
+    IGraphVisualizerProps,
+    IGraphVisualizerStyleProps,
+    IGraphVisualizerStyles
+>(GraphVisualizer, getStyles);

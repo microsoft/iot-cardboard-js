@@ -2,7 +2,7 @@ import {
     ICustomLegendStyleProps,
     ICustomLegendStyles
 } from './CustomLegend.types';
-import { CardboardClassNamePrefix } from '../../../../Models/Constants/Constants';
+import { CardboardClassNamePrefix } from '../../../../../../Models/Constants/Constants';
 
 const classPrefix = `${CardboardClassNamePrefix}-customlegend`;
 const classNames = {

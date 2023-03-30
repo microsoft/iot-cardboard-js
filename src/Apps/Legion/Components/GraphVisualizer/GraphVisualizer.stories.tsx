@@ -1,12 +1,12 @@
 import React from 'react';
 import { Stack } from '@fluentui/react';
-import { getDefaultStoryDecorator } from '../../Models/Services/StoryUtilities';
-import SampleGraph from './SampleGraph';
+import { getDefaultStoryDecorator } from '../../../../Models/Services/StoryUtilities';
+import GraphVisualizer from './GraphVisualizer';
 import {
     GraphContextProvider,
     useGraphContext
-} from '../../Apps/Legion/Contexts/GraphContext/GraphContext';
-import { IGraphNode } from '../../Apps/Legion/Contexts/GraphContext/GraphContext.types';
+} from '../../Contexts/GraphContext/GraphContext';
+import { IGraphNode } from '../../Contexts/GraphContext/GraphContext.types';
 
 const wrapperStyle: any = {
     width: '100%',
@@ -17,8 +17,8 @@ const wrapperStyle: any = {
 };
 
 export default {
-    title: 'Components - OAT/Graph',
-    component: SampleGraph,
+    title: 'Components/Apps/Legion/GraphVisualizer',
+    component: GraphVisualizer,
     decorators: [getDefaultStoryDecorator<StoryArgs>(wrapperStyle)]
 };
 
@@ -43,7 +43,7 @@ const TemplateContent = () => {
         >
             <div>Selected nodes: {graphState.selectedNodeIds.join(', ')}</div>
             <Stack.Item grow={1}>
-                <SampleGraph />
+                <GraphVisualizer />
             </Stack.Item>
         </Stack>
     );

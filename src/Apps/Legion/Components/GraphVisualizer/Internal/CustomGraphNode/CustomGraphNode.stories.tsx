@@ -1,21 +1,21 @@
 import React from 'react';
 import { createNodeFromReact } from '@antv/g6-react-node';
 import Graphin from '@antv/graphin';
-import { getDefaultStoryDecorator } from '../../../../Models/Services/StoryUtilities';
-import { ICustomGraphData, ICustomNodeDefintion } from '../../GraphTypes.types';
+import { getDefaultStoryDecorator } from '../../../../../../Models/Services/StoryUtilities';
 import CustomGraphNode from './CustomGraphNode';
 import { ICustomGraphNodeProps } from './CustomGraphNode.types';
+import { ICustomGraphData, ICustomNodeDefintion } from '../../GraphTypes.types';
 
 const wrapperStyle = { width: '100%', height: '600px', padding: 8 };
 
 export default {
-    title: 'Components - OAT/Graph/CustomGraphNode',
+    title: 'Components/Apps/Legion/GraphVisualizer/CustomGraphNode',
     component: CustomGraphNode,
     decorators: [getDefaultStoryDecorator<ICustomGraphNodeProps>(wrapperStyle)]
 };
 
 type StoryArgs = {
-    nodeData: ICustomNodeDefintion;
+    nodeData: ICustomNodeDefintion<any>;
 };
 type CustomGraphNodeStory = React.FC<StoryArgs>;
 
@@ -25,7 +25,7 @@ const DEFAULT_NODE = {
 };
 Graphin.registerNode(CUSTOM_NODE_NAME, createNodeFromReact(CustomGraphNode));
 const Template: CustomGraphNodeStory = (args) => {
-    const data: ICustomGraphData = {
+    const data: ICustomGraphData<any> = {
         nodes: [args.nodeData],
         edges: []
     };

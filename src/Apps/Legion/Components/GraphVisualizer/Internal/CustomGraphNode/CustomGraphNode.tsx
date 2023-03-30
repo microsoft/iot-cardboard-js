@@ -1,6 +1,6 @@
 import React from 'react';
 import { Rect, Text, Group } from '@antv/g6-react-node';
-import { getDebugLogger } from '../../../../Models/Services/Utils';
+import { getDebugLogger } from '../../../../../../Models/Services/Utils';
 import { ICustomGraphNodeProps } from './CustomGraphNode.types';
 import { getStyles } from './CustomGraphNode.styles';
 

@@ -6,7 +6,7 @@ import {
     IUserNode,
     NodeStyle
 } from '@antv/graphin';
-import { OatGraphReferenceType } from '../../Models/Constants/Constants';
+import { OatGraphReferenceType } from '../../../../Models/Constants/Constants';
 
 /** data passed to the graph. Overriding nodes, so we can define the custom properties we add for rendering */
 export interface ICustomGraphData<T> extends GraphinData {
