@@ -1568,7 +1568,7 @@
         "cook": "Gráfico de gemelos cocinados",
         "pushTwinsGraph": "Insertar gráfico de gemelos a la base de datos de destino"
       },
-      "titl": "Empujador de datos"
+      "title": "Empujador de datos"
     }
   }
 }

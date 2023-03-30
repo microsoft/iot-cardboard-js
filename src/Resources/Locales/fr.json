@@ -1568,7 +1568,7 @@
         "cook": "Graphique des jumeaux cuisiniers",
         "pushTwinsGraph": "Pousser le graphique des jumeaux vers la base de données cible"
       },
-      "titl": "Pousseur de données"
+      "title": "Pousseur de données"
     }
   }
 }

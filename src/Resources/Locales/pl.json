@@ -1568,7 +1568,7 @@
         "cook": "Wykres bliźniaków kucharskich",
         "pushTwinsGraph": "Wypychanie wykresu bliźniaków do docelowej bazy danych"
       },
-      "titl": "Popychacz danych"
+      "title": "Popychacz danych"
     }
   }
 }

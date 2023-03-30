@@ -1568,7 +1568,7 @@
         "cook": "Grafico dei gemelli di Cook",
         "pushTwinsGraph": "Push del grafico dei gemelli al database di destinazione"
       },
-      "titl": "Pusher di dati"
+      "title": "Pusher di dati"
     }
   }
 }

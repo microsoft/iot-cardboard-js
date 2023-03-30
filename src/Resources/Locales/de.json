@@ -1568,7 +1568,7 @@
         "cook": "Cook-Zwillings-Diagramm",
         "pushTwinsGraph": "Übertragen des Zwillingsdiagramms in die Zieldatenbank"
       },
-      "titl": "Daten-Pusher"
+      "title": "Daten-Pusher"
     }
   }
 }

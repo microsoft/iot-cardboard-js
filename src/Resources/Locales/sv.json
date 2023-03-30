@@ -1568,7 +1568,7 @@
         "cook": "Cook tvillingar graf",
         "pushTwinsGraph": "Skicka tvillingdiagram till måldatabasen"
       },
-      "titl": "Data pusher"
+      "title": "Data pusher"
     }
   }
 }

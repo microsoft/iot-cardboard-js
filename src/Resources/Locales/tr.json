@@ -1568,7 +1568,7 @@
         "cook": "Cook ikizleri grafiği",
         "pushTwinsGraph": "İkizler grafiğini hedef veritabanına gönderme"
       },
-      "titl": "Veri itici"
+      "title": "Veri itici"
     }
   }
 }

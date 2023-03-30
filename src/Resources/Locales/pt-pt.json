@@ -1568,7 +1568,7 @@
         "cook": "Gráfico de gêmeos Cook",
         "pushTwinsGraph": "Empurre o gráfico de gêmeos para o banco de dados de destino"
       },
-      "titl": "Empurrador de dados"
+      "title": "Empurrador de dados"
     }
   }
 }

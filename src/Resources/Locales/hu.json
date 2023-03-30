@@ -1568,7 +1568,7 @@
         "cook": "Ikrek főzési grafikonja",
         "pushTwinsGraph": "Ikereszközök gráfjának leküldése a céladatbázisba"
       },
-      "titl": "Adatleküldő"
+      "title": "Adatleküldő"
     }
   }
 }
