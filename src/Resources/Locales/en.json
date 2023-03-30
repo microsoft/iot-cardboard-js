@@ -1526,7 +1526,7 @@
         "addNew": "Add new"
     },
     "legionApp": {
-        "dataPusher": {
+        "dataPushe": {
             "title": "Data pusher",
             "simulationType": "Simulation type",
             "selectSimulationType": "Select simulation type",
