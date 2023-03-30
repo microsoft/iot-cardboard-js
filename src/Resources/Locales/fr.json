@@ -1537,22 +1537,38 @@
     "dataPusher": {
       "title": "Connecter et pousser des données",
       "simulationType": "Type de simulation",
-      "selectSimulationTypePlaceholder": "Sélectionnez le type de simulation",
       "progress": {
         "createTable": "Création d’une table...",
         "createTables": "Création de tables...",
-        "createTargetDatabase": "Création d’une base de données cible..."
+        "createTargetDatabase": "Création d’une base de données cible...",
+        "createSourceDatabase": "Création d’une base de données source...",
+        "ingest": "Ingestion..."
       },
-      "sourceDatabase": "Base de données source",
-      "targetDatabase": "Base de données cible",
-      "sourceTable": "Table source",
-      "selectSourceDatabasePlaceholder": "Sélectionner la base de données source",
-      "selectTargetDatabasePlaceholder": "Sélectionner la base de données cible",
-      "selectSourceTablePlaceholder": "Sélectionner la table source",
-      "sourceTwinIDProperty": "Propriété ID du jumeau source",
-      "selectSourceTwinIDPropertyPlaceholder": "Sélectionner la propriété ID du jumeau source",
-      "cookButtonLabel": "Graphique des jumeaux Cook basé sur la source",
-      "pushSimulationButtonLabel": "Envoyer les données de simulation à la table source"
+      "selectSimulationType": "Sélectionnez le type de simulation",
+      "tabs": {
+        "setup": "Coup monté",
+        "ingest": "Ingérer",
+        "cook": "Cuire"
+      },
+      "source": {
+        "database": "Base de données source",
+        "selectDatabase": "Sélectionner la base de données source",
+        "table": "Table source",
+        "selectTable": "Sélectionner la table source",
+        "tableType": "Type de table source",
+        "selectTableType": "Sélectionner le type de table source",
+        "twinIDProperty": "Propriété ID du jumeau source",
+        "selectTwinIDProperty": "Sélectionner la propriété ID du jumeau source"
+      },
+      "target": {
+        "database": "Base de données cible",
+        "selectDatabase": "Sélectionner la base de données cible"
+      },
+      "actions": {
+        "ingest": "Ingérer des données dans la table source",
+        "cook": "Graphique des jumeaux cuisiniers",
+        "pushTwinsGraph": "Pousser le graphique des jumeaux vers la base de données cible"
+      }
     }
   }
 }

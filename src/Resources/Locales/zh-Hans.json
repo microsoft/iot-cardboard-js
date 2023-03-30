@@ -1537,22 +1537,38 @@
     "dataPusher": {
       "title": "连接和推送数据",
       "simulationType": "模拟类型",
-      "selectSimulationTypePlaceholder": "选择模拟类型",
       "progress": {
         "createTable": "正在创建表...",
         "createTables": "正在创建表...",
-        "createTargetDatabase": "正在创建目标数据库..."
+        "createTargetDatabase": "正在创建目标数据库...",
+        "createSourceDatabase": "正在创建源数据库...",
+        "ingest": "摄入。。。"
       },
-      "sourceDatabase": "源数据库",
-      "targetDatabase": "目标数据库",
-      "sourceTable": "源表",
-      "selectSourceDatabasePlaceholder": "选择源数据库",
-      "selectTargetDatabasePlaceholder": "选择目标数据库",
-      "selectSourceTablePlaceholder": "选择源表",
-      "sourceTwinIDProperty": "源孪生 ID 属性",
-      "selectSourceTwinIDPropertyPlaceholder": "选择源孪生 ID 属性",
-      "cookButtonLabel": "基于源的库克双胞胎图",
-      "pushSimulationButtonLabel": "将仿真数据推送到源表"
+      "selectSimulationType": "选择模拟类型",
+      "tabs": {
+        "setup": "设置",
+        "ingest": "摄取",
+        "cook": "煮"
+      },
+      "source": {
+        "database": "源数据库",
+        "selectDatabase": "选择源数据库",
+        "table": "源表",
+        "selectTable": "选择源表",
+        "tableType": "源表类型",
+        "selectTableType": "选择源表类型",
+        "twinIDProperty": "源孪生 ID 属性",
+        "selectTwinIDProperty": "选择源孪生 ID 属性"
+      },
+      "target": {
+        "database": "目标数据库",
+        "selectDatabase": "选择目标数据库"
+      },
+      "actions": {
+        "ingest": "将数据引入源表",
+        "cook": "库克双胞胎图",
+        "pushTwinsGraph": "将孪生体图推送到目标数据库"
+      }
     }
   }
 }

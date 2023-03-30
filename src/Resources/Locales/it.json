@@ -1537,22 +1537,38 @@
     "dataPusher": {
       "title": "Connessione e invio dei dati",
       "simulationType": "Tipo di simulazione",
-      "selectSimulationTypePlaceholder": "Seleziona il tipo di simulazione",
       "progress": {
         "createTable": "Creazione tabella...",
         "createTables": "Creazione di tabelle...",
-        "createTargetDatabase": "Creazione di database di destinazione..."
+        "createTargetDatabase": "Creazione di database di destinazione...",
+        "createSourceDatabase": "Creazione di database di origine...",
+        "ingest": "Ingestione..."
       },
-      "sourceDatabase": "Database di origine",
-      "targetDatabase": "Database di destinazione",
-      "sourceTable": "Tabella di origine",
-      "selectSourceDatabasePlaceholder": "Seleziona database di origine",
-      "selectTargetDatabasePlaceholder": "Seleziona il database di destinazione",
-      "selectSourceTablePlaceholder": "Seleziona tabella di origine",
-      "sourceTwinIDProperty": "Proprietà ID gemello di origine",
-      "selectSourceTwinIDPropertyPlaceholder": "Seleziona la proprietà ID gemello di origine",
-      "cookButtonLabel": "Grafico dei gemelli di Cook in base alla fonte",
-      "pushSimulationButtonLabel": "Eseguire il push dei dati di simulazione nella tabella di origine"
+      "selectSimulationType": "Seleziona il tipo di simulazione",
+      "tabs": {
+        "setup": "Apparecchio",
+        "ingest": "Ingerire",
+        "cook": "Cuoco"
+      },
+      "source": {
+        "database": "Database di origine",
+        "selectDatabase": "Seleziona database di origine",
+        "table": "Tabella di origine",
+        "selectTable": "Seleziona tabella di origine",
+        "tableType": "Tipo di tabella di origine",
+        "selectTableType": "Selezionare il tipo di tabella di origine",
+        "twinIDProperty": "Proprietà ID gemello di origine",
+        "selectTwinIDProperty": "Seleziona la proprietà ID gemello di origine"
+      },
+      "target": {
+        "database": "Database di destinazione",
+        "selectDatabase": "Seleziona il database di destinazione"
+      },
+      "actions": {
+        "ingest": "Inserire dati nella tabella di origine",
+        "cook": "Grafico dei gemelli di Cook",
+        "pushTwinsGraph": "Push del grafico dei gemelli al database di destinazione"
+      }
     }
   }
 }

@@ -1537,22 +1537,38 @@
     "dataPusher": {
       "title": "Verbinden und Übertragen von Daten",
       "simulationType": "Art der Simulation",
-      "selectSimulationTypePlaceholder": "Auswählen des Simulationstyps",
       "progress": {
         "createTable": "Tabelle wird erstellt...",
         "createTables": "Erstellen von Tabellen...",
-        "createTargetDatabase": "Zieldatenbank wird erstellt..."
+        "createTargetDatabase": "Zieldatenbank wird erstellt...",
+        "createSourceDatabase": "Quelldatenbank wird erstellt...",
+        "ingest": "Aufnehmend..."
       },
-      "sourceDatabase": "Quelldatenbank",
-      "targetDatabase": "Zieldatenbank",
-      "sourceTable": "Quelltabelle",
-      "selectSourceDatabasePlaceholder": "Quelldatenbank auswählen",
-      "selectTargetDatabasePlaceholder": "Zieldatenbank auswählen",
-      "selectSourceTablePlaceholder": "Quelltabelle auswählen",
-      "sourceTwinIDProperty": "Quell-Zwillings-ID-Eigenschaft",
-      "selectSourceTwinIDPropertyPlaceholder": "Quell-Zwillings-ID-Eigenschaft auswählen",
-      "cookButtonLabel": "Diagramm der Cook-Zwillinge basierend auf der Quelle",
-      "pushSimulationButtonLabel": "Übertragen von Simulationsdaten in die Quelltabelle"
+      "selectSimulationType": "Auswählen des Simulationstyps",
+      "tabs": {
+        "setup": "Einrichtung",
+        "ingest": "Aufnehmen",
+        "cook": "Kochen"
+      },
+      "source": {
+        "database": "Quelldatenbank",
+        "selectDatabase": "Quelldatenbank auswählen",
+        "table": "Quelltabelle",
+        "selectTable": "Quelltabelle auswählen",
+        "tableType": "Typ der Quelltabelle",
+        "selectTableType": "Auswählen des Quelltabellentyps",
+        "twinIDProperty": "Quell-Zwillings-ID-Eigenschaft",
+        "selectTwinIDProperty": "Quell-Zwillings-ID-Eigenschaft auswählen"
+      },
+      "target": {
+        "database": "Zieldatenbank",
+        "selectDatabase": "Zieldatenbank auswählen"
+      },
+      "actions": {
+        "ingest": "Erfassen von Daten in der Quelltabelle",
+        "cook": "Cook-Zwillings-Diagramm",
+        "pushTwinsGraph": "Übertragen des Zwillingsdiagramms in die Zieldatenbank"
+      }
     }
   }
 }
