@@ -5,7 +5,7 @@ import {
     IWizardShellStyles
 } from './WizardShell.types';
 import { getStyles } from './WizardShell.styles';
-import { classNamesFunction, Stack, styled } from '@fluentui/react';
+import { classNamesFunction, Separator, Stack, styled } from '@fluentui/react';
 import { useExtendedTheme } from '../../../../Models/Hooks/useExtendedTheme';
 import { getDebugLogger } from '../../../../Models/Services/Utils';
 import { useWizardNavigationContext } from '../../Models/Context/WizardNavigationContext/WizardNavigationContext';
@@ -63,11 +63,16 @@ const WizardShell: React.FC<IWizardShellProps> = (props) => {
     return (
         <div className={classNames.root}>
             <Stack horizontal={true} tokens={{ childrenGap: 8 }}>
-                <StepperWizard
-                    steps={wizardNavigationContextState.steps}
-                    type={StepperWizardType.Vertical}
-                    currentStepIndex={wizardNavigationContextState.currentStep}
-                />
+                <div className={classNames.wizardContainer}>
+                    <StepperWizard
+                        steps={wizardNavigationContextState.steps}
+                        type={StepperWizardType.Vertical}
+                        currentStepIndex={
+                            wizardNavigationContextState.currentStep
+                        }
+                    />
+                </div>
+                <Separator vertical={true} />
                 {currentPage}
             </Stack>
         </div>

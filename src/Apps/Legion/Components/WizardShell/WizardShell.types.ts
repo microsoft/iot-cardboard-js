@@ -13,6 +13,7 @@ export interface IWizardShellStyleProps {
 }
 export interface IWizardShellStyles {
     root: IStyle;
+    wizardContainer: IStyle;
 
     /**
      * SubComponent styles.
