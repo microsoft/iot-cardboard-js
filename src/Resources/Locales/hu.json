@@ -1535,19 +1535,40 @@
   },
   "legionApp": {
     "dataPusher": {
-      "title": "Adatok csatlakoztatása és leküldése",
-      "database": "Adatbázis",
-      "table": "Asztal",
       "simulationType": "Szimuláció típusa",
-      "selectDatabasePlaceholder": "Adatbázis kiválasztása",
-      "selectTablePlaceholder": "Asztal kiválasztása",
-      "selectSimulationTypePlaceholder": "Válassza ki a szimuláció típusát",
-      "primaryActionLabel": "Szimulációs adatok csatlakoztatása és leküldése",
       "progress": {
-        "createDatabase": "Adatbázis létrehozása...",
         "createTable": "Táblázat létrehozása...",
-        "createTables": "Táblázatok létrehozása..."
-      }
+        "createTables": "Táblázatok létrehozása...",
+        "createTargetDatabase": "Céladatbázis létrehozása...",
+        "createSourceDatabase": "Forrásadatbázis létrehozása...",
+        "ingest": "Fogyasztásából..."
+      },
+      "selectSimulationType": "Válassza ki a szimuláció típusát",
+      "tabs": {
+        "setup": "Beállít",
+        "ingest": "Bevesz",
+        "cook": "Szakács"
+      },
+      "source": {
+        "database": "Forrás-adatbázis",
+        "selectDatabase": "Válassza ki a forrásadatbázist",
+        "table": "Forrástábla",
+        "selectTable": "Válassza ki a forrástáblát",
+        "tableType": "Forrástábla típusa",
+        "selectTableType": "Válassza ki a forrástábla típusát",
+        "twinIDProperty": "Forrás ikerazonosító tulajdonsága",
+        "selectTwinIDProperty": "Válassza ki az ikereszköz-azonosító tulajdonságot"
+      },
+      "target": {
+        "database": "Céladatbázis",
+        "selectDatabase": "Céladatbázis kiválasztása"
+      },
+      "actions": {
+        "ingest": "Adatok betöltése forrástáblába",
+        "cook": "Ikrek főzési grafikonja",
+        "pushTwinsGraph": "Ikereszközök gráfjának leküldése a céladatbázisba"
+      },
+      "title": "Adatleküldő"
     }
   }
 }

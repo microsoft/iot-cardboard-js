@@ -1535,19 +1535,40 @@
   },
   "legionApp": {
     "dataPusher": {
-      "title": "データの接続とプッシュ",
-      "database": "データベース",
-      "table": "テーブル",
       "simulationType": "シミュレーションの種類",
-      "selectDatabasePlaceholder": "データベースの選択",
-      "selectTablePlaceholder": "テーブルを選択",
-      "selectSimulationTypePlaceholder": "シミュレーションタイプを選択",
-      "primaryActionLabel": "シミュレーションデータの接続とプッシュ",
       "progress": {
-        "createDatabase": "データベースを作成しています...",
         "createTable": "テーブルを作成しています...",
-        "createTables": "テーブルを作成しています..."
-      }
+        "createTables": "テーブルを作成しています...",
+        "createTargetDatabase": "ターゲット データベースを作成しています...",
+        "createSourceDatabase": "ソース データベースを作成しています...",
+        "ingest": "摂取。。。"
+      },
+      "selectSimulationType": "シミュレーションタイプを選択",
+      "tabs": {
+        "setup": "セットアップ",
+        "ingest": "摂取する",
+        "cook": "料理する"
+      },
+      "source": {
+        "database": "ソース データベース",
+        "selectDatabase": "ソース データベースの選択",
+        "table": "ソース テーブル",
+        "selectTable": "ソース テーブルの選択",
+        "tableType": "ソース テーブルの種類",
+        "selectTableType": "ソース テーブルの種類を選択",
+        "twinIDProperty": "ソース ツイン ID プロパティ",
+        "selectTwinIDProperty": "ソース ツイン ID プロパティの選択"
+      },
+      "target": {
+        "database": "ターゲット データベース",
+        "selectDatabase": "ターゲット・データベースの選択"
+      },
+      "actions": {
+        "ingest": "ソース テーブルへのデータの取り込み",
+        "cook": "クック双子グラフ",
+        "pushTwinsGraph": "ツイン グラフをターゲット データベースにプッシュする"
+      },
+      "title": "データプッシャー"
     }
   }
 }

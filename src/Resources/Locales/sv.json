@@ -1535,19 +1535,40 @@
   },
   "legionApp": {
     "dataPusher": {
-      "title": "Anslut och skicka data",
-      "database": "Databas",
-      "table": "Bord",
       "simulationType": "Typ av simulering",
-      "selectDatabasePlaceholder": "Välj databas",
-      "selectTablePlaceholder": "Välj tabell",
-      "selectSimulationTypePlaceholder": "Välj simuleringstyp",
-      "primaryActionLabel": "Anslut och skicka simuleringsdata",
       "progress": {
-        "createDatabase": "Skapa databas...",
         "createTable": "Skapa tabell...",
-        "createTables": "Skapa tabeller..."
-      }
+        "createTables": "Skapa tabeller...",
+        "createTargetDatabase": "Skapa måldatabas...",
+        "createSourceDatabase": "Skapa källdatabas...",
+        "ingest": "Intag..."
+      },
+      "selectSimulationType": "Välj simuleringstyp",
+      "tabs": {
+        "setup": "Installationen",
+        "ingest": "Äter",
+        "cook": "Kock"
+      },
+      "source": {
+        "database": "Källor",
+        "selectDatabase": "Välj källdatabas",
+        "table": "Källor",
+        "selectTable": "Välj källtabell",
+        "tableType": "Typ av källtabell",
+        "selectTableType": "Välj källtabelltyp",
+        "twinIDProperty": "Egenskapen Källtvilling-ID",
+        "selectTwinIDProperty": "Välj egenskap för källtvilling-ID"
+      },
+      "target": {
+        "database": "Måldatabas",
+        "selectDatabase": "Välj måldatabas"
+      },
+      "actions": {
+        "ingest": "Mata in data till källtabellen",
+        "cook": "Cook tvillingar graf",
+        "pushTwinsGraph": "Skicka tvillingdiagram till måldatabasen"
+      },
+      "title": "Data pusher"
     }
   }
 }

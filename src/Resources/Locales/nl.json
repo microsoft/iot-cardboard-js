@@ -1535,19 +1535,40 @@
   },
   "legionApp": {
     "dataPusher": {
-      "title": "Gegevens verbinden en pushen",
-      "database": "Databank",
-      "table": "Tafel",
       "simulationType": "Simulatie type",
-      "selectDatabasePlaceholder": "Selecteer database",
-      "selectTablePlaceholder": "Selecteer tabel",
-      "selectSimulationTypePlaceholder": "Selecteer simulatietype",
-      "primaryActionLabel": "Simulatiegegevens verbinden en pushen",
       "progress": {
-        "createDatabase": "Database maken...",
         "createTable": "Tabel maken...",
-        "createTables": "Tabellen maken..."
-      }
+        "createTables": "Tabellen maken...",
+        "createTargetDatabase": "Doeldatabase maken...",
+        "createSourceDatabase": "Brondatabase maken...",
+        "ingest": "Inname..."
+      },
+      "selectSimulationType": "Selecteer simulatietype",
+      "tabs": {
+        "setup": "Setup",
+        "ingest": "Inslikken",
+        "cook": "Koken"
+      },
+      "source": {
+        "database": "Brondatabase",
+        "selectDatabase": "Selecteer brondatabase",
+        "table": "Brontabel",
+        "selectTable": "Brontabel selecteren",
+        "tableType": "Type brontabel",
+        "selectTableType": "Type brontabel selecteren",
+        "twinIDProperty": "Eigenschap Source twin ID",
+        "selectTwinIDProperty": "Eigenschap brontwee-ID selecteren"
+      },
+      "target": {
+        "database": "Doeldatabase",
+        "selectDatabase": "Selecteer doeldatabase"
+      },
+      "actions": {
+        "ingest": "Gegevens opnemen in de brontabel",
+        "cook": "Cook twins grafiek",
+        "pushTwinsGraph": "Push twins graph naar doeldatabase"
+      },
+      "title": "Data pusher |"
     }
   }
 }

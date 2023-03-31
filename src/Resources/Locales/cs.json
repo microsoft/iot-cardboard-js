@@ -1535,19 +1535,40 @@
   },
   "legionApp": {
     "dataPusher": {
-      "title": "Připojení a nabízení dat",
-      "database": "Databáze",
-      "table": "Stůl",
       "simulationType": "Typ simulace",
-      "selectDatabasePlaceholder": "Vybrat databázi",
-      "selectTablePlaceholder": "Vybrat tabulku",
-      "selectSimulationTypePlaceholder": "Vyberte typ simulace",
-      "primaryActionLabel": "Připojení a odesílání dat simulace",
       "progress": {
-        "createDatabase": "Tvorba databáze...",
         "createTable": "Vytváření tabulky...",
-        "createTables": "Vytváření tabulek..."
-      }
+        "createTables": "Vytváření tabulek...",
+        "createTargetDatabase": "Vytvoření cílové databáze...",
+        "createSourceDatabase": "Vytváření zdrojové databáze...",
+        "ingest": "Požitím..."
+      },
+      "selectSimulationType": "Vyberte typ simulace",
+      "tabs": {
+        "setup": "Sestava",
+        "ingest": "Spolknout potravu",
+        "cook": "Kuchař"
+      },
+      "source": {
+        "database": "Zdrojová databáze",
+        "selectDatabase": "Vybrat zdrojovou databázi",
+        "table": "Zdrojová tabulka",
+        "selectTable": "Vybrat zdrojovou tabulku",
+        "tableType": "Typ zdrojové tabulky",
+        "selectTableType": "Vyberte typ zdrojové tabulky",
+        "twinIDProperty": "Vlastnost ID zdrojového dvojčete",
+        "selectTwinIDProperty": "Vyberte vlastnost ID dvojčete zdroje"
+      },
+      "target": {
+        "database": "Cílová databáze",
+        "selectDatabase": "Vybrat cílovou databázi"
+      },
+      "actions": {
+        "ingest": "Ingestování dat do zdrojové tabulky",
+        "cook": "Graf Cook dvojčat",
+        "pushTwinsGraph": "Odeslání grafu dvojčat do cílové databáze"
+      },
+      "title": "Posunovač dat"
     }
   }
 }
