@@ -24,7 +24,12 @@ import {
 } from '../../../Adapters/Standalone/DataManagement/Models/DataManagementAdapter.types';
 import { useDataPusherContext } from '../DataPusher';
 import { useTranslation } from 'react-i18next';
-import { TableTypeOptions, TableTypes } from '../DataPusher.types';
+import {
+    INGESTION_MAPPING_NAME,
+    TableTypeOptions,
+    TableTypes,
+    TIMESTAMP_COLUMN_NAME
+} from '../DataPusher.types';
 
 const INGESTION_TICK_INTERVAL = 5000;
 
@@ -58,8 +63,8 @@ const Ingest: React.FC = () => {
     const tableColumns = useMemo<Array<IColumn>>(
         () =>
             tableData?.Columns.map((c, idx) => ({
-                key: c,
-                name: c,
+                key: c.columnName,
+                name: c.columnName,
                 minWidth: 20,
                 maxWidth: 100,
                 isResizable: true,
@@ -80,7 +85,11 @@ const Ingest: React.FC = () => {
     });
     const getTableState = useAdapter({
         adapterMethod: (params: IGetTableAdapterParams) =>
-            adapter.getTable(params.databaseName, params.tableName),
+            adapter.getTable(
+                params.databaseName,
+                params.tableName,
+                TIMESTAMP_COLUMN_NAME
+            ),
         isAdapterCalledOnMount: false,
         refetchDependencies: [adapter]
     });
@@ -89,7 +98,8 @@ const Ingest: React.FC = () => {
             adapter.upsertTable(
                 params.databaseName,
                 params.tableName,
-                params.rows
+                params.rows,
+                INGESTION_MAPPING_NAME
             ),
         isAdapterCalledOnMount: false,
         refetchDependencies: [adapter]

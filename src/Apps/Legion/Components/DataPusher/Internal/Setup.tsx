@@ -21,6 +21,7 @@ import { getReactSelectStyles } from '../../../../../Resources/Styles/ReactSelec
 import { useTranslation } from 'react-i18next';
 import { useDataPusherContext } from '../DataPusher';
 import {
+    INGESTION_MAPPING_NAME,
     IReactSelectOption,
     TableColumns,
     TableTypeOptions,
@@ -74,7 +75,8 @@ const Setup: React.FC = () => {
             adapter.createTable(
                 params.databaseName,
                 params.tableName,
-                params.columns
+                params.columns,
+                INGESTION_MAPPING_NAME
             ),
         isAdapterCalledOnMount: false,
         refetchDependencies: [adapter]
