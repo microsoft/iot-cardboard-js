@@ -70,13 +70,23 @@ export const cookSourceTable = (
                     const idxOfValueColumn = table.Columns.findIndex(
                         (c) => c.columnName === VALUE_COLUMN_NAME
                     );
+                    const idxOfPropertyColumn = table.Columns.findIndex(
+                        (c) => c.columnName === PROPERTY_COLUMN_NAME
+                    );
                     if (r[idxOfValueColumn] !== null) {
-                        twinIdToPropertiesMapping[twinId].push({
-                            name: r[idxOfValueColumn],
-                            dataType: table.Columns.find(
-                                (c) => c.columnName === PROPERTY_COLUMN_NAME
-                            ).columnDataType
-                        });
+                        // append non null property to existing property bag
+                        if (
+                            twinIdToPropertiesMapping[twinId].findIndex(
+                                (prop) => prop.name === r[idxOfPropertyColumn]
+                            ) === -1
+                        ) {
+                            twinIdToPropertiesMapping[twinId].push({
+                                name: r[idxOfPropertyColumn],
+                                dataType: table.Columns.find(
+                                    (c) => c.columnName === PROPERTY_COLUMN_NAME
+                                ).columnDataType
+                            });
+                        }
                     }
                 }
                 break;
@@ -109,6 +119,7 @@ export const cookSourceTable = (
             uniquePropertySets.push(propertySets[idx]);
             const modelPropertyIds = [];
             propertySets[idx].forEach((prop) => {
+                // trace properties and create one if not exists
                 const modelProperty = properties.find(
                     (mP) => prop.name === mP.sourcePropName
                 );

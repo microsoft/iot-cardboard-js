@@ -23,6 +23,7 @@ import { useDataPusherContext } from '../DataPusher';
 import { useTranslation } from 'react-i18next';
 import {
     IReactSelectOption,
+    TableTypeOptions,
     TableTypes,
     TIMESTAMP_COLUMN_NAME
 } from '../DataPusher.types';
@@ -64,6 +65,10 @@ const Cook: React.FC = () => {
         selectedSourceTwinIDColumn,
         setSelectedSourceTwinIDColumn
     ] = useState<string>(null);
+    const [
+        selectedSourceTableType,
+        setSelectedSourceTableType
+    ] = useState<string>(TableTypes.Wide);
     const [sourceTableData, setSourceTableData] = useState<ITable>(null);
     const [adapterResult, setAdapterResult] = useState(null);
     const [cookAssets, setCookAssets] = useState<ICookAssets>(null);
@@ -166,19 +171,26 @@ const Cook: React.FC = () => {
         },
         []
     );
+    const handleSourceTableTypeChange = useCallback(
+        (_event, option: IDropdownOption) => {
+            setSelectedSourceTableType(option.key as string);
+        },
+        []
+    );
     const handleCookButtonClick = useCallback(() => {
         setCookAssets(
             cookSourceTable(
                 `${adapter.connectionString}/${selectedSourceDatabase}/${selectedSourceTable}`,
                 sourceTableData,
                 selectedSourceTwinIDColumn,
-                TableTypes.Wide // TODO: for now cook it for wide schema type
+                selectedSourceTableType as TableTypes
             )
         );
     }, [
         adapter.connectionString,
         selectedSourceDatabase,
         selectedSourceTable,
+        selectedSourceTableType,
         selectedSourceTwinIDColumn,
         sourceTableData
     ]);
@@ -271,6 +283,15 @@ const Cook: React.FC = () => {
                               )
                     }
                     selectedKey={selectedSourceTwinIDColumn}
+                />
+                <Dropdown
+                    label={t('legionApp.dataPusher.source.tableType')}
+                    onChange={handleSourceTableTypeChange}
+                    options={TableTypeOptions}
+                    placeholder={t(
+                        'legionApp.dataPusher.source.selectTableType'
+                    )}
+                    defaultSelectedKey={selectedSourceTableType}
                 />
                 <StackItem>
                     <Label>{t('legionApp.dataPusher.target.database')}</Label>
