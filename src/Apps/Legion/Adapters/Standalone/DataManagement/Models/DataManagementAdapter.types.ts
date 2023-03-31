@@ -70,7 +70,17 @@ export interface ITable {
 
 export interface ITableColumn {
     columnName: string;
-    columnDataType: any;
+    columnDataType:
+        | 'bool'
+        | 'datetime'
+        | 'dynamic'
+        | 'guid'
+        | 'int'
+        | 'long'
+        | 'real'
+        | 'string'
+        | 'timespan'
+        | 'decimal';
 }
 
 export interface ITableIngestionMapping {
