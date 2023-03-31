@@ -18,7 +18,7 @@ export const getStyles = (_props: IDataPusherStyleProps): IDataPusherStyles => {
         ],
         tableContainer: [
             classNames.tableContainer,
-            { overflow: 'auto', height: 300 }
+            { overflow: 'auto', height: 240 }
         ],
         subComponentStyles: {
             stack: {
