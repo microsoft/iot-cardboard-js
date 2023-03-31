@@ -6,7 +6,8 @@ import { CardboardClassNamePrefix } from '../../../../../../Models/Constants';
 
 const classPrefix = `${CardboardClassNamePrefix}-datasourcestep`;
 const classNames = {
-    root: `${classPrefix}-root`
+    root: `${classPrefix}-root`,
+    informationText: `${classPrefix}-information-text`
 };
 
 // export const DATASOURCESTEP_CLASS_NAMES = classNames;
@@ -15,6 +16,16 @@ export const getStyles = (
 ): IDataSourceStepStyles => {
     return {
         root: [classNames.root],
-        subComponentStyles: {}
+        informationText: [
+            classNames.informationText,
+            { fontSize: 12, opacity: 0.6 }
+        ],
+        subComponentStyles: {
+            stack: {
+                root: {
+                    width: 300
+                }
+            }
+        }
     };
 };

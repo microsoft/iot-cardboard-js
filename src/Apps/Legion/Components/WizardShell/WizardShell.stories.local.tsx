@@ -12,7 +12,9 @@ import {
     mockTwins
 } from './Internal/TwinVerificationStep/TwinVerificationMockData';
 import { ICookAssets } from '../../Models/Interfaces';
-import MockDataManagementAdapter from '../../Adapters/Standalone/DataManagement/MockDataManagementAdapter';
+import LegionAdapter from '../../Adapters/Mixin/LegionAdapter';
+import MsalAuthService from '../../../../Models/Services/MsalAuthService';
+import useAuthParams from '../../../../../.storybook/useAuthParams';
 
 const wrapperStyle = { width: '100%', height: '600px', padding: 8 };
 
@@ -62,10 +64,18 @@ const Template: WizardShellStory = (args) => {
         finishStepData: null
     };
 
-    return (
+    const authenticationParameters = useAuthParams();
+    return !authenticationParameters ? (
+        <div></div>
+    ) : (
         <WizardNavigationContextProvider
             initialState={{
-                adapter: new MockDataManagementAdapter(),
+                adapter: new LegionAdapter(
+                    new MsalAuthService(
+                        authenticationParameters.adt.aadParameters
+                    ),
+                    authenticationParameters.adx.clusterUrl
+                ),
                 steps: steps,
                 currentStep: 0,
                 stepData: stepData
@@ -76,5 +86,5 @@ const Template: WizardShellStory = (args) => {
     );
 };
 
-export const Mock = Template.bind({}) as WizardShellStory;
-Mock.args = {} as IWizardShellProps;
+export const ADX = Template.bind({}) as WizardShellStory;
+ADX.args = {} as IWizardShellProps;

@@ -1,7 +1,9 @@
 import { IStyle, IStyleFunctionOrObject } from '@fluentui/react';
 import { IExtendedTheme } from '../../../../Theming/Theme.types';
+import { IDataManagementAdapter } from '../../Adapters/Standalone/DataManagement/Models/DataManagementAdapter.types';
 
 export interface IWizardShellProps {
+    adapter: IDataManagementAdapter;
     /**
      * Call to provide customized styling that will layer on top of the variant rules.
      */

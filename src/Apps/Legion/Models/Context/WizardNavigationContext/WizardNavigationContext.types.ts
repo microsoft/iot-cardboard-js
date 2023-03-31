@@ -1,5 +1,6 @@
 import React from 'react';
 import { IStepperWizardStep } from '../../../../../Components/StepperWizard/StepperWizard.types';
+import { IDataManagementAdapter } from '../../../Adapters/Standalone/DataManagement/Models/DataManagementAdapter.types';
 import { ICookAssets, ITwinGraph } from '../../Interfaces';
 
 // Context types
@@ -29,6 +30,7 @@ export interface WizardStepData {
 }
 
 export interface IWizardNavigationContextState {
+    adapter: IDataManagementAdapter;
     currentStep: number;
     steps: Array<IStepperWizardStep>;
     stepData?: WizardStepData;
