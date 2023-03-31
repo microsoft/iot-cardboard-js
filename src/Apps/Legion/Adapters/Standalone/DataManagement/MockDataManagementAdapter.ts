@@ -5,7 +5,8 @@ import {
     IDataManagementAdapter,
     IIngestRow,
     ITable,
-    ITableColumn
+    ITableColumn,
+    ITableIngestionMapping
 } from './Models/DataManagementAdapter.types';
 
 export default class MockDataManagementAdapter
@@ -85,7 +86,9 @@ export default class MockDataManagementAdapter
     async createTable(
         _databaseName: string,
         _tableName: string,
-        _columns: Array<ITableColumn>
+        _columns: Array<ITableColumn>,
+        _ingestionMappingName: string,
+        _ingestionMapping?: Array<ITableIngestionMapping>
     ) {
         try {
             await this.mockNetwork();
@@ -104,7 +107,8 @@ export default class MockDataManagementAdapter
     async upsertTable(
         _databaseName: string,
         _tableName: string,
-        _data: IIngestRow[]
+        _data: IIngestRow[],
+        _ingestionMappingName: string
     ) {
         try {
             await this.mockNetwork();
@@ -120,12 +124,20 @@ export default class MockDataManagementAdapter
         }
     }
 
-    async getTable(_databaseName: string, _tableName: string) {
+    async getTable(
+        _databaseName: string,
+        _tableName: string,
+        _orderByColumn?: string
+    ) {
         try {
             await this.mockNetwork();
             return new AdapterResult<DataManagementAdapterData<ITable>>({
                 result: new DataManagementAdapterData({
-                    Columns: ['Id', 'Timestamp', 'Temperature'],
+                    Columns: [
+                        { columnName: 'Id', columnDataType: 'string' },
+                        { columnName: 'Timestamp', columnDataType: 'datetime' },
+                        { columnName: 'Temperature', columnDataType: 'real' }
+                    ],
                     Rows: [
                         [
                             'Salt_Machine_01',

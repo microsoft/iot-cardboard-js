@@ -16,16 +16,20 @@ export interface IDataManagementAdapter extends IBaseAdapter {
     createTable: (
         databaseName: string,
         tableName: string,
-        columns: Array<ITableColumn>
+        columns: Array<ITableColumn>,
+        ingestionMappingName: string,
+        ingestionMapping?: Array<ITableIngestionMapping>
     ) => AdapterReturnType<DataManagementAdapterData<boolean>>;
     upsertTable: (
         databaseName: string,
         tableName: string,
-        data: Array<IIngestRow>
+        data: Array<IIngestRow>,
+        ingestionMappingName: string
     ) => AdapterReturnType<DataManagementAdapterData<boolean>>;
     getTable: (
         databaseName: string,
-        tableName: string
+        tableName: string,
+        orderByColumn?: string
     ) => AdapterReturnType<DataManagementAdapterData<ITable>>;
 }
 
@@ -60,13 +64,13 @@ export interface IUpsertTableAdapterParams {
 }
 
 export interface ITable {
-    Columns: Array<string>;
+    Columns: Array<ITableColumn>;
     Rows: Array<Array<any>>;
 }
 
 export interface ITableColumn {
-    column: string;
-    dataType: any;
+    columnName: string;
+    columnDataType: any;
 }
 
 export interface ITableIngestionMapping {
@@ -77,6 +81,3 @@ export interface ITableIngestionMapping {
 export interface IIngestRow {
     [key: string]: any;
 }
-
-export const TIMESTAMP_COLUMN_NAME = 'Timestamp';
-export const INGESTION_MAPPING_NAME = 'DataPusherMapping';

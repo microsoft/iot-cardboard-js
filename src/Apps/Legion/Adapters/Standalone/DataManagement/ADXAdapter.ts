@@ -7,11 +7,9 @@ import { DataManagementAdapterData } from './Models/DataManagementAdapter.data';
 import {
     IDataManagementAdapter,
     IIngestRow,
-    INGESTION_MAPPING_NAME,
     ITable,
     ITableColumn,
-    ITableIngestionMapping,
-    TIMESTAMP_COLUMN_NAME
+    ITableIngestionMapping
 } from './Models/DataManagementAdapter.types';
 
 export default class ADXAdapter
@@ -140,6 +138,7 @@ export default class ADXAdapter
         databaseName: string,
         tableName: string,
         columns: Array<ITableColumn>,
+        ingestionMappingName: string,
         ingestionMapping?: Array<ITableIngestionMapping>
     ) {
         const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
@@ -156,7 +155,9 @@ export default class ADXAdapter
                     db: databaseName,
                     csl: `.create table ${tableName} (`.concat(
                         columns.reduce(function (acc, curr, idx) {
-                            acc = acc.concat(`${curr.column}:${curr.dataType}`);
+                            acc = acc.concat(
+                                `${curr.columnName}:${curr.columnDataType}`
+                            );
 
                             if (idx < columns.length - 1) {
                                 acc = acc + ', ';
@@ -210,14 +211,14 @@ export default class ADXAdapter
                     },
                     data: {
                         db: databaseName,
-                        csl: `.create table ${tableName} ingestion json mapping '${INGESTION_MAPPING_NAME}' '${JSON.stringify(
+                        csl: `.create table ${tableName} ingestion json mapping '${ingestionMappingName}' '${JSON.stringify(
                             ingestionMapping
                                 ? ingestionMapping
                                 : columns.map(
                                       (c) =>
                                           ({
-                                              column: c.column,
-                                              path: `$.${c.column}`
+                                              column: c.columnName,
+                                              path: `$.${c.columnName}`
                                           } as ITableIngestionMapping)
                                   )
                         )}'`
@@ -241,7 +242,8 @@ export default class ADXAdapter
     async upsertTable(
         databaseName: string,
         tableName: string,
-        rows: Array<IIngestRow>
+        rows: Array<IIngestRow>,
+        ingestionMappingName: string
     ) {
         const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
         return await adapterMethodSandbox.safelyFetchData(async (token) => {
@@ -255,7 +257,7 @@ export default class ADXAdapter
                 },
                 params: {
                     streamFormat: 'JSON',
-                    mappingName: INGESTION_MAPPING_NAME
+                    mappingName: ingestionMappingName
                 },
                 data: rows.reduce((acc, row, idx) => {
                     acc = acc.concat(JSON.stringify(row));
@@ -278,7 +280,11 @@ export default class ADXAdapter
         }, 'adx');
     }
 
-    async getTable(databaseName: string, tableName: string) {
+    async getTable(
+        databaseName: string,
+        tableName: string,
+        orderByColumn?: string
+    ) {
         const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
         return await adapterMethodSandbox.safelyFetchData(async (token) => {
             const axiosResult = await axios({
@@ -291,7 +297,9 @@ export default class ADXAdapter
                 },
                 data: {
                     db: databaseName,
-                    csl: `${tableName} | order by ${TIMESTAMP_COLUMN_NAME} desc | take 100`
+                    csl: `${tableName}${
+                        orderByColumn ? ` | order by ${orderByColumn} desc` : ''
+                    }`
                 }
             }).catch((err) => {
                 adapterMethodSandbox.pushError({
@@ -303,8 +311,11 @@ export default class ADXAdapter
             });
             return new DataManagementAdapterData<ITable>({
                 Columns: axiosResult?.data.Tables[0].Columns.reduce(
-                    (acc, r) => {
-                        acc.push(r.ColumnName);
+                    (acc: Array<ITableColumn>, r) => {
+                        acc.push({
+                            columnName: r.ColumnName,
+                            columnDataType: r.ColumnType
+                        });
                         return acc;
                     },
                     []

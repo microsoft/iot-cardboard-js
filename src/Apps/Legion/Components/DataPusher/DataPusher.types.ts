@@ -8,8 +8,7 @@ import {
 import { IExtendedTheme } from '../../../../Theming/Theme.types';
 import {
     IDataManagementAdapter,
-    ITableColumn,
-    TIMESTAMP_COLUMN_NAME
+    ITableColumn
 } from '../../Adapters/Standalone/DataManagement/Models/DataManagementAdapter.types';
 
 export interface IDataPusherProps {
@@ -43,6 +42,13 @@ export interface IDataPusherContext {
     classNames: IProcessedStyleSet<IDataPusherStyles>;
 }
 
+export const ID_COLUMN_NAME = 'ID';
+export const TIMESTAMP_COLUMN_NAME = 'Timestamp';
+export const PROPERTY_COLUMN_NAME = 'PropertyName';
+export const VALUE_COLUMN_NAME = 'Value';
+
+export const INGESTION_MAPPING_NAME = 'DataPusherMapping';
+
 export enum TableTypes {
     Wide = 'Wide',
     Narrow = 'Narrow',
@@ -51,22 +57,23 @@ export enum TableTypes {
 
 export const TableColumns: Record<TableTypes, Array<ITableColumn>> = {
     Wide: [
-        { column: 'ID', dataType: 'string' },
-        { column: TIMESTAMP_COLUMN_NAME, dataType: 'datetime' },
-        { column: 'Temperature', dataType: 'real' },
-        { column: 'Pressure', dataType: 'real' },
-        { column: 'FanSpeed', dataType: 'real' },
-        { column: 'FlowRate', dataType: 'real' }
+        { columnName: ID_COLUMN_NAME, columnDataType: 'string' },
+        { columnName: TIMESTAMP_COLUMN_NAME, columnDataType: 'datetime' },
+        { columnName: 'Temperature', columnDataType: 'real' },
+        { columnName: 'Pressure', columnDataType: 'real' },
+        { columnName: 'FanSpeed', columnDataType: 'real' },
+        { columnName: 'FlowRate', columnDataType: 'real' }
     ],
     Narrow: [
-        { column: 'ID', dataType: 'string' },
-        { column: TIMESTAMP_COLUMN_NAME, dataType: 'datetime' },
-        { column: 'PropertyName', dataType: 'string' }
+        { columnName: ID_COLUMN_NAME, columnDataType: 'string' },
+        { columnName: TIMESTAMP_COLUMN_NAME, columnDataType: 'datetime' },
+        { columnName: PROPERTY_COLUMN_NAME, columnDataType: 'string' },
+        { columnName: VALUE_COLUMN_NAME, columnDataType: 'dynamic' }
     ],
     Tags: [
-        { column: 'ID', dataType: 'string' },
-        { column: TIMESTAMP_COLUMN_NAME, dataType: 'datetime' },
-        { column: 'Value', dataType: 'dynamic' }
+        { columnName: ID_COLUMN_NAME, columnDataType: 'string' },
+        { columnName: TIMESTAMP_COLUMN_NAME, columnDataType: 'datetime' },
+        { columnName: VALUE_COLUMN_NAME, columnDataType: 'dynamic' }
     ]
 };
 

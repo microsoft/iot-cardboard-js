@@ -21,11 +21,18 @@ import {
 } from '../../../Adapters/Standalone/DataManagement/Models/DataManagementAdapter.types';
 import { useDataPusherContext } from '../DataPusher';
 import { useTranslation } from 'react-i18next';
-import { IReactSelectOption } from '../DataPusher.types';
+import {
+    IReactSelectOption,
+    TableTypeOptions,
+    TableTypes,
+    TIMESTAMP_COLUMN_NAME
+} from '../DataPusher.types';
 import CreatableSelect from 'react-select/creatable';
 import { ActionMeta } from 'react-select';
 import { getReactSelectStyles } from '../../../../../Resources/Styles/ReactSelect.styles';
 import { useExtendedTheme } from '../../../../../Models/Hooks/useExtendedTheme';
+import { cookSourceTable } from '../../../Services/DataPusherUtils';
+import { ICookAssets } from '../../../Models/Interfaces';
 
 const Cook: React.FC = () => {
     const { adapter, classNames } = useDataPusherContext();
@@ -58,24 +65,29 @@ const Cook: React.FC = () => {
         selectedSourceTwinIDColumn,
         setSelectedSourceTwinIDColumn
     ] = useState<string>(null);
-    const [tableData, setTableData] = useState<ITable>(null);
+    const [
+        selectedSourceTableType,
+        setSelectedSourceTableType
+    ] = useState<string>(TableTypes.Wide);
+    const [sourceTableData, setSourceTableData] = useState<ITable>(null);
     const [adapterResult, setAdapterResult] = useState(null);
+    const [cookAssets, setCookAssets] = useState<ICookAssets>(null);
 
     // hooks
     const { t } = useTranslation();
     const theme = useExtendedTheme();
-    const tableColumns = useMemo<Array<IColumn>>(
+    const sourceTableColumns = useMemo<Array<IColumn>>(
         () =>
-            tableData?.Columns.map((c, idx) => ({
-                key: c,
-                name: c,
+            sourceTableData?.Columns.map((c, idx) => ({
+                key: c.columnName,
+                name: c.columnName,
                 minWidth: 20,
                 maxWidth: 100,
                 isResizable: true,
                 isCollapsible: true,
                 onRender: (item) => item[idx]
             })) || [],
-        [tableData]
+        [sourceTableData]
     );
     const getDatabasesState = useAdapter({
         adapterMethod: () => adapter.getDatabases(),
@@ -95,7 +107,11 @@ const Cook: React.FC = () => {
     });
     const getTableState = useAdapter({
         adapterMethod: (params: IGetTableAdapterParams) =>
-            adapter.getTable(params.databaseName, params.tableName),
+            adapter.getTable(
+                params.databaseName,
+                params.tableName,
+                TIMESTAMP_COLUMN_NAME
+            ),
         isAdapterCalledOnMount: false,
         refetchDependencies: [adapter]
     });
@@ -106,7 +122,8 @@ const Cook: React.FC = () => {
             setSelectedSourceDatabase(option.text);
             setSelectedSourceTable(null);
             setSelectedSourceTwinIDColumn(null);
-            setTableData(null);
+            setSourceTableData(null);
+            setCookAssets(null);
             // fetch tables of selected database
             getTablesState.callAdapter({
                 databaseName: option.text
@@ -139,7 +156,8 @@ const Cook: React.FC = () => {
         (_event, option: IDropdownOption) => {
             setSelectedSourceTable(option.text);
             setSelectedSourceTwinIDColumn(null);
-            setTableData(null);
+            setSourceTableData(null);
+            setCookAssets(null);
             getTableState.callAdapter({
                 databaseName: selectedSourceDatabase,
                 tableName: option.text
@@ -153,7 +171,30 @@ const Cook: React.FC = () => {
         },
         []
     );
+    const handleSourceTableTypeChange = useCallback(
+        (_event, option: IDropdownOption) => {
+            setSelectedSourceTableType(option.key as string);
+        },
+        []
+    );
     const handleCookButtonClick = useCallback(() => {
+        setCookAssets(
+            cookSourceTable(
+                `${adapter.connectionString}/${selectedSourceDatabase}/${selectedSourceTable}`,
+                sourceTableData,
+                selectedSourceTwinIDColumn,
+                selectedSourceTableType as TableTypes
+            )
+        );
+    }, [
+        adapter.connectionString,
+        selectedSourceDatabase,
+        selectedSourceTable,
+        selectedSourceTableType,
+        selectedSourceTwinIDColumn,
+        sourceTableData
+    ]);
+    const handlePushTargetButtonClick = useCallback(() => {
         alert('Not implemented yet!');
     }, []);
 
@@ -176,9 +217,12 @@ const Cook: React.FC = () => {
     useEffect(() => {
         if (getTableState?.adapterResult?.result) {
             const data = getTableState.adapterResult.getData() as ITable;
-            setTableData(data);
+            setSourceTableData(data);
             setSourceTableColumnOptions(
-                data.Columns.map((d) => ({ key: d, text: d }))
+                data.Columns.map((d) => ({
+                    key: d.columnName,
+                    text: d.columnName
+                }))
             );
         }
     }, [getTableState?.adapterResult]);
@@ -240,6 +284,15 @@ const Cook: React.FC = () => {
                     }
                     selectedKey={selectedSourceTwinIDColumn}
                 />
+                <Dropdown
+                    label={t('legionApp.dataPusher.source.tableType')}
+                    onChange={handleSourceTableTypeChange}
+                    options={TableTypeOptions}
+                    placeholder={t(
+                        'legionApp.dataPusher.source.selectTableType'
+                    )}
+                    defaultSelectedKey={selectedSourceTableType}
+                />
                 <StackItem>
                     <Label>{t('legionApp.dataPusher.target.database')}</Label>
                     <CreatableSelect
@@ -256,8 +309,19 @@ const Cook: React.FC = () => {
                 </StackItem>
                 <PrimaryButton
                     text={t('legionApp.dataPusher.actions.cook')}
-                    disabled={!(selectedSourceTable && selectedTargetDatabase)}
+                    disabled={
+                        !(
+                            selectedSourceTable &&
+                            selectedSourceTwinIDColumn &&
+                            selectedTargetDatabase
+                        )
+                    }
                     onClick={handleCookButtonClick}
+                />
+                <PrimaryButton
+                    text={t('legionApp.dataPusher.actions.pushTwinsGraph')}
+                    disabled={!(cookAssets && selectedTargetDatabase)}
+                    onClick={handlePushTargetButtonClick}
                 />
                 <StackItem>
                     {createDatabaseState.isLoading && (
@@ -273,11 +337,39 @@ const Cook: React.FC = () => {
                     </p>
                 </StackItem>
             </Stack>
+            {cookAssets && (
+                <div className={classNames.informationText}>
+                    <p>{`${
+                        cookAssets.models.length
+                    } possible models found with properties ${cookAssets.models
+                        .map((model) => {
+                            return `[${model.propertyIds
+                                .map(
+                                    (propId) =>
+                                        cookAssets.properties.find(
+                                            (p) => p.id === propId
+                                        ).name
+                                )
+                                .join(',')}]`;
+                        })
+                        .join(',')}`}</p>
+                    <p>{`${
+                        cookAssets.properties.length
+                    } unique properties found: ${cookAssets.properties
+                        .map((p) => p.name)
+                        .join(',')}`}</p>
+                    <p>{`${
+                        cookAssets.twins.length
+                    } unique twins found: ${cookAssets.twins
+                        .map((t) => t.id)
+                        .join(',')}`}</p>
+                </div>
+            )}
             <div className={classNames.tableContainer}>
-                {tableData?.Rows.length > 0 && (
+                {sourceTableData?.Rows.length > 0 && (
                     <DetailsList
-                        items={tableData.Rows}
-                        columns={tableColumns}
+                        items={sourceTableData.Rows}
+                        columns={sourceTableColumns}
                         isHeaderVisible={true}
                         selectionMode={SelectionMode.none}
                     />
