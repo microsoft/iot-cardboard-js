@@ -14,8 +14,8 @@ import {
 import { getStyles } from './DataSourceStep.styles';
 import {
     classNamesFunction,
+    DefaultButton,
     Dropdown,
-    IColumn,
     IDropdownOption,
     Label,
     PrimaryButton,
@@ -29,7 +29,6 @@ import { getDebugLogger } from '../../../../../../Models/Services/Utils';
 import { useExtendedTheme } from '../../../../../../Models/Hooks/useExtendedTheme';
 import CreatableSelect from 'react-select/creatable';
 import {
-    IReactSelectOption,
     TableTypeOptions,
     TableTypes,
     TIMESTAMP_COLUMN_NAME
@@ -43,13 +42,19 @@ import {
 import { ICookAssets } from '../../../../Models/Interfaces';
 import useAdapter from '../../../../../../Models/Hooks/useAdapter';
 import { ActionMeta } from 'react-select';
-import { cookSourceTable } from '../../../../Services/DataPusherUtils';
+import {
+    cookSourceTable,
+    getViewModelsFromCookedAssets,
+    getViewTwinsFromCookedAssets
+} from '../../../../Services/DataPusherUtils';
 import { getReactSelectStyles } from '../../../../../../Resources/Styles/ReactSelect.styles';
 import { useTranslation } from 'react-i18next';
 import {
     dateSourceStepReducer,
     defaultDataSourceStepState
 } from './DataSourceStep.state';
+import { useWizardNavigationContext } from '../../../../Models/Context/WizardNavigationContext/WizardNavigationContext';
+import { WizardNavigationContextActionType } from '../../../../Models/Context/WizardNavigationContext/WizardNavigationContext.types';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('DataSourceStep', debugLogging);
@@ -69,6 +74,9 @@ const DataSourceStep: React.FC<IDataSourceStepProps> = (props) => {
 
     const [adapterResult, setAdapterResult] = useState(null);
     const [cookAssets, setCookAssets] = useState<ICookAssets>(null);
+
+    // contexts
+    const { wizardNavigationContextDispatch } = useWizardNavigationContext();
 
     // hooks
     const { t } = useTranslation();
@@ -184,6 +192,38 @@ const DataSourceStep: React.FC<IDataSourceStepProps> = (props) => {
         state.selectedSourceTwinIDColumn,
         state.selectedSourceTableType
     ]);
+
+    const handleNextClick = () => {
+        debugger;
+        const viewModels = getViewModelsFromCookedAssets(cookAssets.models);
+        const viewTwins = getViewTwinsFromCookedAssets(
+            cookAssets.twins,
+            viewModels
+        );
+        wizardNavigationContextDispatch({
+            type: WizardNavigationContextActionType.SET_CONNECT_STEP_DATA,
+            payload: {
+                selectedSourceDatabase: state.selectedSourceDatabase,
+                selectedSourceTable: state.selectedSourceTable,
+                selectedSourceTwinIDColumn: state.selectedSourceTwinIDColumn,
+                selectedSourceTableType: state.selectedSourceTableType,
+                selectedTargetDatabase: state.selectedTargetDatabase.label,
+                cookedAssets: cookAssets
+            }
+        });
+        wizardNavigationContextDispatch({
+            type: WizardNavigationContextActionType.SET_VERIFICATION_STEP_DATA,
+            payload: {
+                models: viewModels,
+                properties: cookAssets.properties,
+                twins: viewTwins
+            }
+        });
+        wizardNavigationContextDispatch({
+            type: WizardNavigationContextActionType.NAVIGATE_TO,
+            payload: { stepNumber: 1 }
+        });
+    };
 
     // side effects
     useEffect(() => {
@@ -301,7 +341,7 @@ const DataSourceStep: React.FC<IDataSourceStepProps> = (props) => {
                         value={state.selectedTargetDatabase}
                     />
                 </StackItem>
-                <PrimaryButton
+                <DefaultButton
                     text={t('legionApp.dataPusher.actions.cook')}
                     disabled={
                         !(
@@ -354,6 +394,12 @@ const DataSourceStep: React.FC<IDataSourceStepProps> = (props) => {
                         .join(',')}`}</p>
                 </div>
             )}
+            <PrimaryButton
+                text="Next"
+                disabled={!cookAssets}
+                styles={classNames.subComponentStyles.button()}
+                onClick={handleNextClick}
+            />
         </div>
     );
 };

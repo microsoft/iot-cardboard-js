@@ -25,6 +25,13 @@ export const getStyles = (
                 root: {
                     width: 300
                 }
+            },
+            button: {
+                root: {
+                    position: 'absolute',
+                    right: 16,
+                    bottom: 0
+                }
             }
         }
     };

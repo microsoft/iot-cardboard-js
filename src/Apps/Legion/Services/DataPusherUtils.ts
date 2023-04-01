@@ -7,12 +7,17 @@ import {
     VALUE_COLUMN_NAME
 } from '../Components/DataPusher/DataPusher.types';
 import {
+    IViewModelFromCooked,
+    IViewTwinFromCooked
+} from '../Components/WizardShell/Internal/TwinVerificationStep/TwinVerificationStep.types';
+import {
     ICookAssets,
     IModel,
     IModelProperty,
     ITwin
 } from '../Models/Interfaces';
 import { ICookProperty } from '../Models/Types';
+import { getRandomColor } from './Utils';
 
 /**
  * This generates the unique twin to property mapping and then extracting naive model information from those and returning cooked models and twins
@@ -146,7 +151,7 @@ export const cookSourceTable = (
             };
             models.push(model);
         } else {
-            modelId = models[modelIdx];
+            modelId = models[modelIdx].id;
         }
         const twin: ITwin = {
             id: twinId,
@@ -172,3 +177,28 @@ export const cookSourceTable = (
 export const isSameSet = (array1: Array<string>, array2: Array<string>) =>
     array1.length === array2.length &&
     array1.every((e1) => array2.includes(e1));
+
+export const getViewModelsFromCookedAssets = (
+    models: Array<IModel>
+): Array<IViewModelFromCooked> => {
+    const viewModels: Array<IViewModelFromCooked> = models.map((m) => ({
+        id: m.id,
+        name: m.name,
+        color: getRandomColor(),
+        propertyIds: m.propertyIds,
+        selectedPropertyIds: m.propertyIds
+    }));
+    return viewModels;
+};
+
+export const getViewTwinsFromCookedAssets = (
+    twins: Array<ITwin>,
+    viewModels: Array<IViewModelFromCooked>
+): Array<IViewTwinFromCooked> => {
+    const viewTwins: Array<IViewTwinFromCooked> = twins.map((t) => ({
+        id: t.id,
+        model: viewModels.find((vM) => vM.id === t.modelId),
+        isSelected: true
+    }));
+    return viewTwins;
+};

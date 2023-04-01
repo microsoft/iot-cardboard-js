@@ -1,4 +1,5 @@
 import {
+    IButtonStyles,
     IDropdownOption,
     IStackStyles,
     IStyle,
@@ -38,6 +39,7 @@ export interface IDataSourceStepStyles {
 
 export interface IDataSourceStepSubComponentStyles {
     stack?: IStackStyles;
+    button?: Partial<IButtonStyles>;
 }
 
 export interface IDataSourceStepState {

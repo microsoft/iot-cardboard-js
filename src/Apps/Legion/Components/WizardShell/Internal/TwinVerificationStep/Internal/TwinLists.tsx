@@ -1,6 +1,12 @@
-import { DetailsList, IColumn } from '@fluentui/react';
-import React, { useState } from 'react';
+import {
+    DetailsList,
+    IColumn,
+    mergeStyleSets,
+    Selection
+} from '@fluentui/react';
+import React, { useRef, useState } from 'react';
 import { useWizardNavigationContext } from '../../../../../Models/Context/WizardNavigationContext/WizardNavigationContext';
+import { WizardNavigationContextActionType } from '../../../../../Models/Context/WizardNavigationContext/WizardNavigationContext.types';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface ITwinListsProps {}
@@ -11,6 +17,12 @@ const columns: IColumn[] = [
         minWidth: 100,
         name: 'ID',
         fieldName: 'id'
+    },
+    {
+        key: 'model-color-column',
+        minWidth: 20,
+        name: '',
+        fieldName: 'modelColor'
     },
     {
         key: 'model-column',
@@ -28,39 +40,60 @@ const columns: IColumn[] = [
 
 export const TwinLists: React.FC<ITwinListsProps> = (_props) => {
     // Contexts
-    const { wizardNavigationContextState } = useWizardNavigationContext();
+    const {
+        wizardNavigationContextState,
+        wizardNavigationContextDispatch
+    } = useWizardNavigationContext();
 
-    // Helper functions
-    const getPropertyNameFromIds = (ids: string[]) => {
-        const properties =
-            wizardNavigationContextState.stepData.verificationStepData
-                .properties;
-        const propertyNames = [];
-        properties.forEach((p) => {
-            if (ids.includes(p.id)) {
-                propertyNames.push(p.name);
+    const selection = useRef<Selection>(
+        new Selection({
+            onSelectionChanged: () => {
+                const selectedIndices = selection.current.getSelectedIndices();
+                wizardNavigationContextDispatch({
+                    type: WizardNavigationContextActionType.SET_SELECTED_TWINS,
+                    payload: { selectedTwinIndices: selectedIndices }
+                });
             }
-        });
-        return propertyNames.join(', ');
-    };
+        })
+    );
+
+    // Style
+    const style = mergeStyleSets({
+        dot: {
+            width: 8,
+            height: 8,
+            borderRadius: 4
+        }
+    });
+
+    const properties =
+        wizardNavigationContextState.stepData.verificationStepData.properties;
 
     const initializeTwinList = () => {
         // Generate twin list for details list
         const twins =
             wizardNavigationContextState.stepData.verificationStepData.twins;
-        const models =
-            wizardNavigationContextState.stepData.verificationStepData.models;
         if (twins) {
             const twinDetails = twins.map((t) => {
-                const twinModel = models.find((m) => m.id === t.modelId);
-                const twinModelName = twinModel ? twinModel.name : 'Unknown';
                 return {
                     key: `${t.id}_${Date.now()}`,
                     id: t.id,
-                    model: twinModelName,
-                    properties: twinModel
-                        ? getPropertyNameFromIds(twinModel.propertyIds)
-                        : ''
+                    modelColor: (
+                        <div
+                            className={style.dot}
+                            style={{
+                                background: t.model.color
+                            }}
+                        />
+                    ),
+                    model: t.model.name ?? t.model.id,
+                    properties: t.model.propertyIds
+                        .map(
+                            (modelPropertyId) =>
+                                properties.find((p) => p.id === modelPropertyId)
+                                    .name
+                        )
+                        .join(',')
                 };
             });
             return twinDetails;
@@ -73,5 +106,11 @@ export const TwinLists: React.FC<ITwinListsProps> = (_props) => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [twinList, setTwinList] = useState(initializeTwinList());
 
-    return <DetailsList items={twinList} columns={columns} />;
+    return (
+        <DetailsList
+            items={twinList}
+            columns={columns}
+            selection={selection.current}
+        />
+    );
 };
