@@ -1,4 +1,5 @@
 import { createGUID } from '../../../Models/Services/Utils';
+import { getHighChartColorByIdx } from '../../../Models/SharedUtils/DataHistoryUtils';
 import { ITable } from '../Adapters/Standalone/DataManagement/Models/DataManagementAdapter.types';
 import {
     PROPERTY_COLUMN_NAME,
@@ -17,7 +18,6 @@ import {
     ITwin
 } from '../Models/Interfaces';
 import { ICookProperty } from '../Models/Types';
-import { getRandomColor } from './Utils';
 
 /**
  * This generates the unique twin to property mapping and then extracting naive model information from those and returning cooked models and twins
@@ -181,10 +181,10 @@ export const isSameSet = (array1: Array<string>, array2: Array<string>) =>
 export const getViewModelsFromCookedAssets = (
     models: Array<IModel>
 ): Array<IViewModelFromCooked> => {
-    const viewModels: Array<IViewModelFromCooked> = models.map((m) => ({
+    const viewModels: Array<IViewModelFromCooked> = models.map((m, idx) => ({
         id: m.id,
         name: m.name,
-        color: getRandomColor(),
+        color: getHighChartColorByIdx(idx),
         propertyIds: m.propertyIds,
         selectedPropertyIds: m.propertyIds
     }));

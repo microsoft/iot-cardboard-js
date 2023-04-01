@@ -194,7 +194,6 @@ const DataSourceStep: React.FC<IDataSourceStepProps> = (props) => {
     ]);
 
     const handleNextClick = () => {
-        debugger;
         const viewModels = getViewModelsFromCookedAssets(cookAssets.models);
         const viewTwins = getViewTwinsFromCookedAssets(
             cookAssets.twins,
