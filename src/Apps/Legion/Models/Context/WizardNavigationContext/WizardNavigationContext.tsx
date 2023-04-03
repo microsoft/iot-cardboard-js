@@ -34,12 +34,23 @@ export const NavigationContextReducer: (
         case WizardNavigationContextActionType.NAVIGATE_TO:
             draft.currentStep = action.payload.stepNumber;
             break;
+        case WizardNavigationContextActionType.SET_VERIFICATION_STEP_DATA:
+            draft.stepData = {
+                ...draft.stepData,
+                verificationStepData: action.payload
+            };
+            break;
+        case WizardNavigationContextActionType.SET_MODEL_PROPERTY_SELECTED:
+            draft.stepData.verificationStepData.modelSelectedProperties[
+                action.payload.propertyId
+            ] = action.payload.checked;
+            break;
     }
 });
 
-export const WizardNavigationContextProvider: React.FC<IWizardNavigationContextProviderProps> = (
-    props
-) => {
+export function WizardNavigationContextProvider(
+    props: React.PropsWithChildren<IWizardNavigationContextProviderProps>
+) {
     const { children, initialState } = props;
 
     const [
@@ -61,11 +72,12 @@ export const WizardNavigationContextProvider: React.FC<IWizardNavigationContextP
             {children}
         </WizardNavigationContext.Provider>
     );
-};
+}
 
 const emptyState: IWizardNavigationContextState = {
     steps: [],
-    currentStep: -1
+    currentStep: -1,
+    stepData: null
 };
 
 export const getInitialState = (
@@ -74,6 +86,7 @@ export const getInitialState = (
     const state: IWizardNavigationContextState = {
         steps: [],
         currentStep: -1,
+        stepData: null,
         ...initialState
     };
 

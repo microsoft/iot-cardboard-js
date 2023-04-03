@@ -5,6 +5,13 @@ import { IWizardShellProps } from './WizardShell.types';
 import { getDefaultStoryDecorator } from '../../../../Models/Services/StoryUtilities';
 import { IStepperWizardStep } from '../StepperWizard/StepperWizard.types';
 import { WizardNavigationContextProvider } from '../../Models/Context/WizardNavigationContext/WizardNavigationContext';
+import { WizardStepData } from '../../Models/Context/WizardNavigationContext/WizardNavigationContext.types';
+import {
+    mockModels,
+    mockProperties,
+    mockTwins
+} from './Internal/TwinVerificationStep/TwinVerificationMockData';
+import { ICookAssets } from '../../Models/Interfaces';
 
 const wrapperStyle = { width: '100%', height: '600px', padding: 8 };
 
@@ -32,11 +39,34 @@ const Template: WizardShellStory = (args) => {
         }
     ];
 
+    // Mocked cooked data for step 2 demo
+    const cookedData: ICookAssets = {
+        models: mockModels,
+        properties: mockProperties,
+        twins: mockTwins
+    };
+
+    const stepData: WizardStepData = {
+        connectStepData: {
+            models: null,
+            properties: null,
+            twins: null
+        },
+        verificationStepData: {
+            ...cookedData,
+            modelSelectedProperties: {},
+            twinSelectedProperties: {}
+        },
+        relationshipStepData: null,
+        finishStepData: null
+    };
+
     return (
         <WizardNavigationContextProvider
             initialState={{
                 steps: steps,
-                currentStep: 0
+                currentStep: 0,
+                stepData: stepData
             }}
         >
             <WizardShell {...args} />

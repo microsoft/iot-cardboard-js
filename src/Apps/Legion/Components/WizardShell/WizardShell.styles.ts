@@ -6,7 +6,8 @@ import {
 
 const classPrefix = `${CardboardClassNamePrefix}-wizardshell`;
 const classNames = {
-    root: `${classPrefix}-root`
+    root: `${classPrefix}-root`,
+    wizardContainer: `${classPrefix}-wizardContainer`
 };
 
 // export const WIZARDSHELL_CLASS_NAMES = classNames;
@@ -15,6 +16,12 @@ export const getStyles = (
 ): IWizardShellStyles => {
     return {
         root: [classNames.root],
+        wizardContainer: [
+            classNames.wizardContainer,
+            {
+                padding: 8
+            }
+        ],
         subComponentStyles: {}
     };
 };
