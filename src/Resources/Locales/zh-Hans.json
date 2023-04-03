@@ -1539,9 +1539,8 @@
       "progress": {
         "createTable": "正在创建表...",
         "createTables": "正在创建表...",
-        "createTargetDatabase": "正在创建目标数据库...",
-        "createSourceDatabase": "正在创建源数据库...",
-        "ingest": "摄入。。。"
+        "ingest": "摄入。。。",
+        "createDatabase": "正在创建数据库..."
       },
       "selectSimulationType": "选择模拟类型",
       "tabs": {

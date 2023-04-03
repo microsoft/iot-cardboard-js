@@ -1539,9 +1539,8 @@
       "progress": {
         "createTable": "Tabelle wird erstellt...",
         "createTables": "Erstellen von Tabellen...",
-        "createTargetDatabase": "Zieldatenbank wird erstellt...",
-        "createSourceDatabase": "Quelldatenbank wird erstellt...",
-        "ingest": "Aufnehmend..."
+        "ingest": "Aufnehmend...",
+        "createDatabase": "Datenbank wird erstellt..."
       },
       "selectSimulationType": "Auswählen des Simulationstyps",
       "tabs": {

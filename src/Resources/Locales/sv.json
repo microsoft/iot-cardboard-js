@@ -1539,9 +1539,8 @@
       "progress": {
         "createTable": "Skapa tabell...",
         "createTables": "Skapa tabeller...",
-        "createTargetDatabase": "Skapa måldatabas...",
-        "createSourceDatabase": "Skapa källdatabas...",
-        "ingest": "Intag..."
+        "ingest": "Intag...",
+        "createDatabase": "Skapa databas..."
       },
       "selectSimulationType": "Välj simuleringstyp",
       "tabs": {

@@ -1539,9 +1539,8 @@
       "progress": {
         "createTable": "Tablo oluşturuluyor...",
         "createTables": "Tablo oluşturma...",
-        "createTargetDatabase": "Hedef veritabanı oluşturuluyor...",
-        "createSourceDatabase": "Kaynak veritabanı oluşturuluyor...",
-        "ingest": "Ingesting..."
+        "ingest": "Ingesting...",
+        "createDatabase": "Veritabanı oluşturuluyor..."
       },
       "selectSimulationType": "Simülasyon türünü seçin",
       "tabs": {

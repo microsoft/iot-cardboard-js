@@ -1539,9 +1539,8 @@
       "progress": {
         "createTable": "Создание таблицы...",
         "createTables": "Создание таблиц...",
-        "createTargetDatabase": "Создание целевой базы данных...",
-        "createSourceDatabase": "Создание исходной базы данных...",
-        "ingest": "Глотая..."
+        "ingest": "Глотая...",
+        "createDatabase": "Создание базы данных..."
       },
       "selectSimulationType": "Выберите тип моделирования",
       "tabs": {

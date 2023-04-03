@@ -1539,9 +1539,8 @@
       "progress": {
         "createTable": "Creando tabla...",
         "createTables": "Creando tablas...",
-        "createTargetDatabase": "Creando base de datos de destino...",
-        "createSourceDatabase": "Creando base de datos de origen...",
-        "ingest": "Ingerir..."
+        "ingest": "Ingerir...",
+        "createDatabase": "Creando base de datos..."
       },
       "selectSimulationType": "Seleccione el tipo de simulación",
       "tabs": {

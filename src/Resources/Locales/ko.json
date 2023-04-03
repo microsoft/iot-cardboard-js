@@ -1539,9 +1539,8 @@
       "progress": {
         "createTable": "테이블 생성 중...",
         "createTables": "테이블 만들기...",
-        "createTargetDatabase": "대상 데이터베이스 생성 중...",
-        "createSourceDatabase": "원본 데이터베이스 만드는 중...",
-        "ingest": "복용..."
+        "ingest": "복용...",
+        "createDatabase": "데이터베이스 작성 중..."
       },
       "selectSimulationType": "시뮬레이션 유형 선택",
       "tabs": {
