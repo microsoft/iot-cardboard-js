@@ -28,3 +28,17 @@ export interface ITwinVerificationStepStyles {
 export interface ITwinVerificationStepSubComponentStyles {
     button: Partial<IButtonStyles>;
 }
+
+export interface IViewModelFromCooked {
+    id: string;
+    name: string;
+    color: string;
+    propertyIds: Array<string>;
+    selectedPropertyIds: Array<string>;
+}
+
+export interface IViewTwinFromCooked {
+    id: string;
+    model: IViewModelFromCooked;
+    isSelected: boolean;
+}

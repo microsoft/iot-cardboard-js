@@ -1555,8 +1555,7 @@
                 "pushTwinsGraph": "Push twins graph to target database"
             },
             "progress": {
-                "createSourceDatabase": "Creating source database...",
-                "createTargetDatabase": "Creating target database...",
+                "createDatabase": "Creating database...",
                 "createTable": "Creating table...",
                 "createTables": "Creating tables...",
                 "ingest": "Ingesting..."

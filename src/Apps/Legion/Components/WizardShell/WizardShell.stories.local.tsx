@@ -4,8 +4,10 @@ import WizardShell from './WizardShell';
 import { IWizardShellProps } from './WizardShell.types';
 import { getDefaultStoryDecorator } from '../../../../Models/Services/StoryUtilities';
 import { WizardNavigationContextProvider } from '../../Models/Context/WizardNavigationContext/WizardNavigationContext';
-import { stepData, steps } from './WizardShellMockData';
-import MockDataManagementAdapter from '../../Adapters/Standalone/DataManagement/MockDataManagementAdapter';
+import LegionAdapter from '../../Adapters/Mixin/LegionAdapter';
+import MsalAuthService from '../../../../Models/Services/MsalAuthService';
+import useAuthParams from '../../../../../.storybook/useAuthParams';
+import { steps } from './WizardShellMockData';
 
 const wrapperStyle = { width: '100%', height: '600px', padding: 8 };
 
@@ -18,13 +20,21 @@ export default {
 type WizardShellStory = ComponentStory<typeof WizardShell>;
 
 const Template: WizardShellStory = (args) => {
-    return (
+    const authenticationParameters = useAuthParams();
+    return !authenticationParameters ? (
+        <div></div>
+    ) : (
         <WizardNavigationContextProvider
             initialState={{
-                adapter: new MockDataManagementAdapter(),
+                adapter: new LegionAdapter(
+                    new MsalAuthService(
+                        authenticationParameters.adt.aadParameters
+                    ),
+                    authenticationParameters.adx.clusterUrl
+                ),
                 steps: steps,
                 currentStep: 0,
-                stepData: stepData
+                stepData: null
             }}
         >
             <WizardShell {...args} />
@@ -32,5 +42,5 @@ const Template: WizardShellStory = (args) => {
     );
 };
 
-export const Mock = Template.bind({}) as WizardShellStory;
-Mock.args = {} as IWizardShellProps;
+export const ADX = Template.bind({}) as WizardShellStory;
+ADX.args = {} as IWizardShellProps;

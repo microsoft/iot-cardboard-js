@@ -1539,9 +1539,8 @@
       "progress": {
         "createTable": "Táblázat létrehozása...",
         "createTables": "Táblázatok létrehozása...",
-        "createTargetDatabase": "Céladatbázis létrehozása...",
-        "createSourceDatabase": "Forrásadatbázis létrehozása...",
-        "ingest": "Fogyasztásából..."
+        "ingest": "Fogyasztásából...",
+        "createDatabase": "Adatbázis létrehozása..."
       },
       "selectSimulationType": "Válassza ki a szimuláció típusát",
       "tabs": {

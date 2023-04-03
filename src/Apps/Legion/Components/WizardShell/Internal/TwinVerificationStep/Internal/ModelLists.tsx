@@ -1,21 +1,18 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Checkbox, mergeStyleSets, Separator } from '@fluentui/react';
 import { useWizardNavigationContext } from '../../../../../Models/Context/WizardNavigationContext/WizardNavigationContext';
 import { useExtendedTheme } from '../../../../../../../Models/Hooks/useExtendedTheme';
+import { WizardNavigationContextActionType } from '../../../../../Models/Context/WizardNavigationContext/WizardNavigationContext.types';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface IModelListsProps {}
 
-const getRandomColor = () => {
-    // Number between 1-5
-    const colorNumber = Math.floor(Math.random() * 5);
-    const colors = ['red', 'blue', 'yellow', 'green', 'orange'];
-    return colors[colorNumber];
-};
-
 export const ModelLists: React.FC<IModelListsProps> = (_props) => {
     // Contexts
-    const { wizardNavigationContextState } = useWizardNavigationContext();
+    const {
+        wizardNavigationContextState,
+        wizardNavigationContextDispatch
+    } = useWizardNavigationContext();
 
     // Hooks
     const { palette } = useExtendedTheme();
@@ -57,6 +54,18 @@ export const ModelLists: React.FC<IModelListsProps> = (_props) => {
         }
     });
 
+    //callbacks
+    const handleOnCheck = useCallback(
+        (modelId: string, propertyId: string, checked: boolean) => {
+            wizardNavigationContextDispatch({
+                type:
+                    WizardNavigationContextActionType.SET_MODEL_PROPERTY_SELECTED,
+                payload: { modelId, propertyId, checked }
+            });
+        },
+        [wizardNavigationContextDispatch]
+    );
+
     return (
         <div className={style.root}>
             {wizardNavigationContextState.stepData.verificationStepData.models?.map(
@@ -64,25 +73,14 @@ export const ModelLists: React.FC<IModelListsProps> = (_props) => {
                     const properties =
                         wizardNavigationContextState.stepData
                             .verificationStepData.properties;
-                    const propertyValues = m.propertyIds.map((pId) => {
-                        const propertyName = properties.find(
-                            (property) => property.id === pId
-                        )?.name;
-                        return {
-                            key: pId,
-                            propertyName: propertyName
-                                ? propertyName
-                                : 'Unknown'
-                        };
-                    });
 
                     return (
-                        <div className={style.tableContainer}>
+                        <div key={m.id} className={style.tableContainer}>
                             <div className={style.leftContainer}>
                                 <div
                                     className={style.dot}
                                     style={{
-                                        background: getRandomColor()
+                                        background: m.color
                                     }}
                                 />
                                 <p className={style.modelNameText}>{m.name}</p>
@@ -91,12 +89,30 @@ export const ModelLists: React.FC<IModelListsProps> = (_props) => {
                             <div>
                                 <p>Properties</p>
                                 <div className={style.checkboxContainer}>
-                                    {propertyValues.map((p) => {
+                                    {m.propertyIds.map((modelPropertyId) => {
                                         return (
                                             <Checkbox
-                                                label={p.propertyName}
-                                                defaultChecked={true}
-                                                // TODO: Modify context on change
+                                                key={`${m.id}-${modelPropertyId}`}
+                                                label={
+                                                    properties.find(
+                                                        (p) =>
+                                                            p.id ===
+                                                            modelPropertyId
+                                                    ).name
+                                                }
+                                                defaultChecked={m.selectedPropertyIds.includes(
+                                                    modelPropertyId
+                                                )}
+                                                onChange={(
+                                                    _ev,
+                                                    checked?: boolean
+                                                ) =>
+                                                    handleOnCheck(
+                                                        m.id,
+                                                        modelPropertyId,
+                                                        checked
+                                                    )
+                                                }
                                             />
                                         );
                                     })}

@@ -41,9 +41,35 @@ export const NavigationContextReducer: (
             };
             break;
         case WizardNavigationContextActionType.SET_MODEL_PROPERTY_SELECTED:
-            draft.stepData.verificationStepData.modelSelectedProperties[
-                action.payload.propertyId
-            ] = action.payload.checked;
+            {
+                const targetModelId = action.payload.modelId;
+                const targetPropertyId = action.payload.propertyId;
+                const isChecked = action.payload.checked;
+                const targetModel = draft.stepData.verificationStepData.models.find(
+                    (m) => m.id === targetModelId
+                );
+                if (isChecked) {
+                    targetModel.selectedPropertyIds.push(targetPropertyId);
+                } else {
+                    targetModel.selectedPropertyIds.splice(
+                        targetModel.selectedPropertyIds.findIndex(
+                            (pId) => pId === targetPropertyId
+                        ),
+                        1
+                    );
+                }
+            }
+            break;
+        case WizardNavigationContextActionType.SET_SELECTED_TWINS:
+            {
+                draft.stepData.verificationStepData.twins.forEach((t, idx) => {
+                    if (action.payload.selectedTwinIndices.includes(idx)) {
+                        t.isSelected = true;
+                    } else {
+                        t.isSelected = false;
+                    }
+                });
+            }
             break;
     }
 });
@@ -75,6 +101,7 @@ export function WizardNavigationContextProvider(
 }
 
 const emptyState: IWizardNavigationContextState = {
+    adapter: null,
     steps: [],
     currentStep: -1,
     stepData: null

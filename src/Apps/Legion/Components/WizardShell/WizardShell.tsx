@@ -48,7 +48,11 @@ const WizardShell: React.FC<IWizardShellProps> = (props) => {
         switch (wizardNavigationContextState.currentStep) {
             // Create pages here
             case 0:
-                return <DataSourceStep />;
+                return (
+                    <DataSourceStep
+                        adapter={wizardNavigationContextState.adapter}
+                    />
+                );
             case 1:
                 return <TwinVerificationStep />;
             case 2:
@@ -56,7 +60,10 @@ const WizardShell: React.FC<IWizardShellProps> = (props) => {
             case 3:
                 return <SaveStep />;
         }
-    }, [wizardNavigationContextState.currentStep]);
+    }, [
+        wizardNavigationContextState.adapter,
+        wizardNavigationContextState.currentStep
+    ]);
 
     logDebugConsole('debug', 'Render');
 

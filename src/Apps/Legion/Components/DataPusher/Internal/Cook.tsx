@@ -143,14 +143,9 @@ const Cook: React.FC = () => {
                 setTargetDatabaseOptions(
                     targetDatabaseOptions.concat(newValue)
                 );
-            } else {
-                // fetch tables of selected database
-                getTablesState.callAdapter({
-                    databaseName: newValue.label
-                });
             }
         },
-        [createDatabaseState, targetDatabaseOptions, getTablesState]
+        [createDatabaseState, targetDatabaseOptions]
     );
     const handleSourceTableChange = useCallback(
         (_event, option: IDropdownOption) => {
@@ -327,7 +322,7 @@ const Cook: React.FC = () => {
                     {createDatabaseState.isLoading && (
                         <Spinner
                             label={t(
-                                'legionApp.dataPusher.progress.createSourceDatabase'
+                                'legionApp.dataPusher.progress.createDatabase'
                             )}
                             size={SpinnerSize.small}
                         />
