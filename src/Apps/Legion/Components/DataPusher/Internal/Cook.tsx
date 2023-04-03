@@ -322,7 +322,7 @@ const Cook: React.FC = () => {
                     {createDatabaseState.isLoading && (
                         <Spinner
                             label={t(
-                                'legionApp.dataPusher.progress.createSourceDatabase'
+                                'legionApp.dataPusher.progress.createDatabase'
                             )}
                             size={SpinnerSize.small}
                         />

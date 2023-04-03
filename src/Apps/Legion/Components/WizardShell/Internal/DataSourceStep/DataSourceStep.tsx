@@ -355,7 +355,7 @@ const DataSourceStep: React.FC<IDataSourceStepProps> = (props) => {
                     {createDatabaseState.isLoading && (
                         <Spinner
                             label={t(
-                                'legionApp.dataPusher.progress.createSourceDatabase'
+                                'legionApp.dataPusher.progress.createDatabase'
                             )}
                             size={SpinnerSize.small}
                         />
