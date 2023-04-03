@@ -1539,9 +1539,8 @@
       "progress": {
         "createTable": "Vytváření tabulky...",
         "createTables": "Vytváření tabulek...",
-        "createTargetDatabase": "Vytvoření cílové databáze...",
-        "createSourceDatabase": "Vytváření zdrojové databáze...",
-        "ingest": "Požitím..."
+        "ingest": "Požitím...",
+        "createDatabase": "Tvorba databáze..."
       },
       "selectSimulationType": "Vyberte typ simulace",
       "tabs": {

@@ -1539,9 +1539,8 @@
       "progress": {
         "createTable": "テーブルを作成しています...",
         "createTables": "テーブルを作成しています...",
-        "createTargetDatabase": "ターゲット データベースを作成しています...",
-        "createSourceDatabase": "ソース データベースを作成しています...",
-        "ingest": "摂取。。。"
+        "ingest": "摂取。。。",
+        "createDatabase": "データベースを作成しています..."
       },
       "selectSimulationType": "シミュレーションタイプを選択",
       "tabs": {
