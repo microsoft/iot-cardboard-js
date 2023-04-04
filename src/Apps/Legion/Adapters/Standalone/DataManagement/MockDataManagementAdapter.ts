@@ -4,19 +4,21 @@ import { DataManagementAdapterData } from './Models/DataManagementAdapter.data';
 import {
     IDataManagementAdapter,
     IIngestRow,
-    ITable
+    ITable,
+    ITableColumn,
+    ITableIngestionMapping
 } from './Models/DataManagementAdapter.types';
 
 export default class MockDataManagementAdapter
     extends BaseAdapter
     implements IDataManagementAdapter {
     private networkTimeoutMillis;
-    connectionSource: string;
+    connectionString: string;
 
     constructor() {
         super();
-        this.networkTimeoutMillis = 0;
-        this.connectionSource = 'mockConnectionString';
+        this.networkTimeoutMillis = 2000;
+        this.connectionString = 'mockConnectionString';
     }
 
     async mockNetwork() {
@@ -47,6 +49,7 @@ export default class MockDataManagementAdapter
             });
         }
     }
+
     async createDatabase(_databaseName: string) {
         try {
             await this.mockNetwork();
@@ -61,6 +64,7 @@ export default class MockDataManagementAdapter
             });
         }
     }
+
     async getTables(_databaseName: string) {
         try {
             await this.mockNetwork();
@@ -78,24 +82,13 @@ export default class MockDataManagementAdapter
             });
         }
     }
-    async createTable(_databaseName: string, _tableName: string) {
-        try {
-            await this.mockNetwork();
-            return new AdapterResult<DataManagementAdapterData<boolean>>({
-                result: new DataManagementAdapterData(true),
-                errorInfo: null
-            });
-        } catch (err) {
-            return new AdapterResult<DataManagementAdapterData<boolean>>({
-                result: null,
-                errorInfo: { catastrophicError: err, errors: [err] }
-            });
-        }
-    }
-    async upsertTable(
+
+    async createTable(
         _databaseName: string,
         _tableName: string,
-        _data: IIngestRow[]
+        _columns: Array<ITableColumn>,
+        _ingestionMappingName: string,
+        _ingestionMapping?: Array<ITableIngestionMapping>
     ) {
         try {
             await this.mockNetwork();
@@ -110,15 +103,52 @@ export default class MockDataManagementAdapter
             });
         }
     }
-    async getTable(_databaseName: string, _tableName: string) {
+
+    async upsertTable(
+        _databaseName: string,
+        _tableName: string,
+        _data: IIngestRow[],
+        _ingestionMappingName: string
+    ) {
+        try {
+            await this.mockNetwork();
+            return new AdapterResult<DataManagementAdapterData<boolean>>({
+                result: new DataManagementAdapterData(true),
+                errorInfo: null
+            });
+        } catch (err) {
+            return new AdapterResult<DataManagementAdapterData<boolean>>({
+                result: null,
+                errorInfo: { catastrophicError: err, errors: [err] }
+            });
+        }
+    }
+
+    async getTable(
+        _databaseName: string,
+        _tableName: string,
+        _orderByColumn?: string
+    ) {
         try {
             await this.mockNetwork();
             return new AdapterResult<DataManagementAdapterData<ITable>>({
                 result: new DataManagementAdapterData({
-                    Columns: ['Id', 'Timestamp', 'Temperature'],
+                    Columns: [
+                        { columnName: 'Id', columnDataType: 'string' },
+                        { columnName: 'Timestamp', columnDataType: 'datetime' },
+                        { columnName: 'Temperature', columnDataType: 'real' }
+                    ],
                     Rows: [
-                        ['Salt_Machine_01', '2018-11-14 11:34', 12],
-                        ['Salt_Machine_02', '2018-11-15 18:07', 15]
+                        [
+                            'Salt_Machine_01',
+                            new Date().toISOString(),
+                            Math.floor(Math.random() * 100)
+                        ],
+                        [
+                            'Salt_Machine_02',
+                            new Date().toISOString(),
+                            Math.floor(Math.random() * 100)
+                        ]
                     ]
                 }),
                 errorInfo: null

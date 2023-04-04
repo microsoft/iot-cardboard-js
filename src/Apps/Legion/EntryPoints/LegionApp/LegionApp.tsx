@@ -1,29 +1,21 @@
 import React from 'react';
-import { IStepperWizardStep } from '../../Components/StepperWizard/StepperWizard.types';
 import WizardShell from '../../Components/WizardShell/WizardShell';
 import { WizardNavigationContextProvider } from '../../Models/Context/WizardNavigationContext/WizardNavigationContext';
 import { ILegionAppProps } from './LegionApp.types';
+import MockDataManagementAdapter from '../../Adapters/Standalone/DataManagement/MockDataManagementAdapter';
+import {
+    stepData,
+    steps
+} from '../../Components/WizardShell/WizardShellMockData';
 
 const LegionApp: React.FC<ILegionAppProps> = (_props) => {
-    const steps: IStepperWizardStep[] = [
-        {
-            label: 'Connect'
-        },
-        {
-            label: 'Verify'
-        },
-        {
-            label: 'Build'
-        },
-        {
-            label: 'Finish'
-        }
-    ];
     return (
         <WizardNavigationContextProvider
             initialState={{
+                adapter: new MockDataManagementAdapter(),
                 steps: steps,
-                currentStep: 0
+                currentStep: 0,
+                stepData: stepData
             }}
         >
             <WizardShell />

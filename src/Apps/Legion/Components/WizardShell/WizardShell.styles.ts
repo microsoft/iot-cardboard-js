@@ -7,7 +7,8 @@ import {
 const classPrefix = `${CardboardClassNamePrefix}-wizardshell`;
 const classNames = {
     root: `${classPrefix}-root`,
-    content: `${classPrefix}-content`
+    content: `${classPrefix}-content`,
+    wizardContainer: `${classPrefix}-wizardContainer`
 };
 
 // export const WIZARDSHELL_CLASS_NAMES = classNames;
@@ -15,9 +16,11 @@ export const getStyles = (
     _props: IWizardShellStyleProps
 ): IWizardShellStyles => {
     return {
-        root: [
-            classNames.root,
+        root: [classNames.root],
+        wizardContainer: [
+            classNames.wizardContainer,
             {
+                padding: 8,
                 '.cb-stepper-wizard': {
                     justifyContent: 'start'
                 }

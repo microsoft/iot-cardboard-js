@@ -1535,19 +1535,39 @@
   },
   "legionApp": {
     "dataPusher": {
-      "title": "Verbinden und Übertragen von Daten",
-      "database": "Datenbank",
-      "table": "Tisch",
       "simulationType": "Art der Simulation",
-      "selectDatabasePlaceholder": "Datenbank auswählen",
-      "selectTablePlaceholder": "Tabelle auswählen",
-      "selectSimulationTypePlaceholder": "Auswählen des Simulationstyps",
-      "primaryActionLabel": "Verbinden und Pushen von Simulationsdaten",
       "progress": {
-        "createDatabase": "Datenbank wird erstellt...",
         "createTable": "Tabelle wird erstellt...",
-        "createTables": "Erstellen von Tabellen..."
-      }
+        "createTables": "Erstellen von Tabellen...",
+        "ingest": "Aufnehmend...",
+        "createDatabase": "Datenbank wird erstellt..."
+      },
+      "selectSimulationType": "Auswählen des Simulationstyps",
+      "tabs": {
+        "setup": "Einrichtung",
+        "ingest": "Aufnehmen",
+        "cook": "Kochen"
+      },
+      "source": {
+        "database": "Quelldatenbank",
+        "selectDatabase": "Quelldatenbank auswählen",
+        "table": "Quelltabelle",
+        "selectTable": "Quelltabelle auswählen",
+        "tableType": "Typ der Quelltabelle",
+        "selectTableType": "Auswählen des Quelltabellentyps",
+        "twinIDProperty": "Quell-Zwillings-ID-Eigenschaft",
+        "selectTwinIDProperty": "Quell-Zwillings-ID-Eigenschaft auswählen"
+      },
+      "target": {
+        "database": "Zieldatenbank",
+        "selectDatabase": "Zieldatenbank auswählen"
+      },
+      "actions": {
+        "ingest": "Erfassen von Daten in der Quelltabelle",
+        "cook": "Cook-Zwillings-Diagramm",
+        "pushTwinsGraph": "Übertragen des Zwillingsdiagramms in die Zieldatenbank"
+      },
+      "title": "Daten-Pusher"
     }
   }
 }

@@ -1535,19 +1535,39 @@
   },
   "legionApp": {
     "dataPusher": {
-      "title": "Łączenie i przesyłanie danych",
-      "database": "Baza danych",
-      "table": "Stół",
       "simulationType": "Typ symulacji",
-      "selectDatabasePlaceholder": "Wybierz bazę danych",
-      "selectTablePlaceholder": "Wybierz tabelę",
-      "selectSimulationTypePlaceholder": "Wybierz typ symulacji",
-      "primaryActionLabel": "Łączenie i przesyłanie danych symulacyjnych",
       "progress": {
-        "createDatabase": "Tworzenie bazy danych...",
         "createTable": "Tworzenie tabeli...",
-        "createTables": "Tworzenie tabel..."
-      }
+        "createTables": "Tworzenie tabel...",
+        "ingest": "Spożyciu...",
+        "createDatabase": "Tworzenie bazy danych..."
+      },
+      "selectSimulationType": "Wybierz typ symulacji",
+      "tabs": {
+        "setup": "Instalacji",
+        "ingest": "Spożywać",
+        "cook": "Kucharz"
+      },
+      "source": {
+        "database": "Źródłowa baza danych",
+        "selectDatabase": "Wybierz źródłową bazę danych",
+        "table": "Tabela źródłowa",
+        "selectTable": "Wybierz tabelę źródłową",
+        "tableType": "Typ tabeli źródłowej",
+        "selectTableType": "Wybierz typ tabeli źródłowej",
+        "twinIDProperty": "Właściwość identyfikatora bliźniaczej źródła",
+        "selectTwinIDProperty": "Wybierz właściwość źródłowego identyfikatora bliźniaczej"
+      },
+      "target": {
+        "database": "Docelowa baza danych",
+        "selectDatabase": "Wybierz docelową bazę danych"
+      },
+      "actions": {
+        "ingest": "Pozyskiwanie danych do tabeli źródłowej",
+        "cook": "Wykres bliźniaków kucharskich",
+        "pushTwinsGraph": "Wypychanie wykresu bliźniaków do docelowej bazy danych"
+      },
+      "title": "Popychacz danych"
     }
   }
 }

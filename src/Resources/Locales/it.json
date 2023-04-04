@@ -1535,19 +1535,39 @@
   },
   "legionApp": {
     "dataPusher": {
-      "title": "Connessione e invio dei dati",
-      "database": "Banca dati",
-      "table": "Tavolo",
       "simulationType": "Tipo di simulazione",
-      "selectDatabasePlaceholder": "Seleziona database",
-      "selectTablePlaceholder": "Seleziona tabella",
-      "selectSimulationTypePlaceholder": "Seleziona il tipo di simulazione",
-      "primaryActionLabel": "Connessione e invio dei dati di simulazione",
       "progress": {
-        "createDatabase": "Creazione di database...",
         "createTable": "Creazione tabella...",
-        "createTables": "Creazione di tabelle..."
-      }
+        "createTables": "Creazione di tabelle...",
+        "ingest": "Ingestione...",
+        "createDatabase": "Creazione di database..."
+      },
+      "selectSimulationType": "Seleziona il tipo di simulazione",
+      "tabs": {
+        "setup": "Apparecchio",
+        "ingest": "Ingerire",
+        "cook": "Cuoco"
+      },
+      "source": {
+        "database": "Database di origine",
+        "selectDatabase": "Seleziona database di origine",
+        "table": "Tabella di origine",
+        "selectTable": "Seleziona tabella di origine",
+        "tableType": "Tipo di tabella di origine",
+        "selectTableType": "Selezionare il tipo di tabella di origine",
+        "twinIDProperty": "Proprietà ID gemello di origine",
+        "selectTwinIDProperty": "Seleziona la proprietà ID gemello di origine"
+      },
+      "target": {
+        "database": "Database di destinazione",
+        "selectDatabase": "Seleziona il database di destinazione"
+      },
+      "actions": {
+        "ingest": "Inserire dati nella tabella di origine",
+        "cook": "Grafico dei gemelli di Cook",
+        "pushTwinsGraph": "Push del grafico dei gemelli al database di destinazione"
+      },
+      "title": "Pusher di dati"
     }
   }
 }

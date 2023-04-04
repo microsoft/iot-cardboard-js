@@ -1,17 +1,19 @@
 import React, { useMemo } from 'react';
 import {
+    classNamesFunction,
+    DialogFooter,
+    PrimaryButton,
+    Separator,
+    Stack,
+    styled
+} from '@fluentui/react';
+import { useTranslation } from 'react-i18next';
+import {
     IWizardShellProps,
     IWizardShellStyleProps,
     IWizardShellStyles
 } from './WizardShell.types';
 import { getStyles } from './WizardShell.styles';
-import {
-    classNamesFunction,
-    DialogFooter,
-    PrimaryButton,
-    Stack,
-    styled
-} from '@fluentui/react';
 import { useExtendedTheme } from '../../../../Models/Hooks/useExtendedTheme';
 import { getDebugLogger } from '../../../../Models/Services/Utils';
 import { useWizardNavigationContext } from '../../Models/Context/WizardNavigationContext/WizardNavigationContext';
@@ -22,7 +24,6 @@ import TwinVerificationStep from './Internal/TwinVerificationStep/TwinVerificati
 import RelationshipBuilderStep from './Internal/RelationshipBuilderStep/RelationshipBuilderStep';
 import SaveStep from './Internal/SaveStep/SaveStep';
 import { WizardNavigationContextActionType } from '../../Models/Context/WizardNavigationContext/WizardNavigationContext.types';
-import { useTranslation } from 'react-i18next';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('WizardShell', debugLogging);
@@ -56,7 +57,11 @@ const WizardShell: React.FC<IWizardShellProps> = (props) => {
         switch (wizardNavigationContextState.currentStep) {
             // Create pages here
             case 0:
-                return <DataSourceStep />;
+                return (
+                    <DataSourceStep
+                        adapter={wizardNavigationContextState.adapter}
+                    />
+                );
             case 1:
                 return <TwinVerificationStep />;
             case 2:
@@ -64,7 +69,10 @@ const WizardShell: React.FC<IWizardShellProps> = (props) => {
             case 3:
                 return <SaveStep />;
         }
-    }, [wizardNavigationContextState.currentStep]);
+    }, [
+        wizardNavigationContextState.adapter,
+        wizardNavigationContextState.currentStep
+    ]);
 
     logDebugConsole('debug', 'Render');
 
@@ -74,11 +82,14 @@ const WizardShell: React.FC<IWizardShellProps> = (props) => {
             tokens={{ childrenGap: 8 }}
             className={classNames.root}
         >
-            <StepperWizard
-                steps={wizardNavigationContextState.steps}
-                type={StepperWizardType.Vertical}
-                currentStepIndex={wizardNavigationContextState.currentStep}
-            />
+            <div className={classNames.wizardContainer}>
+                <StepperWizard
+                    steps={wizardNavigationContextState.steps}
+                    type={StepperWizardType.Vertical}
+                    currentStepIndex={wizardNavigationContextState.currentStep}
+                />
+            </div>
+            <Separator vertical={true} />
             <Stack tokens={{ childrenGap: 8 }} className={classNames.content}>
                 {/* Content */}
                 <Stack.Item grow>{currentPage}</Stack.Item>

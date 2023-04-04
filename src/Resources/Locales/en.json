@@ -1527,18 +1527,38 @@
     },
     "legionApp": {
         "dataPusher": {
-            "title": "Connect and push data",
-            "database": "Database",
-            "table": "Table",
+            "title": "Data pusher",
             "simulationType": "Simulation type",
-            "selectDatabasePlaceholder": "Select database",
-            "selectTablePlaceholder": "Select table",
-            "selectSimulationTypePlaceholder": "Select simulation type",
-            "primaryActionLabel": "Connect and push simulation data",
+            "selectSimulationType": "Select simulation type",
+            "tabs": {
+                "setup": "Setup",
+                "ingest": "Ingest",
+                "cook": "Cook"
+            },
+            "source": {
+                "database": "Source database",
+                "selectDatabase": "Select source database",
+                "table": "Source table",
+                "selectTable": "Select source table",
+                "tableType": "Source table type",
+                "selectTableType": "Select source table type",
+                "twinIDProperty": "Source twin ID property",
+                "selectTwinIDProperty": "Select source twin ID property"
+            },
+            "target": {
+                "database": "Target database",
+                "selectDatabase": "Select target database"
+            },
+            "actions": {
+                "ingest": "Ingest data to source table",
+                "cook": "Cook twins graph",
+                "pushTwinsGraph": "Push twins graph to target database"
+            },
             "progress": {
                 "createDatabase": "Creating database...",
                 "createTable": "Creating table...",
-                "createTables": "Creating tables..."
+                "createTables": "Creating tables...",
+                "ingest": "Ingesting..."
             }
         }
     }
