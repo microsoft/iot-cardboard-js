@@ -8,6 +8,9 @@ import { getStyles } from './RelationshipBuilderStep.styles';
 import { classNamesFunction, styled } from '@fluentui/react';
 import { getDebugLogger } from '../../../../../../Models/Services/Utils';
 import { useExtendedTheme } from '../../../../../../Models/Hooks/useExtendedTheme';
+import GraphVisualizer from '../../../GraphVisualizer/GraphVisualizer';
+import { GraphContextProvider } from '../../../../Contexts/GraphContext/GraphContext';
+import { IGraphNode } from '../../../../Contexts/GraphContext/GraphContext.types';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('RelationshipBuilderStep', debugLogging);
@@ -16,6 +19,44 @@ const getClassNames = classNamesFunction<
     IRelationshipBuilderStepStyleProps,
     IRelationshipBuilderStepStyles
 >();
+
+const data: IGraphNode<any>[] = [
+    {
+        id: '1',
+        label: 'Node 1',
+        icon: 'CircleRing',
+        color: 'red',
+        data: { property1: 'something' }
+    },
+    {
+        id: '2',
+        label: 'Node 2',
+        icon: 'CircleRing',
+        color: 'blue',
+        data: { property1: 'something' }
+    },
+    {
+        id: '3',
+        label: 'Node 3',
+        icon: 'CircleRing',
+        color: 'red',
+        data: { property1: 'something' }
+    },
+    {
+        id: '4',
+        label: 'Node 4',
+        icon: 'CircleRing',
+        color: 'yellow',
+        data: { property1: 'something' }
+    },
+    {
+        id: '5',
+        label: 'Node 5',
+        icon: 'CircleRing',
+        color: 'yellow',
+        data: { property1: 'something' }
+    }
+];
 
 const RelationshipBuilderStep: React.FC<IRelationshipBuilderStepProps> = (
     props
@@ -40,7 +81,11 @@ const RelationshipBuilderStep: React.FC<IRelationshipBuilderStepProps> = (
     logDebugConsole('debug', 'Render');
 
     return (
-        <div className={classNames.root}>Hello RelationshipBuilderStep!</div>
+        <div className={classNames.root}>
+            <GraphContextProvider nodeData={data}>
+                <GraphVisualizer />
+            </GraphContextProvider>
+        </div>
     );
 };
 
