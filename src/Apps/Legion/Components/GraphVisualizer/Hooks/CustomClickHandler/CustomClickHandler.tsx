@@ -49,12 +49,6 @@ const CustomClickHandler: React.FC<ICustomClickHandlerProps> = (_props) => {
     // EDGE CALLBACKS
     // const setSelectedEdge = useCallback(
     //     (edgeData: ICustomEdgeData) => {
-    //         graphDispatch({
-    //             type: OatPageContextActionType.SET_OAT_SELECTED_MODEL,
-    //             payload: {
-    //                 selection: getSelectionFromGraphItem(edgeData)
-    //             }
-    //         });
     //     },
     //     [oatPageDispatch]
     // );
