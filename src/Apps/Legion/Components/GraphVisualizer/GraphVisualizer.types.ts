@@ -1,25 +1,28 @@
 import { IStyle, IStyleFunctionOrObject } from '@fluentui/react';
 import { IExtendedTheme } from '../../../../Theming/Theme.types';
 
-export interface IWizardShellProps {
+export interface IGraphVisualizerProps {
     /**
      * Call to provide customized styling that will layer on top of the variant rules.
      */
-    styles?: IStyleFunctionOrObject<IWizardShellStyleProps, IWizardShellStyles>;
+    styles?: IStyleFunctionOrObject<
+        IGraphVisualizerStyleProps,
+        IGraphVisualizerStyles
+    >;
 }
 
-export interface IWizardShellStyleProps {
+export interface IGraphVisualizerStyleProps {
     theme: IExtendedTheme;
 }
-export interface IWizardShellStyles {
+export interface IGraphVisualizerStyles {
     root: IStyle;
-    wizardContainer: IStyle;
+    graphContainer: IStyle;
 
     /**
      * SubComponent styles.
      */
-    subComponentStyles?: IWizardShellSubComponentStyles;
+    subComponentStyles?: IGraphVisualizerSubComponentStyles;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface IWizardShellSubComponentStyles {}
+export interface IGraphVisualizerSubComponentStyles {}

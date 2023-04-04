@@ -68,21 +68,21 @@ const WizardShell: React.FC<IWizardShellProps> = (props) => {
     logDebugConsole('debug', 'Render');
 
     return (
-        <div className={classNames.root}>
-            <Stack horizontal={true} tokens={{ childrenGap: 8 }}>
-                <div className={classNames.wizardContainer}>
-                    <StepperWizard
-                        steps={wizardNavigationContextState.steps}
-                        type={StepperWizardType.Vertical}
-                        currentStepIndex={
-                            wizardNavigationContextState.currentStep
-                        }
-                    />
-                </div>
-                <Separator vertical={true} />
-                {currentPage}
-            </Stack>
-        </div>
+        <Stack
+            horizontal={true}
+            tokens={{ childrenGap: 8 }}
+            className={classNames.root}
+        >
+            <div className={classNames.wizardContainer}>
+                <StepperWizard
+                    steps={wizardNavigationContextState.steps}
+                    type={StepperWizardType.Vertical}
+                    currentStepIndex={wizardNavigationContextState.currentStep}
+                />
+            </div>
+            <Separator vertical={true} />
+            {currentPage}
+        </Stack>
     );
 };
 

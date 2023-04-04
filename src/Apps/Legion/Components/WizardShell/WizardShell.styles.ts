@@ -19,7 +19,10 @@ export const getStyles = (
         wizardContainer: [
             classNames.wizardContainer,
             {
-                padding: 8
+                padding: 8,
+                '.cb-stepper-wizard': {
+                    justifyContent: 'start'
+                }
             }
         ],
         subComponentStyles: {}
