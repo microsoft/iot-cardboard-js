@@ -36,6 +36,7 @@ export const NavigationContextReducer: (
             break;
         case WizardNavigationContextActionType.SET_STEP_VALIDITY: {
             draft.validity.isValid = action.payload.isValid;
+            break;
         }
         case WizardNavigationContextActionType.SET_VERIFICATION_STEP_DATA:
             draft.stepData = {
