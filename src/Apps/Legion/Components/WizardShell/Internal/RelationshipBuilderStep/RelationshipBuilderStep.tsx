@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import {
     IRelationshipBuilderStepProps,
     IRelationshipBuilderStepStyleProps,
@@ -11,6 +11,7 @@ import { useExtendedTheme } from '../../../../../../Models/Hooks/useExtendedThem
 import GraphVisualizer from '../../../GraphVisualizer/GraphVisualizer';
 import { GraphContextProvider } from '../../../../Contexts/GraphContext/GraphContext';
 import { IGraphNode } from '../../../../Contexts/GraphContext/GraphContext.types';
+import { useWizardNavigationContext } from '../../../../Models/Context/WizardNavigationContext/WizardNavigationContext';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('RelationshipBuilderStep', debugLogging);
@@ -20,7 +21,7 @@ const getClassNames = classNamesFunction<
     IRelationshipBuilderStepStyles
 >();
 
-const data: IGraphNode<any>[] = [
+const mockData: IGraphNode<any>[] = [
     {
         id: '1',
         label: 'Node 1',
@@ -64,6 +65,7 @@ const RelationshipBuilderStep: React.FC<IRelationshipBuilderStepProps> = (
     const { styles } = props;
 
     // contexts
+    const { wizardNavigationContextState } = useWizardNavigationContext();
 
     // state
 
@@ -77,6 +79,22 @@ const RelationshipBuilderStep: React.FC<IRelationshipBuilderStepProps> = (
     const classNames = getClassNames(styles, {
         theme: useExtendedTheme()
     });
+
+    // data
+    const data: IGraphNode<any>[] = useMemo(() => {
+        const models =
+            wizardNavigationContextState.stepData?.verificationStepData
+                ?.twins ?? [];
+        const nodes: IGraphNode<any>[] = models.map((x) => {
+            return {
+                id: x.id,
+                label: `${x.model.name}-${x.id}`,
+                color: x.model.color,
+                data: x
+            };
+        });
+        return nodes;
+    }, [wizardNavigationContextState.stepData?.verificationStepData?.twins]);
 
     logDebugConsole('debug', 'Render');
 
