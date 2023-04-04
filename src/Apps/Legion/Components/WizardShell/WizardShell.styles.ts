@@ -14,7 +14,14 @@ export const getStyles = (
     _props: IWizardShellStyleProps
 ): IWizardShellStyles => {
     return {
-        root: [classNames.root],
+        root: [
+            classNames.root,
+            {
+                '.cb-stepper-wizard': {
+                    justifyContent: 'start'
+                }
+            }
+        ],
         subComponentStyles: {}
     };
 };
