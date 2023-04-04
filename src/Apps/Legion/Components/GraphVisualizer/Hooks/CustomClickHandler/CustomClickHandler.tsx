@@ -7,7 +7,7 @@ import { ICustomNodeConfig, ICustomNodeData } from '../../GraphTypes.types';
 import { useGraphContext } from '../../../../Contexts/GraphContext/GraphContext';
 import { GraphContextActionType } from '../../../../Contexts/GraphContext/GraphContext.types';
 
-const debugLogging = true;
+const debugLogging = false;
 const logDebugConsole = getDebugLogger('CustomClickHandler', debugLogging);
 
 const CustomClickHandler: React.FC<ICustomClickHandlerProps> = (_props) => {

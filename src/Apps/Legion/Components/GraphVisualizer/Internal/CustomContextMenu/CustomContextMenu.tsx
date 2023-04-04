@@ -26,7 +26,7 @@ const getClassNames = classNamesFunction<
 >();
 
 const CustomMenu = (props: ContextMenuProps) => {
-    const { onClose } = props;
+    const { onClose, item } = props;
 
     // context
     const { graphDispatch } = useGraphContext();
@@ -34,9 +34,13 @@ const CustomMenu = (props: ContextMenuProps) => {
     // callbacks
 
     const handleClick = useCallback(() => {
-        graphDispatch({ type: GraphContextActionType.ADD_PARENT });
+        const selectedNodeId = item.getModel()?.id;
+        graphDispatch({
+            type: GraphContextActionType.ADD_PARENT,
+            payload: { nodeId: selectedNodeId }
+        });
         onClose();
-    }, [graphDispatch, onClose]);
+    }, [graphDispatch, item, onClose]);
 
     // styles
     const classNames = getClassNames(

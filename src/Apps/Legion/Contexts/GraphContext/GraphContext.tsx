@@ -36,6 +36,7 @@ export const GraphContextReducer: (
                 draft.selectedNodeIds = action.payload.nodeIds;
                 break;
             case GraphContextActionType.ADD_PARENT:
+                const { nodeId } = action.payload;
                 const newId = createGUID();
                 // add a new node
                 AddNode(
@@ -43,17 +44,24 @@ export const GraphContextReducer: (
                     draft.graphData
                 );
 
-                // connect selected nodes to the new node
-                draft.selectedNodeIds.forEach((childNodeId) => {
+                const addEdge = (childId: string) => {
                     AddEdge(
                         {
                             label: 'Parent',
                             sourceId: newId,
-                            targetId: childNodeId
+                            targetId: childId
                         },
                         draft.graphData
                     );
-                });
+                };
+                if (draft.selectedNodeIds?.length > 0) {
+                    // connect selected nodes to the new node
+                    draft.selectedNodeIds.forEach((childNodeId) => {
+                        addEdge(childNodeId);
+                    });
+                } else if (nodeId) {
+                    addEdge(nodeId);
+                }
                 draft.selectedNodeIds = [];
                 break;
         }

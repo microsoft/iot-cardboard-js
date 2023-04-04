@@ -52,4 +52,8 @@ export type GraphContextAction =
       }
     | {
           type: GraphContextActionType.ADD_PARENT;
+          payload: {
+              /** node id that was clicked to create the parent, will prioritize SelectedNodes if any, then fallback to this node if nothing is selected */
+              nodeId: string;
+          };
       };
