@@ -3,7 +3,9 @@ import { ComponentStory } from '@storybook/react';
 import DataSourceStep from './DataSourceStep';
 import { IDataSourceStepProps } from './DataSourceStep.types';
 import { getDefaultStoryDecorator } from '../../../../../../Models/Services/StoryUtilities';
-import MockDataManagementAdapter from '../../../../Adapters/Standalone/DataManagement/MockDataManagementAdapter';
+import LegionAdapter from '../../../../Adapters/Mixin/LegionAdapter';
+import MsalAuthService from '../../../../../../Models/Services/MsalAuthService';
+import useAuthParams from '../../../../../../../.storybook/useAuthParams';
 import { WizardNavigationContextProvider } from '../../../../Models/Context/WizardNavigationContext/WizardNavigationContext';
 import { stepData, steps } from '../../WizardShellMockData';
 
@@ -18,7 +20,10 @@ export default {
 type DataSourceStepStory = ComponentStory<typeof DataSourceStep>;
 
 const Template: DataSourceStepStory = (args) => {
-    return (
+    const authenticationParameters = useAuthParams();
+    return !authenticationParameters ? (
+        <div></div>
+    ) : (
         <WizardNavigationContextProvider
             initialState={{
                 steps: steps,
@@ -26,12 +31,20 @@ const Template: DataSourceStepStory = (args) => {
                 stepData: stepData
             }}
         >
-            <DataSourceStep {...args} />
+            <DataSourceStep
+                adapter={
+                    new LegionAdapter(
+                        new MsalAuthService(
+                            authenticationParameters.adt.aadParameters
+                        ),
+                        authenticationParameters.adx.clusterUrl
+                    )
+                }
+                {...args}
+            />
         </WizardNavigationContextProvider>
     );
 };
 
-export const Mock = Template.bind({}) as DataSourceStepStory;
-Mock.args = {
-    adapter: new MockDataManagementAdapter()
-} as IDataSourceStepProps;
+export const ADX = Template.bind({}) as DataSourceStepStory;
+ADX.args = {} as IDataSourceStepProps;

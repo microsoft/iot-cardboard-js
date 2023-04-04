@@ -1,4 +1,4 @@
-import { IStyle, IStyleFunctionOrObject } from '@fluentui/react';
+import { IButtonStyles, IStyle, IStyleFunctionOrObject } from '@fluentui/react';
 import { IExtendedTheme } from '../../../../../../Theming/Theme.types';
 
 export interface ITwinVerificationStepProps {
@@ -16,6 +16,8 @@ export interface ITwinVerificationStepStyleProps {
 }
 export interface ITwinVerificationStepStyles {
     root: IStyle;
+    headerContainer: IStyle;
+    content: IStyle;
 
     /**
      * SubComponent styles.
@@ -23,5 +25,20 @@ export interface ITwinVerificationStepStyles {
     subComponentStyles?: ITwinVerificationStepSubComponentStyles;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface ITwinVerificationStepSubComponentStyles {}
+export interface ITwinVerificationStepSubComponentStyles {
+    button: Partial<IButtonStyles>;
+}
+
+export interface IViewModelFromCooked {
+    id: string;
+    name: string;
+    color: string;
+    propertyIds: Array<string>;
+    selectedPropertyIds: Array<string>;
+}
+
+export interface IViewTwinFromCooked {
+    id: string;
+    model: IViewModelFromCooked;
+    isSelected: boolean;
+}

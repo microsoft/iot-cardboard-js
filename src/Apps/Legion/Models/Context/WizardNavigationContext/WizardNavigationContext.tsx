@@ -34,12 +34,49 @@ export const NavigationContextReducer: (
         case WizardNavigationContextActionType.NAVIGATE_TO:
             draft.currentStep = action.payload.stepNumber;
             break;
+        case WizardNavigationContextActionType.SET_VERIFICATION_STEP_DATA:
+            draft.stepData = {
+                ...draft.stepData,
+                verificationStepData: action.payload
+            };
+            break;
+        case WizardNavigationContextActionType.SET_MODEL_PROPERTY_SELECTED:
+            {
+                const targetModelId = action.payload.modelId;
+                const targetPropertyId = action.payload.propertyId;
+                const isChecked = action.payload.checked;
+                const targetModel = draft.stepData.verificationStepData.models.find(
+                    (m) => m.id === targetModelId
+                );
+                if (isChecked) {
+                    targetModel.selectedPropertyIds.push(targetPropertyId);
+                } else {
+                    targetModel.selectedPropertyIds.splice(
+                        targetModel.selectedPropertyIds.findIndex(
+                            (pId) => pId === targetPropertyId
+                        ),
+                        1
+                    );
+                }
+            }
+            break;
+        case WizardNavigationContextActionType.SET_SELECTED_TWINS:
+            {
+                draft.stepData.verificationStepData.twins.forEach((t, idx) => {
+                    if (action.payload.selectedTwinIndices.includes(idx)) {
+                        t.isSelected = true;
+                    } else {
+                        t.isSelected = false;
+                    }
+                });
+            }
+            break;
     }
 });
 
-export const WizardNavigationContextProvider: React.FC<IWizardNavigationContextProviderProps> = (
-    props
-) => {
+export function WizardNavigationContextProvider(
+    props: React.PropsWithChildren<IWizardNavigationContextProviderProps>
+) {
     const { children, initialState } = props;
 
     const [
@@ -61,11 +98,13 @@ export const WizardNavigationContextProvider: React.FC<IWizardNavigationContextP
             {children}
         </WizardNavigationContext.Provider>
     );
-};
+}
 
 const emptyState: IWizardNavigationContextState = {
+    adapter: null,
     steps: [],
-    currentStep: -1
+    currentStep: -1,
+    stepData: null
 };
 
 export const getInitialState = (
@@ -74,6 +113,7 @@ export const getInitialState = (
     const state: IWizardNavigationContextState = {
         steps: [],
         currentStep: -1,
+        stepData: null,
         ...initialState
     };
 

@@ -5,7 +5,7 @@ import {
     IWizardShellStyles
 } from './WizardShell.types';
 import { getStyles } from './WizardShell.styles';
-import { classNamesFunction, Stack, styled } from '@fluentui/react';
+import { classNamesFunction, Separator, Stack, styled } from '@fluentui/react';
 import { useExtendedTheme } from '../../../../Models/Hooks/useExtendedTheme';
 import { getDebugLogger } from '../../../../Models/Services/Utils';
 import { useWizardNavigationContext } from '../../Models/Context/WizardNavigationContext/WizardNavigationContext';
@@ -48,7 +48,11 @@ const WizardShell: React.FC<IWizardShellProps> = (props) => {
         switch (wizardNavigationContextState.currentStep) {
             // Create pages here
             case 0:
-                return <DataSourceStep />;
+                return (
+                    <DataSourceStep
+                        adapter={wizardNavigationContextState.adapter}
+                    />
+                );
             case 1:
                 return <TwinVerificationStep />;
             case 2:
@@ -56,7 +60,10 @@ const WizardShell: React.FC<IWizardShellProps> = (props) => {
             case 3:
                 return <SaveStep />;
         }
-    }, [wizardNavigationContextState.currentStep]);
+    }, [
+        wizardNavigationContextState.adapter,
+        wizardNavigationContextState.currentStep
+    ]);
 
     logDebugConsole('debug', 'Render');
 
@@ -66,11 +73,14 @@ const WizardShell: React.FC<IWizardShellProps> = (props) => {
             tokens={{ childrenGap: 8 }}
             className={classNames.root}
         >
-            <StepperWizard
-                steps={wizardNavigationContextState.steps}
-                type={StepperWizardType.Vertical}
-                currentStepIndex={wizardNavigationContextState.currentStep}
-            />
+            <div className={classNames.wizardContainer}>
+                <StepperWizard
+                    steps={wizardNavigationContextState.steps}
+                    type={StepperWizardType.Vertical}
+                    currentStepIndex={wizardNavigationContextState.currentStep}
+                />
+            </div>
+            <Separator vertical={true} />
             {currentPage}
         </Stack>
     );

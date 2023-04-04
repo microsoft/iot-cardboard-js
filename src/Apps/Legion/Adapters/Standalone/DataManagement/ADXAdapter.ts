@@ -7,25 +7,28 @@ import { DataManagementAdapterData } from './Models/DataManagementAdapter.data';
 import {
     IDataManagementAdapter,
     IIngestRow,
-    ITable
+    ITable,
+    ITableColumn,
+    ITableIngestionMapping
 } from './Models/DataManagementAdapter.types';
 
 export default class ADXAdapter
     extends BaseAdapter
     implements IDataManagementAdapter {
-    connectionSource: string;
+    connectionString: string;
 
-    constructor(authService: IAuthService, connectionSource: string) {
+    constructor(authService: IAuthService, connectionString: string) {
         super(authService);
-        this.connectionSource = connectionSource;
+        this.connectionString = connectionString;
         this.authService.login();
     }
+
     async getDatabases() {
         const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
         return await adapterMethodSandbox.safelyFetchData(async (token) => {
             const axiosResult = await axios({
                 method: 'post',
-                url: `${this.connectionSource}/v1/rest/query`,
+                url: `${this.connectionString}/v1/rest/query`,
                 headers: {
                     Authorization: 'Bearer ' + token,
                     Accept: 'application/json',
@@ -50,6 +53,7 @@ export default class ADXAdapter
             );
         }, 'adx');
     }
+
     async createDatabase(databaseName: string) {
         const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
         return await adapterMethodSandbox.safelyFetchData(async (armToken) => {
@@ -64,7 +68,7 @@ export default class ADXAdapter
                 },
                 params: { 'api-version': '2021-03-01' },
                 data: {
-                    query: `Resources | where type =~ 'Microsoft.Kusto/clusters' | where properties.uri =~ '${this.connectionSource}' | project id, name, location, type, tenantId, subscriptionId | order by name asc`
+                    query: `Resources | where type =~ 'Microsoft.Kusto/clusters' | where properties.uri =~ '${this.connectionString}' | project id, name, location, type, tenantId, subscriptionId | order by name asc`
                 }
             }).catch((err) => {
                 console.log(err);
@@ -97,12 +101,13 @@ export default class ADXAdapter
             }
         }, 'azureManagement');
     }
+
     async getTables(databaseName: string) {
         const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
         return await adapterMethodSandbox.safelyFetchData(async (token) => {
             const axiosResult = await axios({
                 method: 'post',
-                url: `${this.connectionSource}/v1/rest/query`,
+                url: `${this.connectionString}/v1/rest/query`,
                 headers: {
                     Authorization: 'Bearer ' + token,
                     Accept: 'application/json',
@@ -129,35 +134,138 @@ export default class ADXAdapter
         }, 'adx');
     }
 
-    async createTable(_databaseName: string, _tableName: string) {
+    async createTable(
+        databaseName: string,
+        tableName: string,
+        columns: Array<ITableColumn>,
+        ingestionMappingName: string,
+        ingestionMapping?: Array<ITableIngestionMapping>
+    ) {
         const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
         return await adapterMethodSandbox.safelyFetchData(async (token) => {
-            console.log('Not implemented.');
-            return new DataManagementAdapterData<boolean>(true);
+            const createResult = await axios({
+                method: 'post',
+                url: `${this.connectionString}/v1/rest/mgmt`,
+                headers: {
+                    Authorization: 'Bearer ' + token,
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                data: {
+                    db: databaseName,
+                    csl: `.create table ${tableName} (`.concat(
+                        columns.reduce(function (acc, curr, idx) {
+                            acc = acc.concat(
+                                `${curr.columnName}:${curr.columnDataType}`
+                            );
+
+                            if (idx < columns.length - 1) {
+                                acc = acc + ', ';
+                            }
+
+                            return acc;
+                        }, ''),
+                        ')'
+                    )
+                }
+            }).catch((err) => {
+                adapterMethodSandbox.pushError({
+                    type: ComponentErrorType.DataUploadFailed,
+                    isCatastrophic: true,
+                    rawError: err
+                });
+                return null;
+            });
+            let ingestionPolicyResult;
+            if (createResult?.data) {
+                ingestionPolicyResult = await axios({
+                    method: 'post',
+                    url: `${this.connectionString}/v1/rest/mgmt`,
+                    headers: {
+                        Authorization: 'Bearer ' + token,
+                        Accept: 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    data: {
+                        db: databaseName,
+                        csl: `.alter table ${tableName} policy streamingingestion enable`
+                    }
+                }).catch((err) => {
+                    adapterMethodSandbox.pushError({
+                        type: ComponentErrorType.DataUploadFailed,
+                        isCatastrophic: true,
+                        rawError: err
+                    });
+                    return null;
+                });
+            }
+            let ingestionMappingResult;
+            if (ingestionPolicyResult?.data) {
+                ingestionMappingResult = await axios({
+                    method: 'post',
+                    url: `${this.connectionString}/v1/rest/mgmt`,
+                    headers: {
+                        Authorization: 'Bearer ' + token,
+                        Accept: 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    data: {
+                        db: databaseName,
+                        csl: `.create table ${tableName} ingestion json mapping '${ingestionMappingName}' '${JSON.stringify(
+                            ingestionMapping
+                                ? ingestionMapping
+                                : columns.map(
+                                      (c) =>
+                                          ({
+                                              column: c.columnName,
+                                              path: `$.${c.columnName}`
+                                          } as ITableIngestionMapping)
+                                  )
+                        )}'`
+                    }
+                }).catch((err) => {
+                    adapterMethodSandbox.pushError({
+                        type: ComponentErrorType.DataUploadFailed,
+                        isCatastrophic: true,
+                        rawError: err
+                    });
+                    return null;
+                });
+            }
+
+            return new DataManagementAdapterData<boolean>(
+                ingestionMappingResult?.data ? true : false
+            );
         }, 'adx');
     }
 
     async upsertTable(
         databaseName: string,
         tableName: string,
-        data: Array<IIngestRow>
+        rows: Array<IIngestRow>,
+        ingestionMappingName: string
     ) {
         const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
         return await adapterMethodSandbox.safelyFetchData(async (token) => {
-            console.log('Not implemented.');
             const axiosResult = await axios({
                 method: 'post',
-                url: `${this.connectionSource}/v1/rest/ingest/${databaseName}/${tableName}`,
+                url: `${this.connectionString}/v1/rest/ingest/${databaseName}/${tableName}`,
                 headers: {
                     Authorization: 'Bearer ' + token,
                     Accept: 'application/json',
-                    'Content-Type': 'application/json',
-                    Host: new URL(this.connectionSource).hostname
+                    'Content-Type': 'text/plain'
                 },
-                params: { streamFormat: 'JSON' },
-                data: {
-                    data
-                }
+                params: {
+                    streamFormat: 'JSON',
+                    mappingName: ingestionMappingName
+                },
+                data: rows.reduce((acc, row, idx) => {
+                    acc = acc.concat(JSON.stringify(row));
+                    if (idx < rows.length - 1) {
+                        acc = acc.concat('\n');
+                    }
+                    return acc;
+                }, '')
             }).catch((err) => {
                 adapterMethodSandbox.pushError({
                     type: ComponentErrorType.DataFetchFailed,
@@ -166,16 +274,22 @@ export default class ADXAdapter
                 });
                 return null;
             });
-            return new DataManagementAdapterData<boolean>(true);
+            return new DataManagementAdapterData<boolean>(
+                axiosResult?.data ? true : false
+            );
         }, 'adx');
     }
 
-    async getTable(databaseName: string, tableName: string) {
+    async getTable(
+        databaseName: string,
+        tableName: string,
+        orderByColumn?: string
+    ) {
         const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
         return await adapterMethodSandbox.safelyFetchData(async (token) => {
             const axiosResult = await axios({
                 method: 'post',
-                url: `${this.connectionSource}/v1/rest/query`,
+                url: `${this.connectionString}/v1/rest/query`,
                 headers: {
                     Authorization: 'Bearer ' + token,
                     Accept: 'application/json',
@@ -183,7 +297,9 @@ export default class ADXAdapter
                 },
                 data: {
                     db: databaseName,
-                    csl: `${tableName} | order by TimeStamp desc | take 100`
+                    csl: `${tableName}${
+                        orderByColumn ? ` | order by ${orderByColumn} desc` : ''
+                    }`
                 }
             }).catch((err) => {
                 adapterMethodSandbox.pushError({
@@ -195,8 +311,11 @@ export default class ADXAdapter
             });
             return new DataManagementAdapterData<ITable>({
                 Columns: axiosResult?.data.Tables[0].Columns.reduce(
-                    (acc, r) => {
-                        acc.push(r.ColumnName);
+                    (acc: Array<ITableColumn>, r) => {
+                        acc.push({
+                            columnName: r.ColumnName,
+                            columnDataType: r.ColumnType
+                        });
                         return acc;
                     },
                     []

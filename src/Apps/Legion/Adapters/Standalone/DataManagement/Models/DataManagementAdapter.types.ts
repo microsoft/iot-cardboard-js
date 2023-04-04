@@ -3,8 +3,7 @@ import { IBaseAdapter } from '../../../../Models/Interfaces';
 import { DataManagementAdapterData } from './DataManagementAdapter.data';
 
 export interface IDataManagementAdapter extends IBaseAdapter {
-    /** ambigious connection source; can be either a string or an object type or totally different structure, e.g. Kusto cluster url */
-    connectionSource: any;
+    connectionString: string;
     getDatabases: () => AdapterReturnType<
         DataManagementAdapterData<Array<string>>
     >;
@@ -16,16 +15,21 @@ export interface IDataManagementAdapter extends IBaseAdapter {
     ) => AdapterReturnType<DataManagementAdapterData<Array<string>>>;
     createTable: (
         databaseName: string,
-        tableName: string
+        tableName: string,
+        columns: Array<ITableColumn>,
+        ingestionMappingName: string,
+        ingestionMapping?: Array<ITableIngestionMapping>
     ) => AdapterReturnType<DataManagementAdapterData<boolean>>;
     upsertTable: (
         databaseName: string,
         tableName: string,
-        data: Array<IIngestRow>
+        data: Array<IIngestRow>,
+        ingestionMappingName: string
     ) => AdapterReturnType<DataManagementAdapterData<boolean>>;
     getTable: (
         databaseName: string,
-        tableName: string
+        tableName: string,
+        orderByColumn?: string
     ) => AdapterReturnType<DataManagementAdapterData<ITable>>;
 }
 
@@ -47,9 +51,41 @@ export interface IGetTableAdapterParams {
     tableName: string;
 }
 
+export interface ICreateTableAdapterParams {
+    databaseName: string;
+    tableName: string;
+    columns: Array<ITableColumn>;
+}
+
+export interface IUpsertTableAdapterParams {
+    databaseName: string;
+    tableName: string;
+    rows: Array<IIngestRow>;
+}
+
 export interface ITable {
-    Columns: Array<string>;
+    Columns: Array<ITableColumn>;
     Rows: Array<Array<any>>;
+}
+
+export interface ITableColumn {
+    columnName: string;
+    columnDataType:
+        | 'bool'
+        | 'datetime'
+        | 'dynamic'
+        | 'guid'
+        | 'int'
+        | 'long'
+        | 'real'
+        | 'string'
+        | 'timespan'
+        | 'decimal';
+}
+
+export interface ITableIngestionMapping {
+    column: string;
+    path: string; // in "$.{key}" form, e.g, "$.id"
 }
 
 export interface IIngestRow {

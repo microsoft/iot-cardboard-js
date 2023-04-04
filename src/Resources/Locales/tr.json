@@ -1535,19 +1535,39 @@
   },
   "legionApp": {
     "dataPusher": {
-      "title": "Verileri bağlama ve gönderme",
-      "database": "Veritabanı",
-      "table": "Masa",
       "simulationType": "Simülasyon türü",
-      "selectDatabasePlaceholder": "Veritabanı seç",
-      "selectTablePlaceholder": "Tablo seçin",
-      "selectSimulationTypePlaceholder": "Simülasyon türünü seçin",
-      "primaryActionLabel": "Simülasyon verilerini bağlayın ve gönderin",
       "progress": {
-        "createDatabase": "Veritabanı oluşturuluyor...",
         "createTable": "Tablo oluşturuluyor...",
-        "createTables": "Tablo oluşturma..."
-      }
+        "createTables": "Tablo oluşturma...",
+        "ingest": "Ingesting...",
+        "createDatabase": "Veritabanı oluşturuluyor..."
+      },
+      "selectSimulationType": "Simülasyon türünü seçin",
+      "tabs": {
+        "setup": "Kurulum",
+        "ingest": "Yutmayın",
+        "cook": "Pişirmek"
+      },
+      "source": {
+        "database": "Kaynak veritabanı",
+        "selectDatabase": "Kaynak veritabanını seçme",
+        "table": "Kaynak tablo",
+        "selectTable": "Kaynak tabloyu seç",
+        "tableType": "Kaynak tablo türü",
+        "selectTableType": "Kaynak tablo türünü seçme",
+        "twinIDProperty": "Kaynak ikiz kimlik özelliği",
+        "selectTwinIDProperty": "Kaynak ikiz kimliği özelliğini seçin"
+      },
+      "target": {
+        "database": "Hedef veritabanı",
+        "selectDatabase": "Hedef veritabanını seç"
+      },
+      "actions": {
+        "ingest": "Kaynak tabloya veri alma",
+        "cook": "Cook ikizleri grafiği",
+        "pushTwinsGraph": "İkizler grafiğini hedef veritabanına gönderme"
+      },
+      "title": "Veri itici"
     }
   }
 }
