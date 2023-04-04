@@ -88,7 +88,7 @@ const RelationshipBuilderStep: React.FC<IRelationshipBuilderStepProps> = (
         const nodes: IGraphNode<any>[] = models.map((x) => {
             return {
                 id: x.id,
-                label: `${x.model.name}-${x.id}`,
+                label: x.id,
                 color: x.model.color,
                 data: x
             };
