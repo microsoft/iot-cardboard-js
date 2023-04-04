@@ -18,5 +18,5 @@ const Template: LegionAppStory = (_args) => {
     return <LegionApp />;
 };
 
-export const Legion = Template.bind({}) as LegionAppStory;
-Legion.args = {} as ILegionAppProps;
+export const App = Template.bind({}) as LegionAppStory;
+App.args = {} as ILegionAppProps;

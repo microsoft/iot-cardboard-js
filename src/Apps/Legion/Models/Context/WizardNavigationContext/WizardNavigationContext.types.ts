@@ -10,11 +10,15 @@ export interface IWizardNavigationContext {
 export interface IWizardNavigationContextState {
     steps: Array<IStepperWizardStep>;
     currentStep: number;
+    validity: {
+        isValid: boolean;
+    };
 }
 
 export enum WizardNavigationContextActionType {
     SET_STEPS = 'SET_STEPS',
-    NAVIGATE_TO = 'NAVIGATE_TO'
+    NAVIGATE_TO = 'NAVIGATE_TO',
+    SET_STEP_VALIDITY = 'SET_STEP_VALIDITY'
 }
 
 export type WizardNavigationContextAction =
@@ -28,6 +32,12 @@ export type WizardNavigationContextAction =
           type: WizardNavigationContextActionType.SET_STEPS;
           payload: {
               steps: Array<IStepperWizardStep>;
+          };
+      }
+    | {
+          type: WizardNavigationContextActionType.SET_STEP_VALIDITY;
+          payload: {
+              isValid: boolean;
           };
       };
 

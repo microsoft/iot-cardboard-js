@@ -34,6 +34,9 @@ export const NavigationContextReducer: (
         case WizardNavigationContextActionType.NAVIGATE_TO:
             draft.currentStep = action.payload.stepNumber;
             break;
+        case WizardNavigationContextActionType.SET_STEP_VALIDITY: {
+            draft.validity.isValid = action.payload.isValid;
+        }
     }
 });
 
@@ -65,15 +68,17 @@ export const WizardNavigationContextProvider: React.FC<IWizardNavigationContextP
 
 const emptyState: IWizardNavigationContextState = {
     steps: [],
-    currentStep: -1
+    currentStep: -1,
+    validity: {
+        isValid: true
+    }
 };
 
 export const getInitialState = (
     initialState?: IWizardNavigationContextState
 ) => {
     const state: IWizardNavigationContextState = {
-        steps: [],
-        currentStep: -1,
+        ...emptyState,
         ...initialState
     };
 

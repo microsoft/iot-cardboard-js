@@ -5,7 +5,13 @@ import {
     IWizardShellStyles
 } from './WizardShell.types';
 import { getStyles } from './WizardShell.styles';
-import { classNamesFunction, Stack, styled } from '@fluentui/react';
+import {
+    classNamesFunction,
+    DialogFooter,
+    PrimaryButton,
+    Stack,
+    styled
+} from '@fluentui/react';
 import { useExtendedTheme } from '../../../../Models/Hooks/useExtendedTheme';
 import { getDebugLogger } from '../../../../Models/Services/Utils';
 import { useWizardNavigationContext } from '../../Models/Context/WizardNavigationContext/WizardNavigationContext';
@@ -15,6 +21,8 @@ import DataSourceStep from './Internal/DataSourceStep/DataSourceStep';
 import TwinVerificationStep from './Internal/TwinVerificationStep/TwinVerificationStep';
 import RelationshipBuilderStep from './Internal/RelationshipBuilderStep/RelationshipBuilderStep';
 import SaveStep from './Internal/SaveStep/SaveStep';
+import { WizardNavigationContextActionType } from '../../Models/Context/WizardNavigationContext/WizardNavigationContext.types';
+import { useTranslation } from 'react-i18next';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('WizardShell', debugLogging);
@@ -71,8 +79,56 @@ const WizardShell: React.FC<IWizardShellProps> = (props) => {
                 type={StepperWizardType.Vertical}
                 currentStepIndex={wizardNavigationContextState.currentStep}
             />
-            {currentPage}
+            <Stack tokens={{ childrenGap: 8 }} className={classNames.content}>
+                {/* Content */}
+                <Stack.Item grow>{currentPage}</Stack.Item>
+                {/* Page footer */}
+                <Footer />
+            </Stack>
         </Stack>
+    );
+};
+
+const Footer: React.FC = () => {
+    // hooks
+    const { t } = useTranslation();
+
+    // contexts
+    const {
+        wizardNavigationContextState,
+        wizardNavigationContextDispatch
+    } = useWizardNavigationContext();
+
+    if (
+        wizardNavigationContextState.currentStep !==
+        wizardNavigationContextState.steps?.length - 1
+    ) {
+        return (
+            <DialogFooter>
+                <PrimaryButton
+                    text={t('next')}
+                    disabled={!wizardNavigationContextState.validity.isValid}
+                    onClick={() => {
+                        wizardNavigationContextDispatch({
+                            type: WizardNavigationContextActionType.NAVIGATE_TO,
+                            payload: {
+                                stepNumber:
+                                    wizardNavigationContextState.currentStep + 1
+                            }
+                        });
+                    }}
+                />
+            </DialogFooter>
+        );
+    }
+
+    return (
+        <DialogFooter>
+            <PrimaryButton
+                text={t('save')}
+                onClick={() => alert('Congratulations!!! You did it.')}
+            />
+        </DialogFooter>
     );
 };
 
