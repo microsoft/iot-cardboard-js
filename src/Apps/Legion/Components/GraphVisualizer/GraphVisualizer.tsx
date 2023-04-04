@@ -10,7 +10,11 @@ import { CustomNode } from './Internal/CustomNode';
 import CustomLassoHandler from './Hooks/CustomLassoHandler/CustomLassoHandler';
 import CustomContextMenu from './Internal/CustomContextMenu/CustomContextMenu';
 import CustomClickHandler from './Hooks/CustomClickHandler/CustomClickHandler';
-import { ICustomNodeConfig, IDefaultNode } from './GraphTypes.types';
+import {
+    ICustomNodeConfig,
+    IDefaultEdge,
+    IDefaultNode
+} from './GraphTypes.types';
 import {
     IGraphVisualizerProps,
     IGraphVisualizerStyleProps,
@@ -43,9 +47,9 @@ const DEFAULT_NODE: IDefaultNode = {
         }
     }
 };
-// const DEFAULT_EDGE: IDefaultEdge = {
-//     type: 'graphin-line' // as any // forcing type since Graphin has an opinion for some reason
-// };
+const DEFAULT_EDGE: IDefaultEdge = {
+    type: 'graphin-line' // as any // forcing type since Graphin has an opinion for some reason
+};
 
 const FORCE_LAYOUT = {
     type: 'force2',
@@ -105,7 +109,6 @@ const GraphVisualizer: React.FC<IGraphVisualizerProps> = (props) => {
             };
             const nodeToRegiser = CustomNode;
             Graphin.registerNode(CUSTOM_NODE_NAME, nodeToRegiser, 'rect');
-            // console.log('registering node', nodeToRegiser);
             isMounted.current = true;
         }
     }, []);
@@ -123,7 +126,7 @@ const GraphVisualizer: React.FC<IGraphVisualizerProps> = (props) => {
             <div className={classNames.graphContainer} id={graphContainerId}>
                 <Graphin
                     data={graphState.graphData}
-                    // defaultEdge={DEFAULT_EDGE}
+                    defaultEdge={DEFAULT_EDGE}
                     defaultNode={DEFAULT_NODE}
                     height={height}
                     layout={
@@ -135,13 +138,6 @@ const GraphVisualizer: React.FC<IGraphVisualizerProps> = (props) => {
                     <CustomLassoHandler />
                     <CustomContextMenu />
                     <CustomClickHandler />
-                    {/* <CustomLegend />
-                    <CreateEdge
-                        active={false}
-                        onClick={() => {
-                            alert('clicked');
-                        }}
-                    /> */}
                 </Graphin>
             </div>
         </div>
