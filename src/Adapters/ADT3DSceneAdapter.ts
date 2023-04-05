@@ -33,11 +33,13 @@ import {
 import ADTInstanceTimeSeriesConnectionData from '../Models/Classes/AdapterDataClasses/ADTInstanceTimeSeriesConnectionData';
 import ADTDataHistoryAdapter from './ADTDataHistoryAdapter';
 import PowerBIWidgetBuilderAdapter from '../Components/PowerBIWidget/Internal/PowerBIWidgetBuilder/PowerBIWidgetBuilderAdapter';
+import { StorageBlobServiceCorsRulesData } from '../Models/Classes/AdapterDataClasses/StorageData';
 
 const forceCORS =
     localStorage.getItem(LOCAL_STORAGE_KEYS.FeatureFlags.Proxy.forceCORS) ===
     'true';
 
+const initialUseProxySettings = { adt: null, blob: null };
 export default class ADT3DSceneAdapter {
     constructor(
         authService: IAuthService,
@@ -68,11 +70,11 @@ export default class ADT3DSceneAdapter {
          * Check if class has been initialized with CORS enabled or if origin matches dev or prod explorer urls,
          * override if CORS is forced by feature flag
          *  */
-        this.useAdtProxy =
+        this.useAdtProxy = initialUseProxySettings.adt =
             (useAdtProxy || !validateExplorerOrigin(window.origin)) &&
             !forceCORS;
 
-        this.useBlobProxy =
+        this.useBlobProxy = initialUseProxySettings.blob =
             (useBlobProxy || !validateExplorerOrigin(window.origin)) &&
             !forceCORS;
 
@@ -246,6 +248,30 @@ export default class ADT3DSceneAdapter {
             }
         });
     };
+
+    /** Adding provided role definitions to the user's role assignments for the container resource. This method assumes that
+     * containerResourceId is already set in the previous getMissingStorageContainerAccessRoles method and present for assigning roles for.
+     */
+    checkCORSProperties = async (adtUrl: string) => {
+        if (adtUrl) {
+            const adtInstanceResult = await this.getResourceByUrl(
+                adtUrl,
+                AzureResourceTypes.DigitalTwinInstance
+            );
+            const adtInstance: IAzureResource = adtInstanceResult.getData();
+            if (adtInstance.properties.publicNetworkAccess === 'Disabled') {
+                // it means using private with privateEndpointConnections, then force CORS
+                this.useAdtProxy = false;
+                this.useBlobProxy = false;
+            } else {
+                this.useAdtProxy = initialUseProxySettings.adt;
+                this.useBlobProxy = initialUseProxySettings.blob;
+            }
+        }
+        return this.getBlobServiceCorsProperties() as Promise<
+            AdapterResult<StorageBlobServiceCorsRulesData>
+        >;
+    };
 }
 
 export default interface ADT3DSceneAdapter
@@ -258,6 +284,9 @@ export default interface ADT3DSceneAdapter
     addMissingRolesToStorageContainer: (
         missingRoleDefinitionIds: AzureAccessPermissionRoleGroups
     ) => Promise<AdapterResult<AzureResourcesData>>;
+    checkCORSProperties: (
+        adtUrl: string
+    ) => Promise<AdapterResult<StorageBlobServiceCorsRulesData>>;
 }
 applyMixins(ADT3DSceneAdapter, [
     BlobAdapter,

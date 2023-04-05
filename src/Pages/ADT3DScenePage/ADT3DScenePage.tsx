@@ -104,8 +104,9 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
             state.currentStep === ADT3DScenePageSteps.Scene
     );
 
-    const getCorsPropertiesAdapterData = useAdapter({
-        adapterMethod: () => adapter.getBlobServiceCorsProperties(),
+    const checkCORSPropertiesAdapterData = useAdapter({
+        adapterMethod: (params: { adtUrl: string }) =>
+            adapter.checkCORSProperties(params.adtUrl),
         isAdapterCalledOnMount: false,
         refetchDependencies: []
     });
@@ -287,9 +288,11 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
             );
         }
         if (deeplinkState.storageUrl) {
-            getCorsPropertiesAdapterData.callAdapter();
+            checkCORSPropertiesAdapterData.callAdapter({
+                adtUrl: deeplinkState.adtUrl
+            });
         }
-    }, [adapter, deeplinkState.storageUrl]);
+    }, [adapter, deeplinkState.storageUrl, deeplinkState.adtUrl]);
 
     // update the adapter when adx connection information changes
     useEffect(() => {
@@ -568,8 +571,8 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
     // does not have required CORS rules in its properties, then set the errors to render ScenePageErrorHandlingWrapper component,
     // otherwise if there is no issues, clear the errors and with CORS fetch scenes config
     useEffect(() => {
-        if (getCorsPropertiesAdapterData?.adapterResult.getErrors()) {
-            const errors: Array<IComponentError> = getCorsPropertiesAdapterData?.adapterResult.getErrors();
+        if (checkCORSPropertiesAdapterData?.adapterResult.getErrors()) {
+            const errors: Array<IComponentError> = checkCORSPropertiesAdapterData?.adapterResult.getErrors();
             // Only set errors if it is a genuine CORSError (2xx, with invalid CORS configuration)
             // This means we will swallow non-2xx errors when we check CORS
             // We want to swallow all non-2xx errors on checking CORS because users could have valid access to the content of a container
@@ -593,7 +596,7 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
                 errorCallbackSetRef.current = false;
                 scenesConfig.callAdapter();
             }
-        } else if (getCorsPropertiesAdapterData?.adapterResult.getData()) {
+        } else if (checkCORSPropertiesAdapterData?.adapterResult.getData()) {
             dispatch({
                 type: ADT3DScenePageActionTypes.SET_ERRORS,
                 payload: { errors: [] }
@@ -601,7 +604,7 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
             errorCallbackSetRef.current = false;
             scenesConfig.callAdapter();
         }
-    }, [getCorsPropertiesAdapterData?.adapterResult]);
+    }, [checkCORSPropertiesAdapterData?.adapterResult]);
 
     // if setting CORS rules is successful fetch scenes config
     useEffect(() => {

@@ -455,10 +455,8 @@ export default class BlobAdapter implements IBlobAdapter {
                     return corsRules;
                 } else if (hasProperOrigins && hasProperMethods) {
                     if (this.useBlobProxy) {
-                        adapterMethodSandbox.pushError({
-                            type: ComponentErrorType.CORSError,
-                            isCatastrophic: false
-                        });
+                        // don't show CORS update available for proxy users, just return existing cors properties
+                        return corsRules;
                     } else {
                         adapterMethodSandbox.pushError({
                             type: ComponentErrorType.ForceCORSError,

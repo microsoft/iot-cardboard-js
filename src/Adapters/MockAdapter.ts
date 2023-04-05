@@ -1061,6 +1061,10 @@ export default class MockAdapter
         };
     }
 
+    async checkCORSProperties(_adtUrl: string) {
+        return this.getBlobServiceCorsProperties();
+    }
+
     async getBlobServiceCorsProperties() {
         try {
             await this.mockNetwork();
