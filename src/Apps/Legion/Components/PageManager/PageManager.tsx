@@ -36,18 +36,7 @@ const PageManager: React.FC<IPageManagerProps> = () => {
             case 'StoreListPage':
                 return <StoreListPage />;
             case 'Wizard':
-                return (
-                    <WizardNavigationContextProvider
-                        initialState={{
-                            adapter: new MockDataManagementAdapter(),
-                            steps: steps,
-                            currentStep: 0,
-                            stepData: stepData
-                        }}
-                    >
-                        <WizardShell />
-                    </WizardNavigationContextProvider>
-                );
+                return <WizardPage />;
         }
     }, [navigationState.currentPage]);
 
