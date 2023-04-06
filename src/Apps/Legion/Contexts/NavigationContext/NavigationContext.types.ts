@@ -3,8 +3,8 @@ export type NavigationPage =
     | 'StoreListPage'
     | 'ActionPicker'
     | 'Wizard';
-export interface INavigationContextProviderProps<N> {
-    initialState?: Partial<Omit<INavigationContextState, 'graphData'>>;
+export interface INavigationContextProviderProps {
+    initialState?: Partial<INavigationContextState>;
 }
 
 /**

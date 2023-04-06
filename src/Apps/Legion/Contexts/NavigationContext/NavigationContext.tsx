@@ -39,41 +39,35 @@ export const NavigationContextReducer: (
     }
 );
 
-export const NavigationContextProvider = React.memo(
-    <T extends object>(
-        props: INavigationContextProviderProps<T> & { children?: ReactNode }
-    ) => {
-        const { children, initialState } = props;
+export const NavigationContextProvider: React.FC<INavigationContextProviderProps> = (
+    props
+) => {
+    const { children, initialState } = props;
 
-        // skip wrapping if the context already exists
-        const existingContext = useNavigationContext();
-        if (existingContext) {
-            return <>{children}</>;
-        }
-
-        const [state, dispatch] = useReducer(
-            NavigationContextReducer,
-            { ...emptyState, ...initialState },
-            getInitialState
-        );
-
-        logDebugConsole(
-            'debug',
-            'Mount NavigationContextProvider. {state}',
-            state
-        );
-        return (
-            <NavigationContext.Provider
-                value={{
-                    navigationDispatch: dispatch,
-                    navigationState: state
-                }}
-            >
-                {children}
-            </NavigationContext.Provider>
-        );
+    // skip wrapping if the context already exists
+    const existingContext = useNavigationContext();
+    if (existingContext) {
+        return <>{children}</>;
     }
-);
+
+    const [state, dispatch] = useReducer(
+        NavigationContextReducer,
+        { ...emptyState, ...initialState },
+        getInitialState
+    );
+
+    logDebugConsole('debug', 'Mount NavigationContextProvider. {state}', state);
+    return (
+        <NavigationContext.Provider
+            value={{
+                navigationDispatch: dispatch,
+                navigationState: state
+            }}
+        >
+            {children}
+        </NavigationContext.Provider>
+    );
+};
 
 const emptyState: INavigationContextState = {
     currentPage: 'Home'
