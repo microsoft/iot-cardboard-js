@@ -6,8 +6,9 @@ import { getDefaultStoryDecorator } from '../../../../../../Models/Services/Stor
 import LegionAdapter from '../../../../Adapters/Mixin/LegionAdapter';
 import MsalAuthService from '../../../../../../Models/Services/MsalAuthService';
 import useAuthParams from '../../../../../../../.storybook/useAuthParams';
-import { WizardNavigationContextProvider } from '../../../../Models/Context/WizardNavigationContext/WizardNavigationContext';
-import { stepData, steps } from '../../WizardShellMockData';
+import { WizardNavigationContextProvider } from '../../../../Contexts/WizardNavigationContext/WizardNavigationContext';
+import { wizardData, steps } from '../../WizardShellMockData';
+import { DataManagementContextProvider } from '../../../../Contexts/DataManagementContext/DataManagementContext';
 
 const wrapperStyle = { width: '100%', height: '600px', padding: 8 };
 
@@ -24,25 +25,30 @@ const Template: DataSourceStepStory = (args) => {
     return !authenticationParameters ? (
         <div></div>
     ) : (
-        <WizardNavigationContextProvider
+        <DataManagementContextProvider
             initialState={{
-                steps: steps,
-                currentStep: 0,
-                stepData: stepData
+                ...wizardData
             }}
         >
-            <DataSourceStep
-                adapter={
-                    new LegionAdapter(
-                        new MsalAuthService(
-                            authenticationParameters.adt.aadParameters
-                        ),
-                        authenticationParameters.adx.clusterUrl
-                    )
-                }
-                {...args}
-            />
-        </WizardNavigationContextProvider>
+            <WizardNavigationContextProvider
+                initialState={{
+                    steps: steps,
+                    currentStep: 0
+                }}
+            >
+                <DataSourceStep
+                    adapter={
+                        new LegionAdapter(
+                            new MsalAuthService(
+                                authenticationParameters.adt.aadParameters
+                            ),
+                            authenticationParameters.adx.clusterUrl
+                        )
+                    }
+                    {...args}
+                />
+            </WizardNavigationContextProvider>
+        </DataManagementContextProvider>
     );
 };
 

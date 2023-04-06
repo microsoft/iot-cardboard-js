@@ -4,8 +4,9 @@ import DataSourceStep from './DataSourceStep';
 import { IDataSourceStepProps } from './DataSourceStep.types';
 import { getDefaultStoryDecorator } from '../../../../../../Models/Services/StoryUtilities';
 import MockDataManagementAdapter from '../../../../Adapters/Standalone/DataManagement/MockDataManagementAdapter';
-import { WizardNavigationContextProvider } from '../../../../Models/Context/WizardNavigationContext/WizardNavigationContext';
-import { stepData, steps } from '../../WizardShellMockData';
+import { WizardNavigationContextProvider } from '../../../../Contexts/WizardNavigationContext/WizardNavigationContext';
+import { wizardData, steps } from '../../WizardShellMockData';
+import { DataManagementContextProvider } from '../../../../Contexts/DataManagementContext/DataManagementContext';
 
 const wrapperStyle = { width: '100%', height: '600px', padding: 8 };
 
@@ -19,15 +20,20 @@ type DataSourceStepStory = ComponentStory<typeof DataSourceStep>;
 
 const Template: DataSourceStepStory = (args) => {
     return (
-        <WizardNavigationContextProvider
+        <DataManagementContextProvider
             initialState={{
-                steps: steps,
-                currentStep: 0,
-                stepData: stepData
+                ...wizardData
             }}
         >
-            <DataSourceStep {...args} />
-        </WizardNavigationContextProvider>
+            <WizardNavigationContextProvider
+                initialState={{
+                    steps: steps,
+                    currentStep: 0
+                }}
+            >
+                <DataSourceStep {...args} />
+            </WizardNavigationContextProvider>
+        </DataManagementContextProvider>
     );
 };
 

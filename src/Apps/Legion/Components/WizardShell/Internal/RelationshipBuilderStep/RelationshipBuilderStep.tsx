@@ -11,7 +11,7 @@ import { useExtendedTheme } from '../../../../../../Models/Hooks/useExtendedThem
 import GraphVisualizer from '../../../GraphVisualizer/GraphVisualizer';
 import { GraphContextProvider } from '../../../../Contexts/GraphContext/GraphContext';
 import { IGraphNode } from '../../../../Contexts/GraphContext/GraphContext.types';
-import { useWizardNavigationContext } from '../../../../Models/Context/WizardNavigationContext/WizardNavigationContext';
+import { useWizardNavigationContext } from '../../../../Contexts/WizardNavigationContext/WizardNavigationContext';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('RelationshipBuilderStep', debugLogging);

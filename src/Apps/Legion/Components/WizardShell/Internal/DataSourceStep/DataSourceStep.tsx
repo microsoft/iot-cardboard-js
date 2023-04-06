@@ -39,22 +39,20 @@ import {
     IGetTablesAdapterParams,
     ITable
 } from '../../../../Adapters/Standalone/DataManagement/Models/DataManagementAdapter.types';
-import { ICookAssets } from '../../../../Models/Interfaces';
 import useAdapter from '../../../../../../Models/Hooks/useAdapter';
 import { ActionMeta } from 'react-select';
-import {
-    cookSourceTable,
-    getViewModelsFromCookedAssets,
-    getViewTwinsFromCookedAssets
-} from '../../../../Services/DataPusherUtils';
+import { cookSourceTable } from '../../../../Services/DataPusherUtils';
 import { getReactSelectStyles } from '../../../../../../Resources/Styles/ReactSelect.styles';
 import { useTranslation } from 'react-i18next';
 import {
     dateSourceStepReducer,
     defaultDataSourceStepState
 } from './DataSourceStep.state';
-import { useWizardNavigationContext } from '../../../../Models/Context/WizardNavigationContext/WizardNavigationContext';
-import { WizardNavigationContextActionType } from '../../../../Models/Context/WizardNavigationContext/WizardNavigationContext.types';
+import { useWizardNavigationContext } from '../../../../Contexts/WizardNavigationContext/WizardNavigationContext';
+import { WizardNavigationContextActionType } from '../../../../Contexts/WizardNavigationContext/WizardNavigationContext.types';
+import { useDataManagementContext } from '../../../../Contexts/DataManagementContext/DataManagementContext';
+import { DataManagementContextActionType } from '../../../../Contexts/DataManagementContext/DataManagementContext.types';
+import { IAppData } from '../../../../Models/Interfaces';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('DataSourceStep', debugLogging);
@@ -73,10 +71,11 @@ const DataSourceStep: React.FC<IDataSourceStepProps> = (props) => {
     );
 
     const [adapterResult, setAdapterResult] = useState(null);
-    const [cookAssets, setCookAssets] = useState<ICookAssets>(null);
+    const [appData, setAppData] = useState<IAppData>(null);
 
     // contexts
     const { wizardNavigationContextDispatch } = useWizardNavigationContext();
+    const { dataManagementContextDispatch } = useDataManagementContext();
 
     // hooks
     const { t } = useTranslation();
@@ -176,7 +175,7 @@ const DataSourceStep: React.FC<IDataSourceStepProps> = (props) => {
         []
     );
     const handleCookButtonClick = useCallback(() => {
-        setCookAssets(
+        setAppData(
             cookSourceTable(
                 `${adapter.connectionString}/${state.selectedSourceDatabase}/${state.selectedSourceTable}`,
                 state.sourceTableData,
@@ -194,33 +193,39 @@ const DataSourceStep: React.FC<IDataSourceStepProps> = (props) => {
     ]);
 
     const handleNextClick = () => {
-        const viewModels = getViewModelsFromCookedAssets(cookAssets.models);
-        const viewTwins = getViewTwinsFromCookedAssets(
-            cookAssets.twins,
-            viewModels
-        );
-        wizardNavigationContextDispatch({
-            type: WizardNavigationContextActionType.SET_CONNECT_STEP_DATA,
+        // Temporary: commit of data into global store in this part until this component's
+        // reducer gets merged into global data context
+        dataManagementContextDispatch({
+            type: DataManagementContextActionType.SET_SOURCE_INFORMATION,
             payload: {
-                selectedSourceDatabase: state.selectedSourceDatabase,
-                selectedSourceTable: state.selectedSourceTable,
-                selectedSourceTwinIDColumn: state.selectedSourceTwinIDColumn,
-                selectedSourceTableType: state.selectedSourceTableType,
-                selectedTargetDatabase: state.selectedTargetDatabase.label,
-                cookedAssets: cookAssets
+                data: [
+                    {
+                        selectedSourceDatabase: state.selectedSourceDatabase,
+                        selectedSourceTable: state.selectedSourceTable,
+                        selectedSourceTableType: state.selectedSourceTableType,
+                        selectedSourceTwinIDColumn:
+                            state.selectedSourceTwinIDColumn,
+                        selectedTargetDatabase:
+                            state.selectedTargetDatabase.value
+                    }
+                ]
             }
         });
-        wizardNavigationContextDispatch({
-            type: WizardNavigationContextActionType.SET_VERIFICATION_STEP_DATA,
+
+        dataManagementContextDispatch({
+            type: DataManagementContextActionType.SET_INITIAL_ASSETS,
             payload: {
-                models: viewModels,
-                properties: cookAssets.properties,
-                twins: viewTwins
+                data: state.cookAssets
             }
         });
+        // End of temporary section
+
+        // Navigation only, since all data is updated through other handlers
         wizardNavigationContextDispatch({
             type: WizardNavigationContextActionType.NAVIGATE_TO,
-            payload: { stepNumber: 1 }
+            payload: {
+                stepNumber: 1
+            }
         });
     };
 
@@ -365,16 +370,16 @@ const DataSourceStep: React.FC<IDataSourceStepProps> = (props) => {
                     </p>
                 </StackItem>
             </Stack>
-            {cookAssets && (
+            {appData && (
                 <div className={classNames.informationText}>
                     <p>{`${
-                        cookAssets.models.length
-                    } possible models found with properties ${cookAssets.models
+                        appData.models.length
+                    } possible models found with properties ${appData.models
                         .map((model) => {
                             return `[${model.propertyIds
                                 .map(
                                     (propId) =>
-                                        cookAssets.properties.find(
+                                        appData.properties.find(
                                             (p) => p.id === propId
                                         ).name
                                 )
@@ -382,20 +387,20 @@ const DataSourceStep: React.FC<IDataSourceStepProps> = (props) => {
                         })
                         .join(',')}`}</p>
                     <p>{`${
-                        cookAssets.properties.length
-                    } unique properties found: ${cookAssets.properties
+                        appData.properties.length
+                    } unique properties found: ${appData.properties
                         .map((p) => p.name)
                         .join(',')}`}</p>
                     <p>{`${
-                        cookAssets.twins.length
-                    } unique twins found: ${cookAssets.twins
+                        appData.twins.length
+                    } unique twins found: ${appData.twins
                         .map((t) => t.id)
                         .join(',')}`}</p>
                 </div>
             )}
             <PrimaryButton
                 text="Next"
-                disabled={!cookAssets}
+                disabled={!appData}
                 styles={classNames.subComponentStyles.button()}
                 onClick={handleNextClick}
             />

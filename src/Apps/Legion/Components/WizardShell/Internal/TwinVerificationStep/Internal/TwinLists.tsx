@@ -1,12 +1,11 @@
-import {
-    DetailsList,
-    IColumn,
-    mergeStyleSets,
-    Selection
-} from '@fluentui/react';
+import { DetailsList, IColumn, Selection } from '@fluentui/react';
 import React, { useRef, useState } from 'react';
-import { useWizardNavigationContext } from '../../../../../Models/Context/WizardNavigationContext/WizardNavigationContext';
-import { WizardNavigationContextActionType } from '../../../../../Models/Context/WizardNavigationContext/WizardNavigationContext.types';
+import { useDataManagementContext } from '../../../../../Contexts/DataManagementContext/DataManagementContext';
+import {
+    getViewModelsFromCookedAssets,
+    getViewTwinsFromCookedAssets
+} from '../../../../../Services/DataPusherUtils';
+import { twinListsStyle } from './TwinLists.styles';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface ITwinListsProps {}
@@ -38,41 +37,33 @@ const columns: IColumn[] = [
     }
 ];
 
+/** THIS FILE WILL BE HEAVILY MODIFIED SO I'LL leave data mgmt for a following PR */
 export const TwinLists: React.FC<ITwinListsProps> = (_props) => {
     // Contexts
-    const {
-        wizardNavigationContextState,
-        wizardNavigationContextDispatch
-    } = useWizardNavigationContext();
+    const { dataManagementContextState } = useDataManagementContext();
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const [_selectedTwinIndices, setSelectedTwinIndices] = useState<number[]>();
     const selection = useRef<Selection>(
         new Selection({
             onSelectionChanged: () => {
                 const selectedIndices = selection.current.getSelectedIndices();
-                wizardNavigationContextDispatch({
-                    type: WizardNavigationContextActionType.SET_SELECTED_TWINS,
-                    payload: { selectedTwinIndices: selectedIndices }
-                });
+                setSelectedTwinIndices(selectedIndices);
             }
         })
     );
 
-    // Style
-    const style = mergeStyleSets({
-        dot: {
-            width: 8,
-            height: 8,
-            borderRadius: 4
-        }
-    });
-
-    const properties =
-        wizardNavigationContextState.stepData.verificationStepData.properties;
+    const properties = dataManagementContextState.modifiedAssets.properties;
 
     const initializeTwinList = () => {
         // Generate twin list for details list
-        const twins =
-            wizardNavigationContextState.stepData.verificationStepData.twins;
+        const viewModels = getViewModelsFromCookedAssets(
+            dataManagementContextState.modifiedAssets.models
+        );
+        const twins = getViewTwinsFromCookedAssets(
+            dataManagementContextState.modifiedAssets.twins,
+            viewModels
+        );
         if (twins) {
             const twinDetails = twins.map((t) => {
                 return {
@@ -80,7 +71,7 @@ export const TwinLists: React.FC<ITwinListsProps> = (_props) => {
                     id: t.id,
                     modelColor: (
                         <div
-                            className={style.dot}
+                            className={twinListsStyle.dot}
                             style={{
                                 background: t.model.color
                             }}

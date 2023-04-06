@@ -3,7 +3,7 @@ import { ComponentStory } from '@storybook/react';
 import WizardShell from './WizardShell';
 import { IWizardShellProps } from './WizardShell.types';
 import { getDefaultStoryDecorator } from '../../../../Models/Services/StoryUtilities';
-import { WizardNavigationContextProvider } from '../../Models/Context/WizardNavigationContext/WizardNavigationContext';
+import { WizardNavigationContextProvider } from '../../Contexts/WizardNavigationContext/WizardNavigationContext';
 import LegionAdapter from '../../Adapters/Mixin/LegionAdapter';
 import MsalAuthService from '../../../../Models/Services/MsalAuthService';
 import useAuthParams from '../../../../../.storybook/useAuthParams';

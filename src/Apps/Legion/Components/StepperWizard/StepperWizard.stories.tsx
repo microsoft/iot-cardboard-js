@@ -7,7 +7,7 @@ import {
     StepperWizardType
 } from './StepperWizard.types';
 import { getDefaultStoryDecorator } from '../../../../Models/Services/StoryUtilities';
-import { WizardNavigationContextProvider } from '../../Models/Context/WizardNavigationContext/WizardNavigationContext';
+import { WizardNavigationContextProvider } from '../../Contexts/WizardNavigationContext/WizardNavigationContext';
 
 const wrapperStyle = { width: 'fit-content', height: 'auto' };
 

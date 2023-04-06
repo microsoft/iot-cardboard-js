@@ -1,15 +1,11 @@
 import { IStepperWizardStep } from '../../../../Components/StepperWizard/StepperWizard.types';
-import { WizardStepData } from '../../Models/Context/WizardNavigationContext/WizardNavigationContext.types';
+import { IDataManagementContextState } from '../../Contexts/DataManagementContext/DataManagementContext.types';
 import {
-    ICookAssets,
+    IAppData,
     IModel,
     IModelProperty,
     ITwin
 } from '../../Models/Interfaces';
-import {
-    getViewModelsFromCookedAssets,
-    getViewTwinsFromCookedAssets
-} from '../../Services/DataPusherUtils';
 import { TableTypes } from '../DataPusher/DataPusher.types';
 
 const modelIds = ['model-1', 'model-2', 'model-3'];
@@ -109,29 +105,24 @@ export const steps: IStepperWizardStep[] = [
     }
 ];
 
-export const cookedData: ICookAssets = {
+export const appData: IAppData = {
     models: mockModels,
     properties: mockProperties,
-    twins: mockTwins
+    twins: mockTwins,
+    relationships: [],
+    relationshipModels: []
 };
 
-export const stepData: WizardStepData = {
-    connectStepData: {
-        selectedSourceDatabase: '',
-        selectedSourceTable: '',
-        selectedSourceTwinIDColumn: '',
-        selectedSourceTableType: TableTypes.Wide,
-        selectedTargetDatabase: '',
-        cookedAssets: cookedData
-    },
-    verificationStepData: {
-        models: getViewModelsFromCookedAssets(mockModels),
-        twins: getViewTwinsFromCookedAssets(
-            mockTwins,
-            getViewModelsFromCookedAssets(mockModels)
-        ),
-        properties: mockProperties
-    },
-    relationshipStepData: null,
-    finishStepData: null
+export const wizardData: IDataManagementContextState = {
+    initialAssets: appData,
+    modifiedAssets: appData,
+    sources: [
+        {
+            selectedSourceDatabase: '',
+            selectedSourceTable: '',
+            selectedSourceTwinIDColumn: '',
+            selectedSourceTableType: TableTypes.Wide,
+            selectedTargetDatabase: ''
+        }
+    ]
 };
