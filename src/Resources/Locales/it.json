@@ -1568,6 +1568,12 @@
         "pushTwinsGraph": "Push del grafico dei gemelli al database di destinazione"
       },
       "title": "Pusher di dati"
+    },
+    "verificationStep": {
+      "title": "Verificare i gemelli scoperti",
+      "models": "Modelli",
+      "twins": "Gemelli",
+      "properties": "Proprietà"
     }
   }
 }
