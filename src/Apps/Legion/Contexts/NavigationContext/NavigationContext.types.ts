@@ -1,8 +1,4 @@
-export type NavigationPage =
-    | 'Home'
-    | 'StoreListPage'
-    | 'ActionPicker'
-    | 'Wizard';
+export type NavigationPage = 'StoreListPage' | 'ActionPicker' | 'Wizard';
 export interface INavigationContextProviderProps {
     initialState?: Partial<INavigationContextState>;
 }

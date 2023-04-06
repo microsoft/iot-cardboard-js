@@ -1,25 +1,12 @@
 import React from 'react';
-import { classNamesFunction, styled } from '@fluentui/react';
-import { useExtendedTheme } from '../../../../Models/Hooks/useExtendedTheme';
 import { getDebugLogger } from '../../../../Models/Services/Utils';
-import {
-    IFlowPickerPageProps,
-    IFlowPickerPageStyleProps,
-    IFlowPickerPageStyles
-} from './FlowPickerPage.types';
-import { getStyles } from './FlowPickerPage.styles';
+import { IFlowPickerPageProps } from './FlowPickerPage.types';
+import { Stack } from '@fluentui/react';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('FlowPickerPage', debugLogging);
 
-const getClassNames = classNamesFunction<
-    IFlowPickerPageStyleProps,
-    IFlowPickerPageStyles
->();
-
-const FlowPickerPage: React.FC<IFlowPickerPageProps> = (props) => {
-    const { styles } = props;
-
+const FlowPickerPage: React.FC<IFlowPickerPageProps> = () => {
     // contexts
 
     // state
@@ -31,17 +18,14 @@ const FlowPickerPage: React.FC<IFlowPickerPageProps> = (props) => {
     // side effects
 
     // styles
-    const classNames = getClassNames(styles, {
-        theme: useExtendedTheme()
-    });
 
     logDebugConsole('debug', 'Render');
 
-    return <div className={classNames.root}>Hello FlowPickerPage!</div>;
+    return (
+        <Stack tokens={{ childrenGap: 8 }}>
+            <h2>Welcome to the future</h2>
+        </Stack>
+    );
 };
 
-export default styled<
-    IFlowPickerPageProps,
-    IFlowPickerPageStyleProps,
-    IFlowPickerPageStyles
->(FlowPickerPage, getStyles);
+export default FlowPickerPage;

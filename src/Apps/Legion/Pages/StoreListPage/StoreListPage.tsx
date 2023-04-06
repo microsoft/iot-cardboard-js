@@ -1,25 +1,13 @@
 import React from 'react';
-import { classNamesFunction, styled } from '@fluentui/react';
-import {
-    IStoreListPageProps,
-    IStoreListPageStyleProps,
-    IStoreListPageStyles
-} from './StoreListPage.types';
-import { getStyles } from './StoreListPage.styles';
+import { IStoreListPageProps } from './StoreListPage.types';
 import { getDebugLogger } from '../../../../Models/Services/Utils';
-import { useExtendedTheme } from '../../../../Models/Hooks/useExtendedTheme';
+import StoreList from '../../Components/StoreList/StoreList';
+import { Stack } from '@fluentui/react';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('StoreListPage', debugLogging);
 
-const getClassNames = classNamesFunction<
-    IStoreListPageStyleProps,
-    IStoreListPageStyles
->();
-
-const StoreListPage: React.FC<IStoreListPageProps> = (props) => {
-    const { styles } = props;
-
+const StoreListPage: React.FC<IStoreListPageProps> = () => {
     // contexts
 
     // state
@@ -31,17 +19,14 @@ const StoreListPage: React.FC<IStoreListPageProps> = (props) => {
     // side effects
 
     // styles
-    const classNames = getClassNames(styles, {
-        theme: useExtendedTheme()
-    });
-
     logDebugConsole('debug', 'Render');
 
-    return <div className={classNames.root}>Hello StoreListPage!</div>;
+    return (
+        <Stack tokens={{ childrenGap: 8 }}>
+            <h2>Welcome to the future</h2>
+            <StoreList />
+        </Stack>
+    );
 };
 
-export default styled<
-    IStoreListPageProps,
-    IStoreListPageStyleProps,
-    IStoreListPageStyles
->(StoreListPage, getStyles);
+export default StoreListPage;

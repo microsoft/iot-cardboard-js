@@ -70,7 +70,7 @@ export const NavigationContextProvider: React.FC<INavigationContextProviderProps
 };
 
 const emptyState: INavigationContextState = {
-    currentPage: 'Home'
+    currentPage: 'StoreListPage'
 };
 
 function getInitialState(
