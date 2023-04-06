@@ -10,7 +10,7 @@ import {
     IDataManagementAdapter,
     ITable
 } from '../../../../Adapters/Standalone/DataManagement/Models/DataManagementAdapter.types';
-import { ICookAssets } from '../../../../Models/Interfaces';
+import { IAppData } from '../../../../Models/Interfaces';
 import { IReactSelectOption } from '../../../DataPusher/DataPusher.types';
 
 export interface IDataSourceStepProps {
@@ -54,7 +54,7 @@ export interface IDataSourceStepState {
     selectedSourceTableType: string;
     sourceTableData: ITable;
     adapterResult: boolean;
-    cookAssets: ICookAssets;
+    cookAssets: IAppData;
 }
 
 export enum DataSourceStepActionType {
@@ -114,5 +114,5 @@ export type DataSourceStepAction =
       }
     | {
           type: DataSourceStepActionType.SET_COOK_ASSETS;
-          cookAssets: ICookAssets;
+          cookAssets: IAppData;
       };

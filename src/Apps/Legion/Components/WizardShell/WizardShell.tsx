@@ -8,7 +8,7 @@ import { getStyles } from './WizardShell.styles';
 import { classNamesFunction, Separator, Stack, styled } from '@fluentui/react';
 import { useExtendedTheme } from '../../../../Models/Hooks/useExtendedTheme';
 import { getDebugLogger } from '../../../../Models/Services/Utils';
-import { useWizardNavigationContext } from '../../Models/Context/WizardNavigationContext/WizardNavigationContext';
+import { useWizardNavigationContext } from '../../Contexts/WizardNavigationContext/WizardNavigationContext';
 import StepperWizard from '../StepperWizard/StepperWizard';
 import { StepperWizardType } from '../StepperWizard/StepperWizard.types';
 import DataSourceStep from './Internal/DataSourceStep/DataSourceStep';

@@ -1568,6 +1568,12 @@
         "pushTwinsGraph": "Skicka tvillingdiagram till måldatabasen"
       },
       "title": "Data pusher"
+    },
+    "verificationStep": {
+      "title": "Verifiera identifierade tvillingar",
+      "models": "Modeller",
+      "twins": "Tvillingar",
+      "properties": "Egenskaper"
     }
   }
 }

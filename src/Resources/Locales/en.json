@@ -1560,6 +1560,12 @@
                 "createTables": "Creating tables...",
                 "ingest": "Ingesting..."
             }
+        },
+        "verificationStep": {
+            "title": "Verify discovered twins",
+            "models": "Models",
+            "twins": "Twins",
+            "properties": "Properties"
         }
     }
 }

@@ -1568,6 +1568,12 @@
         "pushTwinsGraph": "İkizler grafiğini hedef veritabanına gönderme"
       },
       "title": "Veri itici"
+    },
+    "verificationStep": {
+      "title": "Bulunan ikizleri doğrulama",
+      "models": "Model",
+      "twins": "İkizler",
+      "properties": "Özellikler"
     }
   }
 }

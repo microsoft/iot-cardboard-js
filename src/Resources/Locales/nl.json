@@ -1568,6 +1568,12 @@
         "pushTwinsGraph": "Push twins graph naar doeldatabase"
       },
       "title": "Data pusher |"
+    },
+    "verificationStep": {
+      "title": "Geverifieerde tweelingen verifiëren",
+      "models": "Modellen",
+      "twins": "Tweeling",
+      "properties": "Eigenschappen"
     }
   }
 }

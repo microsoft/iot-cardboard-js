@@ -1568,6 +1568,12 @@
         "pushTwinsGraph": "Übertragen des Zwillingsdiagramms in die Zieldatenbank"
       },
       "title": "Daten-Pusher"
+    },
+    "verificationStep": {
+      "title": "Erkannte Zwillinge verifizieren",
+      "models": "Modelle",
+      "twins": "Zwillinge",
+      "properties": "Eigenschaften"
     }
   }
 }

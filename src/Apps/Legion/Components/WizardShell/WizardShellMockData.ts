@@ -1,15 +1,13 @@
 import { IStepperWizardStep } from '../../../../Components/StepperWizard/StepperWizard.types';
-import { WizardStepData } from '../../Models/Context/WizardNavigationContext/WizardNavigationContext.types';
+import MockDataManagementAdapter from '../../Adapters/Standalone/DataManagement/MockDataManagementAdapter';
+import { IDataManagementContextState } from '../../Contexts/DataManagementContext/DataManagementContext.types';
+import { IWizardNavigationContextState } from '../../Contexts/WizardNavigationContext/WizardNavigationContext.types';
 import {
-    ICookAssets,
+    IAppData,
     IModel,
     IModelProperty,
     ITwin
 } from '../../Models/Interfaces';
-import {
-    getViewModelsFromCookedAssets,
-    getViewTwinsFromCookedAssets
-} from '../../Services/DataPusherUtils';
 import { TableTypes } from '../DataPusher/DataPusher.types';
 
 const modelIds = ['model-1', 'model-2', 'model-3'];
@@ -109,29 +107,30 @@ export const steps: IStepperWizardStep[] = [
     }
 ];
 
-export const cookedData: ICookAssets = {
-    models: mockModels,
-    properties: mockProperties,
-    twins: mockTwins
+export const WIZARD_NAVIGATION_MOCK_DATA: IWizardNavigationContextState = {
+    adapter: new MockDataManagementAdapter(),
+    steps: steps,
+    currentStep: 0
 };
 
-export const stepData: WizardStepData = {
-    connectStepData: {
-        selectedSourceDatabase: '',
-        selectedSourceTable: '',
-        selectedSourceTwinIDColumn: '',
-        selectedSourceTableType: TableTypes.Wide,
-        selectedTargetDatabase: '',
-        cookedAssets: cookedData
-    },
-    verificationStepData: {
-        models: getViewModelsFromCookedAssets(mockModels),
-        twins: getViewTwinsFromCookedAssets(
-            mockTwins,
-            getViewModelsFromCookedAssets(mockModels)
-        ),
-        properties: mockProperties
-    },
-    relationshipStepData: null,
-    finishStepData: null
+const mockAppData: IAppData = {
+    models: mockModels,
+    properties: mockProperties,
+    twins: mockTwins,
+    relationships: [],
+    relationshipModels: []
+};
+
+export const DEFAULT_MOCK_DATA_MANAGEMENT_STATE: IDataManagementContextState = {
+    initialAssets: mockAppData,
+    modifiedAssets: mockAppData,
+    sources: [
+        {
+            selectedSourceDatabase: '',
+            selectedSourceTable: '',
+            selectedSourceTwinIDColumn: '',
+            selectedSourceTableType: TableTypes.Wide,
+            selectedTargetDatabase: ''
+        }
+    ]
 };

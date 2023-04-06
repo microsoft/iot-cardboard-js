@@ -10,14 +10,16 @@ import {
     Pivot,
     PivotItem,
     PrimaryButton,
+    Stack,
     styled
 } from '@fluentui/react';
 import { getDebugLogger } from '../../../../../../Models/Services/Utils';
 import { useExtendedTheme } from '../../../../../../Models/Hooks/useExtendedTheme';
 import { ModelLists } from './Internal/ModelLists';
 import { TwinLists } from './Internal/TwinLists';
-import { useWizardNavigationContext } from '../../../../Models/Context/WizardNavigationContext/WizardNavigationContext';
-import { WizardNavigationContextActionType } from '../../../../Models/Context/WizardNavigationContext/WizardNavigationContext.types';
+import { useWizardNavigationContext } from '../../../../Contexts/WizardNavigationContext/WizardNavigationContext';
+import { WizardNavigationContextActionType } from '../../../../Contexts/WizardNavigationContext/WizardNavigationContext.types';
+import { useTranslation } from 'react-i18next';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('TwinVerificationStep', debugLogging);
@@ -42,6 +44,7 @@ const TwinVerificationStep: React.FC<ITwinVerificationStepProps> = (props) => {
     const [selectedKey, setSelectedKey] = useState<PivotKeys>(PivotKeys.Models);
 
     // hooks
+    const { t } = useTranslation();
 
     // callbacks
     const onFirstButtonClick = () => {
@@ -77,40 +80,47 @@ const TwinVerificationStep: React.FC<ITwinVerificationStepProps> = (props) => {
 
     return (
         <div className={classNames.root}>
-            <div className={classNames.headerContainer}>
-                {/* TODO: Translate */}
-                <h1>Verify discovered twins</h1>
-            </div>
-            <div className={classNames.content}>
-                <Pivot selectedKey={selectedKey} onLinkClick={onPivotClick}>
-                    <PivotItem
-                        title="Models"
-                        headerText="Models"
-                        itemKey={PivotKeys.Models}
-                    >
-                        {/* Models */}
-                        <ModelLists />
-                        <PrimaryButton
-                            text="Next"
-                            styles={classNames.subComponentStyles.button()}
-                            onClick={onFirstButtonClick}
-                        />
-                    </PivotItem>
-                    <PivotItem
-                        title="Twins"
-                        headerText="Twins"
-                        itemKey={PivotKeys.Twins}
-                    >
-                        {/* Twins */}
-                        <TwinLists />
-                        <PrimaryButton
-                            text="Next"
-                            styles={classNames.subComponentStyles.button()}
-                            onClick={onFinishButtonClick}
-                        />
-                    </PivotItem>
-                </Pivot>
-            </div>
+            <Stack>
+                <div className={classNames.headerContainer}>
+                    <h1>{t('legionApp.verificationStep.title')}</h1>
+                </div>
+                <div className={classNames.content}>
+                    <Pivot selectedKey={selectedKey} onLinkClick={onPivotClick}>
+                        <PivotItem
+                            title={t('legionApp.verificationStep.models')}
+                            headerText={t('legionApp.verificationStep.models')}
+                            itemKey={PivotKeys.Models}
+                        >
+                            {/* Models */}
+                            <Stack tokens={{ childrenGap: 8 }}>
+                                <ModelLists />
+                                <div className={classNames.buttonContainer}>
+                                    <PrimaryButton
+                                        text={t('next')}
+                                        onClick={onFirstButtonClick}
+                                    />
+                                </div>
+                            </Stack>
+                        </PivotItem>
+                        <PivotItem
+                            title={t('legionApp.verificationStep.twins')}
+                            headerText={t('legionApp.verificationStep.twins')}
+                            itemKey={PivotKeys.Twins}
+                        >
+                            {/* Twins */}
+                            <Stack tokens={{ childrenGap: 8 }}>
+                                <TwinLists />
+                                <div className={classNames.buttonContainer}>
+                                    <PrimaryButton
+                                        text={t('next')}
+                                        onClick={onFinishButtonClick}
+                                    />
+                                </div>
+                            </Stack>
+                        </PivotItem>
+                    </Pivot>
+                </div>
+            </Stack>
         </div>
     );
 };

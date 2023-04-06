@@ -8,7 +8,8 @@ const classPrefix = `${CardboardClassNamePrefix}-twinverificationstep`;
 const classNames = {
     root: `${classPrefix}-root`,
     content: `${classPrefix}-content`,
-    headerContainer: `${classPrefix}-headerContainer`
+    headerContainer: `${classPrefix}-headerContainer`,
+    buttonContainer: `${classPrefix}-buttonContainer`
 };
 
 // export const TWINVERIFICATIONSTEP_CLASS_NAMES = classNames;
@@ -19,20 +20,18 @@ export const getStyles = (
         root: [
             classNames.root,
             {
-                height: '100%',
-                display: 'flex-box'
+                padding: 8,
+                width: '100%'
             }
         ],
-        content: [classNames.content, {}],
-        headerContainer: [classNames.headerContainer, {}],
-        subComponentStyles: {
-            button: {
-                root: {
-                    position: 'absolute',
-                    right: 16,
-                    bottom: 0
-                }
+        buttonContainer: [
+            classNames.buttonContainer,
+            {
+                alignSelf: 'flex-end'
             }
-        }
+        ],
+        content: [classNames.content],
+        headerContainer: [classNames.headerContainer],
+        subComponentStyles: {}
     };
 };
