@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import {
     classNamesFunction,
     DetailsList,
@@ -71,16 +71,18 @@ const StoreList: React.FC<IStoreListProps> = (props) => {
     ];
 
     // callbacks
-    const selection = new Selection({
-        onSelectionChanged: () => {
-            // getSelection returns an array of selected elements, since this is single select first one is always going to be the correct one
-            const selectionValue = selection.getSelection()[0];
-            console.log('***Selected', selectionValue);
-            setSelectedItem(
-                selectionValue ? selectionValue['databaseName'] : null
-            );
-        }
-    });
+    const selection = useRef<Selection>(
+        new Selection({
+            onSelectionChanged: () => {
+                // getSelection returns an array of selected elements, since this is single select first one is always going to be the correct one
+                const selectionValue = selection.current.getSelection()[0];
+                console.log('***Selected', selectionValue);
+                setSelectedItem(
+                    selectionValue ? selectionValue['databaseName'] : null
+                );
+            }
+        })
+    );
 
     // side effects
 
@@ -97,7 +99,7 @@ const StoreList: React.FC<IStoreListProps> = (props) => {
                 items={items}
                 columns={columns}
                 selectionMode={SelectionMode.single}
-                selection={selection}
+                selection={selection.current}
                 selectionPreservedOnEmptyClick={true}
             />
             <DefaultButton
