@@ -66,8 +66,7 @@ export function WizardNavigationContextProvider(
 const emptyState: IWizardNavigationContextState = {
     adapter: null,
     steps: [],
-    currentStep: -1,
-    stepData: null
+    currentStep: -1
 };
 
 export const getInitialState = (
@@ -76,7 +75,6 @@ export const getInitialState = (
     const state: IWizardNavigationContextState = {
         steps: [],
         currentStep: -1,
-        stepData: null,
         ...initialState
     };
 

@@ -62,7 +62,7 @@ export interface IADXConnection {
     selectedTargetDatabase: string;
 }
 
-export interface PIDDocument {
+export interface IPIDDocument {
     url: string;
     name: string;
 }

@@ -2,10 +2,9 @@ import React from 'react';
 import WizardShell from '../../Components/WizardShell/WizardShell';
 import { WizardNavigationContextProvider } from '../../Contexts/WizardNavigationContext/WizardNavigationContext';
 import { ILegionAppProps } from './LegionApp.types';
-import MockDataManagementAdapter from '../../Adapters/Standalone/DataManagement/MockDataManagementAdapter';
 import {
-    wizardData,
-    steps
+    DEFAULT_MOCK_DATA_MANAGEMENT_STATE,
+    WIZARD_NAVIGATION_MOCK_DATA
 } from '../../Components/WizardShell/WizardShellMockData';
 import { DataManagementContextProvider } from '../../Contexts/DataManagementContext/DataManagementContext';
 
@@ -13,15 +12,11 @@ const LegionApp: React.FC<ILegionAppProps> = (_props) => {
     return (
         <DataManagementContextProvider
             initialState={{
-                ...wizardData
+                ...DEFAULT_MOCK_DATA_MANAGEMENT_STATE
             }}
         >
             <WizardNavigationContextProvider
-                initialState={{
-                    adapter: new MockDataManagementAdapter(),
-                    steps: steps,
-                    currentStep: 0
-                }}
+                initialState={WIZARD_NAVIGATION_MOCK_DATA}
             >
                 <WizardShell />
             </WizardNavigationContextProvider>

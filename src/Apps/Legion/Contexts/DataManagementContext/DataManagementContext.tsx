@@ -41,7 +41,7 @@ export const DataManagementContextReducer: (
                 draft.modifiedAssets = action.payload.data;
             }
             break;
-        case DataManagementContextActionType.UPDATE_MODIFIED_ASSETS:
+        case DataManagementContextActionType.SET_MODIFIED_ASSETS:
             draft.modifiedAssets = action.payload.data;
             break;
     }

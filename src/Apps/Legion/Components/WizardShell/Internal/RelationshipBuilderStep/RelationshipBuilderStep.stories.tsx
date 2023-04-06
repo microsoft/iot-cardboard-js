@@ -3,7 +3,10 @@ import { ComponentStory } from '@storybook/react';
 import RelationshipBuilderStep from './RelationshipBuilderStep';
 import { IRelationshipBuilderStepProps } from './RelationshipBuilderStep.types';
 import { getDefaultStoryDecorator } from '../../../../../../Models/Services/StoryUtilities';
-import { wizardData, steps } from '../../WizardShellMockData';
+import {
+    DEFAULT_MOCK_DATA_MANAGEMENT_STATE,
+    WIZARD_NAVIGATION_MOCK_DATA
+} from '../../WizardShellMockData';
 import { WizardNavigationContextProvider } from '../../../../Contexts/WizardNavigationContext/WizardNavigationContext';
 import { DataManagementContextProvider } from '../../../../Contexts/DataManagementContext/DataManagementContext';
 
@@ -25,14 +28,11 @@ const Template: RelationshipBuilderStepStory = (args) => {
     return (
         <DataManagementContextProvider
             initialState={{
-                ...wizardData
+                ...DEFAULT_MOCK_DATA_MANAGEMENT_STATE
             }}
         >
             <WizardNavigationContextProvider
-                initialState={{
-                    steps: steps,
-                    currentStep: 0
-                }}
+                initialState={WIZARD_NAVIGATION_MOCK_DATA}
             >
                 <RelationshipBuilderStep {...args} />
             </WizardNavigationContextProvider>

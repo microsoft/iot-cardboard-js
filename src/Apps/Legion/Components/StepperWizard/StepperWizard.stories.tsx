@@ -8,6 +8,7 @@ import {
 } from './StepperWizard.types';
 import { getDefaultStoryDecorator } from '../../../../Models/Services/StoryUtilities';
 import { WizardNavigationContextProvider } from '../../Contexts/WizardNavigationContext/WizardNavigationContext';
+import { WIZARD_NAVIGATION_MOCK_DATA } from '../WizardShell/WizardShellMockData';
 
 const wrapperStyle = { width: 'fit-content', height: 'auto' };
 
@@ -40,12 +41,7 @@ const steps: Array<IStepperWizardStep> = [
 
 type TemplateStory = ComponentStory<typeof StepperWizard>;
 const Template: TemplateStory = (args: IStepperWizardProps) => (
-    <WizardNavigationContextProvider
-        initialState={{
-            steps: steps,
-            currentStep: 0
-        }}
-    >
+    <WizardNavigationContextProvider initialState={WIZARD_NAVIGATION_MOCK_DATA}>
         <StepperWizard {...args} />
     </WizardNavigationContextProvider>
 );

@@ -4,8 +4,10 @@ import WizardShell from './WizardShell';
 import { IWizardShellProps } from './WizardShell.types';
 import { getDefaultStoryDecorator } from '../../../../Models/Services/StoryUtilities';
 import { WizardNavigationContextProvider } from '../../Contexts/WizardNavigationContext/WizardNavigationContext';
-import { wizardData, steps } from './WizardShellMockData';
-import MockDataManagementAdapter from '../../Adapters/Standalone/DataManagement/MockDataManagementAdapter';
+import {
+    DEFAULT_MOCK_DATA_MANAGEMENT_STATE,
+    WIZARD_NAVIGATION_MOCK_DATA
+} from './WizardShellMockData';
 import { DataManagementContextProvider } from '../../Contexts/DataManagementContext/DataManagementContext';
 
 const wrapperStyle = { width: '100%', height: '600px' };
@@ -22,15 +24,11 @@ const Template: WizardShellStory = (args) => {
     return (
         <DataManagementContextProvider
             initialState={{
-                ...wizardData
+                ...DEFAULT_MOCK_DATA_MANAGEMENT_STATE
             }}
         >
             <WizardNavigationContextProvider
-                initialState={{
-                    adapter: new MockDataManagementAdapter(),
-                    steps: steps,
-                    currentStep: 0
-                }}
+                initialState={WIZARD_NAVIGATION_MOCK_DATA}
             >
                 <WizardShell {...args} />
             </WizardNavigationContextProvider>

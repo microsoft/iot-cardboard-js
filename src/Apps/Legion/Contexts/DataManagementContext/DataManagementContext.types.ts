@@ -1,4 +1,8 @@
-import { IADXConnection, IAppData, PIDDocument } from '../../Models/Interfaces';
+import {
+    IADXConnection,
+    IAppData,
+    IPIDDocument
+} from '../../Models/Interfaces';
 
 export interface IDataManagementContext {
     dataManagementContextState: IDataManagementContextState;
@@ -7,7 +11,7 @@ export interface IDataManagementContext {
 
 export interface IDataManagementContextState {
     // Keep adding source types here
-    sources: Array<IADXConnection | PIDDocument>;
+    sources: Array<IADXConnection | IPIDDocument>;
     initialAssets: IAppData;
     modifiedAssets: IAppData;
 }
@@ -18,14 +22,14 @@ export enum DataManagementContextActionType {
     SET_SOURCE_INFORMATION = 'SET_SOURCE_INFORMATION',
     // Modify step actions
     SET_INITIAL_ASSETS = 'SET_INITIAL_ASSETS',
-    UPDATE_MODIFIED_ASSETS = 'UPDATE_MODIFIED_ASSETS'
+    SET_MODIFIED_ASSETS = 'SET_MODIFIED_ASSETS'
 }
 
 export type DataManagementContextAction =
     | {
           type: DataManagementContextActionType.SET_SOURCE_INFORMATION;
           payload: {
-              data: Array<IADXConnection | PIDDocument>;
+              data: Array<IADXConnection | IPIDDocument>;
           };
       }
     | {
@@ -35,7 +39,7 @@ export type DataManagementContextAction =
           };
       }
     | {
-          type: DataManagementContextActionType.UPDATE_MODIFIED_ASSETS;
+          type: DataManagementContextActionType.SET_MODIFIED_ASSETS;
           payload: {
               data: IAppData;
           };

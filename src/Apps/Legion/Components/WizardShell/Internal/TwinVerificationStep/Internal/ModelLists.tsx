@@ -8,6 +8,7 @@ import { useDataManagementContext } from '../../../../../Contexts/DataManagement
 import { DataManagementContextActionType } from '../../../../../Contexts/DataManagementContext/DataManagementContext.types';
 import { IModelExtended } from '../TwinVerificationStep.types';
 import { getHighChartColorByIdx } from '../../../../../../../Models/SharedUtils/DataHistoryUtils';
+import { deepCopy } from '../../../../../../../Models/Services/Utils';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface IModelListsProps {}
@@ -56,7 +57,7 @@ export const ModelLists: React.FC<IModelListsProps> = (_props) => {
         // onUnmount update assets
         return () => {
             dataManagementContextDispatch({
-                type: DataManagementContextActionType.UPDATE_MODIFIED_ASSETS,
+                type: DataManagementContextActionType.SET_MODIFIED_ASSETS,
                 payload: {
                     data: {
                         ...dataManagementContextState.modifiedAssets,
@@ -79,7 +80,7 @@ export const ModelLists: React.FC<IModelListsProps> = (_props) => {
     //callbacks
     const handleOnCheck = useCallback(
         (modelId: string, propertyId: string, checked: boolean) => {
-            const tempModels = Array.from(models);
+            const tempModels = deepCopy(models);
             const modelToModifyIdx = tempModels.findIndex(
                 (m) => m.id === modelId
             );
@@ -99,7 +100,7 @@ export const ModelLists: React.FC<IModelListsProps> = (_props) => {
 
     const handleModelNameChange = useCallback(
         (modelId: string, modelName: string) => {
-            const tempModels = Array.from(models);
+            const tempModels = deepCopy(models);
             const modelToModifyIdx = tempModels.findIndex(
                 (m) => m.id === modelId
             );
