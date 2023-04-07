@@ -1574,6 +1574,11 @@
       "models": "Modely",
       "twins": "Dvojčata",
       "properties": "Vlastnosti"
+    },
+    "Common": {},
+    "StoreListPage": {
+      "title": "Vítejte v budoucnosti",
+      "createStoreButtonText": "Vytvořit obchod"
     }
   }
 }

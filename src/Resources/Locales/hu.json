@@ -1574,6 +1574,11 @@
       "models": "Modellek",
       "twins": "Ikrek",
       "properties": "Kellékek"
+    },
+    "Common": {},
+    "StoreListPage": {
+      "title": "Üdvözöljük a jövőben",
+      "createStoreButtonText": "Áruház létrehozása"
     }
   }
 }

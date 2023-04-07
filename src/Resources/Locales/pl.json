@@ -1574,6 +1574,11 @@
       "models": "Modele",
       "twins": "Bliźnięta",
       "properties": "Właściwości"
+    },
+    "Common": {},
+    "StoreListPage": {
+      "title": "Witamy w przyszłości",
+      "createStoreButtonText": "Utwórz sklep"
     }
   }
 }
