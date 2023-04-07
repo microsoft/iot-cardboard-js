@@ -8,22 +8,23 @@ import { AppDataContextProvider } from '../../Contexts/AppDataContext/AppDataCon
 import FlowPickerPage from '../../Pages/FlowPickerPage/FlowPickerPage';
 import StoreListPage from '../../Pages/StoreListPage/StoreListPage';
 import WizardPage from '../../Pages/WizardPage/WizardPage';
+import { AppPageName } from '../../Contexts/NavigationContext/AppNavigationContext.types';
 
 const PageManager: React.FC = () => {
     // contexts
-    const { navigationState } = useAppNavigationContext();
+    const { appNavigationState } = useAppNavigationContext();
 
     // data
     const page = useMemo(() => {
-        switch (navigationState.currentPage) {
-            case 'ActionPicker':
+        switch (appNavigationState.currentPage.pageName) {
+            case AppPageName.FlowPicker:
                 return <FlowPickerPage />;
-            case 'StoreListPage':
+            case AppPageName.StoreList:
                 return <StoreListPage />;
-            case 'Wizard':
+            case AppPageName.Wizard:
                 return <WizardPage />;
         }
-    }, [navigationState.currentPage]);
+    }, [appNavigationState.currentPage]);
 
     return page;
 };

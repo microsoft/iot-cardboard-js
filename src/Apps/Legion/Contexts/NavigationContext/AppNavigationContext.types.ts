@@ -1,4 +1,10 @@
-export type AppPage = 'StoreListPage' | 'ActionPicker' | 'Wizard';
+import { WizardStepNumber } from '../WizardNavigationContext/WizardNavigationContext.types';
+
+export enum AppPageName {
+    StoreList = 'StoreList',
+    FlowPicker = 'FlowPicker',
+    Wizard = 'Wizard'
+}
 export interface IAppNavigationContextProviderProps {
     initialState?: Partial<IAppNavigationContextState>;
 }
@@ -7,15 +13,24 @@ export interface IAppNavigationContextProviderProps {
  * A context used for capturing the current state of the app and restoring it to a new instance of the app
  */
 export interface IAppNavigationContext {
-    navigationState: IAppNavigationContextState;
-    navigationDispatch: React.Dispatch<AppNavigationContextAction>;
+    appNavigationState: IAppNavigationContextState;
+    appNavigationDispatch: React.Dispatch<AppNavigationContextAction>;
 }
+
+type CurrentPageData =
+    | {
+          pageName: AppPageName.FlowPicker | AppPageName.StoreList;
+      }
+    | {
+          pageName: AppPageName.Wizard;
+          step: WizardStepNumber;
+      };
 
 /**
  * The state of the context
  */
 export interface IAppNavigationContextState {
-    currentPage: AppPage;
+    currentPage: CurrentPageData;
 }
 
 /**
@@ -25,10 +40,17 @@ export enum AppNavigationContextActionType {
     NAVIGATE_TO = 'NAVIGATE_TO'
 }
 
+type NavigateToArgs =
+    | {
+          pageName: AppPageName;
+      }
+    | {
+          pageName: AppPageName.Wizard;
+          step: WizardStepNumber;
+      };
+
 /** The actions to update the state */
 export type AppNavigationContextAction = {
     type: AppNavigationContextActionType.NAVIGATE_TO;
-    payload: {
-        pageName: AppPage;
-    };
+    payload: NavigateToArgs;
 };

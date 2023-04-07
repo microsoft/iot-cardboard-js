@@ -9,7 +9,8 @@ import {
     IAppNavigationContextProviderProps,
     IAppNavigationContextState,
     AppNavigationContextAction,
-    AppNavigationContextActionType
+    AppNavigationContextActionType,
+    AppPageName
 } from './AppNavigationContext.types';
 
 const debugLogging = false;
@@ -30,7 +31,7 @@ export const AppNavigationContextReducer: (
         );
         switch (action.type) {
             case AppNavigationContextActionType.NAVIGATE_TO:
-                draft.currentPage = action.payload.pageName;
+                draft.currentPage = action.payload;
                 break;
         }
     }
@@ -57,8 +58,8 @@ export const AppNavigationContextProvider: React.FC<IAppNavigationContextProvide
     return (
         <AppNavigationContext.Provider
             value={{
-                navigationDispatch: dispatch,
-                navigationState: state
+                appNavigationDispatch: dispatch,
+                appNavigationState: state
             }}
         >
             {children}
@@ -67,7 +68,7 @@ export const AppNavigationContextProvider: React.FC<IAppNavigationContextProvide
 };
 
 const emptyState: IAppNavigationContextState = {
-    currentPage: 'StoreListPage'
+    currentPage: { pageName: AppPageName.StoreList } // defaults the starting page for the app
 };
 
 function getInitialState(

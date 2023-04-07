@@ -8,12 +8,15 @@ import {
 } from '../../Components/WizardShell/WizardShellMockData';
 import { WizardDataManagementContextProvider } from '../../Contexts/WizardDataManagementContext/WizardDataManagementContext';
 import { WizardNavigationContextProvider } from '../../Contexts/WizardNavigationContext/WizardNavigationContext';
+import { useAppNavigationContext } from '../../Contexts/NavigationContext/AppNavigationContext';
+import { AppPageName } from '../../Contexts/NavigationContext/AppNavigationContext.types';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('WizardPage', debugLogging);
 
 const WizardPage: React.FC<IWizardPageProps> = () => {
     // contexts
+    const { appNavigationState } = useAppNavigationContext();
 
     // state
 
@@ -34,7 +37,14 @@ const WizardPage: React.FC<IWizardPageProps> = () => {
             }}
         >
             <WizardNavigationContextProvider
-                initialState={WIZARD_NAVIGATION_MOCK_DATA}
+                initialState={{
+                    ...WIZARD_NAVIGATION_MOCK_DATA,
+                    currentStep:
+                        appNavigationState.currentPage.pageName ===
+                        AppPageName.Wizard
+                            ? appNavigationState.currentPage.step
+                            : WIZARD_NAVIGATION_MOCK_DATA.currentStep
+                }}
             >
                 <WizardShell />
             </WizardNavigationContextProvider>

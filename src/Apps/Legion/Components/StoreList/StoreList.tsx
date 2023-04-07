@@ -23,7 +23,10 @@ import {
 } from '../../Contexts/AppDataContext/AppDataContext.types';
 import { useAppDataContext } from '../../Contexts/AppDataContext/AppDataContext';
 import { useAppNavigationContext } from '../../Contexts/NavigationContext/AppNavigationContext';
-import { AppNavigationContextActionType } from '../../Contexts/NavigationContext/AppNavigationContext.types';
+import {
+    AppNavigationContextActionType,
+    AppPageName
+} from '../../Contexts/NavigationContext/AppNavigationContext.types';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('StoreList', debugLogging);
@@ -47,7 +50,7 @@ const StoreList: React.FC<IStoreListProps> = (props) => {
 
     // contexts
     const { AppDataState, AppDataDispatch } = useAppDataContext();
-    const { navigationDispatch } = useAppNavigationContext();
+    const { appNavigationDispatch } = useAppNavigationContext();
 
     // state
     const [
@@ -108,17 +111,19 @@ const StoreList: React.FC<IStoreListProps> = (props) => {
                     AppDataDispatch({
                         type: AppDataContextActionType.SET_TARGET_DATABASE,
                         payload: {
-                            targetDatabase: selectedItem
+                            targetDatabase: {
+                                databaseName: 'My Estero DB'
+                            } // selectedItem
                         }
                     });
-                    navigationDispatch({
+                    appNavigationDispatch({
                         type: AppNavigationContextActionType.NAVIGATE_TO,
                         payload: {
-                            pageName: 'ActionPicker'
+                            pageName: AppPageName.FlowPicker
                         }
                     });
                 }}
-                disabled={!AppDataState.targetDatabase}
+                // disabled={!AppDataState.targetDatabase}
             />
         </Stack>
     );
