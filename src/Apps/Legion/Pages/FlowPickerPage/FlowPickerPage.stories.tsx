@@ -7,7 +7,7 @@ import { IFlowPickerPageProps } from './FlowPickerPage.types';
 const wrapperStyle = { width: '100%', height: '600px', padding: 8 };
 
 export default {
-    title: 'Components/FlowPickerPage',
+    title: 'Apps/Legion/Pages/FlowPickerPage',
     component: FlowPickerPage,
     decorators: [getDefaultStoryDecorator<IFlowPickerPageProps>(wrapperStyle)]
 };

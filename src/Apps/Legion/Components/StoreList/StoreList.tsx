@@ -6,7 +6,8 @@ import {
     Selection,
     styled,
     Stack,
-    DefaultButton
+    DefaultButton,
+    SelectionMode
 } from '@fluentui/react';
 import { useExtendedTheme } from '../../../../Models/Hooks/useExtendedTheme';
 import { getDebugLogger } from '../../../../Models/Services/Utils';
@@ -16,19 +17,12 @@ import {
     IStoreListStyles
 } from './StoreList.types';
 import { getStyles } from './StoreList.styles';
-import {
-    AppDataContextActionType,
-    ITargetDatabaseConnection
-} from '../../Contexts/AppDataContext/AppDataContext.types';
+import { ITargetDatabaseConnection } from '../../Contexts/AppDataContext/AppDataContext.types';
 import { useAppDataContext } from '../../Contexts/AppDataContext/AppDataContext';
-import { useAppNavigationContext } from '../../Contexts/NavigationContext/AppNavigationContext';
-import {
-    AppNavigationContextActionType,
-    AppPageName
-} from '../../Contexts/NavigationContext/AppNavigationContext.types';
+
 import { useTranslation } from 'react-i18next';
 
-const debugLogging = true;
+const debugLogging = false;
 const logDebugConsole = getDebugLogger('StoreList', debugLogging);
 
 const getClassNames = classNamesFunction<
@@ -46,14 +40,13 @@ const columns: IColumn[] = [
 ];
 
 const StoreList: React.FC<IStoreListProps> = (props) => {
-    const { styles } = props;
+    const { onNavigateNext, styles } = props;
 
     // hooks
     const { t } = useTranslation();
 
     // contexts
-    const { appDataState, appDataDispatch } = useAppDataContext();
-    const { appNavigationDispatch } = useAppNavigationContext();
+    const { appDataState } = useAppDataContext();
 
     // state
     const [
@@ -106,21 +99,15 @@ const StoreList: React.FC<IStoreListProps> = (props) => {
                 columns={columns}
                 selection={selection}
                 selectionPreservedOnEmptyClick={true}
+                selectionMode={SelectionMode.single}
             />
             <DefaultButton
                 text={t('next')}
-                onClick={() => {
-                    appDataDispatch({
-                        type: AppDataContextActionType.SET_TARGET_DATABASE,
-                        payload: { targetDatabase: selectedItem }
-                    });
-                    appNavigationDispatch({
-                        type: AppNavigationContextActionType.NAVIGATE_TO,
-                        payload: {
-                            pageName: AppPageName.FlowPicker
-                        }
-                    });
-                }}
+                onClick={() =>
+                    onNavigateNext({
+                        targetDatabase: selectedItem
+                    })
+                }
                 disabled={!selectedItem}
             />
         </Stack>

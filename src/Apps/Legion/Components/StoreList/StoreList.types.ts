@@ -1,7 +1,11 @@
 import { IStyle, IStyleFunctionOrObject } from '@fluentui/react';
 import { IExtendedTheme } from '../../../../Theming/Theme.types';
+import { ITargetDatabaseConnection } from '../../Contexts/AppDataContext/AppDataContext.types';
 
 export interface IStoreListProps {
+    onNavigateNext: (args: {
+        targetDatabase: ITargetDatabaseConnection;
+    }) => void;
     /**
      * Call to provide customized styling that will layer on top of the variant rules.
      */

@@ -13,7 +13,7 @@ import { WizardDataManagementContextProvider } from '../../../../Contexts/Wizard
 const wrapperStyle = { width: '100%', height: '600px' };
 
 export default {
-    title: 'Components/Apps/Legion/WizardShell/TwinVerificationStep',
+    title: 'Apps/Legion/WizardShell/TwinVerificationStep',
     component: TwinVerificationStep,
     decorators: [
         getDefaultStoryDecorator<ITwinVerificationStepProps>(wrapperStyle)

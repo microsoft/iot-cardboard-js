@@ -7,7 +7,7 @@ import { getDefaultStoryDecorator } from '../../../../Models/Services/StoryUtili
 const wrapperStyle = { width: '100%', height: '600px', padding: 8 };
 
 export default {
-    title: 'Components/StoreListPage',
+    title: 'Apps/Legion/Pages/StoreListPage',
     component: StoreListPage,
     decorators: [getDefaultStoryDecorator<IStoreListPageProps>(wrapperStyle)]
 };

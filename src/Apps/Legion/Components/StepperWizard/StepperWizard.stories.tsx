@@ -13,7 +13,7 @@ import { WIZARD_NAVIGATION_MOCK_DATA } from '../WizardShell/WizardShellMockData'
 const wrapperStyle = { width: 'fit-content', height: 'auto' };
 
 export default {
-    title: 'Components/Apps/Legion/StepperWizard',
+    title: 'Apps/Legion/StepperWizard',
     component: StepperWizard,
     decorators: [getDefaultStoryDecorator(wrapperStyle)]
 };

@@ -7,7 +7,7 @@ import { IWizardPageProps } from './WizardPage.types';
 const wrapperStyle = { width: '100%', height: '600px', padding: 8 };
 
 export default {
-    title: 'Components/WizardPage',
+    title: 'Apps/Legion/Pages/WizardPage',
     component: WizardPage,
     decorators: [getDefaultStoryDecorator<IWizardPageProps>(wrapperStyle)]
 };

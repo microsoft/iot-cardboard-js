@@ -7,7 +7,7 @@ import { ILegionAppProps } from './LegionApp.types';
 const wrapperStyle = { width: '100%', height: '600px', padding: 8 };
 
 export default {
-    title: 'Components/Apps/Legion',
+    title: 'Apps/Legion',
     component: LegionApp,
     decorators: [getDefaultStoryDecorator<ILegionAppProps>(wrapperStyle)]
 };

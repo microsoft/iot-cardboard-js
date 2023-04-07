@@ -7,7 +7,7 @@ import { IFlowPickerProps } from './FlowPicker.types';
 const wrapperStyle = { width: '100%', height: '600px', padding: 8 };
 
 export default {
-    title: 'Components/FlowPicker',
+    title: 'Apps/Legion/FlowPicker',
     component: FlowPicker,
     decorators: [getDefaultStoryDecorator<IFlowPickerProps>(wrapperStyle)]
 };
@@ -19,4 +19,11 @@ const Template: FlowPickerStory = (args) => {
 };
 
 export const Base = Template.bind({}) as FlowPickerStory;
-Base.args = {} as IFlowPickerProps;
+Base.args = {
+    onNavigateBack: () => {
+        console.log('Navigate back');
+    },
+    onNavigateNext: (step) => {
+        console.log(`Navigate to wizard step: ${step}`);
+    }
+} as IFlowPickerProps;

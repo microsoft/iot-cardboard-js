@@ -17,7 +17,7 @@ const wrapperStyle: any = {
 };
 
 export default {
-    title: 'Components/Apps/Legion/GraphVisualizer',
+    title: 'Apps/Legion/GraphVisualizer',
     component: GraphVisualizer,
     decorators: [getDefaultStoryDecorator<StoryArgs>(wrapperStyle)]
 };
