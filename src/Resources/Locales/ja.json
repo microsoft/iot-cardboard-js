@@ -1574,6 +1574,11 @@
       "models": "モデル",
       "twins": "双子",
       "properties": "プロパティ"
+    },
+    "Common": {},
+    "StoreListPage": {
+      "title": "未来へようこそ",
+      "createStoreButtonText": "ストアの作成"
     }
   }
 }

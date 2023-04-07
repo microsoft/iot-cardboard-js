@@ -1574,6 +1574,11 @@
       "models": "Modelli",
       "twins": "Gemelli",
       "properties": "Proprietà"
+    },
+    "Common": {},
+    "StoreListPage": {
+      "title": "Benvenuti nel futuro",
+      "createStoreButtonText": "Crea negozio"
     }
   }
 }

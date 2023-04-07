@@ -1574,6 +1574,11 @@
       "models": "Modèle",
       "twins": "Jumeaux",
       "properties": "Propriétés"
+    },
+    "Common": {},
+    "StoreListPage": {
+      "title": "Bienvenue dans le futur",
+      "createStoreButtonText": "Créer un magasin"
     }
   }
 }

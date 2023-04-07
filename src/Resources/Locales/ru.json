@@ -1574,6 +1574,11 @@
       "models": "Модели",
       "twins": "Близнецы",
       "properties": "Свойства"
+    },
+    "Common": {},
+    "StoreListPage": {
+      "title": "Добро пожаловать в будущее",
+      "createStoreButtonText": "Создать магазин"
     }
   }
 }
