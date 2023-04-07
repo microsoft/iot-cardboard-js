@@ -29,9 +29,18 @@ import { ICookProperty } from '../Models/Types';
 export const cookSourceTable = (
     sourceConnectionString: string,
     table: ITable,
-    twinIdPropertyColumn: string,
-    tableType: TableTypes
+    twinIdPropertyColumn: string
 ): ICookAssets => {
+    const tableType =
+        table.Columns.findIndex(
+            (c) => c.columnName === PROPERTY_COLUMN_NAME
+        ) !== -1
+            ? TableTypes.Narrow
+            : table.Columns.findIndex(
+                  (c) => c.columnName === VALUE_COLUMN_NAME
+              ) !== -1
+            ? TableTypes.Tags
+            : TableTypes.Wide;
     const idxOfTwinIdColumn = table.Columns.findIndex(
         (c) => c.columnName === twinIdPropertyColumn
     );

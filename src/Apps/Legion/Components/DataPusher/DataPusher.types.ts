@@ -1,4 +1,5 @@
 import {
+    IButtonStyles,
     IDropdownOption,
     IProcessedStyleSet,
     IStackStyles,
@@ -35,6 +36,7 @@ export interface IDataPusherStyles {
 
 export interface IDataPusherSubComponentStyles {
     stack?: IStackStyles;
+    button?: IButtonStyles;
 }
 
 export interface IDataPusherContext {

@@ -25,6 +25,11 @@ export const getStyles = (_props: IDataPusherStyleProps): IDataPusherStyles => {
                 root: {
                     width: 300
                 }
+            },
+            button: {
+                root: {
+                    marginTop: 12
+                }
             }
         }
     };

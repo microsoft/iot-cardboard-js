@@ -2,6 +2,7 @@ import axios from 'axios';
 import AdapterMethodSandbox from '../../../../../Models/Classes/AdapterMethodSandbox';
 import { ComponentErrorType } from '../../../../../Models/Constants/Enums';
 import { IAuthService } from '../../../../../Models/Constants/Interfaces';
+import { TIMESTAMP_COLUMN_NAME } from '../../../Components/DataPusher/DataPusher.types';
 import BaseAdapter from '../../BaseAdapter';
 import { DataManagementAdapterData } from './Models/DataManagementAdapter.data';
 import {
@@ -283,7 +284,7 @@ export default class ADXAdapter
     async getTable(
         databaseName: string,
         tableName: string,
-        orderByColumn?: string
+        orderByColumn: string = TIMESTAMP_COLUMN_NAME
     ) {
         const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
         return await adapterMethodSandbox.safelyFetchData(async (token) => {

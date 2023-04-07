@@ -1528,11 +1528,10 @@
     "legionApp": {
         "dataPusher": {
             "title": "Data pusher",
-            "simulationType": "Simulation type",
-            "selectSimulationType": "Select simulation type",
+            "pushFrequency": "Push frequency",
+            "pushFrequencyInfo": "This number represents both the time between timeseries timestamps and the interval at which new rows are pushed to table.",
             "tabs": {
-                "setup": "Setup",
-                "ingest": "Ingest",
+                "ingest": "Create & Ingest",
                 "cook": "Cook"
             },
             "source": {
@@ -1547,10 +1546,16 @@
             },
             "target": {
                 "database": "Target database",
-                "selectDatabase": "Select target database"
+                "selectDatabase": "Select target database",
+                "tableType": "Target table type",
+                "tableTypeTooltipContent": "Select the table schema to be used for table creation or row ingestion",
+                "selectTableType": "Select target table type",
+                "table": "Target table",
+                "selectTable": "Select target table"
             },
             "actions": {
-                "ingest": "Ingest data to source table",
+                "startIngest": "Start ingestion",
+                "stopIngest": "Stop ingestion",
                 "cook": "Cook twins graph",
                 "pushTwinsGraph": "Push twins graph to target database"
             },

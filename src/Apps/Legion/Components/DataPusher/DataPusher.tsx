@@ -10,7 +10,6 @@ import { classNamesFunction, Pivot, PivotItem, styled } from '@fluentui/react';
 import { useExtendedTheme } from '../../../../Models/Hooks/useExtendedTheme';
 import { getDebugLogger } from '../../../../Models/Services/Utils';
 import { useTranslation } from 'react-i18next';
-import Setup from './Internal/Setup';
 import Ingest from './Internal/Ingest';
 import Cook from './Internal/Cook';
 
@@ -50,11 +49,6 @@ const DataPusher: React.FC<IDataPusherProps> = (props) => {
                     {t('legionApp.dataPusher.title')}
                 </h3>
                 <Pivot>
-                    <PivotItem
-                        headerText={t('legionApp.dataPusher.tabs.setup')}
-                    >
-                        <Setup />
-                    </PivotItem>
                     <PivotItem
                         headerText={t('legionApp.dataPusher.tabs.ingest')}
                     >
