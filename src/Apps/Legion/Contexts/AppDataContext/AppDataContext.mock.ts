@@ -2,8 +2,10 @@
 
 import { IAppDataContextState } from './AppDataContext.types';
 
-export const GET_MOCK_OAT_CONTEXT_STATE = (): IAppDataContextState => {
+export const GET_MOCK_APP_DATA_CONTEXT_STATE = (): IAppDataContextState => {
     return {
-targetDatabase:null
+        targetDatabase: {
+            databaseName: 'Mock target database'
+        }
     };
 };

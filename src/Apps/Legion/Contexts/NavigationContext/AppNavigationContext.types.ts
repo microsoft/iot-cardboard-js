@@ -42,7 +42,7 @@ export enum AppNavigationContextActionType {
 
 type NavigateToArgs =
     | {
-          pageName: AppPageName;
+          pageName: AppPageName.FlowPicker | AppPageName.StoreList;
       }
     | {
           pageName: AppPageName.Wizard;
