@@ -6,8 +6,8 @@ import {
     Selection,
     styled,
     Stack,
-    DefaultButton,
-    SelectionMode
+    SelectionMode,
+    PrimaryButton
 } from '@fluentui/react';
 import { useExtendedTheme } from '../../../../Models/Hooks/useExtendedTheme';
 import { getDebugLogger } from '../../../../Models/Services/Utils';
@@ -101,7 +101,7 @@ const StoreList: React.FC<IStoreListProps> = (props) => {
                 selectionPreservedOnEmptyClick={true}
                 selectionMode={SelectionMode.single}
             />
-            <DefaultButton
+            <PrimaryButton
                 text={t('next')}
                 onClick={() =>
                     onNavigateNext({
