@@ -3,6 +3,7 @@ import { IExtendedTheme } from '../../../../Theming/Theme.types';
 import { ITargetDatabaseConnection } from '../../Contexts/AppDataContext/AppDataContext.types';
 
 export interface IStoreListProps {
+    initialTargetDatabase: ITargetDatabaseConnection | null;
     onNavigateNext: (args: {
         targetDatabase: ITargetDatabaseConnection;
     }) => void;

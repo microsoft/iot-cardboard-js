@@ -18,7 +18,6 @@ import {
 } from './StoreList.types';
 import { getStyles } from './StoreList.styles';
 import { ITargetDatabaseConnection } from '../../Contexts/AppDataContext/AppDataContext.types';
-import { useAppDataContext } from '../../Contexts/AppDataContext/AppDataContext';
 
 import { useTranslation } from 'react-i18next';
 
@@ -40,19 +39,18 @@ const columns: IColumn[] = [
 ];
 
 const StoreList: React.FC<IStoreListProps> = (props) => {
-    const { onNavigateNext, styles } = props;
+    const { initialTargetDatabase, onNavigateNext, styles } = props;
 
     // hooks
     const { t } = useTranslation();
 
     // contexts
-    const { appDataState } = useAppDataContext();
 
     // state
     const [
         selectedItem,
         setSelectedItem
-    ] = useState<ITargetDatabaseConnection | null>(appDataState.targetDatabase);
+    ] = useState<ITargetDatabaseConnection | null>(initialTargetDatabase);
     const selection = useMemo(() => {
         return new Selection({
             onSelectionChanged: () => {

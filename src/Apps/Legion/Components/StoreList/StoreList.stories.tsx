@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import React from 'react';
 import { ComponentStory } from '@storybook/react';
 import { getDefaultStoryDecorator } from '../../../../Models/Services/StoryUtilities';
@@ -19,4 +20,9 @@ const Template: StoreListStory = (args) => {
 };
 
 export const Base = Template.bind({}) as StoreListStory;
-Base.args = {} as IStoreListProps;
+Base.args = {
+    initialTargetDatabase: null,
+    onNavigateNext: () => {
+        console.log('Navigate next');
+    }
+} as IStoreListProps;

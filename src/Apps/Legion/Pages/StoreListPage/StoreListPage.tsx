@@ -19,7 +19,7 @@ const logDebugConsole = getDebugLogger('StoreListPage', debugLogging);
 const StoreListPage: React.FC<IStoreListPageProps> = () => {
     // contexts
     const { appNavigationDispatch } = useAppNavigationContext();
-    const { appDataDispatch } = useAppDataContext();
+    const { appDataDispatch, appDataState } = useAppDataContext();
 
     // state
 
@@ -51,6 +51,7 @@ const StoreListPage: React.FC<IStoreListPageProps> = () => {
             <Stack>
                 <CommandBar items={commandbarItems} />
                 <StoreList
+                    initialTargetDatabase={appDataState.targetDatabase}
                     onNavigateNext={(args) => {
                         appDataDispatch({
                             type: AppDataContextActionType.SET_TARGET_DATABASE,
