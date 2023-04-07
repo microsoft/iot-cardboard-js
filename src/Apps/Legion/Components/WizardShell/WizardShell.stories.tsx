@@ -3,11 +3,14 @@ import { ComponentStory } from '@storybook/react';
 import WizardShell from './WizardShell';
 import { IWizardShellProps } from './WizardShell.types';
 import { getDefaultStoryDecorator } from '../../../../Models/Services/StoryUtilities';
-import { WizardNavigationContextProvider } from '../../Models/Context/WizardNavigationContext/WizardNavigationContext';
-import { stepData, steps } from './WizardShellMockData';
-import MockDataManagementAdapter from '../../Adapters/Standalone/DataManagement/MockDataManagementAdapter';
+import { WizardNavigationContextProvider } from '../../Contexts/WizardNavigationContext/WizardNavigationContext';
+import {
+    DEFAULT_MOCK_DATA_MANAGEMENT_STATE,
+    WIZARD_NAVIGATION_MOCK_DATA
+} from './WizardShellMockData';
+import { DataManagementContextProvider } from '../../Contexts/DataManagementContext/DataManagementContext';
 
-const wrapperStyle = { width: '100%', height: '600px', padding: 8 };
+const wrapperStyle = { width: '100%', height: '600px' };
 
 export default {
     title: 'Components/Apps/Legion/WizardShell',
@@ -19,16 +22,17 @@ type WizardShellStory = ComponentStory<typeof WizardShell>;
 
 const Template: WizardShellStory = (args) => {
     return (
-        <WizardNavigationContextProvider
+        <DataManagementContextProvider
             initialState={{
-                adapter: new MockDataManagementAdapter(),
-                steps: steps,
-                currentStep: 0,
-                stepData: stepData
+                ...DEFAULT_MOCK_DATA_MANAGEMENT_STATE
             }}
         >
-            <WizardShell {...args} />
-        </WizardNavigationContextProvider>
+            <WizardNavigationContextProvider
+                initialState={WIZARD_NAVIGATION_MOCK_DATA}
+            >
+                <WizardShell {...args} />
+            </WizardNavigationContextProvider>
+        </DataManagementContextProvider>
     );
 };
 

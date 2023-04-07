@@ -1,5 +1,6 @@
 import { IButtonStyles, IStyle, IStyleFunctionOrObject } from '@fluentui/react';
 import { IExtendedTheme } from '../../../../../../Theming/Theme.types';
+import { IModel, ITwin } from '../../../../Models/Interfaces';
 
 export interface ITwinVerificationStepProps {
     /**
@@ -17,6 +18,7 @@ export interface ITwinVerificationStepStyleProps {
 export interface ITwinVerificationStepStyles {
     root: IStyle;
     headerContainer: IStyle;
+    buttonContainer: IStyle;
     content: IStyle;
 
     /**
@@ -26,19 +28,15 @@ export interface ITwinVerificationStepStyles {
 }
 
 export interface ITwinVerificationStepSubComponentStyles {
-    button: Partial<IButtonStyles>;
+    button?: Partial<IButtonStyles>;
 }
 
-export interface IViewModelFromCooked {
-    id: string;
-    name: string;
+export interface IModelExtended extends IModel {
     color: string;
-    propertyIds: Array<string>;
     selectedPropertyIds: Array<string>;
 }
 
-export interface IViewTwinFromCooked {
-    id: string;
-    model: IViewModelFromCooked;
+export interface ITwinExtended extends ITwin {
+    model: IModelExtended;
     isSelected: boolean;
 }

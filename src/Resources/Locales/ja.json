@@ -1568,6 +1568,12 @@
         "pushTwinsGraph": "ツイン グラフをターゲット データベースにプッシュする"
       },
       "title": "データプッシャー"
+    },
+    "verificationStep": {
+      "title": "検出されたツインを確認する",
+      "models": "モデル",
+      "twins": "双子",
+      "properties": "プロパティ"
     }
   }
 }

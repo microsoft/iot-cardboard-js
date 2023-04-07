@@ -32,7 +32,7 @@ import { ActionMeta } from 'react-select';
 import { getReactSelectStyles } from '../../../../../Resources/Styles/ReactSelect.styles';
 import { useExtendedTheme } from '../../../../../Models/Hooks/useExtendedTheme';
 import { cookSourceTable } from '../../../Services/DataPusherUtils';
-import { ICookAssets } from '../../../Models/Interfaces';
+import { IAppData } from '../../../Models/Interfaces';
 
 const Cook: React.FC = () => {
     const { adapter, classNames } = useDataPusherContext();
@@ -71,7 +71,7 @@ const Cook: React.FC = () => {
     ] = useState<string>(TableTypes.Wide);
     const [sourceTableData, setSourceTableData] = useState<ITable>(null);
     const [adapterResult, setAdapterResult] = useState(null);
-    const [cookAssets, setCookAssets] = useState<ICookAssets>(null);
+    const [cookAssets, setCookAssets] = useState<IAppData>(null);
 
     // hooks
     const { t } = useTranslation();

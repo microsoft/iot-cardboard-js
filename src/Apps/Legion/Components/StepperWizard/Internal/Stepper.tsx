@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
-import { useWizardNavigationContext } from '../../../Models/Context/WizardNavigationContext/WizardNavigationContext';
-import { WizardNavigationContextActionType } from '../../../Models/Context/WizardNavigationContext/WizardNavigationContext.types';
+import { useWizardNavigationContext } from '../../../Contexts/WizardNavigationContext/WizardNavigationContext';
+import { WizardNavigationContextActionType } from '../../../Contexts/WizardNavigationContext/WizardNavigationContext.types';
 import { Step } from './Step';
 import { IStepProps } from './Step.types';
 import { IStepperProps } from './Stepper.types';

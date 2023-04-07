@@ -1568,6 +1568,12 @@
         "pushTwinsGraph": "Odeslání grafu dvojčat do cílové databáze"
       },
       "title": "Posunovač dat"
+    },
+    "verificationStep": {
+      "title": "Ověření zjištěných dvojčat",
+      "models": "Modely",
+      "twins": "Dvojčata",
+      "properties": "Vlastnosti"
     }
   }
 }
