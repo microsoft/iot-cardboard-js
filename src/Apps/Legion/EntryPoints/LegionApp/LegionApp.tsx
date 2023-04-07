@@ -1,9 +1,9 @@
 import React, { useMemo } from 'react';
 import { ILegionAppProps } from './LegionApp.types';
 import {
-    NavigationContextProvider,
-    useNavigationContext
-} from '../../Contexts/NavigationContext/NavigationContext';
+    AppNavigationContextProvider,
+    useAppNavigationContext
+} from '../../Contexts/NavigationContext/AppNavigationContext';
 import { AppDataContextProvider } from '../../Contexts/AppDataContext/AppDataContext';
 import FlowPickerPage from '../../Pages/FlowPickerPage/FlowPickerPage';
 import StoreListPage from '../../Pages/StoreListPage/StoreListPage';
@@ -11,7 +11,7 @@ import WizardPage from '../../Pages/WizardPage/WizardPage';
 
 const PageManager: React.FC = () => {
     // contexts
-    const { navigationState } = useNavigationContext();
+    const { navigationState } = useAppNavigationContext();
 
     // data
     const page = useMemo(() => {
@@ -31,9 +31,9 @@ const PageManager: React.FC = () => {
 const LegionApp: React.FC<ILegionAppProps> = (_props) => {
     return (
         <AppDataContextProvider>
-            <NavigationContextProvider>
+            <AppNavigationContextProvider>
                 <PageManager />
-            </NavigationContextProvider>
+            </AppNavigationContextProvider>
         </AppDataContextProvider>
     );
 };

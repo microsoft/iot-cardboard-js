@@ -2,81 +2,78 @@
  * This context is for managing the state and actions on the Ontology Authoring Tool page
  */
 import produce from 'immer';
-import React, { ReactNode, useContext, useReducer } from 'react';
+import React, { useContext, useReducer } from 'react';
 import { getDebugLogger } from '../../../../Models/Services/Utils';
 import {
-    INavigationContext,
-    INavigationContextProviderProps,
-    INavigationContextState,
-    NavigationContextAction,
-    NavigationContextActionType
-} from './NavigationContext.types';
+    IAppNavigationContext,
+    IAppNavigationContextProviderProps,
+    IAppNavigationContextState,
+    AppNavigationContextAction,
+    AppNavigationContextActionType
+} from './AppNavigationContext.types';
 
 const debugLogging = false;
-export const logDebugConsole = getDebugLogger(
-    'NavigationContext',
-    debugLogging
-);
+const logDebugConsole = getDebugLogger('NavigationContext', debugLogging);
 
-export const NavigationContext = React.createContext<INavigationContext>(null);
-export const useNavigationContext = () => useContext(NavigationContext);
+const AppNavigationContext = React.createContext<IAppNavigationContext>(null);
+export const useAppNavigationContext = () => useContext(AppNavigationContext);
 
-export const NavigationContextReducer: (
-    draft: INavigationContextState,
-    action: NavigationContextAction
-) => INavigationContextState = produce(
-    (draft: INavigationContextState, action: NavigationContextAction) => {
+export const AppNavigationContextReducer: (
+    draft: IAppNavigationContextState,
+    action: AppNavigationContextAction
+) => IAppNavigationContextState = produce(
+    (draft: IAppNavigationContextState, action: AppNavigationContextAction) => {
         logDebugConsole(
             'info',
             `Updating Graph context ${action.type} with payload: `,
             (action as any).payload // sometimes doesn't have payload
         );
         switch (action.type) {
-            case NavigationContextActionType.NAVIGATE_TO:
+            case AppNavigationContextActionType.NAVIGATE_TO:
                 draft.currentPage = action.payload.pageName;
                 break;
         }
     }
 );
 
-export const NavigationContextProvider: React.FC<INavigationContextProviderProps> = (
+export const AppNavigationContextProvider: React.FC<IAppNavigationContextProviderProps> = (
     props
 ) => {
     const { children, initialState } = props;
 
     // skip wrapping if the context already exists
-    const existingContext = useNavigationContext();
+    const existingContext = useAppNavigationContext();
     if (existingContext) {
         return <>{children}</>;
     }
 
     const [state, dispatch] = useReducer(
-        NavigationContextReducer,
+        AppNavigationContextReducer,
         { ...emptyState, ...initialState },
         getInitialState
     );
 
     logDebugConsole('debug', 'Mount NavigationContextProvider. {state}', state);
     return (
-        <NavigationContext.Provider
+        <AppNavigationContext.Provider
             value={{
                 navigationDispatch: dispatch,
                 navigationState: state
             }}
         >
             {children}
-        </NavigationContext.Provider>
+        </AppNavigationContext.Provider>
     );
 };
 
-const emptyState: INavigationContextState = {
+const emptyState: IAppNavigationContextState = {
     currentPage: 'StoreListPage'
 };
 
 function getInitialState(
-    initialState: INavigationContextState
-): INavigationContextState {
-    const state: INavigationContextState = {
+    initialState: IAppNavigationContextState
+): IAppNavigationContextState {
+    const state: IAppNavigationContextState = {
         ...initialState
     };
 

@@ -22,8 +22,8 @@ import {
     ITargetDatabaseConnection
 } from '../../Contexts/AppDataContext/AppDataContext.types';
 import { useAppDataContext } from '../../Contexts/AppDataContext/AppDataContext';
-import { useNavigationContext } from '../../Contexts/NavigationContext/NavigationContext';
-import { NavigationContextActionType } from '../../Contexts/NavigationContext/NavigationContext.types';
+import { useAppNavigationContext } from '../../Contexts/NavigationContext/AppNavigationContext';
+import { AppNavigationContextActionType } from '../../Contexts/NavigationContext/AppNavigationContext.types';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('StoreList', debugLogging);
@@ -47,7 +47,7 @@ const StoreList: React.FC<IStoreListProps> = (props) => {
 
     // contexts
     const { AppDataState, AppDataDispatch } = useAppDataContext();
-    const { navigationDispatch } = useNavigationContext();
+    const { navigationDispatch } = useAppNavigationContext();
 
     // state
     const [
@@ -112,7 +112,7 @@ const StoreList: React.FC<IStoreListProps> = (props) => {
                         }
                     });
                     navigationDispatch({
-                        type: NavigationContextActionType.NAVIGATE_TO,
+                        type: AppNavigationContextActionType.NAVIGATE_TO,
                         payload: {
                             pageName: 'ActionPicker'
                         }
