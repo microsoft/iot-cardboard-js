@@ -1,6 +1,7 @@
 import React, { useCallback } from 'react';
 import {
     DefaultButton,
+    PrimaryButton,
     Stack,
     classNamesFunction,
     styled
@@ -19,6 +20,7 @@ import {
 } from '../../Contexts/NavigationContext/AppNavigationContext.types';
 import { useAppNavigationContext } from '../../Contexts/NavigationContext/AppNavigationContext';
 import { WizardStepNumber } from '../../Contexts/WizardNavigationContext/WizardNavigationContext.types';
+import { useAppDataContext } from '../../Contexts/AppDataContext/AppDataContext';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('FlowPicker', debugLogging);
@@ -32,14 +34,11 @@ const FlowPicker: React.FC<IFlowPickerProps> = (props) => {
     const { styles } = props;
 
     // contexts
+    const { appDataState } = useAppDataContext();
     const { appNavigationDispatch } = useAppNavigationContext();
 
-    // state
-
-    // hooks
-
     // callbacks
-    const navigate = useCallback(
+    const navigateToWizard = useCallback(
         (step: WizardStepNumber) => {
             appNavigationDispatch({
                 type: AppNavigationContextActionType.NAVIGATE_TO,
@@ -51,8 +50,14 @@ const FlowPicker: React.FC<IFlowPickerProps> = (props) => {
         },
         [appNavigationDispatch]
     );
-
-    // side effects
+    const startOver = useCallback(() => {
+        appNavigationDispatch({
+            type: AppNavigationContextActionType.NAVIGATE_TO,
+            payload: {
+                pageName: AppPageName.StoreList
+            }
+        });
+    }, [appNavigationDispatch]);
 
     // styles
     const classNames = getClassNames(styles, {
@@ -62,19 +67,23 @@ const FlowPicker: React.FC<IFlowPickerProps> = (props) => {
     logDebugConsole('debug', 'Render');
 
     return (
-        <Stack className={classNames.root}>
-            <DefaultButton
-                text={'Discover'}
-                onClick={() => navigate(WizardStepNumber.AddSource)}
-            />
-            <DefaultButton
-                text={'Modify'}
-                onClick={() => navigate(WizardStepNumber.Modify)}
-            />
-            <DefaultButton
-                text={'View'}
-                onClick={() => navigate(WizardStepNumber.Save)}
-            />
+        <Stack className={classNames.root} tokens={{ childrenGap: 8 }}>
+            Store: {appDataState.targetDatabase.databaseName}
+            <Stack tokens={{ childrenGap: 8 }}>
+                <PrimaryButton
+                    text={'Discover'}
+                    onClick={() => navigateToWizard(WizardStepNumber.AddSource)}
+                />
+                <PrimaryButton
+                    text={'Modify'}
+                    onClick={() => navigateToWizard(WizardStepNumber.Modify)}
+                />
+                <PrimaryButton
+                    text={'View'}
+                    onClick={() => navigateToWizard(WizardStepNumber.Save)}
+                />
+                <DefaultButton text={'Back'} onClick={startOver} />
+            </Stack>
         </Stack>
     );
 };

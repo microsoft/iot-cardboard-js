@@ -1,9 +1,8 @@
-import React, { useRef, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import {
     classNamesFunction,
     DetailsList,
     IColumn,
-    SelectionMode,
     Selection,
     styled,
     Stack,
@@ -27,8 +26,9 @@ import {
     AppNavigationContextActionType,
     AppPageName
 } from '../../Contexts/NavigationContext/AppNavigationContext.types';
+import { useTranslation } from 'react-i18next';
 
-const debugLogging = false;
+const debugLogging = true;
 const logDebugConsole = getDebugLogger('StoreList', debugLogging);
 
 const getClassNames = classNamesFunction<
@@ -48,44 +48,47 @@ const columns: IColumn[] = [
 const StoreList: React.FC<IStoreListProps> = (props) => {
     const { styles } = props;
 
+    // hooks
+    const { t } = useTranslation();
+
     // contexts
-    const { AppDataState, AppDataDispatch } = useAppDataContext();
+    const { appDataState, appDataDispatch } = useAppDataContext();
     const { appNavigationDispatch } = useAppNavigationContext();
 
     // state
     const [
         selectedItem,
         setSelectedItem
-    ] = useState<ITargetDatabaseConnection | null>(null);
+    ] = useState<ITargetDatabaseConnection | null>(appDataState.targetDatabase);
+    const selection = useMemo(() => {
+        return new Selection({
+            onSelectionChanged: () => {
+                const selected = selection.getSelection()[0] as ITargetDatabaseConnection;
+                logDebugConsole('info', 'Selected item {item}', selected);
+                setSelectedItem(selected);
+            }
+        });
+    }, []);
 
     // hooks
 
     // data
-    const items: ITargetDatabaseConnection[] = [
-        {
-            databaseName: 'My Estero DB'
-        },
-        {
-            databaseName: 'Database 2'
-        },
-        {
-            databaseName: 'Database 3'
-        }
-    ];
+    const items: ITargetDatabaseConnection[] = useMemo(
+        () => [
+            {
+                databaseName: 'My Estero DB'
+            },
+            {
+                databaseName: 'Database 2'
+            },
+            {
+                databaseName: 'Database 3'
+            }
+        ],
+        []
+    );
 
     // callbacks
-    const selection = useRef<Selection>(
-        new Selection({
-            onSelectionChanged: () => {
-                // getSelection returns an array of selected elements, since this is single select first one is always going to be the correct one
-                const selectionValue = selection.current.getSelection()[0];
-                console.log('***Selected', selectionValue);
-                setSelectedItem(
-                    selectionValue ? selectionValue['databaseName'] : null
-                );
-            }
-        })
-    );
 
     // side effects
 
@@ -94,27 +97,22 @@ const StoreList: React.FC<IStoreListProps> = (props) => {
         theme: useExtendedTheme()
     });
 
-    logDebugConsole('debug', 'Render');
+    logDebugConsole('debug', 'Render {selected}', selectedItem);
 
     return (
         <Stack className={classNames.root}>
             <DetailsList
                 items={items}
                 columns={columns}
-                selectionMode={SelectionMode.single}
-                selection={selection.current}
+                selection={selection}
                 selectionPreservedOnEmptyClick={true}
             />
             <DefaultButton
-                text={'next'}
+                text={t('next')}
                 onClick={() => {
-                    AppDataDispatch({
+                    appDataDispatch({
                         type: AppDataContextActionType.SET_TARGET_DATABASE,
-                        payload: {
-                            targetDatabase: {
-                                databaseName: 'My Estero DB'
-                            } // selectedItem
-                        }
+                        payload: { targetDatabase: selectedItem }
                     });
                     appNavigationDispatch({
                         type: AppNavigationContextActionType.NAVIGATE_TO,
@@ -123,7 +121,7 @@ const StoreList: React.FC<IStoreListProps> = (props) => {
                         }
                     });
                 }}
-                // disabled={!AppDataState.targetDatabase}
+                disabled={!selectedItem}
             />
         </Stack>
     );

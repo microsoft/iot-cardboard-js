@@ -9,8 +9,8 @@ export interface IAppDataContextProviderProps {
  * A context used for capturing the current state of the app and restoring it to a new instance of the app
  */
 export interface IAppDataContext {
-    AppDataState: IAppDataContextState;
-    AppDataDispatch: React.Dispatch<AppDataContextAction>;
+    appDataState: IAppDataContextState;
+    appDataDispatch: React.Dispatch<AppDataContextAction>;
 }
 
 /**

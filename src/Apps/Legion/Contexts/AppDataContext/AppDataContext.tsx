@@ -12,7 +12,7 @@ import {
     AppDataContextActionType
 } from './AppDataContext.types';
 
-const debugLogging = false;
+const debugLogging = true;
 export const logDebugConsole = getDebugLogger('AppDataContext', debugLogging);
 
 export const AppDataContext = React.createContext<IAppDataContext>(null);
@@ -57,8 +57,8 @@ export const AppDataContextProvider: React.FC<IAppDataContextProviderProps> = (
     return (
         <AppDataContext.Provider
             value={{
-                AppDataDispatch: dispatch,
-                AppDataState: state
+                appDataDispatch: dispatch,
+                appDataState: state
             }}
         >
             {children}
