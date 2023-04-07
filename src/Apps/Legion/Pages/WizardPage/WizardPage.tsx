@@ -6,7 +6,7 @@ import {
     DEFAULT_MOCK_DATA_MANAGEMENT_STATE,
     WIZARD_NAVIGATION_MOCK_DATA
 } from '../../Components/WizardShell/WizardShellMockData';
-import { WizardDataManagementContextProvider } from '../../Contexts/WizardDataManagementContext/DataManagementContextontext';
+import { WizardDataManagementContextProvider } from '../../Contexts/WizardDataManagementContext/WizardDataManagementContext';
 import { WizardNavigationContextProvider } from '../../Contexts/WizardNavigationContext/WizardNavigationContext';
 
 const debugLogging = false;
