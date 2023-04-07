@@ -1568,6 +1568,17 @@
         "pushTwinsGraph": "Отправка графа близнецов в целевую базу данных"
       },
       "title": "Толкатель данных"
+    },
+    "verificationStep": {
+      "title": "Проверка обнаруженных близнецов",
+      "models": "Модели",
+      "twins": "Близнецы",
+      "properties": "Свойства"
+    },
+    "Common": {},
+    "StoreListPage": {
+      "title": "Добро пожаловать в будущее",
+      "createStoreButtonText": "Создать магазин"
     }
   }
 }

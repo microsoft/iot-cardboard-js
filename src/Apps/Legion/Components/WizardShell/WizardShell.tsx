@@ -8,7 +8,7 @@ import { getStyles } from './WizardShell.styles';
 import { classNamesFunction, Separator, Stack, styled } from '@fluentui/react';
 import { useExtendedTheme } from '../../../../Models/Hooks/useExtendedTheme';
 import { getDebugLogger } from '../../../../Models/Services/Utils';
-import { useWizardNavigationContext } from '../../Models/Context/WizardNavigationContext/WizardNavigationContext';
+import { useWizardNavigationContext } from '../../Contexts/WizardNavigationContext/WizardNavigationContext';
 import StepperWizard from '../StepperWizard/StepperWizard';
 import { StepperWizardType } from '../StepperWizard/StepperWizard.types';
 import DataSourceStep from './Internal/DataSourceStep/DataSourceStep';
@@ -68,21 +68,21 @@ const WizardShell: React.FC<IWizardShellProps> = (props) => {
     logDebugConsole('debug', 'Render');
 
     return (
-        <div className={classNames.root}>
-            <Stack horizontal={true} tokens={{ childrenGap: 8 }}>
-                <div className={classNames.wizardContainer}>
-                    <StepperWizard
-                        steps={wizardNavigationContextState.steps}
-                        type={StepperWizardType.Vertical}
-                        currentStepIndex={
-                            wizardNavigationContextState.currentStep
-                        }
-                    />
-                </div>
-                <Separator vertical={true} />
-                {currentPage}
-            </Stack>
-        </div>
+        <Stack
+            horizontal={true}
+            tokens={{ childrenGap: 8 }}
+            className={classNames.root}
+        >
+            <div className={classNames.wizardContainer}>
+                <StepperWizard
+                    steps={wizardNavigationContextState.steps}
+                    type={StepperWizardType.Vertical}
+                    currentStepIndex={wizardNavigationContextState.currentStep}
+                />
+            </div>
+            <Separator vertical={true} />
+            {currentPage}
+        </Stack>
     );
 };
 

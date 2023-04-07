@@ -1568,6 +1568,17 @@
         "pushTwinsGraph": "Ikereszközök gráfjának leküldése a céladatbázisba"
       },
       "title": "Adatleküldő"
+    },
+    "verificationStep": {
+      "title": "Felderített ikrek ellenőrzése",
+      "models": "Modellek",
+      "twins": "Ikrek",
+      "properties": "Kellékek"
+    },
+    "Common": {},
+    "StoreListPage": {
+      "title": "Üdvözöljük a jövőben",
+      "createStoreButtonText": "Áruház létrehozása"
     }
   }
 }

@@ -8,7 +8,7 @@ import MockDataManagementAdapter from '../../Adapters/Standalone/DataManagement/
 const wrapperStyle = { width: '800px', height: '800px', padding: 8 };
 
 export default {
-    title: 'Components/Apps/Legion/DataPusher',
+    title: 'Apps/Legion/DataPusher',
     component: DataPusher,
     decorators: [getDefaultStoryDecorator<IDataPusherProps>(wrapperStyle)]
 };

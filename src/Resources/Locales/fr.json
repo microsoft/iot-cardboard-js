@@ -1568,6 +1568,17 @@
         "pushTwinsGraph": "Pousser le graphique des jumeaux vers la base de données cible"
       },
       "title": "Pousseur de données"
+    },
+    "verificationStep": {
+      "title": "Vérifier les jumeaux découverts",
+      "models": "Modèle",
+      "twins": "Jumeaux",
+      "properties": "Propriétés"
+    },
+    "Common": {},
+    "StoreListPage": {
+      "title": "Bienvenue dans le futur",
+      "createStoreButtonText": "Créer un magasin"
     }
   }
 }

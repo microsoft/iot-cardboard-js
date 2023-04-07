@@ -1568,6 +1568,17 @@
         "pushTwinsGraph": "Insertar gráfico de gemelos a la base de datos de destino"
       },
       "title": "Empujador de datos"
+    },
+    "verificationStep": {
+      "title": "Verificar gemelos descubiertos",
+      "models": "Modelos",
+      "twins": "Gemelos",
+      "properties": "Propiedades"
+    },
+    "Common": {},
+    "StoreListPage": {
+      "title": "Bienvenidos al futuro",
+      "createStoreButtonText": "Crear tienda"
     }
   }
 }

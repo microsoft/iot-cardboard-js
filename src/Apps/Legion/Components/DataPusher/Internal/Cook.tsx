@@ -21,7 +21,7 @@ import {
 import { useDataPusherContext } from '../DataPusher';
 import { useTranslation } from 'react-i18next';
 import { cookSourceTable } from '../../../Services/DataPusherUtils';
-import { ICookAssets } from '../../../Models/Interfaces';
+import { IAppData } from '../../../Models/Interfaces';
 
 const Cook: React.FC = () => {
     const { adapter, classNames } = useDataPusherContext();
@@ -49,7 +49,7 @@ const Cook: React.FC = () => {
     ] = useState<string>(null);
     const [sourceTableData, setSourceTableData] = useState<ITable>(null);
     const [adapterResult, setAdapterResult] = useState(null);
-    const [cookAssets, setCookAssets] = useState<ICookAssets>(null);
+    const [cookAssets, setCookAssets] = useState<IAppData>(null);
 
     // hooks
     const { t } = useTranslation();

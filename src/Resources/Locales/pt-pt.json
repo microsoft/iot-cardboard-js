@@ -1568,6 +1568,17 @@
         "pushTwinsGraph": "Empurre o gráfico de gêmeos para o banco de dados de destino"
       },
       "title": "Empurrador de dados"
+    },
+    "verificationStep": {
+      "title": "Verificar gêmeos descobertos",
+      "models": "Modelos",
+      "twins": "Gêmeos",
+      "properties": "Imóveis"
+    },
+    "Common": {},
+    "StoreListPage": {
+      "title": "Bem-vindo ao futuro",
+      "createStoreButtonText": "Criar loja"
     }
   }
 }

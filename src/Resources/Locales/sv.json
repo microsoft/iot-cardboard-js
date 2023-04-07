@@ -1568,6 +1568,17 @@
         "pushTwinsGraph": "Skicka tvillingdiagram till måldatabasen"
       },
       "title": "Data pusher"
+    },
+    "verificationStep": {
+      "title": "Verifiera identifierade tvillingar",
+      "models": "Modeller",
+      "twins": "Tvillingar",
+      "properties": "Egenskaper"
+    },
+    "Common": {},
+    "StoreListPage": {
+      "title": "Välkommen till framtiden",
+      "createStoreButtonText": "Skapa butik"
     }
   }
 }

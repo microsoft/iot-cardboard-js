@@ -1568,6 +1568,17 @@
         "pushTwinsGraph": "将孪生体图推送到目标数据库"
       },
       "title": "数据推送器"
+    },
+    "verificationStep": {
+      "title": "验证发现的孪生体",
+      "models": "模型",
+      "twins": "双胞胎",
+      "properties": "性能"
+    },
+    "Common": {},
+    "StoreListPage": {
+      "title": "欢迎来到未来",
+      "createStoreButtonText": "创建商店"
     }
   }
 }

@@ -8,15 +8,10 @@ import {
     VALUE_COLUMN_NAME
 } from '../Components/DataPusher/DataPusher.types';
 import {
-    IViewModelFromCooked,
-    IViewTwinFromCooked
+    IModelExtended,
+    ITwinExtended
 } from '../Components/WizardShell/Internal/TwinVerificationStep/TwinVerificationStep.types';
-import {
-    ICookAssets,
-    IModel,
-    IModelProperty,
-    ITwin
-} from '../Models/Interfaces';
+import { IAppData, IModel, IModelProperty, ITwin } from '../Models/Interfaces';
 import { ICookProperty } from '../Models/Types';
 
 /**
@@ -24,14 +19,16 @@ import { ICookProperty } from '../Models/Types';
  * @param table the source table to cook
  * @param twinIdPropertyColumn the twin id property column
  * @param tableType table schema type, e.g., wide, narrow
- * @returns ICookAssets which includes models, properties and twins objects
+ * @returns IAppData which includes models, properties and twins objects
  */
 export const cookSourceTable = (
     sourceConnectionString: string,
     table: ITable,
-    twinIdPropertyColumn: string
-): ICookAssets => {
-    const tableType =
+    twinIdPropertyColumn: string,
+    tableType?: TableTypes
+): IAppData => {
+    const tableSchema =
+        tableType ??
         table.Columns.findIndex(
             (c) => c.columnName === PROPERTY_COLUMN_NAME
         ) !== -1
@@ -41,6 +38,7 @@ export const cookSourceTable = (
               ) !== -1
             ? TableTypes.Tags
             : TableTypes.Wide;
+
     const idxOfTwinIdColumn = table.Columns.findIndex(
         (c) => c.columnName === twinIdPropertyColumn
     );
@@ -55,7 +53,7 @@ export const cookSourceTable = (
                 [twinId]: []
             };
         }
-        switch (tableType) {
+        switch (tableSchema) {
             case TableTypes.Wide:
                 {
                     const nonNullPropertiesInRow = table.Columns.filter(
@@ -174,7 +172,9 @@ export const cookSourceTable = (
     return {
         models,
         twins,
-        properties
+        properties,
+        relationshipModels: [],
+        relationships: []
     };
 };
 
@@ -189,8 +189,8 @@ export const isSameSet = (array1: Array<string>, array2: Array<string>) =>
 
 export const getViewModelsFromCookedAssets = (
     models: Array<IModel>
-): Array<IViewModelFromCooked> => {
-    const viewModels: Array<IViewModelFromCooked> = models.map((m, idx) => ({
+): Array<IModelExtended> => {
+    const viewModels: Array<IModelExtended> = models.map((m, idx) => ({
         id: m.id,
         name: m.name,
         color: getHighChartColorByIdx(idx),
@@ -202,10 +202,10 @@ export const getViewModelsFromCookedAssets = (
 
 export const getViewTwinsFromCookedAssets = (
     twins: Array<ITwin>,
-    viewModels: Array<IViewModelFromCooked>
-): Array<IViewTwinFromCooked> => {
-    const viewTwins: Array<IViewTwinFromCooked> = twins.map((t) => ({
-        id: t.id,
+    viewModels: Array<IModelExtended>
+): Array<ITwinExtended> => {
+    const viewTwins: Array<ITwinExtended> = twins.map((t) => ({
+        ...t,
         model: viewModels.find((vM) => vM.id === t.modelId),
         isSelected: true
     }));

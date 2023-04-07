@@ -1,13 +1,14 @@
 module.exports = (componentName) => ({
     content: `import React from 'react';
+    import { classNamesFunction, styled } from '@fluentui/react';
+    import { useExtendedTheme } from '../../Models/Hooks/useExtendedTheme';
+    import { getDebugLogger } from '../../Models/Services/Utils';
     import {
         I${componentName}Props,
         I${componentName}StyleProps,
         I${componentName}Styles
     } from './${componentName}.types';
     import { getStyles } from './${componentName}.styles';
-    import { classNamesFunction, styled } from '@fluentui/react';
-    import { useExtendedTheme } from '../../Models/Hooks/useExtendedTheme';
 
     const debugLogging = false;
     const logDebugConsole = getDebugLogger('${componentName}', debugLogging);
