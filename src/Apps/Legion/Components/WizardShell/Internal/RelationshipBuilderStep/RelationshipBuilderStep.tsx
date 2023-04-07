@@ -11,7 +11,7 @@ import { useExtendedTheme } from '../../../../../../Models/Hooks/useExtendedThem
 import GraphVisualizer from '../../../GraphVisualizer/GraphVisualizer';
 import { GraphContextProvider } from '../../../../Contexts/GraphContext/GraphContext';
 import { IGraphNode } from '../../../../Contexts/GraphContext/GraphContext.types';
-import { useDataManagementContext } from '../../../../Contexts/DataManagementContext/DataManagementContext';
+import { useWizardDataManagementContext } from '../../../../Contexts/WizardDataManagementContext/WizardDataManagementContext';
 import {
     getViewModelsFromCookedAssets,
     getViewTwinsFromCookedAssets
@@ -69,7 +69,9 @@ const RelationshipBuilderStep: React.FC<IRelationshipBuilderStepProps> = (
     const { styles } = props;
 
     // contexts
-    const { dataManagementContextState } = useDataManagementContext();
+    const {
+        wizardDataManagementContextState
+    } = useWizardDataManagementContext();
 
     // state
 
@@ -88,11 +90,11 @@ const RelationshipBuilderStep: React.FC<IRelationshipBuilderStepProps> = (
     const data: IGraphNode<any>[] = useMemo(() => {
         const models =
             getViewModelsFromCookedAssets(
-                dataManagementContextState.modifiedAssets.models
+                wizardDataManagementContextState.modifiedAssets.models
             ) ?? [];
         const twins =
             getViewTwinsFromCookedAssets(
-                dataManagementContextState.modifiedAssets.twins,
+                wizardDataManagementContextState.modifiedAssets.twins,
                 models
             ) ?? [];
         const nodes: IGraphNode<any>[] = twins.map((x) => {
@@ -105,8 +107,8 @@ const RelationshipBuilderStep: React.FC<IRelationshipBuilderStepProps> = (
         });
         return nodes;
     }, [
-        dataManagementContextState.modifiedAssets.models,
-        dataManagementContextState.modifiedAssets.twins
+        wizardDataManagementContextState.modifiedAssets.models,
+        wizardDataManagementContextState.modifiedAssets.twins
     ]);
 
     logDebugConsole('debug', 'Render');

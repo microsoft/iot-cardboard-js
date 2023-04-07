@@ -1574,6 +1574,11 @@
       "models": "Modellen",
       "twins": "Tweeling",
       "properties": "Eigenschappen"
+    },
+    "Common": {},
+    "StoreListPage": {
+      "title": "Welkom in de toekomst",
+      "createStoreButtonText": "Winkel maken"
     }
   }
 }

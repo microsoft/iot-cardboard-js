@@ -8,12 +8,12 @@ import {
     DEFAULT_MOCK_DATA_MANAGEMENT_STATE,
     WIZARD_NAVIGATION_MOCK_DATA
 } from './WizardShellMockData';
-import { DataManagementContextProvider } from '../../Contexts/DataManagementContext/DataManagementContext';
+import { WizardDataManagementContextProvider } from '../../Contexts/WizardDataManagementContext/WizardDataManagementContext';
 
 const wrapperStyle = { width: '100%', height: '600px' };
 
 export default {
-    title: 'Components/Apps/Legion/WizardShell',
+    title: 'Apps/Legion/WizardShell',
     component: WizardShell,
     decorators: [getDefaultStoryDecorator<IWizardShellProps>(wrapperStyle)]
 };
@@ -22,7 +22,7 @@ type WizardShellStory = ComponentStory<typeof WizardShell>;
 
 const Template: WizardShellStory = (args) => {
     return (
-        <DataManagementContextProvider
+        <WizardDataManagementContextProvider
             initialState={{
                 ...DEFAULT_MOCK_DATA_MANAGEMENT_STATE
             }}
@@ -32,7 +32,7 @@ const Template: WizardShellStory = (args) => {
             >
                 <WizardShell {...args} />
             </WizardNavigationContextProvider>
-        </DataManagementContextProvider>
+        </WizardDataManagementContextProvider>
     );
 };
 

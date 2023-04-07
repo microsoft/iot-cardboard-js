@@ -1574,6 +1574,11 @@
       "models": "Model",
       "twins": "İkizler",
       "properties": "Özellikler"
+    },
+    "Common": {},
+    "StoreListPage": {
+      "title": "Geleceğe hoş geldiniz",
+      "createStoreButtonText": "Mağaza oluştur"
     }
   }
 }

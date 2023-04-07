@@ -8,12 +8,12 @@ import {
     DEFAULT_MOCK_DATA_MANAGEMENT_STATE,
     WIZARD_NAVIGATION_MOCK_DATA
 } from '../../WizardShellMockData';
-import { DataManagementContextProvider } from '../../../../Contexts/DataManagementContext/DataManagementContext';
+import { WizardDataManagementContextProvider } from '../../../../Contexts/WizardDataManagementContext/WizardDataManagementContext';
 
 const wrapperStyle = { width: '100%', height: '600px' };
 
 export default {
-    title: 'Components/Apps/Legion/WizardShell/TwinVerificationStep',
+    title: 'Apps/Legion/WizardShell/TwinVerificationStep',
     component: TwinVerificationStep,
     decorators: [
         getDefaultStoryDecorator<ITwinVerificationStepProps>(wrapperStyle)
@@ -24,7 +24,7 @@ type TwinVerificationStepStory = ComponentStory<typeof TwinVerificationStep>;
 
 const Template: TwinVerificationStepStory = (args) => {
     return (
-        <DataManagementContextProvider
+        <WizardDataManagementContextProvider
             initialState={{
                 ...DEFAULT_MOCK_DATA_MANAGEMENT_STATE
             }}
@@ -34,7 +34,7 @@ const Template: TwinVerificationStepStory = (args) => {
             >
                 <TwinVerificationStep {...args} />
             </WizardNavigationContextProvider>
-        </DataManagementContextProvider>
+        </WizardDataManagementContextProvider>
     );
 };
 

@@ -1574,6 +1574,11 @@
       "models": "Modeller",
       "twins": "Tvillingar",
       "properties": "Egenskaper"
+    },
+    "Common": {},
+    "StoreListPage": {
+      "title": "Välkommen till framtiden",
+      "createStoreButtonText": "Skapa butik"
     }
   }
 }

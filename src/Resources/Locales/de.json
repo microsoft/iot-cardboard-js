@@ -1574,6 +1574,11 @@
       "models": "Modelle",
       "twins": "Zwillinge",
       "properties": "Eigenschaften"
+    },
+    "Common": {},
+    "StoreListPage": {
+      "title": "Willkommen in der Zukunft",
+      "createStoreButtonText": "Shop erstellen"
     }
   }
 }

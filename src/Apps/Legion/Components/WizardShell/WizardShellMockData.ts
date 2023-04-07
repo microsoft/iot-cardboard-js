@@ -1,6 +1,6 @@
 import { IStepperWizardStep } from '../../../../Components/StepperWizard/StepperWizard.types';
 import MockDataManagementAdapter from '../../Adapters/Standalone/DataManagement/MockDataManagementAdapter';
-import { IDataManagementContextState } from '../../Contexts/DataManagementContext/DataManagementContext.types';
+import { IWizardDataManagementContextState } from '../../Contexts/WizardDataManagementContext/WizardDataManagementContext.types';
 import { IWizardNavigationContextState } from '../../Contexts/WizardNavigationContext/WizardNavigationContext.types';
 import {
     IAppData,
@@ -121,7 +121,7 @@ const mockAppData: IAppData = {
     relationshipModels: []
 };
 
-export const DEFAULT_MOCK_DATA_MANAGEMENT_STATE: IDataManagementContextState = {
+export const DEFAULT_MOCK_DATA_MANAGEMENT_STATE: IWizardDataManagementContextState = {
     initialAssets: mockAppData,
     modifiedAssets: mockAppData,
     sources: [

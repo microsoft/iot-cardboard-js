@@ -1574,6 +1574,11 @@
       "models": "模型",
       "twins": "双胞胎",
       "properties": "性能"
+    },
+    "Common": {},
+    "StoreListPage": {
+      "title": "欢迎来到未来",
+      "createStoreButtonText": "创建商店"
     }
   }
 }

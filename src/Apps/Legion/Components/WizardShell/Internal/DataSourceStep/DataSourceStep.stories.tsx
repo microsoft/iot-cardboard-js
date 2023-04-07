@@ -9,12 +9,12 @@ import {
     DEFAULT_MOCK_DATA_MANAGEMENT_STATE,
     WIZARD_NAVIGATION_MOCK_DATA
 } from '../../WizardShellMockData';
-import { DataManagementContextProvider } from '../../../../Contexts/DataManagementContext/DataManagementContext';
+import { WizardDataManagementContextProvider } from '../../../../Contexts/WizardDataManagementContext/WizardDataManagementContext';
 
 const wrapperStyle = { width: '100%', height: '600px', padding: 8 };
 
 export default {
-    title: 'Components/Apps/Legion/WizardShell/DataSourceStep',
+    title: 'Apps/Legion/WizardShell/DataSourceStep',
     component: DataSourceStep,
     decorators: [getDefaultStoryDecorator<IDataSourceStepProps>(wrapperStyle)]
 };
@@ -23,7 +23,7 @@ type DataSourceStepStory = ComponentStory<typeof DataSourceStep>;
 
 const Template: DataSourceStepStory = (args) => {
     return (
-        <DataManagementContextProvider
+        <WizardDataManagementContextProvider
             initialState={{
                 ...DEFAULT_MOCK_DATA_MANAGEMENT_STATE
             }}
@@ -33,7 +33,7 @@ const Template: DataSourceStepStory = (args) => {
             >
                 <DataSourceStep {...args} />
             </WizardNavigationContextProvider>
-        </DataManagementContextProvider>
+        </WizardDataManagementContextProvider>
     );
 };
 

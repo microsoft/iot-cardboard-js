@@ -9,7 +9,7 @@ import { ICustomGraphData } from '../../GraphTypes.types';
 const wrapperStyle = { width: '100%', height: '600px', padding: 8 };
 
 export default {
-    title: 'Components/Apps/Legion/GraphVisualizer/CustomLegend',
+    title: 'Apps/Legion/GraphVisualizer/CustomLegend',
     component: CustomLegend,
     decorators: [getDefaultStoryDecorator<ICustomLegendProps>(wrapperStyle)]
 };

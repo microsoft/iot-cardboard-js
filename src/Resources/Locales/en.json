@@ -1526,6 +1526,11 @@
         "addNew": "Add new"
     },
     "legionApp": {
+        "Common": {},
+        "StoreListPage": {
+            "title": "Welcome to the future",
+            "createStoreButtonText": "Create store"
+        },
         "dataPusher": {
             "title": "Data pusher",
             "simulationType": "Simulation type",
