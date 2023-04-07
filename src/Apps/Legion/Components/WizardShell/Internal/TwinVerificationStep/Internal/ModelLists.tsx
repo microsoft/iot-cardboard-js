@@ -4,11 +4,11 @@ import { useExtendedTheme } from '../../../../../../../Models/Hooks/useExtendedT
 import { getModelListsStyles } from './ModelLists.styles';
 import { useTranslation } from 'react-i18next';
 import { IModel, IModelProperty } from '../../../../../Models/Interfaces';
-import { useDataManagementContext } from '../../../../../Contexts/DataManagementContext/DataManagementContext';
-import { DataManagementContextActionType } from '../../../../../Contexts/DataManagementContext/DataManagementContext.types';
+import { useWizardDataManagementContext } from '../../../../../Contexts/WizardDataManagementContext/WizardDataManagementContext';
 import { IModelExtended } from '../TwinVerificationStep.types';
 import { getHighChartColorByIdx } from '../../../../../../../Models/SharedUtils/DataHistoryUtils';
 import { deepCopy } from '../../../../../../../Models/Services/Utils';
+import { WizardDataManagementContextActionType } from '../../../../../Contexts/WizardDataManagementContext/WizardDataManagementContext.types';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface IModelListsProps {}
@@ -34,9 +34,9 @@ const buildViewModel = (initialModels: IModel[], currentModels: IModel[]) => {
 export const ModelLists: React.FC<IModelListsProps> = (_props) => {
     // Contexts
     const {
-        dataManagementContextState,
-        dataManagementContextDispatch
-    } = useDataManagementContext();
+        wizardDataManagementContextState,
+        wizardDataManagementContextDispatch
+    } = useWizardDataManagementContext();
 
     // Hooks
     const { t } = useTranslation();
@@ -44,23 +44,23 @@ export const ModelLists: React.FC<IModelListsProps> = (_props) => {
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [properties, _setProperties] = useState<IModelProperty[]>(
-        dataManagementContextState.modifiedAssets.properties
+        wizardDataManagementContextState.modifiedAssets.properties
     );
     const [models, setModels] = useState<IModelExtended[]>(
         buildViewModel(
-            dataManagementContextState.initialAssets.models,
-            dataManagementContextState.modifiedAssets.models
+            wizardDataManagementContextState.initialAssets.models,
+            wizardDataManagementContextState.modifiedAssets.models
         )
     );
 
     useEffect(() => {
         // onUnmount update assets
         return () => {
-            dataManagementContextDispatch({
-                type: DataManagementContextActionType.SET_MODIFIED_ASSETS,
+            wizardDataManagementContextDispatch({
+                type: WizardDataManagementContextActionType.SET_MODIFIED_ASSETS,
                 payload: {
                     data: {
-                        ...dataManagementContextState.modifiedAssets,
+                        ...wizardDataManagementContextState.modifiedAssets,
                         models,
                         properties
                     }
@@ -68,8 +68,8 @@ export const ModelLists: React.FC<IModelListsProps> = (_props) => {
             });
         };
     }, [
-        dataManagementContextDispatch,
-        dataManagementContextState.modifiedAssets,
+        wizardDataManagementContextDispatch,
+        wizardDataManagementContextState.modifiedAssets,
         models,
         properties
     ]);

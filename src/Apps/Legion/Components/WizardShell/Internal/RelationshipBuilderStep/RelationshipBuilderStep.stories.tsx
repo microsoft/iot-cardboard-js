@@ -8,7 +8,7 @@ import {
     WIZARD_NAVIGATION_MOCK_DATA
 } from '../../WizardShellMockData';
 import { WizardNavigationContextProvider } from '../../../../Contexts/WizardNavigationContext/WizardNavigationContext';
-import { DataManagementContextProvider } from '../../../../Contexts/DataManagementContext/DataManagementContext';
+import { WizardDataManagementContextProvider } from '../../../../Contexts/WizardDataManagementContext/WizardDataManagementContext';
 
 const wrapperStyle = { width: '100%', height: '600px', padding: 8 };
 
@@ -26,7 +26,7 @@ type RelationshipBuilderStepStory = ComponentStory<
 
 const Template: RelationshipBuilderStepStory = (args) => {
     return (
-        <DataManagementContextProvider
+        <WizardDataManagementContextProvider
             initialState={{
                 ...DEFAULT_MOCK_DATA_MANAGEMENT_STATE
             }}
@@ -36,7 +36,7 @@ const Template: RelationshipBuilderStepStory = (args) => {
             >
                 <RelationshipBuilderStep {...args} />
             </WizardNavigationContextProvider>
-        </DataManagementContextProvider>
+        </WizardDataManagementContextProvider>
     );
 };
 

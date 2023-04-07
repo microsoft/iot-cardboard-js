@@ -1,6 +1,6 @@
 import { IStepperWizardStep } from '../../../../Components/StepperWizard/StepperWizard.types';
 import MockDataManagementAdapter from '../../Adapters/Standalone/DataManagement/MockDataManagementAdapter';
-import { IDataManagementContextState } from '../../Contexts/DataManagementContext/DataManagementContext.types';
+import { IDataManagementContextState } from '../../Contexts/WizardDataManagementContext/DataManagementContext.types.types';
 import { IWizardNavigationContextState } from '../../Contexts/WizardNavigationContext/WizardNavigationContext.types';
 import {
     IAppData,

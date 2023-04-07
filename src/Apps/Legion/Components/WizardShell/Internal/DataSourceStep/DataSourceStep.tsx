@@ -50,9 +50,9 @@ import {
 } from './DataSourceStep.state';
 import { useWizardNavigationContext } from '../../../../Contexts/WizardNavigationContext/WizardNavigationContext';
 import { WizardNavigationContextActionType } from '../../../../Contexts/WizardNavigationContext/WizardNavigationContext.types';
-import { useDataManagementContext } from '../../../../Contexts/DataManagementContext/DataManagementContext';
-import { DataManagementContextActionType } from '../../../../Contexts/DataManagementContext/DataManagementContext.types';
+import { useWizardDataManagementContext } from '../../../../Contexts/WizardDataManagementContext/WizardDataManagementContext';
 import { IAppData } from '../../../../Models/Interfaces';
+import { WizardDataManagementContextActionType } from '../../../../Contexts/WizardDataManagementContext/WizardDataManagementContext.types';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('DataSourceStep', debugLogging);
@@ -75,7 +75,9 @@ const DataSourceStep: React.FC<IDataSourceStepProps> = (props) => {
 
     // contexts
     const { wizardNavigationContextDispatch } = useWizardNavigationContext();
-    const { dataManagementContextDispatch } = useDataManagementContext();
+    const {
+        wizardDataManagementContextDispatch
+    } = useWizardDataManagementContext();
 
     // hooks
     const { t } = useTranslation();
@@ -195,8 +197,8 @@ const DataSourceStep: React.FC<IDataSourceStepProps> = (props) => {
     const handleNextClick = () => {
         // Temporary: commit of data into global store in this part until this component's
         // reducer gets merged into global data context
-        dataManagementContextDispatch({
-            type: DataManagementContextActionType.SET_SOURCE_INFORMATION,
+        wizardDataManagementContextDispatch({
+            type: WizardDataManagementContextActionType.SET_SOURCE_INFORMATION,
             payload: {
                 data: [
                     {
@@ -212,8 +214,8 @@ const DataSourceStep: React.FC<IDataSourceStepProps> = (props) => {
             }
         });
 
-        dataManagementContextDispatch({
-            type: DataManagementContextActionType.SET_INITIAL_ASSETS,
+        wizardDataManagementContextDispatch({
+            type: WizardDataManagementContextActionType.SET_INITIAL_ASSETS,
             payload: {
                 data: state.cookAssets
             }

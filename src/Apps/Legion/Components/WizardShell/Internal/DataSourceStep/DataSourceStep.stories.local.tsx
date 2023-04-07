@@ -11,7 +11,7 @@ import {
     DEFAULT_MOCK_DATA_MANAGEMENT_STATE,
     WIZARD_NAVIGATION_MOCK_DATA
 } from '../../WizardShellMockData';
-import { DataManagementContextProvider } from '../../../../Contexts/DataManagementContext/DataManagementContext';
+import { WizardDataManagementContextProvider } from '../../../../Contexts/WizardDataManagementContext/WizardDataManagementContext';
 
 const wrapperStyle = { width: '100%', height: '600px', padding: 8 };
 
@@ -28,7 +28,7 @@ const Template: DataSourceStepStory = (args) => {
     return !authenticationParameters ? (
         <div></div>
     ) : (
-        <DataManagementContextProvider
+        <WizardDataManagementContextProvider
             initialState={{
                 ...DEFAULT_MOCK_DATA_MANAGEMENT_STATE
             }}
@@ -48,7 +48,7 @@ const Template: DataSourceStepStory = (args) => {
                     {...args}
                 />
             </WizardNavigationContextProvider>
-        </DataManagementContextProvider>
+        </WizardDataManagementContextProvider>
     );
 };
 

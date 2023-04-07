@@ -1,6 +1,6 @@
 import { DetailsList, IColumn, Selection } from '@fluentui/react';
 import React, { useRef, useState } from 'react';
-import { useDataManagementContext } from '../../../../../Contexts/DataManagementContext/DataManagementContext';
+import { useWizardDataManagementContext } from '../../../../../Contexts/WizardDataManagementContext/WizardDataManagementContext';
 import {
     getViewModelsFromCookedAssets,
     getViewTwinsFromCookedAssets
@@ -40,7 +40,9 @@ const columns: IColumn[] = [
 /** THIS FILE WILL BE HEAVILY MODIFIED SO I'LL leave data mgmt for a following PR */
 export const TwinLists: React.FC<ITwinListsProps> = (_props) => {
     // Contexts
-    const { dataManagementContextState } = useDataManagementContext();
+    const {
+        wizardDataManagementContextState
+    } = useWizardDataManagementContext();
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [_selectedTwinIndices, setSelectedTwinIndices] = useState<number[]>();
@@ -53,15 +55,16 @@ export const TwinLists: React.FC<ITwinListsProps> = (_props) => {
         })
     );
 
-    const properties = dataManagementContextState.modifiedAssets.properties;
+    const properties =
+        wizardDataManagementContextState.modifiedAssets.properties;
 
     const initializeTwinList = () => {
         // Generate twin list for details list
         const viewModels = getViewModelsFromCookedAssets(
-            dataManagementContextState.modifiedAssets.models
+            wizardDataManagementContextState.modifiedAssets.models
         );
         const twins = getViewTwinsFromCookedAssets(
-            dataManagementContextState.modifiedAssets.twins,
+            wizardDataManagementContextState.modifiedAssets.twins,
             viewModels
         );
         if (twins) {

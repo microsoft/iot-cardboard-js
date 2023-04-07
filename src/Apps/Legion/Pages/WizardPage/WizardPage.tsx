@@ -6,7 +6,7 @@ import {
     DEFAULT_MOCK_DATA_MANAGEMENT_STATE,
     WIZARD_NAVIGATION_MOCK_DATA
 } from '../../Components/WizardShell/WizardShellMockData';
-import { DataManagementContextProvider } from '../../Contexts/DataManagementContext/DataManagementContext';
+import { WizardDataManagementContextProvider } from '../../Contexts/WizardDataManagementContext/DataManagementContextontext';
 import { WizardNavigationContextProvider } from '../../Contexts/WizardNavigationContext/WizardNavigationContext';
 
 const debugLogging = false;
@@ -28,7 +28,7 @@ const WizardPage: React.FC<IWizardPageProps> = () => {
     logDebugConsole('debug', 'Render');
 
     return (
-        <DataManagementContextProvider
+        <WizardDataManagementContextProvider
             initialState={{
                 ...DEFAULT_MOCK_DATA_MANAGEMENT_STATE
             }}
@@ -38,7 +38,7 @@ const WizardPage: React.FC<IWizardPageProps> = () => {
             >
                 <WizardShell />
             </WizardNavigationContextProvider>
-        </DataManagementContextProvider>
+        </WizardDataManagementContextProvider>
     );
 };
 
