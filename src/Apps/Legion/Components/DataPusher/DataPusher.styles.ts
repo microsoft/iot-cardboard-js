@@ -4,6 +4,7 @@ import { CardboardClassNamePrefix } from '../../../../Models/Constants/Constants
 const classPrefix = `${CardboardClassNamePrefix}-datapusher`;
 const classNames = {
     root: `${classPrefix}-root`,
+    connection: `${classPrefix}-connection`,
     informationText: `${classPrefix}-information-text`,
     tableContainer: `${classPrefix}-table-container`
 };
@@ -12,6 +13,7 @@ const classNames = {
 export const getStyles = (_props: IDataPusherStyleProps): IDataPusherStyles => {
     return {
         root: [classNames.root],
+        connection: [classNames.connection, { width: 400 }],
         informationText: [
             classNames.informationText,
             { fontSize: 12, opacity: 0.6 }

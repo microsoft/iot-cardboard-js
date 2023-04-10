@@ -1534,7 +1534,7 @@
         "dataPusher": {
             "title": "Data pusher",
             "clusterTitle": "Cluster URL",
-            "clusterTitlePlaceholder": "e.g. https://<example>.westus.kusto.windows.net",
+            "clusterSelectPlaceholder": "e.g. https://<example>.westus.kusto.windows.net",
             "notValidClusterMessage": "Not valid Kusto cluster URL",
             "frequency": "Frequency",
             "frequencyInfo": "This number represents both the time between timeseries timestamps and the interval at which new rows are pushed to table.",

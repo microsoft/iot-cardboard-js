@@ -26,6 +26,7 @@ export interface IDataPusherStyleProps {
 }
 export interface IDataPusherStyles {
     root: IStyle;
+    connection: IStyle;
     informationText: IStyle;
     tableContainer: IStyle;
 

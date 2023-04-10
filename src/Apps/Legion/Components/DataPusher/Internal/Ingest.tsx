@@ -345,7 +345,7 @@ const Ingest: React.FC = () => {
     useEffect(() => {
         if (getDatabasesState?.adapterResult?.result) {
             const data = getDatabasesState.adapterResult.getData();
-            setDatabaseOptions(data.map((d) => ({ value: d, label: d })));
+            setDatabaseOptions(data?.map((d) => ({ value: d, label: d })));
         }
     }, [getDatabasesState?.adapterResult]);
 

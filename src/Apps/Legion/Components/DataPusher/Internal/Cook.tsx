@@ -155,7 +155,7 @@ const Cook: React.FC = () => {
     useEffect(() => {
         if (getDatabasesState?.adapterResult?.result) {
             const data = getDatabasesState.adapterResult.getData();
-            setSourceDatabaseOptions(data.map((d) => ({ key: d, text: d })));
+            setSourceDatabaseOptions(data?.map((d) => ({ key: d, text: d })));
         }
     }, [getDatabasesState?.adapterResult]);
 

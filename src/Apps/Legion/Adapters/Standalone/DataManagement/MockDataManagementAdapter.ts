@@ -32,6 +32,24 @@ export default class MockDataManagementAdapter
         }
     }
 
+    async getClusters() {
+        try {
+            await this.mockNetwork();
+            return new AdapterResult<DataManagementAdapterData<Array<string>>>({
+                result: new DataManagementAdapterData([
+                    'https://mockCluster1.eastus.kusto.windows.net',
+                    'https://mockCluster2.westus.kusto.windows.net'
+                ]),
+                errorInfo: null
+            });
+        } catch (err) {
+            return new AdapterResult<DataManagementAdapterData<Array<string>>>({
+                result: null,
+                errorInfo: { catastrophicError: err, errors: [err] }
+            });
+        }
+    }
+
     async getDatabases() {
         try {
             await this.mockNetwork();
