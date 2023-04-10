@@ -1575,7 +1575,9 @@
       "notValidClusterMessage": "Geçerli değil Kusto kümesi URL'si",
       "frequency": "Frekans",
       "frequencyInfo": "Bu sayı hem zaman serisi zaman damgaları arasındaki süreyi hem de yeni satırların tabloya itildiği aralığı temsil eder.",
-      "clusterSelectPlaceholder": "örneğin https://<örnek>.westus.kusto.windows.net"
+      "clusterSelectPlaceholder": "örneğin https://<örnek>.westus.kusto.windows.net",
+      "clusterSelectInfo": "Seçili Kusto kümesinde 'akış alımı' ilkesinin etkinleştirilmiş olması gerekir.",
+      "tableSelectInfo": "Var olanlar arasından seçim yapıyorsanız, Kusto tablosunda 'DataPusherMapping' JSON eşlemesi tanımlanmışken 'akış alımı' ilkesinin etkinleştirildiğinden emin olun."
     },
     "verificationStep": {
       "title": "Bulunan ikizleri doğrulama",

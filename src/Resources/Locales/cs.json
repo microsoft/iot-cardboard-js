@@ -1575,7 +1575,9 @@
       "notValidClusterMessage": "Neplatná adresa URL clusteru Kusto",
       "frequency": "Frekvence",
       "frequencyInfo": "Toto číslo představuje čas mezi časovými razítky časových řad a interval, ve kterém jsou nové řádky odesílány do tabulky.",
-      "clusterSelectPlaceholder": "např. https://<příklad>.westus.kusto.windows.net"
+      "clusterSelectPlaceholder": "např. https://<příklad>.westus.kusto.windows.net",
+      "clusterSelectInfo": "Vybraný cluster Kusto musí mít povolené zásady příjmu streamování.",
+      "tableSelectInfo": "Pokud vybíráte z existujících, ujistěte se, že tabulka Kusto má povolené zásady příjmu streamování s definovaným mapováním JSON DataPusherMapping."
     },
     "verificationStep": {
       "title": "Ověření zjištěných dvojčat",

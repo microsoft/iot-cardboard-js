@@ -1575,7 +1575,9 @@
       "notValidClusterMessage": "Ungültige Kusto-Cluster-URL",
       "frequency": "Frequenz",
       "frequencyInfo": "Diese Zahl stellt sowohl die Zeit zwischen Zeitreihenzeitstempeln als auch das Intervall dar, in dem neue Zeilen per Push in die Tabelle verschoben werden.",
-      "clusterSelectPlaceholder": "z.B. https://<Beispiel>.westus.kusto.windows.net"
+      "clusterSelectPlaceholder": "z.B. https://<Beispiel>.westus.kusto.windows.net",
+      "clusterSelectInfo": "Für den ausgewählten Kusto-Cluster muss die Richtlinie \"Streaming-Aufnahme\" aktiviert sein.",
+      "tableSelectInfo": "Wenn Sie eine vorhandene Option auswählen, stellen Sie sicher, dass in der Kusto-Tabelle die Richtlinie \"Streaming-Aufnahme\" aktiviert ist und die JSON-Zuordnung \"DataPusherMapping\" definiert ist."
     },
     "verificationStep": {
       "title": "Erkannte Zwillinge verifizieren",

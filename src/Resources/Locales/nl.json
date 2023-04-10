@@ -1575,7 +1575,9 @@
       "notValidClusterMessage": "Ongeldige Kusto-cluster-URL",
       "frequency": "Frequentie",
       "frequencyInfo": "Dit getal vertegenwoordigt zowel de tijd tussen tijdreekstijdstempels als het interval waarmee nieuwe rijen naar de tabel worden geduwd.",
-      "clusterSelectPlaceholder": "bijvoorbeeld https://<voorbeeld>.westus.kusto.windows.net"
+      "clusterSelectPlaceholder": "bijvoorbeeld https://<voorbeeld>.westus.kusto.windows.net",
+      "clusterSelectInfo": "Geselecteerd Kusto-cluster is vereist om het beleid 'streamingopname' in te schakelen.",
+      "tableSelectInfo": "Als u een keuze maakt uit bestaande, zorg er dan voor dat de Kusto-tabel het beleid 'streamingopname' heeft ingeschakeld met 'DataPusherMapping' JSON-toewijzing gedefinieerd."
     },
     "verificationStep": {
       "title": "Geverifieerde tweelingen verifiëren",

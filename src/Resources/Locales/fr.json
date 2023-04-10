@@ -1575,7 +1575,9 @@
       "notValidClusterMessage": "URL de cluster Kusto non valide",
       "frequency": "Fréquence",
       "frequencyInfo": "Ce nombre représente à la fois le temps entre les horodatages de séries chronologiques et l’intervalle auquel les nouvelles lignes sont poussées vers la table.",
-      "clusterSelectPlaceholder": "p. ex. https://<exemple>.westus.kusto.windows.net"
+      "clusterSelectPlaceholder": "p. ex. https://<exemple>.westus.kusto.windows.net",
+      "clusterSelectInfo": "Le cluster Kusto sélectionné doit avoir activé la stratégie « ingestion en continu ».",
+      "tableSelectInfo": "Si vous sélectionnez parmi les fichiers existants, assurez-vous que la stratégie « ingestion en continu » de la table Kusto est activée avec le mappage JSON « DataPusherMapping » défini."
     },
     "verificationStep": {
       "title": "Vérifier les jumeaux découverts",

@@ -1575,7 +1575,9 @@
       "notValidClusterMessage": "Nem érvényes Kusto-fürt URL-címe",
       "frequency": "Frekvencia",
       "frequencyInfo": "Ez a szám az idősorozat-időbélyegek közötti időt és az új sorok táblába való leküldésének időközét is jelöli.",
-      "clusterSelectPlaceholder": "pl. https://<példa>.westus.kusto.windows.net"
+      "clusterSelectPlaceholder": "pl. https://<példa>.westus.kusto.windows.net",
+      "clusterSelectInfo": "A kiválasztott Kusto-fürtnek engedélyeznie kell a \"streamelési betöltés\" szabályzatot.",
+      "tableSelectInfo": "Ha a meglévő közül választ, győződjön meg arról, hogy a Kusto-táblán engedélyezve van a \"streamelési betöltés\" szabályzat, és meg van határozva a \"DataPusherMapping\" JSON-leképezés."
     },
     "verificationStep": {
       "title": "Felderített ikrek ellenőrzése",
