@@ -4,7 +4,8 @@ import {
     IProcessedStyleSet,
     IStackStyles,
     IStyle,
-    IStyleFunctionOrObject
+    IStyleFunctionOrObject,
+    ITextFieldStyles
 } from '@fluentui/react';
 import { IExtendedTheme } from '../../../../Theming/Theme.types';
 import {
@@ -37,6 +38,7 @@ export interface IDataPusherStyles {
 export interface IDataPusherSubComponentStyles {
     stack?: IStackStyles;
     button?: IButtonStyles;
+    connectionString?: Partial<ITextFieldStyles>;
 }
 
 export interface IDataPusherContext {

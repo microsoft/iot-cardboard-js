@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useCallback, useContext, useState } from 'react';
 import {
     IDataPusherContext,
     IDataPusherProps,
@@ -6,9 +6,18 @@ import {
     IDataPusherStyles
 } from './DataPusher.types';
 import { getStyles } from './DataPusher.styles';
-import { classNamesFunction, Pivot, PivotItem, styled } from '@fluentui/react';
+import {
+    classNamesFunction,
+    Pivot,
+    PivotItem,
+    styled,
+    TextField
+} from '@fluentui/react';
 import { useExtendedTheme } from '../../../../Models/Hooks/useExtendedTheme';
-import { getDebugLogger } from '../../../../Models/Services/Utils';
+import {
+    getDebugLogger,
+    isValidADXClusterUrl
+} from '../../../../Models/Services/Utils';
 import { useTranslation } from 'react-i18next';
 import Ingest from './Internal/Ingest';
 import Cook from './Internal/Cook';
@@ -27,9 +36,20 @@ export const useDataPusherContext = () => useContext(DataPusherContext);
 const DataPusher: React.FC<IDataPusherProps> = (props) => {
     const { adapter, styles } = props;
 
+    //state
+    const [selectedClusterUrl, setSelectedClusterUrl] = useState<string>(null);
+
     // hooks
     const { t } = useTranslation();
     const theme = useExtendedTheme();
+
+    //callbacks
+    const handleClusterUrlChange = useCallback((_event, newValue: string) => {
+        setSelectedClusterUrl(newValue);
+        if (isValidADXClusterUrl(newValue)) {
+            adapter.connectionString = newValue;
+        }
+    }, []);
 
     // styles
     const classNames = getClassNames(styles, {
@@ -48,7 +68,23 @@ const DataPusher: React.FC<IDataPusherProps> = (props) => {
                 <h3 style={{ marginTop: 0 }}>
                     {t('legionApp.dataPusher.title')}
                 </h3>
-                <Pivot>
+                <TextField
+                    required
+                    label={t('legionApp.dataPusher.clusterTitle')}
+                    placeholder={t(
+                        'legionApp.dataPusher.clusterTitlePlaceholder'
+                    )}
+                    value={selectedClusterUrl}
+                    onChange={handleClusterUrlChange}
+                    styles={classNames.subComponentStyles.connectionString}
+                    errorMessage={
+                        selectedClusterUrl &&
+                        !isValidADXClusterUrl(selectedClusterUrl)
+                            ? t('legionApp.dataPusher.notValidClusterMessage')
+                            : null
+                    }
+                />
+                <Pivot key={selectedClusterUrl}>
                     <PivotItem
                         headerText={t('legionApp.dataPusher.tabs.ingest')}
                     >

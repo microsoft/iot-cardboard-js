@@ -56,7 +56,7 @@ const Ingest: React.FC = () => {
     const [databaseOptions, setDatabaseOptions] = useState<
         Array<IDropdownOption>
     >([]);
-    const [tableOptions, setTableOptions] = useState<Array<IDropdownOption>>(
+    const [tableOptions, setTableOptions] = useState<Array<IReactSelectOption>>(
         []
     );
     const [
@@ -414,6 +414,7 @@ const Ingest: React.FC = () => {
                         styles={selectStyles}
                         isLoading={getDatabasesState.isLoading}
                         value={selectedDatabase}
+                        isDisabled={!adapter.connectionString}
                     />
                 </StackItem>
                 <StackItem>

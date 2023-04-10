@@ -30,6 +30,11 @@ export const getStyles = (_props: IDataPusherStyleProps): IDataPusherStyles => {
                 root: {
                     marginTop: 12
                 }
+            },
+            connectionString: {
+                root: {
+                    width: 400
+                }
             }
         }
     };
