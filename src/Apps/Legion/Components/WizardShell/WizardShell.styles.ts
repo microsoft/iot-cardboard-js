@@ -1,30 +1,58 @@
-import { CardboardClassNamePrefix } from '../../../../Models/Constants';
 import {
-    IWizardShellStyleProps,
-    IWizardShellStyles
-} from './WizardShell.types';
-
-const classPrefix = `${CardboardClassNamePrefix}-wizardshell`;
-const classNames = {
-    root: `${classPrefix}-root`,
-    wizardContainer: `${classPrefix}-wizardContainer`
-};
+    FontWeights,
+    IProcessedStyleSet,
+    mergeStyleSets
+} from '@fluentui/react';
+import { IWizardShellStyles } from './WizardShell.types';
+import { IExtendedTheme } from '../../../../Theming/Theme.types';
 
 // export const WIZARDSHELL_CLASS_NAMES = classNames;
 export const getStyles = (
-    _props: IWizardShellStyleProps
-): IWizardShellStyles => {
-    return {
-        root: [classNames.root],
-        wizardContainer: [
-            classNames.wizardContainer,
-            {
-                padding: 8,
-                '.cb-stepper-wizard': {
-                    justifyContent: 'start'
-                }
-            }
-        ],
-        subComponentStyles: {}
-    };
+    theme: IExtendedTheme
+): IProcessedStyleSet<IWizardShellStyles> => {
+    return mergeStyleSets({
+        root: {
+            height: '100%',
+            display: 'grid',
+            gridTemplateColumns: '1fr 8fr',
+            gridTemplateRows: '64px auto 64px',
+            gridTemplateAreas: `
+                "left header"
+                "left wizard"
+                "left footer"
+            `
+        },
+        leftNav: {
+            gridArea: 'left',
+            borderRight: `1px solid ${theme.palette.glassyBorder}`,
+            padding: 16
+        },
+        headerNav: {
+            gridArea: 'header',
+            borderBottom: `1px solid ${theme.palette.glassyBorder}`,
+            display: 'flex',
+            columnGap: 8,
+            alignItems: 'center',
+            paddingLeft: 16
+        },
+        headerText: {
+            fontWeight: FontWeights.semibold,
+            margin: 0
+        },
+        wizardContainer: {
+            gridArea: 'wizard',
+            padding: 16
+        },
+        footer: {
+            gridArea: 'footer',
+            borderTop: `1px solid ${theme.palette.glassyBorder}`,
+            display: 'flex',
+            justifyContent: 'flex-end'
+        },
+        nextButtonContainer: {
+            alignSelf: 'center',
+            marginRight: 32,
+            marginBottom: 8
+        }
+    });
 };

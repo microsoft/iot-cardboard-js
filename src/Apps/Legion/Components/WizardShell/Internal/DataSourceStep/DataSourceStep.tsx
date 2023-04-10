@@ -18,7 +18,6 @@ import {
     Dropdown,
     IDropdownOption,
     Label,
-    PrimaryButton,
     Spinner,
     SpinnerSize,
     Stack,
@@ -63,7 +62,12 @@ const getClassNames = classNamesFunction<
 >();
 
 const DataSourceStep: React.FC<IDataSourceStepProps> = (props) => {
-    const { adapter, styles } = props;
+    const {
+        adapter,
+        registerNextButtonClick,
+        setIsButtonDisabled,
+        styles
+    } = props;
     // state
     const [state, dispatch] = useReducer(
         dateSourceStepReducer,
@@ -194,7 +198,7 @@ const DataSourceStep: React.FC<IDataSourceStepProps> = (props) => {
         state.selectedSourceTableType
     ]);
 
-    const handleNextClick = () => {
+    const handleNextClick = useCallback(() => {
         // Temporary: commit of data into global store in this part until this component's
         // reducer gets merged into global data context
         wizardDataManagementContextDispatch({
@@ -229,7 +233,16 @@ const DataSourceStep: React.FC<IDataSourceStepProps> = (props) => {
                 stepNumber: 1
             }
         });
-    };
+    }, [
+        state.cookAssets,
+        state.selectedSourceDatabase,
+        state.selectedSourceTable,
+        state.selectedSourceTableType,
+        state.selectedSourceTwinIDColumn,
+        state.selectedTargetDatabase?.value,
+        wizardDataManagementContextDispatch,
+        wizardNavigationContextDispatch
+    ]);
 
     // side effects
     useEffect(() => {
@@ -272,6 +285,19 @@ const DataSourceStep: React.FC<IDataSourceStepProps> = (props) => {
             setAdapterResult(data);
         }
     }, [createDatabaseState?.adapterResult]);
+
+    // effects
+    useEffect(() => {
+        registerNextButtonClick(handleNextClick);
+    }, [registerNextButtonClick, handleNextClick]);
+
+    useEffect(() => {
+        if (appData) {
+            setIsButtonDisabled(false);
+        } else {
+            setIsButtonDisabled(true);
+        }
+    }, [appData, setIsButtonDisabled]);
 
     // styles
     const classNames = getClassNames(styles, {
@@ -400,12 +426,6 @@ const DataSourceStep: React.FC<IDataSourceStepProps> = (props) => {
                         .join(',')}`}</p>
                 </div>
             )}
-            <PrimaryButton
-                text="Next"
-                disabled={!appData}
-                styles={classNames.subComponentStyles.button()}
-                onClick={handleNextClick}
-            />
         </div>
     );
 };
