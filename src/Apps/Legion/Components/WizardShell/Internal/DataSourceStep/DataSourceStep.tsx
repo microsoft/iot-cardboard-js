@@ -101,11 +101,7 @@ const DataSourceStep: React.FC<IDataSourceStepProps> = (props) => {
     });
     const getTableState = useAdapter({
         adapterMethod: (params: IGetTableAdapterParams) =>
-            adapter.getTable(
-                params.databaseName,
-                params.tableName,
-                TIMESTAMP_COLUMN_NAME
-            ),
+            adapter.getTable(params.databaseName, params.tableName),
         isAdapterCalledOnMount: false,
         refetchDependencies: [adapter]
     });

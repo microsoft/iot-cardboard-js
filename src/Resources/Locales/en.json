@@ -1533,8 +1533,8 @@
         },
         "dataPusher": {
             "title": "Data pusher",
-            "pushFrequency": "Push frequency",
-            "pushFrequencyInfo": "This number represents both the time between timeseries timestamps and the interval at which new rows are pushed to table.",
+            "frequency": "Frequency",
+            "frequencyInfo": "This number represents both the time between timeseries timestamps and the interval at which new rows are pushed to table.",
             "tabs": {
                 "ingest": "Create & Ingest",
                 "cook": "Cook"

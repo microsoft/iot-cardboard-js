@@ -80,7 +80,7 @@ const Ingest: React.FC = () => {
     const theme = useExtendedTheme();
 
     const ingestionRef = useRef(null);
-    const numberOfRowsBeforeIngestionRef = useRef(null);
+    const numberOfRowsIngestedRef = useRef(0);
     const tableColumns = useMemo<Array<IColumn>>(
         () =>
             tableData?.Columns.map((c, idx) => ({
@@ -183,11 +183,13 @@ const Ingest: React.FC = () => {
             setSelectedTable(newValue);
             setTableData(null);
             if (actionMeta.action === 'create-option') {
-                createTableState.callAdapter({
-                    databaseName: selectedDatabase.label,
-                    tableName: newValue.label,
-                    columns: TableColumns[selectedTableType]
-                });
+                if (selectedTableType) {
+                    createTableState.callAdapter({
+                        databaseName: selectedDatabase.label,
+                        tableName: newValue.label,
+                        columns: TableColumns[selectedTableType]
+                    });
+                }
                 setTableOptions(tableOptions.concat(newValue));
             } else {
                 setSelectedTableType(null);
@@ -305,6 +307,7 @@ const Ingest: React.FC = () => {
             tableName: selectedTable.label,
             rows: dataToIngest
         });
+        return dataToIngest.length;
     }, [selectedTableType, upsertTableState, selectedDatabase, selectedTable]);
 
     const handleFrequencyChange = useCallback((_event, newValue?: string) => {
@@ -321,14 +324,13 @@ const Ingest: React.FC = () => {
             setIsIngesting(false);
             clearInterval(ingestionRef.current);
             ingestionRef.current = null;
-            numberOfRowsBeforeIngestionRef.current = null;
+            numberOfRowsIngestedRef.current = 0;
         } else {
             clearInterval(ingestionRef.current); // clear any prior interval
             setIsIngesting(true);
-            numberOfRowsBeforeIngestionRef.current = tableData.Rows.length;
-            ingestData();
+            numberOfRowsIngestedRef.current += ingestData();
             ingestionRef.current = setInterval(() => {
-                ingestData();
+                numberOfRowsIngestedRef.current += ingestData();
             }, selectedFrequency * 1000);
         }
     }, [ingestData, selectedFrequency, tableData]);
@@ -470,15 +472,15 @@ const Ingest: React.FC = () => {
                 <StackItem>
                     <Stack horizontal verticalAlign={'center'}>
                         <Label required>
-                            {`${t('legionApp.dataPusher.pushFrequency')} (sec)`}
+                            {`${t('legionApp.dataPusher.frequency')} (sec)`}
                         </Label>
                         <TooltipCallout
                             content={{
                                 buttonAriaLabel: t(
-                                    'legionApp.dataPusher.pushFrequencyInfo'
+                                    'legionApp.dataPusher.frequencyInfo'
                                 ),
                                 calloutContent: t(
-                                    'legionApp.dataPusher.pushFrequencyInfo'
+                                    'legionApp.dataPusher.frequencyInfo'
                                 )
                             }}
                         />
@@ -511,10 +513,7 @@ const Ingest: React.FC = () => {
             {isIngesting && (
                 <ProgressIndicator
                     label={t('legionApp.dataPusher.progress.ingest')}
-                    description={`Pushed ${
-                        tableData.Rows.length -
-                        numberOfRowsBeforeIngestionRef.current
-                    } rows`}
+                    description={`Pushed ${numberOfRowsIngestedRef.current} rows`}
                 />
             )}
 

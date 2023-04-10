@@ -22,6 +22,7 @@ import { useDataPusherContext } from '../DataPusher';
 import { useTranslation } from 'react-i18next';
 import { cookSourceTable } from '../../../Services/DataPusherUtils';
 import { IAppData } from '../../../Models/Interfaces';
+import { TIMESTAMP_COLUMN_NAME } from '../DataPusher.types';
 
 const Cook: React.FC = () => {
     const { adapter, classNames } = useDataPusherContext();
@@ -88,7 +89,11 @@ const Cook: React.FC = () => {
 
     const getTableState = useAdapter({
         adapterMethod: (params: IGetTableAdapterParams) =>
-            adapter.getTable(params.databaseName, params.tableName),
+            adapter.getTable(
+                params.databaseName,
+                params.tableName,
+                TIMESTAMP_COLUMN_NAME
+            ),
         isAdapterCalledOnMount: false,
         refetchDependencies: [adapter]
     });

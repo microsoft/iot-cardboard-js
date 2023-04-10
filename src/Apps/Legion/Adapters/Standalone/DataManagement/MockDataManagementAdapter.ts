@@ -136,17 +136,23 @@ export default class MockDataManagementAdapter
                     Columns: [
                         { columnName: 'Id', columnDataType: 'string' },
                         { columnName: 'Timestamp', columnDataType: 'datetime' },
-                        { columnName: 'Temperature', columnDataType: 'real' }
+                        { columnName: 'Temperature', columnDataType: 'real' },
+                        { columnName: 'FlowRate', columnDataType: 'real' },
+                        { columnName: 'Pressure', columnDataType: 'real' }
                     ],
                     Rows: [
                         [
                             'Salt_Machine_01',
                             new Date().toISOString(),
+                            Math.floor(Math.random() * 100),
+                            null,
                             Math.floor(Math.random() * 100)
                         ],
                         [
                             'Salt_Machine_02',
                             new Date().toISOString(),
+                            Math.floor(Math.random() * 100),
+                            null,
                             Math.floor(Math.random() * 100)
                         ]
                     ]
