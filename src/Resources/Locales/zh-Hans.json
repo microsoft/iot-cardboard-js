@@ -1572,10 +1572,10 @@
       },
       "title": "数据推送器",
       "clusterTitle": "群集网址",
-      "clusterTitlePlaceholder": "例如 https://<例如>.westus.kusto.windows.net",
       "notValidClusterMessage": "库斯托群集 URL 无效",
       "frequency": "频率",
-      "frequencyInfo": "此数字表示时序时间戳之间的时间和将新行推送到表的时间间隔。"
+      "frequencyInfo": "此数字表示时序时间戳之间的时间和将新行推送到表的时间间隔。",
+      "clusterSelectPlaceholder": "例如 https://<例如>.westus.kusto.windows.net"
     },
     "verificationStep": {
       "title": "验证发现的孪生体",

@@ -1572,10 +1572,10 @@
       },
       "title": "Data pusher",
       "clusterTitle": "URL för kluster",
-      "clusterTitlePlaceholder": "t.ex. https://<exempel>.westus.kusto.windows.net",
       "notValidClusterMessage": "Inte giltig Kusto-kluster-URL",
       "frequency": "Frekvens",
-      "frequencyInfo": "Det här numret representerar både tiden mellan tidsserietidsstämplar och intervallet med vilket nya rader skickas till tabellen."
+      "frequencyInfo": "Det här numret representerar både tiden mellan tidsserietidsstämplar och intervallet med vilket nya rader skickas till tabellen.",
+      "clusterSelectPlaceholder": "t.ex. https://<exempel>.westus.kusto.windows.net"
     },
     "verificationStep": {
       "title": "Verifiera identifierade tvillingar",

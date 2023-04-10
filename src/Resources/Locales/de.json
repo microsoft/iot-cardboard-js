@@ -1572,10 +1572,10 @@
       },
       "title": "Daten-Pusher",
       "clusterTitle": "Cluster-URL",
-      "clusterTitlePlaceholder": "z.B. https://<Beispiel>.westus.kusto.windows.net",
       "notValidClusterMessage": "Ungültige Kusto-Cluster-URL",
       "frequency": "Frequenz",
-      "frequencyInfo": "Diese Zahl stellt sowohl die Zeit zwischen Zeitreihenzeitstempeln als auch das Intervall dar, in dem neue Zeilen per Push in die Tabelle verschoben werden."
+      "frequencyInfo": "Diese Zahl stellt sowohl die Zeit zwischen Zeitreihenzeitstempeln als auch das Intervall dar, in dem neue Zeilen per Push in die Tabelle verschoben werden.",
+      "clusterSelectPlaceholder": "z.B. https://<Beispiel>.westus.kusto.windows.net"
     },
     "verificationStep": {
       "title": "Erkannte Zwillinge verifizieren",
