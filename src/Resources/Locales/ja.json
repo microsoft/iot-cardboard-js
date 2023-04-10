@@ -1586,6 +1586,11 @@
         "urlPlaceholder": "http://mycluster.kusto.azure.net",
         "namePlaceholder": "グラフ名を入力"
       }
+    },
+    "GraphVisualizer": {
+      "ContextMenu": {
+        "addParentLabel": "親の追加"
+      }
     }
   }
 }

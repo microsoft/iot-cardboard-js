@@ -1586,6 +1586,11 @@
         "urlPlaceholder": "http://mycluster.kusto.azure.net",
         "namePlaceholder": "Wprowadź nazwę wykresu"
       }
+    },
+    "GraphVisualizer": {
+      "ContextMenu": {
+        "addParentLabel": "Dodaj rodzica"
+      }
     }
   }
 }

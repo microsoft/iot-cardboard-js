@@ -1586,6 +1586,11 @@
         "urlPlaceholder": "http://mycluster.kusto.azure.net",
         "namePlaceholder": "Digite um nome de gráfico"
       }
+    },
+    "GraphVisualizer": {
+      "ContextMenu": {
+        "addParentLabel": "Adicionar pai"
+      }
     }
   }
 }

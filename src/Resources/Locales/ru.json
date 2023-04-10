@@ -1586,6 +1586,11 @@
         "urlPlaceholder": "http://mycluster.kusto.azure.net",
         "namePlaceholder": "Введите имя диаграммы"
       }
+    },
+    "GraphVisualizer": {
+      "ContextMenu": {
+        "addParentLabel": "Добавить родителя"
+      }
     }
   }
 }

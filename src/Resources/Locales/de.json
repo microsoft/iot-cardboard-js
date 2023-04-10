@@ -1586,6 +1586,11 @@
         "urlPlaceholder": "http://mycluster.kusto.azure.net",
         "namePlaceholder": "Geben Sie einen Namen für das Diagramm ein."
       }
+    },
+    "GraphVisualizer": {
+      "ContextMenu": {
+        "addParentLabel": "Übergeordnetes Element hinzufügen"
+      }
     }
   }
 }
