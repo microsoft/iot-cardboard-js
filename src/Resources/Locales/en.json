@@ -1529,7 +1529,11 @@
         "Common": {},
         "StoreListPage": {
             "title": "Welcome to the future",
-            "createStoreButtonText": "Create store"
+            "createStoreButtonText": "Create store",
+            "Columns": {
+                "nameColumn": "Graph",
+                "urlColumn": "Cluster url"
+            }
         },
         "dataPusher": {
             "title": "Data pusher",

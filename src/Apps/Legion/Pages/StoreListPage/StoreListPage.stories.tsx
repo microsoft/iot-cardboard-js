@@ -21,7 +21,10 @@ type StoreListPageStory = ComponentStory<typeof StoreListPage>;
 const Template: StoreListPageStory = (args) => {
     return (
         <AppDataContextProvider
-            initialState={GET_MOCK_APP_DATA_CONTEXT_STATE()}
+            initialState={{
+                ...GET_MOCK_APP_DATA_CONTEXT_STATE(),
+                targetDatabase: null
+            }}
         >
             <AppNavigationContextProvider
                 initialState={GET_MOCK_APP_NAV_CONTEXT_STATE()}
