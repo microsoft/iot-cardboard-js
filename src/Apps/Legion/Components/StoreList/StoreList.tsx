@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import {
     classNamesFunction,
     DetailsList,
@@ -21,7 +21,7 @@ import { ITargetDatabaseConnection } from '../../Contexts/AppDataContext/AppData
 
 import { useTranslation } from 'react-i18next';
 import i18n from '../../../../i18n';
-import { LOCAL_STORAGE_KEYS } from '../../Models/Constants';
+import LocalStorageManager from '../../Services/LocalStorageManager';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('StoreList', debugLogging);
@@ -34,14 +34,14 @@ const getClassNames = classNamesFunction<
 const columns: IColumn[] = [
     {
         key: 'name',
-        name: i18n.t('legionApp.StoreListPage.Columns.nameColumn'),
+        name: i18n.t('legionApp.StoreListPage.nameLabel'),
         fieldName: 'databaseName',
         minWidth: 100,
         maxWidth: 200
     },
     {
         key: 'url',
-        name: i18n.t('legionApp.StoreListPage.Columns.urlColumn'),
+        name: i18n.t('legionApp.StoreListPage.urlLabel'),
         fieldName: 'clusterUrl',
         minWidth: 300
     }
@@ -62,6 +62,13 @@ const MOCK_STORE_LIST: ITargetDatabaseConnection[] = [
     }
 ];
 
+const getStoreKey = (store: ITargetDatabaseConnection): string => {
+    if (!store) {
+        return '';
+    }
+    return `${store.databaseName}-${store.clusterUrl}}`;
+};
+
 const StoreList: React.FC<IStoreListProps> = (props) => {
     const { initialTargetDatabase, onNavigateNext, styles } = props;
 
@@ -77,6 +84,7 @@ const StoreList: React.FC<IStoreListProps> = (props) => {
     ] = useState<ITargetDatabaseConnection | null>(initialTargetDatabase);
     const selection = useMemo(() => {
         return new Selection({
+            getKey: (item) => getStoreKey(item as ITargetDatabaseConnection),
             onSelectionChanged: () => {
                 const selected = selection.getSelection()[0] as ITargetDatabaseConnection;
                 logDebugConsole('info', 'Selected item {item}', selected);
@@ -89,17 +97,8 @@ const StoreList: React.FC<IStoreListProps> = (props) => {
 
     // data
     const items: ITargetDatabaseConnection[] = useMemo(() => {
-        // read local storage
-        const storageData = localStorage.getItem(
-            LOCAL_STORAGE_KEYS.StoreList.existingTargetDatabases
-        );
-        if (storageData) {
-            return (
-                (JSON.parse(storageData) as ITargetDatabaseConnection[]) ||
-                MOCK_STORE_LIST
-            );
-        }
-        return MOCK_STORE_LIST;
+        const graphs = LocalStorageManager.GetTargetGraphStores();
+        return graphs?.length === 0 ? MOCK_STORE_LIST : graphs;
     }, []);
 
     // callbacks
@@ -111,6 +110,14 @@ const StoreList: React.FC<IStoreListProps> = (props) => {
     }, [onNavigateNext, selectedItem]);
 
     // side effects
+    useEffect(() => {
+        selection.setKeySelected(
+            getStoreKey(initialTargetDatabase),
+            true,
+            false
+        );
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     // styles
     const classNames = getClassNames(styles, {
