@@ -1579,9 +1579,12 @@
     "StoreListPage": {
       "title": "Geleceğe hoş geldiniz",
       "createStoreButtonText": "Mağaza oluştur",
-      "Columns": {
-        "nameColumn": "Grafik",
-        "urlColumn": "Küme URL'si"
+      "urlLabel": "Küme URL'si",
+      "nameLabel": "Grafik adı",
+      "Modal": {
+        "title": "Yeni grafik oluşturma",
+        "urlPlaceholder": "http://mycluster.kusto.azure.net",
+        "namePlaceholder": "Bir grafik adı girin"
       }
     }
   }

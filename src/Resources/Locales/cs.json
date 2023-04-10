@@ -1579,9 +1579,12 @@
     "StoreListPage": {
       "title": "Vítejte v budoucnosti",
       "createStoreButtonText": "Vytvořit obchod",
-      "Columns": {
-        "nameColumn": "Graf",
-        "urlColumn": "Adresa URL clusteru"
+      "urlLabel": "Adresa URL clusteru",
+      "nameLabel": "Název grafu",
+      "Modal": {
+        "title": "Vytvoření nového grafu",
+        "urlPlaceholder": "http://mycluster.kusto.azure.net",
+        "namePlaceholder": "Zadejte název grafu"
       }
     }
   }

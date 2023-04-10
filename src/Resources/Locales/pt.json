@@ -1579,9 +1579,12 @@
     "StoreListPage": {
       "title": "Bem-vindo ao futuro",
       "createStoreButtonText": "Criar loja",
-      "Columns": {
-        "nameColumn": "Gráfico",
-        "urlColumn": "URL do cluster"
+      "urlLabel": "URL do cluster",
+      "nameLabel": "Nome do gráfico",
+      "Modal": {
+        "title": "Criar um novo gráfico",
+        "urlPlaceholder": "http://mycluster.kusto.azure.net",
+        "namePlaceholder": "Digite um nome de gráfico"
       }
     }
   }

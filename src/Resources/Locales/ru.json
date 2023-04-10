@@ -1579,9 +1579,12 @@
     "StoreListPage": {
       "title": "Добро пожаловать в будущее",
       "createStoreButtonText": "Создать магазин",
-      "Columns": {
-        "nameColumn": "График",
-        "urlColumn": "URL-адрес кластера"
+      "urlLabel": "URL-адрес кластера",
+      "nameLabel": "Имя графа",
+      "Modal": {
+        "title": "Создание нового графика",
+        "urlPlaceholder": "http://mycluster.kusto.azure.net",
+        "namePlaceholder": "Введите имя диаграммы"
       }
     }
   }

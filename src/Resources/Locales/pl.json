@@ -1579,9 +1579,12 @@
     "StoreListPage": {
       "title": "Witamy w przyszłości",
       "createStoreButtonText": "Utwórz sklep",
-      "Columns": {
-        "nameColumn": "Wykres",
-        "urlColumn": "Adres URL klastra"
+      "urlLabel": "Adres URL klastra",
+      "nameLabel": "Nazwa wykresu",
+      "Modal": {
+        "title": "Tworzenie nowego wykresu",
+        "urlPlaceholder": "http://mycluster.kusto.azure.net",
+        "namePlaceholder": "Wprowadź nazwę wykresu"
       }
     }
   }

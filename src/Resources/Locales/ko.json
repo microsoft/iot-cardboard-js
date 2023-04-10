@@ -1579,9 +1579,12 @@
     "StoreListPage": {
       "title": "미래에 오신 것을 환영합니다",
       "createStoreButtonText": "스토어 만들기",
-      "Columns": {
-        "nameColumn": "그래프",
-        "urlColumn": "클러스터 URL"
+      "urlLabel": "클러스터 URL",
+      "nameLabel": "그래프 이름",
+      "Modal": {
+        "title": "새 그래프 만들기",
+        "urlPlaceholder": "http://mycluster.kusto.azure.net",
+        "namePlaceholder": "그래프 이름 입력"
       }
     }
   }

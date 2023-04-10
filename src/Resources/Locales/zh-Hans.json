@@ -1579,9 +1579,12 @@
     "StoreListPage": {
       "title": "欢迎来到未来",
       "createStoreButtonText": "创建商店",
-      "Columns": {
-        "nameColumn": "图",
-        "urlColumn": "群集网址"
+      "urlLabel": "群集网址",
+      "nameLabel": "图形名称",
+      "Modal": {
+        "title": "创建新图表",
+        "urlPlaceholder": "http://mycluster.kusto.azure.net",
+        "namePlaceholder": "输入图表名称"
       }
     }
   }

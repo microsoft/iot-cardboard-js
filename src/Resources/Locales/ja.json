@@ -1579,9 +1579,12 @@
     "StoreListPage": {
       "title": "未来へようこそ",
       "createStoreButtonText": "ストアの作成",
-      "Columns": {
-        "nameColumn": "グラフ",
-        "urlColumn": "クラスターの URL"
+      "urlLabel": "クラスターの URL",
+      "nameLabel": "グラフ名",
+      "Modal": {
+        "title": "新しいグラフを作成する",
+        "urlPlaceholder": "http://mycluster.kusto.azure.net",
+        "namePlaceholder": "グラフ名を入力"
       }
     }
   }

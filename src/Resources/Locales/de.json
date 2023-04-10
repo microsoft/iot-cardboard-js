@@ -1579,9 +1579,12 @@
     "StoreListPage": {
       "title": "Willkommen in der Zukunft",
       "createStoreButtonText": "Shop erstellen",
-      "Columns": {
-        "nameColumn": "Graph",
-        "urlColumn": "Cluster-URL"
+      "urlLabel": "Cluster-URL",
+      "nameLabel": "Name des Diagramms",
+      "Modal": {
+        "title": "Erstellen eines neuen Diagramms",
+        "urlPlaceholder": "http://mycluster.kusto.azure.net",
+        "namePlaceholder": "Geben Sie einen Namen für das Diagramm ein."
       }
     }
   }

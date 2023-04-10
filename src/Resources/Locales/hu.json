@@ -1579,9 +1579,12 @@
     "StoreListPage": {
       "title": "Üdvözöljük a jövőben",
       "createStoreButtonText": "Áruház létrehozása",
-      "Columns": {
-        "nameColumn": "Gráf",
-        "urlColumn": "Fürt URL-címe"
+      "urlLabel": "Fürt URL-címe",
+      "nameLabel": "Grafikon neve",
+      "Modal": {
+        "title": "Új diagram létrehozása",
+        "urlPlaceholder": "http://mycluster.kusto.azure.net",
+        "namePlaceholder": "Adja meg a diagram nevét"
       }
     }
   }

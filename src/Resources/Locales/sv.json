@@ -1579,9 +1579,12 @@
     "StoreListPage": {
       "title": "Välkommen till framtiden",
       "createStoreButtonText": "Skapa butik",
-      "Columns": {
-        "nameColumn": "Graf",
-        "urlColumn": "URL för kluster"
+      "urlLabel": "URL för kluster",
+      "nameLabel": "Diagrammets namn",
+      "Modal": {
+        "title": "Skapa ett nytt diagram",
+        "urlPlaceholder": "http://mycluster.kusto.azure.net",
+        "namePlaceholder": "Ange ett diagramnamn"
       }
     }
   }

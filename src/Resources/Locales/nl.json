@@ -1579,9 +1579,12 @@
     "StoreListPage": {
       "title": "Welkom in de toekomst",
       "createStoreButtonText": "Winkel maken",
-      "Columns": {
-        "nameColumn": "Grafiek",
-        "urlColumn": "Cluster-URL"
+      "urlLabel": "Cluster-URL",
+      "nameLabel": "Naam grafiek",
+      "Modal": {
+        "title": "Een nieuwe grafiek maken",
+        "urlPlaceholder": "http://mycluster.kusto.azure.net",
+        "namePlaceholder": "Voer een grafieknaam in"
       }
     }
   }
