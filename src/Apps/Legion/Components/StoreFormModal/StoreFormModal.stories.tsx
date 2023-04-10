@@ -8,7 +8,7 @@ import { IStoreFormModalProps } from './StoreFormModal.types';
 const wrapperStyle = { width: '100%', height: '600px', padding: 8 };
 
 export default {
-    title: 'Components/StoreFormModal',
+    title: 'Apps/Legion/Components/StoreFormModal',
     component: StoreFormModal,
     decorators: [getDefaultStoryDecorator<IStoreFormModalProps>(wrapperStyle)]
 };
