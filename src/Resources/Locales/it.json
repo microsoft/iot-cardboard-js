@@ -1578,7 +1578,11 @@
     "Common": {},
     "StoreListPage": {
       "title": "Benvenuti nel futuro",
-      "createStoreButtonText": "Crea negozio"
+      "createStoreButtonText": "Crea negozio",
+      "Columns": {
+        "nameColumn": "Grafico",
+        "urlColumn": "URL del cluster"
+      }
     }
   }
 }

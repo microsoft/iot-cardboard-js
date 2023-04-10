@@ -1578,7 +1578,11 @@
     "Common": {},
     "StoreListPage": {
       "title": "Welkom in de toekomst",
-      "createStoreButtonText": "Winkel maken"
+      "createStoreButtonText": "Winkel maken",
+      "Columns": {
+        "nameColumn": "Grafiek",
+        "urlColumn": "Cluster-URL"
+      }
     }
   }
 }

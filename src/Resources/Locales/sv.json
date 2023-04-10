@@ -1578,7 +1578,11 @@
     "Common": {},
     "StoreListPage": {
       "title": "Välkommen till framtiden",
-      "createStoreButtonText": "Skapa butik"
+      "createStoreButtonText": "Skapa butik",
+      "Columns": {
+        "nameColumn": "Graf",
+        "urlColumn": "URL för kluster"
+      }
     }
   }
 }

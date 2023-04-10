@@ -1578,7 +1578,11 @@
     "Common": {},
     "StoreListPage": {
       "title": "Geleceğe hoş geldiniz",
-      "createStoreButtonText": "Mağaza oluştur"
+      "createStoreButtonText": "Mağaza oluştur",
+      "Columns": {
+        "nameColumn": "Grafik",
+        "urlColumn": "Küme URL'si"
+      }
     }
   }
 }

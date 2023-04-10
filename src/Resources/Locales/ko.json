@@ -1578,7 +1578,11 @@
     "Common": {},
     "StoreListPage": {
       "title": "미래에 오신 것을 환영합니다",
-      "createStoreButtonText": "스토어 만들기"
+      "createStoreButtonText": "스토어 만들기",
+      "Columns": {
+        "nameColumn": "그래프",
+        "urlColumn": "클러스터 URL"
+      }
     }
   }
 }

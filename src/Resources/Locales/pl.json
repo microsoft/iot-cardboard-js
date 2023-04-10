@@ -1578,7 +1578,11 @@
     "Common": {},
     "StoreListPage": {
       "title": "Witamy w przyszłości",
-      "createStoreButtonText": "Utwórz sklep"
+      "createStoreButtonText": "Utwórz sklep",
+      "Columns": {
+        "nameColumn": "Wykres",
+        "urlColumn": "Adres URL klastra"
+      }
     }
   }
 }

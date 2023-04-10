@@ -1578,7 +1578,11 @@
     "Common": {},
     "StoreListPage": {
       "title": "Üdvözöljük a jövőben",
-      "createStoreButtonText": "Áruház létrehozása"
+      "createStoreButtonText": "Áruház létrehozása",
+      "Columns": {
+        "nameColumn": "Gráf",
+        "urlColumn": "Fürt URL-címe"
+      }
     }
   }
 }

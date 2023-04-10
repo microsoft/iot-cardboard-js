@@ -1578,7 +1578,11 @@
     "Common": {},
     "StoreListPage": {
       "title": "欢迎来到未来",
-      "createStoreButtonText": "创建商店"
+      "createStoreButtonText": "创建商店",
+      "Columns": {
+        "nameColumn": "图",
+        "urlColumn": "群集网址"
+      }
     }
   }
 }

@@ -1578,7 +1578,11 @@
     "Common": {},
     "StoreListPage": {
       "title": "未来へようこそ",
-      "createStoreButtonText": "ストアの作成"
+      "createStoreButtonText": "ストアの作成",
+      "Columns": {
+        "nameColumn": "グラフ",
+        "urlColumn": "クラスターの URL"
+      }
     }
   }
 }

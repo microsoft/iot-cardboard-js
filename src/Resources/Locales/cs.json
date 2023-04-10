@@ -1578,7 +1578,11 @@
     "Common": {},
     "StoreListPage": {
       "title": "Vítejte v budoucnosti",
-      "createStoreButtonText": "Vytvořit obchod"
+      "createStoreButtonText": "Vytvořit obchod",
+      "Columns": {
+        "nameColumn": "Graf",
+        "urlColumn": "Adresa URL clusteru"
+      }
     }
   }
 }
