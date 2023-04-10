@@ -1572,10 +1572,10 @@
       },
       "title": "Veri itici",
       "clusterTitle": "Küme URL'si",
-      "clusterTitlePlaceholder": "örneğin https://<örnek>.westus.kusto.windows.net",
       "notValidClusterMessage": "Geçerli değil Kusto kümesi URL'si",
       "frequency": "Frekans",
-      "frequencyInfo": "Bu sayı hem zaman serisi zaman damgaları arasındaki süreyi hem de yeni satırların tabloya itildiği aralığı temsil eder."
+      "frequencyInfo": "Bu sayı hem zaman serisi zaman damgaları arasındaki süreyi hem de yeni satırların tabloya itildiği aralığı temsil eder.",
+      "clusterSelectPlaceholder": "örneğin https://<örnek>.westus.kusto.windows.net"
     },
     "verificationStep": {
       "title": "Bulunan ikizleri doğrulama",

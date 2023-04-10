@@ -1572,10 +1572,10 @@
       },
       "title": "Adatleküldő",
       "clusterTitle": "Fürt URL-címe",
-      "clusterTitlePlaceholder": "pl. https://<példa>.westus.kusto.windows.net",
       "notValidClusterMessage": "Nem érvényes Kusto-fürt URL-címe",
       "frequency": "Frekvencia",
-      "frequencyInfo": "Ez a szám az idősorozat-időbélyegek közötti időt és az új sorok táblába való leküldésének időközét is jelöli."
+      "frequencyInfo": "Ez a szám az idősorozat-időbélyegek közötti időt és az új sorok táblába való leküldésének időközét is jelöli.",
+      "clusterSelectPlaceholder": "pl. https://<példa>.westus.kusto.windows.net"
     },
     "verificationStep": {
       "title": "Felderített ikrek ellenőrzése",

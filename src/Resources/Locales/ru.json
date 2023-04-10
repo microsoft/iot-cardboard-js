@@ -1572,10 +1572,10 @@
       },
       "title": "Толкатель данных",
       "clusterTitle": "URL-адрес кластера",
-      "clusterTitlePlaceholder": "например, https://<пример>.westus.kusto.windows.net",
       "notValidClusterMessage": "Недопустимый URL-адрес кластера Kusto",
       "frequency": "Частота",
-      "frequencyInfo": "Это число представляет как время между временными метками, так и интервал, с которым новые строки отправляются в таблицу."
+      "frequencyInfo": "Это число представляет как время между временными метками, так и интервал, с которым новые строки отправляются в таблицу.",
+      "clusterSelectPlaceholder": "например, https://<пример>.westus.kusto.windows.net"
     },
     "verificationStep": {
       "title": "Проверка обнаруженных близнецов",

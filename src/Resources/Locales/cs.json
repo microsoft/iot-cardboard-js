@@ -1572,10 +1572,10 @@
       },
       "title": "Posunovač dat",
       "clusterTitle": "Adresa URL clusteru",
-      "clusterTitlePlaceholder": "např. https://<příklad>.westus.kusto.windows.net",
       "notValidClusterMessage": "Neplatná adresa URL clusteru Kusto",
       "frequency": "Frekvence",
-      "frequencyInfo": "Toto číslo představuje čas mezi časovými razítky časových řad a interval, ve kterém jsou nové řádky odesílány do tabulky."
+      "frequencyInfo": "Toto číslo představuje čas mezi časovými razítky časových řad a interval, ve kterém jsou nové řádky odesílány do tabulky.",
+      "clusterSelectPlaceholder": "např. https://<příklad>.westus.kusto.windows.net"
     },
     "verificationStep": {
       "title": "Ověření zjištěných dvojčat",

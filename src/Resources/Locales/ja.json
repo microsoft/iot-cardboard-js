@@ -1572,10 +1572,10 @@
       },
       "title": "データプッシャー",
       "clusterTitle": "クラスター URL",
-      "clusterTitlePlaceholder": "例 https://<例>.westus.kusto.windows.net",
       "notValidClusterMessage": "無効な Kusto クラスター URL ではありません",
       "frequency": "周波数",
-      "frequencyInfo": "この数値は、時系列タイムスタンプ間の時間と、新しい行がテーブルにプッシュされる間隔の両方を表します。"
+      "frequencyInfo": "この数値は、時系列タイムスタンプ間の時間と、新しい行がテーブルにプッシュされる間隔の両方を表します。",
+      "clusterSelectPlaceholder": "例 https://<例>.westus.kusto.windows.net"
     },
     "verificationStep": {
       "title": "検出されたツインを確認する",

@@ -1572,10 +1572,10 @@
       },
       "title": "Pusher di dati",
       "clusterTitle": "Cluster URL",
-      "clusterTitlePlaceholder": "ad esempio https://<esempio>.westus.kusto.windows.net",
       "notValidClusterMessage": "URL del cluster Kusto non valido",
       "frequency": "Frequenza",
-      "frequencyInfo": "Questo numero rappresenta sia il tempo tra i timestamp delle serie temporali sia l'intervallo in base al quale le nuove righe vengono inviate alla tabella."
+      "frequencyInfo": "Questo numero rappresenta sia il tempo tra i timestamp delle serie temporali sia l'intervallo in base al quale le nuove righe vengono inviate alla tabella.",
+      "clusterSelectPlaceholder": "ad esempio https://<esempio>.westus.kusto.windows.net"
     },
     "verificationStep": {
       "title": "Verificare i gemelli scoperti",
