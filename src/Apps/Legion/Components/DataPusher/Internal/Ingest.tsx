@@ -189,14 +189,18 @@ const Ingest: React.FC = () => {
                         tableName: newValue.label,
                         columns: TableColumns[selectedTableType]
                     });
+                    setTableOptions(tableOptions.concat(newValue));
+                } else {
+                    alert('Select target table type first');
                 }
-                setTableOptions(tableOptions.concat(newValue));
             } else {
                 setSelectedTableType(null);
-                getTableState.callAdapter({
-                    databaseName: selectedDatabase.label,
-                    tableName: newValue.label
-                });
+                if (newValue) {
+                    getTableState.callAdapter({
+                        databaseName: selectedDatabase.label,
+                        tableName: newValue.label
+                    });
+                }
             }
         },
         [
@@ -444,9 +448,21 @@ const Ingest: React.FC = () => {
                 </StackItem>
                 <StackItem>
                     <Stack horizontal horizontalAlign="space-between">
-                        <Label required>
-                            {t('legionApp.dataPusher.target.table')}
-                        </Label>
+                        <Stack horizontal>
+                            <Label required>
+                                {t('legionApp.dataPusher.target.table')}
+                            </Label>
+                            <TooltipCallout
+                                content={{
+                                    buttonAriaLabel: t(
+                                        'legionApp.dataPusher.tableSelectInfo'
+                                    ),
+                                    calloutContent: t(
+                                        'legionApp.dataPusher.tableSelectInfo'
+                                    )
+                                }}
+                            />
+                        </Stack>
                         {createTableState.isLoading && (
                             <Spinner
                                 label={t(

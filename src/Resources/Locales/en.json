@@ -1535,6 +1535,8 @@
             "title": "Data pusher",
             "clusterTitle": "Cluster URL",
             "clusterSelectPlaceholder": "e.g. https://<example>.westus.kusto.windows.net",
+            "clusterSelectInfo": "Selected Kusto cluster is required to have 'streaming ingestion' policy enabled.",
+            "tableSelectInfo": "If selecting from existing, make sure Kusto table has 'streaming ingestion' policy enabled with 'DataPusherMapping' JSON mapping defined.",
             "notValidClusterMessage": "Not valid Kusto cluster URL",
             "frequency": "Frequency",
             "frequencyInfo": "This number represents both the time between timeseries timestamps and the interval at which new rows are pushed to table.",
