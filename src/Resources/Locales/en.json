@@ -1538,6 +1538,11 @@
                 "namePlaceholder": "Enter a graph name"
             }
         },
+        "GraphVisualizer": {
+            "ContextMenu": {
+                "addParentLabel": "Add parent"
+            }
+        },
         "dataPusher": {
             "title": "Data pusher",
             "simulationType": "Simulation type",
