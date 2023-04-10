@@ -4,10 +4,9 @@ import { DataManagementAdapterData } from './DataManagementAdapter.data';
 
 export interface IDataManagementAdapter extends IBaseAdapter {
     connectionString: string;
-    getDatabases: (
-        args: IGetDatabaseArgs
-    ) => AdapterReturnType<DataManagementAdapterData<IGetDatabaseResponse[]>>;
-
+    getDatabases: () => AdapterReturnType<
+        DataManagementAdapterData<Array<string>>
+    >;
     createDatabase: (
         databaseName: string
     ) => AdapterReturnType<DataManagementAdapterData<boolean>>;
@@ -32,17 +31,6 @@ export interface IDataManagementAdapter extends IBaseAdapter {
         tableName: string,
         orderByColumn?: string
     ) => AdapterReturnType<DataManagementAdapterData<ITable>>;
-}
-
-/** arguments for the GetDatabase adapter method */
-export interface IGetDatabaseArgs {
-    clusterUrl: string;
-}
-
-/** response payload for the GetDatabase adapter method */
-export interface IGetDatabaseResponse {
-    id: string;
-    name: string;
 }
 
 export interface ICreateDatabaseAdapterParams {
