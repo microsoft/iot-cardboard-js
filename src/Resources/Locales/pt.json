@@ -1535,16 +1535,13 @@
   },
   "legionApp": {
     "dataPusher": {
-      "simulationType": "Tipo de simulação",
       "progress": {
         "createTable": "Criando tabela...",
         "createTables": "Criando tabelas...",
         "ingest": "Ingestão...",
         "createDatabase": "Criando banco de dados..."
       },
-      "selectSimulationType": "Selecione o tipo de simulação",
       "tabs": {
-        "setup": "Configuração",
         "ingest": "Ingerir",
         "cook": "Cozinhar"
       },
@@ -1560,14 +1557,25 @@
       },
       "target": {
         "database": "Banco de dados de destino",
-        "selectDatabase": "Selecionar banco de dados de destino"
+        "selectDatabase": "Selecionar banco de dados de destino",
+        "tableType": "Tipo de tabela de destino",
+        "tableTypeTooltipContent": "Selecione o esquema de tabela a ser usado para criação de tabela ou ingestão de linhas",
+        "selectTableType": "Selecionar tipo de tabela de destino",
+        "table": "Tabela de destino",
+        "selectTable": "Selecionar tabela de destino"
       },
       "actions": {
-        "ingest": "Ingerir dados na tabela de origem",
         "cook": "Gráfico de gêmeos de cozinheiro",
-        "pushTwinsGraph": "Enviar o gráfico de gêmeos para o banco de dados de destino"
+        "pushTwinsGraph": "Enviar o gráfico de gêmeos para o banco de dados de destino",
+        "startIngest": "Iniciar a ingestão",
+        "stopIngest": "Parar de ingerir"
       },
-      "title": "Empurrador de dados"
+      "title": "Empurrador de dados",
+      "clusterTitle": "Cluster URL",
+      "clusterTitlePlaceholder": "por exemplo, https://<exemplo>.westus.kusto.windows.net",
+      "notValidClusterMessage": "URL de cluster Kusto não válida",
+      "frequency": "Frequência",
+      "frequencyInfo": "Esse número representa o tempo entre os carimbos de data/hora da série temporal e o intervalo no qual novas linhas são enviadas para a tabela."
     },
     "verificationStep": {
       "title": "Verificar gêmeos descobertos",

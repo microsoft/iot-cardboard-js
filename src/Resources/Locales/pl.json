@@ -1535,16 +1535,13 @@
   },
   "legionApp": {
     "dataPusher": {
-      "simulationType": "Typ symulacji",
       "progress": {
         "createTable": "Tworzenie tabeli...",
         "createTables": "Tworzenie tabel...",
         "ingest": "Spożyciu...",
         "createDatabase": "Tworzenie bazy danych..."
       },
-      "selectSimulationType": "Wybierz typ symulacji",
       "tabs": {
-        "setup": "Instalacji",
         "ingest": "Spożywać",
         "cook": "Kucharz"
       },
@@ -1560,14 +1557,25 @@
       },
       "target": {
         "database": "Docelowa baza danych",
-        "selectDatabase": "Wybierz docelową bazę danych"
+        "selectDatabase": "Wybierz docelową bazę danych",
+        "tableType": "Typ tabeli docelowej",
+        "tableTypeTooltipContent": "Wybierz schemat tabeli, który ma być używany do tworzenia tabeli lub pozyskiwania wierszy",
+        "selectTableType": "Wybierz typ tabeli docelowej",
+        "table": "Tabela docelowa",
+        "selectTable": "Wybierz tabelę docelową"
       },
       "actions": {
-        "ingest": "Pozyskiwanie danych do tabeli źródłowej",
         "cook": "Wykres bliźniaków kucharskich",
-        "pushTwinsGraph": "Wypychanie wykresu bliźniaków do docelowej bazy danych"
+        "pushTwinsGraph": "Wypychanie wykresu bliźniaków do docelowej bazy danych",
+        "startIngest": "Rozpocznij przyjmowanie",
+        "stopIngest": "Zatrzymaj spożycie"
       },
-      "title": "Popychacz danych"
+      "title": "Popychacz danych",
+      "clusterTitle": "Adres URL klastra",
+      "clusterTitlePlaceholder": "np. https://<przykład>.westus.kusto.windows.net",
+      "notValidClusterMessage": "Nieprawidłowy adres URL klastra Kusto",
+      "frequency": "Częstotliwość",
+      "frequencyInfo": "Ta liczba reprezentuje zarówno czas między sygnaturami czasowymi szeregów czasowych, jak i interwał, w którym nowe wiersze są wypychane do tabeli."
     },
     "verificationStep": {
       "title": "Weryfikowanie odnalezionych bliźniąt",

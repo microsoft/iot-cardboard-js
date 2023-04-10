@@ -1535,16 +1535,13 @@
   },
   "legionApp": {
     "dataPusher": {
-      "simulationType": "Simulatie type",
       "progress": {
         "createTable": "Tabel maken...",
         "createTables": "Tabellen maken...",
         "ingest": "Inname...",
         "createDatabase": "Database maken..."
       },
-      "selectSimulationType": "Selecteer simulatietype",
       "tabs": {
-        "setup": "Setup",
         "ingest": "Inslikken",
         "cook": "Koken"
       },
@@ -1560,14 +1557,25 @@
       },
       "target": {
         "database": "Doeldatabase",
-        "selectDatabase": "Selecteer doeldatabase"
+        "selectDatabase": "Selecteer doeldatabase",
+        "tableType": "Type doeltabel",
+        "tableTypeTooltipContent": "Selecteer het tabelschema dat moet worden gebruikt voor het maken van tabellen of het opnemen van rijen",
+        "selectTableType": "Doeltabeltype selecteren",
+        "table": "Doeltabel",
+        "selectTable": "Doeltabel selecteren"
       },
       "actions": {
-        "ingest": "Gegevens opnemen in de brontabel",
         "cook": "Cook twins grafiek",
-        "pushTwinsGraph": "Push twins graph naar doeldatabase"
+        "pushTwinsGraph": "Push twins graph naar doeldatabase",
+        "startIngest": "Begin met inname",
+        "stopIngest": "Stop de inname"
       },
-      "title": "Data pusher |"
+      "title": "Data pusher |",
+      "clusterTitle": "Cluster-URL",
+      "clusterTitlePlaceholder": "bijvoorbeeld https://<voorbeeld>.westus.kusto.windows.net",
+      "notValidClusterMessage": "Ongeldige Kusto-cluster-URL",
+      "frequency": "Frequentie",
+      "frequencyInfo": "Dit getal vertegenwoordigt zowel de tijd tussen tijdreekstijdstempels als het interval waarmee nieuwe rijen naar de tabel worden geduwd."
     },
     "verificationStep": {
       "title": "Geverifieerde tweelingen verifiëren",

@@ -1535,16 +1535,13 @@
   },
   "legionApp": {
     "dataPusher": {
-      "simulationType": "シミュレーションの種類",
       "progress": {
         "createTable": "テーブルを作成しています...",
         "createTables": "テーブルを作成しています...",
         "ingest": "摂取。。。",
         "createDatabase": "データベースを作成しています..."
       },
-      "selectSimulationType": "シミュレーションタイプを選択",
       "tabs": {
-        "setup": "セットアップ",
         "ingest": "摂取する",
         "cook": "料理する"
       },
@@ -1560,14 +1557,25 @@
       },
       "target": {
         "database": "ターゲット データベース",
-        "selectDatabase": "ターゲット・データベースの選択"
+        "selectDatabase": "ターゲット・データベースの選択",
+        "tableType": "ターゲット テーブルの種類",
+        "tableTypeTooltipContent": "テーブルの作成または行の取り込みに使用するテーブル スキーマを選択する",
+        "selectTableType": "ターゲット テーブルの種類の選択",
+        "table": "ターゲット表",
+        "selectTable": "ターゲット表の選択"
       },
       "actions": {
-        "ingest": "ソース テーブルへのデータの取り込み",
         "cook": "クック双子グラフ",
-        "pushTwinsGraph": "ツイン グラフをターゲット データベースにプッシュする"
+        "pushTwinsGraph": "ツイン グラフをターゲット データベースにプッシュする",
+        "startIngest": "取り込みを開始する",
+        "stopIngest": "取り込みを停止する"
       },
-      "title": "データプッシャー"
+      "title": "データプッシャー",
+      "clusterTitle": "クラスター URL",
+      "clusterTitlePlaceholder": "例 https://<例>.westus.kusto.windows.net",
+      "notValidClusterMessage": "無効な Kusto クラスター URL ではありません",
+      "frequency": "周波数",
+      "frequencyInfo": "この数値は、時系列タイムスタンプ間の時間と、新しい行がテーブルにプッシュされる間隔の両方を表します。"
     },
     "verificationStep": {
       "title": "検出されたツインを確認する",

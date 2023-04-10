@@ -1535,16 +1535,13 @@
   },
   "legionApp": {
     "dataPusher": {
-      "simulationType": "模拟类型",
       "progress": {
         "createTable": "正在创建表...",
         "createTables": "正在创建表...",
         "ingest": "摄入。。。",
         "createDatabase": "正在创建数据库..."
       },
-      "selectSimulationType": "选择模拟类型",
       "tabs": {
-        "setup": "设置",
         "ingest": "摄取",
         "cook": "煮"
       },
@@ -1560,14 +1557,25 @@
       },
       "target": {
         "database": "目标数据库",
-        "selectDatabase": "选择目标数据库"
+        "selectDatabase": "选择目标数据库",
+        "tableType": "目标表类型",
+        "tableTypeTooltipContent": "选择要用于表创建或行引入的表架构",
+        "selectTableType": "选择目标表类型",
+        "table": "目标表",
+        "selectTable": "选择目标表"
       },
       "actions": {
-        "ingest": "将数据引入源表",
         "cook": "库克双胞胎图",
-        "pushTwinsGraph": "将孪生体图推送到目标数据库"
+        "pushTwinsGraph": "将孪生体图推送到目标数据库",
+        "startIngest": "开始摄取",
+        "stopIngest": "停止引入"
       },
-      "title": "数据推送器"
+      "title": "数据推送器",
+      "clusterTitle": "群集网址",
+      "clusterTitlePlaceholder": "例如 https://<例如>.westus.kusto.windows.net",
+      "notValidClusterMessage": "库斯托群集 URL 无效",
+      "frequency": "频率",
+      "frequencyInfo": "此数字表示时序时间戳之间的时间和将新行推送到表的时间间隔。"
     },
     "verificationStep": {
       "title": "验证发现的孪生体",
