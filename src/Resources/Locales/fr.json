@@ -1535,16 +1535,13 @@
   },
   "legionApp": {
     "dataPusher": {
-      "simulationType": "Type de simulation",
       "progress": {
         "createTable": "Création d’une table...",
         "createTables": "Création de tables...",
         "ingest": "Ingestion...",
         "createDatabase": "Création d’une base de données..."
       },
-      "selectSimulationType": "Sélectionnez le type de simulation",
       "tabs": {
-        "setup": "Coup monté",
         "ingest": "Ingérer",
         "cook": "Cuire"
       },
@@ -1560,14 +1557,25 @@
       },
       "target": {
         "database": "Base de données cible",
-        "selectDatabase": "Sélectionner la base de données cible"
+        "selectDatabase": "Sélectionner la base de données cible",
+        "tableType": "Type de table cible",
+        "tableTypeTooltipContent": "Sélectionner le schéma de table à utiliser pour la création de table ou l’ingestion de lignes",
+        "selectTableType": "Sélectionner le type de table cible",
+        "table": "Tableau cible",
+        "selectTable": "Sélectionner la table cible"
       },
       "actions": {
-        "ingest": "Ingérer des données dans la table source",
         "cook": "Graphique des jumeaux cuisiniers",
-        "pushTwinsGraph": "Pousser le graphique des jumeaux vers la base de données cible"
+        "pushTwinsGraph": "Pousser le graphique des jumeaux vers la base de données cible",
+        "startIngest": "Démarrer l’ingestion",
+        "stopIngest": "Arrêter l’ingestion"
       },
-      "title": "Pousseur de données"
+      "title": "Pousseur de données",
+      "clusterTitle": "Cluster URL",
+      "clusterTitlePlaceholder": "p. ex. https://<exemple>.westus.kusto.windows.net",
+      "notValidClusterMessage": "URL de cluster Kusto non valide",
+      "frequency": "Fréquence",
+      "frequencyInfo": "Ce nombre représente à la fois le temps entre les horodatages de séries chronologiques et l’intervalle auquel les nouvelles lignes sont poussées vers la table."
     },
     "verificationStep": {
       "title": "Vérifier les jumeaux découverts",

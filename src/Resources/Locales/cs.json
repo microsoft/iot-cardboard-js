@@ -1535,16 +1535,13 @@
   },
   "legionApp": {
     "dataPusher": {
-      "simulationType": "Typ simulace",
       "progress": {
         "createTable": "Vytváření tabulky...",
         "createTables": "Vytváření tabulek...",
         "ingest": "Požitím...",
         "createDatabase": "Tvorba databáze..."
       },
-      "selectSimulationType": "Vyberte typ simulace",
       "tabs": {
-        "setup": "Sestava",
         "ingest": "Spolknout potravu",
         "cook": "Kuchař"
       },
@@ -1560,14 +1557,25 @@
       },
       "target": {
         "database": "Cílová databáze",
-        "selectDatabase": "Vybrat cílovou databázi"
+        "selectDatabase": "Vybrat cílovou databázi",
+        "tableType": "Typ cílové tabulky",
+        "tableTypeTooltipContent": "Vyberte schéma tabulky, které se má použít pro vytvoření tabulky nebo příjem řádků",
+        "selectTableType": "Vyberte typ cílové tabulky",
+        "table": "Cílová tabulka",
+        "selectTable": "Vyberte cílovou tabulku"
       },
       "actions": {
-        "ingest": "Ingestování dat do zdrojové tabulky",
         "cook": "Graf Cook dvojčat",
-        "pushTwinsGraph": "Odeslání grafu dvojčat do cílové databáze"
+        "pushTwinsGraph": "Odeslání grafu dvojčat do cílové databáze",
+        "startIngest": "Začněte požití",
+        "stopIngest": "Zastavte požití"
       },
-      "title": "Posunovač dat"
+      "title": "Posunovač dat",
+      "clusterTitle": "Adresa URL clusteru",
+      "clusterTitlePlaceholder": "např. https://<příklad>.westus.kusto.windows.net",
+      "notValidClusterMessage": "Neplatná adresa URL clusteru Kusto",
+      "frequency": "Frekvence",
+      "frequencyInfo": "Toto číslo představuje čas mezi časovými razítky časových řad a interval, ve kterém jsou nové řádky odesílány do tabulky."
     },
     "verificationStep": {
       "title": "Ověření zjištěných dvojčat",

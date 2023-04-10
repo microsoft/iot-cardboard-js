@@ -1535,16 +1535,13 @@
   },
   "legionApp": {
     "dataPusher": {
-      "simulationType": "Simülasyon türü",
       "progress": {
         "createTable": "Tablo oluşturuluyor...",
         "createTables": "Tablo oluşturma...",
         "ingest": "Ingesting...",
         "createDatabase": "Veritabanı oluşturuluyor..."
       },
-      "selectSimulationType": "Simülasyon türünü seçin",
       "tabs": {
-        "setup": "Kurulum",
         "ingest": "Yutmayın",
         "cook": "Pişirmek"
       },
@@ -1560,14 +1557,25 @@
       },
       "target": {
         "database": "Hedef veritabanı",
-        "selectDatabase": "Hedef veritabanını seç"
+        "selectDatabase": "Hedef veritabanını seç",
+        "tableType": "Hedef tablo türü",
+        "tableTypeTooltipContent": "Tablo oluşturma veya satır alma için kullanılacak tablo şemasını seçme",
+        "selectTableType": "Hedef tablo türünü seçin",
+        "table": "Hedef tablo",
+        "selectTable": "Hedef tabloyu seçin"
       },
       "actions": {
-        "ingest": "Kaynak tabloya veri alma",
         "cook": "Cook ikizleri grafiği",
-        "pushTwinsGraph": "İkizler grafiğini hedef veritabanına gönderme"
+        "pushTwinsGraph": "İkizler grafiğini hedef veritabanına gönderme",
+        "startIngest": "Beslemeye başlayın",
+        "stopIngest": "Yutulmayı durdurma"
       },
-      "title": "Veri itici"
+      "title": "Veri itici",
+      "clusterTitle": "Küme URL'si",
+      "clusterTitlePlaceholder": "örneğin https://<örnek>.westus.kusto.windows.net",
+      "notValidClusterMessage": "Geçerli değil Kusto kümesi URL'si",
+      "frequency": "Frekans",
+      "frequencyInfo": "Bu sayı hem zaman serisi zaman damgaları arasındaki süreyi hem de yeni satırların tabloya itildiği aralığı temsil eder."
     },
     "verificationStep": {
       "title": "Bulunan ikizleri doğrulama",

@@ -1535,16 +1535,13 @@
   },
   "legionApp": {
     "dataPusher": {
-      "simulationType": "Art der Simulation",
       "progress": {
         "createTable": "Tabelle wird erstellt...",
         "createTables": "Erstellen von Tabellen...",
         "ingest": "Aufnehmend...",
         "createDatabase": "Datenbank wird erstellt..."
       },
-      "selectSimulationType": "Auswählen des Simulationstyps",
       "tabs": {
-        "setup": "Einrichtung",
         "ingest": "Aufnehmen",
         "cook": "Kochen"
       },
@@ -1560,14 +1557,25 @@
       },
       "target": {
         "database": "Zieldatenbank",
-        "selectDatabase": "Zieldatenbank auswählen"
+        "selectDatabase": "Zieldatenbank auswählen",
+        "tableType": "Typ der Zieltabelle",
+        "tableTypeTooltipContent": "Wählen Sie das Tabellenschema aus, das für die Tabellenerstellung oder die Zeilenaufnahme verwendet werden soll.",
+        "selectTableType": "Wählen Sie den Zieltabellentyp aus",
+        "table": "Zieltabelle",
+        "selectTable": "Zieltabelle auswählen"
       },
       "actions": {
-        "ingest": "Erfassen von Daten in der Quelltabelle",
         "cook": "Cook-Zwillings-Diagramm",
-        "pushTwinsGraph": "Übertragen des Zwillingsdiagramms in die Zieldatenbank"
+        "pushTwinsGraph": "Übertragen des Zwillingsdiagramms in die Zieldatenbank",
+        "startIngest": "Beginnen Sie mit der Einnahme",
+        "stopIngest": "Stoppen Sie die Einnahme"
       },
-      "title": "Daten-Pusher"
+      "title": "Daten-Pusher",
+      "clusterTitle": "Cluster-URL",
+      "clusterTitlePlaceholder": "z.B. https://<Beispiel>.westus.kusto.windows.net",
+      "notValidClusterMessage": "Ungültige Kusto-Cluster-URL",
+      "frequency": "Frequenz",
+      "frequencyInfo": "Diese Zahl stellt sowohl die Zeit zwischen Zeitreihenzeitstempeln als auch das Intervall dar, in dem neue Zeilen per Push in die Tabelle verschoben werden."
     },
     "verificationStep": {
       "title": "Erkannte Zwillinge verifizieren",
