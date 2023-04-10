@@ -6,6 +6,7 @@ const debugLogging = false;
 const logDebugConsole = getDebugLogger('LocalStorageManager', debugLogging);
 
 class LocalStorageManager {
+    /** Gets the list of target graph databases from local storage */
     static GetTargetGraphStores(): ITargetDatabaseConnection[] {
         const storageData = localStorage.getItem(
             LOCAL_STORAGE_KEYS.StoreList.existingTargetDatabases
@@ -20,12 +21,13 @@ class LocalStorageManager {
             );
             return data;
         }
-            logDebugConsole(
-                'info',
-                'Graph list not found in storage, using []'
-            );
+        logDebugConsole('info', 'Graph list not found in storage, using []');
         return [];
     }
+
+    /**
+     * Adds a new graph to the store list in local storage
+     */
     static AddTargetGraphStore(graph: ITargetDatabaseConnection): boolean {
         if (graph) {
             const existingGraphs = this.GetTargetGraphStores();
