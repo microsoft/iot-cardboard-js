@@ -6,7 +6,8 @@ import {
     IIngestRow,
     ITable,
     ITableColumn,
-    ITableIngestionMapping
+    ITableIngestionMapping,
+    IGetDatabaseResponse
 } from './Models/DataManagementAdapter.types';
 
 export default class MockDataManagementAdapter
@@ -44,6 +45,38 @@ export default class MockDataManagementAdapter
             });
         } catch (err) {
             return new AdapterResult<DataManagementAdapterData<Array<string>>>({
+                result: null,
+                errorInfo: { catastrophicError: err, errors: [err] }
+            });
+        }
+    }
+
+    async getTargetDatabases() {
+        try {
+            await this.mockNetwork();
+            return new AdapterResult<
+                DataManagementAdapterData<Array<IGetDatabaseResponse>>
+            >({
+                result: new DataManagementAdapterData([
+                    {
+                        id: 'mock-db-id-1',
+                        name: 'My Estero DB'
+                    },
+                    {
+                        id: 'mock-db-id-1',
+                        name: 'Windfarm 2'
+                    },
+                    {
+                        id: 'mock-db-id-1',
+                        name: 'Houston Factory'
+                    }
+                ]),
+                errorInfo: null
+            });
+        } catch (err) {
+            return new AdapterResult<
+                DataManagementAdapterData<Array<IGetDatabaseResponse>>
+            >({
                 result: null,
                 errorInfo: { catastrophicError: err, errors: [err] }
             });

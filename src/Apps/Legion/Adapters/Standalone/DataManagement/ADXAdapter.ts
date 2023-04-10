@@ -6,10 +6,12 @@ import BaseAdapter from '../../BaseAdapter';
 import { DataManagementAdapterData } from './Models/DataManagementAdapter.data';
 import {
     IDataManagementAdapter,
+    IGetDatabaseArgs,
     IIngestRow,
     ITable,
     ITableColumn,
-    ITableIngestionMapping
+    ITableIngestionMapping,
+    IGetDatabaseResponse
 } from './Models/DataManagementAdapter.types';
 
 export default class ADXAdapter
@@ -46,6 +48,37 @@ export default class ADXAdapter
                 return null;
             });
             return new DataManagementAdapterData<Array<string>>(
+                axiosResult?.data.Tables[0].Rows.reduce((acc, r) => {
+                    acc.push(r[0]);
+                    return acc;
+                }, [])
+            );
+        }, 'adx');
+    }
+
+    async getTargetDatabases(args: IGetDatabaseArgs) {
+        const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
+        return await adapterMethodSandbox.safelyFetchData(async (token) => {
+            const axiosResult = await axios({
+                method: 'post',
+                url: `${args.clusterUrl}/v1/rest/query`,
+                headers: {
+                    Authorization: 'Bearer ' + token,
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                data: {
+                    csl: '.show databases | project DatabaseName'
+                }
+            }).catch((err) => {
+                adapterMethodSandbox.pushError({
+                    type: ComponentErrorType.DataFetchFailed,
+                    isCatastrophic: true,
+                    rawError: err
+                });
+                return null;
+            });
+            return new DataManagementAdapterData<Array<IGetDatabaseResponse>>(
                 axiosResult?.data.Tables[0].Rows.reduce((acc, r) => {
                     acc.push(r[0]);
                     return acc;

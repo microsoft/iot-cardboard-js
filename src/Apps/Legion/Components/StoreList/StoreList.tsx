@@ -62,6 +62,10 @@ const StoreList: React.FC<IStoreListProps> = (props) => {
     }, []);
 
     // hooks
+    const getDatabasesState = useAdapter({
+        adapterMethod: () => adapter.getDatabases(),
+        refetchDependencies: [adapter]
+    });
 
     // data
     const items: ITargetDatabaseConnection[] = useMemo(
@@ -82,6 +86,7 @@ const StoreList: React.FC<IStoreListProps> = (props) => {
     // callbacks
 
     // side effects
+    useEffect(() => {}, []);
 
     // styles
     const classNames = getClassNames(styles, {
