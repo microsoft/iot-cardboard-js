@@ -41,7 +41,7 @@ const columns: IColumn[] = [
     },
     {
         key: 'url',
-        name: i18n.t('legionApp.StoreListPage.urlLabel'),
+        name: i1 8n.t('legionApp.StoreListPage.urlLabel'),
         fieldName: 'clusterUrl',
         minWidth: 300
     }
