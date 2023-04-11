@@ -8,7 +8,7 @@ import { I${componentName}Props } from './${componentName}.types';
 const wrapperStyle = { width: '100%', height: '600px', padding: 8 };
 
 export default {
-    title: 'Components/${componentName}',
+    title: 'Apps/Legion/Components/${componentName}',
     component: ${componentName},
     decorators: [getDefaultStoryDecorator<I${componentName}Props>(wrapperStyle)]
 };
