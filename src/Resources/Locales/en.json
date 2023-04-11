@@ -1527,7 +1527,7 @@
     },
     "legionApp": {
         "Common": {},
-        "StoreListPage": {
+        "StoreListPage1": {
             "title": "Welcome to the future",
             "createStoreButtonText": "Create store",
             "urlLabel": "Cluster url",
