@@ -1577,7 +1577,9 @@
       "frequencyInfo": "Esse número representa o tempo entre os carimbos de data/hora da série temporal e o intervalo no qual novas linhas são enviadas por push para a tabela.",
       "clusterSelectPlaceholder": "por exemplo, https://<exemplo>.westus.kusto.windows.net",
       "clusterSelectInfo": "O cluster Kusto selecionado deve ter a política de \"ingestão de streaming\" ativada.",
-      "tableSelectInfo": "Se selecionar entre os existentes, certifique-se de que a tabela Kusto tem a política de 'ingestão de streaming' ativada com o mapeamento JSON 'DataPusherMapping' definido."
+      "tableSelectInfo": "Se selecionar entre os existentes, certifique-se de que a tabela Kusto tem a política de 'ingestão de streaming' ativada com o mapeamento JSON 'DataPusherMapping' definido.",
+      "ingestInfo": "Você pode criar um novo banco de dados ou tabela e ingerir linhas em uma tabela de destino. Por favor, note que se você criou recentemente a tabela, ela pode não estar pronta para ingestão, aguarde alguns minutos antes da ingestão.",
+      "cookInfo": "Você pode extrair gêmeos e possíveis modelos e informações de propriedades cozinhando o gráfico de gêmeos com base na tabela de fontes selecionada."
     },
     "verificationStep": {
       "title": "Verificar gêmeos descobertos",

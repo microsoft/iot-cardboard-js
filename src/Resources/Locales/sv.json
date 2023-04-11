@@ -1577,7 +1577,9 @@
       "frequencyInfo": "Det här numret representerar både tiden mellan tidsserietidsstämplar och intervallet med vilket nya rader skickas till tabellen.",
       "clusterSelectPlaceholder": "t.ex. https://<exempel>.westus.kusto.windows.net",
       "clusterSelectInfo": "Det valda Kusto-klustret måste ha principen \"strömningsinmatning\" aktiverad.",
-      "tableSelectInfo": "Om du väljer från befintlig kontrollerar du att Kusto-tabellen har principen \"strömningsinmatning\" aktiverad med JSON-mappningen \"DataPusherMapping\" definierad."
+      "tableSelectInfo": "Om du väljer från befintlig kontrollerar du att Kusto-tabellen har principen \"strömningsinmatning\" aktiverad med JSON-mappningen \"DataPusherMapping\" definierad.",
+      "ingestInfo": "Du kan skapa en ny databas eller tabell och mata in rader i en måltabell. Observera att om du nyligen har skapat tabellen kanske den inte är redo för inmatning, vänta några minuter innan den matas in.",
+      "cookInfo": "Du kan extrahera tvillingar och möjliga modeller & egenskapsinformation genom att laga tvillingdiagram baserat på vald källtabell."
     },
     "verificationStep": {
       "title": "Verifiera identifierade tvillingar",

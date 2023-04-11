@@ -1577,7 +1577,9 @@
       "frequencyInfo": "Questo numero rappresenta sia il tempo tra i timestamp delle serie temporali sia l'intervallo in base al quale le nuove righe vengono inviate alla tabella.",
       "clusterSelectPlaceholder": "ad esempio https://<esempio>.westus.kusto.windows.net",
       "clusterSelectInfo": "Il cluster Kusto selezionato deve avere abilitato il criterio di \"acquisizione in streaming\".",
-      "tableSelectInfo": "Se si seleziona da esistente, assicurarsi che la tabella Kusto abbia il criterio di \"inserimento in streaming\" abilitato con il mapping JSON \"DataPusherMapping\" definito."
+      "tableSelectInfo": "Se si seleziona da esistente, assicurarsi che la tabella Kusto abbia il criterio di \"inserimento in streaming\" abilitato con il mapping JSON \"DataPusherMapping\" definito.",
+      "ingestInfo": "È possibile creare un nuovo database o una nuova tabella e inserire righe in una tabella di destinazione. Tieni presente che se hai creato di recente la tabella, potrebbe non essere pronta per l'inserimento, attendi un paio di minuti prima dell'inserimento.",
+      "cookInfo": "È possibile estrarre i gemelli e le possibili informazioni sui modelli e sulle proprietà cucinando il grafico dei gemelli in base alla tabella di origine selezionata."
     },
     "verificationStep": {
       "title": "Verificare i gemelli scoperti",

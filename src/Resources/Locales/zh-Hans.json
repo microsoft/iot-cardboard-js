@@ -1577,7 +1577,9 @@
       "frequencyInfo": "此数字表示时序时间戳之间的时间和将新行推送到表的时间间隔。",
       "clusterSelectPlaceholder": "例如 https://<例如>.westus.kusto.windows.net",
       "clusterSelectInfo": "所选 Kusto 群集需要启用“流式引入”策略。",
-      "tableSelectInfo": "如果从现有选项中进行选择，请确保 Kusto 表启用了“流式引入”策略，并定义了“数据推送器映射”JSON 映射。"
+      "tableSelectInfo": "如果从现有选项中进行选择，请确保 Kusto 表启用了“流式引入”策略，并定义了“数据推送器映射”JSON 映射。",
+      "ingestInfo": "您可以创建新的数据库或表，并将行引入目标表。请注意，如果您最近创建了表，则它可能尚未准备好进行摄取，请在摄取前等待几分钟。",
+      "cookInfo": "您可以通过基于所选源表的孪生图来提取孪生体以及可能的模型和属性信息。"
     },
     "verificationStep": {
       "title": "验证发现的孪生体",

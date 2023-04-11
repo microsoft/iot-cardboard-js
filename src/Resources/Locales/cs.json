@@ -1577,7 +1577,9 @@
       "frequencyInfo": "Toto číslo představuje čas mezi časovými razítky časových řad a interval, ve kterém jsou nové řádky odesílány do tabulky.",
       "clusterSelectPlaceholder": "např. https://<příklad>.westus.kusto.windows.net",
       "clusterSelectInfo": "Vybraný cluster Kusto musí mít povolené zásady příjmu streamování.",
-      "tableSelectInfo": "Pokud vybíráte z existujících, ujistěte se, že tabulka Kusto má povolené zásady příjmu streamování s definovaným mapováním JSON DataPusherMapping."
+      "tableSelectInfo": "Pokud vybíráte z existujících, ujistěte se, že tabulka Kusto má povolené zásady příjmu streamování s definovaným mapováním JSON DataPusherMapping.",
+      "ingestInfo": "Můžete vytvořit novou databázi nebo tabulku a ingestovat řádky do cílové tabulky. Upozorňujeme, že pokud jste tabulku vytvořili nedávno, nemusí být připravena k požití, před požitím počkejte několik minut.",
+      "cookInfo": "Můžete extrahovat dvojčata a možné modely a vlastnosti grafu vaření dvojčat na základě vybrané zdrojové tabulky."
     },
     "verificationStep": {
       "title": "Ověření zjištěných dvojčat",

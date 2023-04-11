@@ -1577,7 +1577,9 @@
       "frequencyInfo": "Ce nombre représente à la fois le temps entre les horodatages de séries chronologiques et l’intervalle auquel les nouvelles lignes sont poussées vers la table.",
       "clusterSelectPlaceholder": "p. ex. https://<exemple>.westus.kusto.windows.net",
       "clusterSelectInfo": "Le cluster Kusto sélectionné doit avoir activé la stratégie « ingestion en continu ».",
-      "tableSelectInfo": "Si vous sélectionnez parmi les fichiers existants, assurez-vous que la stratégie « ingestion en continu » de la table Kusto est activée avec le mappage JSON « DataPusherMapping » défini."
+      "tableSelectInfo": "Si vous sélectionnez parmi les fichiers existants, assurez-vous que la stratégie « ingestion en continu » de la table Kusto est activée avec le mappage JSON « DataPusherMapping » défini.",
+      "ingestInfo": "Vous pouvez créer une base de données ou une table et ingérer des lignes vers une table cible. Veuillez noter que si vous avez récemment créé le tableau, il se peut qu’il ne soit pas prêt pour l’ingestion, attendez quelques minutes avant l’ingestion.",
+      "cookInfo": "Vous pouvez extraire des jumeaux et des informations sur les modèles et propriétés possibles en cuisinant le graphique des jumeaux basé sur la table source sélectionnée."
     },
     "verificationStep": {
       "title": "Vérifier les jumeaux découverts",

@@ -1577,7 +1577,9 @@
       "frequencyInfo": "Bu sayı hem zaman serisi zaman damgaları arasındaki süreyi hem de yeni satırların tabloya itildiği aralığı temsil eder.",
       "clusterSelectPlaceholder": "örneğin https://<örnek>.westus.kusto.windows.net",
       "clusterSelectInfo": "Seçili Kusto kümesinde 'akış alımı' ilkesinin etkinleştirilmiş olması gerekir.",
-      "tableSelectInfo": "Var olanlar arasından seçim yapıyorsanız, Kusto tablosunda 'DataPusherMapping' JSON eşlemesi tanımlanmışken 'akış alımı' ilkesinin etkinleştirildiğinden emin olun."
+      "tableSelectInfo": "Var olanlar arasından seçim yapıyorsanız, Kusto tablosunda 'DataPusherMapping' JSON eşlemesi tanımlanmışken 'akış alımı' ilkesinin etkinleştirildiğinden emin olun.",
+      "ingestInfo": "Yeni bir veritabanı veya tablo oluşturabilir ve satırları hedef tabloya alabilirsiniz. Tabloyu yakın zamanda oluşturduysanız, yutulmaya hazır olmayabileceğini lütfen unutmayın, yutmadan önce birkaç dakika bekleyin.",
+      "cookInfo": "Seçilen kaynak tabloya dayalı ikizler grafiğini pişirerek ikizleri ve olası modelleri ve özellikleri bilgilerini ayıklayabilirsiniz."
     },
     "verificationStep": {
       "title": "Bulunan ikizleri doğrulama",
