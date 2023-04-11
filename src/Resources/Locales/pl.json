@@ -1576,15 +1576,15 @@
       "properties": "Właściwości"
     },
     "Common": {},
-    "StoreListPage1": {
+    "StoreListPage": {
       "title": "Witamy w przyszłości",
-      "createStoreButtonText": "Utwórz sklep",
+      "createStoreButtonText": "Dodawanie magazynu danych",
       "urlLabel": "Adres URL klastra",
-      "nameLabel": "Nazwa wykresu",
+      "nameLabel": "Nazwa bazy danych",
       "Modal": {
-        "title": "Tworzenie nowego wykresu",
+        "title": "Dodawanie nowego magazynu danych",
         "urlPlaceholder": "http://mycluster.kusto.azure.net",
-        "namePlaceholder": "Wprowadź nazwę wykresu"
+        "namePlaceholder": "Wprowadź nazwę bazy danych"
       }
     }
   }

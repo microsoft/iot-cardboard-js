@@ -1576,15 +1576,15 @@
       "properties": "Vlastnosti"
     },
     "Common": {},
-    "StoreListPage1": {
+    "StoreListPage": {
       "title": "Vítejte v budoucnosti",
-      "createStoreButtonText": "Vytvořit obchod",
+      "createStoreButtonText": "Přidání úložiště dat",
       "urlLabel": "Adresa URL clusteru",
-      "nameLabel": "Název grafu",
+      "nameLabel": "Název databáze",
       "Modal": {
-        "title": "Vytvoření nového grafu",
+        "title": "Přidání nového úložiště dat",
         "urlPlaceholder": "http://mycluster.kusto.azure.net",
-        "namePlaceholder": "Zadejte název grafu"
+        "namePlaceholder": "Zadejte název databáze"
       }
     }
   }

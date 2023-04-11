@@ -1576,15 +1576,15 @@
       "properties": "Özellikler"
     },
     "Common": {},
-    "StoreListPage1": {
+    "StoreListPage": {
       "title": "Geleceğe hoş geldiniz",
-      "createStoreButtonText": "Mağaza oluştur",
+      "createStoreButtonText": "Veri deposu ekleme",
       "urlLabel": "Küme URL'si",
-      "nameLabel": "Grafik adı",
+      "nameLabel": "Veritabanı adı",
       "Modal": {
-        "title": "Yeni grafik oluşturma",
+        "title": "Yeni veri deposu ekleme",
         "urlPlaceholder": "http://mycluster.kusto.azure.net",
-        "namePlaceholder": "Bir grafik adı girin"
+        "namePlaceholder": "Veritabanı adı girin"
       }
     }
   }
