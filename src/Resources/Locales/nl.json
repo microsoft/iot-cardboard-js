@@ -1578,13 +1578,13 @@
     "Common": {},
     "StoreListPage": {
       "title": "Welkom in de toekomst",
-      "createStoreButtonText": "Winkel maken",
+      "createStoreButtonText": "Gegevensarchief toevoegen",
       "urlLabel": "Cluster-URL",
-      "nameLabel": "Naam grafiek",
+      "nameLabel": "Naam database",
       "Modal": {
-        "title": "Een nieuwe grafiek maken",
+        "title": "Een nieuw gegevensarchief toevoegen",
         "urlPlaceholder": "http://mycluster.kusto.azure.net",
-        "namePlaceholder": "Voer een grafieknaam in"
+        "namePlaceholder": "Een databasenaam invoeren"
       }
     },
     "GraphVisualizer": {

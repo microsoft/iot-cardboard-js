@@ -1578,13 +1578,13 @@
     "Common": {},
     "StoreListPage": {
       "title": "Bem-vindo ao futuro",
-      "createStoreButtonText": "Criar loja",
+      "createStoreButtonText": "Adicionar armazenamento de dados",
       "urlLabel": "URL do cluster",
-      "nameLabel": "Nome do gráfico",
+      "nameLabel": "Nome do banco de dados",
       "Modal": {
-        "title": "Criar um novo gráfico",
+        "title": "Adicionar um novo armazenamento de dados",
         "urlPlaceholder": "http://mycluster.kusto.azure.net",
-        "namePlaceholder": "Digite um nome de gráfico"
+        "namePlaceholder": "Insira um nome de banco de dados"
       }
     },
     "GraphVisualizer": {

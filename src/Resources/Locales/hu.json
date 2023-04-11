@@ -1578,13 +1578,13 @@
     "Common": {},
     "StoreListPage": {
       "title": "Üdvözöljük a jövőben",
-      "createStoreButtonText": "Áruház létrehozása",
+      "createStoreButtonText": "Adattár hozzáadása",
       "urlLabel": "Fürt URL-címe",
-      "nameLabel": "Grafikon neve",
+      "nameLabel": "Adatbázis neve",
       "Modal": {
-        "title": "Új diagram létrehozása",
+        "title": "Új adattár hozzáadása",
         "urlPlaceholder": "http://mycluster.kusto.azure.net",
-        "namePlaceholder": "Adja meg a diagram nevét"
+        "namePlaceholder": "Adja meg az adatbázis nevét"
       }
     },
     "GraphVisualizer": {

@@ -1578,13 +1578,13 @@
     "Common": {},
     "StoreListPage": {
       "title": "Välkommen till framtiden",
-      "createStoreButtonText": "Skapa butik",
+      "createStoreButtonText": "Lägg till datalager",
       "urlLabel": "URL för kluster",
-      "nameLabel": "Diagrammets namn",
+      "nameLabel": "Databasens namn",
       "Modal": {
-        "title": "Skapa ett nytt diagram",
+        "title": "Lägga till ett nytt datalager",
         "urlPlaceholder": "http://mycluster.kusto.azure.net",
-        "namePlaceholder": "Ange ett diagramnamn"
+        "namePlaceholder": "Ange ett databasnamn"
       }
     },
     "GraphVisualizer": {

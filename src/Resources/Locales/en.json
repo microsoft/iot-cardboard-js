@@ -1529,13 +1529,13 @@
         "Common": {},
         "StoreListPage": {
             "title": "Welcome to the future",
-            "createStoreButtonText": "Create store",
+            "createStoreButtonText": "Add data store",
             "urlLabel": "Cluster url",
-            "nameLabel": "Graph name",
+            "nameLabel": "Database name",
             "Modal": {
-                "title": "Create a new graph",
+                "title": "Add a new data store",
                 "urlPlaceholder": "http://mycluster.kusto.azure.net",
-                "namePlaceholder": "Enter a graph name"
+                "namePlaceholder": "Enter a database name"
             }
         },
         "GraphVisualizer": {

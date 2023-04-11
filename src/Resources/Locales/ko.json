@@ -1578,13 +1578,13 @@
     "Common": {},
     "StoreListPage": {
       "title": "미래에 오신 것을 환영합니다",
-      "createStoreButtonText": "스토어 만들기",
+      "createStoreButtonText": "데이터 저장소 추가",
       "urlLabel": "클러스터 URL",
-      "nameLabel": "그래프 이름",
+      "nameLabel": "데이터베이스 이름",
       "Modal": {
-        "title": "새 그래프 만들기",
+        "title": "새 데이터 저장소 추가",
         "urlPlaceholder": "http://mycluster.kusto.azure.net",
-        "namePlaceholder": "그래프 이름 입력"
+        "namePlaceholder": "데이터베이스 이름 입력"
       }
     },
     "GraphVisualizer": {
