@@ -455,10 +455,16 @@ const Ingest: React.FC = () => {
                             <TooltipCallout
                                 content={{
                                     buttonAriaLabel: t(
-                                        'legionApp.dataPusher.tableSelectInfo'
+                                        'legionApp.dataPusher.tableSelectInfo',
+                                        {
+                                            ingestionMapping: INGESTION_MAPPING_NAME
+                                        }
                                     ),
                                     calloutContent: t(
-                                        'legionApp.dataPusher.tableSelectInfo'
+                                        'legionApp.dataPusher.tableSelectInfo',
+                                        {
+                                            ingestionMapping: INGESTION_MAPPING_NAME
+                                        }
                                     )
                                 }}
                             />
