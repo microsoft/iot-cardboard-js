@@ -1575,7 +1575,9 @@
       "notValidClusterMessage": "Nieprawidłowy adres URL klastra Kusto",
       "frequency": "Częstotliwość",
       "frequencyInfo": "Ta liczba reprezentuje zarówno czas między sygnaturami czasowymi szeregów czasowych, jak i interwał, w którym nowe wiersze są wypychane do tabeli.",
-      "clusterSelectPlaceholder": "np. https://<przykład>.westus.kusto.windows.net"
+      "clusterSelectPlaceholder": "np. https://<przykład>.westus.kusto.windows.net",
+      "clusterSelectInfo": "Wybrany klaster Kusto musi mieć włączoną zasadę \"pozyskiwanie strumieniowe\".",
+      "tableSelectInfo": "Jeśli wybierzesz z istniejących, upewnij się, że tabela Kusto ma włączoną zasadę \"przesyłania strumieniowego\" z zdefiniowanym mapowaniem JSON \"DataPusherMapping\"."
     },
     "verificationStep": {
       "title": "Weryfikowanie odnalezionych bliźniąt",

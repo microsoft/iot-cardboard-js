@@ -1575,7 +1575,9 @@
       "notValidClusterMessage": "Недопустимый URL-адрес кластера Kusto",
       "frequency": "Частота",
       "frequencyInfo": "Это число представляет как время между временными метками, так и интервал, с которым новые строки отправляются в таблицу.",
-      "clusterSelectPlaceholder": "например, https://<пример>.westus.kusto.windows.net"
+      "clusterSelectPlaceholder": "например, https://<пример>.westus.kusto.windows.net",
+      "clusterSelectInfo": "В выбранном кластере Kusto должна быть включена политика приема потоковой передачи.",
+      "tableSelectInfo": "При выборе из существующих убедитесь, что в таблице Kusto включена политика приема потоковой передачи с определенным сопоставлением JSON 'DataPusherMapping'."
     },
     "verificationStep": {
       "title": "Проверка обнаруженных близнецов",

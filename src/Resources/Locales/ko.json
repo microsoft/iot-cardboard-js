@@ -1575,7 +1575,9 @@
       "notValidClusterMessage": "유효하지 않은 Kusto 클러스터 URL",
       "frequency": "빈도",
       "frequencyInfo": "이 숫자는 시계열 타임스탬프 사이의 시간과 새 행이 테이블에 푸시되는 간격을 모두 나타냅니다.",
-      "clusterSelectPlaceholder": "예: https://<예>.westus.kusto.windows.net"
+      "clusterSelectPlaceholder": "예: https://<예>.westus.kusto.windows.net",
+      "clusterSelectInfo": "선택한 Kusto 클러스터는 '스트리밍 수집' 정책을 사용하도록 설정해야 합니다.",
+      "tableSelectInfo": "기존에서 선택하는 경우 Kusto 테이블에 '데이터 푸셔매핑' JSON 매핑이 정의된 상태에서 '스트리밍 수집' 정책을 사용하도록 설정되어 있는지 확인합니다."
     },
     "verificationStep": {
       "title": "검색된 쌍둥이 확인",

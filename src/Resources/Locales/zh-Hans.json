@@ -1575,7 +1575,9 @@
       "notValidClusterMessage": "库斯托群集 URL 无效",
       "frequency": "频率",
       "frequencyInfo": "此数字表示时序时间戳之间的时间和将新行推送到表的时间间隔。",
-      "clusterSelectPlaceholder": "例如 https://<例如>.westus.kusto.windows.net"
+      "clusterSelectPlaceholder": "例如 https://<例如>.westus.kusto.windows.net",
+      "clusterSelectInfo": "所选 Kusto 群集需要启用“流式引入”策略。",
+      "tableSelectInfo": "如果从现有选项中进行选择，请确保 Kusto 表启用了“流式引入”策略，并定义了“数据推送器映射”JSON 映射。"
     },
     "verificationStep": {
       "title": "验证发现的孪生体",

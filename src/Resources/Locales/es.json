@@ -1575,7 +1575,9 @@
       "notValidClusterMessage": "URL de clúster de Kusto no válida",
       "frequency": "Frecuencia",
       "frequencyInfo": "Este número representa tanto el tiempo entre las marcas de tiempo de las series temporales como el intervalo en el que se insertan nuevas filas en la tabla.",
-      "clusterSelectPlaceholder": "por ejemplo, https://<ejemplo>.westus.kusto.windows.net"
+      "clusterSelectPlaceholder": "por ejemplo, https://<ejemplo>.westus.kusto.windows.net",
+      "clusterSelectInfo": "Se requiere que el clúster de Kusto seleccionado tenga habilitada la política de 'ingesta de streaming'.",
+      "tableSelectInfo": "Si selecciona entre los existentes, asegúrese de que la tabla Kusto tenga habilitada la política 'streaming ingestion' con la asignación JSON 'DataPusherMapping' definida."
     },
     "verificationStep": {
       "title": "Verificar gemelos descubiertos",
