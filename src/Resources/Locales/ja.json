@@ -1576,15 +1576,15 @@
       "properties": "プロパティ"
     },
     "Common": {},
-    "StoreListPage1": {
+    "StoreListPage": {
       "title": "未来へようこそ",
-      "createStoreButtonText": "ストアの作成",
+      "createStoreButtonText": "データ ストアの追加",
       "urlLabel": "クラスターの URL",
-      "nameLabel": "グラフ名",
+      "nameLabel": "データベース名",
       "Modal": {
-        "title": "新しいグラフを作成する",
+        "title": "新しいデータ ストアの追加",
         "urlPlaceholder": "http://mycluster.kusto.azure.net",
-        "namePlaceholder": "グラフ名を入力"
+        "namePlaceholder": "データベース名を入力してください"
       }
     }
   }

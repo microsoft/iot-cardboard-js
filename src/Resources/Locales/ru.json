@@ -1576,15 +1576,15 @@
       "properties": "Свойства"
     },
     "Common": {},
-    "StoreListPage1": {
+    "StoreListPage": {
       "title": "Добро пожаловать в будущее",
-      "createStoreButtonText": "Создать магазин",
+      "createStoreButtonText": "Добавление хранилища данных",
       "urlLabel": "URL-адрес кластера",
-      "nameLabel": "Имя графа",
+      "nameLabel": "Имя базы данных",
       "Modal": {
-        "title": "Создание нового графика",
+        "title": "Добавление нового хранилища данных",
         "urlPlaceholder": "http://mycluster.kusto.azure.net",
-        "namePlaceholder": "Введите имя диаграммы"
+        "namePlaceholder": "Введите имя базы данных"
       }
     }
   }

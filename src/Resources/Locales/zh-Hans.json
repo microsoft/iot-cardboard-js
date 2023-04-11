@@ -1576,15 +1576,15 @@
       "properties": "性能"
     },
     "Common": {},
-    "StoreListPage1": {
+    "StoreListPage": {
       "title": "欢迎来到未来",
-      "createStoreButtonText": "创建商店",
+      "createStoreButtonText": "添加数据存储",
       "urlLabel": "群集网址",
-      "nameLabel": "图形名称",
+      "nameLabel": "数据库名称",
       "Modal": {
-        "title": "创建新图表",
+        "title": "添加新数据存储",
         "urlPlaceholder": "http://mycluster.kusto.azure.net",
-        "namePlaceholder": "输入图表名称"
+        "namePlaceholder": "输入数据库名称"
       }
     }
   }
