@@ -193,9 +193,7 @@ const Cook: React.FC = () => {
                 styles={classNames.subComponentStyles.stack}
             >
                 <p className={classNames.informationText}>
-                    You can extract twins and possible models & properties
-                    information by cooking twins graph based on selected source
-                    table.
+                    {t('legionApp.dataPusher.cookInfo')}
                 </p>
                 <Dropdown
                     required

@@ -1536,6 +1536,8 @@
             "clusterTitle": "Cluster URL",
             "clusterSelectPlaceholder": "e.g. https://<example>.westus.kusto.windows.net",
             "clusterSelectInfo": "Selected Kusto cluster is required to have 'streaming ingestion' policy enabled.",
+            "ingestInfo": "You can create a new database or table, and ingest rows to a target table. Please note that if you recently created the table, it may not be ready for ingestion, wait for couple of minutes before ingestion.",
+            "cookInfo": "You can extract twins and possible models & properties information by cooking twins graph based on selected source table.",
             "tableSelectInfo": "If selecting from existing, make sure Kusto table has 'streaming ingestion' policy enabled with '{{ingestionMapping}}' JSON mapping defined.",
             "notValidClusterMessage": "Not valid Kusto cluster URL",
             "frequency": "Frequency",

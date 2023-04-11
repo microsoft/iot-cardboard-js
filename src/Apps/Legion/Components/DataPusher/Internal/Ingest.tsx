@@ -388,10 +388,7 @@ const Ingest: React.FC = () => {
                 styles={classNames.subComponentStyles.stack}
             >
                 <p className={classNames.informationText}>
-                    You can create a new database or table, and ingest rows to a
-                    target table. Please note that if you recently created the
-                    table, it may not be ready for ingestion, wait for couple of
-                    minutes before ingestion.
+                    {t('legionApp.dataPusher.ingestInfo')}
                 </p>
                 <StackItem>
                     <Stack horizontal horizontalAlign="space-between">
