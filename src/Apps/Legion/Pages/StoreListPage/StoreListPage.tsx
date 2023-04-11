@@ -1,17 +1,23 @@
-import React from 'react';
+import React, { useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
+import { CommandBar, ICommandBarItemProps, Stack } from '@fluentui/react';
+import { useBoolean } from '@fluentui/react-hooks';
 import { IStoreListPageProps } from './StoreListPage.types';
 import { getDebugLogger } from '../../../../Models/Services/Utils';
 import StoreList from '../../Components/StoreList/StoreList';
-import { CommandBar, ICommandBarItemProps, Stack } from '@fluentui/react';
-import { useTranslation } from 'react-i18next';
 import { getStyles } from './StoreListPage.styles';
 import { useAppNavigationContext } from '../../Contexts/NavigationContext/AppNavigationContext';
 import { useAppDataContext } from '../../Contexts/AppDataContext/AppDataContext';
-import { AppDataContextActionType } from '../../Contexts/AppDataContext/AppDataContext.types';
+import {
+    AppDataContextActionType,
+    ITargetDatabaseConnection
+} from '../../Contexts/AppDataContext/AppDataContext.types';
 import {
     AppNavigationContextActionType,
     AppPageName
 } from '../../Contexts/NavigationContext/AppNavigationContext.types';
+import StoreFormModal from '../../Components/StoreFormModal/StoreFormModal';
+import LocalStorageManager from '../../Services/LocalStorageManager';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('StoreListPage', debugLogging);
@@ -22,6 +28,10 @@ const StoreListPage: React.FC<IStoreListPageProps> = () => {
     const { appDataDispatch, appDataState } = useAppDataContext();
 
     // state
+    const [
+        isFormOpen,
+        { setTrue: setIsFormOpenTrue, setFalse: setIsFormOpenFalse }
+    ] = useBoolean(false);
 
     // hooks
     const { t } = useTranslation();
@@ -31,11 +41,33 @@ const StoreListPage: React.FC<IStoreListPageProps> = () => {
         {
             key: 'addNew',
             text: t('legionApp.StoreListPage.createStoreButtonText'),
-            iconProps: { iconName: 'Add' }
+            iconProps: { iconName: 'Add' },
+            onClick: setIsFormOpenTrue
         }
     ];
 
     // callbacks
+    const createNewGraph = useCallback(
+        (args: { targetDatabase: ITargetDatabaseConnection }) => {
+            LocalStorageManager.AddTargetGraphStore(args.targetDatabase);
+        },
+        []
+    );
+    const onNavigateNext = useCallback(
+        (args: { targetDatabase: ITargetDatabaseConnection }) => {
+            appDataDispatch({
+                type: AppDataContextActionType.SET_TARGET_DATABASE,
+                payload: { targetDatabase: args.targetDatabase }
+            });
+            appNavigationDispatch({
+                type: AppNavigationContextActionType.NAVIGATE_TO,
+                payload: {
+                    pageName: AppPageName.FlowPicker
+                }
+            });
+        },
+        [appDataDispatch, appNavigationDispatch]
+    );
 
     // side effects
 
@@ -52,17 +84,15 @@ const StoreListPage: React.FC<IStoreListPageProps> = () => {
                 <CommandBar items={commandbarItems} />
                 <StoreList
                     initialTargetDatabase={appDataState.targetDatabase}
-                    onNavigateNext={(args) => {
-                        appDataDispatch({
-                            type: AppDataContextActionType.SET_TARGET_DATABASE,
-                            payload: { targetDatabase: args.targetDatabase }
-                        });
-                        appNavigationDispatch({
-                            type: AppNavigationContextActionType.NAVIGATE_TO,
-                            payload: {
-                                pageName: AppPageName.FlowPicker
-                            }
-                        });
+                    onNavigateNext={onNavigateNext}
+                />
+                <StoreFormModal
+                    isOpen={isFormOpen}
+                    onDismiss={setIsFormOpenFalse}
+                    onConfirm={(args) => {
+                        setIsFormOpenFalse();
+                        createNewGraph(args);
+                        onNavigateNext(args);
                     }}
                 />
             </Stack>

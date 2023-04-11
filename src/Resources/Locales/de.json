@@ -1578,7 +1578,14 @@
     "Common": {},
     "StoreListPage": {
       "title": "Willkommen in der Zukunft",
-      "createStoreButtonText": "Shop erstellen"
+      "createStoreButtonText": "Hinzufügen eines Datenspeichers",
+      "urlLabel": "Cluster-URL",
+      "nameLabel": "Name der Datenbank",
+      "Modal": {
+        "title": "Hinzufügen eines neuen Datenspeichers",
+        "urlPlaceholder": "http://mycluster.kusto.azure.net",
+        "namePlaceholder": "Geben Sie einen Datenbanknamen ein."
+      }
     }
   }
 }

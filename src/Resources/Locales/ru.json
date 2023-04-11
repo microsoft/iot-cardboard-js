@@ -1578,7 +1578,14 @@
     "Common": {},
     "StoreListPage": {
       "title": "Добро пожаловать в будущее",
-      "createStoreButtonText": "Создать магазин"
+      "createStoreButtonText": "Добавление хранилища данных",
+      "urlLabel": "URL-адрес кластера",
+      "nameLabel": "Имя базы данных",
+      "Modal": {
+        "title": "Добавление нового хранилища данных",
+        "urlPlaceholder": "http://mycluster.kusto.azure.net",
+        "namePlaceholder": "Введите имя базы данных"
+      }
     }
   }
 }

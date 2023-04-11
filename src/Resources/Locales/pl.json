@@ -1578,7 +1578,14 @@
     "Common": {},
     "StoreListPage": {
       "title": "Witamy w przyszłości",
-      "createStoreButtonText": "Utwórz sklep"
+      "createStoreButtonText": "Dodawanie magazynu danych",
+      "urlLabel": "Adres URL klastra",
+      "nameLabel": "Nazwa bazy danych",
+      "Modal": {
+        "title": "Dodawanie nowego magazynu danych",
+        "urlPlaceholder": "http://mycluster.kusto.azure.net",
+        "namePlaceholder": "Wprowadź nazwę bazy danych"
+      }
     }
   }
 }

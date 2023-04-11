@@ -8,7 +8,7 @@ import { IStoreListProps } from './StoreList.types';
 const wrapperStyle = { width: '100%', height: '600px', padding: 8 };
 
 export default {
-    title: 'Apps/Legion/StoreList',
+    title: 'Apps/Legion/Components/StoreList',
     component: StoreList,
     decorators: [getDefaultStoryDecorator<IStoreListProps>(wrapperStyle)]
 };

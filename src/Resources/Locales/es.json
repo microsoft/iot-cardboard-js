@@ -1578,7 +1578,14 @@
     "Common": {},
     "StoreListPage": {
       "title": "Bienvenidos al futuro",
-      "createStoreButtonText": "Crear tienda"
+      "createStoreButtonText": "Agregar almacén de datos",
+      "urlLabel": "Dirección URL del clúster",
+      "nameLabel": "Nombre de la base de datos",
+      "Modal": {
+        "title": "Agregar un nuevo almacén de datos",
+        "urlPlaceholder": "http://mycluster.kusto.azure.net",
+        "namePlaceholder": "Escriba un nombre de base de datos"
+      }
     }
   }
 }

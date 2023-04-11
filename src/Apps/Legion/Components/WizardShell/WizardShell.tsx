@@ -46,7 +46,6 @@ const WizardShell: React.FC<IWizardShellProps> = (props) => {
     // Memo
     const currentPage = useMemo(() => {
         switch (wizardNavigationContextState.currentStep) {
-            // Create pages here
             case 0:
                 return (
                     <DataSourceStep

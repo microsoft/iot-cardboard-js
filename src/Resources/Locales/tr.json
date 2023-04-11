@@ -1578,7 +1578,14 @@
     "Common": {},
     "StoreListPage": {
       "title": "Geleceğe hoş geldiniz",
-      "createStoreButtonText": "Mağaza oluştur"
+      "createStoreButtonText": "Veri deposu ekleme",
+      "urlLabel": "Küme URL'si",
+      "nameLabel": "Veritabanı adı",
+      "Modal": {
+        "title": "Yeni veri deposu ekleme",
+        "urlPlaceholder": "http://mycluster.kusto.azure.net",
+        "namePlaceholder": "Veritabanı adı girin"
+      }
     }
   }
 }
