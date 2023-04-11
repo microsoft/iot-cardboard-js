@@ -41,13 +41,10 @@ const StoreFormModal: React.FC<IStoreFormModalProps> = (props) => {
     const { t } = useTranslation();
 
     // data
-    const isFormValid = useMemo(() => {
-        return (
-            // TODO: Remove Cluster URL after demo since users should not enter this
-            databaseConnection.databaseName?.trim().length > 0 &&
-            databaseConnection.clusterUrl?.trim().length
-        );
-    }, [databaseConnection.clusterUrl, databaseConnection.databaseName]);
+    const isFormValid =
+        // TODO: Remove Cluster URL after demo since users should not enter this
+        databaseConnection.databaseName?.trim().length > 0 &&
+        databaseConnection.clusterUrl?.trim().length;
 
     // callbacks
 
