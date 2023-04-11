@@ -15,8 +15,6 @@ import { IReactSelectOption } from '../../../DataPusher/DataPusher.types';
 
 export interface IDataSourceStepProps {
     adapter: IDataManagementAdapter;
-    registerNextButtonClick: (fn: VoidFunction) => void;
-    setIsButtonDisabled: (isDisabled: boolean) => void;
     /**
      * Call to provide customized styling that will layer on top of the variant rules.
      */

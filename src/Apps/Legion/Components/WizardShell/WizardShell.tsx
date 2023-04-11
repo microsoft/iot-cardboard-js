@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useReducer } from 'react';
+import React, { useMemo } from 'react';
 import { IWizardShellProps } from './WizardShell.types';
 import { getStyles } from './WizardShell.styles';
 import { getDebugLogger } from '../../../../Models/Services/Utils';
@@ -11,11 +11,7 @@ import RelationshipBuilderStep from './Internal/RelationshipBuilderStep/Relation
 import SaveStep from './Internal/SaveStep/SaveStep';
 import { Icon, PrimaryButton } from '@fluentui/react';
 import { useExtendedTheme } from '../../../../Models/Hooks/useExtendedTheme';
-import {
-    NextButtonReducerActionType,
-    defaultNextButtonState,
-    nextButtonReducer
-} from './Internal/NextButton.state';
+import { useTranslation } from 'react-i18next';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('WizardShell', debugLogging);
@@ -24,31 +20,11 @@ const WizardShell: React.FC<IWizardShellProps> = (_props) => {
     // contexts
     const { wizardNavigationContextState } = useWizardNavigationContext();
 
-    // state-reducer
-    const [state, nextButtonDispatch] = useReducer(
-        nextButtonReducer,
-        defaultNextButtonState
-    );
-
     // hooks
     const theme = useExtendedTheme();
+    const { t } = useTranslation();
 
     // callbacks
-    const registerNextButtonClick = useCallback((fn: VoidFunction) => {
-        nextButtonDispatch({
-            type: NextButtonReducerActionType.SET_ON_CLICK_FUNCTION,
-            payload: { onClickFn: fn }
-        });
-    }, []);
-
-    const setIsButtonDisabled = useCallback((isDisabled: boolean) => {
-        nextButtonDispatch({
-            type: NextButtonReducerActionType.SET_IS_DISABLED,
-            payload: { isDisabled }
-        });
-    }, []);
-
-    // side effects
 
     // styles
     const classNames = getStyles(theme);
@@ -61,8 +37,6 @@ const WizardShell: React.FC<IWizardShellProps> = (_props) => {
                 return (
                     <DataSourceStep
                         adapter={wizardNavigationContextState.adapter}
-                        registerNextButtonClick={registerNextButtonClick}
-                        setIsButtonDisabled={setIsButtonDisabled}
                     />
                 );
             case 1:
@@ -74,9 +48,7 @@ const WizardShell: React.FC<IWizardShellProps> = (_props) => {
         }
     }, [
         wizardNavigationContextState.adapter,
-        wizardNavigationContextState.currentStep,
-        registerNextButtonClick,
-        setIsButtonDisabled
+        wizardNavigationContextState.currentStep
     ]);
 
     logDebugConsole('debug', 'Render');
@@ -101,11 +73,16 @@ const WizardShell: React.FC<IWizardShellProps> = (_props) => {
             <div className={classNames.wizardContainer}>{currentPage}</div>
             {/* Footer */}
             <div className={classNames.footer}>
+                {/* TODO: Container for more that one button */}
                 <div className={classNames.nextButtonContainer}>
                     <PrimaryButton
-                        onClick={state.onClick}
-                        disabled={state.isDisabled}
-                        text="Next"
+                        onClick={
+                            wizardNavigationContextState.primaryAction?.onClick
+                        }
+                        disabled={
+                            wizardNavigationContextState.primaryAction?.disabled
+                        }
+                        text={t('next')}
                     />
                 </div>
             </div>

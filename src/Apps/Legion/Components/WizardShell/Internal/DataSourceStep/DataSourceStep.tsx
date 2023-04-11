@@ -62,12 +62,7 @@ const getClassNames = classNamesFunction<
 >();
 
 const DataSourceStep: React.FC<IDataSourceStepProps> = (props) => {
-    const {
-        adapter,
-        registerNextButtonClick,
-        setIsButtonDisabled,
-        styles
-    } = props;
+    const { adapter, styles } = props;
     // state
     const [state, dispatch] = useReducer(
         dateSourceStepReducer,
@@ -288,16 +283,16 @@ const DataSourceStep: React.FC<IDataSourceStepProps> = (props) => {
 
     // effects
     useEffect(() => {
-        registerNextButtonClick(handleNextClick);
-    }, [registerNextButtonClick, handleNextClick]);
-
-    useEffect(() => {
-        if (appData) {
-            setIsButtonDisabled(false);
-        } else {
-            setIsButtonDisabled(true);
-        }
-    }, [appData, setIsButtonDisabled]);
+        wizardNavigationContextDispatch({
+            type: WizardNavigationContextActionType.SET_PRIMARY_ACTION,
+            payload: {
+                buttonProps: {
+                    onClick: handleNextClick,
+                    disabled: !appData
+                }
+            }
+        });
+    }, [appData, handleNextClick, wizardNavigationContextDispatch]);
 
     // styles
     const classNames = getClassNames(styles, {
