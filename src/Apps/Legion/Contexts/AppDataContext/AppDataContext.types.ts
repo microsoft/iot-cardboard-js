@@ -7,7 +7,7 @@ export interface IAppDataContextProviderProps {
 }
 
 /**
- * A context used for capturing the current state of the app and restoring it to a new instance of the app
+ * A context used for capturing the current state of the app and restoring it to a ne w instance of the app
  */
 export interface IAppDataContext {
     appDataState: IAppDataContextState;
