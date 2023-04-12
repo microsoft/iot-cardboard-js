@@ -250,7 +250,8 @@ export enum AzureResourceTypes {
     StorageBlobContainer = 'Microsoft.Storage/storageAccounts/blobServices/containers',
     RoleAssignment = 'Microsoft.Authorization/roleAssignments',
     TimeSeriesConnection = 'Microsoft.DigitalTwins/digitalTwinsInstances/timeSeriesDatabaseConnections',
-    ResourceGraphs = 'Microsoft.ResourceGraph/resources'
+    ResourceGraphs = 'Microsoft.ResourceGraph/resources',
+    KustoClusters = 'Microsoft.Kusto/Clusters'
 }
 
 /** See details for the following roles here: https://docs.microsoft.com/en-us/azure/role-based-access-control/built-in-roles */

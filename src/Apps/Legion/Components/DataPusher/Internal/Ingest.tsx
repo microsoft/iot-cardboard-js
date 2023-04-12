@@ -10,12 +10,20 @@ import {
     Dropdown,
     IColumn,
     IDropdownOption,
+    Label,
     PrimaryButton,
+    ProgressIndicator,
     SelectionMode,
-    Stack
+    Spinner,
+    SpinnerSize,
+    Stack,
+    StackItem,
+    TextField
 } from '@fluentui/react';
 import useAdapter from '../../../../../Models/Hooks/useAdapter';
 import {
+    ICreateDatabaseAdapterParams,
+    ICreateTableAdapterParams,
     IGetTableAdapterParams,
     IGetTablesAdapterParams,
     IIngestRow,
@@ -26,40 +34,53 @@ import { useDataPusherContext } from '../DataPusher';
 import { useTranslation } from 'react-i18next';
 import {
     INGESTION_MAPPING_NAME,
+    IReactSelectOption,
+    TableColumns,
     TableTypeOptions,
     TableTypes,
     TIMESTAMP_COLUMN_NAME
 } from '../DataPusher.types';
+import CreatableSelect from 'react-select/creatable';
+import { ActionMeta } from 'react-select';
+import { getReactSelectStyles } from '../../../../../Resources/Styles/ReactSelect.styles';
+import { useExtendedTheme } from '../../../../../Models/Hooks/useExtendedTheme';
+import TooltipCallout from '../../../../../Components/TooltipCallout/TooltipCallout';
 
-const INGESTION_TICK_INTERVAL = 5000;
+const DEFAULT_INGESTION_FREQUENCY_IN_SEC = 5;
+const MIN_INGESTION_FREQUENCY_IN_SEC = 1;
 
 const Ingest: React.FC = () => {
     const { adapter, classNames } = useDataPusherContext();
 
     // state
-    const [sourceDatabaseOptions, setSourceDatabaseOptions] = useState<
+    const [databaseOptions, setDatabaseOptions] = useState<
         Array<IDropdownOption>
     >([]);
-    const [sourceTableOptions, setSourceTableOptions] = useState<
-        Array<IDropdownOption>
-    >([]);
-    const [
-        selectedSourceDatabase,
-        setSelectedSourceDatabase
-    ] = useState<string>(null);
-    const [selectedSourceTable, setSelectedSourceTable] = useState<string>(
-        null
+    const [tableOptions, setTableOptions] = useState<Array<IReactSelectOption>>(
+        []
     );
     const [
-        selectedSourceTableType,
-        setSelectedSourceTableType
-    ] = useState<string>(TableTypes.Wide);
+        selectedDatabase,
+        setSelectedDatabase
+    ] = useState<IReactSelectOption>(null);
+    const [selectedTable, setSelectedTable] = useState<IReactSelectOption>(
+        null
+    );
+    const [selectedTableType, setSelectedTableType] = useState<string>(
+        TableTypes.Wide
+    );
+    const [selectedFrequency, setSelectedFrequency] = useState<number>(
+        DEFAULT_INGESTION_FREQUENCY_IN_SEC
+    );
     const [tableData, setTableData] = useState<ITable>(null);
-    const [adapterResult, setAdapterResult] = useState(null);
+    const [isIngesting, setIsIngesting] = useState(false);
 
     // hooks
     const { t } = useTranslation();
+    const theme = useExtendedTheme();
+
     const ingestionRef = useRef(null);
+    const numberOfRowsIngestedRef = useRef(0);
     const tableColumns = useMemo<Array<IColumn>>(
         () =>
             tableData?.Columns.map((c, idx) => ({
@@ -73,16 +94,26 @@ const Ingest: React.FC = () => {
             })) || [],
         [tableData]
     );
+
     const getDatabasesState = useAdapter({
         adapterMethod: () => adapter.getDatabases(),
         refetchDependencies: [adapter]
     });
+
+    const createDatabaseState = useAdapter({
+        adapterMethod: (param: ICreateDatabaseAdapterParams) =>
+            adapter.createDatabase(param.databaseName),
+        isAdapterCalledOnMount: false,
+        refetchDependencies: [adapter]
+    });
+
     const getTablesState = useAdapter({
         adapterMethod: (param: IGetTablesAdapterParams) =>
             adapter.getTables(param.databaseName),
         isAdapterCalledOnMount: false,
         refetchDependencies: [adapter]
     });
+
     const getTableState = useAdapter({
         adapterMethod: (params: IGetTableAdapterParams) =>
             adapter.getTable(
@@ -93,6 +124,19 @@ const Ingest: React.FC = () => {
         isAdapterCalledOnMount: false,
         refetchDependencies: [adapter]
     });
+
+    const createTableState = useAdapter({
+        adapterMethod: (params: ICreateTableAdapterParams) =>
+            adapter.createTable(
+                params.databaseName,
+                params.tableName,
+                params.columns,
+                INGESTION_MAPPING_NAME
+            ),
+        isAdapterCalledOnMount: false,
+        refetchDependencies: [adapter]
+    });
+
     const upsertTableState = useAdapter({
         adapterMethod: (params: IUpsertTableAdapterParams) =>
             adapter.upsertTable(
@@ -106,38 +150,71 @@ const Ingest: React.FC = () => {
     });
 
     // callbacks
-    const handleSourceDatabaseChange = useCallback(
-        (_event, option: IDropdownOption) => {
-            setSelectedSourceDatabase(option.text);
-            setSelectedSourceTable(null);
+    const handleDatabaseChange = useCallback(
+        (newValue: any, actionMeta: ActionMeta<any>) => {
+            setSelectedDatabase(newValue);
+            setTableOptions([]);
+            setSelectedTable(null);
             setTableData(null);
-            // fetch tables of selected database
-            getTablesState.callAdapter({
-                databaseName: option.text
-            });
+            if (actionMeta.action === 'create-option') {
+                createDatabaseState.callAdapter({
+                    databaseName: newValue.label
+                });
+                setDatabaseOptions(databaseOptions.concat(newValue));
+            } else {
+                // fetch tables of selected database
+                getTablesState.callAdapter({
+                    databaseName: newValue.label
+                });
+            }
         },
-        [getTablesState]
+        [createDatabaseState, databaseOptions, getTablesState]
     );
-    const handleSourceTableChange = useCallback(
+
+    const handleTableTypeChange = useCallback(
         (_event, option: IDropdownOption) => {
-            setSelectedSourceTable(option.text);
-            setTableData(null);
-            getTableState.callAdapter({
-                databaseName: selectedSourceDatabase,
-                tableName: option.text
-            });
-        },
-        [getTableState, selectedSourceDatabase]
-    );
-    const handleSourceTableTypeChange = useCallback(
-        (_event, option: IDropdownOption) => {
-            setSelectedSourceTableType(option.key as string);
+            setSelectedTableType(option.key as string);
         },
         []
     );
+
+    const handleTableChange = useCallback(
+        (newValue: any, actionMeta: ActionMeta<any>) => {
+            setSelectedTable(newValue);
+            setTableData(null);
+            if (actionMeta.action === 'create-option') {
+                if (selectedTableType) {
+                    createTableState.callAdapter({
+                        databaseName: selectedDatabase.label,
+                        tableName: newValue.label,
+                        columns: TableColumns[selectedTableType]
+                    });
+                    setTableOptions(tableOptions.concat(newValue));
+                } else {
+                    alert('Select target table type first');
+                }
+            } else {
+                setSelectedTableType(null);
+                if (newValue) {
+                    getTableState.callAdapter({
+                        databaseName: selectedDatabase.label,
+                        tableName: newValue.label
+                    });
+                }
+            }
+        },
+        [
+            createTableState,
+            getTableState,
+            selectedDatabase,
+            selectedTableType,
+            tableOptions
+        ]
+    );
+
     const ingestData = useCallback(() => {
         let dataToIngest: Array<IIngestRow> = [];
-        switch (selectedSourceTableType) {
+        switch (selectedTableType) {
             case TableTypes.Wide:
                 dataToIngest = [
                     {
@@ -229,32 +306,38 @@ const Ingest: React.FC = () => {
             default:
                 break;
         }
-        setAdapterResult(null);
         upsertTableState.callAdapter({
-            databaseName: selectedSourceDatabase,
-            tableName: selectedSourceTable,
+            databaseName: selectedDatabase.label,
+            tableName: selectedTable.label,
             rows: dataToIngest
         });
-    }, [
-        selectedSourceTableType,
-        upsertTableState,
-        selectedSourceDatabase,
-        selectedSourceTable
-    ]);
+        return dataToIngest.length;
+    }, [selectedTableType, upsertTableState, selectedDatabase, selectedTable]);
+
+    const handleFrequencyChange = useCallback((_event, newValue?: string) => {
+        const frequency = Number(newValue);
+        if (frequency === 0) {
+            setSelectedFrequency(MIN_INGESTION_FREQUENCY_IN_SEC);
+        } else {
+            setSelectedFrequency(Number(newValue));
+        }
+    }, []);
+
     const handleIngestRowsButtonClick = useCallback(() => {
         if (ingestionRef.current) {
+            setIsIngesting(false);
             clearInterval(ingestionRef.current);
             ingestionRef.current = null;
-            setAdapterResult(null);
+            numberOfRowsIngestedRef.current = 0;
         } else {
-            // Clear any prior interval
-            clearInterval(ingestionRef.current);
-            ingestData();
+            clearInterval(ingestionRef.current); // clear any prior interval
+            setIsIngesting(true);
+            numberOfRowsIngestedRef.current += ingestData();
             ingestionRef.current = setInterval(() => {
-                ingestData();
-            }, INGESTION_TICK_INTERVAL);
+                numberOfRowsIngestedRef.current += ingestData();
+            }, selectedFrequency * 1000);
         }
-    }, [ingestData]);
+    }, [ingestData, selectedFrequency, tableData]);
 
     // side effects
     useEffect(() => {
@@ -266,14 +349,14 @@ const Ingest: React.FC = () => {
     useEffect(() => {
         if (getDatabasesState?.adapterResult?.result) {
             const data = getDatabasesState.adapterResult.getData();
-            setSourceDatabaseOptions(data.map((d) => ({ key: d, text: d })));
+            setDatabaseOptions(data?.map((d) => ({ value: d, label: d })));
         }
     }, [getDatabasesState?.adapterResult]);
 
     useEffect(() => {
         if (getTablesState?.adapterResult?.result) {
             const data = getTablesState.adapterResult.getData();
-            setSourceTableOptions(data.map((d) => ({ key: d, text: d })));
+            setTableOptions(data.map((d) => ({ value: d, label: d })));
         }
     }, [getTablesState?.adapterResult]);
 
@@ -286,14 +369,17 @@ const Ingest: React.FC = () => {
 
     useEffect(() => {
         if (upsertTableState?.adapterResult?.result) {
-            const data = upsertTableState?.adapterResult.getData();
-            setAdapterResult(data);
             getTableState.callAdapter({
-                databaseName: selectedSourceDatabase,
-                tableName: selectedSourceTable
+                databaseName: selectedDatabase.label,
+                tableName: selectedTable.label
             });
         }
     }, [upsertTableState?.adapterResult]);
+
+    // styles
+    const selectStyles = useMemo(() => getReactSelectStyles(theme, {}), [
+        theme
+    ]);
 
     return (
         <div>
@@ -302,54 +388,154 @@ const Ingest: React.FC = () => {
                 styles={classNames.subComponentStyles.stack}
             >
                 <p className={classNames.informationText}>
-                    Using this ingest tool you can ingest rows to source table
-                    and see the table content. Please note that, if you recently
-                    created the table, it may not be ready for ingestion, wait
-                    for couple of minutes before ingestion.
+                    {t('legionApp.dataPusher.ingestInfo')}
                 </p>
-                <Dropdown
-                    label={t('legionApp.dataPusher.source.database')}
-                    onChange={handleSourceDatabaseChange}
-                    options={sourceDatabaseOptions}
-                    placeholder={
-                        getDatabasesState.isLoading
-                            ? t('loading')
-                            : t('legionApp.dataPusher.source.selectDatabase')
-                    }
-                />
-                <Dropdown
-                    label={t('legionApp.dataPusher.source.table')}
-                    onChange={handleSourceTableChange}
-                    options={sourceTableOptions}
-                    placeholder={
-                        getTablesState.isLoading
-                            ? t('loading')
-                            : t('legionApp.dataPusher.source.selectTable')
-                    }
-                    selectedKey={selectedSourceTable}
-                />
-                <Dropdown
-                    label={t('legionApp.dataPusher.source.tableType')}
-                    onChange={handleSourceTableTypeChange}
-                    options={TableTypeOptions}
-                    placeholder={t(
-                        'legionApp.dataPusher.source.selectTableType'
-                    )}
-                    defaultSelectedKey={selectedSourceTableType}
-                />
-                <PrimaryButton
-                    text={
-                        ingestionRef.current
-                            ? t('legionApp.dataPusher.progress.ingest')
-                            : t('legionApp.dataPusher.actions.ingest')
-                    }
-                    disabled={!selectedSourceTable}
-                    onClick={handleIngestRowsButtonClick}
-                />
-                <p className={classNames.informationText}>
-                    {adapterResult ? t('success') : ''}
-                </p>
+                <StackItem>
+                    <Stack horizontal horizontalAlign="space-between">
+                        <Label required>
+                            {t('legionApp.dataPusher.target.database')}
+                        </Label>
+                        {createDatabaseState.isLoading && (
+                            <Spinner
+                                label={t(
+                                    'legionApp.dataPusher.progress.createDatabase'
+                                )}
+                                size={SpinnerSize.small}
+                                labelPosition={'right'}
+                            />
+                        )}
+                    </Stack>
+                    <CreatableSelect
+                        onChange={handleDatabaseChange}
+                        isClearable
+                        options={databaseOptions}
+                        placeholder={t(
+                            'legionApp.dataPusher.target.selectDatabase'
+                        )}
+                        styles={selectStyles}
+                        isLoading={getDatabasesState.isLoading}
+                        value={selectedDatabase}
+                        isDisabled={!adapter.connectionString}
+                    />
+                </StackItem>
+                <StackItem>
+                    <Stack horizontal verticalAlign={'center'}>
+                        <Label required>
+                            {t('legionApp.dataPusher.target.tableType')}
+                        </Label>
+                        <TooltipCallout
+                            content={{
+                                buttonAriaLabel: t(
+                                    'legionApp.dataPusher.target.tableTypeTooltipContent'
+                                ),
+                                calloutContent: t(
+                                    'legionApp.dataPusher.target.tableTypeTooltipContent'
+                                )
+                            }}
+                        />
+                    </Stack>
+                    <Dropdown
+                        onChange={handleTableTypeChange}
+                        options={TableTypeOptions}
+                        placeholder={t(
+                            'legionApp.dataPusher.target.selectTableType'
+                        )}
+                        selectedKey={selectedTableType}
+                    />
+                </StackItem>
+                <StackItem>
+                    <Stack horizontal horizontalAlign="space-between">
+                        <Stack horizontal>
+                            <Label required>
+                                {t('legionApp.dataPusher.target.table')}
+                            </Label>
+                            <TooltipCallout
+                                content={{
+                                    buttonAriaLabel: t(
+                                        'legionApp.dataPusher.tableSelectInfo',
+                                        {
+                                            ingestionMapping: INGESTION_MAPPING_NAME
+                                        }
+                                    ),
+                                    calloutContent: t(
+                                        'legionApp.dataPusher.tableSelectInfo',
+                                        {
+                                            ingestionMapping: INGESTION_MAPPING_NAME
+                                        }
+                                    )
+                                }}
+                            />
+                        </Stack>
+                        {createTableState.isLoading && (
+                            <Spinner
+                                label={t(
+                                    'legionApp.dataPusher.progress.createTable'
+                                )}
+                                size={SpinnerSize.small}
+                                labelPosition={'right'}
+                            />
+                        )}
+                    </Stack>
+                    <CreatableSelect
+                        onChange={handleTableChange}
+                        isClearable
+                        options={tableOptions}
+                        placeholder={t(
+                            'legionApp.dataPusher.target.selectTable'
+                        )}
+                        styles={selectStyles}
+                        isLoading={getTablesState.isLoading}
+                        value={selectedTable}
+                        isDisabled={!selectedDatabase}
+                    />
+                </StackItem>
+                <StackItem>
+                    <Stack horizontal verticalAlign={'center'}>
+                        <Label required>
+                            {`${t('legionApp.dataPusher.frequency')} (sec)`}
+                        </Label>
+                        <TooltipCallout
+                            content={{
+                                buttonAriaLabel: t(
+                                    'legionApp.dataPusher.frequencyInfo'
+                                ),
+                                calloutContent: t(
+                                    'legionApp.dataPusher.frequencyInfo'
+                                )
+                            }}
+                        />
+                    </Stack>
+                    <TextField
+                        type="number"
+                        min={MIN_INGESTION_FREQUENCY_IN_SEC}
+                        value={selectedFrequency.toString()}
+                        onChange={handleFrequencyChange}
+                    />
+                </StackItem>
+                <StackItem>
+                    <PrimaryButton
+                        styles={classNames.subComponentStyles.button()}
+                        text={
+                            isIngesting
+                                ? t('legionApp.dataPusher.actions.stopIngest')
+                                : t('legionApp.dataPusher.actions.startIngest')
+                        }
+                        disabled={
+                            !selectedTable ||
+                            createTableState.isLoading ||
+                            !selectedTableType
+                        }
+                        onClick={handleIngestRowsButtonClick}
+                    />
+                </StackItem>
             </Stack>
+
+            {isIngesting && (
+                <ProgressIndicator
+                    label={t('legionApp.dataPusher.progress.ingest')}
+                    description={`Pushed ${numberOfRowsIngestedRef.current} rows`}
+                />
+            )}
 
             <div className={classNames.tableContainer}>
                 {tableData?.Rows.length > 0 && (

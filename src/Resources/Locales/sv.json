@@ -1535,16 +1535,13 @@
   },
   "legionApp": {
     "dataPusher": {
-      "simulationType": "Typ av simulering",
       "progress": {
         "createTable": "Skapa tabell...",
         "createTables": "Skapa tabeller...",
         "ingest": "Intag...",
         "createDatabase": "Skapa databas..."
       },
-      "selectSimulationType": "Välj simuleringstyp",
       "tabs": {
-        "setup": "Installationen",
         "ingest": "Äter",
         "cook": "Kock"
       },
@@ -1560,14 +1557,29 @@
       },
       "target": {
         "database": "Måldatabas",
-        "selectDatabase": "Välj måldatabas"
+        "selectDatabase": "Välj måldatabas",
+        "tableType": "Typ av måltabell",
+        "tableTypeTooltipContent": "Välj det tabellschema som ska användas för att skapa tabeller eller radinmatning",
+        "selectTableType": "Välj måltabelltyp",
+        "table": "Måltabell",
+        "selectTable": "Välj måltabell"
       },
       "actions": {
-        "ingest": "Mata in data till källtabellen",
         "cook": "Cook tvillingar graf",
-        "pushTwinsGraph": "Skicka tvillingdiagram till måldatabasen"
+        "pushTwinsGraph": "Skicka tvillingdiagram till måldatabasen",
+        "startIngest": "Starta intag",
+        "stopIngest": "Stoppa intag"
       },
-      "title": "Data pusher"
+      "title": "Data pusher",
+      "clusterTitle": "URL för kluster",
+      "notValidClusterMessage": "Inte giltig Kusto-kluster-URL",
+      "frequency": "Frekvens",
+      "frequencyInfo": "Det här numret representerar både tiden mellan tidsserietidsstämplar och intervallet med vilket nya rader skickas till tabellen.",
+      "clusterSelectPlaceholder": "t.ex. https://<exempel>.westus.kusto.windows.net",
+      "clusterSelectInfo": "Det valda Kusto-klustret måste ha principen \"strömningsinmatning\" aktiverad.",
+      "tableSelectInfo": "Om du väljer från befintlig kontrollerar du att Kusto-tabellen har principen \"strömningsinmatning\" aktiverad med JSON-mappningen \"DataPusherMapping\" definierad.",
+      "ingestInfo": "Du kan skapa en ny databas eller tabell och mata in rader i en måltabell. Observera att om du nyligen har skapat tabellen kanske den inte är redo för inmatning, vänta några minuter innan den matas in.",
+      "cookInfo": "Du kan extrahera tvillingar och möjliga modeller & egenskapsinformation genom att laga tvillingdiagram baserat på vald källtabell."
     },
     "verificationStep": {
       "title": "Verifiera identifierade tvillingar",

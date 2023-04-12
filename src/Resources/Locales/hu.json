@@ -1535,16 +1535,13 @@
   },
   "legionApp": {
     "dataPusher": {
-      "simulationType": "Szimuláció típusa",
       "progress": {
         "createTable": "Táblázat létrehozása...",
         "createTables": "Táblázatok létrehozása...",
         "ingest": "Fogyasztásából...",
         "createDatabase": "Adatbázis létrehozása..."
       },
-      "selectSimulationType": "Válassza ki a szimuláció típusát",
       "tabs": {
-        "setup": "Beállít",
         "ingest": "Bevesz",
         "cook": "Szakács"
       },
@@ -1560,14 +1557,29 @@
       },
       "target": {
         "database": "Céladatbázis",
-        "selectDatabase": "Céladatbázis kiválasztása"
+        "selectDatabase": "Céladatbázis kiválasztása",
+        "tableType": "Céltábla típusa",
+        "tableTypeTooltipContent": "Válassza ki a tábla létrehozásához vagy sorbetöltéséhez használni kívánt táblasémát",
+        "selectTableType": "Válassza ki a céltábla típusát",
+        "table": "Céltábla",
+        "selectTable": "Válassza ki a céltáblát"
       },
       "actions": {
-        "ingest": "Adatok betöltése forrástáblába",
         "cook": "Ikrek főzési grafikonja",
-        "pushTwinsGraph": "Ikereszközök gráfjának leküldése a céladatbázisba"
+        "pushTwinsGraph": "Ikereszközök gráfjának leküldése a céladatbázisba",
+        "startIngest": "Betöltés indítása",
+        "stopIngest": "A betöltés leállítása"
       },
-      "title": "Adatleküldő"
+      "title": "Adatleküldő",
+      "clusterTitle": "Fürt URL-címe",
+      "notValidClusterMessage": "Nem érvényes Kusto-fürt URL-címe",
+      "frequency": "Frekvencia",
+      "frequencyInfo": "Ez a szám az idősorozat-időbélyegek közötti időt és az új sorok táblába való leküldésének időközét is jelöli.",
+      "clusterSelectPlaceholder": "pl. https://<példa>.westus.kusto.windows.net",
+      "clusterSelectInfo": "A kiválasztott Kusto-fürtnek engedélyeznie kell a \"streamelési betöltés\" szabályzatot.",
+      "tableSelectInfo": "Ha a meglévő közül választ, győződjön meg arról, hogy a Kusto-táblán engedélyezve van a \"streamelési betöltés\" szabályzat, és meg van határozva a \"DataPusherMapping\" JSON-leképezés.",
+      "ingestInfo": "Létrehozhat egy új adatbázist vagy táblát, és sorokat tölthet be egy céltáblába. Vegye figyelembe, hogy ha nemrég hozta létre a táblát, előfordulhat, hogy nem áll készen a betöltésre, várjon néhány percet a betöltés előtt.",
+      "cookInfo": "Az ikereket és a lehetséges modellek & tulajdonságadatait úgy nyerheti ki, hogy az ikereket a kiválasztott forrástábla alapján főzi."
     },
     "verificationStep": {
       "title": "Felderített ikrek ellenőrzése",

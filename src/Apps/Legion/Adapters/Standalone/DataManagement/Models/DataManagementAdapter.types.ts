@@ -4,6 +4,9 @@ import { DataManagementAdapterData } from './DataManagementAdapter.data';
 
 export interface IDataManagementAdapter extends IBaseAdapter {
     connectionString: string;
+    getClusters: () => AdapterReturnType<
+        DataManagementAdapterData<Array<string>>
+    >;
     getDatabases: () => AdapterReturnType<
         DataManagementAdapterData<Array<string>>
     >;

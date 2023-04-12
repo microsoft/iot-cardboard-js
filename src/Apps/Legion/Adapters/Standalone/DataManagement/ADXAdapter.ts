@@ -1,6 +1,10 @@
 import axios from 'axios';
 import AdapterMethodSandbox from '../../../../../Models/Classes/AdapterMethodSandbox';
-import { ComponentErrorType } from '../../../../../Models/Constants/Enums';
+import {
+    AzureResourceTypes,
+    AzureResourcesAPIVersions,
+    ComponentErrorType
+} from '../../../../../Models/Constants/Enums';
 import { IAuthService } from '../../../../../Models/Constants/Interfaces';
 import BaseAdapter from '../../BaseAdapter';
 import { DataManagementAdapterData } from './Models/DataManagementAdapter.data';
@@ -23,19 +27,25 @@ export default class ADXAdapter
         this.authService.login();
     }
 
-    async getDatabases() {
+    async getClusters() {
         const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
         return await adapterMethodSandbox.safelyFetchData(async (token) => {
             const axiosResult = await axios({
                 method: 'post',
-                url: `${this.connectionString}/v1/rest/query`,
+                url: `https://management.azure.com/providers/${AzureResourceTypes.ResourceGraphs}`,
                 headers: {
                     Authorization: 'Bearer ' + token,
                     Accept: 'application/json',
                     'Content-Type': 'application/json'
                 },
+                params: {
+                    'api-version':
+                        AzureResourcesAPIVersions[
+                            'Microsoft.ResourceGraph/resources'
+                        ]
+                },
                 data: {
-                    csl: '.show databases | project DatabaseName'
+                    query: `Resources | where type =~ '${AzureResourceTypes.KustoClusters}' | project id, name, properties.uri`
                 }
             }).catch((err) => {
                 adapterMethodSandbox.pushError({
@@ -46,7 +56,38 @@ export default class ADXAdapter
                 return null;
             });
             return new DataManagementAdapterData<Array<string>>(
-                axiosResult?.data.Tables[0].Rows.reduce((acc, r) => {
+                axiosResult?.data.data.map((c) => c.properties_uri)
+            );
+        }, 'azureManagement');
+    }
+
+    async getDatabases() {
+        const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
+        return await adapterMethodSandbox.safelyFetchData(async (token) => {
+            let result;
+            if (this.connectionString) {
+                result = await axios({
+                    method: 'post',
+                    url: `${this.connectionString}/v1/rest/query`,
+                    headers: {
+                        Authorization: 'Bearer ' + token,
+                        Accept: 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    data: {
+                        csl: '.show databases | project DatabaseName'
+                    }
+                }).catch((err) => {
+                    adapterMethodSandbox.pushError({
+                        type: ComponentErrorType.DataFetchFailed,
+                        isCatastrophic: true,
+                        rawError: err
+                    });
+                    return null;
+                });
+            }
+            return new DataManagementAdapterData<Array<string>>(
+                result?.data.Tables[0].Rows.reduce((acc, r) => {
                     acc.push(r[0]);
                     return acc;
                 }, [])

@@ -1535,16 +1535,13 @@
   },
   "legionApp": {
     "dataPusher": {
-      "simulationType": "Simulatie type",
       "progress": {
         "createTable": "Tabel maken...",
         "createTables": "Tabellen maken...",
         "ingest": "Inname...",
         "createDatabase": "Database maken..."
       },
-      "selectSimulationType": "Selecteer simulatietype",
       "tabs": {
-        "setup": "Setup",
         "ingest": "Inslikken",
         "cook": "Koken"
       },
@@ -1560,14 +1557,29 @@
       },
       "target": {
         "database": "Doeldatabase",
-        "selectDatabase": "Selecteer doeldatabase"
+        "selectDatabase": "Selecteer doeldatabase",
+        "tableType": "Type doeltabel",
+        "tableTypeTooltipContent": "Selecteer het tabelschema dat moet worden gebruikt voor het maken van tabellen of het opnemen van rijen",
+        "selectTableType": "Doeltabeltype selecteren",
+        "table": "Doeltabel",
+        "selectTable": "Doeltabel selecteren"
       },
       "actions": {
-        "ingest": "Gegevens opnemen in de brontabel",
         "cook": "Cook twins grafiek",
-        "pushTwinsGraph": "Push twins graph naar doeldatabase"
+        "pushTwinsGraph": "Push twins graph naar doeldatabase",
+        "startIngest": "Begin met inname",
+        "stopIngest": "Stop de inname"
       },
-      "title": "Data pusher |"
+      "title": "Data pusher |",
+      "clusterTitle": "Cluster-URL",
+      "notValidClusterMessage": "Ongeldige Kusto-cluster-URL",
+      "frequency": "Frequentie",
+      "frequencyInfo": "Dit getal vertegenwoordigt zowel de tijd tussen tijdreekstijdstempels als het interval waarmee nieuwe rijen naar de tabel worden geduwd.",
+      "clusterSelectPlaceholder": "bijvoorbeeld https://<voorbeeld>.westus.kusto.windows.net",
+      "clusterSelectInfo": "Geselecteerd Kusto-cluster is vereist om het beleid 'streamingopname' in te schakelen.",
+      "tableSelectInfo": "Als u een keuze maakt uit bestaande, zorg er dan voor dat de Kusto-tabel het beleid 'streamingopname' heeft ingeschakeld met 'DataPusherMapping' JSON-toewijzing gedefinieerd.",
+      "ingestInfo": "U kunt een nieuwe database of tabel maken en rijen opnemen in een doeltabel. Houd er rekening mee dat als u de tabel onlangs hebt gemaakt, deze mogelijk niet klaar is voor inname, wacht dan een paar minuten voor inname.",
+      "cookInfo": "U kunt tweelingen en mogelijke modellen en eigenschappen informatie extraheren door tweelingen grafiek te koken op basis van geselecteerde bron tabel."
     },
     "verificationStep": {
       "title": "Geverifieerde tweelingen verifiëren",

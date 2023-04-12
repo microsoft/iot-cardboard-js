@@ -32,6 +32,24 @@ export default class MockDataManagementAdapter
         }
     }
 
+    async getClusters() {
+        try {
+            await this.mockNetwork();
+            return new AdapterResult<DataManagementAdapterData<Array<string>>>({
+                result: new DataManagementAdapterData([
+                    'https://mockCluster1.eastus.kusto.windows.net',
+                    'https://mockCluster2.westus.kusto.windows.net'
+                ]),
+                errorInfo: null
+            });
+        } catch (err) {
+            return new AdapterResult<DataManagementAdapterData<Array<string>>>({
+                result: null,
+                errorInfo: { catastrophicError: err, errors: [err] }
+            });
+        }
+    }
+
     async getDatabases() {
         try {
             await this.mockNetwork();
@@ -136,17 +154,23 @@ export default class MockDataManagementAdapter
                     Columns: [
                         { columnName: 'Id', columnDataType: 'string' },
                         { columnName: 'Timestamp', columnDataType: 'datetime' },
-                        { columnName: 'Temperature', columnDataType: 'real' }
+                        { columnName: 'Temperature', columnDataType: 'real' },
+                        { columnName: 'FlowRate', columnDataType: 'real' },
+                        { columnName: 'Pressure', columnDataType: 'real' }
                     ],
                     Rows: [
                         [
                             'Salt_Machine_01',
                             new Date().toISOString(),
+                            Math.floor(Math.random() * 100),
+                            null,
                             Math.floor(Math.random() * 100)
                         ],
                         [
                             'Salt_Machine_02',
                             new Date().toISOString(),
+                            Math.floor(Math.random() * 100),
+                            null,
                             Math.floor(Math.random() * 100)
                         ]
                     ]

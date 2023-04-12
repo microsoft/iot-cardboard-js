@@ -25,8 +25,20 @@ export const cookSourceTable = (
     sourceConnectionString: string,
     table: ITable,
     twinIdPropertyColumn: string,
-    tableType: TableTypes
+    tableType?: TableTypes
 ): IAppData => {
+    const tableSchema =
+        tableType ??
+        table.Columns.findIndex(
+            (c) => c.columnName === PROPERTY_COLUMN_NAME
+        ) !== -1
+            ? TableTypes.Narrow
+            : table.Columns.findIndex(
+                  (c) => c.columnName === VALUE_COLUMN_NAME
+              ) !== -1
+            ? TableTypes.Tags
+            : TableTypes.Wide;
+
     const idxOfTwinIdColumn = table.Columns.findIndex(
         (c) => c.columnName === twinIdPropertyColumn
     );
@@ -41,7 +53,7 @@ export const cookSourceTable = (
                 [twinId]: []
             };
         }
-        switch (tableType) {
+        switch (tableSchema) {
             case TableTypes.Wide:
                 {
                     const nonNullPropertiesInRow = table.Columns.filter(

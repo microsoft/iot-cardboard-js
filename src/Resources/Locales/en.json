@@ -1540,11 +1540,17 @@
         },
         "dataPusher": {
             "title": "Data pusher",
-            "simulationType": "Simulation type",
-            "selectSimulationType": "Select simulation type",
+            "clusterTitle": "Cluster URL",
+            "clusterSelectPlaceholder": "e.g. https://<example>.westus.kusto.windows.net",
+            "clusterSelectInfo": "Selected Kusto cluster is required to have 'streaming ingestion' policy enabled.",
+            "ingestInfo": "You can create a new database or table, and ingest rows to a target table. Please note that if you recently created the table, it may not be ready for ingestion, wait for couple of minutes before ingestion.",
+            "cookInfo": "You can extract twins and possible models & properties information by cooking twins graph based on selected source table.",
+            "tableSelectInfo": "If selecting from existing, make sure Kusto table has 'streaming ingestion' policy enabled with '{{ingestionMapping}}' JSON mapping defined.",
+            "notValidClusterMessage": "Not valid Kusto cluster URL",
+            "frequency": "Frequency",
+            "frequencyInfo": "This number represents both the time between timeseries timestamps and the interval at which new rows are pushed to table.",
             "tabs": {
-                "setup": "Setup",
-                "ingest": "Ingest",
+                "ingest": "Create & Ingest",
                 "cook": "Cook"
             },
             "source": {
@@ -1559,10 +1565,16 @@
             },
             "target": {
                 "database": "Target database",
-                "selectDatabase": "Select target database"
+                "selectDatabase": "Select target database",
+                "tableType": "Target table type",
+                "tableTypeTooltipContent": "Select the table schema to be used for table creation or row ingestion",
+                "selectTableType": "Select target table type",
+                "table": "Target table",
+                "selectTable": "Select target table"
             },
             "actions": {
-                "ingest": "Ingest data to source table",
+                "startIngest": "Start ingestion",
+                "stopIngest": "Stop ingestion",
                 "cook": "Cook twins graph",
                 "pushTwinsGraph": "Push twins graph to target database"
             },

@@ -1535,16 +1535,13 @@
   },
   "legionApp": {
     "dataPusher": {
-      "simulationType": "Tipo di simulazione",
       "progress": {
         "createTable": "Creazione tabella...",
         "createTables": "Creazione di tabelle...",
         "ingest": "Ingestione...",
         "createDatabase": "Creazione di database..."
       },
-      "selectSimulationType": "Seleziona il tipo di simulazione",
       "tabs": {
-        "setup": "Apparecchio",
         "ingest": "Ingerire",
         "cook": "Cuoco"
       },
@@ -1560,14 +1557,29 @@
       },
       "target": {
         "database": "Database di destinazione",
-        "selectDatabase": "Seleziona il database di destinazione"
+        "selectDatabase": "Seleziona il database di destinazione",
+        "tableType": "Tipo di tabella di destinazione",
+        "tableTypeTooltipContent": "Selezionare lo schema della tabella da utilizzare per la creazione di tabelle o l'inserimento di righe",
+        "selectTableType": "Selezionare il tipo di tabella di destinazione",
+        "table": "Tabella di destinazione",
+        "selectTable": "Seleziona tabella di destinazione"
       },
       "actions": {
-        "ingest": "Inserire dati nella tabella di origine",
         "cook": "Grafico dei gemelli di Cook",
-        "pushTwinsGraph": "Push del grafico dei gemelli al database di destinazione"
+        "pushTwinsGraph": "Push del grafico dei gemelli al database di destinazione",
+        "startIngest": "Inizia l'ingestione",
+        "stopIngest": "Interrompere l'ingestione"
       },
-      "title": "Pusher di dati"
+      "title": "Pusher di dati",
+      "clusterTitle": "Cluster URL",
+      "notValidClusterMessage": "URL del cluster Kusto non valido",
+      "frequency": "Frequenza",
+      "frequencyInfo": "Questo numero rappresenta sia il tempo tra i timestamp delle serie temporali sia l'intervallo in base al quale le nuove righe vengono inviate alla tabella.",
+      "clusterSelectPlaceholder": "ad esempio https://<esempio>.westus.kusto.windows.net",
+      "clusterSelectInfo": "Il cluster Kusto selezionato deve avere abilitato il criterio di \"acquisizione in streaming\".",
+      "tableSelectInfo": "Se si seleziona da esistente, assicurarsi che la tabella Kusto abbia il criterio di \"inserimento in streaming\" abilitato con il mapping JSON \"DataPusherMapping\" definito.",
+      "ingestInfo": "È possibile creare un nuovo database o una nuova tabella e inserire righe in una tabella di destinazione. Tieni presente che se hai creato di recente la tabella, potrebbe non essere pronta per l'inserimento, attendi un paio di minuti prima dell'inserimento.",
+      "cookInfo": "È possibile estrarre i gemelli e le possibili informazioni sui modelli e sulle proprietà cucinando il grafico dei gemelli in base alla tabella di origine selezionata."
     },
     "verificationStep": {
       "title": "Verificare i gemelli scoperti",

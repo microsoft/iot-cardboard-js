@@ -1,9 +1,11 @@
 import {
+    IButtonStyles,
     IDropdownOption,
     IProcessedStyleSet,
     IStackStyles,
     IStyle,
-    IStyleFunctionOrObject
+    IStyleFunctionOrObject,
+    ITextFieldStyles
 } from '@fluentui/react';
 import { IExtendedTheme } from '../../../../Theming/Theme.types';
 import {
@@ -24,6 +26,7 @@ export interface IDataPusherStyleProps {
 }
 export interface IDataPusherStyles {
     root: IStyle;
+    connection: IStyle;
     informationText: IStyle;
     tableContainer: IStyle;
 
@@ -35,6 +38,8 @@ export interface IDataPusherStyles {
 
 export interface IDataPusherSubComponentStyles {
     stack?: IStackStyles;
+    button?: IButtonStyles;
+    connectionString?: Partial<ITextFieldStyles>;
 }
 
 export interface IDataPusherContext {

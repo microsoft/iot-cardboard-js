@@ -1535,16 +1535,13 @@
   },
   "legionApp": {
     "dataPusher": {
-      "simulationType": "Typ symulacji",
       "progress": {
         "createTable": "Tworzenie tabeli...",
         "createTables": "Tworzenie tabel...",
         "ingest": "Spożyciu...",
         "createDatabase": "Tworzenie bazy danych..."
       },
-      "selectSimulationType": "Wybierz typ symulacji",
       "tabs": {
-        "setup": "Instalacji",
         "ingest": "Spożywać",
         "cook": "Kucharz"
       },
@@ -1560,14 +1557,29 @@
       },
       "target": {
         "database": "Docelowa baza danych",
-        "selectDatabase": "Wybierz docelową bazę danych"
+        "selectDatabase": "Wybierz docelową bazę danych",
+        "tableType": "Typ tabeli docelowej",
+        "tableTypeTooltipContent": "Wybierz schemat tabeli, który ma być używany do tworzenia tabeli lub pozyskiwania wierszy",
+        "selectTableType": "Wybierz typ tabeli docelowej",
+        "table": "Tabela docelowa",
+        "selectTable": "Wybierz tabelę docelową"
       },
       "actions": {
-        "ingest": "Pozyskiwanie danych do tabeli źródłowej",
         "cook": "Wykres bliźniaków kucharskich",
-        "pushTwinsGraph": "Wypychanie wykresu bliźniaków do docelowej bazy danych"
+        "pushTwinsGraph": "Wypychanie wykresu bliźniaków do docelowej bazy danych",
+        "startIngest": "Rozpocznij przyjmowanie",
+        "stopIngest": "Zatrzymaj spożycie"
       },
-      "title": "Popychacz danych"
+      "title": "Popychacz danych",
+      "clusterTitle": "Adres URL klastra",
+      "notValidClusterMessage": "Nieprawidłowy adres URL klastra Kusto",
+      "frequency": "Częstotliwość",
+      "frequencyInfo": "Ta liczba reprezentuje zarówno czas między sygnaturami czasowymi szeregów czasowych, jak i interwał, w którym nowe wiersze są wypychane do tabeli.",
+      "clusterSelectPlaceholder": "np. https://<przykład>.westus.kusto.windows.net",
+      "clusterSelectInfo": "Wybrany klaster Kusto musi mieć włączoną zasadę \"pozyskiwanie strumieniowe\".",
+      "tableSelectInfo": "Jeśli wybierzesz z istniejących, upewnij się, że tabela Kusto ma włączoną zasadę \"przesyłania strumieniowego\" z zdefiniowanym mapowaniem JSON \"DataPusherMapping\".",
+      "ingestInfo": "Można utworzyć nową bazę danych lub tabelę i pozyskiwać wiersze do tabeli docelowej. Pamiętaj, że jeśli tabela została niedawno utworzona, może nie być gotowa do pozyskania, odczekaj kilka minut przed pobraniem.",
+      "cookInfo": "Możesz wyodrębnić bliźnięta oraz możliwe modele i informacje o właściwościach, gotując wykres bliźniąt na podstawie wybranej tabeli źródłowej."
     },
     "verificationStep": {
       "title": "Weryfikowanie odnalezionych bliźniąt",
