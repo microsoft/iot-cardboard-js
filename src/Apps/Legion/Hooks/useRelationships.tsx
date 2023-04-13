@@ -2,7 +2,10 @@ import { useCallback, useMemo } from 'react';
 import { useWizardDataContext } from '../Contexts/WizardDataContext/WizardDataContext';
 import { WizardDataContextActionType } from '../Contexts/WizardDataContext/WizardDataContext.types';
 import { IDbRelationship, IViewRelationship } from '../Models';
-import { convertRelationshipToDb } from '../Services/AppTypeUtilities';
+import {
+    convertRelationshipToDb,
+    convertRelationshipToView
+} from '../Services/AppTypeUtilities';
 import { getDebugLogger } from '../../../Models/Services/Utils';
 import { filterItemsById, getIndexById, getItemById } from './appData.utils';
 
@@ -60,12 +63,18 @@ export const useRelationships = () => {
     }, []);
 
     // data
-    const relationships = useMemo(() => [], []);
+    const relationships: IViewRelationship[] = useMemo(
+        () =>
+            wizardDataState.relationships.map((x) =>
+                convertRelationshipToView(x, wizardDataState)
+            ),
+        []
+    );
 
     return {
-        relationships,
-        updateRelationship,
-        deleteRelationship,
-        addRelationship
+        relationships: relationships,
+        addRelationship: addRelationship,
+        updateRelationship: updateRelationship,
+        deleteRelationship: deleteRelationship
     };
 };

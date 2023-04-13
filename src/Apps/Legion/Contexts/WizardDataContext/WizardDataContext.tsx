@@ -35,6 +35,9 @@ export const WizardDataContextReducer: (
             case WizardDataContextActionType.SET_ENTITIES:
                 draft.entities = action.payload.entities;
                 break;
+            case WizardDataContextActionType.SET_PROPERTIES:
+                draft.properties = action.payload.properties;
+                break;
             case WizardDataContextActionType.SET_RELATIONSHIPS:
                 draft.relationships = action.payload.relationships;
                 break;

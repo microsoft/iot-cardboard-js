@@ -32,7 +32,8 @@ export interface IWizardDataContextState {
 export enum WizardDataContextActionType {
     SET_ENTITIES = 'SET_ENTITIES',
     SET_TYPES = 'SET_TYPES',
-    SET_RELATIONSHIPS = 'SET_RELATIONSHIPS'
+    SET_RELATIONSHIPS = 'SET_RELATIONSHIPS',
+    SET_PROPERTIES = 'SET_PROPERTIES'
 }
 
 /** The actions to update the state */
@@ -53,5 +54,11 @@ export type WizardDataContextAction =
           type: WizardDataContextActionType.SET_TYPES;
           payload: {
               types: IDbType[];
+          };
+      }
+    | {
+          type: WizardDataContextActionType.SET_PROPERTIES;
+          payload: {
+              properties: IDbProperty[];
           };
       };
