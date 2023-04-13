@@ -1,84 +1,87 @@
 import { useCallback, useMemo } from 'react';
 import { useWizardDataContext } from '../Contexts/WizardDataContext/WizardDataContext';
 import { WizardDataContextActionType } from '../Contexts/WizardDataContext/WizardDataContext.types';
-import { IDbProperty, IViewProperty } from '../Models';
+import { IDbType, IViewType } from '../Models';
 import {
-    convertPropertyToDb,
-    convertPropertyToView
+    convertTypeToDb,
+    convertTypeToView
 } from '../Services/AppTypeUtilities';
 import { getDebugLogger } from '../../../Models/Services/Utils';
 import { filterItemsById, getIndexById, getItemById } from './appData.utils';
 
 const debugLogging = false;
-export const logDebugConsole = getDebugLogger('useProperties', debugLogging);
-export const useProperties = () => {
+export const logDebugConsole = getDebugLogger('useTypes', debugLogging);
+export const useTypes = () => {
     // contexts
     const { wizardDataDispatch, wizardDataState } = useWizardDataContext();
 
     // callbacks
-    const setProperties = useCallback(
-        (properties: IDbProperty[]) => {
+    const setTypes = useCallback(
+        (types: IDbType[]) => {
             wizardDataDispatch({
-                type: WizardDataContextActionType.SET_PROPERTIES,
+                type: WizardDataContextActionType.SET_TYPES,
                 payload: {
-                    properties: properties
+                    types: types
                 }
             });
         },
         [wizardDataDispatch]
     );
     const addProperty = useCallback(
-        (Property: IViewProperty) => {
-            const existing = wizardDataState.properties;
-            existing.push(convertPropertyToDb(Property));
+        (type: IViewType) => {
+            const existing = wizardDataState.types;
+            existing.push(convertTypeToDb(type));
             logDebugConsole(
                 'info',
-                'Adding Property to state. {Property, state}',
-                Property,
+                'Adding Type to state. {Type, state}',
+                type,
                 existing
             );
-            setProperties(existing);
+            setTypes(existing);
         },
-        [wizardDataState.properties, setProperties]
+        [wizardDataState.types, setTypes]
     );
     const updateProperty = useCallback(
-        (updatedProperty: IViewProperty) => {
-            const existing = wizardDataState.properties;
+        (updatedProperty: IViewType) => {
+            const existing = wizardDataState.types;
             const index = getIndexById(updatedProperty.id, existing);
-            existing[index] = convertPropertyToDb(updatedProperty);
+            existing[index] = convertTypeToDb(updatedProperty);
             logDebugConsole(
                 'info',
-                `Updating Property (id: ${updatedProperty.id}) in state. {Property, state}`,
+                `Updating Type (id: ${updatedProperty.id}) in state. {Type, state}`,
                 updatedProperty,
                 existing
             );
-            setProperties(existing);
+            setTypes(existing);
         },
-        [wizardDataState.properties, setProperties]
+        [wizardDataState.types, setTypes]
     );
     const deleteProperty = useCallback(
         (PropertyId: string) => {
-            const existing = wizardDataState.properties;
+            const existing = wizardDataState.types;
             const filtered = filterItemsById(PropertyId, existing);
             logDebugConsole(
                 'info',
-                `Removing Property (id: ${PropertyId}) from state. {id, state}`,
+                `Removing Type (id: ${PropertyId}) from state. {id, state}`,
                 PropertyId,
                 existing
             );
-            setProperties(filtered);
+            setTypes(filtered);
         },
-        [wizardDataState.properties, setProperties]
+        [wizardDataState.types, setTypes]
     );
 
     // data
-    const properties: IViewProperty[] = useMemo(
-        () => wizardDataState.properties.map((x) => convertPropertyToView(x)),
-        [wizardDataState.properties]
+    const types: IViewType[] = useMemo(
+        () =>
+            wizardDataState.types.map((x) =>
+                convertTypeToView(x, wizardDataState)
+            ),
+        [wizardDataState.types]
     );
 
     return {
-        properties: properties,
+        types: types,
         addProperty: addProperty,
         updateProperty: updateProperty,
         deleteProperty: deleteProperty

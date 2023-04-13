@@ -35,7 +35,7 @@ export function convertEntityToView(
         sourceConnectionString: dbModel.sourceConnectionString,
         sourceEntityId: dbModel.sourceEntityId,
         values: dbModel.values, // TODO: deserialize if we had serialized in the other direction
-        type: convertTypeToView(type, state.properties)
+        type: convertTypeToView(type, state)
     };
 }
 // #endregion
@@ -55,11 +55,13 @@ export function convertTypeToDb(viewModel: IViewType): IDbType {
 
 export function convertTypeToView(
     dbModel: IDbType,
-    propertyState: IDbProperty[]
+    state: {
+        properties: IDbProperty[];
+    }
 ): IViewType {
     const properties: IViewProperty[] = [];
     dbModel.propertyIds.forEach((id) => {
-        const property = propertyState.find((x) => x.id === id);
+        const property = state.properties.find((x) => x.id === id);
         property && properties.push(convertPropertyToView(property));
     });
     return {
