@@ -81,9 +81,22 @@ export const useRelationships = () => {
     );
 
     return {
+        /** the current list of relationships in the state */
         relationships: relationships,
+        /**
+         * Callback to add a relationship to the state
+         * NOTE: this is not a deep add. It will only add the root level element
+         */
         addRelationship: addRelationship,
+        /**
+         * Callback to update the attributes of the relationship.
+         * NOTE: this is not a deep update. It will only reflect changes on the root level
+         */
         updateRelationship: updateRelationship,
+        /**
+         * Callback to delete the relationship from state.
+         * NOTE: this is not a deep update. It will only delete the root level element
+         */
         deleteRelationship: deleteRelationship
     };
 };

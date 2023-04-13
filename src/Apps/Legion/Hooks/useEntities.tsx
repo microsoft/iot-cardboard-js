@@ -81,9 +81,22 @@ export const useEntities = () => {
     );
 
     return {
+        /** the current list of entities in the state */
         entities: entities,
+        /**
+         * Callback to add an entity to the state
+         * NOTE: this is not a deep add. It will only add the root level element
+         */
         addEntity: addEntity,
+        /**
+         * Callback to update the attributes of the entity.
+         * NOTE: this is not a deep update. It will only reflect changes on the root level
+         */
         updateEntity: updateEntity,
+        /**
+         * Callback to delete the entity from state.
+         * NOTE: this is not a deep update. It will only delete the root level element
+         */
         deleteEntity: deleteEntity
     };
 };
