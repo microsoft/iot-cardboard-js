@@ -1,5 +1,5 @@
-import { IDbEntity, IDbRelationship, IDbType } from '../../Models';
-import { removeItemById } from '../../Services/Utils';
+import { IDbEntity, IDbProperty, IDbRelationship, IDbType } from '../../Models';
+import { findItemById, removeItemById } from '../../Services/Utils';
 
 // #region Entities
 
@@ -52,9 +52,25 @@ export function removeRelationshipsByEntityId(
 /** removes a relationship from state */
 export function removePropertyById(
     id: string,
-    state: { properties: IDbRelationship[] }
+    state: { properties: IDbProperty[] }
 ): boolean {
     return removeItemById(id, state.properties);
+}
+/** removes all the properties associated with a type from state */
+export function removePropertiesByTypeId(
+    typeId: string,
+    state: { types: IDbType[]; properties: IDbProperty[] }
+): boolean {
+    let success = false;
+    const type = findItemById(typeId, state.types);
+    if (!type) {
+        return success;
+    }
+    type.propertyIds.forEach((x) => {
+        success = success && removePropertyById(x, state);
+    });
+
+    return success;
 }
 
 // #endregion

@@ -12,11 +12,14 @@ import {
     WizardDataContextActionType,
     IWizardDataDispatchContext
 } from './WizardDataContext.types';
-import { findIndexById, findItemById } from '../../Services/Utils';
+import { replaceItem } from '../../Services/Utils';
 import {
     removeEntityById,
     removeRelationshipsByEntityId,
-    removeRelationshipById
+    removeRelationshipById,
+    removeTypeById,
+    removePropertiesByTypeId,
+    removePropertyById
 } from './WizardDataContext.utils';
 
 const debugLogging = false;
@@ -48,19 +51,15 @@ export const WizardDataContextReducer: (
         );
         switch (action.type) {
             case WizardDataContextActionType.ENTITY_ADD: {
-                if (action.payload.entity) {
-                    draft.entities.push(action.payload.entity);
+                const { entity } = action.payload;
+                if (entity) {
+                    draft.entities.push(entity);
                 }
                 break;
             }
             case WizardDataContextActionType.ENTITY_UPDATE: {
-                const index = findIndexById(
-                    action.payload.entity.id,
-                    draft.entities
-                );
-                if (index > -1 && action.payload.entity) {
-                    draft.entities[index] = action.payload.entity;
-                }
+                const { entity } = action.payload;
+                replaceItem(entity, draft.entities);
                 break;
             }
             case WizardDataContextActionType.ENTITY_REMOVE: {
@@ -70,72 +69,55 @@ export const WizardDataContextReducer: (
                 break;
             }
             case WizardDataContextActionType.TYPE_ADD: {
-                if (action.payload.type) {
-                    draft.types.push(action.payload.type);
+                const { type } = action.payload;
+                if (type) {
+                    draft.types.push(type);
                 }
                 break;
             }
             case WizardDataContextActionType.TYPE_UPDATE: {
-                const index = findIndexById(
-                    action.payload.type.id,
-                    draft.types
-                );
-                if (index > -1 && action.payload.type) {
-                    draft.types[index] = action.payload.type;
-                }
+                const { type } = action.payload;
+                replaceItem(type, draft.types);
                 break;
             }
             case WizardDataContextActionType.TYPE_REMOVE: {
-                const index = findIndexById(action.payload.typeId, draft.types);
-                if (index > -1) {
-                    draft.types.splice(index, 1);
-                }
+                const { typeId } = action.payload;
+                removeTypeById(typeId, draft);
+                removePropertiesByTypeId(typeId, draft);
                 break;
             }
             case WizardDataContextActionType.RELATIONSHIP_ADD: {
-                if (action.payload.relationship) {
-                    draft.relationships.push(action.payload.relationship);
+                const { relationship } = action.payload;
+                if (relationship) {
+                    draft.relationships.push(relationship);
                 }
                 break;
             }
             case WizardDataContextActionType.RELATIONSHIP_UPDATE: {
-                const index = findIndexById(
-                    action.payload.relationship.id,
-                    draft.relationships
-                );
-                if (index > -1 && action.payload.relationship) {
-                    draft.relationships[index] = action.payload.relationship;
-                }
+                const { relationship } = action.payload;
+                replaceItem(relationship, draft.relationships);
                 break;
             }
             case WizardDataContextActionType.RELATIONSHIP_REMOVE: {
-                removeRelationshipById(action.payload.relationshipId, draft);
+                const { relationshipId } = action.payload;
+                removeRelationshipById(relationshipId, draft);
                 break;
             }
             case WizardDataContextActionType.PROPERTY_ADD: {
-                if (action.payload.property) {
-                    draft.properties.push(action.payload.property);
+                const { property } = action.payload;
+                if (property) {
+                    draft.properties.push(property);
                 }
                 break;
             }
             case WizardDataContextActionType.PROPERTY_UPDATE: {
-                const index = findIndexById(
-                    action.payload.property.id,
-                    draft.properties
-                );
-                if (index > -1 && action.payload.property) {
-                    draft.properties[index] = action.payload.property;
-                }
+                const { property } = action.payload;
+                replaceItem(property, draft.properties);
                 break;
             }
             case WizardDataContextActionType.PROPERTY_REMOVE: {
-                const index = findIndexById(
-                    action.payload.propertyId,
-                    draft.properties
-                );
-                if (index > -1) {
-                    draft.properties.splice(index, 1);
-                }
+                const { propertyId } = action.payload;
+                removePropertyById(propertyId, draft);
                 break;
             }
         }

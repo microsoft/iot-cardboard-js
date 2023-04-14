@@ -73,13 +73,9 @@ interface IBaseProperty {
 }
 
 /** The database representation of a property for a `Type` */
-export interface IDbProperty extends IBaseProperty {
-    //
-}
+export type IDbProperty = IBaseProperty;
 /** The view model representation of a property for a `Type` */
-export interface IViewProperty extends IBaseProperty {
-    //
-}
+export type IViewProperty = IBaseProperty;
 
 // #endregion
 
