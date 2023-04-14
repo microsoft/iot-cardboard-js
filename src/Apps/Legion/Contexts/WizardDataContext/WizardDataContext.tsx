@@ -82,9 +82,6 @@ export const WizardDataContextReducer: (
             case WizardDataContextActionType.RELATIONSHIP_ADD: {
                 const { relationship, relationshipType } = action.payload;
                 addItem(initializeId(relationship), draft.relationships);
-                if (!relationshipType.id) {
-                    relationshipType;
-                }
                 addItem(
                     initializeId(relationshipType),
                     draft.relationshipTypes
