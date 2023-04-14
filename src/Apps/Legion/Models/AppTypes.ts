@@ -82,22 +82,45 @@ export type IViewProperty = IBaseProperty;
 // #region Relationships
 /** the base attributes common to all representations of a `Relationship` for a `Type` */
 interface IBaseRelationship {
-    /** the display friendly name of the property. Uniqueness is not required. */
-    friendlyName: string;
     /** a system generated unique identifier for the property. Should be globally unique. */
     id: string;
 }
 
-/** The database representation of a property of a `Type` */
+/** The database representation of a property of a `Relationship` */
 export interface IDbRelationship extends IBaseRelationship {
-    /** the unique identifier of the source entity */
+    /**
+     * unique identifier for the type of the relationship.
+     * Foreign Key to the `RelationshipType` table
+     * */
+    typeId: string;
+    /**
+     * the unique identifier of the source entity.
+     * Foreign Key to the `Entity` table.
+     * */
     sourceEntityId: string;
-    /** the unique identifier of the target (arrow end) entity */
+    /**
+     * the unique identifier of the target (arrow end) entity.
+     * Foreign Key to the `Entity` table
+     */
     targetEntityId: string;
 }
-/** The view model representation of a property of a `Type` */
+/** The view model representation of a property of a `Relationship` */
 export interface IViewRelationship extends IBaseRelationship {
+    type: IViewRelationshipType;
     sourceEntity: IViewEntity;
     targetEntity: IViewEntity;
 }
+
+/** the base attributes common to all representations of a `RelationshipType` */
+interface IBaseRelationshipType {
+    /** a system generated unique identifier for the property. Should be globally unique. */
+    id: string;
+    /** the display friendly name of the property. Uniqueness is not required. */
+    name: string;
+}
+
+/** The database representation of a property of a `RelationshipType` */
+export type IDbRelationshipType = IBaseRelationshipType;
+/** The view model representation of a property of a `RelationshipType` */
+export type IViewRelationshipType = IBaseRelationshipType;
 // #endregion
