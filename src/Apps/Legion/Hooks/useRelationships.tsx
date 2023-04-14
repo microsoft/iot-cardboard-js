@@ -7,7 +7,8 @@ import { WizardDataContextActionType } from '../Contexts/WizardDataContext/Wizar
 import { IViewRelationship } from '../Models';
 import {
     convertRelationshipToDb,
-    convertRelationshipToView
+    convertRelationshipToView,
+    convertRelationshipTypeToDb
 } from '../Services/AppTypeUtilities';
 import { getDebugLogger } from '../../../Models/Services/Utils';
 
@@ -22,6 +23,9 @@ export const useRelationships = () => {
     const addRelationship = useCallback(
         (relationship: IViewRelationship) => {
             const newRelationship = convertRelationshipToDb(relationship);
+            const newRelationshipType = convertRelationshipTypeToDb(
+                relationship.type
+            );
             logDebugConsole(
                 'info',
                 'Adding relationship to state. {relationship, state}',
@@ -30,7 +34,8 @@ export const useRelationships = () => {
             wizardDataDispatch({
                 type: WizardDataContextActionType.RELATIONSHIP_ADD,
                 payload: {
-                    relationship: newRelationship
+                    relationship: newRelationship,
+                    relationshipType: newRelationshipType
                 }
             });
         },
@@ -39,6 +44,10 @@ export const useRelationships = () => {
     const updateRelationship = useCallback(
         (updatedRelationship: IViewRelationship) => {
             const relationship = convertRelationshipToDb(updatedRelationship);
+            const relationshipType = convertRelationshipTypeToDb(
+                updatedRelationship.type
+            );
+
             logDebugConsole(
                 'info',
                 `Updating relationship (id: ${updatedRelationship.id}) in state. {relationship}`,
@@ -47,7 +56,8 @@ export const useRelationships = () => {
             wizardDataDispatch({
                 type: WizardDataContextActionType.RELATIONSHIP_UPDATE,
                 payload: {
-                    relationship: relationship
+                    relationship: relationship,
+                    relationshipType: relationshipType
                 }
             });
         },

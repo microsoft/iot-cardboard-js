@@ -3,7 +3,7 @@
  */
 import produce from 'immer';
 import React, { ReactNode, useContext, useReducer } from 'react';
-import { getDebugLogger } from '../../../../Models/Services/Utils';
+import { createGUID, getDebugLogger } from '../../../../Models/Services/Utils';
 import {
     IWizardDataStateContext,
     IWizardDataContextProviderProps,
@@ -12,12 +12,13 @@ import {
     WizardDataContextActionType,
     IWizardDataDispatchContext
 } from './WizardDataContext.types';
-import { addItem, replaceItem } from '../../Services/Utils';
+import { addItem, replaceItem, replaceOrAddItem } from '../../Services/Utils';
 import {
     removeEntityById,
     removeRelationshipById,
     removeTypeById,
-    removePropertyById
+    removePropertyById,
+    initializeId
 } from './WizardDataContext.utils';
 
 const debugLogging = false;
@@ -50,7 +51,7 @@ export const WizardDataContextReducer: (
         switch (action.type) {
             case WizardDataContextActionType.ENTITY_ADD: {
                 const { entity } = action.payload;
-                addItem(entity, draft.entities);
+                addItem(initializeId(entity), draft.entities);
                 break;
             }
             case WizardDataContextActionType.ENTITY_UPDATE: {
@@ -65,7 +66,7 @@ export const WizardDataContextReducer: (
             }
             case WizardDataContextActionType.TYPE_ADD: {
                 const { type } = action.payload;
-                addItem(type, draft.types);
+                addItem(initializeId(type), draft.types);
                 break;
             }
             case WizardDataContextActionType.TYPE_UPDATE: {
@@ -80,14 +81,23 @@ export const WizardDataContextReducer: (
             }
             case WizardDataContextActionType.RELATIONSHIP_ADD: {
                 const { relationship, relationshipType } = action.payload;
-                addItem(relationship, draft.relationships);
-                addItem(relationshipType, draft.relationshipTypes);
+                addItem(initializeId(relationship), draft.relationships);
+                if (!relationshipType.id) {
+                    relationshipType;
+                }
+                addItem(
+                    initializeId(relationshipType),
+                    draft.relationshipTypes
+                );
                 break;
             }
             case WizardDataContextActionType.RELATIONSHIP_UPDATE: {
                 const { relationship, relationshipType } = action.payload;
                 replaceItem(relationship, draft.relationships);
-                replaceItem(relationshipType, draft.relationshipTypes);
+                replaceOrAddItem(
+                    initializeId(relationshipType),
+                    draft.relationshipTypes
+                );
                 break;
             }
             case WizardDataContextActionType.RELATIONSHIP_REMOVE: {
@@ -97,7 +107,7 @@ export const WizardDataContextReducer: (
             }
             case WizardDataContextActionType.PROPERTY_ADD: {
                 const { property } = action.payload;
-                addItem(property, draft.properties);
+                addItem(initializeId(property), draft.properties);
                 break;
             }
             case WizardDataContextActionType.PROPERTY_UPDATE: {

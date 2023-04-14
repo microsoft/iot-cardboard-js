@@ -1,3 +1,5 @@
+import { v4 } from 'uuid';
+
 /** takes a collection and id and finds an element in that collection with the matching id */
 export function findItemById<T extends { id: string }>(
     id: string,
@@ -36,7 +38,7 @@ export function replaceItem<T extends { id: string }>(
 ): boolean {
     let success = false;
     const index = findIndexById(item.id, collection);
-    if (index > -1) {
+    if (isDefined(item) && index > -1) {
         collection[index] = item;
         success = true;
     }
@@ -44,13 +46,28 @@ export function replaceItem<T extends { id: string }>(
     return success;
 }
 
-/** takes a collection and adds the item if it is not undefined/null */
+/** takes a collection and an item and finds the index of that item in the collection and replaces it with the item provided. If it is not found, it will create the item */
+export function replaceOrAddItem<T extends { id: string }>(
+    item: T,
+    collection: T[]
+): boolean {
+    let success = false;
+    success = replaceItem(item, collection);
+    if (!success) {
+        success = addItem(item, collection);
+    }
+
+    return success;
+}
+
+/** takes a collection and adds the item if it is not undefined/null and an item does not already exist with the same id*/
 export function addItem<T extends { id: string }>(
     item: T,
     collection: T[]
 ): boolean {
     let success = false;
-    if (isDefined(item) && findIndexById(item.id, collection) > -1) {
+    // only add if defined and an item doesn't exist with the same id
+    if (isDefined(item) && findIndexById(item.id, collection) === -1) {
         collection.push(item);
         success = true;
     }
@@ -62,3 +79,12 @@ export function addItem<T extends { id: string }>(
 export function isDefined(item: any): boolean {
     return item !== null && item !== undefined;
 }
+
+/** creates a unique identifier GUID with or without dashes */
+export const createGuid = (isWithDashes = false) => {
+    let id: string = v4();
+    if (!isWithDashes) {
+        id = id.replace(/-/g, '');
+    }
+    return id;
+};

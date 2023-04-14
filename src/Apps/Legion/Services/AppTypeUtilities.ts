@@ -2,10 +2,12 @@ import {
     IDbEntity,
     IDbProperty,
     IDbRelationship,
+    IDbRelationshipType,
     IDbType,
     IViewEntity,
     IViewProperty,
     IViewRelationship,
+    IViewRelationshipType,
     IViewType
 } from '../Models';
 
@@ -81,10 +83,10 @@ export function convertRelationshipToDb(
     viewModel: IViewRelationship
 ): IDbRelationship {
     return {
-        friendlyName: viewModel.friendlyName,
         id: viewModel.id,
         sourceEntityId: viewModel.sourceEntity.id,
-        targetEntityId: viewModel.targetEntity.id
+        targetEntityId: viewModel.targetEntity.id,
+        typeId: viewModel.type.id
     };
 }
 
@@ -92,8 +94,9 @@ export function convertRelationshipToView(
     dbModel: IDbRelationship,
     state: {
         entities: IDbEntity[];
-        types: IDbType[];
+        relationshipTypes: IDbRelationshipType[];
         properties: IDbProperty[];
+        types: IDbType[];
     }
 ): IViewRelationship {
     const sourceEntity = state.entities.find(
@@ -102,9 +105,12 @@ export function convertRelationshipToView(
     const targetEntity = state.entities.find(
         (x) => x.id === dbModel.targetEntityId
     );
+    const relationshipType = state.relationshipTypes.find(
+        (x) => x.id === dbModel.id
+    );
     return {
-        friendlyName: dbModel.friendlyName,
         id: dbModel.id,
+        type: convertRelationshipTypeToView(relationshipType),
         sourceEntity: convertEntityToView(sourceEntity, {
             types: state.types,
             properties: state.properties
@@ -114,6 +120,24 @@ export function convertRelationshipToView(
             properties: state.properties
         })
     };
+}
+// #endregion
+
+// #region Relationship Type
+
+export function convertRelationshipTypeToDb(
+    viewModel: IViewRelationshipType
+): IDbRelationshipType {
+    return {
+        id: viewModel.id,
+        name: viewModel.name
+    };
+}
+
+export function convertRelationshipTypeToView(
+    dbModel: IDbRelationshipType
+): IViewRelationshipType {
+    return dbModel;
 }
 // #endregion
 

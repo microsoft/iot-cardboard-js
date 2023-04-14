@@ -1,5 +1,12 @@
 import { IDbEntity, IDbProperty, IDbRelationship, IDbType } from '../../Models';
-import { findItemById, removeItemById } from '../../Services/Utils';
+import { createGuid, findItemById, removeItemById } from '../../Services/Utils';
+
+export function initializeId<T extends { id: string }>(item: T): T {
+    if (!item.id) {
+        item.id = createGuid();
+    }
+    return item;
+}
 
 // #region Entities
 
