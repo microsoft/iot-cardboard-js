@@ -6,9 +6,12 @@ import { findItemById, removeItemById } from '../../Services/Utils';
 /** removes a relationship from state */
 export function removeEntityById(
     id: string,
-    state: { entities: IDbEntity[] }
+    state: { entities: IDbEntity[]; relationships: IDbRelationship[] }
 ): boolean {
-    return removeItemById(id, state.entities);
+    return (
+        removeItemById(id, state.entities) &&
+        removeRelationshipsByEntityId(id, state)
+    );
 }
 
 // #endregion
@@ -18,9 +21,11 @@ export function removeEntityById(
 /** removes a relationship from state */
 export function removeTypeById(
     id: string,
-    state: { types: IDbType[] }
+    state: { types: IDbType[]; properties: IDbProperty[] }
 ): boolean {
-    return removeItemById(id, state.types);
+    return (
+        removeItemById(id, state.types) && removePropertiesByTypeId(id, state)
+    );
 }
 
 // #endregion
@@ -44,6 +49,10 @@ export function removeRelationshipsByEntityId(
     );
     return true;
 }
+
+// #endregion
+
+// #region RelationshipTypes
 
 // #endregion
 

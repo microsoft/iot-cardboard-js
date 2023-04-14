@@ -15,10 +15,8 @@ import {
 import { addItem, replaceItem } from '../../Services/Utils';
 import {
     removeEntityById,
-    removeRelationshipsByEntityId,
     removeRelationshipById,
     removeTypeById,
-    removePropertiesByTypeId,
     removePropertyById
 } from './WizardDataContext.utils';
 
@@ -62,7 +60,6 @@ export const WizardDataContextReducer: (
             }
             case WizardDataContextActionType.ENTITY_REMOVE: {
                 const { entityId } = action.payload;
-                removeRelationshipsByEntityId(entityId, draft);
                 removeEntityById(entityId, draft);
                 break;
             }
@@ -79,17 +76,18 @@ export const WizardDataContextReducer: (
             case WizardDataContextActionType.TYPE_REMOVE: {
                 const { typeId } = action.payload;
                 removeTypeById(typeId, draft);
-                removePropertiesByTypeId(typeId, draft);
                 break;
             }
             case WizardDataContextActionType.RELATIONSHIP_ADD: {
-                const { relationship } = action.payload;
+                const { relationship, relationshipType } = action.payload;
                 addItem(relationship, draft.relationships);
+                addItem(relationshipType, draft.relationshipTypes);
                 break;
             }
             case WizardDataContextActionType.RELATIONSHIP_UPDATE: {
-                const { relationship } = action.payload;
+                const { relationship, relationshipType } = action.payload;
                 replaceItem(relationship, draft.relationships);
+                replaceItem(relationshipType, draft.relationshipTypes);
                 break;
             }
             case WizardDataContextActionType.RELATIONSHIP_REMOVE: {
@@ -154,5 +152,6 @@ const emptyState: IWizardDataContextState = {
     entities: [],
     properties: [],
     relationships: [],
+    relationshipTypes: [],
     types: []
 };

@@ -1,4 +1,10 @@
-import { IDbEntity, IDbProperty, IDbRelationship, IDbType } from '../../Models';
+import {
+    IDbEntity,
+    IDbProperty,
+    IDbRelationship,
+    IDbRelationshipType,
+    IDbType
+} from '../../Models';
 
 export interface IWizardDataContextProviderProps<N> {
     initialState?: Partial<IWizardDataContextState>;
@@ -28,6 +34,8 @@ export interface IWizardDataContextState {
     types: IDbType[];
     /** all `Relationships` in the graph */
     relationships: IDbRelationship[];
+    /** all `RelationshipTypes` in the graph */
+    relationshipTypes: IDbRelationshipType[];
     /** all `Property` items in the graph */
     properties: IDbProperty[];
 }
@@ -92,6 +100,7 @@ export type WizardDataContextAction =
           type: WizardDataContextActionType.RELATIONSHIP_ADD;
           payload: {
               relationship: IDbRelationship;
+              relationshipType: IDbRelationshipType;
           };
       }
     | {
@@ -104,6 +113,7 @@ export type WizardDataContextAction =
           type: WizardDataContextActionType.RELATIONSHIP_UPDATE;
           payload: {
               relationship: IDbRelationship;
+              relationshipType: IDbRelationshipType;
           };
       }
     | {

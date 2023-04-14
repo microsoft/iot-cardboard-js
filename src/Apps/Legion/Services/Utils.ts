@@ -45,9 +45,12 @@ export function replaceItem<T extends { id: string }>(
 }
 
 /** takes a collection and adds the item if it is not undefined/null */
-export function addItem<T>(item: T, collection: T[]): boolean {
+export function addItem<T extends { id: string }>(
+    item: T,
+    collection: T[]
+): boolean {
     let success = false;
-    if (isDefined(item)) {
+    if (isDefined(item) && findIndexById(item.id, collection) > -1) {
         collection.push(item);
         success = true;
     }
