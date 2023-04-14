@@ -1,5 +1,5 @@
 /** takes a collection and id and finds an element in that collection with the matching id */
-export function getItemById<T extends { id: string }>(
+export function findItemById<T extends { id: string }>(
     id: string,
     collection: T[]
 ): T {
@@ -7,7 +7,7 @@ export function getItemById<T extends { id: string }>(
 }
 
 /** takes a collection and id and finds the index of an element in that collection with the matching id */
-export function getIndexById<T extends { id: string }>(
+export function findIndexById<T extends { id: string }>(
     id: string,
     collection: T[]
 ): number {
@@ -15,9 +15,16 @@ export function getIndexById<T extends { id: string }>(
 }
 
 /** takes a collection and id and filters out any element in that collection with the matching id */
-export function filterItemsById<T extends { id: string }>(
+export function removeItemById<T extends { id: string }>(
     id: string,
     collection: T[]
-): T[] {
-    return collection.filter((x) => x.id !== id);
+): boolean {
+    let success = false;
+    const index = findIndexById(id, collection);
+    if (index > -1) {
+        collection.splice(index, 1);
+        success = true;
+    }
+
+    return success;
 }

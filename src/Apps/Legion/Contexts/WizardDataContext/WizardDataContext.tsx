@@ -12,7 +12,12 @@ import {
     WizardDataContextActionType,
     IWizardDataDispatchContext
 } from './WizardDataContext.types';
-import { getIndexById } from '../../Services/Utils';
+import { findIndexById, findItemById } from '../../Services/Utils';
+import {
+    removeEntityById,
+    removeRelationshipsByEntityId,
+    removeRelationshipById
+} from './WizardDataContext.utils';
 
 const debugLogging = false;
 export const logDebugConsole = getDebugLogger(
@@ -49,7 +54,7 @@ export const WizardDataContextReducer: (
                 break;
             }
             case WizardDataContextActionType.ENTITY_UPDATE: {
-                const index = getIndexById(
+                const index = findIndexById(
                     action.payload.entity.id,
                     draft.entities
                 );
@@ -59,13 +64,9 @@ export const WizardDataContextReducer: (
                 break;
             }
             case WizardDataContextActionType.ENTITY_REMOVE: {
-                const index = getIndexById(
-                    action.payload.entityId,
-                    draft.entities
-                );
-                if (index > -1) {
-                    draft.entities.splice(index, 1);
-                }
+                const { entityId } = action.payload;
+                removeRelationshipsByEntityId(entityId, draft);
+                removeEntityById(entityId, draft);
                 break;
             }
             case WizardDataContextActionType.TYPE_ADD: {
@@ -75,14 +76,17 @@ export const WizardDataContextReducer: (
                 break;
             }
             case WizardDataContextActionType.TYPE_UPDATE: {
-                const index = getIndexById(action.payload.type.id, draft.types);
+                const index = findIndexById(
+                    action.payload.type.id,
+                    draft.types
+                );
                 if (index > -1 && action.payload.type) {
                     draft.types[index] = action.payload.type;
                 }
                 break;
             }
             case WizardDataContextActionType.TYPE_REMOVE: {
-                const index = getIndexById(action.payload.typeId, draft.types);
+                const index = findIndexById(action.payload.typeId, draft.types);
                 if (index > -1) {
                     draft.types.splice(index, 1);
                 }
@@ -95,7 +99,7 @@ export const WizardDataContextReducer: (
                 break;
             }
             case WizardDataContextActionType.RELATIONSHIP_UPDATE: {
-                const index = getIndexById(
+                const index = findIndexById(
                     action.payload.relationship.id,
                     draft.relationships
                 );
@@ -105,13 +109,7 @@ export const WizardDataContextReducer: (
                 break;
             }
             case WizardDataContextActionType.RELATIONSHIP_REMOVE: {
-                const index = getIndexById(
-                    action.payload.relationshipId,
-                    draft.relationships
-                );
-                if (index > -1) {
-                    draft.relationships.splice(index, 1);
-                }
+                removeRelationshipById(action.payload.relationshipId, draft);
                 break;
             }
             case WizardDataContextActionType.PROPERTY_ADD: {
@@ -121,7 +119,7 @@ export const WizardDataContextReducer: (
                 break;
             }
             case WizardDataContextActionType.PROPERTY_UPDATE: {
-                const index = getIndexById(
+                const index = findIndexById(
                     action.payload.property.id,
                     draft.properties
                 );
@@ -131,7 +129,7 @@ export const WizardDataContextReducer: (
                 break;
             }
             case WizardDataContextActionType.PROPERTY_REMOVE: {
-                const index = getIndexById(
+                const index = findIndexById(
                     action.payload.propertyId,
                     draft.properties
                 );
