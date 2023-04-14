@@ -1,74 +1,74 @@
 import { useCallback, useMemo } from 'react';
-import { useWizardDataContext } from '../Contexts/WizardDataContext/WizardDataContext';
-import { IDbEntity, IViewEntity } from '../Models';
+import {
+    useWizardDataDispatchContext,
+    useWizardDataStateContext
+} from '../Contexts/WizardDataContext/WizardDataContext';
+import { IViewEntity } from '../Models';
 import {
     convertEntityToDb,
     convertEntityToView
 } from '../Services/AppTypeUtilities';
 import { getDebugLogger } from '../../../Models/Services/Utils';
-import { filterItemsById, getIndexById, getItemById } from './appData.utils';
 import { WizardDataContextActionType } from '../Contexts/WizardDataContext/WizardDataContext.types';
 
 const debugLogging = false;
 export const logDebugConsole = getDebugLogger('useEntities', debugLogging);
+
+/** hook for getting and operating on the Entity data in the wizard context */
 export const useEntities = () => {
     // contexts
-    const { wizardDataDispatch, wizardDataState } = useWizardDataContext();
+    const { wizardDataDispatch } = useWizardDataDispatchContext();
+    const { wizardDataState } = useWizardDataStateContext();
 
     // callbacks
-    const setEntities = useCallback(
-        (entities: IDbEntity[]) => {
+    const addEntity = useCallback(
+        (entity: IViewEntity) => {
+            const newEntity = convertEntityToDb(entity);
+            logDebugConsole('info', 'Adding Entity to state. {Entity}', entity);
+
             wizardDataDispatch({
-                type: WizardDataContextActionType.SET_ENTITIES,
+                type: WizardDataContextActionType.ENTITY_ADD,
                 payload: {
-                    entities: entities
+                    entity: newEntity
                 }
             });
         },
         [wizardDataDispatch]
     );
-    const addEntity = useCallback(
-        (entity: IViewEntity) => {
-            const existing = wizardDataState.entities;
-            existing.push(convertEntityToDb(entity));
-            logDebugConsole(
-                'info',
-                'Adding Entity to state. {Entity, state}',
-                entity,
-                existing
-            );
-            setEntities(existing);
-        },
-        [wizardDataState.entities, setEntities]
-    );
     const updateEntity = useCallback(
-        (updatedProperty: IViewEntity) => {
-            const existing = wizardDataState.entities;
-            const index = getIndexById(updatedProperty.id, existing);
-            existing[index] = convertEntityToDb(updatedProperty);
+        (updatedEntity: IViewEntity) => {
+            const entity = convertEntityToDb(updatedEntity);
             logDebugConsole(
                 'info',
-                `Updating Entity (id: ${updatedProperty.id}) in state. {Entity, state}`,
-                updatedProperty,
-                existing
+                `Updating Entity (id: ${updatedEntity.id}) in state. {Entity}`,
+                entity
             );
-            setEntities(existing);
+
+            wizardDataDispatch({
+                type: WizardDataContextActionType.ENTITY_ADD,
+                payload: {
+                    entity: entity
+                }
+            });
         },
-        [wizardDataState.entities, setEntities]
+        [wizardDataDispatch]
     );
     const deleteEntity = useCallback(
-        (PropertyId: string) => {
-            const existing = wizardDataState.entities;
-            const filtered = filterItemsById(PropertyId, existing);
+        (entityId: string) => {
             logDebugConsole(
                 'info',
-                `Removing Entity (id: ${PropertyId}) from state. {id, state}`,
-                PropertyId,
-                existing
+                `Removing Entity (id: ${entityId}) from state. {id}`,
+                entityId
             );
-            setEntities(filtered);
+
+            wizardDataDispatch({
+                type: WizardDataContextActionType.ENTITY_REMOVE,
+                payload: {
+                    entityId: entityId
+                }
+            });
         },
-        [wizardDataState.entities, setEntities]
+        [wizardDataDispatch]
     );
 
     // data
@@ -77,7 +77,7 @@ export const useEntities = () => {
             wizardDataState.entities.map((x) =>
                 convertEntityToView(x, wizardDataState)
             ),
-        [wizardDataState.entities]
+        [wizardDataState]
     );
 
     return {

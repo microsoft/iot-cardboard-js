@@ -1,74 +1,75 @@
 import { useCallback, useMemo } from 'react';
-import { useWizardDataContext } from '../Contexts/WizardDataContext/WizardDataContext';
 import { WizardDataContextActionType } from '../Contexts/WizardDataContext/WizardDataContext.types';
-import { IDbProperty, IViewProperty } from '../Models';
+import { IViewProperty } from '../Models';
 import {
     convertPropertyToDb,
     convertPropertyToView
 } from '../Services/AppTypeUtilities';
 import { getDebugLogger } from '../../../Models/Services/Utils';
-import { filterItemsById, getIndexById, getItemById } from './appData.utils';
+import {
+    useWizardDataDispatchContext,
+    useWizardDataStateContext
+} from '../Contexts/WizardDataContext/WizardDataContext';
 
 const debugLogging = false;
 export const logDebugConsole = getDebugLogger('useProperties', debugLogging);
+
+/** hook for getting and operating on the Property data in the wizard context */
 export const useProperties = () => {
     // contexts
-    const { wizardDataDispatch, wizardDataState } = useWizardDataContext();
+    const { wizardDataDispatch } = useWizardDataDispatchContext();
+    const { wizardDataState } = useWizardDataStateContext();
 
     // callbacks
-    const setProperties = useCallback(
-        (properties: IDbProperty[]) => {
+    const addProperty = useCallback(
+        (property: IViewProperty) => {
+            const newProperty = convertPropertyToDb(property);
+            logDebugConsole(
+                'info',
+                'Adding Property to state. {Property}',
+                newProperty
+            );
             wizardDataDispatch({
-                type: WizardDataContextActionType.SET_PROPERTIES,
+                type: WizardDataContextActionType.PROPERTY_ADD,
                 payload: {
-                    properties: properties
+                    property: newProperty
                 }
             });
         },
         [wizardDataDispatch]
     );
-    const addProperty = useCallback(
-        (Property: IViewProperty) => {
-            const existing = wizardDataState.properties;
-            existing.push(convertPropertyToDb(Property));
-            logDebugConsole(
-                'info',
-                'Adding Property to state. {Property, state}',
-                Property,
-                existing
-            );
-            setProperties(existing);
-        },
-        [wizardDataState.properties, setProperties]
-    );
     const updateProperty = useCallback(
         (updatedProperty: IViewProperty) => {
-            const existing = wizardDataState.properties;
-            const index = getIndexById(updatedProperty.id, existing);
-            existing[index] = convertPropertyToDb(updatedProperty);
+            const property = convertPropertyToDb(updatedProperty);
             logDebugConsole(
                 'info',
-                `Updating Property (id: ${updatedProperty.id}) in state. {Property, state}`,
-                updatedProperty,
-                existing
+                `Updating Property (id: ${updatedProperty.id}) in state. {Property}`,
+                property
             );
-            setProperties(existing);
+            wizardDataDispatch({
+                type: WizardDataContextActionType.PROPERTY_UPDATE,
+                payload: {
+                    property: property
+                }
+            });
         },
-        [wizardDataState.properties, setProperties]
+        [wizardDataDispatch]
     );
     const deleteProperty = useCallback(
-        (PropertyId: string) => {
-            const existing = wizardDataState.properties;
-            const filtered = filterItemsById(PropertyId, existing);
+        (propertyId: string) => {
             logDebugConsole(
                 'info',
-                `Removing Property (id: ${PropertyId}) from state. {id, state}`,
-                PropertyId,
-                existing
+                `Removing Property (id: ${propertyId}) from state. {id}`,
+                propertyId
             );
-            setProperties(filtered);
+            wizardDataDispatch({
+                type: WizardDataContextActionType.PROPERTY_REMOVE,
+                payload: {
+                    propertyId: propertyId
+                }
+            });
         },
-        [wizardDataState.properties, setProperties]
+        [wizardDataDispatch]
     );
 
     // data

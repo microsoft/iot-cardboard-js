@@ -5,12 +5,14 @@ import produce from 'immer';
 import React, { ReactNode, useContext, useReducer } from 'react';
 import { getDebugLogger } from '../../../../Models/Services/Utils';
 import {
-    IWizardDataContext,
+    IWizardDataStateContext,
     IWizardDataContextProviderProps,
     IWizardDataContextState,
     WizardDataContextAction,
-    WizardDataContextActionType
+    WizardDataContextActionType,
+    IWizardDataDispatchContext
 } from './WizardDataContext.types';
+import { getIndexById } from '../../Services/Utils';
 
 const debugLogging = false;
 export const logDebugConsole = getDebugLogger(
@@ -18,8 +20,16 @@ export const logDebugConsole = getDebugLogger(
     debugLogging
 );
 
-export const WizardDataContext = React.createContext<IWizardDataContext>(null);
-export const useWizardDataContext = () => useContext(WizardDataContext);
+export const WizardDataDispatchContext = React.createContext<IWizardDataDispatchContext>(
+    null
+);
+export const WizardDataStateContext = React.createContext<IWizardDataStateContext>(
+    null
+);
+export const useWizardDataDispatchContext = () =>
+    useContext(WizardDataDispatchContext);
+export const useWizardDataStateContext = () =>
+    useContext(WizardDataStateContext);
 
 export const WizardDataContextReducer: (
     draft: IWizardDataContextState,
@@ -32,18 +42,104 @@ export const WizardDataContextReducer: (
             (action as any).payload // sometimes doesn't have payload
         );
         switch (action.type) {
-            case WizardDataContextActionType.SET_ENTITIES:
-                draft.entities = action.payload.entities;
+            case WizardDataContextActionType.ENTITY_ADD: {
+                if (action.payload.entity) {
+                    draft.entities.push(action.payload.entity);
+                }
                 break;
-            case WizardDataContextActionType.SET_PROPERTIES:
-                draft.properties = action.payload.properties;
+            }
+            case WizardDataContextActionType.ENTITY_UPDATE: {
+                const index = getIndexById(
+                    action.payload.entity.id,
+                    draft.entities
+                );
+                if (index > -1 && action.payload.entity) {
+                    draft.entities[index] = action.payload.entity;
+                }
                 break;
-            case WizardDataContextActionType.SET_RELATIONSHIPS:
-                draft.relationships = action.payload.relationships;
+            }
+            case WizardDataContextActionType.ENTITY_REMOVE: {
+                const index = getIndexById(
+                    action.payload.entityId,
+                    draft.entities
+                );
+                if (index > -1) {
+                    draft.entities.splice(index, 1);
+                }
                 break;
-            case WizardDataContextActionType.SET_TYPES:
-                draft.types = action.payload.types;
+            }
+            case WizardDataContextActionType.TYPE_ADD: {
+                if (action.payload.type) {
+                    draft.types.push(action.payload.type);
+                }
                 break;
+            }
+            case WizardDataContextActionType.TYPE_UPDATE: {
+                const index = getIndexById(action.payload.type.id, draft.types);
+                if (index > -1 && action.payload.type) {
+                    draft.types[index] = action.payload.type;
+                }
+                break;
+            }
+            case WizardDataContextActionType.TYPE_REMOVE: {
+                const index = getIndexById(action.payload.typeId, draft.types);
+                if (index > -1) {
+                    draft.types.splice(index, 1);
+                }
+                break;
+            }
+            case WizardDataContextActionType.RELATIONSHIP_ADD: {
+                if (action.payload.relationship) {
+                    draft.relationships.push(action.payload.relationship);
+                }
+                break;
+            }
+            case WizardDataContextActionType.RELATIONSHIP_UPDATE: {
+                const index = getIndexById(
+                    action.payload.relationship.id,
+                    draft.relationships
+                );
+                if (index > -1 && action.payload.relationship) {
+                    draft.relationships[index] = action.payload.relationship;
+                }
+                break;
+            }
+            case WizardDataContextActionType.RELATIONSHIP_REMOVE: {
+                const index = getIndexById(
+                    action.payload.relationshipId,
+                    draft.relationships
+                );
+                if (index > -1) {
+                    draft.relationships.splice(index, 1);
+                }
+                break;
+            }
+            case WizardDataContextActionType.PROPERTY_ADD: {
+                if (action.payload.property) {
+                    draft.properties.push(action.payload.property);
+                }
+                break;
+            }
+            case WizardDataContextActionType.PROPERTY_UPDATE: {
+                const index = getIndexById(
+                    action.payload.property.id,
+                    draft.properties
+                );
+                if (index > -1 && action.payload.property) {
+                    draft.properties[index] = action.payload.property;
+                }
+                break;
+            }
+            case WizardDataContextActionType.PROPERTY_REMOVE: {
+                const index = getIndexById(
+                    action.payload.propertyId,
+                    draft.properties
+                );
+                if (index > -1) {
+                    draft.properties.splice(index, 1);
+                }
+                break;
+            }
         }
     }
 );
@@ -65,14 +161,19 @@ export const WizardDataContextProvider = React.memo(
             state
         );
         return (
-            <WizardDataContext.Provider
+            <WizardDataDispatchContext.Provider
                 value={{
-                    wizardDataDispatch: dispatch,
-                    wizardDataState: state
+                    wizardDataDispatch: dispatch
                 }}
             >
-                {children}
-            </WizardDataContext.Provider>
+                <WizardDataStateContext.Provider
+                    value={{
+                        wizardDataState: state
+                    }}
+                >
+                    {children}
+                </WizardDataStateContext.Provider>
+            </WizardDataDispatchContext.Provider>
         );
     }
 );

@@ -1,74 +1,73 @@
 import { useCallback, useMemo } from 'react';
-import { useWizardDataContext } from '../Contexts/WizardDataContext/WizardDataContext';
+import {
+    useWizardDataDispatchContext,
+    useWizardDataStateContext
+} from '../Contexts/WizardDataContext/WizardDataContext';
 import { WizardDataContextActionType } from '../Contexts/WizardDataContext/WizardDataContext.types';
-import { IDbRelationship, IViewRelationship } from '../Models';
+import { IViewRelationship } from '../Models';
 import {
     convertRelationshipToDb,
     convertRelationshipToView
 } from '../Services/AppTypeUtilities';
 import { getDebugLogger } from '../../../Models/Services/Utils';
-import { filterItemsById, getIndexById, getItemById } from './appData.utils';
 
 const debugLogging = false;
 export const logDebugConsole = getDebugLogger('useRelationships', debugLogging);
 export const useRelationships = () => {
     // contexts
-    const { wizardDataDispatch, wizardDataState } = useWizardDataContext();
+    const { wizardDataDispatch } = useWizardDataDispatchContext();
+    const { wizardDataState } = useWizardDataStateContext();
 
     // callbacks
-    const setRelationships = useCallback(
-        (relationships: IDbRelationship[]) => {
+    const addRelationship = useCallback(
+        (relationship: IViewRelationship) => {
+            const newRelationship = convertRelationshipToDb(relationship);
+            logDebugConsole(
+                'info',
+                'Adding relationship to state. {relationship, state}',
+                newRelationship
+            );
             wizardDataDispatch({
-                type: WizardDataContextActionType.SET_RELATIONSHIPS,
+                type: WizardDataContextActionType.RELATIONSHIP_ADD,
                 payload: {
-                    relationships: relationships
+                    relationship: newRelationship
                 }
             });
         },
         [wizardDataDispatch]
     );
-    const addRelationship = useCallback(
-        (relationship: IViewRelationship) => {
-            const existingRels = wizardDataState.relationships;
-            existingRels.push(convertRelationshipToDb(relationship));
-            logDebugConsole(
-                'info',
-                'Adding relationship to state. {relationship, state}',
-                relationship,
-                existingRels
-            );
-            setRelationships(existingRels);
-        },
-        [wizardDataState.relationships, setRelationships]
-    );
     const updateRelationship = useCallback(
         (updatedRelationship: IViewRelationship) => {
-            const existingRels = wizardDataState.relationships;
-            const index = getIndexById(updatedRelationship.id, existingRels);
-            existingRels[index] = convertRelationshipToDb(updatedRelationship);
+            const relationship = convertRelationshipToDb(updatedRelationship);
             logDebugConsole(
                 'info',
-                `Updating relationship (id: ${updatedRelationship.id}) in state. {relationship, state}`,
-                updatedRelationship,
-                existingRels
+                `Updating relationship (id: ${updatedRelationship.id}) in state. {relationship}`,
+                relationship
             );
-            setRelationships(existingRels);
+            wizardDataDispatch({
+                type: WizardDataContextActionType.RELATIONSHIP_UPDATE,
+                payload: {
+                    relationship: relationship
+                }
+            });
         },
-        [wizardDataState.relationships, setRelationships]
+        [wizardDataDispatch]
     );
     const deleteRelationship = useCallback(
         (relationshipId: string) => {
-            const existingRels = wizardDataState.relationships;
-            const filtered = filterItemsById(relationshipId, existingRels);
             logDebugConsole(
                 'info',
-                `Removing relationship (id: ${relationshipId}) from state. {id, state}`,
-                relationshipId,
-                existingRels
+                `Removing relationship (id: ${relationshipId}) from state. {id}`,
+                relationshipId
             );
-            setRelationships(filtered);
+            wizardDataDispatch({
+                type: WizardDataContextActionType.RELATIONSHIP_REMOVE,
+                payload: {
+                    relationshipId: relationshipId
+                }
+            });
         },
-        [wizardDataState.relationships, setRelationships]
+        [wizardDataDispatch]
     );
 
     // data
@@ -77,7 +76,7 @@ export const useRelationships = () => {
             wizardDataState.relationships.map((x) =>
                 convertRelationshipToView(x, wizardDataState)
             ),
-        [wizardDataState.relationships]
+        [wizardDataState]
     );
 
     return {
