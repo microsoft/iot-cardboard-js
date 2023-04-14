@@ -7,6 +7,7 @@ export const GET_MOCK_WIZARD_DATA_CONTEXT_STATE = (): IWizardDataContextState =>
         entities: [],
         properties: [],
         relationships: [],
+        relationshipTypes: [],
         types: []
     };
 };
