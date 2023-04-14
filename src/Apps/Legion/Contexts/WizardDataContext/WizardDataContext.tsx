@@ -12,7 +12,7 @@ import {
     WizardDataContextActionType,
     IWizardDataDispatchContext
 } from './WizardDataContext.types';
-import { replaceItem } from '../../Services/Utils';
+import { addItem, replaceItem } from '../../Services/Utils';
 import {
     removeEntityById,
     removeRelationshipsByEntityId,
@@ -52,9 +52,7 @@ export const WizardDataContextReducer: (
         switch (action.type) {
             case WizardDataContextActionType.ENTITY_ADD: {
                 const { entity } = action.payload;
-                if (entity) {
-                    draft.entities.push(entity);
-                }
+                addItem(entity, draft.entities);
                 break;
             }
             case WizardDataContextActionType.ENTITY_UPDATE: {
@@ -70,9 +68,7 @@ export const WizardDataContextReducer: (
             }
             case WizardDataContextActionType.TYPE_ADD: {
                 const { type } = action.payload;
-                if (type) {
-                    draft.types.push(type);
-                }
+                addItem(type, draft.types);
                 break;
             }
             case WizardDataContextActionType.TYPE_UPDATE: {
@@ -88,9 +84,7 @@ export const WizardDataContextReducer: (
             }
             case WizardDataContextActionType.RELATIONSHIP_ADD: {
                 const { relationship } = action.payload;
-                if (relationship) {
-                    draft.relationships.push(relationship);
-                }
+                addItem(relationship, draft.relationships);
                 break;
             }
             case WizardDataContextActionType.RELATIONSHIP_UPDATE: {
@@ -105,9 +99,7 @@ export const WizardDataContextReducer: (
             }
             case WizardDataContextActionType.PROPERTY_ADD: {
                 const { property } = action.payload;
-                if (property) {
-                    draft.properties.push(property);
-                }
+                addItem(property, draft.properties);
                 break;
             }
             case WizardDataContextActionType.PROPERTY_UPDATE: {

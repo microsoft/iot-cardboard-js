@@ -43,3 +43,19 @@ export function replaceItem<T extends { id: string }>(
 
     return success;
 }
+
+/** takes a collection and adds the item if it is not undefined/null */
+export function addItem<T>(item: T, collection: T[]): boolean {
+    let success = false;
+    if (isDefined(item)) {
+        collection.push(item);
+        success = true;
+    }
+
+    return success;
+}
+
+/** returns true if the value is NOT `undefined` OR `null` */
+export function isDefined(item: any): boolean {
+    return item !== null && item !== undefined;
+}
