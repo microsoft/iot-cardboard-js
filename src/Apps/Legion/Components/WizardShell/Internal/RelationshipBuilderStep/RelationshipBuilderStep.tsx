@@ -16,6 +16,7 @@ import {
     getViewModelsFromCookedAssets,
     getViewTwinsFromCookedAssets
 } from '../../../../Services/DataPusherUtils';
+import UserDefinedEntityForm from '../../../UserDefinedEntityForm/UserDefinedEntityForm';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('RelationshipBuilderStep', debugLogging);
@@ -24,44 +25,6 @@ const getClassNames = classNamesFunction<
     IRelationshipBuilderStepStyleProps,
     IRelationshipBuilderStepStyles
 >();
-
-// const mockData: IGraphNode<any>[] = [
-//     {
-//         id: '1',
-//         label: 'Node 1',
-//         icon: 'CircleRing',
-//         color: 'red',
-//         data: { property1: 'something' }
-//     },
-//     {
-//         id: '2',
-//         label: 'Node 2',
-//         icon: 'CircleRing',
-//         color: 'blue',
-//         data: { property1: 'something' }
-//     },
-//     {
-//         id: '3',
-//         label: 'Node 3',
-//         icon: 'CircleRing',
-//         color: 'red',
-//         data: { property1: 'something' }
-//     },
-//     {
-//         id: '4',
-//         label: 'Node 4',
-//         icon: 'CircleRing',
-//         color: 'yellow',
-//         data: { property1: 'something' }
-//     },
-//     {
-//         id: '5',
-//         label: 'Node 5',
-//         icon: 'CircleRing',
-//         color: 'yellow',
-//         data: { property1: 'something' }
-//     }
-// ];
 
 const RelationshipBuilderStep: React.FC<IRelationshipBuilderStepProps> = (
     props
@@ -117,6 +80,7 @@ const RelationshipBuilderStep: React.FC<IRelationshipBuilderStepProps> = (
         <div className={classNames.root}>
             <GraphContextProvider nodeData={data}>
                 <GraphVisualizer />
+                <UserDefinedEntityForm />
             </GraphContextProvider>
         </div>
     );

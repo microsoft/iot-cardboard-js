@@ -30,6 +30,7 @@ export interface IGraphContext {
  * The state of the context
  */
 export interface IGraphContextState {
+    isParentFormVisible: boolean;
     graphData: ICustomGraphData<any>;
     selectedNodeIds: string[];
 }
@@ -38,8 +39,10 @@ export interface IGraphContextState {
  * The actions to update the state
  */
 export enum GraphContextActionType {
-    SET_SELECTED_NODES = 'SET_SELECTED_NODES',
-    ADD_PARENT = 'ADD_PARENT'
+    ADD_PARENT = 'ADD_PARENT',
+    PARENT_FORM_MODAL_HIDE = 'PARENT_FORM_MODAL_HIDE',
+    PARENT_FORM_MODAL_SHOW = 'PARENT_FORM_MODAL_SHOW',
+    SET_SELECTED_NODES = 'SET_SELECTED_NODES'
 }
 
 /** The actions to update the state */
@@ -49,6 +52,16 @@ export type GraphContextAction =
           payload: {
               nodeIds: string[];
           };
+      }
+    | {
+          type: GraphContextActionType.PARENT_FORM_MODAL_SHOW;
+          payload: {
+              /** node id that was clicked to create the parent, will prioritize SelectedNodes if any, then fallback to this node if nothing is selected */
+              nodeId: string;
+          };
+      }
+    | {
+          type: GraphContextActionType.PARENT_FORM_MODAL_HIDE;
       }
     | {
           type: GraphContextActionType.ADD_PARENT;
