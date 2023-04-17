@@ -63,7 +63,7 @@ export interface IDbType extends IBaseType {
     propertyIds: string[];
 }
 /** The view model representation of a 'type' of `Entity` */
-export interface IViewType extends IBaseType, IBase {
+export interface IViewType extends IBaseType {
     properties: IViewProperty[];
 }
 // #endregion
@@ -80,7 +80,7 @@ interface IBaseProperty extends IBase {
 /** The database representation of a property for a `Type` */
 export type IDbProperty = IBaseProperty;
 /** The view model representation of a property for a `Type` */
-export type IViewProperty = IBaseProperty & IBase;
+export type IViewProperty = IBaseProperty;
 
 // #endregion
 
@@ -107,7 +107,7 @@ export interface IDbRelationship extends IBaseRelationship {
     targetEntityId: string;
 }
 /** The view model representation of a property of a `Relationship` */
-export interface IViewRelationship extends IBaseRelationship, IBase {
+export interface IViewRelationship extends IBaseRelationship {
     type: IViewRelationshipType;
     sourceEntity: IViewEntity;
     targetEntity: IViewEntity;
@@ -122,5 +122,5 @@ interface IBaseRelationshipType extends IBase {
 /** The database representation of a property of a `RelationshipType` */
 export type IDbRelationshipType = IBaseRelationshipType;
 /** The view model representation of a property of a `RelationshipType` */
-export type IViewRelationshipType = IBaseRelationshipType & IBase;
+export type IViewRelationshipType = IBaseRelationshipType;
 // #endregion
