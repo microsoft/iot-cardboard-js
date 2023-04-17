@@ -1,6 +1,7 @@
 require('colors');
 const fs = require('fs');
 const componentTemplates = require('./templates/component');
+const legionTemplates = require('./templates/legion-component');
 const { exec } = require('child_process');
 
 // Grab and validate componentName from script args
@@ -8,6 +9,9 @@ const componentName = process.argv[2];
 
 // Grab and validate appName from script args
 const appName = process.argv[3];
+
+// Check if new templates flag is present
+const newTemplates = process.argv[4] == 'new';
 
 if (!componentName) {
     console.error(
@@ -62,9 +66,18 @@ fs.mkdirSync(componentDirectory);
 
 // Generate sub component /Consume and /Create templates
 
-const generatedTemplates = componentTemplates.map((template) =>
-    template(componentName, componentDirectory)
-);
+let generatedTemplates;
+
+if (newTemplates) {
+    console.log('New templates being used');
+    generatedTemplates = legionTemplates.map((template) =>
+        template(componentName, componentDirectory)
+    );
+} else {
+    generatedTemplates = componentTemplates.map((template) =>
+        template(componentName, componentDirectory)
+    );
+}
 
 generatedTemplates.forEach((template) => {
     fs.writeFileSync(
