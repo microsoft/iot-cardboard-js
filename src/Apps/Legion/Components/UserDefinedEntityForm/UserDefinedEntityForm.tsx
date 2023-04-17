@@ -11,12 +11,14 @@ import {
     IUserDefinedEntityFormStyles
 } from './UserDefinedEntityForm.types';
 import { getFormStyles } from './UserDefinedEntityForm.styles';
-import { useWizardDataManagementContext } from '../../Contexts/WizardDataManagementContext/WizardDataManagementContext';
 import { useTranslation } from 'react-i18next';
 import { useGraphContext } from '../../Contexts/GraphContext/GraphContext';
 import CardboardModal from '../../../../Components/CardboardModal/CardboardModal';
 import { GraphContextActionType } from '../../Contexts/GraphContext/GraphContext.types';
 import UserDefinedEntityFormView from './UserDefinedEntityForm.view';
+import { useRelationships } from '../../Hooks/useRelationships';
+import { useTypes } from '../../Hooks/useTypes';
+import { useEntities } from '../../Hooks/useEntities';
 
 const debugLogging = true;
 const logDebugConsole = getDebugLogger('UserDefinedEntityForm', debugLogging);
@@ -39,25 +41,18 @@ const UserDefinedEntityForm: React.FC<IUserDefinedEntityFormProps> = (
     const { styles } = props;
 
     // contexts
-    const {
-        wizardDataManagementContextState
-    } = useWizardDataManagementContext();
     const { graphState, graphDispatch } = useGraphContext();
 
-    // data
-    const {
-        twins: entities,
-        models: types,
-        relationshipModels: relationships
-    } = wizardDataManagementContextState.modifiedAssets;
+    // hooks
+    const { t } = useTranslation();
+    const { relationships } = useRelationships();
+    const { types } = useTypes();
+    const { entities } = useEntities();
 
     // state
     const [formData, setFormData] = useState<IFormData>(null);
     const [isFormValid, setIsFormValid] = useState<boolean>(false);
     const [formMode, setFormMode] = useState<IFormMode>('New');
-
-    // hooks
-    const { t } = useTranslation();
 
     // callbacks
     const onFormChange = useCallback((formData: IFormChangeArgs) => {
@@ -65,6 +60,14 @@ const UserDefinedEntityForm: React.FC<IUserDefinedEntityFormProps> = (
         setIsFormValid(formData.isValid);
         logDebugConsole('debug', 'Form data change. {data}', formData);
     }, []);
+    const onFormSubmit = useCallback(() => {
+        logDebugConsole('debug', 'Submit click. {data}');
+        if (formMode === 'Existing') {
+            //
+        } else if (formMode === 'New') {
+            //
+        }
+    }, [formMode]);
 
     // side effects
 
@@ -80,7 +83,8 @@ const UserDefinedEntityForm: React.FC<IUserDefinedEntityFormProps> = (
             isOpen={graphState.isParentFormVisible}
             footerPrimaryButtonProps={{
                 disabled: !isFormValid,
-                text: t(LOC_KEYS.actionButtonText)
+                text: t(LOC_KEYS.actionButtonText),
+                onClick: onFormSubmit
             }}
             onDismiss={() => {
                 logDebugConsole('info', 'Submitting form: {data}', formData);

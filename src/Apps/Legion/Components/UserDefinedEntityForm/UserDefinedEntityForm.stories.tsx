@@ -3,10 +3,9 @@ import { ComponentStory } from '@storybook/react';
 import { getDefaultStoryDecorator } from '../../../../Models/Services/StoryUtilities';
 import UserDefinedEntityForm from './UserDefinedEntityForm';
 import { IUserDefinedEntityFormProps } from './UserDefinedEntityForm.types';
-import { WizardDataManagementContextProvider } from '../../Contexts/WizardDataManagementContext/WizardDataManagementContext';
 import {
-    DEFAULT_MOCK_DATA_MANAGEMENT_STATE,
     DEFAULT_MOCK_GRAPH_PROVIDER_DATA,
+    GET_DEFAULT_MOCK_WIZARD_DATA_CONTEXT,
     WIZARD_NAVIGATION_MOCK_DATA
 } from '../WizardShell/WizardShellMockData';
 import {
@@ -16,6 +15,7 @@ import {
 import { WizardNavigationContextProvider } from '../../Contexts/WizardNavigationContext/WizardNavigationContext';
 import { PrimaryButton } from '@fluentui/react';
 import { GraphContextActionType } from '../../Contexts/GraphContext/GraphContext.types';
+import { WizardDataContextProvider } from '../../Contexts/WizardDataContext/WizardDataContext';
 
 const wrapperStyle = { width: '100%', height: '600px', padding: 8 };
 
@@ -51,10 +51,8 @@ const Contents: UserDefinedEntityFormStory = (args) => {
 
 const Template: UserDefinedEntityFormStory = (args) => {
     return (
-        <WizardDataManagementContextProvider
-            initialState={{
-                ...DEFAULT_MOCK_DATA_MANAGEMENT_STATE
-            }}
+        <WizardDataContextProvider
+            initialState={GET_DEFAULT_MOCK_WIZARD_DATA_CONTEXT()}
         >
             <WizardNavigationContextProvider
                 initialState={WIZARD_NAVIGATION_MOCK_DATA}
@@ -69,7 +67,7 @@ const Template: UserDefinedEntityFormStory = (args) => {
                     <Contents {...args} />
                 </GraphContextProvider>
             </WizardNavigationContextProvider>
-        </WizardDataManagementContextProvider>
+        </WizardDataContextProvider>
     );
 };
 

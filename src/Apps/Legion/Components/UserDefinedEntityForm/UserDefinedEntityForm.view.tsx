@@ -1,4 +1,8 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import CreatableSelect from 'react-select/creatable';
+import { ActionMeta } from 'react-select';
+import produce from 'immer';
 import {
     classNamesFunction,
     Dropdown,
@@ -16,18 +20,14 @@ import {
     IUserDefinedEntityFormViewProps
 } from './UserDefinedEntityForm.types';
 import { getViewStyles } from './UserDefinedEntityForm.styles';
-import { IModel, IRelationshipModel, ITwin } from '../../Models/Interfaces';
 import IconPicker from '../../../../Components/Pickers/IconSelectButton/IconPicker';
 import ColorPicker from '../../../../Components/Pickers/ColorSelectButton/ColorPicker';
 import {
     WIZARD_GRAPH_NODE_COLOR_OPTIONS,
     WIZARD_GRAPH_NODE_ICON_OPTIONS
 } from '../../Models/Constants';
-import { useTranslation } from 'react-i18next';
+import { IViewEntity, IViewRelationship, IViewType } from '../../Models';
 import { IReactSelectOption } from '../../Models/Types';
-import CreatableSelect from 'react-select/creatable';
-import { ActionMeta } from 'react-select';
-import produce from 'immer';
 import { getReactSelectStyles } from '../../../../Resources/Styles/ReactSelect.styles';
 
 const debugLogging = true;
@@ -63,26 +63,32 @@ const LOC_KEYS = {
         'legionApp.UserDefinedEntityForm.Form.existingEntityFieldPlaceholder'
 };
 
-const getParentTypeOptions = (types: IModel[]): IReactSelectOption[] => {
+const getParentTypeOptions = (types: IViewType[]): IReactSelectOption[] => {
     return (
-        types?.map((x) => ({ value: x.id, label: x.name, __isNew__: false })) ??
-        []
+        types?.map((x) => ({
+            value: x.id,
+            label: x.friendlyName,
+            __isNew__: false
+        })) ?? []
     );
 };
 
 const getExistingEntityOptions = (
-    entities: ITwin[]
-): IDropdownOption<ITwin>[] => {
-    return entities?.map((x) => ({ key: x.id, text: x.name, data: x })) ?? [];
+    entities: IViewEntity[]
+): IDropdownOption<IViewEntity>[] => {
+    return (
+        entities?.map((x) => ({ key: x.id, text: x.friendlyName, data: x })) ??
+        []
+    );
 };
 
 const getExistingRelationshipOptions = (
-    relationships: IRelationshipModel[]
+    relationships: IViewRelationship[]
 ): IReactSelectOption[] => {
     return (
         relationships?.map((x) => ({
             value: x.id,
-            label: x.name,
+            label: x.type.name,
             __isNew__: false
         })) ?? []
     );
@@ -133,9 +139,9 @@ const UserDefinedEntityFormView: React.FC<IUserDefinedEntityFormViewProps> = (
     const [
         selectedExistingEntity,
         setSelectedExistingEntity
-    ] = useState<IDropdownOption<ITwin> | null>(null);
+    ] = useState<IDropdownOption<IViewEntity> | null>(null);
     const [existingEntityOptions, setExistingEntityOptions] = useState<
-        IDropdownOption<ITwin>[]
+        IDropdownOption<IViewEntity>[]
     >([]);
     const [
         existingEntityRelationshipNameValue,
@@ -240,7 +246,7 @@ const UserDefinedEntityFormView: React.FC<IUserDefinedEntityFormViewProps> = (
                 data: {
                     color: '', // TODO: get from model
                     icon: '', // TODO: get from model
-                    parentName: selectedEntityData?.name || '',
+                    parentName: selectedEntityData?.friendlyName || '',
                     parentType: selectedEntityData?.id || '',
                     relationshipName: relationshipName
                 }

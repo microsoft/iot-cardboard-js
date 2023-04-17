@@ -4,7 +4,7 @@ import {
     IStyleFunctionOrObject
 } from '@fluentui/react';
 import { IExtendedTheme } from '../../../../Theming/Theme.types';
-import { IModel, IRelationshipModel, ITwin } from '../../Models/Interfaces';
+import { IViewEntity, IViewRelationship, IViewType } from '../../Models';
 
 export interface IFormData {
     color: string;
@@ -53,9 +53,9 @@ export interface IFormChangeArgs {
 }
 export interface IUserDefinedEntityFormViewProps {
     formMode: IFormMode;
-    existingTypes: IModel[];
-    existingEntities: ITwin[];
-    existingRelationships: IRelationshipModel[];
+    existingTypes: IViewType[];
+    existingEntities: IViewEntity[];
+    existingRelationships: IViewRelationship[];
     onFormChange: (formData: IFormChangeArgs) => void;
     /**
      * Call to provide customized styling that will layer on top of the variant rules.
