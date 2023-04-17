@@ -1,13 +1,10 @@
 require('colors');
 const fs = require('fs');
-const componentTemplates = require('./templates/component');
+const legionTemplates = require('./templates/legion-component');
 const { exec } = require('child_process');
 
 // Grab and validate componentName from script args
 const componentName = process.argv[2];
-
-// Grab and validate appName from script args
-const appName = process.argv[3];
 
 if (!componentName) {
     console.error(
@@ -25,28 +22,7 @@ if (componentName[0] !== componentName[0].toUpperCase()) {
     process.exit(1);
 }
 
-let componentDirectory = `./src/Components/${componentName}`;
-
-if (appName) {
-    if (appName[0] !== appName[0].toUpperCase()) {
-        console.error(
-            `[${appName}] is invalid.  The first letter of a component must be capitalized.`
-                .red
-        );
-        process.exit(1);
-    }
-
-    const appNameFolder = `./src/Apps/${appName}`;
-    if (!fs.existsSync(appNameFolder)) {
-        console.error(
-            `[${appName}] folder does not exist. Please create it before running this command.`
-                .red
-        );
-        process.exit(1);
-    }
-
-    componentDirectory = `./src/Apps/${appName}/Components/${componentName}`;
-}
+const componentDirectory = `./src/Apps/Legion/Components/${componentName}`;
 
 // Generate component directory
 console.log(
@@ -62,7 +38,7 @@ fs.mkdirSync(componentDirectory);
 
 // Generate sub component /Consume and /Create templates
 
-const generatedTemplates = componentTemplates.map((template) =>
+const generatedTemplates = legionTemplates.map((template) =>
     template(componentName, componentDirectory)
 );
 
