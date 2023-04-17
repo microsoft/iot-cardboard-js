@@ -9,7 +9,10 @@ export enum Kind {
 }
 
 /** the base class for all view models */
-interface IViewBase {
+interface IBase {
+    /** a system generated unique identifier for the property. Should be globally unique. */
+
+    id: string;
     /** is the item newly discovered */
     isNew: boolean;
     /** is the item marked for deletion */
@@ -18,11 +21,9 @@ interface IViewBase {
 
 // #region Entities
 /** the base attributes common to all representations of a property for an `Entity` */
-interface IBaseEntity {
+interface IBaseEntity extends IBase {
     /** the display friendly name of the property. Uniqueness is not required. */
     friendlyName: string;
-    /** a system generated unique identifier for the property. Should be globally unique. */
-    id: string;
     /** string representing the source of the data. ex: a connection string for Time Series or a URL to a P&ID diagram */
     sourceConnectionString: string;
     /** the id of the entity in the source system */
@@ -39,7 +40,7 @@ export interface IDbEntity extends IBaseEntity {
     typeId: string;
 }
 /** The view model representation of an item in the graph */
-export interface IViewEntity extends IBaseEntity, IViewBase {
+export interface IViewEntity extends IBaseEntity {
     /** the resolved view model of the `Type` the entity has */
     type: IViewType;
 }
@@ -47,15 +48,13 @@ export interface IViewEntity extends IBaseEntity, IViewBase {
 
 // #region Types
 /** the base attributes common to all representations of a property for a `Type` */
-interface IBaseType {
+interface IBaseType extends IBase {
     /** the color code to use for the model in visuals */
     color: string;
     /** the display friendly name of the property. Uniqueness is not required. */
     friendlyName: string;
     /** The name of an icon representing the model in visuals */
     icon: string;
-    /** a system generated unique identifier for the property. Should be globally unique. */
-    id: string;
     /** the 'Kind' of type this is. Ex: system defined, user defined, time series, P&ID */
     kind: Kind;
 }
@@ -64,18 +63,16 @@ export interface IDbType extends IBaseType {
     propertyIds: string[];
 }
 /** The view model representation of a 'type' of `Entity` */
-export interface IViewType extends IBaseType, IViewBase {
+export interface IViewType extends IBaseType, IBase {
     properties: IViewProperty[];
 }
 // #endregion
 
 // #region Properties
 /** the base attributes common to all representations of a property for a `Property` */
-interface IBaseProperty {
+interface IBaseProperty extends IBase {
     /** the display friendly name of the property. Uniqueness is not required. */
     friendlyName: string;
-    /** a system generated unique identifier for the property. Should be globally unique. */
-    id: string;
     /** the id or name of the property in the source system. Uniqueness is not guaranteed */
     sourcePropId: string;
 }
@@ -83,16 +80,13 @@ interface IBaseProperty {
 /** The database representation of a property for a `Type` */
 export type IDbProperty = IBaseProperty;
 /** The view model representation of a property for a `Type` */
-export type IViewProperty = IBaseProperty & IViewBase;
+export type IViewProperty = IBaseProperty & IBase;
 
 // #endregion
 
 // #region Relationships
 /** the base attributes common to all representations of a `Relationship` for a `Type` */
-interface IBaseRelationship {
-    /** a system generated unique identifier for the property. Should be globally unique. */
-    id: string;
-}
+type IBaseRelationship = IBase;
 
 /** The database representation of a property of a `Relationship` */
 export interface IDbRelationship extends IBaseRelationship {
@@ -113,16 +107,14 @@ export interface IDbRelationship extends IBaseRelationship {
     targetEntityId: string;
 }
 /** The view model representation of a property of a `Relationship` */
-export interface IViewRelationship extends IBaseRelationship, IViewBase {
+export interface IViewRelationship extends IBaseRelationship, IBase {
     type: IViewRelationshipType;
     sourceEntity: IViewEntity;
     targetEntity: IViewEntity;
 }
 
 /** the base attributes common to all representations of a `RelationshipType` */
-interface IBaseRelationshipType {
-    /** a system generated unique identifier for the property. Should be globally unique. */
-    id: string;
+interface IBaseRelationshipType extends IBase {
     /** the display friendly name of the property. Uniqueness is not required. */
     name: string;
 }
@@ -130,5 +122,5 @@ interface IBaseRelationshipType {
 /** The database representation of a property of a `RelationshipType` */
 export type IDbRelationshipType = IBaseRelationshipType;
 /** The view model representation of a property of a `RelationshipType` */
-export type IViewRelationshipType = IBaseRelationshipType & IViewBase;
+export type IViewRelationshipType = IBaseRelationshipType & IBase;
 // #endregion

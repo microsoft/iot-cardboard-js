@@ -13,10 +13,15 @@ import {
 
 // #region Base
 
-function initializeViewBase(): { isNew: boolean; isDeleted: boolean } {
+function initializeBase(args: {
+    id: string;
+    isNew: boolean;
+    isDeleted: boolean;
+}): { id: string; isNew: boolean; isDeleted: boolean } {
     return {
-        isDeleted: false,
-        isNew: false
+        id: args?.id,
+        isDeleted: args?.isDeleted ?? false,
+        isNew: args?.isNew ?? false
     };
 }
 
@@ -25,8 +30,8 @@ function initializeViewBase(): { isNew: boolean; isDeleted: boolean } {
 // #region Entities
 export function convertViewEntityToDb(viewModel: IViewEntity): IDbEntity {
     return {
+        ...initializeBase(viewModel),
         friendlyName: viewModel.friendlyName,
-        id: viewModel.id,
         sourceConnectionString: viewModel.sourceConnectionString,
         sourceEntityId: viewModel.sourceEntityId,
         values: viewModel.values, // TODO: do we need to serialize each property value into a string?
@@ -43,9 +48,8 @@ export function convertDbEntityToView(
 ): IViewEntity {
     const type = state.types.find((x) => x.id === dbModel.typeId);
     return {
-        ...initializeViewBase(),
+        ...initializeBase(dbModel),
         friendlyName: dbModel.friendlyName,
-        id: dbModel.id,
         sourceConnectionString: dbModel.sourceConnectionString,
         sourceEntityId: dbModel.sourceEntityId,
         values: dbModel.values, // TODO: deserialize if we had serialized in the other direction
@@ -58,8 +62,8 @@ export function convertDbEntityToView(
 
 export function convertViewTypeToDb(viewModel: IViewType): IDbType {
     return {
+        ...initializeBase(viewModel),
         friendlyName: viewModel.friendlyName,
-        id: viewModel.id,
         color: viewModel.color,
         icon: viewModel.icon,
         kind: viewModel.kind,
@@ -79,9 +83,8 @@ export function convertDbTypeToView(
         property && properties.push(convertDbPropertyToView(property));
     });
     return {
-        ...initializeViewBase(),
+        ...initializeBase(dbModel),
         friendlyName: dbModel.friendlyName,
-        id: dbModel.id,
         color: dbModel.color,
         icon: dbModel.icon,
         kind: dbModel.kind,
@@ -96,7 +99,7 @@ export function convertViewRelationshipToDb(
     viewModel: IViewRelationship
 ): IDbRelationship {
     return {
-        id: viewModel.id,
+        ...initializeBase(viewModel),
         sourceEntityId: viewModel.sourceEntity.id,
         targetEntityId: viewModel.targetEntity.id,
         typeId: viewModel.type.id
@@ -122,8 +125,7 @@ export function convertDbRelationshipToView(
         (x) => x.id === dbModel.id
     );
     return {
-        ...initializeViewBase(),
-        id: dbModel.id,
+        ...initializeBase(dbModel),
         type: convertDbRelationshipTypeToView(relationshipType),
         sourceEntity: convertDbEntityToView(sourceEntity, {
             types: state.types,
@@ -143,7 +145,7 @@ export function convertViewRelationshipTypeToDb(
     viewModel: IViewRelationshipType
 ): IDbRelationshipType {
     return {
-        id: viewModel.id,
+        ...initializeBase(viewModel),
         name: viewModel.name
     };
 }
@@ -152,8 +154,7 @@ export function convertDbRelationshipTypeToView(
     dbModel: IDbRelationshipType
 ): IViewRelationshipType {
     return {
-        ...initializeViewBase(),
-        id: dbModel.id,
+        ...initializeBase(dbModel),
         name: dbModel.name
     };
 }
@@ -163,17 +164,16 @@ export function convertDbRelationshipTypeToView(
 
 export function convertViewPropertyToDb(viewModel: IViewProperty): IDbProperty {
     return {
+        ...initializeBase(viewModel),
         friendlyName: viewModel.friendlyName,
-        id: viewModel.id,
         sourcePropId: viewModel.sourcePropId
     };
 }
 
 export function convertDbPropertyToView(dbModel: IDbProperty): IViewProperty {
     return {
-        ...initializeViewBase(),
+        ...initializeBase(dbModel),
         friendlyName: dbModel.friendlyName,
-        id: dbModel.id,
         sourcePropId: dbModel.sourcePropId
     };
 }
