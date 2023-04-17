@@ -8,13 +8,22 @@ export enum Kind {
     Asset = 'Asset'
 }
 
+/** the base class for all models */
+export interface IBase {
+    /** a system generated unique identifier for the property. Should be globally unique. */
+
+    id: string;
+    /** is the item newly discovered */
+    isNew: boolean;
+    /** is the item marked for deletion */
+    isDeleted: boolean;
+}
+
 // #region Entities
 /** the base attributes common to all representations of a property for an `Entity` */
-interface IBaseEntity {
+interface IBaseEntity extends IBase {
     /** the display friendly name of the property. Uniqueness is not required. */
     friendlyName: string;
-    /** a system generated unique identifier for the property. Should be globally unique. */
-    id: string;
     /** string representing the source of the data. ex: a connection string for Time Series or a URL to a P&ID diagram */
     sourceConnectionString: string;
     /** the id of the entity in the source system */
@@ -39,15 +48,13 @@ export interface IViewEntity extends IBaseEntity {
 
 // #region Types
 /** the base attributes common to all representations of a property for a `Type` */
-interface IBaseType {
+interface IBaseType extends IBase {
     /** the color code to use for the model in visuals */
     color: string;
     /** the display friendly name of the property. Uniqueness is not required. */
     friendlyName: string;
     /** The name of an icon representing the model in visuals */
     icon: string;
-    /** a system generated unique identifier for the property. Should be globally unique. */
-    id: string;
     /** the 'Kind' of type this is. Ex: system defined, user defined, time series, P&ID */
     kind: Kind;
 }
@@ -63,11 +70,9 @@ export interface IViewType extends IBaseType {
 
 // #region Properties
 /** the base attributes common to all representations of a property for a `Property` */
-interface IBaseProperty {
+interface IBaseProperty extends IBase {
     /** the display friendly name of the property. Uniqueness is not required. */
     friendlyName: string;
-    /** a system generated unique identifier for the property. Should be globally unique. */
-    id: string;
     /** the id or name of the property in the source system. Uniqueness is not guaranteed */
     sourcePropId: string;
 }
@@ -81,10 +86,7 @@ export type IViewProperty = IBaseProperty;
 
 // #region Relationships
 /** the base attributes common to all representations of a `Relationship` for a `Type` */
-interface IBaseRelationship {
-    /** a system generated unique identifier for the property. Should be globally unique. */
-    id: string;
-}
+type IBaseRelationship = IBase;
 
 /** The database representation of a property of a `Relationship` */
 export interface IDbRelationship extends IBaseRelationship {
@@ -112,9 +114,7 @@ export interface IViewRelationship extends IBaseRelationship {
 }
 
 /** the base attributes common to all representations of a `RelationshipType` */
-interface IBaseRelationshipType {
-    /** a system generated unique identifier for the property. Should be globally unique. */
-    id: string;
+interface IBaseRelationshipType extends IBase {
     /** the display friendly name of the property. Uniqueness is not required. */
     name: string;
 }

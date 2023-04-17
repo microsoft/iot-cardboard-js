@@ -6,9 +6,9 @@ import {
 import { WizardDataContextActionType } from '../Contexts/WizardDataContext/WizardDataContext.types';
 import { IViewType } from '../Models';
 import {
-    convertTypeToDb,
-    convertTypeToView
-} from '../Services/AppTypeUtilities';
+    convertViewTypeToDb,
+    convertDbTypeToView
+} from '../Services/WizardTypes.utils';
 import { getDebugLogger } from '../../../Models/Services/Utils';
 
 const debugLogging = false;
@@ -21,7 +21,7 @@ export const useTypes = () => {
     // callbacks
     const addType = useCallback(
         (type: IViewType) => {
-            const newType = convertTypeToDb(type);
+            const newType = convertViewTypeToDb(type);
             logDebugConsole('info', 'Adding Type to state. {Type}', type);
             wizardDataDispatch({
                 type: WizardDataContextActionType.TYPE_ADD,
@@ -34,7 +34,7 @@ export const useTypes = () => {
     );
     const updateType = useCallback(
         (updatedType: IViewType) => {
-            const type = convertTypeToDb(updatedType);
+            const type = convertViewTypeToDb(updatedType);
             logDebugConsole(
                 'info',
                 `Updating Type (id: ${updatedType.id}) in state. {Type}`,
@@ -70,7 +70,7 @@ export const useTypes = () => {
     const types: IViewType[] = useMemo(
         () =>
             wizardDataState.types.map((x) =>
-                convertTypeToView(x, wizardDataState)
+                convertDbTypeToView(x, wizardDataState)
             ),
         [wizardDataState]
     );

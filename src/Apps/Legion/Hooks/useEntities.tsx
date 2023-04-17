@@ -5,9 +5,9 @@ import {
 } from '../Contexts/WizardDataContext/WizardDataContext';
 import { IViewEntity } from '../Models';
 import {
-    convertEntityToDb,
-    convertEntityToView
-} from '../Services/AppTypeUtilities';
+    convertViewEntityToDb,
+    convertDbEntityToView
+} from '../Services/WizardTypes.utils';
 import { getDebugLogger } from '../../../Models/Services/Utils';
 import { WizardDataContextActionType } from '../Contexts/WizardDataContext/WizardDataContext.types';
 
@@ -23,7 +23,7 @@ export const useEntities = () => {
     // callbacks
     const addEntity = useCallback(
         (entity: IViewEntity) => {
-            const newEntity = convertEntityToDb(entity);
+            const newEntity = convertViewEntityToDb(entity);
             logDebugConsole('info', 'Adding Entity to state. {Entity}', entity);
 
             wizardDataDispatch({
@@ -37,7 +37,7 @@ export const useEntities = () => {
     );
     const updateEntity = useCallback(
         (updatedEntity: IViewEntity) => {
-            const entity = convertEntityToDb(updatedEntity);
+            const entity = convertViewEntityToDb(updatedEntity);
             logDebugConsole(
                 'info',
                 `Updating Entity (id: ${updatedEntity.id}) in state. {Entity}`,
@@ -75,7 +75,7 @@ export const useEntities = () => {
     const entities: IViewEntity[] = useMemo(
         () =>
             wizardDataState.entities.map((x) =>
-                convertEntityToView(x, wizardDataState)
+                convertDbEntityToView(x, wizardDataState)
             ),
         [wizardDataState]
     );

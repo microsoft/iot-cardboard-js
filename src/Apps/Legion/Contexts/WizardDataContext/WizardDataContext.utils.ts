@@ -1,11 +1,26 @@
 import { IDbEntity, IDbProperty, IDbRelationship, IDbType } from '../../Models';
-import { createGuid, findItemById, removeItemById } from '../../Services/Utils';
+import { createGuid, findIndexById, findItemById } from '../../Services/Utils';
 
 export function initializeId<T extends { id: string }>(item: T): T {
     if (!item.id) {
         item.id = createGuid();
     }
     return item;
+}
+
+/** takes a collection and id and marks the first element in that collection with the matching id */
+export function deleteItemById<T extends { id: string; isDeleted: boolean }>(
+    id: string,
+    collection: T[]
+): boolean {
+    let success = false;
+    const index = findIndexById(id, collection);
+    if (index > -1) {
+        collection[index].isDeleted = true;
+        success = true;
+    }
+
+    return success;
 }
 
 // #region Entities
@@ -16,8 +31,8 @@ export function removeEntityById(
     state: { entities: IDbEntity[]; relationships: IDbRelationship[] }
 ): boolean {
     return (
-        removeItemById(id, state.entities) &&
-        removeRelationshipsByEntityId(id, state)
+        deleteItemById(id, state.entities) &&
+        deleteRelationshipsByEntityId(id, state)
     );
 }
 
@@ -26,12 +41,12 @@ export function removeEntityById(
 // #region Types
 
 /** removes a relationship from state */
-export function removeTypeById(
+export function deleteTypeById(
     id: string,
     state: { types: IDbType[]; properties: IDbProperty[] }
 ): boolean {
     return (
-        removeItemById(id, state.types) && removePropertiesByTypeId(id, state)
+        deleteItemById(id, state.types) && deletePropertiesByTypeId(id, state)
     );
 }
 
@@ -40,14 +55,14 @@ export function removeTypeById(
 // #region Relationships
 
 /** removes a relationship from state */
-export function removeRelationshipById(
+export function deleteRelationshipById(
     id: string,
     state: { relationships: IDbRelationship[] }
 ): boolean {
-    return removeItemById(id, state.relationships);
+    return deleteItemById(id, state.relationships);
 }
 /** removes all relationships either starting or ending at the provided entity id */
-export function removeRelationshipsByEntityId(
+export function deleteRelationshipsByEntityId(
     id: string,
     state: { relationships: IDbRelationship[] }
 ): boolean {
@@ -66,14 +81,14 @@ export function removeRelationshipsByEntityId(
 // #region Properties
 
 /** removes a relationship from state */
-export function removePropertyById(
+export function deletePropertyById(
     id: string,
     state: { properties: IDbProperty[] }
 ): boolean {
-    return removeItemById(id, state.properties);
+    return deleteItemById(id, state.properties);
 }
 /** removes all the properties associated with a type from state */
-export function removePropertiesByTypeId(
+export function deletePropertiesByTypeId(
     typeId: string,
     state: { types: IDbType[]; properties: IDbProperty[] }
 ): boolean {
@@ -83,7 +98,7 @@ export function removePropertiesByTypeId(
         return success;
     }
     type.propertyIds.forEach((x) => {
-        success = success && removePropertyById(x, state);
+        success = success && deletePropertyById(x, state);
     });
 
     return success;

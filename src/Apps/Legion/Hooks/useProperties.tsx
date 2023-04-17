@@ -2,9 +2,9 @@ import { useCallback, useMemo } from 'react';
 import { WizardDataContextActionType } from '../Contexts/WizardDataContext/WizardDataContext.types';
 import { IViewProperty } from '../Models';
 import {
-    convertPropertyToDb,
-    convertPropertyToView
-} from '../Services/AppTypeUtilities';
+    convertViewPropertyToDb,
+    convertDbPropertyToView
+} from '../Services/WizardTypes.utils';
 import { getDebugLogger } from '../../../Models/Services/Utils';
 import {
     useWizardDataDispatchContext,
@@ -23,7 +23,7 @@ export const useProperties = () => {
     // callbacks
     const addProperty = useCallback(
         (property: IViewProperty) => {
-            const newProperty = convertPropertyToDb(property);
+            const newProperty = convertViewPropertyToDb(property);
             logDebugConsole(
                 'info',
                 'Adding Property to state. {Property}',
@@ -40,7 +40,7 @@ export const useProperties = () => {
     );
     const updateProperty = useCallback(
         (updatedProperty: IViewProperty) => {
-            const property = convertPropertyToDb(updatedProperty);
+            const property = convertViewPropertyToDb(updatedProperty);
             logDebugConsole(
                 'info',
                 `Updating Property (id: ${updatedProperty.id}) in state. {Property}`,
@@ -74,7 +74,7 @@ export const useProperties = () => {
 
     // data
     const properties: IViewProperty[] = useMemo(
-        () => wizardDataState.properties.map((x) => convertPropertyToView(x)),
+        () => wizardDataState.properties.map((x) => convertDbPropertyToView(x)),
         [wizardDataState.properties]
     );
 
