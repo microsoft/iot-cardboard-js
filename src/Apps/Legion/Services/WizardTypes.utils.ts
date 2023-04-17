@@ -72,22 +72,22 @@ export function convertViewTypeToDb(viewModel: IViewType): IDbType {
 }
 
 export function convertDbTypeToView(
-    dbModel: IDbType,
+    dbType: IDbType,
     state: {
         properties: IDbProperty[];
     }
 ): IViewType {
     const properties: IViewProperty[] = [];
-    dbModel.propertyIds.forEach((id) => {
+    dbType.propertyIds.forEach((id) => {
         const property = state.properties.find((x) => x.id === id);
         property && properties.push(convertDbPropertyToView(property));
     });
     return {
-        ...getBase(dbModel),
-        friendlyName: dbModel.friendlyName,
-        color: dbModel.color,
-        icon: dbModel.icon,
-        kind: dbModel.kind,
+        ...getBase(dbType),
+        friendlyName: dbType.friendlyName,
+        color: dbType.color,
+        icon: dbType.icon,
+        kind: dbType.kind,
         properties: properties
     };
 }
