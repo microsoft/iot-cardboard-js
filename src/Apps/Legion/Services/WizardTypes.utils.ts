@@ -119,7 +119,7 @@ export function convertDbRelationshipToView(
         (x) => x.id === dbModel.targetEntityId
     );
     const relationshipType = state.relationshipTypes.find(
-        (x) => x.id === dbModel.id
+        (x) => x.id === dbModel.typeId
     );
     return {
         ...getBase(dbModel),

@@ -275,7 +275,7 @@ const getMockRelationshipType = (
 };
 
 export const GET_DEFAULT_MOCK_WIZARD_DATA_CONTEXT = (): IWizardDataContextState => {
-    const prop1 = getProperty({ friendlyName: '' });
+    const prop1 = getProperty({ friendlyName: 'property1' });
     const type1 = getType({ friendlyName: '', propertyIds: [prop1.id] });
     const entity1 = getEntity({
         friendlyName: 'Some entity 1',
@@ -295,11 +295,14 @@ export const GET_DEFAULT_MOCK_WIZARD_DATA_CONTEXT = (): IWizardDataContextState 
         typeId: relationshipType1.id
     });
 
-    return {
-        entities: [entity1],
+    const data = {
+        entities: [entity1, entity2],
         properties: [prop1],
         relationshipTypes: [relationshipType1],
         relationships: [relationship1],
         types: [type1]
     };
+    console.log('Creating mock data', data);
+
+    return data;
 };
