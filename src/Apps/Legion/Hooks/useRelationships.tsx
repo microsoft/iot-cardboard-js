@@ -6,10 +6,10 @@ import {
 import { WizardDataContextActionType } from '../Contexts/WizardDataContext/WizardDataContext.types';
 import { IViewRelationship } from '../Models';
 import {
-    convertRelationshipToDb,
-    convertRelationshipToView,
-    convertRelationshipTypeToDb
-} from '../Services/AppTypeUtilities';
+    convertViewRelationshipToDb,
+    convertDbRelationshipToView,
+    convertViewRelationshipTypeToDb
+} from '../Services/WizardTypes.utils';
 import { getDebugLogger } from '../../../Models/Services/Utils';
 
 const debugLogging = false;
@@ -22,8 +22,8 @@ export const useRelationships = () => {
     // callbacks
     const addRelationship = useCallback(
         (relationship: IViewRelationship) => {
-            const newRelationship = convertRelationshipToDb(relationship);
-            const newRelationshipType = convertRelationshipTypeToDb(
+            const newRelationship = convertViewRelationshipToDb(relationship);
+            const newRelationshipType = convertViewRelationshipTypeToDb(
                 relationship.type
             );
             logDebugConsole(
@@ -43,8 +43,10 @@ export const useRelationships = () => {
     );
     const updateRelationship = useCallback(
         (updatedRelationship: IViewRelationship) => {
-            const relationship = convertRelationshipToDb(updatedRelationship);
-            const relationshipType = convertRelationshipTypeToDb(
+            const relationship = convertViewRelationshipToDb(
+                updatedRelationship
+            );
+            const relationshipType = convertViewRelationshipTypeToDb(
                 updatedRelationship.type
             );
 
@@ -84,7 +86,7 @@ export const useRelationships = () => {
     const relationships: IViewRelationship[] = useMemo(
         () =>
             wizardDataState.relationships.map((x) =>
-                convertRelationshipToView(x, wizardDataState)
+                convertDbRelationshipToView(x, wizardDataState)
             ),
         [wizardDataState]
     );
