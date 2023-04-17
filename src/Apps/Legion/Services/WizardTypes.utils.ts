@@ -13,7 +13,7 @@ import {
 
 // #region Base
 
-function initializeBase(args: {
+function getBase(args: {
     id: string;
     isNew: boolean;
     isDeleted: boolean;
@@ -30,7 +30,7 @@ function initializeBase(args: {
 // #region Entities
 export function convertViewEntityToDb(viewModel: IViewEntity): IDbEntity {
     return {
-        ...initializeBase(viewModel),
+        ...getBase(viewModel),
         friendlyName: viewModel.friendlyName,
         sourceConnectionString: viewModel.sourceConnectionString,
         sourceEntityId: viewModel.sourceEntityId,
@@ -48,7 +48,7 @@ export function convertDbEntityToView(
 ): IViewEntity {
     const type = state.types.find((x) => x.id === dbModel.typeId);
     return {
-        ...initializeBase(dbModel),
+        ...getBase(dbModel),
         friendlyName: dbModel.friendlyName,
         sourceConnectionString: dbModel.sourceConnectionString,
         sourceEntityId: dbModel.sourceEntityId,
@@ -62,7 +62,7 @@ export function convertDbEntityToView(
 
 export function convertViewTypeToDb(viewModel: IViewType): IDbType {
     return {
-        ...initializeBase(viewModel),
+        ...getBase(viewModel),
         friendlyName: viewModel.friendlyName,
         color: viewModel.color,
         icon: viewModel.icon,
@@ -83,7 +83,7 @@ export function convertDbTypeToView(
         property && properties.push(convertDbPropertyToView(property));
     });
     return {
-        ...initializeBase(dbModel),
+        ...getBase(dbModel),
         friendlyName: dbModel.friendlyName,
         color: dbModel.color,
         icon: dbModel.icon,
@@ -99,7 +99,7 @@ export function convertViewRelationshipToDb(
     viewModel: IViewRelationship
 ): IDbRelationship {
     return {
-        ...initializeBase(viewModel),
+        ...getBase(viewModel),
         sourceEntityId: viewModel.sourceEntity.id,
         targetEntityId: viewModel.targetEntity.id,
         typeId: viewModel.type.id
@@ -125,7 +125,7 @@ export function convertDbRelationshipToView(
         (x) => x.id === dbModel.id
     );
     return {
-        ...initializeBase(dbModel),
+        ...getBase(dbModel),
         type: convertDbRelationshipTypeToView(relationshipType),
         sourceEntity: convertDbEntityToView(sourceEntity, {
             types: state.types,
@@ -145,7 +145,7 @@ export function convertViewRelationshipTypeToDb(
     viewModel: IViewRelationshipType
 ): IDbRelationshipType {
     return {
-        ...initializeBase(viewModel),
+        ...getBase(viewModel),
         name: viewModel.name
     };
 }
@@ -154,7 +154,7 @@ export function convertDbRelationshipTypeToView(
     dbModel: IDbRelationshipType
 ): IViewRelationshipType {
     return {
-        ...initializeBase(dbModel),
+        ...getBase(dbModel),
         name: dbModel.name
     };
 }
@@ -164,7 +164,7 @@ export function convertDbRelationshipTypeToView(
 
 export function convertViewPropertyToDb(viewModel: IViewProperty): IDbProperty {
     return {
-        ...initializeBase(viewModel),
+        ...getBase(viewModel),
         friendlyName: viewModel.friendlyName,
         sourcePropId: viewModel.sourcePropId
     };
@@ -172,7 +172,7 @@ export function convertViewPropertyToDb(viewModel: IViewProperty): IDbProperty {
 
 export function convertDbPropertyToView(dbModel: IDbProperty): IViewProperty {
     return {
-        ...initializeBase(dbModel),
+        ...getBase(dbModel),
         friendlyName: dbModel.friendlyName,
         sourcePropId: dbModel.sourcePropId
     };
