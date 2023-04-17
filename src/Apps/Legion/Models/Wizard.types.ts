@@ -8,6 +8,14 @@ export enum Kind {
     Asset = 'Asset'
 }
 
+/** the base class for all view models */
+interface IViewBase {
+    /** is the item newly discovered */
+    isNew: boolean;
+    /** is the item marked for deletion */
+    isDeleted: boolean;
+}
+
 // #region Entities
 /** the base attributes common to all representations of a property for an `Entity` */
 interface IBaseEntity {
@@ -31,7 +39,7 @@ export interface IDbEntity extends IBaseEntity {
     typeId: string;
 }
 /** The view model representation of an item in the graph */
-export interface IViewEntity extends IBaseEntity {
+export interface IViewEntity extends IBaseEntity, IViewBase {
     /** the resolved view model of the `Type` the entity has */
     type: IViewType;
 }
@@ -56,7 +64,7 @@ export interface IDbType extends IBaseType {
     propertyIds: string[];
 }
 /** The view model representation of a 'type' of `Entity` */
-export interface IViewType extends IBaseType {
+export interface IViewType extends IBaseType, IViewBase {
     properties: IViewProperty[];
 }
 // #endregion
@@ -75,7 +83,7 @@ interface IBaseProperty {
 /** The database representation of a property for a `Type` */
 export type IDbProperty = IBaseProperty;
 /** The view model representation of a property for a `Type` */
-export type IViewProperty = IBaseProperty;
+export type IViewProperty = IBaseProperty & IViewBase;
 
 // #endregion
 
@@ -105,7 +113,7 @@ export interface IDbRelationship extends IBaseRelationship {
     targetEntityId: string;
 }
 /** The view model representation of a property of a `Relationship` */
-export interface IViewRelationship extends IBaseRelationship {
+export interface IViewRelationship extends IBaseRelationship, IViewBase {
     type: IViewRelationshipType;
     sourceEntity: IViewEntity;
     targetEntity: IViewEntity;
@@ -122,5 +130,5 @@ interface IBaseRelationshipType {
 /** The database representation of a property of a `RelationshipType` */
 export type IDbRelationshipType = IBaseRelationshipType;
 /** The view model representation of a property of a `RelationshipType` */
-export type IViewRelationshipType = IBaseRelationshipType;
+export type IViewRelationshipType = IBaseRelationshipType & IViewBase;
 // #endregion

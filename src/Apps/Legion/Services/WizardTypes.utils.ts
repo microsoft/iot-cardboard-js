@@ -11,8 +11,19 @@ import {
     IViewType
 } from '../Models';
 
+// #region Base
+
+function initializeViewBase(): { isNew: boolean; isDeleted: boolean } {
+    return {
+        isDeleted: false,
+        isNew: false
+    };
+}
+
+// #endregion
+
 // #region Entities
-export function convertEntityToDb(viewModel: IViewEntity): IDbEntity {
+export function convertViewEntityToDb(viewModel: IViewEntity): IDbEntity {
     return {
         friendlyName: viewModel.friendlyName,
         id: viewModel.id,
@@ -23,7 +34,7 @@ export function convertEntityToDb(viewModel: IViewEntity): IDbEntity {
     };
 }
 
-export function convertEntityToView(
+export function convertDbEntityToView(
     dbModel: IDbEntity,
     state: {
         types: IDbType[];
@@ -32,19 +43,20 @@ export function convertEntityToView(
 ): IViewEntity {
     const type = state.types.find((x) => x.id === dbModel.typeId);
     return {
+        ...initializeViewBase(),
         friendlyName: dbModel.friendlyName,
         id: dbModel.id,
         sourceConnectionString: dbModel.sourceConnectionString,
         sourceEntityId: dbModel.sourceEntityId,
         values: dbModel.values, // TODO: deserialize if we had serialized in the other direction
-        type: convertTypeToView(type, state)
+        type: convertDbTypeToView(type, state)
     };
 }
 // #endregion
 
 // #region Types
 
-export function convertTypeToDb(viewModel: IViewType): IDbType {
+export function convertViewTypeToDb(viewModel: IViewType): IDbType {
     return {
         friendlyName: viewModel.friendlyName,
         id: viewModel.id,
@@ -55,7 +67,7 @@ export function convertTypeToDb(viewModel: IViewType): IDbType {
     };
 }
 
-export function convertTypeToView(
+export function convertDbTypeToView(
     dbModel: IDbType,
     state: {
         properties: IDbProperty[];
@@ -64,9 +76,10 @@ export function convertTypeToView(
     const properties: IViewProperty[] = [];
     dbModel.propertyIds.forEach((id) => {
         const property = state.properties.find((x) => x.id === id);
-        property && properties.push(convertPropertyToView(property));
+        property && properties.push(convertDbPropertyToView(property));
     });
     return {
+        ...initializeViewBase(),
         friendlyName: dbModel.friendlyName,
         id: dbModel.id,
         color: dbModel.color,
@@ -79,7 +92,7 @@ export function convertTypeToView(
 
 // #region Relationships
 
-export function convertRelationshipToDb(
+export function convertViewRelationshipToDb(
     viewModel: IViewRelationship
 ): IDbRelationship {
     return {
@@ -90,7 +103,7 @@ export function convertRelationshipToDb(
     };
 }
 
-export function convertRelationshipToView(
+export function convertDbRelationshipToView(
     dbModel: IDbRelationship,
     state: {
         entities: IDbEntity[];
@@ -109,13 +122,14 @@ export function convertRelationshipToView(
         (x) => x.id === dbModel.id
     );
     return {
+        ...initializeViewBase(),
         id: dbModel.id,
-        type: convertRelationshipTypeToView(relationshipType),
-        sourceEntity: convertEntityToView(sourceEntity, {
+        type: convertDbRelationshipTypeToView(relationshipType),
+        sourceEntity: convertDbEntityToView(sourceEntity, {
             types: state.types,
             properties: state.properties
         }),
-        targetEntity: convertEntityToView(targetEntity, {
+        targetEntity: convertDbEntityToView(targetEntity, {
             types: state.types,
             properties: state.properties
         })
@@ -125,7 +139,7 @@ export function convertRelationshipToView(
 
 // #region Relationship Type
 
-export function convertRelationshipTypeToDb(
+export function convertViewRelationshipTypeToDb(
     viewModel: IViewRelationshipType
 ): IDbRelationshipType {
     return {
@@ -134,16 +148,20 @@ export function convertRelationshipTypeToDb(
     };
 }
 
-export function convertRelationshipTypeToView(
+export function convertDbRelationshipTypeToView(
     dbModel: IDbRelationshipType
 ): IViewRelationshipType {
-    return dbModel;
+    return {
+        ...initializeViewBase(),
+        id: dbModel.id,
+        name: dbModel.name
+    };
 }
 // #endregion
 
 // #region Properties
 
-export function convertPropertyToDb(viewModel: IViewProperty): IDbProperty {
+export function convertViewPropertyToDb(viewModel: IViewProperty): IDbProperty {
     return {
         friendlyName: viewModel.friendlyName,
         id: viewModel.id,
@@ -151,8 +169,9 @@ export function convertPropertyToDb(viewModel: IViewProperty): IDbProperty {
     };
 }
 
-export function convertPropertyToView(dbModel: IDbProperty): IDbProperty {
+export function convertDbPropertyToView(dbModel: IDbProperty): IViewProperty {
     return {
+        ...initializeViewBase(),
         friendlyName: dbModel.friendlyName,
         id: dbModel.id,
         sourcePropId: dbModel.sourcePropId
