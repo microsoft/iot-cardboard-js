@@ -15,9 +15,9 @@ import {
 import { addItem, replaceItem, replaceOrAddItem } from '../../Services/Utils';
 import {
     removeEntityById,
-    removeRelationshipById,
-    removeTypeById,
-    removePropertyById,
+    deleteRelationshipById,
+    deleteTypeById,
+    deletePropertyById,
     initializeId
 } from './WizardDataContext.utils';
 
@@ -76,7 +76,7 @@ export const WizardDataContextReducer: (
             }
             case WizardDataContextActionType.TYPE_REMOVE: {
                 const { typeId } = action.payload;
-                removeTypeById(typeId, draft);
+                deleteTypeById(typeId, draft);
                 break;
             }
             case WizardDataContextActionType.RELATIONSHIP_ADD: {
@@ -99,7 +99,7 @@ export const WizardDataContextReducer: (
             }
             case WizardDataContextActionType.RELATIONSHIP_REMOVE: {
                 const { relationshipId } = action.payload;
-                removeRelationshipById(relationshipId, draft);
+                deleteRelationshipById(relationshipId, draft);
                 break;
             }
             case WizardDataContextActionType.PROPERTY_ADD: {
@@ -114,7 +114,7 @@ export const WizardDataContextReducer: (
             }
             case WizardDataContextActionType.PROPERTY_REMOVE: {
                 const { propertyId } = action.payload;
-                removePropertyById(propertyId, draft);
+                deletePropertyById(propertyId, draft);
                 break;
             }
         }
