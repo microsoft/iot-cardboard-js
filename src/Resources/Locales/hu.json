@@ -1590,6 +1590,28 @@
     "GraphVisualizer": {
       "ContextMenu": {
         "addParentLabel": "Szülő hozzáadása"
+      },
+      "ParentForm": {
+        "formTitle": "Szülő hozzáadása"
+      }
+    },
+    "UserDefinedEntityForm": {
+      "formTitle": "Szülői kapcsolat hozzáadása",
+      "actionButtonText": "Megerősít",
+      "optionNew": "Új entitás",
+      "optionExisting": "Meglévő entitás",
+      "Form": {
+        "nameFieldLabel": "Fölérendelt entitás neve",
+        "nameFieldPlaceholder": "Adja meg a fölérendelt entitás nevét",
+        "parentTypeFieldLabel": "Szülő típusa",
+        "parentTypeFieldPlaceholder": "Válassza ki a szülő típusát",
+        "colorFieldLabel": "Szín",
+        "iconFieldLabel": "Ikon",
+        "parentEntityNameFieldLabel": "Fölérendelt entitás neve",
+        "parentEntityNameFieldPlaceholder": "Adja meg a fölérendelt entitás nevét",
+        "relationshipNameFieldLabel": "Kapcsolat neve",
+        "relationshipNameFieldPlaceholder": "Kapcsolatnév kijelölése vagy létrehozása",
+        "existingEntityFieldPlaceholder": "Válasszon ki egy meglévő entitást"
       }
     }
   }

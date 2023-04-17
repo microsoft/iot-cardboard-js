@@ -1590,6 +1590,28 @@
     "GraphVisualizer": {
       "ContextMenu": {
         "addParentLabel": "Lägg till överordnad"
+      },
+      "ParentForm": {
+        "formTitle": "Lägg till överordnad"
+      }
+    },
+    "UserDefinedEntityForm": {
+      "formTitle": "Lägg till överordnad relation",
+      "actionButtonText": "Bekräfta",
+      "optionNew": "Ny enhet",
+      "optionExisting": "Befintlig enhet",
+      "Form": {
+        "nameFieldLabel": "Namn på överordnad entitet",
+        "nameFieldPlaceholder": "Ange överordnat entitetsnamn",
+        "parentTypeFieldLabel": "Överordnad typ",
+        "parentTypeFieldPlaceholder": "Välj en typ för den överordnade",
+        "colorFieldLabel": "Färg",
+        "iconFieldLabel": "Ikon",
+        "parentEntityNameFieldLabel": "Namn på överordnad entitet",
+        "parentEntityNameFieldPlaceholder": "Ange ett namn för den överordnade entiteten",
+        "relationshipNameFieldLabel": "Relationens namn",
+        "relationshipNameFieldPlaceholder": "Välj eller skapa ett relationsnamn",
+        "existingEntityFieldPlaceholder": "Välj en befintlig entitet"
       }
     }
   }

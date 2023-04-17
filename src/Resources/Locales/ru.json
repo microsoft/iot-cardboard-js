@@ -1590,6 +1590,28 @@
     "GraphVisualizer": {
       "ContextMenu": {
         "addParentLabel": "Добавить родителя"
+      },
+      "ParentForm": {
+        "formTitle": "Добавить родителя"
+      }
+    },
+    "UserDefinedEntityForm": {
+      "formTitle": "Добавить родительские отношения",
+      "actionButtonText": "Подтверждать",
+      "optionNew": "Новая сущность",
+      "optionExisting": "Существующая сущность",
+      "Form": {
+        "nameFieldLabel": "Имя родительской сущности",
+        "nameFieldPlaceholder": "Введите имя родительской сущности",
+        "parentTypeFieldLabel": "Родительский тип",
+        "parentTypeFieldPlaceholder": "Выбор типа для родительского элемента",
+        "colorFieldLabel": "Цвет",
+        "iconFieldLabel": "Икона",
+        "parentEntityNameFieldLabel": "Имя родительской сущности",
+        "parentEntityNameFieldPlaceholder": "Введите имя родительской сущности",
+        "relationshipNameFieldLabel": "Имя отношения",
+        "relationshipNameFieldPlaceholder": "Выбор или создание имени связи",
+        "existingEntityFieldPlaceholder": "Выберите существующую сущность"
       }
     }
   }

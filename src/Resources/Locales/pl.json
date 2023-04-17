@@ -1590,6 +1590,28 @@
     "GraphVisualizer": {
       "ContextMenu": {
         "addParentLabel": "Dodaj rodzica"
+      },
+      "ParentForm": {
+        "formTitle": "Dodaj rodzica"
+      }
+    },
+    "UserDefinedEntityForm": {
+      "formTitle": "Dodawanie relacji nadrzędnej",
+      "actionButtonText": "Potwierdzić",
+      "optionNew": "Nowy podmiot",
+      "optionExisting": "Istniejący podmiot",
+      "Form": {
+        "nameFieldLabel": "Nazwa jednostki nadrzędnej",
+        "nameFieldPlaceholder": "Wprowadź nazwę jednostki nadrzędnej",
+        "parentTypeFieldLabel": "Typ nadrzędny",
+        "parentTypeFieldPlaceholder": "Wybierz typ dla rodzica",
+        "colorFieldLabel": "Kolor",
+        "iconFieldLabel": "Ikona",
+        "parentEntityNameFieldLabel": "Nazwa jednostki nadrzędnej",
+        "parentEntityNameFieldPlaceholder": "Wprowadź nazwę jednostki nadrzędnej",
+        "relationshipNameFieldLabel": "Nazwa związku",
+        "relationshipNameFieldPlaceholder": "Wybieranie lub tworzenie nazwy relacji",
+        "existingEntityFieldPlaceholder": "Wybierz istniejącą encję"
       }
     }
   }

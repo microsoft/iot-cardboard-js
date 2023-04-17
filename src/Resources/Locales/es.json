@@ -1590,6 +1590,28 @@
     "GraphVisualizer": {
       "ContextMenu": {
         "addParentLabel": "Agregar padre"
+      },
+      "ParentForm": {
+        "formTitle": "Agregar padre"
+      }
+    },
+    "UserDefinedEntityForm": {
+      "formTitle": "Agregar relación principal",
+      "actionButtonText": "Confirmar",
+      "optionNew": "Nueva entidad",
+      "optionExisting": "Entidad existente",
+      "Form": {
+        "nameFieldLabel": "Nombre de la entidad matriz",
+        "nameFieldPlaceholder": "Introduzca el nombre de la entidad principal",
+        "parentTypeFieldLabel": "Tipo de padre",
+        "parentTypeFieldPlaceholder": "Seleccione un tipo para el padre",
+        "colorFieldLabel": "Color",
+        "iconFieldLabel": "Icono",
+        "parentEntityNameFieldLabel": "Nombre de la entidad matriz",
+        "parentEntityNameFieldPlaceholder": "Escriba un nombre para la entidad principal",
+        "relationshipNameFieldLabel": "Nombre de la relación",
+        "relationshipNameFieldPlaceholder": "Seleccionar o crear un nombre de relación",
+        "existingEntityFieldPlaceholder": "Seleccionar una entidad existente"
       }
     }
   }
