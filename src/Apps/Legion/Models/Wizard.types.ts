@@ -8,8 +8,8 @@ export enum Kind {
     Asset = 'Asset'
 }
 
-/** the base class for all view models */
-interface IBase {
+/** the base class for all models */
+export interface IBase {
     /** a system generated unique identifier for the property. Should be globally unique. */
 
     id: string;

@@ -1,4 +1,5 @@
 import {
+    IBase,
     IDbEntity,
     IDbProperty,
     IDbRelationship,
@@ -13,11 +14,7 @@ import {
 
 // #region Base
 
-function getBase(args: {
-    id: string;
-    isNew: boolean;
-    isDeleted: boolean;
-}): { id: string; isNew: boolean; isDeleted: boolean } {
+function getBase(args: IBase): IBase {
     return {
         id: args?.id,
         isDeleted: args?.isDeleted ?? false,
