@@ -1,8 +1,17 @@
 import { IStepperWizardStep } from '../../../../Components/StepperWizard/StepperWizard.types';
 import MockDataManagementAdapter from '../../Adapters/Standalone/DataManagement/MockDataManagementAdapter';
 import { IGraphContextProviderProps } from '../../Contexts/GraphContext/GraphContext.types';
+import { IWizardDataContextState } from '../../Contexts/WizardDataContext/WizardDataContext.types';
 import { IWizardDataManagementContextState } from '../../Contexts/WizardDataManagementContext/WizardDataManagementContext.types';
 import { IWizardNavigationContextState } from '../../Contexts/WizardNavigationContext/WizardNavigationContext.types';
+import {
+    IDbEntity,
+    IDbProperty,
+    IDbRelationship,
+    IDbType,
+    Kind,
+    IDbRelationshipType
+} from '../../Models';
 import {
     IAppData,
     IModel,
@@ -191,4 +200,106 @@ export const DEFAULT_MOCK_GRAPH_PROVIDER_DATA: IGraphContextProviderProps<object
             data: {}
         }
     ]
+};
+
+const getEntity = (
+    partial: Partial<IDbEntity> & { friendlyName: string; typeId: string }
+): IDbEntity => {
+    const name = partial.friendlyName.replace(/ /g, '');
+    return {
+        id: `id-${name}`,
+        isDeleted: false,
+        isNew: false,
+        sourceConnectionString: 'mockSourceConnectionString',
+        sourceEntityId: `mockSourceEntityId-${name}`,
+        values: {},
+        ...partial
+    };
+};
+
+const getType = (
+    partial: Partial<IDbType> & { friendlyName: string }
+): IDbType => {
+    const name = partial.friendlyName.replace(/ /g, '');
+    return {
+        color: '',
+        icon: '',
+        id: `id-${name}`,
+        isDeleted: false,
+        isNew: false,
+        kind: Kind.Asset,
+        propertyIds: [],
+        ...partial
+    };
+};
+
+const getProperty = (
+    partial: Partial<IDbProperty> & { friendlyName: string }
+): IDbProperty => {
+    const name = partial.friendlyName;
+    return {
+        id: `id-${name}`,
+        isDeleted: false,
+        isNew: false,
+        sourcePropId: `mockSourcePropId-${name}`,
+        ...partial
+    };
+};
+
+const getMockRelationship = (
+    partial: Partial<IDbRelationship> & {
+        sourceEntityId: string;
+        targetEntityId: string;
+        typeId: string;
+    }
+): IDbRelationship => {
+    const name = partial.typeId;
+    return {
+        id: `id-${name}`,
+        isDeleted: false,
+        isNew: false,
+        ...partial
+    };
+};
+
+const getMockRelationshipType = (
+    partial: Partial<IDbRelationshipType> & { name: string }
+): IDbRelationshipType => {
+    const name = partial.name.replace(/ /g, '');
+    return {
+        id: `id-${name}`,
+        isDeleted: false,
+        isNew: false,
+        ...partial
+    };
+};
+
+export const GET_DEFAULT_MOCK_WIZARD_DATA_CONTEXT = (): IWizardDataContextState => {
+    const prop1 = getProperty({ friendlyName: '' });
+    const type1 = getType({ friendlyName: '', propertyIds: [prop1.id] });
+    const entity1 = getEntity({
+        friendlyName: 'Some entity 1',
+        typeId: type1.id
+    });
+    const entity2 = getEntity({
+        friendlyName: 'Some entity 2',
+        typeId: type1.id
+    });
+
+    const relationshipType1 = getMockRelationshipType({
+        name: 'Parent'
+    });
+    const relationship1 = getMockRelationship({
+        sourceEntityId: entity1.id,
+        targetEntityId: entity2.id,
+        typeId: relationshipType1.id
+    });
+
+    return {
+        entities: [entity1],
+        properties: [prop1],
+        relationshipTypes: [relationshipType1],
+        relationships: [relationship1],
+        types: [type1]
+    };
 };
