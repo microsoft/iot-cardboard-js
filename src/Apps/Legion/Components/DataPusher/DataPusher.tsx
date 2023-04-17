@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import {
     IDataPusherContext,
     IDataPusherProps,
@@ -10,9 +10,9 @@ import { classNamesFunction, Pivot, PivotItem, styled } from '@fluentui/react';
 import { useExtendedTheme } from '../../../../Models/Hooks/useExtendedTheme';
 import { getDebugLogger } from '../../../../Models/Services/Utils';
 import { useTranslation } from 'react-i18next';
-import Setup from './Internal/Setup';
 import Ingest from './Internal/Ingest';
 import Cook from './Internal/Cook';
+import ConnectionStringPicker from './Internal/ConnectionStringPicker';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('DataPusher', debugLogging);
@@ -28,9 +28,14 @@ export const useDataPusherContext = () => useContext(DataPusherContext);
 const DataPusher: React.FC<IDataPusherProps> = (props) => {
     const { adapter, styles } = props;
 
+    //state
+    const [selectedClusterUrl, setSelectedClusterUrl] = useState('');
+
     // hooks
     const { t } = useTranslation();
     const theme = useExtendedTheme();
+
+    //callbacks
 
     // styles
     const classNames = getClassNames(styles, {
@@ -46,15 +51,11 @@ const DataPusher: React.FC<IDataPusherProps> = (props) => {
             }}
         >
             <div className={classNames.root}>
-                <h3 style={{ marginTop: 0 }}>
-                    {t('legionApp.dataPusher.title')}
-                </h3>
-                <Pivot>
-                    <PivotItem
-                        headerText={t('legionApp.dataPusher.tabs.setup')}
-                    >
-                        <Setup />
-                    </PivotItem>
+                <h3>{t('legionApp.dataPusher.title')}</h3>
+                <ConnectionStringPicker
+                    onConnectionStringChange={setSelectedClusterUrl}
+                />
+                <Pivot key={selectedClusterUrl}>
                     <PivotItem
                         headerText={t('legionApp.dataPusher.tabs.ingest')}
                     >

@@ -47,10 +47,13 @@ export const ModelLists: React.FC<IModelListsProps> = (_props) => {
         wizardDataManagementContextState.modifiedAssets.properties
     );
     const [models, setModels] = useState<IModelExtended[]>(
-        buildViewModel(
-            wizardDataManagementContextState.initialAssets.models,
-            wizardDataManagementContextState.modifiedAssets.models
-        )
+        wizardDataManagementContextState.initialAssets?.models &&
+            wizardDataManagementContextState.modifiedAssets?.models
+            ? buildViewModel(
+                  wizardDataManagementContextState.initialAssets.models,
+                  wizardDataManagementContextState.modifiedAssets.models
+              )
+            : []
     );
 
     useEffect(() => {
@@ -114,7 +117,7 @@ export const ModelLists: React.FC<IModelListsProps> = (_props) => {
 
     return (
         <div className={style.root}>
-            {models.map((m) => {
+            {models?.map((m) => {
                 return (
                     <div key={m.id} className={style.tableContainer}>
                         <div className={style.leftContainer}>

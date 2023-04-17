@@ -34,6 +34,35 @@ export const NavigationContextReducer: (
         case WizardNavigationContextActionType.NAVIGATE_TO:
             draft.currentStep = action.payload.stepNumber;
             break;
+        case WizardNavigationContextActionType.SET_PRIMARY_ACTION:
+            draft.primaryAction = action.payload.buttonProps;
+            break;
+        case WizardNavigationContextActionType.SET_PRIMARY_ACTION_IS_DISABLED:
+            if (draft.primaryAction) {
+                draft.primaryAction.disabled = action.payload.isDisabled;
+            }
+            break;
+        case WizardNavigationContextActionType.SET_SECONDARY_ACTIONS:
+            draft.secondaryActions = action.payload.buttonProps;
+            break;
+        case WizardNavigationContextActionType.SET_SECONDARY_ACTION_BY_INDEX:
+            if (
+                draft.secondaryActions &&
+                draft.secondaryActions[action.payload.index]
+            ) {
+                draft.secondaryActions[action.payload.index] =
+                    action.payload.buttonProps;
+            }
+            break;
+        case WizardNavigationContextActionType.SET_SECONDARY_ACTION_IS_DISABLED:
+            if (
+                draft.secondaryActions &&
+                draft.secondaryActions[action.payload.index]
+            ) {
+                draft.secondaryActions[action.payload.index].disabled =
+                    action.payload.isDisabled;
+            }
+            break;
     }
 });
 

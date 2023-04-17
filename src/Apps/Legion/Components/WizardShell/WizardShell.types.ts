@@ -1,25 +1,14 @@
-import { IStyle, IStyleFunctionOrObject } from '@fluentui/react';
-import { IExtendedTheme } from '../../../../Theming/Theme.types';
-
-export interface IWizardShellProps {
-    /**
-     * Call to provide customized styling that will layer on top of the variant rules.
-     */
-    styles?: IStyleFunctionOrObject<IWizardShellStyleProps, IWizardShellStyles>;
-}
-
-export interface IWizardShellStyleProps {
-    theme: IExtendedTheme;
-}
-export interface IWizardShellStyles {
-    root: IStyle;
-    wizardContainer: IStyle;
-
-    /**
-     * SubComponent styles.
-     */
-    subComponentStyles?: IWizardShellSubComponentStyles;
-}
+import { IStyle } from '@fluentui/react';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface IWizardShellSubComponentStyles {}
+export interface IWizardShellProps {}
+
+export interface IWizardShellStyles {
+    root: IStyle;
+    leftNav: IStyle;
+    headerNav: IStyle;
+    headerText: IStyle;
+    wizardContainer: IStyle;
+    footer: IStyle;
+    nextButtonContainer: IStyle;
+}
