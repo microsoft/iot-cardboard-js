@@ -12,7 +12,7 @@ import {
     AppDataContextActionType
 } from './AppDataContext.types';
 
-const debugLogging = true;
+const debugLogging = false;
 export const logDebugConsole = getDebugLogger('AppDataContext', debugLogging);
 
 export const AppDataContext = React.createContext<IAppDataContext>(null);
