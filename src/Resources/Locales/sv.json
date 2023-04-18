@@ -1553,7 +1553,9 @@
         "tableType": "Typ av källtabell",
         "selectTableType": "Välj källtabelltyp",
         "twinIDProperty": "Egenskapen Källtvilling-ID",
-        "selectTwinIDProperty": "Välj egenskap för källtvilling-ID"
+        "selectTwinIDProperty": "Välj egenskap för källtvilling-ID",
+        "type": "Typ av källa",
+        "typePlaceholder": "Välj källtyp"
       },
       "target": {
         "database": "Måldatabas",

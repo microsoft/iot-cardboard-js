@@ -1553,7 +1553,9 @@
         "tableType": "원본 테이블 형식",
         "selectTableType": "원본 테이블 유형 선택",
         "twinIDProperty": "원본 쌍 ID 속성",
-        "selectTwinIDProperty": "원본 쌍 ID 속성 선택"
+        "selectTwinIDProperty": "원본 쌍 ID 속성 선택",
+        "type": "소스 유형",
+        "typePlaceholder": "소스 유형 선택"
       },
       "target": {
         "database": "대상 데이터베이스",

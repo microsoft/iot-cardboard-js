@@ -1553,7 +1553,9 @@
         "tableType": "Type brontabel",
         "selectTableType": "Type brontabel selecteren",
         "twinIDProperty": "Eigenschap Source twin ID",
-        "selectTwinIDProperty": "Eigenschap brontwee-ID selecteren"
+        "selectTwinIDProperty": "Eigenschap brontwee-ID selecteren",
+        "type": "Brontype",
+        "typePlaceholder": "Selecteer brontype"
       },
       "target": {
         "database": "Doeldatabase",
