@@ -36,7 +36,7 @@ const getBaseReactSelectStyles = (theme: ITheme): StylesConfig => {
     };
 };
 
-export const getReactSelectStyles = (
+export function getReactSelectStyles<T>(
     theme: ITheme,
     params?: {
         menu?: {
@@ -52,7 +52,7 @@ export const getReactSelectStyles = (
             listMaxWidthCompact: number;
         };
     }
-): StylesConfig => {
+): StylesConfig<T> {
     const menu = params?.menu;
     const menuList = params?.menuList;
     return {
@@ -130,7 +130,7 @@ export const getReactSelectStyles = (
             }
         })
     };
-};
+}
 
 export const getMultiSelectStyles = (theme: ITheme): StylesConfig => {
     return {
