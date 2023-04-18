@@ -1587,17 +1587,22 @@
       "twins": "쌍둥이자리",
       "properties": "속성"
     },
-    "Common": {},
+    "Common": {
+      "clusterLabel": "클러스터 URL",
+      "clusterPlaceholder": "클러스터 URL 선택",
+      "databaseLabel": "데이터베이스",
+      "databasePlaceholder": "데이터베이스 선택",
+      "tableLabel": "테이블",
+      "tableIdColumnLabel": "ID 필드"
+    },
     "StoreListPage": {
       "title": "미래에 오신 것을 환영합니다",
       "createStoreButtonText": "데이터 저장소 추가",
-      "urlLabel": "클러스터 URL",
-      "nameLabel": "데이터베이스 이름",
       "Modal": {
-        "title": "새 데이터 저장소 추가",
-        "urlPlaceholder": "http://mycluster.kusto.azure.net",
-        "namePlaceholder": "데이터베이스 이름 입력"
-      }
+        "title": "새 데이터 저장소 추가"
+      },
+      "clusterLabel": "대상 클러스터 URL",
+      "databaseLabel": "대상 데이터베이스"
     }
   }
 }

@@ -1587,17 +1587,22 @@
       "twins": "Близнецы",
       "properties": "Свойства"
     },
-    "Common": {},
+    "Common": {
+      "clusterLabel": "URL-адрес кластера",
+      "clusterPlaceholder": "Выберите URL-адрес кластера",
+      "databaseLabel": "База данных",
+      "databasePlaceholder": "Выбор базы данных",
+      "tableLabel": "Стол",
+      "tableIdColumnLabel": "Поле идентификатора"
+    },
     "StoreListPage": {
       "title": "Добро пожаловать в будущее",
       "createStoreButtonText": "Добавление хранилища данных",
-      "urlLabel": "URL-адрес кластера",
-      "nameLabel": "Имя базы данных",
       "Modal": {
-        "title": "Добавление нового хранилища данных",
-        "urlPlaceholder": "http://mycluster.kusto.azure.net",
-        "namePlaceholder": "Введите имя базы данных"
-      }
+        "title": "Добавление нового хранилища данных"
+      },
+      "clusterLabel": "URL-адрес целевого кластера",
+      "databaseLabel": "Целевая база данных"
     }
   }
 }

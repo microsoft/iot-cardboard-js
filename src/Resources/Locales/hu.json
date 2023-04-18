@@ -1587,17 +1587,22 @@
       "twins": "Ikrek",
       "properties": "Kellékek"
     },
-    "Common": {},
+    "Common": {
+      "clusterLabel": "Fürt URL-címe",
+      "clusterPlaceholder": "Fürt URL-címének kiválasztása",
+      "databaseLabel": "Adatbázis",
+      "databasePlaceholder": "Adatbázis kiválasztása",
+      "tableLabel": "Asztal",
+      "tableIdColumnLabel": "Azonosító mező"
+    },
     "StoreListPage": {
       "title": "Üdvözöljük a jövőben",
       "createStoreButtonText": "Adattár hozzáadása",
-      "urlLabel": "Fürt URL-címe",
-      "nameLabel": "Adatbázis neve",
       "Modal": {
-        "title": "Új adattár hozzáadása",
-        "urlPlaceholder": "http://mycluster.kusto.azure.net",
-        "namePlaceholder": "Adja meg az adatbázis nevét"
-      }
+        "title": "Új adattár hozzáadása"
+      },
+      "clusterLabel": "Célfürt URL-címe",
+      "databaseLabel": "Céladatbázis"
     }
   }
 }

@@ -1587,17 +1587,22 @@
       "twins": "İkizler",
       "properties": "Özellikler"
     },
-    "Common": {},
+    "Common": {
+      "clusterLabel": "Küme URL'si",
+      "clusterPlaceholder": "Küme URL'sini seçin",
+      "databaseLabel": "Veritabanı",
+      "databasePlaceholder": "Veritabanı seç",
+      "tableLabel": "Masa",
+      "tableIdColumnLabel": "Kimlik alanı"
+    },
     "StoreListPage": {
       "title": "Geleceğe hoş geldiniz",
       "createStoreButtonText": "Veri deposu ekleme",
-      "urlLabel": "Küme URL'si",
-      "nameLabel": "Veritabanı adı",
       "Modal": {
-        "title": "Yeni veri deposu ekleme",
-        "urlPlaceholder": "http://mycluster.kusto.azure.net",
-        "namePlaceholder": "Veritabanı adı girin"
-      }
+        "title": "Yeni veri deposu ekleme"
+      },
+      "clusterLabel": "Hedef küme URL'si",
+      "databaseLabel": "Hedef veritabanı"
     }
   }
 }

@@ -1587,17 +1587,22 @@
       "twins": "双子",
       "properties": "プロパティ"
     },
-    "Common": {},
+    "Common": {
+      "clusterLabel": "クラスターの URL",
+      "clusterPlaceholder": "クラスター URL の選択",
+      "databaseLabel": "データベース",
+      "databasePlaceholder": "データベースの選択",
+      "tableLabel": "テーブル",
+      "tableIdColumnLabel": "ID フィールド"
+    },
     "StoreListPage": {
       "title": "未来へようこそ",
       "createStoreButtonText": "データ ストアの追加",
-      "urlLabel": "クラスターの URL",
-      "nameLabel": "データベース名",
       "Modal": {
-        "title": "新しいデータ ストアの追加",
-        "urlPlaceholder": "http://mycluster.kusto.azure.net",
-        "namePlaceholder": "データベース名を入力してください"
-      }
+        "title": "新しいデータ ストアの追加"
+      },
+      "clusterLabel": "ターゲット クラスターの URL",
+      "databaseLabel": "ターゲット データベース"
     }
   }
 }
