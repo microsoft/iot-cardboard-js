@@ -1553,7 +1553,9 @@
         "tableType": "Tipo de tabela de origem",
         "selectTableType": "Selecione o tipo de tabela de origem",
         "twinIDProperty": "Propriedade ID dupla de origem",
-        "selectTwinIDProperty": "Selecione a propriedade ID dupla de origem"
+        "selectTwinIDProperty": "Selecione a propriedade ID dupla de origem",
+        "type": "Tipo de fonte",
+        "typePlaceholder": "Selecionar tipo de fonte"
       },
       "target": {
         "database": "Base de dados de destino",

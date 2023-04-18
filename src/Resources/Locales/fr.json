@@ -1553,7 +1553,9 @@
         "tableType": "Type de table source",
         "selectTableType": "Sélectionner le type de table source",
         "twinIDProperty": "Propriété ID du jumeau source",
-        "selectTwinIDProperty": "Sélectionner la propriété ID du jumeau source"
+        "selectTwinIDProperty": "Sélectionner la propriété ID du jumeau source",
+        "type": "Type de source",
+        "typePlaceholder": "Sélectionner le type de source"
       },
       "target": {
         "database": "Base de données cible",

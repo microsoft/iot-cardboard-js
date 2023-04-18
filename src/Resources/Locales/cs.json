@@ -1553,7 +1553,9 @@
         "tableType": "Typ zdrojové tabulky",
         "selectTableType": "Vyberte typ zdrojové tabulky",
         "twinIDProperty": "Vlastnost ID zdrojového dvojčete",
-        "selectTwinIDProperty": "Vyberte vlastnost ID dvojčete zdroje"
+        "selectTwinIDProperty": "Vyberte vlastnost ID dvojčete zdroje",
+        "type": "Typ zdroje",
+        "typePlaceholder": "Vyberte typ zdroje"
       },
       "target": {
         "database": "Cílová databáze",

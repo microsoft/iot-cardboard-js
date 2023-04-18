@@ -1553,7 +1553,9 @@
         "tableType": "源表类型",
         "selectTableType": "选择源表类型",
         "twinIDProperty": "源孪生 ID 属性",
-        "selectTwinIDProperty": "选择源孪生 ID 属性"
+        "selectTwinIDProperty": "选择源孪生 ID 属性",
+        "type": "源类型",
+        "typePlaceholder": "选择源类型"
       },
       "target": {
         "database": "目标数据库",

@@ -1553,7 +1553,9 @@
         "tableType": "Tipo de tabela de origem",
         "selectTableType": "Selecionar tipo de tabela de origem",
         "twinIDProperty": "Propriedade ID de gêmeo de origem",
-        "selectTwinIDProperty": "Selecionar propriedade de ID de gêmeo de origem"
+        "selectTwinIDProperty": "Selecionar propriedade de ID de gêmeo de origem",
+        "type": "Tipo de origem",
+        "typePlaceholder": "Selecione o tipo de origem"
       },
       "target": {
         "database": "Banco de dados de destino",

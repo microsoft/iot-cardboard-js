@@ -1553,7 +1553,9 @@
         "tableType": "Typ tabeli źródłowej",
         "selectTableType": "Wybierz typ tabeli źródłowej",
         "twinIDProperty": "Właściwość identyfikatora bliźniaczej źródła",
-        "selectTwinIDProperty": "Wybierz właściwość źródłowego identyfikatora bliźniaczej"
+        "selectTwinIDProperty": "Wybierz właściwość źródłowego identyfikatora bliźniaczej",
+        "type": "Typ źródła",
+        "typePlaceholder": "Wybierz typ źródła"
       },
       "target": {
         "database": "Docelowa baza danych",

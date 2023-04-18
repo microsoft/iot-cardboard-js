@@ -1553,7 +1553,9 @@
         "tableType": "Kaynak tablo türü",
         "selectTableType": "Kaynak tablo türünü seçme",
         "twinIDProperty": "Kaynak ikiz kimlik özelliği",
-        "selectTwinIDProperty": "Kaynak ikiz kimliği özelliğini seçin"
+        "selectTwinIDProperty": "Kaynak ikiz kimliği özelliğini seçin",
+        "type": "Kaynak türü",
+        "typePlaceholder": "Kaynak türünü seçin"
       },
       "target": {
         "database": "Hedef veritabanı",

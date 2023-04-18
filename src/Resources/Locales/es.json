@@ -1553,7 +1553,9 @@
         "tableType": "Tipo de tabla de origen",
         "selectTableType": "Seleccione el tipo de tabla de origen",
         "twinIDProperty": "Propiedad Source twin ID",
-        "selectTwinIDProperty": "Seleccionar la propiedad de ID gemelo de origen"
+        "selectTwinIDProperty": "Seleccionar la propiedad de ID gemelo de origen",
+        "type": "Tipo de fuente",
+        "typePlaceholder": "Seleccione el tipo de fuente"
       },
       "target": {
         "database": "Base de datos de destino",

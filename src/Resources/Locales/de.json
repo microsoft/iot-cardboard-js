@@ -1553,7 +1553,9 @@
         "tableType": "Typ der Quelltabelle",
         "selectTableType": "Auswählen des Quelltabellentyps",
         "twinIDProperty": "Quell-Zwillings-ID-Eigenschaft",
-        "selectTwinIDProperty": "Quell-Zwillings-ID-Eigenschaft auswählen"
+        "selectTwinIDProperty": "Quell-Zwillings-ID-Eigenschaft auswählen",
+        "type": "Art der Quelle",
+        "typePlaceholder": "Wählen Sie den Quelltyp"
       },
       "target": {
         "database": "Zieldatenbank",

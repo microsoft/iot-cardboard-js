@@ -1553,7 +1553,9 @@
         "tableType": "ソース テーブルの種類",
         "selectTableType": "ソース テーブルの種類を選択",
         "twinIDProperty": "ソース ツイン ID プロパティ",
-        "selectTwinIDProperty": "ソース ツイン ID プロパティの選択"
+        "selectTwinIDProperty": "ソース ツイン ID プロパティの選択",
+        "type": "ソースの種類",
+        "typePlaceholder": "ソースの種類を選択"
       },
       "target": {
         "database": "ターゲット データベース",

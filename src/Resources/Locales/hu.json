@@ -1553,7 +1553,9 @@
         "tableType": "Forrástábla típusa",
         "selectTableType": "Válassza ki a forrástábla típusát",
         "twinIDProperty": "Forrás ikerazonosító tulajdonsága",
-        "selectTwinIDProperty": "Válassza ki az ikereszköz-azonosító tulajdonságot"
+        "selectTwinIDProperty": "Válassza ki az ikereszköz-azonosító tulajdonságot",
+        "type": "Forrás típusa",
+        "typePlaceholder": "Válassza ki a forrás típusát"
       },
       "target": {
         "database": "Céladatbázis",
