@@ -1595,7 +1595,9 @@
       "databaseLabel": "Adatbázis",
       "databasePlaceholder": "Adatbázis kiválasztása",
       "tableLabel": "Asztal",
-      "tableIdColumnLabel": "Azonosító mező"
+      "tableIdColumnLabel": "Azonosító mező",
+      "urlLabel": "URL",
+      "urlPlaceholder": "Adja meg az URL-címet"
     },
     "StoreListPage": {
       "title": "Üdvözöljük a jövőben",
@@ -1605,6 +1607,9 @@
       },
       "clusterLabel": "Célfürt URL-címe",
       "databaseLabel": "Céladatbázis"
+    },
+    "dataSourceStep": {
+      "infoText": "Új ikereszközök létrehozása forrástáblából vagy mérnöki diagramból"
     }
   }
 }

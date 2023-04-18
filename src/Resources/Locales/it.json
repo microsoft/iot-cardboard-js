@@ -1595,7 +1595,9 @@
       "databaseLabel": "Banca dati",
       "databasePlaceholder": "Seleziona database",
       "tableLabel": "Tavolo",
-      "tableIdColumnLabel": "Campo ID"
+      "tableIdColumnLabel": "Campo ID",
+      "urlLabel": "URL",
+      "urlPlaceholder": "Inserisci l'URL"
     },
     "StoreListPage": {
       "title": "Benvenuti nel futuro",
@@ -1605,6 +1607,9 @@
       },
       "clusterLabel": "URL del cluster di destinazione",
       "databaseLabel": "Database di destinazione"
+    },
+    "dataSourceStep": {
+      "infoText": "Creare nuovi gemelli da una tabella di origine o da un diagramma tecnico"
     }
   }
 }

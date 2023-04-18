@@ -1595,7 +1595,9 @@
       "databaseLabel": "Base de données",
       "databasePlaceholder": "Sélectionner une base de données",
       "tableLabel": "Table",
-      "tableIdColumnLabel": "Champ ID"
+      "tableIdColumnLabel": "Champ ID",
+      "urlLabel": "URL",
+      "urlPlaceholder": "Entrez l’URL"
     },
     "StoreListPage": {
       "title": "Bienvenue dans le futur",
@@ -1605,6 +1607,9 @@
       },
       "clusterLabel": "URL du cluster cible",
       "databaseLabel": "Base de données cible"
+    },
+    "dataSourceStep": {
+      "infoText": "Créer de nouveaux jumeaux à partir d’une table source ou d’un diagramme d’ingénierie"
     }
   }
 }

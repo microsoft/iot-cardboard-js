@@ -1595,7 +1595,9 @@
       "databaseLabel": "Databas",
       "databasePlaceholder": "Välj databas",
       "tableLabel": "Bord",
-      "tableIdColumnLabel": "ID-fält"
+      "tableIdColumnLabel": "ID-fält",
+      "urlLabel": "URL",
+      "urlPlaceholder": "Ange URL"
     },
     "StoreListPage": {
       "title": "Välkommen till framtiden",
@@ -1605,6 +1607,9 @@
       },
       "clusterLabel": "URL för målkluster",
       "databaseLabel": "Måldatabas"
+    },
+    "dataSourceStep": {
+      "infoText": "Skapa nya tvillingar från en källtabell eller ett teknikdiagram"
     }
   }
 }

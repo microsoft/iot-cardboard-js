@@ -1595,7 +1595,9 @@
       "databaseLabel": "База данных",
       "databasePlaceholder": "Выбор базы данных",
       "tableLabel": "Стол",
-      "tableIdColumnLabel": "Поле идентификатора"
+      "tableIdColumnLabel": "Поле идентификатора",
+      "urlLabel": "URL-адрес",
+      "urlPlaceholder": "Введите URL-адрес"
     },
     "StoreListPage": {
       "title": "Добро пожаловать в будущее",
@@ -1605,6 +1607,9 @@
       },
       "clusterLabel": "URL-адрес целевого кластера",
       "databaseLabel": "Целевая база данных"
+    },
+    "dataSourceStep": {
+      "infoText": "Создание новых двойников из исходной таблицы или инженерной схемы"
     }
   }
 }

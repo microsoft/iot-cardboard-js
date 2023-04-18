@@ -1595,7 +1595,9 @@
       "databaseLabel": "データベース",
       "databasePlaceholder": "データベースの選択",
       "tableLabel": "テーブル",
-      "tableIdColumnLabel": "ID フィールド"
+      "tableIdColumnLabel": "ID フィールド",
+      "urlLabel": "リンク",
+      "urlPlaceholder": "URLを入力"
     },
     "StoreListPage": {
       "title": "未来へようこそ",
@@ -1605,6 +1607,9 @@
       },
       "clusterLabel": "ターゲット クラスターの URL",
       "databaseLabel": "ターゲット データベース"
+    },
+    "dataSourceStep": {
+      "infoText": "ソース テーブルまたはエンジニアリング ダイアグラムから新しいツインを作成する"
     }
   }
 }

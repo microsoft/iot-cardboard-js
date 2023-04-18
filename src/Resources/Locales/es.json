@@ -1595,7 +1595,9 @@
       "databaseLabel": "Base de datos",
       "databasePlaceholder": "Seleccionar base de datos",
       "tableLabel": "Mesa",
-      "tableIdColumnLabel": "Campo ID"
+      "tableIdColumnLabel": "Campo ID",
+      "urlLabel": "URL",
+      "urlPlaceholder": "Introduzca la URL"
     },
     "StoreListPage": {
       "title": "Bienvenidos al futuro",
@@ -1605,6 +1607,9 @@
       },
       "clusterLabel": "Dirección URL del clúster de destino",
       "databaseLabel": "Base de datos de destino"
+    },
+    "dataSourceStep": {
+      "infoText": "Crear nuevos gemelos a partir de una tabla de origen o un diagrama de ingeniería"
     }
   }
 }

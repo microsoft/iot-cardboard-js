@@ -1595,7 +1595,9 @@
       "databaseLabel": "Datenbank",
       "databasePlaceholder": "Datenbank auswählen",
       "tableLabel": "Tisch",
-      "tableIdColumnLabel": "ID-Feld"
+      "tableIdColumnLabel": "ID-Feld",
+      "urlLabel": "Internetadresse:",
+      "urlPlaceholder": "URL eingeben"
     },
     "StoreListPage": {
       "title": "Willkommen in der Zukunft",
@@ -1605,6 +1607,9 @@
       },
       "clusterLabel": "Ziel-Cluster-URL",
       "databaseLabel": "Zieldatenbank"
+    },
+    "dataSourceStep": {
+      "infoText": "Erstellen neuer Zwillinge aus einer Quelltabelle oder einem Konstruktionsdiagramm"
     }
   }
 }
