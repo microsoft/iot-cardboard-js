@@ -1,12 +1,9 @@
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import { classNamesFunction, styled } from '@fluentui/react';
 import { useId } from '@fluentui/react-hooks';
-import { createNodeFromReact } from '@antv/g6-react-node';
 import Graphin from '@antv/graphin';
 import { useExtendedTheme } from '../../../../Models/Hooks/useExtendedTheme';
 import { getDebugLogger } from '../../../../Models/Services/Utils';
-import CustomGraphNode from './Internal/CustomGraphNode/CustomGraphNode';
-import { CustomNode } from './Internal/CustomNode';
 import CustomLassoHandler from './Hooks/CustomLassoHandler/CustomLassoHandler';
 import CustomContextMenu from './Internal/CustomContextMenu/CustomContextMenu';
 import CustomClickHandler from './Hooks/CustomClickHandler/CustomClickHandler';
@@ -31,7 +28,6 @@ const getClassNames = classNamesFunction<
     IGraphVisualizerStyles
 >();
 
-const CUSTOM_NODE_NAME = 'react-node';
 const DEFAULT_NODE: IDefaultNode = {
     type: 'graphin-circle', // CUSTOM_NODE_NAME // 'rect'
     style: {
@@ -92,26 +88,12 @@ const GraphVisualizer: React.FC<IGraphVisualizerProps> = (props) => {
     // contexts
 
     // state
-    const isMounted = useRef(false);
 
     // hooks
 
     // callbacks
 
     // side effects
-    useEffect(() => {
-        if (!isMounted.current) {
-            const node = createNodeFromReact(CustomGraphNode);
-            node.linkPoints = {
-                top: true,
-                bottom: true,
-                fill: '#fff'
-            };
-            const nodeToRegiser = CustomNode;
-            Graphin.registerNode(CUSTOM_NODE_NAME, nodeToRegiser, 'rect');
-            isMounted.current = true;
-        }
-    }, []);
 
     // styles
     const classNames = getClassNames(styles, {

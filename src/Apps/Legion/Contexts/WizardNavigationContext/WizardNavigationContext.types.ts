@@ -1,7 +1,6 @@
 import React from 'react';
 import { IStepperWizardStep } from '../../../../Components/StepperWizard/StepperWizard.types';
 import { IDataManagementAdapter } from '../../Adapters/Standalone/DataManagement/Models/DataManagementAdapter.types';
-import { IButtonProps, IIconProps } from '@fluentui/react';
 
 /** mapping of step to index for external components to deep link to the right step */
 export enum WizardStepNumber {
