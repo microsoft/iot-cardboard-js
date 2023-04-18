@@ -6,7 +6,7 @@ import {
     IDbType
 } from '../../Models';
 
-export interface IWizardDataContextProviderProps<N> {
+export interface IWizardDataContextProviderProps {
     initialState?: Partial<IWizardDataContextState>;
 }
 
