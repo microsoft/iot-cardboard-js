@@ -141,14 +141,17 @@ const DataSourceStep: React.FC<IDataSourceStepProps> = (props) => {
         []
     );
     const handleCookButtonClick = useCallback(() => {
-        setAppData(
-            cookSourceTable(
-                `${adapter.connectionString}/${state.selectedSourceDatabase}/${state.selectedSourceTable}`,
-                state.sourceTableData,
-                state.selectedSourceTwinIDColumn,
-                state.selectedSourceTableType as TableTypes
-            )
+        const cookAssets = cookSourceTable(
+            `${adapter.connectionString}/${state.selectedSourceDatabase}/${state.selectedSourceTable}`,
+            state.sourceTableData,
+            state.selectedSourceTwinIDColumn,
+            state.selectedSourceTableType as TableTypes
         );
+        setAppData(cookAssets);
+        dispatch({
+            type: DataSourceStepActionType.SET_COOK_ASSETS,
+            cookAssets
+        });
     }, [
         adapter.connectionString,
         state.selectedSourceDatabase,
@@ -277,6 +280,7 @@ const DataSourceStep: React.FC<IDataSourceStepProps> = (props) => {
                             selectedDatabaseName={state.selectedSourceDatabase}
                         />
                         <Dropdown
+                            required
                             label={t('legionApp.Common.tableLabel')}
                             onChange={handleSourceTableChange}
                             options={state.sourceTableOptions}
@@ -290,6 +294,7 @@ const DataSourceStep: React.FC<IDataSourceStepProps> = (props) => {
                             selectedKey={state.selectedSourceTable}
                         />
                         <Dropdown
+                            required
                             label={t('legionApp.Common.tableIdColumnLabel')}
                             onChange={handleSourceTwinIDColumnChange}
                             options={state.sourceTableColumnOptions}

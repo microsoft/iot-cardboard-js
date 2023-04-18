@@ -42,9 +42,10 @@ export const WizardDataManagementContextReducer: (
         case WizardDataManagementContextActionType.SET_INITIAL_ASSETS:
             draft.initialAssets = action.payload.data;
             // Copy data into modified assets to initialize in case it contains no data
-            if (!draft.modifiedAssets) {
-                draft.modifiedAssets = action.payload.data;
-            }
+            // if (!draft.modifiedAssets) {
+            //     // TODO: this is always non-null
+            draft.modifiedAssets = action.payload.data;
+            // }
             break;
         case WizardDataManagementContextActionType.SET_MODIFIED_ASSETS:
             draft.modifiedAssets = action.payload.data;
