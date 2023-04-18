@@ -22,7 +22,6 @@ import {
 } from '@fluentui/react';
 import useAdapter from '../../../../../Models/Hooks/useAdapter';
 import {
-    ICreateDatabaseAdapterParams,
     ICreateTableAdapterParams,
     IGetTableAdapterParams,
     IGetTablesAdapterParams,

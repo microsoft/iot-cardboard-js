@@ -20,7 +20,6 @@ import { useExtendedTheme } from '../../../../../../Models/Hooks/useExtendedThem
 import {
     SourceType,
     SourceTypeOptions,
-    TableTypeOptions,
     TableTypes
 } from '../../../DataPusher/DataPusher.types';
 import {
