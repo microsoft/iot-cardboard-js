@@ -1532,7 +1532,9 @@
             "databaseLabel": "Database",
             "databasePlaceholder": "Select database",
             "tableLabel": "Table",
-            "tableIdColumnLabel": "ID field"
+            "tableIdColumnLabel": "ID field",
+            "urlLabel": "URL",
+            "urlPlaceholder": "Enter URL"
         },
         "StoreListPage": {
             "title": "Welcome to the future",
@@ -1591,6 +1593,9 @@
                 "createTables": "Creating tables...",
                 "ingest": "Ingesting..."
             }
+        },
+        "dataSourceStep": {
+            "infoText": "Create new twins from a source table or engineering diagram"
         },
         "verificationStep": {
             "title": "Verify discovered twins",

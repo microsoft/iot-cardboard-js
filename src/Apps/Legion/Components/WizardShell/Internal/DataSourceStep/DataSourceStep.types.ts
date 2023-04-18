@@ -46,7 +46,6 @@ export interface IDataSourceStepState {
     selectedSourceType: SourceType;
     selectedSourceCluster: string;
     selectedSourceDatabase: string;
-    selectedTargetDatabase: IReactSelectOption;
     selectedSourceTable: string;
     selectedSourceTwinIDColumn: string;
     selectedSourceTableType: string;
@@ -63,7 +62,6 @@ export enum DataSourceStepActionType {
     SET_SELECTED_SOURCE_TYPE = 'SET_SELECTED_SOURCE_TYPE',
     SET_SELECTED_SOURCE_CLUSTER = 'SET_SELECTED_SOURCE_CLUSTER',
     SET_SELECTED_SOURCE_DATABASE = 'SET_SELECTED_SOURCE_DATABASE',
-    SET_SELECTED_TARGET_DATABASE = 'SET_SELECTED_TARGET_DATABASE',
     SET_SELECTED_SOURCE_TABLE = 'SET_SELECTED_SOURCE_TABLE',
     SET_SELECTED_SOURCE_TWIN_ID_COLUMN = 'SET_SELECTED_SOURCE_TWIN_ID_COLUMN',
     SET_SELECTED_SOURCE_TABLE_TYPE = 'SET_SELECTED_SOURCE_TABLE_TYPE',
@@ -99,10 +97,6 @@ export type DataSourceStepAction =
     | {
           type: DataSourceStepActionType.SET_SELECTED_SOURCE_DATABASE;
           database: string;
-      }
-    | {
-          type: DataSourceStepActionType.SET_SELECTED_TARGET_DATABASE;
-          database: IReactSelectOption;
       }
     | {
           type: DataSourceStepActionType.SET_SELECTED_SOURCE_TABLE;

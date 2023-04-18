@@ -12,14 +12,14 @@ import {
     Dropdown,
     IDropdownOption,
     Stack,
-    styled
+    styled,
+    TextField
 } from '@fluentui/react';
 import { getDebugLogger } from '../../../../../../Models/Services/Utils';
 import { useExtendedTheme } from '../../../../../../Models/Hooks/useExtendedTheme';
 import {
     SourceType,
     SourceTypeOptions,
-    TableTypeOptions,
     TableTypes
 } from '../../../DataPusher/DataPusher.types';
 import {
@@ -166,13 +166,12 @@ const DataSourceStep: React.FC<IDataSourceStepProps> = (props) => {
             payload: {
                 data: [
                     {
+                        selectedSourceCluster: state.selectedSourceCluster,
                         selectedSourceDatabase: state.selectedSourceDatabase,
                         selectedSourceTable: state.selectedSourceTable,
                         selectedSourceTableType: state.selectedSourceTableType,
                         selectedSourceTwinIDColumn:
-                            state.selectedSourceTwinIDColumn,
-                        selectedTargetDatabase:
-                            state.selectedTargetDatabase.value
+                            state.selectedSourceTwinIDColumn
                     }
                 ]
             }
@@ -195,11 +194,11 @@ const DataSourceStep: React.FC<IDataSourceStepProps> = (props) => {
         });
     }, [
         state.cookAssets,
+        state.selectedSourceCluster,
         state.selectedSourceDatabase,
         state.selectedSourceTable,
         state.selectedSourceTableType,
         state.selectedSourceTwinIDColumn,
-        state.selectedTargetDatabase?.value,
         wizardDataManagementContextDispatch,
         wizardNavigationContextDispatch
     ]);
@@ -247,6 +246,9 @@ const DataSourceStep: React.FC<IDataSourceStepProps> = (props) => {
 
     return (
         <div className={classNames.root}>
+            <p className={classNames.informationText}>
+                {t('legionApp.dataSourceStep.infoText')}
+            </p>
             <Stack
                 tokens={{ childrenGap: 8 }}
                 styles={classNames.subComponentStyles.stack}
@@ -258,44 +260,55 @@ const DataSourceStep: React.FC<IDataSourceStepProps> = (props) => {
                     placeholder={t(
                         'legionApp.dataPusher.source.typePlaceholder'
                     )}
-                    defaultSelectedKey={state.selectedSourceTableType}
+                    defaultSelectedKey={state.selectedSourceType}
                 />
-                <ClusterPicker
-                    isCreatable={false}
-                    onClusterUrlChange={handleSourceClusterChange}
-                    label={t('legionApp.Common.clusterLabel')}
-                    selectedClusterUrl={state.selectedSourceCluster}
-                />
-                <DatabasePicker
-                    isCreatable={false}
-                    onDatabaseNameChange={handleSourceDatabaseChange}
-                    label={t('legionApp.Common.databaseLabel')}
-                    selectedDatabaseName={state.selectedSourceDatabase}
-                />
-                <Dropdown
-                    label={t('legionApp.Common.tableLabel')}
-                    onChange={handleSourceTableChange}
-                    options={state.sourceTableOptions}
-                    placeholder={
-                        getTablesState.isLoading
-                            ? t('loading')
-                            : t('legionApp.dataPusher.source.selectTable')
-                    }
-                    selectedKey={state.selectedSourceTable}
-                />
-                <Dropdown
-                    label={t('legionApp.Common.tableIdColumnLabel')}
-                    onChange={handleSourceTwinIDColumnChange}
-                    options={state.sourceTableColumnOptions}
-                    placeholder={
-                        getTableState.isLoading
-                            ? t('loading')
-                            : t(
-                                  'legionApp.dataPusher.source.selectTwinIDProperty'
-                              )
-                    }
-                    selectedKey={state.selectedSourceTwinIDColumn}
-                />
+                {state.selectedSourceType === SourceType.Timeseries ? (
+                    <>
+                        <ClusterPicker
+                            isCreatable={false}
+                            onClusterUrlChange={handleSourceClusterChange}
+                            label={t('legionApp.Common.clusterLabel')}
+                            selectedClusterUrl={state.selectedSourceCluster}
+                        />
+                        <DatabasePicker
+                            isCreatable={false}
+                            onDatabaseNameChange={handleSourceDatabaseChange}
+                            label={t('legionApp.Common.databaseLabel')}
+                            selectedDatabaseName={state.selectedSourceDatabase}
+                        />
+                        <Dropdown
+                            label={t('legionApp.Common.tableLabel')}
+                            onChange={handleSourceTableChange}
+                            options={state.sourceTableOptions}
+                            placeholder={
+                                getTablesState.isLoading
+                                    ? t('loading')
+                                    : t(
+                                          'legionApp.dataPusher.source.selectTable'
+                                      )
+                            }
+                            selectedKey={state.selectedSourceTable}
+                        />
+                        <Dropdown
+                            label={t('legionApp.Common.tableIdColumnLabel')}
+                            onChange={handleSourceTwinIDColumnChange}
+                            options={state.sourceTableColumnOptions}
+                            placeholder={
+                                getTableState.isLoading
+                                    ? t('loading')
+                                    : t(
+                                          'legionApp.dataPusher.source.selectTwinIDProperty'
+                                      )
+                            }
+                            selectedKey={state.selectedSourceTwinIDColumn}
+                        />
+                    </>
+                ) : (
+                    <TextField
+                        label={t('legionApp.Common.urlLabel')}
+                        placeholder={t('legionApp.Common.urlPlaceholder')}
+                    />
+                )}
                 <DefaultButton
                     text={t('legionApp.dataPusher.actions.cook')}
                     disabled={

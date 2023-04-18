@@ -125,11 +125,14 @@ export const DEFAULT_MOCK_DATA_MANAGEMENT_STATE: IWizardDataManagementContextSta
     modifiedAssets: mockAppData,
     sources: [
         {
+            selectedSourceCluster: '',
             selectedSourceDatabase: '',
             selectedSourceTable: '',
             selectedSourceTwinIDColumn: '',
-            selectedSourceTableType: TableTypes.Wide,
-            selectedTargetDatabase: ''
+            selectedSourceTableType: TableTypes.Wide
+        },
+        {
+            pidUrl: ''
         }
     ]
 };
