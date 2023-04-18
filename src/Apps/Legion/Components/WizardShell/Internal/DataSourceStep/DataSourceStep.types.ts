@@ -6,15 +6,10 @@ import {
     IStyleFunctionOrObject
 } from '@fluentui/react';
 import { IExtendedTheme } from '../../../../../../Theming/Theme.types';
-import {
-    IDataManagementAdapter,
-    ITable
-} from '../../../../Adapters/Standalone/DataManagement/Models/DataManagementAdapter.types';
-import { IAppData } from '../../../../Models/Interfaces';
-import { IReactSelectOption } from '../../../DataPusher/DataPusher.types';
+import { ITable } from '../../../../Adapters/Standalone/DataManagement/Models/DataManagementAdapter.types';
+import { IAppData, IReactSelectOption } from '../../../../Models/Interfaces';
 
 export interface IDataSourceStepProps {
-    adapter: IDataManagementAdapter;
     /**
      * Call to provide customized styling that will layer on top of the variant rules.
      */

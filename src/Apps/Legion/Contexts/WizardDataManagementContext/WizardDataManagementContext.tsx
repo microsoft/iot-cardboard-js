@@ -8,8 +8,9 @@ import {
 } from './WizardDataManagementContext.types';
 import { getDebugLogger } from '../../../../Models/Services/Utils';
 import produce from 'immer';
+import MockDataManagementAdapter from '../../Adapters/Standalone/DataManagement/MockDataManagementAdapter';
 
-const WizardDataManagementContext = React.createContext<IWizardDataManagementContext>(
+export const WizardDataManagementContext = React.createContext<IWizardDataManagementContext>(
     null
 );
 
@@ -68,6 +69,7 @@ export function WizardDataManagementContextProvider(
     return (
         <WizardDataManagementContext.Provider
             value={{
+                adapter: initialState.adapter,
                 wizardDataManagementContextState: wizardDataManagementContextState,
                 wizardDataManagementContextDispatch: wizardDataManagementContextDispatch
             }}
@@ -78,6 +80,7 @@ export function WizardDataManagementContextProvider(
 }
 
 const emptyState: IWizardDataManagementContextState = {
+    adapter: new MockDataManagementAdapter(),
     initialAssets: null,
     modifiedAssets: null,
     sources: []

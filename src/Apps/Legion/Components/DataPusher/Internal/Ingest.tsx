@@ -30,11 +30,10 @@ import {
     ITable,
     IUpsertTableAdapterParams
 } from '../../../Adapters/Standalone/DataManagement/Models/DataManagementAdapter.types';
-import { useDataPusherContext } from '../DataPusher';
+import { DataPusherContext, useDataPusherContext } from '../DataPusher';
 import { useTranslation } from 'react-i18next';
 import {
     INGESTION_MAPPING_NAME,
-    IReactSelectOption,
     TableColumns,
     TableTypeOptions,
     TableTypes,
@@ -45,6 +44,9 @@ import { ActionMeta } from 'react-select';
 import { getReactSelectStyles } from '../../../../../Resources/Styles/ReactSelect.styles';
 import { useExtendedTheme } from '../../../../../Models/Hooks/useExtendedTheme';
 import TooltipCallout from '../../../../../Components/TooltipCallout/TooltipCallout';
+import { IReactSelectOption } from '../../../Models/Interfaces';
+import DatabasePicker from '../../Pickers/DatabasePicker/DatabasePicker';
+import { getMockData } from '../../../Services/DataPusherUtils';
 
 const DEFAULT_INGESTION_FREQUENCY_IN_SEC = 5;
 const MIN_INGESTION_FREQUENCY_IN_SEC = 1;
@@ -53,20 +55,16 @@ const Ingest: React.FC = () => {
     const { adapter, classNames } = useDataPusherContext();
 
     // state
-    const [databaseOptions, setDatabaseOptions] = useState<
-        Array<IDropdownOption>
-    >([]);
     const [tableOptions, setTableOptions] = useState<Array<IReactSelectOption>>(
         []
     );
-    const [
-        selectedDatabase,
-        setSelectedDatabase
-    ] = useState<IReactSelectOption>(null);
+    const [selectedDatabaseName, setSelectedDatabaseName] = useState<string>(
+        null
+    );
     const [selectedTable, setSelectedTable] = useState<IReactSelectOption>(
         null
     );
-    const [selectedTableType, setSelectedTableType] = useState<string>(
+    const [selectedTableType, setSelectedTableType] = useState<TableTypes>(
         TableTypes.Wide
     );
     const [selectedFrequency, setSelectedFrequency] = useState<number>(
@@ -95,23 +93,11 @@ const Ingest: React.FC = () => {
         [tableData]
     );
 
-    const getDatabasesState = useAdapter({
-        adapterMethod: () => adapter.getDatabases(),
-        refetchDependencies: [adapter]
-    });
-
-    const createDatabaseState = useAdapter({
-        adapterMethod: (param: ICreateDatabaseAdapterParams) =>
-            adapter.createDatabase(param.databaseName),
-        isAdapterCalledOnMount: false,
-        refetchDependencies: [adapter]
-    });
-
     const getTablesState = useAdapter({
         adapterMethod: (param: IGetTablesAdapterParams) =>
             adapter.getTables(param.databaseName),
         isAdapterCalledOnMount: false,
-        refetchDependencies: [adapter]
+        refetchDependencies: []
     });
 
     const getTableState = useAdapter({
@@ -122,7 +108,7 @@ const Ingest: React.FC = () => {
                 TIMESTAMP_COLUMN_NAME
             ),
         isAdapterCalledOnMount: false,
-        refetchDependencies: [adapter]
+        refetchDependencies: []
     });
 
     const createTableState = useAdapter({
@@ -134,7 +120,7 @@ const Ingest: React.FC = () => {
                 INGESTION_MAPPING_NAME
             ),
         isAdapterCalledOnMount: false,
-        refetchDependencies: [adapter]
+        refetchDependencies: []
     });
 
     const upsertTableState = useAdapter({
@@ -146,34 +132,29 @@ const Ingest: React.FC = () => {
                 INGESTION_MAPPING_NAME
             ),
         isAdapterCalledOnMount: false,
-        refetchDependencies: [adapter]
+        refetchDependencies: []
     });
 
     // callbacks
     const handleDatabaseChange = useCallback(
-        (newValue: any, actionMeta: ActionMeta<any>) => {
-            setSelectedDatabase(newValue);
+        (databaseName: string, isNew: boolean) => {
+            setSelectedDatabaseName(databaseName);
             setTableOptions([]);
             setSelectedTable(null);
             setTableData(null);
-            if (actionMeta.action === 'create-option') {
-                createDatabaseState.callAdapter({
-                    databaseName: newValue.label
-                });
-                setDatabaseOptions(databaseOptions.concat(newValue));
-            } else {
+            if (!isNew) {
                 // fetch tables of selected database
                 getTablesState.callAdapter({
-                    databaseName: newValue.label
+                    databaseName: databaseName
                 });
             }
         },
-        [createDatabaseState, databaseOptions, getTablesState]
+        [getTablesState]
     );
 
     const handleTableTypeChange = useCallback(
         (_event, option: IDropdownOption) => {
-            setSelectedTableType(option.key as string);
+            setSelectedTableType(option.key as TableTypes);
         },
         []
     );
@@ -185,7 +166,7 @@ const Ingest: React.FC = () => {
             if (actionMeta.action === 'create-option') {
                 if (selectedTableType) {
                     createTableState.callAdapter({
-                        databaseName: selectedDatabase.label,
+                        databaseName: selectedDatabaseName,
                         tableName: newValue.label,
                         columns: TableColumns[selectedTableType]
                     });
@@ -197,7 +178,7 @@ const Ingest: React.FC = () => {
                 setSelectedTableType(null);
                 if (newValue) {
                     getTableState.callAdapter({
-                        databaseName: selectedDatabase.label,
+                        databaseName: selectedDatabaseName,
                         tableName: newValue.label
                     });
                 }
@@ -206,113 +187,26 @@ const Ingest: React.FC = () => {
         [
             createTableState,
             getTableState,
-            selectedDatabase,
+            selectedDatabaseName,
             selectedTableType,
             tableOptions
         ]
     );
 
     const ingestData = useCallback(() => {
-        let dataToIngest: Array<IIngestRow> = [];
-        switch (selectedTableType) {
-            case TableTypes.Wide:
-                dataToIngest = [
-                    {
-                        ID: 'Past_1',
-                        Timestamp: new Date().toISOString(),
-                        Temperature: Math.floor(Math.random() * 100)
-                    },
-                    {
-                        ID: 'Past_1',
-                        Timestamp: new Date().toISOString(),
-                        Pressure: Math.floor(Math.random() * 100)
-                    },
-                    {
-                        ID: 'Salt_1',
-                        Timestamp: new Date().toISOString(),
-                        FanSpeed: Math.floor(Math.random() * 100)
-                    },
-                    {
-                        ID: 'Salt_1',
-                        Timestamp: new Date().toISOString(),
-                        FlowRate: Math.floor(Math.random() * 100)
-                    },
-                    {
-                        ID: 'Past_2',
-                        Timestamp: new Date().toISOString(),
-                        Temperature: Math.floor(Math.random() * 100),
-                        Pressure: Math.floor(Math.random() * 100)
-                    },
-                    {
-                        ID: 'Dryer_1',
-                        Timestamp: new Date().toISOString(),
-                        Pressure: Math.floor(Math.random() * 100),
-                        FanSpeed: Math.floor(Math.random() * 100)
-                    }
-                ];
-                break;
-            case TableTypes.Narrow:
-                dataToIngest = [
-                    {
-                        ID: 'Past_1',
-                        Timestamp: new Date().toISOString(),
-                        PropertyName: 'Temperature',
-                        Value: Math.floor(Math.random() * 100)
-                    },
-                    {
-                        ID: 'Salt_1',
-                        Timestamp: new Date().toISOString(),
-                        PropertyName: 'FanSpeed',
-                        Value: Math.floor(Math.random() * 100)
-                    },
-                    {
-                        ID: 'Past_1',
-                        Timestamp: new Date().toISOString(),
-                        PropertyName: 'Pressure',
-                        Value: Math.floor(Math.random() * 100)
-                    },
-                    {
-                        ID: 'Salt_1',
-                        Timestamp: new Date().toISOString(),
-                        PropertyName: 'FlowRate',
-                        Value: Math.floor(Math.random() * 100)
-                    }
-                ];
-                break;
-            case TableTypes.Tags:
-                dataToIngest = [
-                    {
-                        ID: 'Past_1',
-                        Timestamp: new Date().toISOString(),
-                        Value: Math.floor(Math.random() * 100)
-                    },
-                    {
-                        ID: 'Salt_1',
-                        Timestamp: new Date().toISOString(),
-                        Value: Math.floor(Math.random() * 100)
-                    },
-                    {
-                        ID: 'Past_1',
-                        Timestamp: new Date().toISOString(),
-                        Value: Math.floor(Math.random() * 100)
-                    },
-                    {
-                        ID: 'Salt_1',
-                        Timestamp: new Date().toISOString(),
-                        Value: Math.floor(Math.random() * 100)
-                    }
-                ];
-                break;
-            default:
-                break;
-        }
+        const dataToIngest: Array<IIngestRow> = getMockData(selectedTableType);
         upsertTableState.callAdapter({
-            databaseName: selectedDatabase.label,
+            databaseName: selectedDatabaseName,
             tableName: selectedTable.label,
             rows: dataToIngest
         });
         return dataToIngest.length;
-    }, [selectedTableType, upsertTableState, selectedDatabase, selectedTable]);
+    }, [
+        selectedTableType,
+        upsertTableState,
+        selectedDatabaseName,
+        selectedTable
+    ]);
 
     const handleFrequencyChange = useCallback((_event, newValue?: string) => {
         const frequency = Number(newValue);
@@ -337,7 +231,7 @@ const Ingest: React.FC = () => {
                 numberOfRowsIngestedRef.current += ingestData();
             }, selectedFrequency * 1000);
         }
-    }, [ingestData, selectedFrequency, tableData]);
+    }, [ingestData, selectedFrequency]);
 
     // side effects
     useEffect(() => {
@@ -345,13 +239,6 @@ const Ingest: React.FC = () => {
             clearInterval(ingestionRef.current);
         };
     }, []);
-
-    useEffect(() => {
-        if (getDatabasesState?.adapterResult?.result) {
-            const data = getDatabasesState.adapterResult.getData();
-            setDatabaseOptions(data?.map((d) => ({ value: d, label: d })));
-        }
-    }, [getDatabasesState?.adapterResult]);
 
     useEffect(() => {
         if (getTablesState?.adapterResult?.result) {
@@ -370,7 +257,7 @@ const Ingest: React.FC = () => {
     useEffect(() => {
         if (upsertTableState?.adapterResult?.result) {
             getTableState.callAdapter({
-                databaseName: selectedDatabase.label,
+                databaseName: selectedDatabaseName,
                 tableName: selectedTable.label
             });
         }
@@ -390,34 +277,11 @@ const Ingest: React.FC = () => {
                 <p className={classNames.informationText}>
                     {t('legionApp.dataPusher.ingestInfo')}
                 </p>
-                <StackItem>
-                    <Stack horizontal horizontalAlign="space-between">
-                        <Label required>
-                            {t('legionApp.dataPusher.target.database')}
-                        </Label>
-                        {createDatabaseState.isLoading && (
-                            <Spinner
-                                label={t(
-                                    'legionApp.dataPusher.progress.createDatabase'
-                                )}
-                                size={SpinnerSize.small}
-                                labelPosition={'right'}
-                            />
-                        )}
-                    </Stack>
-                    <CreatableSelect
-                        onChange={handleDatabaseChange}
-                        isClearable
-                        options={databaseOptions}
-                        placeholder={t(
-                            'legionApp.dataPusher.target.selectDatabase'
-                        )}
-                        styles={selectStyles}
-                        isLoading={getDatabasesState.isLoading}
-                        value={selectedDatabase}
-                        isDisabled={!adapter.connectionString}
-                    />
-                </StackItem>
+                <DatabasePicker
+                    onDatabaseNameChange={handleDatabaseChange}
+                    targetAdapterContext={DataPusherContext}
+                    isCreatable
+                />
                 <StackItem>
                     <Stack horizontal verticalAlign={'center'}>
                         <Label required>
@@ -486,7 +350,7 @@ const Ingest: React.FC = () => {
                         styles={selectStyles}
                         isLoading={getTablesState.isLoading}
                         value={selectedTable}
-                        isDisabled={!selectedDatabase}
+                        isDisabled={!selectedDatabaseName}
                     />
                 </StackItem>
                 <StackItem>

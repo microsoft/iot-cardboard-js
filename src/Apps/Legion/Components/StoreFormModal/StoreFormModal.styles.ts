@@ -22,11 +22,14 @@ export const getStyles = (
                         main: {
                             maxWidth: 500,
                             height: 300
+                        },
+                        scrollableContent: {
+                            overflow: 'visible'
                         }
                     }
                 },
                 content: {
-                    overflowX: 'hidden'
+                    overflow: 'visible'
                 }
             }
         }

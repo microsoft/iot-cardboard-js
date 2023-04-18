@@ -128,6 +128,13 @@ export const getReactSelectStyles = (
             ':active': {
                 backgroundColor: theme.semanticColors.listItemBackgroundHovered // emulate fluent behavior and keep the hover state when clicked
             }
+        }),
+        placeholder: (provided) => ({
+            ...provided,
+            color: theme.semanticColors.inputPlaceholderText,
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            whiteSpace: 'nowrap'
         })
     };
 };

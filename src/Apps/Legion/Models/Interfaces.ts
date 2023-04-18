@@ -66,3 +66,9 @@ export interface IPIDDocument {
     url: string;
     name: string;
 }
+
+export interface IReactSelectOption {
+    value: string;
+    label: string;
+    __isNew__?: boolean;
+}

@@ -1,3 +1,4 @@
+import { IDataManagementAdapter } from '../../Adapters/Standalone/DataManagement/Models/DataManagementAdapter.types';
 import {
     IADXConnection,
     IAppData,
@@ -5,11 +6,13 @@ import {
 } from '../../Models/Interfaces';
 
 export interface IWizardDataManagementContext {
+    adapter: IDataManagementAdapter;
     wizardDataManagementContextState: IWizardDataManagementContextState;
     wizardDataManagementContextDispatch: React.Dispatch<WizardDataManagementContextAction>;
 }
 
 export interface IWizardDataManagementContextState {
+    adapter: IDataManagementAdapter;
     // Keep adding source types here
     sources: Array<IADXConnection | IPIDDocument>;
     initialAssets: IAppData;

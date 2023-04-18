@@ -7,7 +7,10 @@ import { WizardNavigationContextProvider } from '../../Contexts/WizardNavigation
 import LegionAdapter from '../../Adapters/Mixin/LegionAdapter';
 import MsalAuthService from '../../../../Models/Services/MsalAuthService';
 import useAuthParams from '../../../../../.storybook/useAuthParams';
-import { WIZARD_NAVIGATION_MOCK_DATA } from './WizardShellMockData';
+import {
+    DEFAULT_MOCK_DATA_MANAGEMENT_STATE,
+    WIZARD_NAVIGATION_MOCK_DATA
+} from './WizardShellMockData';
 import { WizardDataManagementContextProvider } from '../../Contexts/WizardDataManagementContext/WizardDataManagementContext';
 
 const wrapperStyle = { width: '100%', height: '600px', padding: 8 };
@@ -25,16 +28,20 @@ const Template: WizardShellStory = (args) => {
     return !authenticationParameters ? (
         <div></div>
     ) : (
-        <WizardDataManagementContextProvider>
+        <WizardDataManagementContextProvider
+            initialState={{
+                ...DEFAULT_MOCK_DATA_MANAGEMENT_STATE,
+                adapter: new LegionAdapter(
+                    new MsalAuthService(
+                        authenticationParameters.adt.aadParameters
+                    ),
+                    authenticationParameters.adx.clusterUrl
+                )
+            }}
+        >
             <WizardNavigationContextProvider
                 initialState={{
-                    ...WIZARD_NAVIGATION_MOCK_DATA,
-                    adapter: new LegionAdapter(
-                        new MsalAuthService(
-                            authenticationParameters.adt.aadParameters
-                        ),
-                        authenticationParameters.adx.clusterUrl
-                    )
+                    ...WIZARD_NAVIGATION_MOCK_DATA
                 }}
             >
                 <WizardShell {...args} />

@@ -108,7 +108,6 @@ export const steps: IStepperWizardStep[] = [
 ];
 
 export const WIZARD_NAVIGATION_MOCK_DATA: IWizardNavigationContextState = {
-    adapter: new MockDataManagementAdapter(),
     steps: steps,
     currentStep: 0
 };
@@ -122,6 +121,7 @@ const mockAppData: IAppData = {
 };
 
 export const DEFAULT_MOCK_DATA_MANAGEMENT_STATE: IWizardDataManagementContextState = {
+    adapter: new MockDataManagementAdapter(),
     initialAssets: mockAppData,
     modifiedAssets: mockAppData,
     sources: [

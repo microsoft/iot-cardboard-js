@@ -12,6 +12,7 @@ import {
     IDataManagementAdapter,
     ITableColumn
 } from '../../Adapters/Standalone/DataManagement/Models/DataManagementAdapter.types';
+import { IClusterPickerStyles } from '../Pickers/ClusterPicker/ClusterPicker.types';
 
 export interface IDataPusherProps {
     adapter: IDataManagementAdapter;
@@ -37,6 +38,7 @@ export interface IDataPusherStyles {
 }
 
 export interface IDataPusherSubComponentStyles {
+    clusterPicker?: IClusterPickerStyles;
     stack?: IStackStyles;
     button?: IButtonStyles;
     connectionString?: Partial<ITextFieldStyles>;
@@ -96,9 +98,3 @@ export const TableTypeOptions: IDropdownOption[] = [
         text: 'Tags only'
     }
 ];
-
-export interface IReactSelectOption {
-    value: string;
-    label: string;
-    __isNew__?: boolean;
-}
