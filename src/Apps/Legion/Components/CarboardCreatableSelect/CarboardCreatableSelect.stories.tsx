@@ -9,7 +9,7 @@ import { IReactSelectOption } from '../../Models';
 const wrapperStyle = { width: '500px', height: '600px', padding: 8 };
 
 export default {
-    title: 'Components/CarboardCreatableSelect',
+    title: 'Apps/Legion/Components/CarboardCreatableSelect',
     component: CarboardCreatableSelect,
     decorators: [
         getDefaultStoryDecorator<ICarboardCreatableSelectProps<IListItem>>(

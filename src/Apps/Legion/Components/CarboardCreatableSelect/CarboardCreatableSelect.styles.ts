@@ -9,9 +9,13 @@ export const getStyles = memoizeFunction(
                 marginLeft: 4
             },
             description: [
-                isDescriptionError && {
-                    color: theme.semanticColors.errorText
-                },
+                isDescriptionError
+                    ? {
+                          color: theme.semanticColors.errorText
+                      }
+                    : {
+                          color: theme.semanticColors.inputBorder
+                      },
                 {
                     marginTop: '5px !important', // 5 is what Fluent has so going with it
                     marginLeft: 4
