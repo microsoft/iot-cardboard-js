@@ -1595,7 +1595,9 @@
       "databaseLabel": "数据库",
       "databasePlaceholder": "选择数据库",
       "tableLabel": "桌子",
-      "tableIdColumnLabel": "标识字段"
+      "tableIdColumnLabel": "标识字段",
+      "urlLabel": "网址",
+      "urlPlaceholder": "输入网址"
     },
     "StoreListPage": {
       "title": "欢迎来到未来",
@@ -1605,6 +1607,9 @@
       },
       "clusterLabel": "目标群集网址",
       "databaseLabel": "目标数据库"
+    },
+    "dataSourceStep": {
+      "infoText": "从源表或工程图创建新的孪生体"
     }
   }
 }

@@ -1595,7 +1595,9 @@
       "databaseLabel": "데이터베이스",
       "databasePlaceholder": "데이터베이스 선택",
       "tableLabel": "테이블",
-      "tableIdColumnLabel": "ID 필드"
+      "tableIdColumnLabel": "ID 필드",
+      "urlLabel": "URL (영문)",
+      "urlPlaceholder": "URL 입력"
     },
     "StoreListPage": {
       "title": "미래에 오신 것을 환영합니다",
@@ -1605,6 +1607,9 @@
       },
       "clusterLabel": "대상 클러스터 URL",
       "databaseLabel": "대상 데이터베이스"
+    },
+    "dataSourceStep": {
+      "infoText": "원본 테이블 또는 엔지니어링 다이어그램에서 새 트윈 만들기Create new twins from a source table or engineering diagram"
     }
   }
 }

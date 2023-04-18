@@ -1595,7 +1595,9 @@
       "databaseLabel": "Veritabanı",
       "databasePlaceholder": "Veritabanı seç",
       "tableLabel": "Masa",
-      "tableIdColumnLabel": "Kimlik alanı"
+      "tableIdColumnLabel": "Kimlik alanı",
+      "urlLabel": "URL",
+      "urlPlaceholder": "URL girin"
     },
     "StoreListPage": {
       "title": "Geleceğe hoş geldiniz",
@@ -1605,6 +1607,9 @@
       },
       "clusterLabel": "Hedef küme URL'si",
       "databaseLabel": "Hedef veritabanı"
+    },
+    "dataSourceStep": {
+      "infoText": "Kaynak tablodan veya mühendislik diyagramından yeni ikizler oluşturma"
     }
   }
 }

@@ -1595,7 +1595,9 @@
       "databaseLabel": "Databáze",
       "databasePlaceholder": "Vybrat databázi",
       "tableLabel": "Stůl",
-      "tableIdColumnLabel": "Pole ID"
+      "tableIdColumnLabel": "Pole ID",
+      "urlLabel": "Adresa URL",
+      "urlPlaceholder": "Zadejte adresu URL"
     },
     "StoreListPage": {
       "title": "Vítejte v budoucnosti",
@@ -1605,6 +1607,9 @@
       },
       "clusterLabel": "Cílová adresa URL clusteru",
       "databaseLabel": "Cílová databáze"
+    },
+    "dataSourceStep": {
+      "infoText": "Vytvoření nových dvojčat ze zdrojové tabulky nebo inženýrského diagramu"
     }
   }
 }

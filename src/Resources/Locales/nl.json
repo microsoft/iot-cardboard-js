@@ -1595,7 +1595,9 @@
       "databaseLabel": "Databank",
       "databasePlaceholder": "Selecteer database",
       "tableLabel": "Tafel",
-      "tableIdColumnLabel": "Id-veld"
+      "tableIdColumnLabel": "Id-veld",
+      "urlLabel": "Url",
+      "urlPlaceholder": "Voer de URL in"
     },
     "StoreListPage": {
       "title": "Welkom in de toekomst",
@@ -1605,6 +1607,9 @@
       },
       "clusterLabel": "URL van doelcluster",
       "databaseLabel": "Doeldatabase"
+    },
+    "dataSourceStep": {
+      "infoText": "Nieuwe tweelingen maken op basis van een brontabel of engineeringdiagram"
     }
   }
 }
