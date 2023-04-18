@@ -29,8 +29,7 @@ import { useExtendedTheme } from '../../../../../../Models/Hooks/useExtendedThem
 import CreatableSelect from 'react-select/creatable';
 import {
     TableTypeOptions,
-    TableTypes,
-    TIMESTAMP_COLUMN_NAME
+    TableTypes
 } from '../../../DataPusher/DataPusher.types';
 import {
     ICreateDatabaseAdapterParams,
