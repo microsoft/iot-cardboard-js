@@ -1587,17 +1587,22 @@
       "twins": "Dvojčata",
       "properties": "Vlastnosti"
     },
-    "Common": {},
+    "Common": {
+      "clusterLabel": "Adresa URL clusteru",
+      "clusterPlaceholder": "Vyberte adresu URL clusteru",
+      "databaseLabel": "Databáze",
+      "databasePlaceholder": "Vybrat databázi",
+      "tableLabel": "Stůl",
+      "tableIdColumnLabel": "Pole ID"
+    },
     "StoreListPage": {
       "title": "Vítejte v budoucnosti",
       "createStoreButtonText": "Přidání úložiště dat",
-      "urlLabel": "Adresa URL clusteru",
-      "nameLabel": "Název databáze",
       "Modal": {
-        "title": "Přidání nového úložiště dat",
-        "urlPlaceholder": "http://mycluster.kusto.azure.net",
-        "namePlaceholder": "Zadejte název databáze"
-      }
+        "title": "Přidání nového úložiště dat"
+      },
+      "clusterLabel": "Cílová adresa URL clusteru",
+      "databaseLabel": "Cílová databáze"
     }
   }
 }

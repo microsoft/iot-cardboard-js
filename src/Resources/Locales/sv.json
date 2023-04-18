@@ -1587,17 +1587,22 @@
       "twins": "Tvillingar",
       "properties": "Egenskaper"
     },
-    "Common": {},
+    "Common": {
+      "clusterLabel": "URL för kluster",
+      "clusterPlaceholder": "Välj kluster-URL",
+      "databaseLabel": "Databas",
+      "databasePlaceholder": "Välj databas",
+      "tableLabel": "Bord",
+      "tableIdColumnLabel": "ID-fält"
+    },
     "StoreListPage": {
       "title": "Välkommen till framtiden",
       "createStoreButtonText": "Lägg till datalager",
-      "urlLabel": "URL för kluster",
-      "nameLabel": "Databasens namn",
       "Modal": {
-        "title": "Lägga till ett nytt datalager",
-        "urlPlaceholder": "http://mycluster.kusto.azure.net",
-        "namePlaceholder": "Ange ett databasnamn"
-      }
+        "title": "Lägga till ett nytt datalager"
+      },
+      "clusterLabel": "URL för målkluster",
+      "databaseLabel": "Måldatabas"
     }
   }
 }

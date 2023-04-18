@@ -1587,17 +1587,22 @@
       "twins": "Bliźnięta",
       "properties": "Właściwości"
     },
-    "Common": {},
+    "Common": {
+      "clusterLabel": "Adres URL klastra",
+      "clusterPlaceholder": "Wybierz adres URL klastra",
+      "databaseLabel": "Baza danych",
+      "databasePlaceholder": "Wybierz bazę danych",
+      "tableLabel": "Stół",
+      "tableIdColumnLabel": "Pole identyfikatora"
+    },
     "StoreListPage": {
       "title": "Witamy w przyszłości",
       "createStoreButtonText": "Dodawanie magazynu danych",
-      "urlLabel": "Adres URL klastra",
-      "nameLabel": "Nazwa bazy danych",
       "Modal": {
-        "title": "Dodawanie nowego magazynu danych",
-        "urlPlaceholder": "http://mycluster.kusto.azure.net",
-        "namePlaceholder": "Wprowadź nazwę bazy danych"
-      }
+        "title": "Dodawanie nowego magazynu danych"
+      },
+      "clusterLabel": "Adres URL klastra docelowego",
+      "databaseLabel": "Docelowa baza danych"
     }
   }
 }

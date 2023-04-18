@@ -1587,17 +1587,22 @@
       "twins": "Gemelos",
       "properties": "Propiedades"
     },
-    "Common": {},
+    "Common": {
+      "clusterLabel": "Dirección URL del clúster",
+      "clusterPlaceholder": "Seleccione la dirección URL del clúster",
+      "databaseLabel": "Base de datos",
+      "databasePlaceholder": "Seleccionar base de datos",
+      "tableLabel": "Mesa",
+      "tableIdColumnLabel": "Campo ID"
+    },
     "StoreListPage": {
       "title": "Bienvenidos al futuro",
       "createStoreButtonText": "Agregar almacén de datos",
-      "urlLabel": "Dirección URL del clúster",
-      "nameLabel": "Nombre de la base de datos",
       "Modal": {
-        "title": "Agregar un nuevo almacén de datos",
-        "urlPlaceholder": "http://mycluster.kusto.azure.net",
-        "namePlaceholder": "Escriba un nombre de base de datos"
-      }
+        "title": "Agregar un nuevo almacén de datos"
+      },
+      "clusterLabel": "Dirección URL del clúster de destino",
+      "databaseLabel": "Base de datos de destino"
     }
   }
 }

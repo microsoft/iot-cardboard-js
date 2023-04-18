@@ -1587,17 +1587,22 @@
       "twins": "Jumeaux",
       "properties": "Propriétés"
     },
-    "Common": {},
+    "Common": {
+      "clusterLabel": "URL du cluster",
+      "clusterPlaceholder": "Sélectionner l’URL du cluster",
+      "databaseLabel": "Base de données",
+      "databasePlaceholder": "Sélectionner une base de données",
+      "tableLabel": "Table",
+      "tableIdColumnLabel": "Champ ID"
+    },
     "StoreListPage": {
       "title": "Bienvenue dans le futur",
       "createStoreButtonText": "Ajouter un magasin de données",
-      "urlLabel": "URL du cluster",
-      "nameLabel": "Nom de la base de données",
       "Modal": {
-        "title": "Ajouter un nouveau magasin de données",
-        "urlPlaceholder": "http://mycluster.kusto.azure.net",
-        "namePlaceholder": "Entrez un nom de base de données"
-      }
+        "title": "Ajouter un nouveau magasin de données"
+      },
+      "clusterLabel": "URL du cluster cible",
+      "databaseLabel": "Base de données cible"
     }
   }
 }

@@ -1587,17 +1587,22 @@
       "twins": "Zwillinge",
       "properties": "Eigenschaften"
     },
-    "Common": {},
+    "Common": {
+      "clusterLabel": "Cluster-URL",
+      "clusterPlaceholder": "Wählen Sie die Cluster-URL aus",
+      "databaseLabel": "Datenbank",
+      "databasePlaceholder": "Datenbank auswählen",
+      "tableLabel": "Tisch",
+      "tableIdColumnLabel": "ID-Feld"
+    },
     "StoreListPage": {
       "title": "Willkommen in der Zukunft",
       "createStoreButtonText": "Hinzufügen eines Datenspeichers",
-      "urlLabel": "Cluster-URL",
-      "nameLabel": "Name der Datenbank",
       "Modal": {
-        "title": "Hinzufügen eines neuen Datenspeichers",
-        "urlPlaceholder": "http://mycluster.kusto.azure.net",
-        "namePlaceholder": "Geben Sie einen Datenbanknamen ein."
-      }
+        "title": "Hinzufügen eines neuen Datenspeichers"
+      },
+      "clusterLabel": "Ziel-Cluster-URL",
+      "databaseLabel": "Zieldatenbank"
     }
   }
 }

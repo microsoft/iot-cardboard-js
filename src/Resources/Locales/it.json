@@ -1587,17 +1587,22 @@
       "twins": "Gemelli",
       "properties": "Proprietà"
     },
-    "Common": {},
+    "Common": {
+      "clusterLabel": "URL del cluster",
+      "clusterPlaceholder": "Seleziona l'URL del cluster",
+      "databaseLabel": "Banca dati",
+      "databasePlaceholder": "Seleziona database",
+      "tableLabel": "Tavolo",
+      "tableIdColumnLabel": "Campo ID"
+    },
     "StoreListPage": {
       "title": "Benvenuti nel futuro",
       "createStoreButtonText": "Aggiungere un archivio dati",
-      "urlLabel": "URL del cluster",
-      "nameLabel": "Nome del database",
       "Modal": {
-        "title": "Aggiungere un nuovo archivio dati",
-        "urlPlaceholder": "http://mycluster.kusto.azure.net",
-        "namePlaceholder": "Immettere un nome di database"
-      }
+        "title": "Aggiungere un nuovo archivio dati"
+      },
+      "clusterLabel": "URL del cluster di destinazione",
+      "databaseLabel": "Database di destinazione"
     }
   }
 }

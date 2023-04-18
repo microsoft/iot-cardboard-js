@@ -1587,17 +1587,22 @@
       "twins": "Gêmeos",
       "properties": "Propriedades"
     },
-    "Common": {},
+    "Common": {
+      "clusterLabel": "URL do cluster",
+      "clusterPlaceholder": "Selecionar URL do cluster",
+      "databaseLabel": "Base de dados",
+      "databasePlaceholder": "Selecionar banco de dados",
+      "tableLabel": "Mesa",
+      "tableIdColumnLabel": "Campo ID"
+    },
     "StoreListPage": {
       "title": "Bem-vindo ao futuro",
       "createStoreButtonText": "Adicionar armazenamento de dados",
-      "urlLabel": "URL do cluster",
-      "nameLabel": "Nome do banco de dados",
       "Modal": {
-        "title": "Adicionar um novo armazenamento de dados",
-        "urlPlaceholder": "http://mycluster.kusto.azure.net",
-        "namePlaceholder": "Insira um nome de banco de dados"
-      }
+        "title": "Adicionar um novo armazenamento de dados"
+      },
+      "clusterLabel": "URL do cluster de destino",
+      "databaseLabel": "Banco de dados de destino"
     }
   }
 }
