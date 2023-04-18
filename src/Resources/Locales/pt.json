@@ -1104,7 +1104,15 @@
       "3dAssetLoadingGenericErrorMessage": "Modelo de carregamento de erros. Tente limpar seu cache e tente novamente ou verifique seu acesso para esse arquivo.",
       "3dAssetDimensionError": "Pode haver um problema com as dimensões do seu modelo, por favor, verifique se não há malhas errôneas."
     },
-    "missingPermissionsMessage": "Você tem permissões perdidas. Você precisará de acesso como leitor (no mínimo) e ou proprietário de dados do Blob de armazenamento ou colaborador de dados do Blob de armazenamento."
+    "missingPermissionsMessage": "Você tem permissões perdidas. Você precisará de acesso como leitor (no mínimo) e ou proprietário de dados do Blob de armazenamento ou colaborador de dados do Blob de armazenamento.",
+    "networkErrorMessage": "Isso pode ser um problema de CORS, URL inválida ou um erro de rede. Entre em contato com o proprietário do recurso ou tente novamente mais tarde.",
+    "networkErrorTitle": "Erro de conexão",
+    "applyUpdates": "Aplicar atualizações",
+    "setCorsPropertiesNotAuthorizedMessage": "Você não tem acesso à conta de armazenamento para fazer essa alteração. Entre em contato com o proprietário do recurso para fazer as alterações necessárias nas configurações de CORS da conta de armazenamento.",
+    "availableCorsUpdateTitle": "Atualização do CORS disponível",
+    "availableCorsUpdateMessage": "Existem algumas propriedades que precisam ser atualizadas em sua conta de armazenamento para poder usar cenas 3D com o CORS.",
+    "requiredCorsUpdateTitle": "Atualização do CORS necessária",
+    "requiredCorsUpdateMessage": "Para continuar usando cenas 3D, existem algumas regras CORS que precisam ser atualizadas em sua conta de armazenamento. Entre em contato com o proprietário do recurso para adicionar essas regras."
   },
   "fieldRequired": "Este campo é necessário",
   "OATGraphViewer": {
@@ -1532,5 +1540,6 @@
   },
   "jobs": {
     "addNew": "Adicionar novo"
-  }
+  },
+  "dismiss": "Demitir"
 }

@@ -1104,7 +1104,15 @@
       "3dAssetLoadingGenericErrorMessage": "모델을 로드하는 중 오류가 발생했습니다. 캐시를 지우고 다시 시도하거나 해당 파일에 대한 액세스 권한을 확인하십시오.",
       "3dAssetDimensionError": "모델 치수에 문제가있을 수 있으므로 잘못된 메쉬가 없는지 확인하십시오."
     },
-    "missingPermissionsMessage": "사용 권한이 누락되었습니다. 최소한 읽기 권한자로, 저장소 Blob 데이터 소유자 또는 저장소 Blob 데이터 기여자로 액세스해야 합니다."
+    "missingPermissionsMessage": "사용 권한이 누락되었습니다. 최소한 읽기 권한자로, 저장소 Blob 데이터 소유자 또는 저장소 Blob 데이터 기여자로 액세스해야 합니다.",
+    "networkErrorMessage": "CORS 문제, 잘못된 URL 또는 네트워크 오류일 수 있습니다. 리소스 소유자에게 문의하거나 나중에 다시 시도하세요.",
+    "networkErrorTitle": "연결 오류",
+    "applyUpdates": "업데이트 적용",
+    "setCorsPropertiesNotAuthorizedMessage": "이 변경을 수행하기 위해 저장소 계정에 액세스할 수 없습니다. 리소스 소유자에게 문의하여 스토리지 계정의 CORS 설정에 필요한 변경을 수행하세요.",
+    "availableCorsUpdateTitle": "CORS 업데이트 사용 가능",
+    "availableCorsUpdateMessage": "CORS에서 3D 장면을 사용할 수 있도록 저장소 계정에서 업데이트해야 하는 몇 가지 속성이 있습니다.",
+    "requiredCorsUpdateTitle": "CORS 업데이트 필요",
+    "requiredCorsUpdateMessage": "3D 장면을 계속 사용하려면 스토리지 계정에서 업데이트해야 하는 몇 가지 CORS 규칙이 있습니다. 리소스 소유자에게 문의하여 해당 규칙을 추가하세요."
   },
   "fieldRequired": "이 필드는 필수입니다.",
   "OATGraphViewer": {
@@ -1532,5 +1540,6 @@
   },
   "jobs": {
     "addNew": "새로 추가"
-  }
+  },
+  "dismiss": "해고하다"
 }

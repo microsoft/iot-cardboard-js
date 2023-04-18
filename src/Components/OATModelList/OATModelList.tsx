@@ -187,7 +187,7 @@ const OATModelList: React.FC<IOATModelListProps> = (props) => {
                         height: 100,
                         src: EmptyClipboard
                     }}
-                    buttonProps={illustrationCtaButtonProps}
+                    primaryButtonProps={illustrationCtaButtonProps}
                     styles={classNames.subComponentStyles?.noDataIllustration?.()}
                 />
             ) : (

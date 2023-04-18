@@ -1104,7 +1104,15 @@
       "3dAssetLoadingGenericErrorMessage": "Model yüklenirken hata oluştu. Önbelleğinizi temizlemeyi deneyin ve yeniden deneyin veya bu dosya için erişiminizi denetleyin.",
       "3dAssetDimensionError": "Model boyutlarınızla ilgili bir sorun olabilir, lütfen hatalı kafes olmadığından emin olun."
     },
-    "missingPermissionsMessage": "Eksik izinleriniz var. Okuyucu (en azından) ve Depolama Blobu Veri Sahibi veya Depolama Blobu Veri Katılımcısı olarak erişime ihtiyacınız olacaktır."
+    "missingPermissionsMessage": "Eksik izinleriniz var. Okuyucu (en azından) ve Depolama Blobu Veri Sahibi veya Depolama Blobu Veri Katılımcısı olarak erişime ihtiyacınız olacaktır.",
+    "networkErrorMessage": "Bu bir CORS sorunu, geçersiz URL veya ağ hatası olabilir. Lütfen kaynağın sahibine başvurun veya daha sonra yeniden deneyin.",
+    "networkErrorTitle": "Bağlantı hatası",
+    "applyUpdates": "Güncellemeleri uygulama",
+    "setCorsPropertiesNotAuthorizedMessage": "Bu değişikliği yapmak için depolama hesabına erişiminiz yok. Depolama hesabının CORS ayarlarında gerekli değişiklikleri yapmak için lütfen kaynak sahibine başvurun.",
+    "availableCorsUpdateTitle": "CORS güncellemesi mevcut",
+    "availableCorsUpdateMessage": "CORS ile 3B sahneleri kullanabilmek için depolama hesabınızda güncelleştirilmesi gereken bazı özellikler vardır.",
+    "requiredCorsUpdateTitle": "CORS güncellemesi gerekli",
+    "requiredCorsUpdateMessage": "3B sahneleri kullanmaya devam etmek için depolama hesabınızda güncellenmesi gereken bazı CORS kuralları vardır. Bu kuralları eklemek için lütfen kaynak sahibine başvurun."
   },
   "fieldRequired": "Bu alan zorunludur",
   "OATGraphViewer": {
@@ -1532,5 +1540,6 @@
   },
   "jobs": {
     "addNew": "Yeni ekle"
-  }
+  },
+  "dismiss": "Kapatmak"
 }

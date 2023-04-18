@@ -1104,7 +1104,15 @@
       "3dAssetLoadingGenericErrorMessage": "Błąd ładowania modelu. Spróbuj wyczyścić pamięć podręczną i spróbuj ponownie lub sprawdź dostęp do tego pliku.",
       "3dAssetDimensionError": "Może wystąpić problem z wymiarami modelu, sprawdź, czy nie ma błędnych siatek."
     },
-    "missingPermissionsMessage": "Brakuje Ci uprawnień. Będziesz potrzebować dostępu jako czytelnik (co najmniej) i właściciel danych obiektów blob magazynu lub współtwórca danych obiektów blob magazynu."
+    "missingPermissionsMessage": "Brakuje Ci uprawnień. Będziesz potrzebować dostępu jako czytelnik (co najmniej) i właściciel danych obiektów blob magazynu lub współtwórca danych obiektów blob magazynu.",
+    "networkErrorMessage": "Może to być problem z CORS, nieprawidłowy adres URL lub błąd sieci. Skontaktuj się z właścicielem zasobu lub spróbuj ponownie później.",
+    "networkErrorTitle": "Błąd połączenia",
+    "applyUpdates": "Stosowanie aktualizacji",
+    "setCorsPropertiesNotAuthorizedMessage": "Nie masz dostępu do konta magazynu, aby wprowadzić tę zmianę. Skontaktuj się z właścicielem zasobu, aby wprowadzić wymagane zmiany w ustawieniach CORS konta magazynu.",
+    "availableCorsUpdateTitle": "Dostępna aktualizacja CORS",
+    "availableCorsUpdateMessage": "Istnieją pewne właściwości, które należy zaktualizować na koncie magazynu, aby móc używać scen 3D z CORS.",
+    "requiredCorsUpdateTitle": "Wymagana aktualizacja CORS",
+    "requiredCorsUpdateMessage": "Aby nadal korzystać ze scen 3D, istnieją pewne reguły CORS, które należy zaktualizować na koncie magazynu. Skontaktuj się z właścicielem zasobu, aby dodać te reguły."
   },
   "fieldRequired": "To pole jest wymagane",
   "OATGraphViewer": {
@@ -1532,5 +1540,6 @@
   },
   "jobs": {
     "addNew": "Dodaj nowy"
-  }
+  },
+  "dismiss": "Zwolnić"
 }

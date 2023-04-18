@@ -12,6 +12,14 @@ export interface ScenePageErrorHandlingWrapperProps {
         buttonText: string;
         onClick: () => void;
     };
+    secondaryClickAction?: {
+        buttonText: string;
+        onClick: () => void;
+    };
+    linkAction?: {
+        linkText: string;
+        onClick: () => void;
+    };
     verifyCallbackAdapterData?: IUseAdapter<IAdapterData>;
 }
 

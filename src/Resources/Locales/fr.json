@@ -1104,7 +1104,15 @@
       "3dAssetLoadingGenericErrorMessage": "Erreur de chargement du modèle. Essayez d’effacer votre cache et réessayez ou vérifiez votre accès pour ce fichier.",
       "3dAssetDimensionError": "Il peut y avoir un problème avec les dimensions de votre modèle, veuillez vérifier qu’il n’y a pas de maillages erronés."
     },
-    "missingPermissionsMessage": "Vous avez des autorisations manquantes. Vous aurez besoin d’un accès en tant que lecteur (au minimum) et soit propriétaire des données d’objet blob de stockage, soit contributeur de données d’objets blob de stockage."
+    "missingPermissionsMessage": "Vous avez des autorisations manquantes. Vous aurez besoin d’un accès en tant que lecteur (au minimum) et soit propriétaire des données d’objet blob de stockage, soit contributeur de données d’objets blob de stockage.",
+    "networkErrorMessage": "Il peut s’agir d’un problème CORS, d’une URL non valide ou d’une erreur réseau. Veuillez contacter le propriétaire de la ressource ou réessayer plus tard.",
+    "networkErrorTitle": "Erreur de connexion",
+    "applyUpdates": "Appliquer les mises à jour",
+    "setCorsPropertiesNotAuthorizedMessage": "Vous n’avez pas accès au compte de stockage pour effectuer cette modification. Veuillez contacter le propriétaire de la ressource pour apporter les modifications requises aux paramètres CORS du compte de stockage.",
+    "availableCorsUpdateTitle": "Mise à jour CORS disponible",
+    "availableCorsUpdateMessage": "Certaines propriétés doivent être mises à jour sur votre compte de stockage pour pouvoir utiliser des scènes 3D avec CORS.",
+    "requiredCorsUpdateTitle": "Mise à jour CORS requise",
+    "requiredCorsUpdateMessage": "Afin de continuer à utiliser des scènes 3D, certaines règles CORS doivent être mises à jour sur votre compte de stockage. Veuillez contacter le propriétaire de la ressource pour ajouter ces règles."
   },
   "fieldRequired": "Ce champ est obligatoire",
   "OATGraphViewer": {
@@ -1532,5 +1540,6 @@
   },
   "jobs": {
     "addNew": "Ajouter un nouveau"
-  }
+  },
+  "dismiss": "Congédier"
 }

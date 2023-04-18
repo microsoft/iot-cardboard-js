@@ -1135,7 +1135,15 @@
       "3dAssetLoadingGenericErrorMessage": "Chyba při načítání modelu. Zkuste vymazat mezipaměť a zkuste to znovu nebo zkontrolujte přístup k tomuto souboru.",
       "3dAssetDimensionError": "Může se jednat o problém s rozměry modelu, zkontrolujte, zda nejsou žádné chybné sítě."
     },
-    "missingPermissionsMessage": "Chybí vám oprávnění. Budete potřebovat přístup jako čtenář (minimálně) a buď vlastník dat objektů BLOB úložiště, nebo přispěvatel dat objektů BLOB úložiště."
+    "missingPermissionsMessage": "Chybí vám oprávnění. Budete potřebovat přístup jako čtenář (minimálně) a buď vlastník dat objektů BLOB úložiště, nebo přispěvatel dat objektů BLOB úložiště.",
+    "networkErrorMessage": "Může se jednat o problém CORS, neplatnou adresu URL nebo chybu sítě. Obraťte se na vlastníka prostředku nebo akci opakujte později.",
+    "networkErrorTitle": "Chyba připojení",
+    "applyUpdates": "Použití aktualizací",
+    "setCorsPropertiesNotAuthorizedMessage": "K provedení této změny nemáte přístup k účtu úložiště. Obraťte se na vlastníka prostředku a proveďte požadované změny nastavení CORS účtu úložiště.",
+    "availableCorsUpdateTitle": "K dispozici je aktualizace CORS",
+    "availableCorsUpdateMessage": "Existují některé vlastnosti, které je potřeba v účtu úložiště aktualizovat, aby bylo možné používat 3D scény s CORS.",
+    "requiredCorsUpdateTitle": "Je vyžadována aktualizace CORS",
+    "requiredCorsUpdateMessage": "Aby bylo možné dál používat 3D scény, existují některá pravidla CORS, která je potřeba ve vašem účtu úložiště aktualizovat. Obraťte se na vlastníka prostředku a přidejte tato pravidla."
   },
   "fieldRequired": "Toto pole je povinné",
   "duration": {
@@ -1532,5 +1540,6 @@
   },
   "jobs": {
     "addNew": "Přidat nový"
-  }
+  },
+  "dismiss": "Propustit"
 }

@@ -29,7 +29,13 @@ export interface IllustrationMessageProps {
     linkProps?: ILinkProps;
     /** Props to show an SVG or image as a part of the no data message */
     imageProps?: IImageProps;
-    /** Button props for button shown at the bottom of the message */
+    /** Primary button props for button shown at the bottom of the message */
+    primaryButtonProps?: IButtonProps;
+    /** Default or secondary button props for button shown at the bottom of the message */
+    defaultButtonProps?: IButtonProps;
+    /** Styles prop for the component, use this prop for styles
+     * of header, description, link, image, and button
+     */
     buttonProps?: IButtonProps;
     /** Styles prop for the component, use this prop for styles
      * of header, description, link, image, and button

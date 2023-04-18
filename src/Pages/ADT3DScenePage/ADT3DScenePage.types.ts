@@ -64,7 +64,7 @@ export interface IADT3DScenePageState {
     selectedScene: IScene;
     scene?: IScene;
     errors?: Array<IComponentError>;
-    errorCallback: IErrorButtonAction;
+    errorCallback: IADT3DScenePageErrorCallback;
     adxConnectionInformation: {
         connection: IADXConnection;
         loadingState: ADXConnectionInformationLoadingState;
@@ -78,6 +78,12 @@ export interface IADT3DScenePageContext {
     handleOnSceneClick: (scene: IScene) => void;
     handleOnSceneSwap: (sceneId: string) => void;
     isTwinPropertyInspectorPatchModeEnabled: boolean;
+}
+
+export interface IADT3DScenePageErrorCallback {
+    primary: IErrorButtonAction;
+    secondary?: IErrorButtonAction;
+    link?: IErrorButtonAction;
 }
 
 export enum ADXConnectionInformationLoadingState {
@@ -124,7 +130,7 @@ export type ADT3DScenePageAction =
     | {
           type: ADT3DScenePageActionTypes.SET_ERROR_CALLBACK;
           payload: {
-              errorCallback: IErrorButtonAction | null;
+              errorCallback: IADT3DScenePageErrorCallback | null;
           };
       }
     | {

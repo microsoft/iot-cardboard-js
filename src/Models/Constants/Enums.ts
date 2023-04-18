@@ -56,11 +56,13 @@ export enum ComponentErrorType {
     TwinsRetrievalFailed = 'TwinsRetrievalFailed',
     InternalServerError = 'InternalServerError',
     CORSError = 'CORSError',
+    ForceCORSError = 'ForceCORSError',
     NoContainerUrl = 'NoContainerUrl',
     NoADTInstanceUrl = 'NoADTInstanceUrl',
     ConnectionError = 'ConnectionError',
     BadRequestException = 'BadRequestException',
-    TimeSeriesDatabaseConnectionFetchFailed = 'TimeSeriesDatabaseConnectionFetchFailed'
+    TimeSeriesDatabaseConnectionFetchFailed = 'TimeSeriesDatabaseConnectionFetchFailed',
+    SetCorsPropertiesNotAuthorized = 'SetCorsPropertiesNotAuthorized' // specific UnauthorizedAccess error
 }
 
 export enum ErrorImages {

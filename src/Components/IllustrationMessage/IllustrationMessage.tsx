@@ -6,7 +6,9 @@ import {
     useTheme,
     styled,
     Link,
-    PrimaryButton
+    PrimaryButton,
+    Stack,
+    DefaultButton
 } from '@fluentui/react';
 import {
     IllustrationMessageStyles,
@@ -26,7 +28,8 @@ const IllustrationMessage: React.FunctionComponent<IllustrationMessageProps> = (
     const {
         imageProps,
         linkProps,
-        buttonProps,
+        primaryButtonProps,
+        defaultButtonProps,
         headerText,
         descriptionText,
         linkText,
@@ -79,7 +82,14 @@ const IllustrationMessage: React.FunctionComponent<IllustrationMessageProps> = (
                 </Text>
             )}
             {getFullDescription}
-            {buttonProps ? <PrimaryButton {...buttonProps} /> : null}
+            <Stack horizontal tokens={{ childrenGap: 8 }}>
+                {primaryButtonProps ? (
+                    <PrimaryButton {...primaryButtonProps} />
+                ) : null}
+                {defaultButtonProps ? (
+                    <DefaultButton {...defaultButtonProps} />
+                ) : null}
+            </Stack>
         </div>
     );
 };

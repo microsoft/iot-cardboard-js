@@ -72,6 +72,7 @@ export const DOCUMENTATION_LINKS = {
     howToLayers: `${HOW_TO_DOC}#manage-layers`,
     howToTwins: `${HOW_TO_DOC}#twins`,
     howToWidgets: `${HOW_TO_DOC}#widgets`,
+    howToPrerequisites: `${HOW_TO_DOC}#prerequisites`,
     // https://learn.microsoft.com/azure/digital-twins/concepts-ontologies
     ontologyConcepts: 'https://go.microsoft.com/fwlink/?linkid=2209943',
     // https://learn.microsoft.com/azure/digital-twins/concepts-models#supported-dtdl-versions
@@ -534,8 +535,12 @@ export const BlobStorageServiceCorsAllowedMethods = [
 
 export const BlobStorageServiceCorsAllowedHeaders = [
     'Authorization',
+    'Content-Type',
+    'Content-Length',
     'x-ms-version',
-    'x-ms-blob-type'
+    'x-ms-blob-type',
+    'x-ms-copy-source',
+    'x-ms-requires-sync'
 ];
 
 export const EnforcedStorageAccountAccessRoleIds: Array<AzureAccessPermissionRoles> = [];

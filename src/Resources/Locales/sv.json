@@ -1104,7 +1104,15 @@
       "3dAssetLoadingGenericErrorMessage": "Fel vid laddning av modell. Försök att rensa cacheminnet och försök igen eller kontrollera din åtkomst för den filen.",
       "3dAssetDimensionError": "Det kan finnas ett problem med dina modelldimensioner, kontrollera att det inte finns några felaktiga maskor."
     },
-    "missingPermissionsMessage": "Du saknar behörigheter. Du behöver åtkomst som läsare (minst) och antingen Storage Blob Data-ägare eller Storage Blob Data-deltagare."
+    "missingPermissionsMessage": "Du saknar behörigheter. Du behöver åtkomst som läsare (minst) och antingen Storage Blob Data-ägare eller Storage Blob Data-deltagare.",
+    "networkErrorMessage": "Detta kan vara ett CORS-problem, ogiltig url eller ett nätverksfel. Kontakta resursens ägare eller försök igen senare.",
+    "networkErrorTitle": "Fel vid anslutning",
+    "applyUpdates": "Tillämpa uppdateringar",
+    "setCorsPropertiesNotAuthorizedMessage": "Du har inte åtkomst till lagringskontot för att göra den här ändringen. Kontakta resursägaren för att göra de ändringar som krävs i CORS-inställningarna för lagringskontot.",
+    "availableCorsUpdateTitle": "CORS-uppdatering tillgänglig",
+    "availableCorsUpdateMessage": "Det finns vissa egenskaper som måste uppdateras på ditt lagringskonto för att kunna använda 3D-scener med CORS.",
+    "requiredCorsUpdateTitle": "CORS-uppdatering krävs",
+    "requiredCorsUpdateMessage": "För att kunna fortsätta använda 3D-scener finns det vissa CORS-regler som måste uppdateras på ditt lagringskonto. Kontakta resursägaren för att lägga till dessa regler."
   },
   "fieldRequired": "Det här fältet är obligatoriskt",
   "OATGraphViewer": {
@@ -1532,5 +1540,6 @@
   },
   "jobs": {
     "addNew": "Lägg till nya"
-  }
+  },
+  "dismiss": "Avskeda"
 }
