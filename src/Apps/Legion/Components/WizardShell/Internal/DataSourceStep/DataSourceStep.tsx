@@ -277,6 +277,9 @@ const DataSourceStep: React.FC<IDataSourceStepProps> = (props) => {
                             isCreatable={false}
                             onDatabaseNameChange={handleSourceDatabaseChange}
                             label={t('legionApp.Common.databaseLabel')}
+                            placeholder={t(
+                                'legionApp.dataPusher.source.selectDatabase'
+                            )}
                             selectedDatabaseName={state.selectedSourceDatabase}
                         />
                         <Dropdown
