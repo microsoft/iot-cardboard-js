@@ -1,7 +1,7 @@
 import { FontSizes, ITheme } from '@fluentui/react';
 import { StylesConfig } from 'react-select';
 
-const getBaseReactSelectStyles = (theme: ITheme): StylesConfig => {
+function getBaseReactSelectStyles<T>(theme: ITheme): StylesConfig<T> {
     return {
         container: (provided) => ({
             ...provided,
@@ -34,7 +34,7 @@ const getBaseReactSelectStyles = (theme: ITheme): StylesConfig => {
             color: theme.semanticColors.inputText
         })
     };
-};
+}
 
 export function getReactSelectStyles<T>(
     theme: ITheme,
@@ -56,7 +56,7 @@ export function getReactSelectStyles<T>(
     const menu = params?.menu;
     const menuList = params?.menuList;
     return {
-        ...getBaseReactSelectStyles(theme),
+        ...getBaseReactSelectStyles<T>(theme),
         control: (provided, state) => ({
             ...provided,
             backgroundColor: theme.semanticColors.inputBackground,
