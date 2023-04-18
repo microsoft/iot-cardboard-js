@@ -8,6 +8,7 @@ import {
 import { IExtendedTheme } from '../../../../../../Theming/Theme.types';
 import { ITable } from '../../../../Adapters/Standalone/DataManagement/Models/DataManagementAdapter.types';
 import { IAppData, IReactSelectOption } from '../../../../Models/Interfaces';
+import { SourceType } from '../../../DataPusher/DataPusher.types';
 
 export interface IDataSourceStepProps {
     /**
@@ -42,6 +43,8 @@ export interface IDataSourceStepState {
     targetDatabaseOptions: Array<IReactSelectOption>;
     sourceTableOptions: Array<IDropdownOption>;
     sourceTableColumnOptions: Array<IDropdownOption>;
+    selectedSourceType: SourceType;
+    selectedSourceCluster: string;
     selectedSourceDatabase: string;
     selectedTargetDatabase: IReactSelectOption;
     selectedSourceTable: string;
@@ -57,6 +60,8 @@ export enum DataSourceStepActionType {
     SET_TARGET_DATABASE_OPTIONS = 'SET_TARGET_DATABASE_OPTIONS',
     SET_SOURCE_TABLE_OPTIONS = 'SET_SOURCE_TABLE_OPTIONS',
     SET_SOURCE_TABLE_DATA = 'SET_SOURCE_TABLE_DATA',
+    SET_SELECTED_SOURCE_TYPE = 'SET_SELECTED_SOURCE_TYPE',
+    SET_SELECTED_SOURCE_CLUSTER = 'SET_SELECTED_SOURCE_CLUSTER',
     SET_SELECTED_SOURCE_DATABASE = 'SET_SELECTED_SOURCE_DATABASE',
     SET_SELECTED_TARGET_DATABASE = 'SET_SELECTED_TARGET_DATABASE',
     SET_SELECTED_SOURCE_TABLE = 'SET_SELECTED_SOURCE_TABLE',
@@ -82,6 +87,14 @@ export type DataSourceStepAction =
     | {
           type: DataSourceStepActionType.SET_SOURCE_TABLE_DATA;
           tableData: ITable;
+      }
+    | {
+          type: DataSourceStepActionType.SET_SELECTED_SOURCE_TYPE;
+          sourceType: SourceType;
+      }
+    | {
+          type: DataSourceStepActionType.SET_SELECTED_SOURCE_CLUSTER;
+          clusterUrl: string;
       }
     | {
           type: DataSourceStepActionType.SET_SELECTED_SOURCE_DATABASE;

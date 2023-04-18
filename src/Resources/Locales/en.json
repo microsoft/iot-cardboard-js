@@ -1559,6 +1559,8 @@
                 "cook": "Cook"
             },
             "source": {
+                "type": "Source type",
+                "typePlaceholder": "Select source type",
                 "database": "Source database",
                 "selectDatabase": "Select source database",
                 "table": "Source table",

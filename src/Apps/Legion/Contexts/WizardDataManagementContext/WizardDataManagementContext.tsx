@@ -55,7 +55,11 @@ export const WizardDataManagementContextReducer: (
 export function WizardDataManagementContextProvider(
     props: React.PropsWithChildren<IWizardDataManagementContextProviderProps>
 ) {
-    const { children, initialState } = props;
+    const {
+        children,
+        adapter = new MockDataManagementAdapter(),
+        initialState
+    } = props;
 
     const [
         wizardDataManagementContextState,
@@ -69,7 +73,7 @@ export function WizardDataManagementContextProvider(
     return (
         <WizardDataManagementContext.Provider
             value={{
-                adapter: initialState.adapter,
+                adapter,
                 wizardDataManagementContextState: wizardDataManagementContextState,
                 wizardDataManagementContextDispatch: wizardDataManagementContextDispatch
             }}
@@ -80,7 +84,6 @@ export function WizardDataManagementContextProvider(
 }
 
 const emptyState: IWizardDataManagementContextState = {
-    adapter: new MockDataManagementAdapter(),
     initialAssets: null,
     modifiedAssets: null,
     sources: []

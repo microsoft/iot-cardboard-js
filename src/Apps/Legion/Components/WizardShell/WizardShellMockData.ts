@@ -121,7 +121,6 @@ const mockAppData: IAppData = {
 };
 
 export const DEFAULT_MOCK_DATA_MANAGEMENT_STATE: IWizardDataManagementContextState = {
-    adapter: new MockDataManagementAdapter(),
     initialAssets: mockAppData,
     modifiedAssets: mockAppData,
     sources: [

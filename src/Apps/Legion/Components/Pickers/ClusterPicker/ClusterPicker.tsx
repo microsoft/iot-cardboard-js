@@ -21,9 +21,9 @@ import TooltipCallout from '../../../../../Components/TooltipCallout/TooltipCall
 import { useAdapter } from '../../../../../Models/Hooks';
 import { getReactSelectStyles } from '../../../../../Resources/Styles/ReactSelect.styles';
 import { IReactSelectOption } from '../../../Models/Interfaces';
-import { useDataManagementAdapter } from '../../../Hooks/useDataManagementAdapter';
-import { WizardNavigationContext } from '../../../Contexts/WizardNavigationContext/WizardNavigationContext';
+import { useContextAdapter } from '../../../Hooks/useContextAdapter';
 import { ActionMeta } from 'react-select';
+import { WizardDataManagementContext } from '../../../Contexts/WizardDataManagementContext/WizardDataManagementContext';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('ClusterPicker', debugLogging);
@@ -37,7 +37,7 @@ const ClusterPicker: React.FC<IClusterPickerProps> = (props) => {
     const {
         selectedClusterUrl,
         onClusterUrlChange,
-        targetAdapterContext = WizardNavigationContext,
+        targetAdapterContext = WizardDataManagementContext,
         label,
         placeholder,
         hasTooltip = false,
@@ -58,7 +58,7 @@ const ClusterPicker: React.FC<IClusterPickerProps> = (props) => {
     const { t } = useTranslation();
     const theme = useExtendedTheme();
 
-    const adapter = useDataManagementAdapter(targetAdapterContext);
+    const adapter = useContextAdapter(targetAdapterContext);
     const getClustersState = useAdapter({
         adapterMethod: () => adapter.getClusters(),
         refetchDependencies: []

@@ -29,14 +29,16 @@ const Template: WizardShellStory = (args) => {
         <div></div>
     ) : (
         <WizardDataManagementContextProvider
-            initialState={{
-                ...DEFAULT_MOCK_DATA_MANAGEMENT_STATE,
-                adapter: new LegionAdapter(
+            adapter={
+                new LegionAdapter(
                     new MsalAuthService(
                         authenticationParameters.adt.aadParameters
                     ),
                     authenticationParameters.adx.clusterUrl
                 )
+            }
+            initialState={{
+                ...DEFAULT_MOCK_DATA_MANAGEMENT_STATE
             }}
         >
             <WizardNavigationContextProvider

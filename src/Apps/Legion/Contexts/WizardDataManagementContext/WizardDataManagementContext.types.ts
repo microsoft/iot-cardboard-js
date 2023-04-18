@@ -12,7 +12,6 @@ export interface IWizardDataManagementContext {
 }
 
 export interface IWizardDataManagementContextState {
-    adapter: IDataManagementAdapter;
     // Keep adding source types here
     sources: Array<IADXConnection | IPIDDocument>;
     initialAssets: IAppData;
@@ -50,5 +49,6 @@ export type WizardDataManagementContextAction =
 
 // Provider types
 export interface IWizardDataManagementContextProviderProps {
+    adapter?: IDataManagementAdapter;
     initialState?: Partial<IWizardDataManagementContextState>;
 }

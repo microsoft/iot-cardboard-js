@@ -20,7 +20,7 @@ import CreatableSelect from 'react-select/creatable';
 import { useAdapter } from '../../../../../Models/Hooks';
 import { getReactSelectStyles } from '../../../../../Resources/Styles/ReactSelect.styles';
 import { IReactSelectOption } from '../../../Models/Interfaces';
-import { useDataManagementAdapter } from '../../../Hooks/useDataManagementAdapter';
+import { useContextAdapter } from '../../../Hooks/useContextAdapter';
 import { ICreateDatabaseAdapterParams } from '../../../Adapters/Standalone/DataManagement/Models/DataManagementAdapter.types';
 import { ActionMeta } from 'react-select';
 import { WizardDataManagementContext } from '../../../Contexts/WizardDataManagementContext/WizardDataManagementContext';
@@ -57,7 +57,7 @@ const DatabasePicker: React.FC<IDatabasePickerProps> = (props) => {
     const { t } = useTranslation();
     const theme = useExtendedTheme();
 
-    const adapter = useDataManagementAdapter(targetAdapterContext);
+    const adapter = useContextAdapter(targetAdapterContext);
     const getDatabasesState = useAdapter({
         adapterMethod: () => adapter.getDatabases(),
         refetchDependencies: [adapter.connectionString]

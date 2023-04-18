@@ -17,6 +17,8 @@ import {
 import { getDebugLogger } from '../../../../../../Models/Services/Utils';
 import { useExtendedTheme } from '../../../../../../Models/Hooks/useExtendedTheme';
 import {
+    SourceType,
+    SourceTypeOptions,
     TableTypeOptions,
     TableTypes
 } from '../../../DataPusher/DataPusher.types';
@@ -38,6 +40,7 @@ import { IAppData } from '../../../../Models/Interfaces';
 import { WizardDataManagementContextActionType } from '../../../../Contexts/WizardDataManagementContext/WizardDataManagementContext.types';
 import { cookSourceTable } from '../../../../Services/DataPusherUtils';
 import DatabasePicker from '../../../Pickers/DatabasePicker/DatabasePicker';
+import ClusterPicker from '../../../Pickers/ClusterPicker/ClusterPicker';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('DataSourceStep', debugLogging);
@@ -82,6 +85,25 @@ const DataSourceStep: React.FC<IDataSourceStepProps> = (props) => {
     });
 
     // callbacks
+    const handleSourceTypeChange = useCallback(
+        (_event, option: IDropdownOption) => {
+            dispatch({
+                type: DataSourceStepActionType.SET_SELECTED_SOURCE_TYPE,
+                sourceType: option.text as SourceType
+            });
+        },
+        []
+    );
+    const handleSourceClusterChange = useCallback((clusterUrl: string) => {
+        dispatch({
+            type: DataSourceStepActionType.SET_SELECTED_SOURCE_CLUSTER,
+            clusterUrl
+        });
+        dispatch({
+            type: DataSourceStepActionType.SET_SELECTED_SOURCE_DATABASE,
+            database: ''
+        });
+    }, []);
     const handleSourceDatabaseChange = useCallback(
         (databaseName: string) => {
             dispatch({
@@ -114,15 +136,6 @@ const DataSourceStep: React.FC<IDataSourceStepProps> = (props) => {
                 type:
                     DataSourceStepActionType.SET_SELECTED_SOURCE_TWIN_ID_COLUMN,
                 columnName: option.text
-            });
-        },
-        []
-    );
-    const handleSourceTableTypeChange = useCallback(
-        (_event, option: IDropdownOption) => {
-            dispatch({
-                type: DataSourceStepActionType.SET_SELECTED_SOURCE_TABLE_TYPE,
-                tableType: option.key as string
             });
         },
         []
@@ -238,13 +251,29 @@ const DataSourceStep: React.FC<IDataSourceStepProps> = (props) => {
                 tokens={{ childrenGap: 8 }}
                 styles={classNames.subComponentStyles.stack}
             >
+                <Dropdown
+                    label={t('legionApp.dataPusher.source.type')}
+                    onChange={handleSourceTypeChange}
+                    options={SourceTypeOptions}
+                    placeholder={t(
+                        'legionApp.dataPusher.source.typePlaceholder'
+                    )}
+                    defaultSelectedKey={state.selectedSourceTableType}
+                />
+                <ClusterPicker
+                    isCreatable={false}
+                    onClusterUrlChange={handleSourceClusterChange}
+                    label={t('legionApp.Common.clusterLabel')}
+                    selectedClusterUrl={state.selectedSourceCluster}
+                />
                 <DatabasePicker
                     isCreatable={false}
                     onDatabaseNameChange={handleSourceDatabaseChange}
                     label={t('legionApp.Common.databaseLabel')}
+                    selectedDatabaseName={state.selectedSourceDatabase}
                 />
                 <Dropdown
-                    label={t('legionApp.dataPusher.source.table')}
+                    label={t('legionApp.Common.tableLabel')}
                     onChange={handleSourceTableChange}
                     options={state.sourceTableOptions}
                     placeholder={
@@ -255,7 +284,7 @@ const DataSourceStep: React.FC<IDataSourceStepProps> = (props) => {
                     selectedKey={state.selectedSourceTable}
                 />
                 <Dropdown
-                    label={t('legionApp.dataPusher.source.twinIDProperty')}
+                    label={t('legionApp.Common.tableIdColumnLabel')}
                     onChange={handleSourceTwinIDColumnChange}
                     options={state.sourceTableColumnOptions}
                     placeholder={
@@ -266,15 +295,6 @@ const DataSourceStep: React.FC<IDataSourceStepProps> = (props) => {
                               )
                     }
                     selectedKey={state.selectedSourceTwinIDColumn}
-                />
-                <Dropdown
-                    label={t('legionApp.dataPusher.source.tableType')}
-                    onChange={handleSourceTableTypeChange}
-                    options={TableTypeOptions}
-                    placeholder={t(
-                        'legionApp.dataPusher.source.selectTableType'
-                    )}
-                    defaultSelectedKey={state.selectedSourceTableType}
                 />
                 <DefaultButton
                     text={t('legionApp.dataPusher.actions.cook')}

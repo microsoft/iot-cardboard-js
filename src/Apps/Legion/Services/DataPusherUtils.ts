@@ -29,7 +29,7 @@ export const cookSourceTable = (
 ): IAppData => {
     const tableSchema =
         tableType ??
-        table.Columns.findIndex(
+        (table.Columns.findIndex(
             (c) => c.columnName === PROPERTY_COLUMN_NAME
         ) !== -1
             ? TableTypes.Narrow
@@ -37,7 +37,7 @@ export const cookSourceTable = (
                   (c) => c.columnName === VALUE_COLUMN_NAME
               ) !== -1
             ? TableTypes.Tags
-            : TableTypes.Wide;
+            : TableTypes.Wide);
 
     const idxOfTwinIdColumn = table.Columns.findIndex(
         (c) => c.columnName === twinIdPropertyColumn

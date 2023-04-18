@@ -62,6 +62,11 @@ export enum TableTypes {
     Tags = 'Tags'
 }
 
+export enum SourceType {
+    Timeseries = 'Timeseries table',
+    Diagram = 'P&ID diagram'
+}
+
 export const TableColumns: Record<TableTypes, Array<ITableColumn>> = {
     Wide: [
         { columnName: ID_COLUMN_NAME, columnDataType: 'string' },
@@ -96,5 +101,16 @@ export const TableTypeOptions: IDropdownOption[] = [
     {
         key: TableTypes.Tags,
         text: 'Tags only'
+    }
+];
+
+export const SourceTypeOptions: IDropdownOption[] = [
+    {
+        key: SourceType.Timeseries,
+        text: SourceType.Timeseries
+    },
+    {
+        key: SourceType.Diagram,
+        text: SourceType.Diagram
     }
 ];
