@@ -10,10 +10,7 @@ import {
 import { getStyles } from './DatabasePicker.styles';
 import { useTranslation } from 'react-i18next';
 import { useAdapter } from '../../../../../Models/Hooks';
-import {
-    ADXAdapterTargetContext,
-    IReactSelectOption
-} from '../../../Models/Types';
+import { IReactSelectOption } from '../../../Models/Types';
 import { useADXAdapter } from '../../../Hooks/useADXAdapter';
 import { ICreateDatabaseAdapterParams } from '../../../Adapters/Standalone/DataManagement/Models/DataManagementAdapter.types';
 import { WizardDataManagementContext } from '../../../Contexts/WizardDataManagementContext/WizardDataManagementContext';
@@ -52,9 +49,7 @@ const DatabasePicker: React.FC<IDatabasePickerProps> = (props) => {
     const { t } = useTranslation();
     const theme = useExtendedTheme();
 
-    const adapter = useADXAdapter(
-        targetAdapterContext as ADXAdapterTargetContext
-    );
+    const adapter = useADXAdapter(targetAdapterContext);
     const getDatabasesState = useAdapter({
         adapterMethod: () => adapter.getDatabases(),
         refetchDependencies: [adapter.connectionString]

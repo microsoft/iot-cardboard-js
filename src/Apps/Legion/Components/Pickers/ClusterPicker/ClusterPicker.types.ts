@@ -1,11 +1,11 @@
 import { IStyle, IStyleFunctionOrObject } from '@fluentui/react';
 import { IExtendedTheme } from '../../../../../Theming/Theme.types';
-import { ADXAdapterTargetContext } from '../../../Models/Types';
+import { IADXAdapterTargetContext } from '../../../Models/Interfaces';
 
 export interface IClusterPickerProps {
     selectedClusterUrl?: string;
     onClusterUrlChange?: (clusterUrl: string, isNew?: boolean) => void;
-    targetAdapterContext?: ADXAdapterTargetContext;
+    targetAdapterContext?: IADXAdapterTargetContext;
     label?: string;
     placeholder?: string;
     hasTooltip?: boolean;

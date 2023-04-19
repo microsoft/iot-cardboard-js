@@ -1,3 +1,5 @@
+import { IDataManagementAdapter } from '../Adapters/Standalone/DataManagement/Models/DataManagementAdapter.types';
+
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface IBaseAdapter {}
 
@@ -64,4 +66,10 @@ export interface IADXConnection {
 
 export interface IPIDDocument {
     pidUrl: string;
+}
+
+/** type definition for target context parameter for useADXAdapter hook */
+export interface IADXAdapterTargetContext
+    extends React.Context<{ adapter: IDataManagementAdapter }> {
+    [key: string]: any;
 }

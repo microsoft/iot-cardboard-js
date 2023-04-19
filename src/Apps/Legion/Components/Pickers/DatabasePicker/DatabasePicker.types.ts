@@ -1,11 +1,11 @@
 import { IStyle, IStyleFunctionOrObject } from '@fluentui/react';
 import { IExtendedTheme } from '../../../../../Theming/Theme.types';
-import { ADXAdapterTargetContext } from '../../../Models/Types';
+import { IADXAdapterTargetContext } from '../../../Models/Interfaces';
 
 export interface IDatabasePickerProps {
     selectedDatabaseName?: string;
     onDatabaseNameChange?: (databaseName: string, isNew?: boolean) => void;
-    targetAdapterContext?: ADXAdapterTargetContext;
+    targetAdapterContext?: IADXAdapterTargetContext;
     isCreatable?: boolean;
     isRequired?: boolean;
     label?: string;
