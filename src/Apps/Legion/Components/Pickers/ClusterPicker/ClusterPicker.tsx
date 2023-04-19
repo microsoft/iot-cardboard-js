@@ -11,7 +11,10 @@ import { getStyles } from './ClusterPicker.styles';
 import { isValidADXClusterUrl } from '../../../../../Models/Services/Utils';
 import { useTranslation } from 'react-i18next';
 import { useAdapter } from '../../../../../Models/Hooks';
-import { IReactSelectOption } from '../../../Models/Types';
+import {
+    ADXAdapterTargetContext,
+    IReactSelectOption
+} from '../../../Models/Types';
 import { useADXAdapter } from '../../../Hooks/useADXAdapter';
 import { WizardDataManagementContext } from '../../../Contexts/WizardDataManagementContext/WizardDataManagementContext';
 import CardboardComboBox from '../../CardboardComboBox/CardboardComboBox';
@@ -50,7 +53,9 @@ const ClusterPicker: React.FC<IClusterPickerProps> = (props) => {
     const { t } = useTranslation();
     const theme = useExtendedTheme();
 
-    const adapter = useADXAdapter(targetAdapterContext);
+    const adapter = useADXAdapter(
+        targetAdapterContext as ADXAdapterTargetContext
+    );
     const getClustersState = useAdapter({
         adapterMethod: () => adapter.getClusters(),
         refetchDependencies: []

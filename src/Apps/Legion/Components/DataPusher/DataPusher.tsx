@@ -13,6 +13,7 @@ import { useTranslation } from 'react-i18next';
 import Ingest from './Internal/Ingest';
 import Cook from './Internal/Cook';
 import ClusterPicker from '../Pickers/ClusterPicker/ClusterPicker';
+import { ADXAdapterTargetContext } from '../../Models/Types';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('DataPusher', debugLogging);
@@ -53,7 +54,9 @@ const DataPusher: React.FC<IDataPusherProps> = (props) => {
                 <ClusterPicker
                     onClusterUrlChange={setSelectedClusterUrl}
                     styles={classNames.subComponentStyles.clusterPicker}
-                    targetAdapterContext={DataPusherContext}
+                    targetAdapterContext={
+                        DataPusherContext as ADXAdapterTargetContext
+                    }
                     hasTooltip
                 />
                 <Pivot key={selectedClusterUrl}>

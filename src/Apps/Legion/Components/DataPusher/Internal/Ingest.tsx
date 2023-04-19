@@ -35,7 +35,10 @@ import {
     TIMESTAMP_COLUMN_NAME
 } from '../DataPusher.types';
 import TooltipCallout from '../../../../../Components/TooltipCallout/TooltipCallout';
-import { IReactSelectOption } from '../../../Models/Types';
+import {
+    ADXAdapterTargetContext,
+    IReactSelectOption
+} from '../../../Models/Types';
 import DatabasePicker from '../../Pickers/DatabasePicker/DatabasePicker';
 import { getMockData } from '../../../Services/DataPusherUtils';
 import { useId } from '@fluentui/react-hooks';
@@ -274,7 +277,9 @@ const Ingest: React.FC = () => {
                 </p>
                 <DatabasePicker
                     onDatabaseNameChange={handleDatabaseChange}
-                    targetAdapterContext={DataPusherContext}
+                    targetAdapterContext={
+                        DataPusherContext as ADXAdapterTargetContext
+                    }
                     isCreatable={true}
                 />
                 <CardboardComboBox
