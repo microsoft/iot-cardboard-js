@@ -1,12 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import {
-    Label,
-    Spinner,
-    SpinnerSize,
-    Stack,
-    classNamesFunction,
-    styled
-} from '@fluentui/react';
+import { classNamesFunction, styled } from '@fluentui/react';
 import { useExtendedTheme } from '../../../../../Models/Hooks/useExtendedTheme';
 import { getDebugLogger } from '../../../../../Models/Services/Utils';
 import {
@@ -16,15 +9,12 @@ import {
 } from './DatabasePicker.types';
 import { getStyles } from './DatabasePicker.styles';
 import { useTranslation } from 'react-i18next';
-import CreatableSelect from 'react-select/creatable';
 import { useAdapter } from '../../../../../Models/Hooks';
-import { getReactSelectStyles } from '../../../../../Resources/Styles/ReactSelect.styles';
 import { IReactSelectOption } from '../../../Models/Types';
 import { useADXAdapter } from '../../../Hooks/useADXAdapter';
 import { ICreateDatabaseAdapterParams } from '../../../Adapters/Standalone/DataManagement/Models/DataManagementAdapter.types';
-import { ActionMeta } from 'react-select';
 import { WizardDataManagementContext } from '../../../Contexts/WizardDataManagementContext/WizardDataManagementContext';
-import { useId } from '@fluentui/react-hooks';
+import CardboardComboBox from '../../CardboardComboBox/CardboardComboBox';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('DatabasePicker', debugLogging);
@@ -40,6 +30,7 @@ const DatabasePicker: React.FC<IDatabasePickerProps> = (props) => {
         onDatabaseNameChange,
         targetAdapterContext = WizardDataManagementContext,
         isCreatable = true,
+        isRequired = true,
         label,
         placeholder,
         styles
@@ -58,8 +49,6 @@ const DatabasePicker: React.FC<IDatabasePickerProps> = (props) => {
     const { t } = useTranslation();
     const theme = useExtendedTheme();
 
-    const databaseLabelId = useId('database-label');
-
     const adapter = useADXAdapter(targetAdapterContext);
     const getDatabasesState = useAdapter({
         adapterMethod: () => adapter.getDatabases(),
@@ -75,29 +64,19 @@ const DatabasePicker: React.FC<IDatabasePickerProps> = (props) => {
 
     //callbacks
     const handleDatabaseNameChange = useCallback(
-        (
-            newValue: IReactSelectOption,
-            actionMeta: ActionMeta<IReactSelectOption>
-        ) => {
+        (newValue: IReactSelectOption, isNew: boolean) => {
             setSelectedDatabaseOption(newValue);
-            if (actionMeta.action === 'create-option') {
+            if (isNew) {
                 createDatabaseState.callAdapter({
                     databaseName: newValue.label
                 });
                 setDatabaseOptions(databaseOptions.concat(newValue));
             }
             if (onDatabaseNameChange) {
-                onDatabaseNameChange(
-                    newValue.label,
-                    actionMeta.action === 'create-option'
-                );
+                onDatabaseNameChange(newValue.label, isNew);
             }
         },
         [createDatabaseState, databaseOptions, onDatabaseNameChange]
-    );
-    const isCreateVisible = useCallback(
-        (inputValue) => isCreatable && !!inputValue,
-        [isCreatable]
     );
 
     //side-effects
@@ -122,40 +101,25 @@ const DatabasePicker: React.FC<IDatabasePickerProps> = (props) => {
     const classNames = getClassNames(styles, {
         theme
     });
-    const selectStyles = getReactSelectStyles(theme, {});
 
     logDebugConsole('debug', 'Render');
 
     return (
         <div className={classNames.root}>
-            <Stack horizontal horizontalAlign="space-between">
-                <Label required id={databaseLabelId}>
-                    {label || t('legionApp.dataPusher.target.database')}
-                </Label>
-                {isCreatable && createDatabaseState.isLoading && (
-                    <Spinner
-                        label={t(
-                            'legionApp.dataPusher.progress.createDatabase'
-                        )}
-                        size={SpinnerSize.small}
-                        labelPosition={'right'}
-                    />
-                )}
-            </Stack>
-            <CreatableSelect
-                aria-labelledby={databaseLabelId}
-                onChange={handleDatabaseNameChange}
-                isClearable
+            <CardboardComboBox
+                isLoading={getDatabasesState.isLoading}
+                required={isRequired}
+                isCreatable={isCreatable}
+                label={label || t('legionApp.dataPusher.target.database')}
+                onSelectionChange={handleDatabaseNameChange}
                 options={databaseOptions}
                 placeholder={
                     placeholder ||
                     t('legionApp.dataPusher.target.selectDatabase')
                 }
-                styles={selectStyles}
-                isLoading={getDatabasesState.isLoading}
-                value={selectedDatabaseOption}
-                isDisabled={!adapter.connectionString}
-                isValidNewOption={isCreateVisible}
+                selectedItem={selectedDatabaseOption}
+                isSpinnerVisible={isCreatable && createDatabaseState.isLoading}
+                spinnerLabel={t('legionApp.dataPusher.progress.createDatabase')}
             />
         </div>
     );

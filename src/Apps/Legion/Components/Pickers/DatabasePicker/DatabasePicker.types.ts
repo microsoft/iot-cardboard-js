@@ -7,6 +7,7 @@ export interface IDatabasePickerProps {
     onDatabaseNameChange?: (databaseName: string, isNew?: boolean) => void;
     targetAdapterContext?: React.Context<ADXAdapterTargetContext>;
     isCreatable?: boolean;
+    isRequired?: boolean;
     label?: string;
     placeholder?: string;
     /**

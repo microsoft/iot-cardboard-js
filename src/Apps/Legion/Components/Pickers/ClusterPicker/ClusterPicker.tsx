@@ -1,11 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import {
-    Label,
-    Stack,
-    Text,
-    classNamesFunction,
-    styled
-} from '@fluentui/react';
+import { classNamesFunction, styled } from '@fluentui/react';
 import { useExtendedTheme } from '../../../../../Models/Hooks/useExtendedTheme';
 import { getDebugLogger } from '../../../../../Models/Services/Utils';
 import {
@@ -16,15 +10,11 @@ import {
 import { getStyles } from './ClusterPicker.styles';
 import { isValidADXClusterUrl } from '../../../../../Models/Services/Utils';
 import { useTranslation } from 'react-i18next';
-import CreatableSelect from 'react-select/creatable';
-import TooltipCallout from '../../../../../Components/TooltipCallout/TooltipCallout';
 import { useAdapter } from '../../../../../Models/Hooks';
-import { getReactSelectStyles } from '../../../../../Resources/Styles/ReactSelect.styles';
 import { IReactSelectOption } from '../../../Models/Types';
 import { useADXAdapter } from '../../../Hooks/useADXAdapter';
-import { ActionMeta } from 'react-select';
 import { WizardDataManagementContext } from '../../../Contexts/WizardDataManagementContext/WizardDataManagementContext';
-import { useId } from '@fluentui/react-hooks';
+import CardboardComboBox from '../../CardboardComboBox/CardboardComboBox';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('ClusterPicker', debugLogging);
@@ -43,6 +33,7 @@ const ClusterPicker: React.FC<IClusterPickerProps> = (props) => {
         placeholder,
         hasTooltip = false,
         isCreatable = true,
+        isRequired = true,
         styles
     } = props;
 
@@ -59,8 +50,6 @@ const ClusterPicker: React.FC<IClusterPickerProps> = (props) => {
     const { t } = useTranslation();
     const theme = useExtendedTheme();
 
-    const clusterPickerLabelId = useId('cluster-picker-label');
-
     const adapter = useADXAdapter(targetAdapterContext);
     const getClustersState = useAdapter({
         adapterMethod: () => adapter.getClusters(),
@@ -69,12 +58,9 @@ const ClusterPicker: React.FC<IClusterPickerProps> = (props) => {
 
     //callbacks
     const handleClusterUrlChange = useCallback(
-        (
-            newValue: IReactSelectOption,
-            actionMeta: ActionMeta<IReactSelectOption>
-        ) => {
+        (newValue: IReactSelectOption, isNew: boolean) => {
             setSelectedClusterOption(newValue);
-            if (actionMeta.action === 'create-option') {
+            if (isNew) {
                 if (isValidADXClusterUrl(newValue.label)) {
                     adapter.connectionString = newValue.label;
                     setClusterOptions(clusterOptions.concat(newValue));
@@ -97,10 +83,6 @@ const ClusterPicker: React.FC<IClusterPickerProps> = (props) => {
         (inputValue: string) =>
             `${t('legionApp.Common.addOptionFormat', { item: inputValue })}`,
         [t]
-    );
-    const isCreateVisible = useCallback(
-        (inputValue) => isCreatable && !!inputValue,
-        [isCreatable]
     );
 
     // side-effects;
@@ -125,57 +107,46 @@ const ClusterPicker: React.FC<IClusterPickerProps> = (props) => {
     const classNames = getClassNames(styles, {
         theme
     });
-    const selectStyles = getReactSelectStyles(theme, {});
 
     logDebugConsole('debug', 'Render');
 
     return (
         <div className={classNames.root}>
-            <Stack horizontal verticalAlign={'center'}>
-                <Label required id={clusterPickerLabelId}>
-                    {label || t('legionApp.dataPusher.clusterTitle')}
-                </Label>
-                {hasTooltip && (
-                    <TooltipCallout
-                        content={{
-                            buttonAriaLabel: t(
-                                'legionApp.dataPusher.clusterSelectInfo'
-                            ),
-                            calloutContent: t(
-                                'legionApp.dataPusher.clusterSelectInfo'
-                            )
-                        }}
-                    />
-                )}
-            </Stack>
-            <CreatableSelect
-                aria-labelledby={clusterPickerLabelId}
-                onChange={handleClusterUrlChange}
-                isClearable
+            <CardboardComboBox
+                isLoading={getClustersState.isLoading}
+                required={isRequired}
+                isCreatable={isCreatable}
+                label={label || t('legionApp.dataPusher.clusterTitle')}
+                tooltip={
+                    hasTooltip
+                        ? {
+                              content: {
+                                  buttonAriaLabel: t(
+                                      'legionApp.dataPusher.clusterSelectInfo'
+                                  ),
+                                  calloutContent: t(
+                                      'legionApp.dataPusher.clusterSelectInfo'
+                                  )
+                              }
+                          }
+                        : undefined
+                }
+                onSelectionChange={handleClusterUrlChange}
                 options={clusterOptions}
                 placeholder={
                     placeholder ||
                     t('legionApp.dataPusher.clusterSelectPlaceholder')
                 }
-                styles={selectStyles}
-                isLoading={getClustersState.isLoading}
-                value={selectedClusterOption}
+                selectedItem={selectedClusterOption}
                 formatCreateLabel={formatCreateLabel}
-                isValidNewOption={isCreateVisible}
+                description={
+                    selectedClusterOption &&
+                    !isValidADXClusterUrl(selectedClusterOption.label)
+                        ? t('legionApp.dataPusher.notValidClusterMessage')
+                        : undefined
+                }
+                descriptionIsError={true}
             />
-            {selectedClusterOption &&
-                !isValidADXClusterUrl(selectedClusterOption.label) && (
-                    <Text
-                        variant={'small'}
-                        styles={{
-                            root: {
-                                color: theme.semanticColors.errorText
-                            }
-                        }}
-                    >
-                        {t('legionApp.dataPusher.notValidClusterMessage')}
-                    </Text>
-                )}
         </div>
     );
 };

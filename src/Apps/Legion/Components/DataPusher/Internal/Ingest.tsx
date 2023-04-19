@@ -14,8 +14,6 @@ import {
     PrimaryButton,
     ProgressIndicator,
     SelectionMode,
-    Spinner,
-    SpinnerSize,
     Stack,
     StackItem,
     TextField
@@ -38,15 +36,12 @@ import {
     TableTypes,
     TIMESTAMP_COLUMN_NAME
 } from '../DataPusher.types';
-import CreatableSelect from 'react-select/creatable';
-import { ActionMeta } from 'react-select';
-import { getReactSelectStyles } from '../../../../../Resources/Styles/ReactSelect.styles';
-import { useExtendedTheme } from '../../../../../Models/Hooks/useExtendedTheme';
 import TooltipCallout from '../../../../../Components/TooltipCallout/TooltipCallout';
 import { IReactSelectOption } from '../../../Models/Types';
 import DatabasePicker from '../../Pickers/DatabasePicker/DatabasePicker';
 import { getMockData } from '../../../Services/DataPusherUtils';
 import { useId } from '@fluentui/react-hooks';
+import CardboardComboBox from '../../CardboardComboBox/CardboardComboBox';
 
 const DEFAULT_INGESTION_FREQUENCY_IN_SEC = 5;
 const MIN_INGESTION_FREQUENCY_IN_SEC = 1;
@@ -64,9 +59,10 @@ const Ingest: React.FC = () => {
     const [selectedTable, setSelectedTable] = useState<IReactSelectOption>(
         null
     );
-    const [selectedTableType, setSelectedTableType] = useState<TableTypes>(
-        TableTypes.Wide
-    );
+    const [
+        selectedTableTypeOption,
+        setSelectedTableTypeOption
+    ] = useState<IReactSelectOption>(TableTypeOptions[0]);
     const [selectedFrequency, setSelectedFrequency] = useState<number>(
         DEFAULT_INGESTION_FREQUENCY_IN_SEC
     );
@@ -75,14 +71,13 @@ const Ingest: React.FC = () => {
 
     // hooks
     const { t } = useTranslation();
-    const theme = useExtendedTheme();
 
-    const tableTypeLabelId = useId('table-type-label');
-    const tableLabelId = useId('table-label');
     const frequencyLabelId = useId('frequency-label');
 
     const ingestionRef = useRef(null);
+    const ingestedDataSizeRef = useRef(0);
     const numberOfRowsIngestedRef = useRef(0);
+    const numberOfRowsAttemptedToIngestRef = useRef(0);
     const tableColumns = useMemo<Array<IColumn>>(
         () =>
             tableData?.Columns.map((c, idx) => ({
@@ -156,33 +151,27 @@ const Ingest: React.FC = () => {
         [getTablesState]
     );
 
-    const handleTableTypeChange = useCallback(
-        (_event, option: IDropdownOption) => {
-            setSelectedTableType(option.key as TableTypes);
-        },
-        []
-    );
+    const handleTableTypeChange = useCallback((option: IReactSelectOption) => {
+        setSelectedTableTypeOption(option);
+    }, []);
 
     const handleTableChange = useCallback(
-        (
-            newValue: IReactSelectOption,
-            actionMeta: ActionMeta<IReactSelectOption>
-        ) => {
+        (newValue: IReactSelectOption, isNew: boolean) => {
             setSelectedTable(newValue);
             setTableData(null);
-            if (actionMeta.action === 'create-option') {
-                if (selectedTableType) {
+            if (isNew) {
+                if (selectedTableTypeOption) {
                     createTableState.callAdapter({
                         databaseName: selectedDatabaseName,
                         tableName: newValue.label,
-                        columns: TableColumns[selectedTableType]
+                        columns: TableColumns[selectedTableTypeOption.value]
                     });
                     setTableOptions(tableOptions.concat(newValue));
                 } else {
                     alert('Select target table type first');
                 }
             } else {
-                setSelectedTableType(null);
+                setSelectedTableTypeOption(null);
                 if (newValue) {
                     getTableState.callAdapter({
                         databaseName: selectedDatabaseName,
@@ -195,21 +184,24 @@ const Ingest: React.FC = () => {
             createTableState,
             getTableState,
             selectedDatabaseName,
-            selectedTableType,
+            selectedTableTypeOption,
             tableOptions
         ]
     );
 
     const ingestData = useCallback(() => {
-        const dataToIngest: Array<IIngestRow> = getMockData(selectedTableType);
+        const dataToIngest: Array<IIngestRow> = getMockData(
+            selectedTableTypeOption.value as TableTypes
+        );
+        ingestedDataSizeRef.current = dataToIngest.length;
+        numberOfRowsAttemptedToIngestRef.current += dataToIngest.length;
         upsertTableState.callAdapter({
             databaseName: selectedDatabaseName,
             tableName: selectedTable.label,
             rows: dataToIngest
         });
-        return dataToIngest.length;
     }, [
-        selectedTableType,
+        selectedTableTypeOption,
         upsertTableState,
         selectedDatabaseName,
         selectedTable
@@ -230,12 +222,14 @@ const Ingest: React.FC = () => {
             clearInterval(ingestionRef.current);
             ingestionRef.current = null;
             numberOfRowsIngestedRef.current = 0;
+            numberOfRowsAttemptedToIngestRef.current = 0;
+            ingestedDataSizeRef.current = 0;
         } else {
             clearInterval(ingestionRef.current); // clear any prior interval
             setIsIngesting(true);
-            numberOfRowsIngestedRef.current += ingestData();
+            ingestData();
             ingestionRef.current = setInterval(() => {
-                numberOfRowsIngestedRef.current += ingestData();
+                ingestData();
             }, selectedFrequency * 1000);
         }
     }, [ingestData, selectedFrequency]);
@@ -267,13 +261,9 @@ const Ingest: React.FC = () => {
                 databaseName: selectedDatabaseName,
                 tableName: selectedTable.label
             });
+            numberOfRowsIngestedRef.current += ingestedDataSizeRef.current;
         }
     }, [upsertTableState?.adapterResult]);
-
-    // styles
-    const selectStyles = useMemo(() => getReactSelectStyles(theme, {}), [
-        theme
-    ]);
 
     return (
         <div>
@@ -287,81 +277,57 @@ const Ingest: React.FC = () => {
                 <DatabasePicker
                     onDatabaseNameChange={handleDatabaseChange}
                     targetAdapterContext={DataPusherContext}
-                    isCreatable
+                    isCreatable={true}
                 />
-                <StackItem>
-                    <Stack horizontal verticalAlign={'center'}>
-                        <Label required id={tableTypeLabelId}>
-                            {t('legionApp.dataPusher.target.tableType')}
-                        </Label>
-                        <TooltipCallout
-                            content={{
-                                buttonAriaLabel: t(
-                                    'legionApp.dataPusher.target.tableTypeTooltipContent'
-                                ),
-                                calloutContent: t(
-                                    'legionApp.dataPusher.target.tableTypeTooltipContent'
-                                )
-                            }}
-                        />
-                    </Stack>
-                    <Dropdown
-                        aria-labelledby={tableTypeLabelId}
-                        onChange={handleTableTypeChange}
-                        options={TableTypeOptions}
-                        placeholder={t(
-                            'legionApp.dataPusher.target.selectTableType'
-                        )}
-                        selectedKey={selectedTableType}
-                    />
-                </StackItem>
-                <StackItem>
-                    <Stack horizontal horizontalAlign="space-between">
-                        <Stack horizontal>
-                            <Label required id={tableLabelId}>
-                                {t('legionApp.dataPusher.target.table')}
-                            </Label>
-                            <TooltipCallout
-                                content={{
-                                    buttonAriaLabel: t(
-                                        'legionApp.dataPusher.tableSelectInfo',
-                                        {
-                                            ingestionMapping: INGESTION_MAPPING_NAME
-                                        }
-                                    ),
-                                    calloutContent: t(
-                                        'legionApp.dataPusher.tableSelectInfo',
-                                        {
-                                            ingestionMapping: INGESTION_MAPPING_NAME
-                                        }
-                                    )
-                                }}
-                            />
-                        </Stack>
-                        {createTableState.isLoading && (
-                            <Spinner
-                                label={t(
-                                    'legionApp.dataPusher.progress.createTable'
-                                )}
-                                size={SpinnerSize.small}
-                                labelPosition={'right'}
-                            />
-                        )}
-                    </Stack>
-                    <CreatableSelect
-                        aria-labelledby={tableLabelId}
-                        onChange={handleTableChange}
-                        isClearable
-                        options={tableOptions}
-                        placeholder={t(
-                            'legionApp.dataPusher.target.selectTable'
-                        )}
-                        styles={selectStyles}
-                        isLoading={getTablesState.isLoading}
-                        value={selectedTable}
-                        isDisabled={!selectedDatabaseName}
-                    />
-                </StackItem>
+                <CardboardComboBox
+                    isCreatable={false}
+                    label={t('legionApp.dataPusher.target.tableType')}
+                    onSelectionChange={handleTableTypeChange}
+                    options={TableTypeOptions}
+                    placeholder={t(
+                        'legionApp.dataPusher.target.selectTableType'
+                    )}
+                    selectedItem={selectedTableTypeOption}
+                    tooltip={{
+                        content: {
+                            buttonAriaLabel: t(
+                                'legionApp.dataPusher.target.tableTypeTooltipContent'
+                            ),
+                            calloutContent: t(
+                                'legionApp.dataPusher.target.tableTypeTooltipContent'
+                            )
+                        }
+                    }}
+                />
+                <CardboardComboBox
+                    isLoading={getTablesState.isLoading}
+                    label={t('legionApp.dataPusher.target.table')}
+                    onSelectionChange={handleTableChange}
+                    options={tableOptions}
+                    placeholder={t('legionApp.dataPusher.target.selectTable')}
+                    selectedItem={selectedTable}
+                    isSpinnerVisible={createTableState.isLoading}
+                    spinnerLabel={t(
+                        'legionApp.dataPusher.progress.createTable'
+                    )}
+                    tooltip={{
+                        content: {
+                            buttonAriaLabel: t(
+                                'legionApp.dataPusher.tableSelectInfo',
+                                {
+                                    ingestionMapping: INGESTION_MAPPING_NAME
+                                }
+                            ),
+                            calloutContent: t(
+                                'legionApp.dataPusher.tableSelectInfo',
+                                {
+                                    ingestionMapping: INGESTION_MAPPING_NAME
+                                }
+                            )
+                        }
+                    }}
+                    isDisabled={!selectedDatabaseName}
+                />
                 <StackItem>
                     <Stack horizontal verticalAlign={'center'}>
                         <Label required id={frequencyLabelId}>
@@ -397,7 +363,7 @@ const Ingest: React.FC = () => {
                         disabled={
                             !selectedTable ||
                             createTableState.isLoading ||
-                            !selectedTableType
+                            !selectedTableTypeOption
                         }
                         onClick={handleIngestRowsButtonClick}
                     />
@@ -407,7 +373,7 @@ const Ingest: React.FC = () => {
             {isIngesting && (
                 <ProgressIndicator
                     label={t('legionApp.dataPusher.progress.ingest')}
-                    description={`Pushed ${numberOfRowsIngestedRef.current} rows`}
+                    description={`Pushed ${numberOfRowsIngestedRef.current}/${numberOfRowsAttemptedToIngestRef.current} rows`}
                 />
             )}
 
