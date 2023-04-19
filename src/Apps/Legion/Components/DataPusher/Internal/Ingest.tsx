@@ -7,9 +7,7 @@ import React, {
 } from 'react';
 import {
     DetailsList,
-    Dropdown,
     IColumn,
-    IDropdownOption,
     Label,
     PrimaryButton,
     ProgressIndicator,
