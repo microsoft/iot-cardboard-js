@@ -122,9 +122,7 @@ export const WizardDataContextReducer: (
 );
 
 export const WizardDataContextProvider = React.memo(
-    <T extends object>(
-        props: IWizardDataContextProviderProps<T> & { children?: ReactNode }
-    ) => {
+    (props: IWizardDataContextProviderProps & { children?: ReactNode }) => {
         const { children, initialState } = props;
 
         const [state, dispatch] = useReducer(WizardDataContextReducer, {
