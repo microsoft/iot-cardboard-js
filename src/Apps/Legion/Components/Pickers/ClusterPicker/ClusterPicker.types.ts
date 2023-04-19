@@ -1,10 +1,14 @@
 import { IStyle, IStyleFunctionOrObject } from '@fluentui/react';
 import { IExtendedTheme } from '../../../../../Theming/Theme.types';
+import { IWizardDataManagementContext } from '../../../Contexts/WizardDataManagementContext/WizardDataManagementContext.types';
+import { IDataPusherContext } from '../../DataPusher/DataPusher.types';
 
 export interface IClusterPickerProps {
     selectedClusterUrl?: string;
     onClusterUrlChange?: (clusterUrl: string, isNew?: boolean) => void;
-    targetAdapterContext?: React.Context<any>;
+    targetAdapterContext?: React.Context<
+        IWizardDataManagementContext | IDataPusherContext
+    >;
     label?: string;
     placeholder?: string;
     hasTooltip?: boolean;

@@ -1,10 +1,14 @@
 import { IStyle, IStyleFunctionOrObject } from '@fluentui/react';
 import { IExtendedTheme } from '../../../../../Theming/Theme.types';
+import { IWizardDataManagementContext } from '../../../Contexts/WizardDataManagementContext/WizardDataManagementContext.types';
+import { IDataPusherContext } from '../../DataPusher/DataPusher.types';
 
 export interface IDatabasePickerProps {
     selectedDatabaseName?: string;
     onDatabaseNameChange?: (databaseName: string, isNew?: boolean) => void;
-    targetAdapterContext?: React.Context<any>;
+    targetAdapterContext?: React.Context<
+        IWizardDataManagementContext | IDataPusherContext
+    >;
     isCreatable?: boolean;
     label?: string;
     placeholder?: string;
