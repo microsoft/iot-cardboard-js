@@ -71,7 +71,7 @@ const getParentTypeOptions = (types: IViewType[]): IReactSelectOption[] => {
         types
             ?.map((x) => ({
                 value: x.id,
-                label: x.friendlyName,
+                label: `${x.friendlyName} (${x.kind})`,
                 __isNew__: false
             }))
             .sort(sortAscendingOrDescending('label')) ?? []
@@ -83,7 +83,11 @@ const getExistingEntityOptions = (
 ): IDropdownOption<IViewEntity>[] => {
     return (
         entities
-            ?.map((x) => ({ key: x.id, text: x.friendlyName, data: x }))
+            ?.map((x) => ({
+                key: x.id,
+                text: `${x.friendlyName} (${x.type.kind})`,
+                data: x
+            }))
             .sort(sortAscendingOrDescending('text')) ?? []
     );
 };
