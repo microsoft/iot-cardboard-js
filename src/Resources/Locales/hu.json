@@ -1594,14 +1594,12 @@
       "createStoreButtonText": "Adattár hozzáadása",
       "Modal": {
         "title": "Új adattár hozzáadása"
-      },
-      "clusterLabel": "Célfürt URL-címe",
-      "databaseLabel": "Céladatbázis"
+      }
     },
     "dataSourceStep": {
       "infoText": "Új ikereszközök létrehozása forrástáblából vagy mérnöki diagramból"
     },
-    "Commo": {
+    "Common": {
       "clusterLabel": "Fürt URL-címe",
       "clusterPlaceholder": "Fürt URL-címének kiválasztása",
       "databaseLabel": "Adatbázis",

@@ -1594,14 +1594,12 @@
       "createStoreButtonText": "데이터 저장소 추가",
       "Modal": {
         "title": "새 데이터 저장소 추가"
-      },
-      "clusterLabel": "대상 클러스터 URL",
-      "databaseLabel": "대상 데이터베이스"
+      }
     },
     "dataSourceStep": {
       "infoText": "원본 테이블 또는 엔지니어링 다이어그램에서 새 트윈 만들기Create new twins from a source table or engineering diagram"
     },
-    "Commo": {
+    "Common": {
       "clusterLabel": "클러스터 URL",
       "clusterPlaceholder": "클러스터 URL 선택",
       "databaseLabel": "데이터베이스",

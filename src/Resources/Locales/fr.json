@@ -1594,14 +1594,12 @@
       "createStoreButtonText": "Ajouter un magasin de données",
       "Modal": {
         "title": "Ajouter un nouveau magasin de données"
-      },
-      "clusterLabel": "URL du cluster cible",
-      "databaseLabel": "Base de données cible"
+      }
     },
     "dataSourceStep": {
       "infoText": "Créer de nouveaux jumeaux à partir d’une table source ou d’un diagramme d’ingénierie"
     },
-    "Commo": {
+    "Common": {
       "clusterLabel": "Cluster URL",
       "clusterPlaceholder": "Sélectionner l’URL du cluster",
       "databaseLabel": "Base de données",

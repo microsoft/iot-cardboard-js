@@ -1594,14 +1594,12 @@
       "createStoreButtonText": "Adicionar armazenamento de dados",
       "Modal": {
         "title": "Adicionar um novo armazenamento de dados"
-      },
-      "clusterLabel": "URL do cluster de destino",
-      "databaseLabel": "Base de dados de destino"
+      }
     },
     "dataSourceStep": {
       "infoText": "Crie novos gêmeos a partir de uma tabela de origem ou diagrama de engenharia"
     },
-    "Commo": {
+    "Common": {
       "clusterLabel": "Cluster URL",
       "clusterPlaceholder": "Selecionar URL do cluster",
       "databaseLabel": "Base de dados",

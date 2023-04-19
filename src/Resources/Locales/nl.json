@@ -1594,14 +1594,12 @@
       "createStoreButtonText": "Gegevensarchief toevoegen",
       "Modal": {
         "title": "Een nieuw gegevensarchief toevoegen"
-      },
-      "clusterLabel": "URL van doelcluster",
-      "databaseLabel": "Doeldatabase"
+      }
     },
     "dataSourceStep": {
       "infoText": "Nieuwe tweelingen maken op basis van een brontabel of engineeringdiagram"
     },
-    "Commo": {
+    "Common": {
       "clusterLabel": "Cluster-URL",
       "clusterPlaceholder": "Cluster-URL selecteren",
       "databaseLabel": "Databank",

@@ -1594,14 +1594,12 @@
       "createStoreButtonText": "Aggiungere un archivio dati",
       "Modal": {
         "title": "Aggiungere un nuovo archivio dati"
-      },
-      "clusterLabel": "URL del cluster di destinazione",
-      "databaseLabel": "Database di destinazione"
+      }
     },
     "dataSourceStep": {
       "infoText": "Creare nuovi gemelli da una tabella di origine o da un diagramma tecnico"
     },
-    "Commo": {
+    "Common": {
       "clusterLabel": "Cluster URL",
       "clusterPlaceholder": "Seleziona l'URL del cluster",
       "databaseLabel": "Banca dati",
