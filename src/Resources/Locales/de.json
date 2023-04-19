@@ -1589,17 +1589,6 @@
       "twins": "Zwillinge",
       "properties": "Eigenschaften"
     },
-    "Common": {
-      "clusterLabel": "Cluster-URL",
-      "clusterPlaceholder": "Wählen Sie die Cluster-URL aus",
-      "databaseLabel": "Datenbank",
-      "databasePlaceholder": "Datenbank auswählen",
-      "tableLabel": "Tisch",
-      "tableIdColumnLabel": "ID-Feld",
-      "urlLabel": "Internetadresse:",
-      "urlPlaceholder": "URL eingeben",
-      "addOptionFormat": "Fügen Sie '{{item}}' hinzu"
-    },
     "StoreListPage": {
       "title": "Willkommen in der Zukunft",
       "createStoreButtonText": "Hinzufügen eines Datenspeichers",
@@ -1611,6 +1600,17 @@
     },
     "dataSourceStep": {
       "infoText": "Erstellen neuer Zwillinge aus einer Quelltabelle oder einem Konstruktionsdiagramm"
+    },
+    "Commo": {
+      "clusterLabel": "Cluster-URL",
+      "clusterPlaceholder": "Wählen Sie die Cluster-URL aus",
+      "databaseLabel": "Datenbank",
+      "databasePlaceholder": "Datenbank auswählen",
+      "tableLabel": "Tisch",
+      "tableIdColumnLabel": "ID-Feld",
+      "urlLabel": "Internetadresse:",
+      "urlPlaceholder": "URL eingeben",
+      "addOptionFormat": "Fügen Sie '{{item}}' hinzu"
     }
   }
 }

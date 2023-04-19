@@ -1589,17 +1589,6 @@
       "twins": "Jumeaux",
       "properties": "Propriétés"
     },
-    "Common": {
-      "clusterLabel": "URL du cluster",
-      "clusterPlaceholder": "Sélectionner l’URL du cluster",
-      "databaseLabel": "Base de données",
-      "databasePlaceholder": "Sélectionner une base de données",
-      "tableLabel": "Table",
-      "tableIdColumnLabel": "Champ ID",
-      "urlLabel": "URL",
-      "urlPlaceholder": "Entrez l’URL",
-      "addOptionFormat": "Ajouter '{{item}}'"
-    },
     "StoreListPage": {
       "title": "Bienvenue dans le futur",
       "createStoreButtonText": "Ajouter un magasin de données",
@@ -1611,6 +1600,17 @@
     },
     "dataSourceStep": {
       "infoText": "Créer de nouveaux jumeaux à partir d’une table source ou d’un diagramme d’ingénierie"
+    },
+    "Commo": {
+      "clusterLabel": "Cluster URL",
+      "clusterPlaceholder": "Sélectionner l’URL du cluster",
+      "databaseLabel": "Base de données",
+      "databasePlaceholder": "Sélectionner une base de données",
+      "tableLabel": "Table",
+      "tableIdColumnLabel": "Champ ID",
+      "urlLabel": "URL",
+      "urlPlaceholder": "Entrez l’URL",
+      "addOptionFormat": "Ajouter '{{item}}'"
     }
   }
 }

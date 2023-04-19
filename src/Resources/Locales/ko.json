@@ -1589,17 +1589,6 @@
       "twins": "쌍둥이자리",
       "properties": "속성"
     },
-    "Common": {
-      "clusterLabel": "클러스터 URL",
-      "clusterPlaceholder": "클러스터 URL 선택",
-      "databaseLabel": "데이터베이스",
-      "databasePlaceholder": "데이터베이스 선택",
-      "tableLabel": "테이블",
-      "tableIdColumnLabel": "ID 필드",
-      "urlLabel": "URL (영문)",
-      "urlPlaceholder": "URL 입력",
-      "addOptionFormat": "'{{item}}' 추가"
-    },
     "StoreListPage": {
       "title": "미래에 오신 것을 환영합니다",
       "createStoreButtonText": "데이터 저장소 추가",
@@ -1611,6 +1600,17 @@
     },
     "dataSourceStep": {
       "infoText": "원본 테이블 또는 엔지니어링 다이어그램에서 새 트윈 만들기Create new twins from a source table or engineering diagram"
+    },
+    "Commo": {
+      "clusterLabel": "클러스터 URL",
+      "clusterPlaceholder": "클러스터 URL 선택",
+      "databaseLabel": "데이터베이스",
+      "databasePlaceholder": "데이터베이스 선택",
+      "tableLabel": "테이블",
+      "tableIdColumnLabel": "ID 필드",
+      "urlLabel": "URL (영문)",
+      "urlPlaceholder": "URL 입력",
+      "addOptionFormat": "'{{item}}' 추가"
     }
   }
 }

@@ -1589,17 +1589,6 @@
       "twins": "Bliźnięta",
       "properties": "Właściwości"
     },
-    "Common": {
-      "clusterLabel": "Adres URL klastra",
-      "clusterPlaceholder": "Wybierz adres URL klastra",
-      "databaseLabel": "Baza danych",
-      "databasePlaceholder": "Wybierz bazę danych",
-      "tableLabel": "Stół",
-      "tableIdColumnLabel": "Pole identyfikatora",
-      "urlLabel": "Adres URL",
-      "urlPlaceholder": "Wpisz adres URL",
-      "addOptionFormat": "Dodaj '{{item}}'"
-    },
     "StoreListPage": {
       "title": "Witamy w przyszłości",
       "createStoreButtonText": "Dodawanie magazynu danych",
@@ -1611,6 +1600,17 @@
     },
     "dataSourceStep": {
       "infoText": "Tworzenie nowych bliźniaków na podstawie tabeli źródłowej lub diagramu inżynierskiegoCreate new twins from a source table or engineering diagram"
+    },
+    "Commo": {
+      "clusterLabel": "Adres URL klastra",
+      "clusterPlaceholder": "Wybierz adres URL klastra",
+      "databaseLabel": "Baza danych",
+      "databasePlaceholder": "Wybierz bazę danych",
+      "tableLabel": "Stół",
+      "tableIdColumnLabel": "Pole identyfikatora",
+      "urlLabel": "Adres URL",
+      "urlPlaceholder": "Wpisz adres URL",
+      "addOptionFormat": "Dodaj '{{item}}'"
     }
   }
 }
