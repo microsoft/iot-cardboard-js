@@ -1,8 +1,8 @@
-import { ICardboardCreatableSelectStyleProps } from './CardboardCreatableSelect.types';
+import { ICardboardComboBoxSelectStyleProps } from './CardboardComboBox.types';
 import { IStyle, memoizeFunction, mergeStyleSets } from '@fluentui/react';
 
 export const getStyles = memoizeFunction(
-    (props: ICardboardCreatableSelectStyleProps) => {
+    (props: ICardboardComboBoxSelectStyleProps) => {
         const { isDescriptionError, theme } = props;
         return mergeStyleSets({
             label: {
