@@ -1,5 +1,4 @@
-import { IDataPusherContext } from '../Components/DataPusher/DataPusher.types';
-import { IWizardDataManagementContext } from '../Contexts/WizardDataManagementContext/WizardDataManagementContext.types';
+import { IDataManagementAdapter } from '../Adapters/Standalone/DataManagement/Models/DataManagementAdapter.types';
 import { IModelProperty } from './Interfaces';
 
 export type ICookProperty = Pick<IModelProperty, 'name' | 'dataType'>;
@@ -12,6 +11,8 @@ export type IReactSelectOption = {
 };
 
 /** type definition for target context parameter for useADXAdapter hook */
-export type ADXAdapterTargetContext =
-    | IWizardDataManagementContext
-    | IDataPusherContext;
+export type ADXAdapterTargetContext = React.Context<
+    {
+        adapter: IDataManagementAdapter;
+    } & unknown
+>;

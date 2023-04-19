@@ -5,7 +5,7 @@ import { ADXAdapterTargetContext } from '../../../Models/Types';
 export interface IDatabasePickerProps {
     selectedDatabaseName?: string;
     onDatabaseNameChange?: (databaseName: string, isNew?: boolean) => void;
-    targetAdapterContext?: React.Context<ADXAdapterTargetContext>;
+    targetAdapterContext?: ADXAdapterTargetContext;
     isCreatable?: boolean;
     isRequired?: boolean;
     label?: string;
