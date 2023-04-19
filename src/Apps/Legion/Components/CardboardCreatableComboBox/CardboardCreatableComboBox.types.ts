@@ -8,8 +8,9 @@ export type CreatableInternalProps<T> = Omit<
     CreatableProps<T, boolean, GroupBase<T>>,
     'options' | 'styles'
 >;
-export interface ICardboardComboBoxSelectProps<T extends IReactSelectOption>
-    extends CreatableInternalProps<T> {
+export interface ICardboardCreatableComboBoxSelectProps<
+    T extends IReactSelectOption
+> extends CreatableInternalProps<T> {
     /** text below the dropdown */
     description?: string;
     /** indicates that the text under the dropdown is an error so it shows as red */
@@ -28,7 +29,7 @@ export interface ICardboardComboBoxSelectProps<T extends IReactSelectOption>
     tooltip?: ITooltipCalloutProps;
 }
 
-export interface ICardboardComboBoxSelectStyleProps {
+export interface ICardboardCreatableComboBoxSelectStyleProps {
     theme: IExtendedTheme;
     isDescriptionError: boolean;
 }

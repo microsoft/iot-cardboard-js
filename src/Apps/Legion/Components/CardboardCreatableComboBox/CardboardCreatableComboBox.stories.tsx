@@ -2,33 +2,35 @@
 import React from 'react';
 import { ComponentStory } from '@storybook/react';
 import { getDefaultStoryDecorator } from '../../../../Models/Services/StoryUtilities';
-import CardboardComboBoxSelect from './CardboardComboBox';
-import { ICardboardComboBoxSelectProps } from './CardboardComboBox.types';
+import CardboardCreatableComboBoxSelect from './CardboardCreatableComboBox';
+import { ICardboardCreatableComboBoxSelectProps } from './CardboardCreatableComboBox.types';
 import { IReactSelectOption } from '../../Models';
 
 const wrapperStyle = { width: '500px', height: '600px', padding: 8 };
 
 export default {
-    title: 'Apps/Legion/Components/CardboardComboBoxSelect',
-    component: CardboardComboBoxSelect,
+    title: 'Apps/Legion/Components/CardboardCreatableComboBoxSelect',
+    component: CardboardCreatableComboBoxSelect,
     decorators: [
-        getDefaultStoryDecorator<ICardboardComboBoxSelectProps<IListItem>>(
-            wrapperStyle
-        )
+        getDefaultStoryDecorator<
+            ICardboardCreatableComboBoxSelectProps<IListItem>
+        >(wrapperStyle)
     ]
 };
 
 type IListItem = IReactSelectOption;
 
-type CardboardComboBoxSelectStory = ComponentStory<
-    typeof CardboardComboBoxSelect
+type CardboardCreatableComboBoxSelectStory = ComponentStory<
+    typeof CardboardCreatableComboBoxSelect
 >;
 
-const Template: CardboardComboBoxSelectStory = (args) => {
-    return <CardboardComboBoxSelect {...args} />;
+const Template: CardboardCreatableComboBoxSelectStory = (args) => {
+    return <CardboardCreatableComboBoxSelect {...args} />;
 };
 
-const defaultProps: Partial<ICardboardComboBoxSelectProps<IListItem>> = {
+const defaultProps: Partial<
+    ICardboardCreatableComboBoxSelectProps<IListItem>
+> = {
     label: 'My picker',
     onSelectionChange: (item, isNew) => {
         console.log('Selection made. {item, isNew}', item, isNew);
@@ -55,18 +57,22 @@ const defaultProps: Partial<ICardboardComboBoxSelectProps<IListItem>> = {
     required: true
 };
 
-export const Base = Template.bind({}) as CardboardComboBoxSelectStory;
+export const Base = Template.bind({}) as CardboardCreatableComboBoxSelectStory;
 Base.args = {
     ...defaultProps
-} as ICardboardComboBoxSelectProps<IListItem>;
+} as ICardboardCreatableComboBoxSelectProps<IListItem>;
 
-export const WithSelection = Template.bind({}) as CardboardComboBoxSelectStory;
+export const WithSelection = Template.bind(
+    {}
+) as CardboardCreatableComboBoxSelectStory;
 WithSelection.args = {
     ...defaultProps,
     selectedItem: defaultProps.options[1]
-} as ICardboardComboBoxSelectProps<IListItem>;
+} as ICardboardCreatableComboBoxSelectProps<IListItem>;
 
-export const WithTooltip = Template.bind({}) as CardboardComboBoxSelectStory;
+export const WithTooltip = Template.bind(
+    {}
+) as CardboardCreatableComboBoxSelectStory;
 WithTooltip.args = {
     ...defaultProps,
     tooltip: {
@@ -74,19 +80,21 @@ WithTooltip.args = {
             calloutContent: 'message blurb goes here'
         }
     }
-} as ICardboardComboBoxSelectProps<IListItem>;
+} as ICardboardCreatableComboBoxSelectProps<IListItem>;
 
-export const Description = Template.bind({}) as CardboardComboBoxSelectStory;
+export const Description = Template.bind(
+    {}
+) as CardboardCreatableComboBoxSelectStory;
 Description.args = {
     ...defaultProps,
     description: 'Message here'
-} as ICardboardComboBoxSelectProps<IListItem>;
+} as ICardboardCreatableComboBoxSelectProps<IListItem>;
 
 export const DescriptionError = Template.bind(
     {}
-) as CardboardComboBoxSelectStory;
+) as CardboardCreatableComboBoxSelectStory;
 DescriptionError.args = {
     ...defaultProps,
     description: 'Error message here',
     descriptionIsError: true
-} as ICardboardComboBoxSelectProps<IListItem>;
+} as ICardboardCreatableComboBoxSelectProps<IListItem>;
