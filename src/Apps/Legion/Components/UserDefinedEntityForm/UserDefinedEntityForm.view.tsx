@@ -132,6 +132,7 @@ const UserDefinedEntityFormView: React.FC<IUserDefinedEntityFormViewProps> = (
     const [parentTypeOptions, setParentTypeOptions] = useState<
         IReactSelectOption[]
     >(getParentTypeOptions(existingTypes));
+    const [isNewParentType, setIsNewParent] = useState<boolean>(false);
 
     const colorOptions = WIZARD_GRAPH_NODE_COLOR_OPTIONS;
     const iconOptions = WIZARD_GRAPH_NODE_ICON_OPTIONS;
@@ -190,9 +191,25 @@ const UserDefinedEntityFormView: React.FC<IUserDefinedEntityFormViewProps> = (
     );
     const onParentTypeChange = useCallback(
         (newValue: IReactSelectOption, actionMeta: ActionMeta<any>) => {
+            const isCreate = actionMeta.action === 'create-option';
+            const isNew = newValue.__isNew__ || isCreate;
             setSelectedParentType(newValue);
-
-            if (actionMeta.action === 'create-option') {
+            setIsNewParent(isNew);
+            if (isNew) {
+                const selectedType = existingTypes.find(
+                    (x) => x.id === newValue.value
+                );
+                if (selectedType) {
+                    setSelectedColor(selectedType.color);
+                    setSelectedIcon(selectedType.icon);
+                } else {
+                    logDebugConsole(
+                        'warn',
+                        `Could not find a type with id (${newValue.value}). Color and Icon not set`
+                    );
+                }
+            }
+            if (isCreate) {
                 setParentTypeOptions(
                     produce((draft) => draft.concat(newValue))
                 );
@@ -299,24 +316,26 @@ const UserDefinedEntityFormView: React.FC<IUserDefinedEntityFormViewProps> = (
                         value={selectedParentType}
                     />
                 </Stack>
-                <Stack horizontal tokens={{ childrenGap: 8 }}>
-                    <IconPicker
-                        label={t(LOC_KEYS.iconFieldLabel)}
-                        selectedItem={selectedIcon}
-                        items={iconOptions}
-                        onChangeItem={(item) => {
-                            setSelectedIcon(item.id);
-                        }}
-                    />
-                    <ColorPicker
-                        label={t(LOC_KEYS.colorFieldLabel)}
-                        selectedItem={selectedColor}
-                        items={colorOptions}
-                        onChangeItem={(item) => {
-                            setSelectedColor(item.id);
-                        }}
-                    />
-                </Stack>
+                {isNewParentType && (
+                    <Stack horizontal tokens={{ childrenGap: 8 }}>
+                        <IconPicker
+                            label={t(LOC_KEYS.iconFieldLabel)}
+                            selectedItem={selectedIcon}
+                            items={iconOptions}
+                            onChangeItem={(item) => {
+                                setSelectedIcon(item.id);
+                            }}
+                        />
+                        <ColorPicker
+                            label={t(LOC_KEYS.colorFieldLabel)}
+                            selectedItem={selectedColor}
+                            items={colorOptions}
+                            onChangeItem={(item) => {
+                                setSelectedColor(item.id);
+                            }}
+                        />
+                    </Stack>
+                )}
                 <TextField
                     label={t(LOC_KEYS.parentEntityNameFieldLabel)}
                     placeholder={t(LOC_KEYS.parentEntityNameFieldPlaceholder)}

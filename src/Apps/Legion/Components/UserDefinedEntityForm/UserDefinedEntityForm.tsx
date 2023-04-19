@@ -61,13 +61,13 @@ const UserDefinedEntityForm: React.FC<IUserDefinedEntityFormProps> = (
         logDebugConsole('debug', 'Form data change. {data}', formData);
     }, []);
     const onFormSubmit = useCallback(() => {
-        logDebugConsole('debug', 'Submit click. {data}');
+        logDebugConsole('debug', 'Submit click. {data}', formData);
         if (formMode === 'Existing') {
             //
         } else if (formMode === 'New') {
             //
         }
-    }, [formMode]);
+    }, [formData, formMode]);
 
     // side effects
 
