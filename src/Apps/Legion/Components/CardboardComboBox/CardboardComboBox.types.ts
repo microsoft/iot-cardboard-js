@@ -8,7 +8,7 @@ export type CreatableInternalProps<T> = Omit<
     CreatableProps<T, boolean, GroupBase<T>>,
     'options' | 'styles'
 >;
-export interface ICarboardCreatableSelectProps<T extends IReactSelectOption>
+export interface ICardboardComboBoxSelectProps<T extends IReactSelectOption>
     extends CreatableInternalProps<T> {
     /** text below the dropdown */
     description?: string;
@@ -28,7 +28,7 @@ export interface ICarboardCreatableSelectProps<T extends IReactSelectOption>
     tooltip?: ITooltipCalloutProps;
 }
 
-export interface ICarboardCreatableSelectStyleProps {
+export interface ICardboardComboBoxSelectStyleProps {
     theme: IExtendedTheme;
     isDescriptionError: boolean;
 }
