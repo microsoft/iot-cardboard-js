@@ -1597,7 +1597,8 @@
       "tableLabel": "Tisch",
       "tableIdColumnLabel": "ID-Feld",
       "urlLabel": "Internetadresse:",
-      "urlPlaceholder": "URL eingeben"
+      "urlPlaceholder": "URL eingeben",
+      "addOptionFormat": "Fügen Sie '{{item}}' hinzu"
     },
     "StoreListPage": {
       "title": "Willkommen in der Zukunft",

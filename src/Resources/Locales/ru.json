@@ -1597,7 +1597,8 @@
       "tableLabel": "Стол",
       "tableIdColumnLabel": "Поле идентификатора",
       "urlLabel": "URL-адрес",
-      "urlPlaceholder": "Введите URL-адрес"
+      "urlPlaceholder": "Введите URL-адрес",
+      "addOptionFormat": "Добавить '{{item}}'"
     },
     "StoreListPage": {
       "title": "Добро пожаловать в будущее",

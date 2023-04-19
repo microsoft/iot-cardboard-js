@@ -1597,7 +1597,8 @@
       "tableLabel": "桌子",
       "tableIdColumnLabel": "标识字段",
       "urlLabel": "网址",
-      "urlPlaceholder": "输入网址"
+      "urlPlaceholder": "输入网址",
+      "addOptionFormat": "添加“{{项目}}”"
     },
     "StoreListPage": {
       "title": "欢迎来到未来",

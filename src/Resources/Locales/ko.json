@@ -1597,7 +1597,8 @@
       "tableLabel": "테이블",
       "tableIdColumnLabel": "ID 필드",
       "urlLabel": "URL (영문)",
-      "urlPlaceholder": "URL 입력"
+      "urlPlaceholder": "URL 입력",
+      "addOptionFormat": "'{{item}}' 추가"
     },
     "StoreListPage": {
       "title": "미래에 오신 것을 환영합니다",

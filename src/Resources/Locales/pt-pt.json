@@ -1597,7 +1597,8 @@
       "tableLabel": "Tabela",
       "tableIdColumnLabel": "Campo ID",
       "urlLabel": "URL",
-      "urlPlaceholder": "Insira o URL"
+      "urlPlaceholder": "Insira o URL",
+      "addOptionFormat": "Adicionar '{{item}}'"
     },
     "StoreListPage": {
       "title": "Bem-vindo ao futuro",

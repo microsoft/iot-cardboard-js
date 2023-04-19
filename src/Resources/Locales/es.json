@@ -1597,7 +1597,8 @@
       "tableLabel": "Mesa",
       "tableIdColumnLabel": "Campo ID",
       "urlLabel": "URL",
-      "urlPlaceholder": "Introduzca la URL"
+      "urlPlaceholder": "Introduzca la URL",
+      "addOptionFormat": "Añadir '{{item}}'"
     },
     "StoreListPage": {
       "title": "Bienvenidos al futuro",

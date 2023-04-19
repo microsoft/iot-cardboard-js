@@ -1597,7 +1597,8 @@
       "tableLabel": "Stůl",
       "tableIdColumnLabel": "Pole ID",
       "urlLabel": "Adresa URL",
-      "urlPlaceholder": "Zadejte adresu URL"
+      "urlPlaceholder": "Zadejte adresu URL",
+      "addOptionFormat": "Přidat '{{item}}'"
     },
     "StoreListPage": {
       "title": "Vítejte v budoucnosti",
