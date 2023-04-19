@@ -1589,17 +1589,6 @@
       "twins": "Ikrek",
       "properties": "Kellékek"
     },
-    "Common": {
-      "clusterLabel": "Fürt URL-címe",
-      "clusterPlaceholder": "Fürt URL-címének kiválasztása",
-      "databaseLabel": "Adatbázis",
-      "databasePlaceholder": "Adatbázis kiválasztása",
-      "tableLabel": "Asztal",
-      "tableIdColumnLabel": "Azonosító mező",
-      "urlLabel": "URL",
-      "urlPlaceholder": "Adja meg az URL-címet",
-      "addOptionFormat": "Add hozzá a következőt: '{{item}}'"
-    },
     "StoreListPage": {
       "title": "Üdvözöljük a jövőben",
       "createStoreButtonText": "Adattár hozzáadása",
@@ -1611,6 +1600,17 @@
     },
     "dataSourceStep": {
       "infoText": "Új ikereszközök létrehozása forrástáblából vagy mérnöki diagramból"
+    },
+    "Commo": {
+      "clusterLabel": "Fürt URL-címe",
+      "clusterPlaceholder": "Fürt URL-címének kiválasztása",
+      "databaseLabel": "Adatbázis",
+      "databasePlaceholder": "Adatbázis kiválasztása",
+      "tableLabel": "Asztal",
+      "tableIdColumnLabel": "Azonosító mező",
+      "urlLabel": "URL",
+      "urlPlaceholder": "Adja meg az URL-címet",
+      "addOptionFormat": "Add hozzá a következőt: '{{item}}'"
     }
   }
 }

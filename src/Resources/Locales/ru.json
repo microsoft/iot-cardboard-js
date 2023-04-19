@@ -1589,17 +1589,6 @@
       "twins": "Близнецы",
       "properties": "Свойства"
     },
-    "Common": {
-      "clusterLabel": "URL-адрес кластера",
-      "clusterPlaceholder": "Выберите URL-адрес кластера",
-      "databaseLabel": "База данных",
-      "databasePlaceholder": "Выбор базы данных",
-      "tableLabel": "Стол",
-      "tableIdColumnLabel": "Поле идентификатора",
-      "urlLabel": "URL-адрес",
-      "urlPlaceholder": "Введите URL-адрес",
-      "addOptionFormat": "Добавить '{{item}}'"
-    },
     "StoreListPage": {
       "title": "Добро пожаловать в будущее",
       "createStoreButtonText": "Добавление хранилища данных",
@@ -1611,6 +1600,17 @@
     },
     "dataSourceStep": {
       "infoText": "Создание новых двойников из исходной таблицы или инженерной схемы"
+    },
+    "Commo": {
+      "clusterLabel": "URL-адрес кластера",
+      "clusterPlaceholder": "Выбор URL-адреса кластера",
+      "databaseLabel": "База данных",
+      "databasePlaceholder": "Выбор базы данных",
+      "tableLabel": "Стол",
+      "tableIdColumnLabel": "Поле идентификатора",
+      "urlLabel": "URL-адрес",
+      "urlPlaceholder": "Введите URL-адрес",
+      "addOptionFormat": "Добавить '{{item}}'"
     }
   }
 }

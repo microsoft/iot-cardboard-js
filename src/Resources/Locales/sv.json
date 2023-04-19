@@ -1589,17 +1589,6 @@
       "twins": "Tvillingar",
       "properties": "Egenskaper"
     },
-    "Common": {
-      "clusterLabel": "URL för kluster",
-      "clusterPlaceholder": "Välj kluster-URL",
-      "databaseLabel": "Databas",
-      "databasePlaceholder": "Välj databas",
-      "tableLabel": "Bord",
-      "tableIdColumnLabel": "ID-fält",
-      "urlLabel": "URL",
-      "urlPlaceholder": "Ange URL",
-      "addOptionFormat": "Lägg till '{{item}}'"
-    },
     "StoreListPage": {
       "title": "Välkommen till framtiden",
       "createStoreButtonText": "Lägg till datalager",
@@ -1611,6 +1600,17 @@
     },
     "dataSourceStep": {
       "infoText": "Skapa nya tvillingar från en källtabell eller ett teknikdiagram"
+    },
+    "Commo": {
+      "clusterLabel": "URL för kluster",
+      "clusterPlaceholder": "Välj kluster-URL",
+      "databaseLabel": "Databas",
+      "databasePlaceholder": "Välj databas",
+      "tableLabel": "Bord",
+      "tableIdColumnLabel": "ID-fält",
+      "urlLabel": "URL",
+      "urlPlaceholder": "Ange URL",
+      "addOptionFormat": "Lägg till '{{item}}'"
     }
   }
 }

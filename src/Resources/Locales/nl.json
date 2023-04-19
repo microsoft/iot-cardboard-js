@@ -1589,17 +1589,6 @@
       "twins": "Tweeling",
       "properties": "Eigenschappen"
     },
-    "Common": {
-      "clusterLabel": "Cluster-URL",
-      "clusterPlaceholder": "Cluster-URL selecteren",
-      "databaseLabel": "Databank",
-      "databasePlaceholder": "Selecteer database",
-      "tableLabel": "Tafel",
-      "tableIdColumnLabel": "Id-veld",
-      "urlLabel": "Url",
-      "urlPlaceholder": "Voer de URL in",
-      "addOptionFormat": "Voeg '{{item}}' toe"
-    },
     "StoreListPage": {
       "title": "Welkom in de toekomst",
       "createStoreButtonText": "Gegevensarchief toevoegen",
@@ -1611,6 +1600,17 @@
     },
     "dataSourceStep": {
       "infoText": "Nieuwe tweelingen maken op basis van een brontabel of engineeringdiagram"
+    },
+    "Commo": {
+      "clusterLabel": "Cluster-URL",
+      "clusterPlaceholder": "Cluster-URL selecteren",
+      "databaseLabel": "Databank",
+      "databasePlaceholder": "Selecteer database",
+      "tableLabel": "Tafel",
+      "tableIdColumnLabel": "Id-veld",
+      "urlLabel": "Url",
+      "urlPlaceholder": "Voer de URL in",
+      "addOptionFormat": "Voeg '{{item}}' toe"
     }
   }
 }

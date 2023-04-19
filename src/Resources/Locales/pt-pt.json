@@ -1589,17 +1589,6 @@
       "twins": "Gêmeos",
       "properties": "Imóveis"
     },
-    "Common": {
-      "clusterLabel": "URL do cluster",
-      "clusterPlaceholder": "Selecionar url do cluster",
-      "databaseLabel": "Base de dados",
-      "databasePlaceholder": "Selecionar base de dados",
-      "tableLabel": "Tabela",
-      "tableIdColumnLabel": "Campo ID",
-      "urlLabel": "URL",
-      "urlPlaceholder": "Insira o URL",
-      "addOptionFormat": "Adicionar '{{item}}'"
-    },
     "StoreListPage": {
       "title": "Bem-vindo ao futuro",
       "createStoreButtonText": "Adicionar armazenamento de dados",
@@ -1611,6 +1600,17 @@
     },
     "dataSourceStep": {
       "infoText": "Crie novos gêmeos a partir de uma tabela de origem ou diagrama de engenharia"
+    },
+    "Commo": {
+      "clusterLabel": "Cluster URL",
+      "clusterPlaceholder": "Selecionar URL do cluster",
+      "databaseLabel": "Base de dados",
+      "databasePlaceholder": "Selecionar base de dados",
+      "tableLabel": "Tabela",
+      "tableIdColumnLabel": "Campo ID",
+      "urlLabel": "URL",
+      "urlPlaceholder": "Insira o URL",
+      "addOptionFormat": "Adicionar '{{item}}'"
     }
   }
 }

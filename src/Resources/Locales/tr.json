@@ -1589,17 +1589,6 @@
       "twins": "İkizler",
       "properties": "Özellikler"
     },
-    "Common": {
-      "clusterLabel": "Küme URL'si",
-      "clusterPlaceholder": "Küme URL'sini seçin",
-      "databaseLabel": "Veritabanı",
-      "databasePlaceholder": "Veritabanı seç",
-      "tableLabel": "Masa",
-      "tableIdColumnLabel": "Kimlik alanı",
-      "urlLabel": "URL",
-      "urlPlaceholder": "URL girin",
-      "addOptionFormat": "'{{item}}' ekleyin"
-    },
     "StoreListPage": {
       "title": "Geleceğe hoş geldiniz",
       "createStoreButtonText": "Veri deposu ekleme",
@@ -1611,6 +1600,17 @@
     },
     "dataSourceStep": {
       "infoText": "Kaynak tablodan veya mühendislik diyagramından yeni ikizler oluşturma"
+    },
+    "Commo": {
+      "clusterLabel": "Küme URL'si",
+      "clusterPlaceholder": "Küme URL'sini seçin",
+      "databaseLabel": "Veritabanı",
+      "databasePlaceholder": "Veritabanı seç",
+      "tableLabel": "Masa",
+      "tableIdColumnLabel": "Kimlik alanı",
+      "urlLabel": "URL",
+      "urlPlaceholder": "URL girin",
+      "addOptionFormat": "'{{item}}' ekleyin"
     }
   }
 }

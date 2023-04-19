@@ -1589,17 +1589,6 @@
       "twins": "双子",
       "properties": "プロパティ"
     },
-    "Common": {
-      "clusterLabel": "クラスターの URL",
-      "clusterPlaceholder": "クラスター URL の選択",
-      "databaseLabel": "データベース",
-      "databasePlaceholder": "データベースの選択",
-      "tableLabel": "テーブル",
-      "tableIdColumnLabel": "ID フィールド",
-      "urlLabel": "リンク",
-      "urlPlaceholder": "URLを入力",
-      "addOptionFormat": "'{{アイテム}}' を追加"
-    },
     "StoreListPage": {
       "title": "未来へようこそ",
       "createStoreButtonText": "データ ストアの追加",
@@ -1611,6 +1600,17 @@
     },
     "dataSourceStep": {
       "infoText": "ソース テーブルまたはエンジニアリング ダイアグラムから新しいツインを作成する"
+    },
+    "Commo": {
+      "clusterLabel": "クラスター URL",
+      "clusterPlaceholder": "クラスター URL の選択",
+      "databaseLabel": "データベース",
+      "databasePlaceholder": "データベースの選択",
+      "tableLabel": "テーブル",
+      "tableIdColumnLabel": "ID フィールド",
+      "urlLabel": "リンク",
+      "urlPlaceholder": "URLを入力",
+      "addOptionFormat": "'{{アイテム}}' を追加"
     }
   }
 }

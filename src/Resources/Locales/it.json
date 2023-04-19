@@ -1589,17 +1589,6 @@
       "twins": "Gemelli",
       "properties": "Proprietà"
     },
-    "Common": {
-      "clusterLabel": "URL del cluster",
-      "clusterPlaceholder": "Seleziona l'URL del cluster",
-      "databaseLabel": "Banca dati",
-      "databasePlaceholder": "Seleziona database",
-      "tableLabel": "Tavolo",
-      "tableIdColumnLabel": "Campo ID",
-      "urlLabel": "URL",
-      "urlPlaceholder": "Inserisci l'URL",
-      "addOptionFormat": "Aggiungi '{{elemento}}'"
-    },
     "StoreListPage": {
       "title": "Benvenuti nel futuro",
       "createStoreButtonText": "Aggiungere un archivio dati",
@@ -1611,6 +1600,17 @@
     },
     "dataSourceStep": {
       "infoText": "Creare nuovi gemelli da una tabella di origine o da un diagramma tecnico"
+    },
+    "Commo": {
+      "clusterLabel": "Cluster URL",
+      "clusterPlaceholder": "Seleziona l'URL del cluster",
+      "databaseLabel": "Banca dati",
+      "databasePlaceholder": "Seleziona database",
+      "tableLabel": "Tavolo",
+      "tableIdColumnLabel": "Campo ID",
+      "urlLabel": "URL",
+      "urlPlaceholder": "Inserisci l'URL",
+      "addOptionFormat": "Aggiungi '{{elemento}}'"
     }
   }
 }
