@@ -1598,6 +1598,13 @@
         "urlPlaceholder": "http://mycluster.kusto.azure.net",
         "namePlaceholder": "Veritabanı adı girin"
       }
+    },
+    "modifyStep": {
+      "diagram": "Diyagram",
+      "entities": "Varlık",
+      "types": "Tür",
+      "graph": "Grafik",
+      "secondaryButton": "Varlıkları birleştirme"
     }
   }
 }

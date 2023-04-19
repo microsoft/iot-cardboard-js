@@ -1598,6 +1598,13 @@
         "urlPlaceholder": "http://mycluster.kusto.azure.net",
         "namePlaceholder": "Wprowadź nazwę bazy danych"
       }
+    },
+    "modifyStep": {
+      "diagram": "Diagram",
+      "entities": "Podmioty",
+      "types": "Typy",
+      "graph": "Wykres",
+      "secondaryButton": "Scalanie jednostek"
     }
   }
 }

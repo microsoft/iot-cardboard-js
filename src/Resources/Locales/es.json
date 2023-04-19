@@ -1598,6 +1598,13 @@
         "urlPlaceholder": "http://mycluster.kusto.azure.net",
         "namePlaceholder": "Escriba un nombre de base de datos"
       }
+    },
+    "modifyStep": {
+      "diagram": "Diagrama",
+      "entities": "Entidades",
+      "types": "Tipos",
+      "graph": "Gráfico",
+      "secondaryButton": "Combinar entidades"
     }
   }
 }

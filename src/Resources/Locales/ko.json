@@ -1598,6 +1598,13 @@
         "urlPlaceholder": "http://mycluster.kusto.azure.net",
         "namePlaceholder": "데이터베이스 이름 입력"
       }
+    },
+    "modifyStep": {
+      "diagram": "다이어그램",
+      "entities": "엔터티",
+      "types": "형식",
+      "graph": "그래프",
+      "secondaryButton": "엔터티 병합"
     }
   }
 }

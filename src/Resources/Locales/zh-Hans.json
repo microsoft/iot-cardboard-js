@@ -1598,6 +1598,13 @@
         "urlPlaceholder": "http://mycluster.kusto.azure.net",
         "namePlaceholder": "输入数据库名称"
       }
+    },
+    "modifyStep": {
+      "diagram": "图",
+      "entities": "实体",
+      "types": "类型",
+      "graph": "图",
+      "secondaryButton": "合并实体"
     }
   }
 }
