@@ -10,5 +10,6 @@ export interface IWizardShellStyles {
     headerText: IStyle;
     wizardContainer: IStyle;
     footer: IStyle;
+    additionalButtonsContainer: IStyle;
     nextButtonContainer: IStyle;
 }

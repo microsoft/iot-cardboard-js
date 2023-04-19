@@ -1590,6 +1590,13 @@
             "models": "Models",
             "twins": "Twins",
             "properties": "Properties"
+        },
+        "modifyStep": {
+            "diagram": "Diagram",
+            "entities": "Entities",
+            "types": "Types",
+            "graph": "Graph",
+            "secondaryButton": "Merge entities"
         }
     }
 }

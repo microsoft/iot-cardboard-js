@@ -8,13 +8,14 @@ import { IExtendedTheme } from '../../../../Theming/Theme.types';
 
 // export const WIZARDSHELL_CLASS_NAMES = classNames;
 export const getStyles = (
-    theme: IExtendedTheme
+    theme: IExtendedTheme,
+    hasSecondaryActions: boolean
 ): IProcessedStyleSet<IWizardShellStyles> => {
     return mergeStyleSets({
         root: {
             height: '100%',
             display: 'grid',
-            gridTemplateColumns: '1fr 8fr',
+            gridTemplateColumns: '140px auto',
             gridTemplateRows: '64px auto 64px',
             gridTemplateAreas: `
                 "left header"
@@ -47,11 +48,16 @@ export const getStyles = (
             gridArea: 'footer',
             borderTop: `1px solid ${theme.palette.glassyBorder}`,
             display: 'flex',
-            justifyContent: 'flex-end'
+            justifyContent: hasSecondaryActions ? 'space-between' : 'flex-end'
         },
         nextButtonContainer: {
             alignSelf: 'center',
             marginRight: 32,
+            marginBottom: 8
+        },
+        additionalButtonsContainer: {
+            alignSelf: 'center',
+            marginLeft: 32,
             marginBottom: 8
         }
     });
