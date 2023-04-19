@@ -11,7 +11,7 @@ import CreatableSelect from 'react-select/creatable';
 import { ActionMeta, MultiValue, SingleValue } from 'react-select';
 import { useExtendedTheme } from '../../../../Models/Hooks/useExtendedTheme';
 import { getDebugLogger } from '../../../../Models/Services/Utils';
-import { ICardboardComboBoxSelectProps } from './CardboardComboBox.types';
+import { ICardboardComboBoxProps } from './CardboardComboBox.types';
 import { IReactSelectOption } from '../../Models';
 import { getReactSelectStyles } from '../../../../Resources/Styles/ReactSelect.styles';
 import { getStyles } from './CardboardComboBox.styles';
@@ -20,8 +20,8 @@ import TooltipCallout from '../../../../Components/TooltipCallout/TooltipCallout
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('CardboardComboBoxSelect', debugLogging);
 
-const CardboardComboBoxSelect = <T extends IReactSelectOption>(
-    props: ICardboardComboBoxSelectProps<T> & { children?: ReactNode }
+const CardboardComboBox = <T extends IReactSelectOption>(
+    props: ICardboardComboBoxProps<T> & { children?: ReactNode }
 ) => {
     const {
         description,
@@ -106,4 +106,4 @@ const CardboardComboBoxSelect = <T extends IReactSelectOption>(
     );
 };
 
-export default CardboardComboBoxSelect;
+export default CardboardComboBox;

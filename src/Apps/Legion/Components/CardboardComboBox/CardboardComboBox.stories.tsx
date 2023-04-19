@@ -2,17 +2,17 @@
 import React from 'react';
 import { ComponentStory } from '@storybook/react';
 import { getDefaultStoryDecorator } from '../../../../Models/Services/StoryUtilities';
-import CardboardComboBoxSelect from './CardboardComboBox';
-import { ICardboardComboBoxSelectProps } from './CardboardComboBox.types';
+import CardboardComboBox from './CardboardComboBox';
+import { ICardboardComboBoxProps } from './CardboardComboBox.types';
 import { IReactSelectOption } from '../../Models';
 
 const wrapperStyle = { width: '500px', height: '600px', padding: 8 };
 
 export default {
     title: 'Apps/Legion/Components/CardboardComboBoxSelect',
-    component: CardboardComboBoxSelect,
+    component: CardboardComboBox,
     decorators: [
-        getDefaultStoryDecorator<ICardboardComboBoxSelectProps<IListItem>>(
+        getDefaultStoryDecorator<ICardboardComboBoxProps<IListItem>>(
             wrapperStyle
         )
     ]
@@ -20,15 +20,13 @@ export default {
 
 type IListItem = IReactSelectOption;
 
-type CardboardComboBoxSelectStory = ComponentStory<
-    typeof CardboardComboBoxSelect
->;
+type CardboardComboBoxSelectStory = ComponentStory<typeof CardboardComboBox>;
 
 const Template: CardboardComboBoxSelectStory = (args) => {
-    return <CardboardComboBoxSelect {...args} />;
+    return <CardboardComboBox {...args} />;
 };
 
-const defaultProps: Partial<ICardboardComboBoxSelectProps<IListItem>> = {
+const defaultProps: Partial<ICardboardComboBoxProps<IListItem>> = {
     label: 'My picker',
     onSelectionChange: (item, isNew) => {
         console.log('Selection made. {item, isNew}', item, isNew);
@@ -58,13 +56,13 @@ const defaultProps: Partial<ICardboardComboBoxSelectProps<IListItem>> = {
 export const Base = Template.bind({}) as CardboardComboBoxSelectStory;
 Base.args = {
     ...defaultProps
-} as ICardboardComboBoxSelectProps<IListItem>;
+} as ICardboardComboBoxProps<IListItem>;
 
 export const WithSelection = Template.bind({}) as CardboardComboBoxSelectStory;
 WithSelection.args = {
     ...defaultProps,
     selectedItem: defaultProps.options[1]
-} as ICardboardComboBoxSelectProps<IListItem>;
+} as ICardboardComboBoxProps<IListItem>;
 
 export const WithTooltip = Template.bind({}) as CardboardComboBoxSelectStory;
 WithTooltip.args = {
@@ -74,13 +72,13 @@ WithTooltip.args = {
             calloutContent: 'message blurb goes here'
         }
     }
-} as ICardboardComboBoxSelectProps<IListItem>;
+} as ICardboardComboBoxProps<IListItem>;
 
 export const Description = Template.bind({}) as CardboardComboBoxSelectStory;
 Description.args = {
     ...defaultProps,
     description: 'Message here'
-} as ICardboardComboBoxSelectProps<IListItem>;
+} as ICardboardComboBoxProps<IListItem>;
 
 export const DescriptionError = Template.bind(
     {}
@@ -89,4 +87,4 @@ DescriptionError.args = {
     ...defaultProps,
     description: 'Error message here',
     descriptionIsError: true
-} as ICardboardComboBoxSelectProps<IListItem>;
+} as ICardboardComboBoxProps<IListItem>;
