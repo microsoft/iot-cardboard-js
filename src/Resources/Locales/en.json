@@ -1526,7 +1526,7 @@
         "addNew": "Add new"
     },
     "legionApp": {
-        "Common": {
+        "Commo": {
             "clusterLabel": "Cluster URL",
             "clusterPlaceholder": "Select cluster URL",
             "databaseLabel": "Database",
