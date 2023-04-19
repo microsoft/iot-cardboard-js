@@ -21,7 +21,7 @@ import TooltipCallout from '../../../../../Components/TooltipCallout/TooltipCall
 import { useAdapter } from '../../../../../Models/Hooks';
 import { getReactSelectStyles } from '../../../../../Resources/Styles/ReactSelect.styles';
 import { IReactSelectOption } from '../../../Models/Types';
-import { useContextAdapter } from '../../../Hooks/useContextAdapter';
+import { useADXAdapter } from '../../../Hooks/useADXAdapter';
 import { ActionMeta } from 'react-select';
 import { WizardDataManagementContext } from '../../../Contexts/WizardDataManagementContext/WizardDataManagementContext';
 import { useId } from '@fluentui/react-hooks';
@@ -61,7 +61,7 @@ const ClusterPicker: React.FC<IClusterPickerProps> = (props) => {
 
     const clusterPickerLabelId = useId('cluster-picker-label');
 
-    const adapter = useContextAdapter(targetAdapterContext);
+    const adapter = useADXAdapter(targetAdapterContext);
     const getClustersState = useAdapter({
         adapterMethod: () => adapter.getClusters(),
         refetchDependencies: []

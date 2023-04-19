@@ -20,7 +20,7 @@ import CreatableSelect from 'react-select/creatable';
 import { useAdapter } from '../../../../../Models/Hooks';
 import { getReactSelectStyles } from '../../../../../Resources/Styles/ReactSelect.styles';
 import { IReactSelectOption } from '../../../Models/Types';
-import { useContextAdapter } from '../../../Hooks/useContextAdapter';
+import { useADXAdapter } from '../../../Hooks/useADXAdapter';
 import { ICreateDatabaseAdapterParams } from '../../../Adapters/Standalone/DataManagement/Models/DataManagementAdapter.types';
 import { ActionMeta } from 'react-select';
 import { WizardDataManagementContext } from '../../../Contexts/WizardDataManagementContext/WizardDataManagementContext';
@@ -60,7 +60,7 @@ const DatabasePicker: React.FC<IDatabasePickerProps> = (props) => {
 
     const databaseLabelId = useId('database-label');
 
-    const adapter = useContextAdapter(targetAdapterContext);
+    const adapter = useADXAdapter(targetAdapterContext);
     const getDatabasesState = useAdapter({
         adapterMethod: () => adapter.getDatabases(),
         refetchDependencies: [adapter.connectionString]
