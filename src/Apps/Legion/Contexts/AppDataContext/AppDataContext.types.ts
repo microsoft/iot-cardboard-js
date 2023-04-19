@@ -1,9 +1,12 @@
+import { IExtensionClient } from '../../EntryPoints/LegionApp/LegionApp.types';
+
 export interface ITargetDatabaseConnection {
     clusterUrl: string;
     databaseName: string;
 }
 export interface IAppDataContextProviderProps {
     initialState?: Partial<IAppDataContextState>;
+    extensionClient?: IExtensionClient;
 }
 
 /**
