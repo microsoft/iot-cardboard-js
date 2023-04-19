@@ -1,13 +1,9 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import CreatableSelect from 'react-select/creatable';
-import { ActionMeta } from 'react-select';
-import produce from 'immer';
 import {
     classNamesFunction,
     Dropdown,
     IDropdownOption,
-    Label,
     Stack,
     styled,
     TextField
@@ -22,6 +18,7 @@ import {
     IUserDefinedEntityFormStyles,
     IUserDefinedEntityFormViewProps
 } from './UserDefinedEntityForm.types';
+import CardboardComboBox from '../CardboardComboBox';
 import { getViewStyles } from './UserDefinedEntityForm.styles';
 import IconPicker from '../../../../Components/Pickers/IconSelectButton/IconPicker';
 import ColorPicker from '../../../../Components/Pickers/ColorSelectButton/ColorPicker';
@@ -31,7 +28,6 @@ import {
 } from '../../Models/Constants';
 import { IViewEntity, IViewRelationshipType, IViewType } from '../../Models';
 import { IReactSelectOption } from '../../Models/Types';
-import { getReactSelectStyles } from '../../../../Resources/Styles/ReactSelect.styles';
 
 const debugLogging = true;
 const logDebugConsole = getDebugLogger(
@@ -166,33 +162,19 @@ const UserDefinedEntityFormView: React.FC<IUserDefinedEntityFormViewProps> = (
 
     // callbacks
     const onExistingEntityRelationshipChange = useCallback(
-        (newValue: IReactSelectOption, actionMeta: ActionMeta<any>) => {
+        (newValue: IReactSelectOption, _isNew: boolean) => {
             setExistingEntityRelationshipNameValue(newValue);
-
-            if (actionMeta.action === 'create-option') {
-                setRelationshipNameOptions(
-                    produce((draft) => draft.concat(newValue))
-                );
-            }
         },
         []
     );
     const onNewEntityRelationshipChange = useCallback(
-        (newValue: IReactSelectOption, actionMeta: ActionMeta<any>) => {
+        (newValue: IReactSelectOption, _isNew: boolean) => {
             setNewEntityRelationshipNameValue(newValue);
-
-            if (actionMeta.action === 'create-option') {
-                setRelationshipNameOptions(
-                    produce((draft) => draft.concat(newValue))
-                );
-            }
         },
         []
     );
     const onParentTypeChange = useCallback(
-        (newValue: IReactSelectOption, actionMeta: ActionMeta<any>) => {
-            const isCreate = actionMeta.action === 'create-option';
-            const isNew = newValue.__isNew__ || isCreate;
+        (newValue: IReactSelectOption, isNew: boolean) => {
             setSelectedParentType(newValue);
             setIsNewParent(isNew);
             if (isNew) {
@@ -209,13 +191,8 @@ const UserDefinedEntityFormView: React.FC<IUserDefinedEntityFormViewProps> = (
                     );
                 }
             }
-            if (isCreate) {
-                setParentTypeOptions(
-                    produce((draft) => draft.concat(newValue))
-                );
-            }
         },
-        []
+        [existingTypes]
     );
 
     // side effects
@@ -294,28 +271,19 @@ const UserDefinedEntityFormView: React.FC<IUserDefinedEntityFormViewProps> = (
     const classNames = getClassNames(styles, {
         theme: theme
     });
-    const selectStyles = useMemo(() => getReactSelectStyles(theme, {}), [
-        theme
-    ]);
 
     // data
     // RENDER NEW ENTITY FORM
     const newEntityForm = useMemo(() => {
         return (
             <>
-                <Stack>
-                    <Label id={'parentTypeLabel'}>
-                        {t(LOC_KEYS.parentTypeFieldLabel)}
-                    </Label>
-                    <CreatableSelect
-                        aria-aria-labelledby={'parentTypeLabel'}
-                        onChange={onParentTypeChange}
-                        options={parentTypeOptions}
-                        placeholder={t(LOC_KEYS.parentTypeFieldPlaceholder)}
-                        styles={selectStyles}
-                        value={selectedParentType}
-                    />
-                </Stack>
+                <CardboardComboBox
+                    label={t(LOC_KEYS.parentTypeFieldLabel)}
+                    onSelectionChange={onParentTypeChange}
+                    options={parentTypeOptions}
+                    placeholder={t(LOC_KEYS.parentTypeFieldPlaceholder)}
+                    selectedItem={selectedParentType}
+                />
                 {isNewParentType && (
                     <Stack horizontal tokens={{ childrenGap: 8 }}>
                         <IconPicker
@@ -344,35 +312,26 @@ const UserDefinedEntityFormView: React.FC<IUserDefinedEntityFormViewProps> = (
                         setParentEntityNameValue(value);
                     }}
                 />
-                <Stack>
-                    <Label id={'newEntityRelationshipNameFieldLabel'}>
-                        {t(LOC_KEYS.relationshipNameFieldLabel)}
-                    </Label>
-                    <CreatableSelect
-                        aria-aria-labelledby={
-                            'newEntityRelationshipNameFieldLabel'
-                        }
-                        onChange={onNewEntityRelationshipChange}
-                        options={relationshipNameOptions}
-                        placeholder={t(
-                            LOC_KEYS.relationshipNameFieldPlaceholder
-                        )}
-                        styles={selectStyles}
-                        value={newEntityRelationshipNameValue}
-                    />
-                </Stack>
+
+                <CardboardComboBox
+                    label={t(LOC_KEYS.relationshipNameFieldLabel)}
+                    onSelectionChange={onNewEntityRelationshipChange}
+                    options={relationshipNameOptions}
+                    placeholder={t(LOC_KEYS.relationshipNameFieldPlaceholder)}
+                    selectedItem={newEntityRelationshipNameValue}
+                />
             </>
         );
     }, [
         colorOptions,
         iconOptions,
+        isNewParentType,
         newEntityRelationshipNameValue,
         onNewEntityRelationshipChange,
         onParentTypeChange,
         parentEntityNameValue,
         parentTypeOptions,
         relationshipNameOptions,
-        selectStyles,
         selectedColor,
         selectedIcon,
         selectedParentType,
@@ -392,16 +351,12 @@ const UserDefinedEntityFormView: React.FC<IUserDefinedEntityFormViewProps> = (
                     placeholder={t(LOC_KEYS.existingEntityFieldPlaceholder)}
                     selectedKey={selectedExistingEntity?.key}
                 />
-                <Label id={'relationshipNameFieldLabel'}>
-                    {t(LOC_KEYS.relationshipNameFieldLabel)}
-                </Label>
-                <CreatableSelect
-                    aria-aria-labelledby={'relationshipNameFieldLabel'}
-                    onChange={onExistingEntityRelationshipChange}
+                <CardboardComboBox
+                    label={t(LOC_KEYS.relationshipNameFieldLabel)}
+                    onSelectionChange={onExistingEntityRelationshipChange}
                     options={relationshipNameOptions}
                     placeholder={t(LOC_KEYS.relationshipNameFieldPlaceholder)}
-                    styles={selectStyles}
-                    value={existingEntityRelationshipNameValue}
+                    selectedItem={existingEntityRelationshipNameValue}
                 />
             </>
         );
@@ -410,7 +365,6 @@ const UserDefinedEntityFormView: React.FC<IUserDefinedEntityFormViewProps> = (
         existingEntityRelationshipNameValue,
         onExistingEntityRelationshipChange,
         relationshipNameOptions,
-        selectStyles,
         selectedExistingEntity?.key,
         t
     ]);

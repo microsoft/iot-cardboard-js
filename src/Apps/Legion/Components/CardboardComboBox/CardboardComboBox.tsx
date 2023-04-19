@@ -52,7 +52,7 @@ const CardboardComboBox = <T extends IReactSelectOption>(
             // cast is safe here because `SingleValue` is just an alias to `T` which is what our options are
             const localOption = selection as T;
             const isCreate = actionMeta.action === 'create-option';
-            onSelectionChange(localOption, isCreate);
+            onSelectionChange(localOption, isCreate, actionMeta);
             if (isCreate) {
                 setOptions((draft) => {
                     draft.push(localOption);
