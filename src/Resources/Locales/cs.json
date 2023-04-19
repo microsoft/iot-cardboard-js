@@ -1594,14 +1594,12 @@
       "createStoreButtonText": "Přidání úložiště dat",
       "Modal": {
         "title": "Přidání nového úložiště dat"
-      },
-      "clusterLabel": "Cílová adresa URL clusteru",
-      "databaseLabel": "Cílová databáze"
+      }
     },
     "dataSourceStep": {
       "infoText": "Vytvoření nových dvojčat ze zdrojové tabulky nebo inženýrského diagramu"
     },
-    "Commo": {
+    "Common": {
       "clusterLabel": "Adresa URL clusteru",
       "clusterPlaceholder": "Vyberte adresu URL clusteru",
       "databaseLabel": "Databáze",

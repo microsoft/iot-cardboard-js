@@ -1594,14 +1594,12 @@
       "createStoreButtonText": "添加数据存储",
       "Modal": {
         "title": "添加新数据存储"
-      },
-      "clusterLabel": "目标群集网址",
-      "databaseLabel": "目标数据库"
+      }
     },
     "dataSourceStep": {
       "infoText": "从源表或工程图创建新的孪生体"
     },
-    "Commo": {
+    "Common": {
       "clusterLabel": "群集网址",
       "clusterPlaceholder": "选择群集网址",
       "databaseLabel": "数据库",

@@ -1594,14 +1594,12 @@
       "createStoreButtonText": "Agregar almacén de datos",
       "Modal": {
         "title": "Agregar un nuevo almacén de datos"
-      },
-      "clusterLabel": "Dirección URL del clúster de destino",
-      "databaseLabel": "Base de datos de destino"
+      }
     },
     "dataSourceStep": {
       "infoText": "Crear nuevos gemelos a partir de una tabla de origen o un diagrama de ingeniería"
     },
-    "Commo": {
+    "Common": {
       "clusterLabel": "Dirección URL del clúster",
       "clusterPlaceholder": "Seleccionar URL del clúster",
       "databaseLabel": "Base de datos",

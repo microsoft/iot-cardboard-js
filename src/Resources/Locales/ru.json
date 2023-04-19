@@ -1594,14 +1594,12 @@
       "createStoreButtonText": "Добавление хранилища данных",
       "Modal": {
         "title": "Добавление нового хранилища данных"
-      },
-      "clusterLabel": "URL-адрес целевого кластера",
-      "databaseLabel": "Целевая база данных"
+      }
     },
     "dataSourceStep": {
       "infoText": "Создание новых двойников из исходной таблицы или инженерной схемы"
     },
-    "Commo": {
+    "Common": {
       "clusterLabel": "URL-адрес кластера",
       "clusterPlaceholder": "Выбор URL-адреса кластера",
       "databaseLabel": "База данных",

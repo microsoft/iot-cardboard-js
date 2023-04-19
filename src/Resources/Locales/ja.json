@@ -1594,14 +1594,12 @@
       "createStoreButtonText": "データ ストアの追加",
       "Modal": {
         "title": "新しいデータ ストアの追加"
-      },
-      "clusterLabel": "ターゲット クラスターの URL",
-      "databaseLabel": "ターゲット データベース"
+      }
     },
     "dataSourceStep": {
       "infoText": "ソース テーブルまたはエンジニアリング ダイアグラムから新しいツインを作成する"
     },
-    "Commo": {
+    "Common": {
       "clusterLabel": "クラスター URL",
       "clusterPlaceholder": "クラスター URL の選択",
       "databaseLabel": "データベース",

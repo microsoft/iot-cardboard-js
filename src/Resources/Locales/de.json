@@ -1594,14 +1594,12 @@
       "createStoreButtonText": "Hinzufügen eines Datenspeichers",
       "Modal": {
         "title": "Hinzufügen eines neuen Datenspeichers"
-      },
-      "clusterLabel": "Ziel-Cluster-URL",
-      "databaseLabel": "Zieldatenbank"
+      }
     },
     "dataSourceStep": {
       "infoText": "Erstellen neuer Zwillinge aus einer Quelltabelle oder einem Konstruktionsdiagramm"
     },
-    "Commo": {
+    "Common": {
       "clusterLabel": "Cluster-URL",
       "clusterPlaceholder": "Wählen Sie die Cluster-URL aus",
       "databaseLabel": "Datenbank",

@@ -1594,14 +1594,12 @@
       "createStoreButtonText": "Veri deposu ekleme",
       "Modal": {
         "title": "Yeni veri deposu ekleme"
-      },
-      "clusterLabel": "Hedef küme URL'si",
-      "databaseLabel": "Hedef veritabanı"
+      }
     },
     "dataSourceStep": {
       "infoText": "Kaynak tablodan veya mühendislik diyagramından yeni ikizler oluşturma"
     },
-    "Commo": {
+    "Common": {
       "clusterLabel": "Küme URL'si",
       "clusterPlaceholder": "Küme URL'sini seçin",
       "databaseLabel": "Veritabanı",

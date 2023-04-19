@@ -1594,14 +1594,12 @@
       "createStoreButtonText": "Lägg till datalager",
       "Modal": {
         "title": "Lägga till ett nytt datalager"
-      },
-      "clusterLabel": "URL för målkluster",
-      "databaseLabel": "Måldatabas"
+      }
     },
     "dataSourceStep": {
       "infoText": "Skapa nya tvillingar från en källtabell eller ett teknikdiagram"
     },
-    "Commo": {
+    "Common": {
       "clusterLabel": "URL för kluster",
       "clusterPlaceholder": "Välj kluster-URL",
       "databaseLabel": "Databas",
