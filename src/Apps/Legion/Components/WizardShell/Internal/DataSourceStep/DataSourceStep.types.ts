@@ -7,7 +7,7 @@ import {
 } from '@fluentui/react';
 import { IExtendedTheme } from '../../../../../../Theming/Theme.types';
 import { ITable } from '../../../../Adapters/Standalone/DataManagement/Models/DataManagementAdapter.types';
-import { IAppData, IReactSelectOption } from '../../../../Models/Interfaces';
+import { IAppData, IReactSelectOption } from '../../../../Models/Types';
 import { SourceType } from '../../../DataPusher/DataPusher.types';
 
 export interface IDataSourceStepProps {

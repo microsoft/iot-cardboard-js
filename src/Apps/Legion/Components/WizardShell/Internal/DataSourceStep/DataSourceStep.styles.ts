@@ -18,7 +18,7 @@ export const getStyles = (
         root: [classNames.root],
         informationText: [
             classNames.informationText,
-            { fontSize: 13, opacity: 0.6 }
+            { fontSize: 12, opacity: 0.6 }
         ],
         subComponentStyles: {
             stack: {

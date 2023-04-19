@@ -20,10 +20,11 @@ import CreatableSelect from 'react-select/creatable';
 import TooltipCallout from '../../../../../Components/TooltipCallout/TooltipCallout';
 import { useAdapter } from '../../../../../Models/Hooks';
 import { getReactSelectStyles } from '../../../../../Resources/Styles/ReactSelect.styles';
-import { IReactSelectOption } from '../../../Models/Interfaces';
+import { IReactSelectOption } from '../../../Models/Types';
 import { useContextAdapter } from '../../../Hooks/useContextAdapter';
 import { ActionMeta } from 'react-select';
 import { WizardDataManagementContext } from '../../../Contexts/WizardDataManagementContext/WizardDataManagementContext';
+import { useId } from '@fluentui/react-hooks';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('ClusterPicker', debugLogging);
@@ -58,6 +59,8 @@ const ClusterPicker: React.FC<IClusterPickerProps> = (props) => {
     const { t } = useTranslation();
     const theme = useExtendedTheme();
 
+    const clusterPickerLabelId = useId('cluster-picker-label');
+
     const adapter = useContextAdapter(targetAdapterContext);
     const getClustersState = useAdapter({
         adapterMethod: () => adapter.getClusters(),
@@ -66,7 +69,10 @@ const ClusterPicker: React.FC<IClusterPickerProps> = (props) => {
 
     //callbacks
     const handleClusterUrlChange = useCallback(
-        (newValue: any, actionMeta: ActionMeta<any>) => {
+        (
+            newValue: IReactSelectOption,
+            actionMeta: ActionMeta<IReactSelectOption>
+        ) => {
             setSelectedClusterOption(newValue);
             if (actionMeta.action === 'create-option') {
                 if (isValidADXClusterUrl(newValue.label)) {
@@ -88,7 +94,8 @@ const ClusterPicker: React.FC<IClusterPickerProps> = (props) => {
         [adapter, clusterOptions, onClusterUrlChange]
     );
     const formatCreateLabel = useCallback(
-        (inputValue: string) => `${t('add')} "${inputValue}"`,
+        (inputValue: string) =>
+            `${t('legionApp.Common.addOptionFormat', { item: inputValue })}`,
         [t]
     );
     const isCreateVisible = useCallback(
@@ -125,7 +132,7 @@ const ClusterPicker: React.FC<IClusterPickerProps> = (props) => {
     return (
         <div className={classNames.root}>
             <Stack horizontal verticalAlign={'center'}>
-                <Label required>
+                <Label required id={clusterPickerLabelId}>
                     {label || t('legionApp.dataPusher.clusterTitle')}
                 </Label>
                 {hasTooltip && (
@@ -142,6 +149,7 @@ const ClusterPicker: React.FC<IClusterPickerProps> = (props) => {
                 )}
             </Stack>
             <CreatableSelect
+                aria-labelledby={clusterPickerLabelId}
                 onChange={handleClusterUrlChange}
                 isClearable
                 options={clusterOptions}

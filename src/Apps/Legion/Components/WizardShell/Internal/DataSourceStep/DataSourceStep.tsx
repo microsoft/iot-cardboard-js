@@ -89,7 +89,7 @@ const DataSourceStep: React.FC<IDataSourceStepProps> = (props) => {
         (_event, option: IDropdownOption) => {
             dispatch({
                 type: DataSourceStepActionType.SET_SELECTED_SOURCE_TYPE,
-                sourceType: option.text as SourceType
+                sourceType: option.key as SourceType
             });
         },
         []

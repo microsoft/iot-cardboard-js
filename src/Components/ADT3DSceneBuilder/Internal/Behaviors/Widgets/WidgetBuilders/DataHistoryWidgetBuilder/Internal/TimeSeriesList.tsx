@@ -30,6 +30,7 @@ const TimeSeriesList: React.FC<IProp> = ({
     onSeriesEditClick,
     onSeriesRemoveClick
 }) => {
+    // hooks
     const { t } = useTranslation();
 
     const listItems = useMemo(

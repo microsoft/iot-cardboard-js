@@ -1527,14 +1527,15 @@
     },
     "legionApp": {
         "Common": {
-            "clusterLabel": "Cluster url",
-            "clusterPlaceholder": "Select cluster url",
+            "clusterLabel": "Cluster URL",
+            "clusterPlaceholder": "Select cluster URL",
             "databaseLabel": "Database",
             "databasePlaceholder": "Select database",
             "tableLabel": "Table",
             "tableIdColumnLabel": "ID field",
             "urlLabel": "URL",
-            "urlPlaceholder": "Enter URL"
+            "urlPlaceholder": "Enter URL",
+            "addOptionFormat": "Add '{{item}}'"
         },
         "StoreListPage": {
             "title": "Welcome to the future",

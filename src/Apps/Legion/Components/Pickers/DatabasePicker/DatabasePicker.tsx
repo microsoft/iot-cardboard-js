@@ -19,11 +19,12 @@ import { useTranslation } from 'react-i18next';
 import CreatableSelect from 'react-select/creatable';
 import { useAdapter } from '../../../../../Models/Hooks';
 import { getReactSelectStyles } from '../../../../../Resources/Styles/ReactSelect.styles';
-import { IReactSelectOption } from '../../../Models/Interfaces';
+import { IReactSelectOption } from '../../../Models/Types';
 import { useContextAdapter } from '../../../Hooks/useContextAdapter';
 import { ICreateDatabaseAdapterParams } from '../../../Adapters/Standalone/DataManagement/Models/DataManagementAdapter.types';
 import { ActionMeta } from 'react-select';
 import { WizardDataManagementContext } from '../../../Contexts/WizardDataManagementContext/WizardDataManagementContext';
+import { useId } from '@fluentui/react-hooks';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('DatabasePicker', debugLogging);
@@ -57,6 +58,8 @@ const DatabasePicker: React.FC<IDatabasePickerProps> = (props) => {
     const { t } = useTranslation();
     const theme = useExtendedTheme();
 
+    const databaseLabelId = useId('database-label');
+
     const adapter = useContextAdapter(targetAdapterContext);
     const getDatabasesState = useAdapter({
         adapterMethod: () => adapter.getDatabases(),
@@ -72,7 +75,10 @@ const DatabasePicker: React.FC<IDatabasePickerProps> = (props) => {
 
     //callbacks
     const handleDatabaseNameChange = useCallback(
-        (newValue: any, actionMeta: ActionMeta<any>) => {
+        (
+            newValue: IReactSelectOption,
+            actionMeta: ActionMeta<IReactSelectOption>
+        ) => {
             setSelectedDatabaseOption(newValue);
             if (actionMeta.action === 'create-option') {
                 createDatabaseState.callAdapter({
@@ -123,7 +129,7 @@ const DatabasePicker: React.FC<IDatabasePickerProps> = (props) => {
     return (
         <div className={classNames.root}>
             <Stack horizontal horizontalAlign="space-between">
-                <Label required>
+                <Label required id={databaseLabelId}>
                     {label || t('legionApp.dataPusher.target.database')}
                 </Label>
                 {isCreatable && createDatabaseState.isLoading && (
@@ -137,6 +143,7 @@ const DatabasePicker: React.FC<IDatabasePickerProps> = (props) => {
                 )}
             </Stack>
             <CreatableSelect
+                aria-labelledby={databaseLabelId}
                 onChange={handleDatabaseNameChange}
                 isClearable
                 options={databaseOptions}

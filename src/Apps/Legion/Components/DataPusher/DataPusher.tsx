@@ -35,11 +35,6 @@ const DataPusher: React.FC<IDataPusherProps> = (props) => {
     const { t } = useTranslation();
     const theme = useExtendedTheme();
 
-    //callbacks
-    const handleClusterUrlChange = useCallback((clusterUrl: string) => {
-        setSelectedClusterUrl(clusterUrl);
-    }, []);
-
     // styles
     const classNames = getClassNames(styles, {
         theme
@@ -56,7 +51,7 @@ const DataPusher: React.FC<IDataPusherProps> = (props) => {
             <div className={classNames.root}>
                 <h3>{t('legionApp.dataPusher.title')}</h3>
                 <ClusterPicker
-                    onClusterUrlChange={handleClusterUrlChange}
+                    onClusterUrlChange={setSelectedClusterUrl}
                     styles={classNames.subComponentStyles.clusterPicker}
                     targetAdapterContext={DataPusherContext}
                     hasTooltip

@@ -43,9 +43,10 @@ import { ActionMeta } from 'react-select';
 import { getReactSelectStyles } from '../../../../../Resources/Styles/ReactSelect.styles';
 import { useExtendedTheme } from '../../../../../Models/Hooks/useExtendedTheme';
 import TooltipCallout from '../../../../../Components/TooltipCallout/TooltipCallout';
-import { IReactSelectOption } from '../../../Models/Interfaces';
+import { IReactSelectOption } from '../../../Models/Types';
 import DatabasePicker from '../../Pickers/DatabasePicker/DatabasePicker';
 import { getMockData } from '../../../Services/DataPusherUtils';
+import { useId } from '@fluentui/react-hooks';
 
 const DEFAULT_INGESTION_FREQUENCY_IN_SEC = 5;
 const MIN_INGESTION_FREQUENCY_IN_SEC = 1;
@@ -75,6 +76,10 @@ const Ingest: React.FC = () => {
     // hooks
     const { t } = useTranslation();
     const theme = useExtendedTheme();
+
+    const tableTypeLabelId = useId('table-type-label');
+    const tableLabelId = useId('table-label');
+    const frequencyLabelId = useId('frequency-label');
 
     const ingestionRef = useRef(null);
     const numberOfRowsIngestedRef = useRef(0);
@@ -159,7 +164,10 @@ const Ingest: React.FC = () => {
     );
 
     const handleTableChange = useCallback(
-        (newValue: any, actionMeta: ActionMeta<any>) => {
+        (
+            newValue: IReactSelectOption,
+            actionMeta: ActionMeta<IReactSelectOption>
+        ) => {
             setSelectedTable(newValue);
             setTableData(null);
             if (actionMeta.action === 'create-option') {
@@ -283,7 +291,7 @@ const Ingest: React.FC = () => {
                 />
                 <StackItem>
                     <Stack horizontal verticalAlign={'center'}>
-                        <Label required>
+                        <Label required id={tableTypeLabelId}>
                             {t('legionApp.dataPusher.target.tableType')}
                         </Label>
                         <TooltipCallout
@@ -298,6 +306,7 @@ const Ingest: React.FC = () => {
                         />
                     </Stack>
                     <Dropdown
+                        aria-labelledby={tableTypeLabelId}
                         onChange={handleTableTypeChange}
                         options={TableTypeOptions}
                         placeholder={t(
@@ -309,7 +318,7 @@ const Ingest: React.FC = () => {
                 <StackItem>
                     <Stack horizontal horizontalAlign="space-between">
                         <Stack horizontal>
-                            <Label required>
+                            <Label required id={tableLabelId}>
                                 {t('legionApp.dataPusher.target.table')}
                             </Label>
                             <TooltipCallout
@@ -340,6 +349,7 @@ const Ingest: React.FC = () => {
                         )}
                     </Stack>
                     <CreatableSelect
+                        aria-labelledby={tableLabelId}
                         onChange={handleTableChange}
                         isClearable
                         options={tableOptions}
@@ -354,7 +364,7 @@ const Ingest: React.FC = () => {
                 </StackItem>
                 <StackItem>
                     <Stack horizontal verticalAlign={'center'}>
-                        <Label required>
+                        <Label required id={frequencyLabelId}>
                             {`${t('legionApp.dataPusher.frequency')} (sec)`}
                         </Label>
                         <TooltipCallout
@@ -369,6 +379,7 @@ const Ingest: React.FC = () => {
                         />
                     </Stack>
                     <TextField
+                        aria-labelledby={frequencyLabelId}
                         type="number"
                         min={MIN_INGESTION_FREQUENCY_IN_SEC}
                         value={selectedFrequency.toString()}

@@ -65,9 +65,3 @@ export interface IADXConnection {
 export interface IPIDDocument {
     pidUrl: string;
 }
-
-export interface IReactSelectOption {
-    value: string;
-    label: string;
-    __isNew__?: boolean;
-}
