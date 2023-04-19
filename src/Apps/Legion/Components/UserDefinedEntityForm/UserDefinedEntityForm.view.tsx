@@ -13,7 +13,10 @@ import {
     TextField
 } from '@fluentui/react';
 import { useExtendedTheme } from '../../../../Models/Hooks/useExtendedTheme';
-import { getDebugLogger } from '../../../../Models/Services/Utils';
+import {
+    getDebugLogger,
+    sortAscendingOrDescending
+} from '../../../../Models/Services/Utils';
 import {
     IUserDefinedEntityFormStyleProps,
     IUserDefinedEntityFormStyles,
@@ -26,7 +29,7 @@ import {
     WIZARD_GRAPH_NODE_COLOR_OPTIONS,
     WIZARD_GRAPH_NODE_ICON_OPTIONS
 } from '../../Models/Constants';
-import { IViewEntity, IViewRelationship, IViewType } from '../../Models';
+import { IViewEntity, IViewRelationshipType, IViewType } from '../../Models';
 import { IReactSelectOption } from '../../Models/Types';
 import { getReactSelectStyles } from '../../../../Resources/Styles/ReactSelect.styles';
 
@@ -65,11 +68,13 @@ const LOC_KEYS = {
 
 const getParentTypeOptions = (types: IViewType[]): IReactSelectOption[] => {
     return (
-        types?.map((x) => ({
-            value: x.id,
-            label: x.friendlyName,
-            __isNew__: false
-        })) ?? []
+        types
+            ?.map((x) => ({
+                value: x.id,
+                label: x.friendlyName,
+                __isNew__: false
+            }))
+            .sort(sortAscendingOrDescending('label')) ?? []
     );
 };
 
@@ -77,20 +82,23 @@ const getExistingEntityOptions = (
     entities: IViewEntity[]
 ): IDropdownOption<IViewEntity>[] => {
     return (
-        entities?.map((x) => ({ key: x.id, text: x.friendlyName, data: x })) ??
-        []
+        entities
+            ?.map((x) => ({ key: x.id, text: x.friendlyName, data: x }))
+            .sort(sortAscendingOrDescending('text')) ?? []
     );
 };
 
 const getExistingRelationshipOptions = (
-    relationships: IViewRelationship[]
+    relationships: IViewRelationshipType[]
 ): IReactSelectOption[] => {
     return (
-        relationships?.map((x) => ({
-            value: x.id,
-            label: x.type.name,
-            __isNew__: false
-        })) ?? []
+        relationships
+            ?.map((x) => ({
+                value: x.id,
+                label: x.name,
+                __isNew__: false
+            }))
+            .sort(sortAscendingOrDescending('label')) ?? []
     );
 };
 
@@ -99,7 +107,7 @@ const UserDefinedEntityFormView: React.FC<IUserDefinedEntityFormViewProps> = (
 ) => {
     const {
         existingEntities,
-        existingRelationships,
+        existingRelationshipTypes,
         existingTypes,
         formMode,
         onFormChange,
@@ -110,7 +118,7 @@ const UserDefinedEntityFormView: React.FC<IUserDefinedEntityFormViewProps> = (
     // SHARED STATE
     const [relationshipNameOptions, setRelationshipNameOptions] = useState<
         IReactSelectOption[]
-    >(getExistingRelationshipOptions(existingRelationships));
+    >(getExistingRelationshipOptions(existingRelationshipTypes));
 
     // NEW ENTITY STATE
     const [
@@ -198,9 +206,9 @@ const UserDefinedEntityFormView: React.FC<IUserDefinedEntityFormViewProps> = (
     }, [existingEntities]);
     useEffect(() => {
         setRelationshipNameOptions(
-            getExistingRelationshipOptions(existingRelationships)
+            getExistingRelationshipOptions(existingRelationshipTypes)
         );
-    }, [existingRelationships]);
+    }, [existingRelationshipTypes]);
 
     // notify parent when changes are made whether form is valid
     useEffect(() => {
@@ -281,7 +289,7 @@ const UserDefinedEntityFormView: React.FC<IUserDefinedEntityFormViewProps> = (
                     <CreatableSelect
                         aria-aria-labelledby={'parentTypeLabel'}
                         onChange={onParentTypeChange}
-                        options={relationshipNameOptions}
+                        options={parentTypeOptions}
                         placeholder={t(LOC_KEYS.parentTypeFieldPlaceholder)}
                         styles={selectStyles}
                         value={selectedParentType}
@@ -339,6 +347,7 @@ const UserDefinedEntityFormView: React.FC<IUserDefinedEntityFormViewProps> = (
         onNewEntityRelationshipChange,
         onParentTypeChange,
         parentEntityNameValue,
+        parentTypeOptions,
         relationshipNameOptions,
         selectStyles,
         selectedColor,

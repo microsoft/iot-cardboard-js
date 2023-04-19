@@ -4,10 +4,11 @@ import {
     useWizardDataStateContext
 } from '../Contexts/WizardDataContext/WizardDataContext';
 import { WizardDataContextActionType } from '../Contexts/WizardDataContext/WizardDataContext.types';
-import { IViewRelationship } from '../Models';
+import { IViewRelationship, IViewRelationshipType } from '../Models';
 import {
     convertViewRelationshipToDb,
     convertDbRelationshipToView,
+    convertDbRelationshipTypeToView,
     convertViewRelationshipTypeToDb
 } from '../Services/WizardTypes.utils';
 import { getDebugLogger } from '../../../Models/Services/Utils';
@@ -90,10 +91,19 @@ export const useRelationships = () => {
             ),
         [wizardDataState]
     );
+    const relationshipTypes: IViewRelationshipType[] = useMemo(
+        () =>
+            wizardDataState.relationshipTypes.map((x) =>
+                convertDbRelationshipTypeToView(x)
+            ),
+        [wizardDataState]
+    );
 
-    return {
+    const data = {
         /** the current list of relationships in the state */
         relationships: relationships,
+        /** the list of unique relationship types */
+        relationshipTypes: relationshipTypes,
         /**
          * Callback to add a relationship to the state
          * NOTE: this is not a deep add. It will only add the root level element
@@ -110,4 +120,5 @@ export const useRelationships = () => {
          */
         deleteRelationship: deleteRelationship
     };
+    return data;
 };

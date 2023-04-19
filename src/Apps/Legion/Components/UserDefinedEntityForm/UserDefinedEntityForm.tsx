@@ -45,7 +45,7 @@ const UserDefinedEntityForm: React.FC<IUserDefinedEntityFormProps> = (
 
     // hooks
     const { t } = useTranslation();
-    const { relationships } = useRelationships();
+    const { relationshipTypes } = useRelationships();
     const { types } = useTypes();
     const { entities } = useEntities();
 
@@ -115,7 +115,7 @@ const UserDefinedEntityForm: React.FC<IUserDefinedEntityFormProps> = (
             <UserDefinedEntityFormView
                 existingEntities={entities}
                 existingTypes={types}
-                existingRelationships={relationships}
+                existingRelationshipTypes={relationshipTypes}
                 formMode={formMode}
                 onFormChange={onFormChange}
             />

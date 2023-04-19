@@ -460,7 +460,7 @@ const setDairyData = (data: IWizardDataContextState) => {
         name: 'References'
     });
     const relTypeContains = getMockRelationshipType({
-        name: 'References'
+        name: 'Contains'
     });
     data.relationshipTypes = [relTypeReference, relTypeContains];
 
