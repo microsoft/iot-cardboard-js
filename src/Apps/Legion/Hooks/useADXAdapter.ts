@@ -1,8 +1,7 @@
 import { useContext, useMemo } from 'react';
 import MockDataManagementAdapter from '../Adapters/Standalone/DataManagement/MockDataManagementAdapter';
-import { IWizardDataManagementContext } from '../Contexts/WizardDataManagementContext/WizardDataManagementContext.types';
-import { IDataPusherContext } from '../Components/DataPusher/DataPusher.types';
 import { IDataManagementAdapter } from '../Adapters/Standalone/DataManagement/Models/DataManagementAdapter.types';
+import { ADXAdapterTargetContext } from '../Models/Types';
 
 /**
  * This hook is used to grab an adapter from context provided or returns the mock adapter of that kind if provided
@@ -10,7 +9,7 @@ import { IDataManagementAdapter } from '../Adapters/Standalone/DataManagement/Mo
  * @returns adapter IDataManagementAdapter class
  */
 export const useADXAdapter = (
-    context: React.Context<IWizardDataManagementContext | IDataPusherContext>
+    context: React.Context<ADXAdapterTargetContext>
 ): IDataManagementAdapter => {
     const contextValue = useContext(context);
     return useMemo(() => {
