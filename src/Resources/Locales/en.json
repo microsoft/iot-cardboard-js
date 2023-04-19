@@ -1540,8 +1540,6 @@
         "StoreListPage": {
             "title": "Welcome to the future",
             "createStoreButtonText": "Add data store",
-            "clusterLabel": "Target cluster url",
-            "databaseLabel": "Target database",
             "Modal": {
                 "title": "Add a new data store"
             }

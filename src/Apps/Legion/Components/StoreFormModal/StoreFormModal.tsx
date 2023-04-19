@@ -89,12 +89,13 @@ const StoreFormModal: React.FC<IStoreFormModalProps> = (props) => {
             <ClusterPicker
                 selectedClusterUrl={databaseConnection.clusterUrl}
                 onClusterUrlChange={handleClusterUrlChange}
-                label={t('legionApp.StoreListPage.clusterLabel')}
+                label={t('legionApp.Common.clusterLabel')}
             />
             <DatabasePicker
                 selectedDatabaseName={databaseConnection.databaseName}
                 onDatabaseNameChange={handleDatabaseNameChange}
-                label={t('legionApp.StoreListPage.databaseLabel')}
+                label={t('legionApp.Common.databaseLabel')}
+                placeholder={t('legionApp.Common.databasePlaceholder')}
             />
         </CardboardModal>
     );
