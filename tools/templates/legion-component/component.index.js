@@ -1,5 +1,6 @@
 module.exports = (componentName) => ({
-    content: `export * from './${componentName}';
+    content: `import ${componentName} from './${componentName}';
+    export default ${componentName};
     export * from './${componentName}.types';
     
 `,
