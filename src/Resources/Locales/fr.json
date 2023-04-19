@@ -1597,7 +1597,8 @@
       "tableLabel": "Table",
       "tableIdColumnLabel": "Champ ID",
       "urlLabel": "URL",
-      "urlPlaceholder": "Entrez l’URL"
+      "urlPlaceholder": "Entrez l’URL",
+      "addOptionFormat": "Ajouter '{{item}}'"
     },
     "StoreListPage": {
       "title": "Bienvenue dans le futur",

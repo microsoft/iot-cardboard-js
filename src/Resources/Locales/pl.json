@@ -1597,7 +1597,8 @@
       "tableLabel": "Stół",
       "tableIdColumnLabel": "Pole identyfikatora",
       "urlLabel": "Adres URL",
-      "urlPlaceholder": "Wpisz adres URL"
+      "urlPlaceholder": "Wpisz adres URL",
+      "addOptionFormat": "Dodaj '{{item}}'"
     },
     "StoreListPage": {
       "title": "Witamy w przyszłości",

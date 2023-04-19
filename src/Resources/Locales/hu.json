@@ -1597,7 +1597,8 @@
       "tableLabel": "Asztal",
       "tableIdColumnLabel": "Azonosító mező",
       "urlLabel": "URL",
-      "urlPlaceholder": "Adja meg az URL-címet"
+      "urlPlaceholder": "Adja meg az URL-címet",
+      "addOptionFormat": "Add hozzá a következőt: '{{item}}'"
     },
     "StoreListPage": {
       "title": "Üdvözöljük a jövőben",

@@ -1597,7 +1597,8 @@
       "tableLabel": "テーブル",
       "tableIdColumnLabel": "ID フィールド",
       "urlLabel": "リンク",
-      "urlPlaceholder": "URLを入力"
+      "urlPlaceholder": "URLを入力",
+      "addOptionFormat": "'{{アイテム}}' を追加"
     },
     "StoreListPage": {
       "title": "未来へようこそ",

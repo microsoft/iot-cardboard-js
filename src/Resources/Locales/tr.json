@@ -1597,7 +1597,8 @@
       "tableLabel": "Masa",
       "tableIdColumnLabel": "Kimlik alanı",
       "urlLabel": "URL",
-      "urlPlaceholder": "URL girin"
+      "urlPlaceholder": "URL girin",
+      "addOptionFormat": "'{{item}}' ekleyin"
     },
     "StoreListPage": {
       "title": "Geleceğe hoş geldiniz",

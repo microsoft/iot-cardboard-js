@@ -1597,7 +1597,8 @@
       "tableLabel": "Bord",
       "tableIdColumnLabel": "ID-fält",
       "urlLabel": "URL",
-      "urlPlaceholder": "Ange URL"
+      "urlPlaceholder": "Ange URL",
+      "addOptionFormat": "Lägg till '{{item}}'"
     },
     "StoreListPage": {
       "title": "Välkommen till framtiden",

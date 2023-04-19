@@ -1597,7 +1597,8 @@
       "tableLabel": "Tafel",
       "tableIdColumnLabel": "Id-veld",
       "urlLabel": "Url",
-      "urlPlaceholder": "Voer de URL in"
+      "urlPlaceholder": "Voer de URL in",
+      "addOptionFormat": "Voeg '{{item}}' toe"
     },
     "StoreListPage": {
       "title": "Welkom in de toekomst",
