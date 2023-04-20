@@ -1,7 +1,6 @@
 import { useContext, useMemo } from 'react';
 import MockDataManagementAdapter from '../Adapters/Standalone/DataManagement/MockDataManagementAdapter';
 import { IDataManagementAdapter } from '../Adapters/Standalone/DataManagement/Models/DataManagementAdapter.types';
-import { WizardDataManagementContext } from '../Contexts/WizardDataManagementContext/WizardDataManagementContext';
 import { IADXAdapterTargetContext } from '../Models/Interfaces';
 
 /**
@@ -20,5 +19,3 @@ export const useADXAdapter = <T extends IADXAdapterTargetContext>(
         return contextValue?.adapter || new MockDataManagementAdapter();
     }, [contextValue]);
 };
-
-useADXAdapter(WizardDataManagementContext);
