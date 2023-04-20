@@ -1104,7 +1104,15 @@
       "3dAssetLoadingGenericErrorMessage": "모델을 로드하는 중 오류가 발생했습니다. 캐시를 지우고 다시 시도하거나 해당 파일에 대한 액세스 권한을 확인하십시오.",
       "3dAssetDimensionError": "모델 치수에 문제가있을 수 있으므로 잘못된 메쉬가 없는지 확인하십시오."
     },
-    "missingPermissionsMessage": "사용 권한이 누락되었습니다. 최소한 읽기 권한자로, 저장소 Blob 데이터 소유자 또는 저장소 Blob 데이터 기여자로 액세스해야 합니다."
+    "missingPermissionsMessage": "사용 권한이 누락되었습니다. 최소한 읽기 권한자로, 저장소 Blob 데이터 소유자 또는 저장소 Blob 데이터 기여자로 액세스해야 합니다.",
+    "networkErrorMessage": "CORS 문제, 잘못된 URL 또는 네트워크 오류일 수 있습니다. 리소스 소유자에게 문의하거나 나중에 다시 시도하세요.",
+    "networkErrorTitle": "연결 오류",
+    "applyUpdates": "업데이트 적용",
+    "setCorsPropertiesNotAuthorizedMessage": "이 변경을 수행하기 위해 저장소 계정에 액세스할 수 없습니다. 리소스 소유자에게 문의하여 스토리지 계정의 CORS 설정에 필요한 변경을 수행하세요.",
+    "availableCorsUpdateTitle": "CORS 업데이트 사용 가능",
+    "availableCorsUpdateMessage": "CORS에서 3D 장면을 사용할 수 있도록 저장소 계정에서 업데이트해야 하는 몇 가지 속성이 있습니다.",
+    "requiredCorsUpdateTitle": "CORS 업데이트 필요",
+    "requiredCorsUpdateMessage": "3D 장면을 계속 사용하려면 스토리지 계정에서 업데이트해야 하는 몇 가지 CORS 규칙이 있습니다. 리소스 소유자에게 문의하여 해당 규칙을 추가하세요."
   },
   "fieldRequired": "이 필드는 필수입니다.",
   "OATGraphViewer": {
@@ -1533,99 +1541,5 @@
   "jobs": {
     "addNew": "새로 추가"
   },
-  "legionApp": {
-    "dataPusher": {
-      "simulationType": "시뮬레이션 유형",
-      "progress": {
-        "createTable": "테이블 생성 중...",
-        "createTables": "테이블 만들기...",
-        "ingest": "복용...",
-        "createDatabase": "데이터베이스 작성 중..."
-      },
-      "selectSimulationType": "시뮬레이션 유형 선택",
-      "tabs": {
-        "setup": "설치",
-        "ingest": "섭취",
-        "cook": "요리사"
-      },
-      "source": {
-        "database": "원본 데이터베이스",
-        "selectDatabase": "원본 데이터베이스 선택",
-        "table": "원본 테이블",
-        "selectTable": "원본 테이블 선택",
-        "tableType": "원본 테이블 형식",
-        "selectTableType": "원본 테이블 유형 선택",
-        "twinIDProperty": "원본 쌍 ID 속성",
-        "selectTwinIDProperty": "원본 쌍 ID 속성 선택",
-        "type": "소스 유형",
-        "typePlaceholder": "소스 유형 선택"
-      },
-      "target": {
-        "database": "대상 데이터베이스",
-        "selectDatabase": "대상 데이터베이스 선택"
-      },
-      "actions": {
-        "ingest": "원본 테이블에 데이터 수집",
-        "cook": "쌍둥이 그래프 쿡",
-        "pushTwinsGraph": "쌍 그래프를 대상 데이터베이스로 푸시"
-      },
-      "title": "데이터 푸셔"
-    },
-    "verificationStep": {
-      "title": "검색된 쌍둥이 확인",
-      "models": "모델",
-      "twins": "쌍둥이자리",
-      "properties": "속성"
-    },
-    "StoreListPage": {
-      "title": "미래에 오신 것을 환영합니다",
-      "createStoreButtonText": "데이터 저장소 추가",
-      "Modal": {
-        "title": "새 데이터 저장소 추가"
-      }
-    },
-<<<<<<< HEAD
-    "GraphVisualizer": {
-      "ContextMenu": {
-        "addParentLabel": "부모 추가"
-      },
-      "ParentForm": {
-        "formTitle": "부모 추가"
-      }
-    },
-    "UserDefinedEntityForm": {
-      "formTitle": "부모 관계 추가",
-      "actionButtonText": "확인하다",
-      "optionNew": "새 엔터티",
-      "optionExisting": "기존 법인",
-      "Form": {
-        "nameFieldLabel": "부모 엔터티 이름",
-        "nameFieldPlaceholder": "부모 엔티티 이름 입력",
-        "parentTypeFieldLabel": "부모 유형",
-        "parentTypeFieldPlaceholder": "부모의 유형을 선택합니다",
-        "colorFieldLabel": "색",
-        "iconFieldLabel": "아이콘",
-        "parentEntityNameFieldLabel": "부모 엔터티 이름",
-        "parentEntityNameFieldPlaceholder": "부모 엔터티의 이름을 입력합니다",
-        "relationshipNameFieldLabel": "관계 이름",
-        "relationshipNameFieldPlaceholder": "관계 이름 선택 또는 만들기",
-        "existingEntityFieldPlaceholder": "기존 엔터티 선택"
-      }
-=======
-    "dataSourceStep": {
-      "infoText": "원본 테이블 또는 엔지니어링 다이어그램에서 새 트윈 만들기Create new twins from a source table or engineering diagram"
-    },
-    "Common": {
-      "clusterLabel": "클러스터 URL",
-      "clusterPlaceholder": "클러스터 URL 선택",
-      "databaseLabel": "데이터베이스",
-      "databasePlaceholder": "데이터베이스 선택",
-      "tableLabel": "테이블",
-      "tableIdColumnLabel": "ID 필드",
-      "urlLabel": "URL (영문)",
-      "urlPlaceholder": "URL 입력",
-      "addOptionFormat": "'{{item}}' 추가"
->>>>>>> origin/feature-Legion
-    }
-  }
+  "dismiss": "해고하다"
 }

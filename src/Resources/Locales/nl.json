@@ -1104,7 +1104,15 @@
       "3dAssetLoadingGenericErrorMessage": "Fout bij het laden van model. Probeer de cache te wissen en probeer het opnieuw of controleer uw toegang voor dat bestand.",
       "3dAssetDimensionError": "Er kan een probleem zijn met de afmetingen van uw model, controleer of er geen foutieve mazen zijn."
     },
-    "missingPermissionsMessage": "U hebt ontbrekende machtigingen. U hebt toegang nodig als lezer (minimaal) en opslag-blobgegevenseigenaar of opslag-blobgegevensbijdrager."
+    "missingPermissionsMessage": "U hebt ontbrekende machtigingen. U hebt toegang nodig als lezer (minimaal) en opslag-blobgegevenseigenaar of opslag-blobgegevensbijdrager.",
+    "networkErrorMessage": "Dit kan een CORS-probleem, ongeldige URL of een netwerkfout zijn. Neem contact op met de eigenaar van de bron of probeer het later opnieuw.",
+    "networkErrorTitle": "Verbindingsfout",
+    "applyUpdates": "Updates toepassen",
+    "setCorsPropertiesNotAuthorizedMessage": "U hebt geen toegang tot het opslagaccount om deze wijziging aan te brengen. Neem contact op met de eigenaar van de bron om de vereiste wijzigingen aan te brengen in de CORS-instellingen van het opslagaccount.",
+    "availableCorsUpdateTitle": "CORS-update beschikbaar",
+    "availableCorsUpdateMessage": "Er zijn enkele eigenschappen die moeten worden bijgewerkt in uw opslagaccount om 3D-scènes met CORS te kunnen gebruiken.",
+    "requiredCorsUpdateTitle": "CORS-update vereist",
+    "requiredCorsUpdateMessage": "Om 3D-scènes te blijven gebruiken, zijn er enkele CORS-regels die moeten worden bijgewerkt op uw opslagaccount. Neem contact op met de eigenaar van de bron om deze regels toe te voegen."
   },
   "fieldRequired": "Dit veld is verplicht",
   "OATGraphViewer": {
@@ -1533,99 +1541,5 @@
   "jobs": {
     "addNew": "Nieuwe toevoegen"
   },
-  "legionApp": {
-    "dataPusher": {
-      "simulationType": "Simulatie type",
-      "progress": {
-        "createTable": "Tabel maken...",
-        "createTables": "Tabellen maken...",
-        "ingest": "Inname...",
-        "createDatabase": "Database maken..."
-      },
-      "selectSimulationType": "Selecteer simulatietype",
-      "tabs": {
-        "setup": "Setup",
-        "ingest": "Inslikken",
-        "cook": "Koken"
-      },
-      "source": {
-        "database": "Brondatabase",
-        "selectDatabase": "Selecteer brondatabase",
-        "table": "Brontabel",
-        "selectTable": "Brontabel selecteren",
-        "tableType": "Type brontabel",
-        "selectTableType": "Type brontabel selecteren",
-        "twinIDProperty": "Eigenschap Source twin ID",
-        "selectTwinIDProperty": "Eigenschap brontwee-ID selecteren",
-        "type": "Brontype",
-        "typePlaceholder": "Selecteer brontype"
-      },
-      "target": {
-        "database": "Doeldatabase",
-        "selectDatabase": "Selecteer doeldatabase"
-      },
-      "actions": {
-        "ingest": "Gegevens opnemen in de brontabel",
-        "cook": "Cook twins grafiek",
-        "pushTwinsGraph": "Push twins graph naar doeldatabase"
-      },
-      "title": "Data pusher |"
-    },
-    "verificationStep": {
-      "title": "Geverifieerde tweelingen verifiëren",
-      "models": "Modellen",
-      "twins": "Tweeling",
-      "properties": "Eigenschappen"
-    },
-    "StoreListPage": {
-      "title": "Welkom in de toekomst",
-      "createStoreButtonText": "Gegevensarchief toevoegen",
-      "Modal": {
-        "title": "Een nieuw gegevensarchief toevoegen"
-      }
-    },
-<<<<<<< HEAD
-    "GraphVisualizer": {
-      "ContextMenu": {
-        "addParentLabel": "Bovenliggend element toevoegen"
-      },
-      "ParentForm": {
-        "formTitle": "Ouder toevoegen"
-      }
-    },
-    "UserDefinedEntityForm": {
-      "formTitle": "Bovenliggende relatie toevoegen",
-      "actionButtonText": "Bevestigen",
-      "optionNew": "Nieuwe entiteit",
-      "optionExisting": "Bestaande entiteit",
-      "Form": {
-        "nameFieldLabel": "Naam van bovenliggende entiteit",
-        "nameFieldPlaceholder": "Voer de naam van de bovenliggende entiteit in",
-        "parentTypeFieldLabel": "Hoofdtype",
-        "parentTypeFieldPlaceholder": "Selecteer een type voor de bovenliggende persoon",
-        "colorFieldLabel": "Kleur",
-        "iconFieldLabel": "Pictogram",
-        "parentEntityNameFieldLabel": "Naam van bovenliggende entiteit",
-        "parentEntityNameFieldPlaceholder": "Voer een naam in voor de bovenliggende entiteit",
-        "relationshipNameFieldLabel": "Naam van de relatie",
-        "relationshipNameFieldPlaceholder": "Een relatienaam selecteren of maken",
-        "existingEntityFieldPlaceholder": "Een bestaande entiteit selecteren"
-      }
-=======
-    "dataSourceStep": {
-      "infoText": "Nieuwe tweelingen maken op basis van een brontabel of engineeringdiagram"
-    },
-    "Common": {
-      "clusterLabel": "Cluster-URL",
-      "clusterPlaceholder": "Cluster-URL selecteren",
-      "databaseLabel": "Databank",
-      "databasePlaceholder": "Selecteer database",
-      "tableLabel": "Tafel",
-      "tableIdColumnLabel": "Id-veld",
-      "urlLabel": "Url",
-      "urlPlaceholder": "Voer de URL in",
-      "addOptionFormat": "Voeg '{{item}}' toe"
->>>>>>> origin/feature-Legion
-    }
-  }
+  "dismiss": "Ontslaan"
 }

@@ -1104,7 +1104,15 @@
       "3dAssetLoadingGenericErrorMessage": "Hiba történt a modell betöltésekor. Próbálja meg törölni a gyorsítótárat, és próbálkozzon újra, vagy ellenőrizze a fájlhoz való hozzáférést.",
       "3dAssetDimensionError": "Probléma lehet a modell méreteivel, kérjük, ellenőrizze, hogy nincsenek-e hibás hálók."
     },
-    "missingPermissionsMessage": "Hiányzó engedélyekkel rendelkezik. Olvasóként (legalább) és Storage Blob Data Contributorként kell hozzáférnie, és Storage Blob Data Contributorként kell hozzáférnie."
+    "missingPermissionsMessage": "Hiányzó engedélyekkel rendelkezik. Olvasóként (legalább) és Storage Blob Data Contributorként kell hozzáférnie, és Storage Blob Data Contributorként kell hozzáférnie.",
+    "networkErrorMessage": "Ez lehet CORS-probléma, érvénytelen URL vagy hálózati hiba. Lépjen kapcsolatba az erőforrás tulajdonosával, vagy próbálkozzon újra később.",
+    "networkErrorTitle": "Csatlakozási hiba",
+    "applyUpdates": "Frissítések alkalmazása",
+    "setCorsPropertiesNotAuthorizedMessage": "A módosításhoz nincs hozzáférése a tárfiókhoz. Lépjen kapcsolatba az erőforrás tulajdonosával a tárfiók CORS-beállításainak szükséges módosításainak elvégzéséhez.",
+    "availableCorsUpdateTitle": "CORS-frissítés érhető el",
+    "availableCorsUpdateMessage": "Vannak olyan tulajdonságok, amelyeket frissíteni kell a tárfiókban, hogy 3D-jeleneteket használhasson a CORS-szal.",
+    "requiredCorsUpdateTitle": "CORS-frissítés szükséges",
+    "requiredCorsUpdateMessage": "A 3D-jelenetek használatának folytatása érdekében néhány CORS-szabályt frissíteni kell a tárfiókban. A szabályok hozzáadásához lépjen kapcsolatba az erőforrás tulajdonosával."
   },
   "fieldRequired": "A mező kitöltése kötelező",
   "OATGraphViewer": {
@@ -1533,99 +1541,5 @@
   "jobs": {
     "addNew": "Új hozzáadása"
   },
-  "legionApp": {
-    "dataPusher": {
-      "simulationType": "Szimuláció típusa",
-      "progress": {
-        "createTable": "Táblázat létrehozása...",
-        "createTables": "Táblázatok létrehozása...",
-        "ingest": "Fogyasztásából...",
-        "createDatabase": "Adatbázis létrehozása..."
-      },
-      "selectSimulationType": "Válassza ki a szimuláció típusát",
-      "tabs": {
-        "setup": "Beállít",
-        "ingest": "Bevesz",
-        "cook": "Szakács"
-      },
-      "source": {
-        "database": "Forrás-adatbázis",
-        "selectDatabase": "Válassza ki a forrásadatbázist",
-        "table": "Forrástábla",
-        "selectTable": "Válassza ki a forrástáblát",
-        "tableType": "Forrástábla típusa",
-        "selectTableType": "Válassza ki a forrástábla típusát",
-        "twinIDProperty": "Forrás ikerazonosító tulajdonsága",
-        "selectTwinIDProperty": "Válassza ki az ikereszköz-azonosító tulajdonságot",
-        "type": "Forrás típusa",
-        "typePlaceholder": "Válassza ki a forrás típusát"
-      },
-      "target": {
-        "database": "Céladatbázis",
-        "selectDatabase": "Céladatbázis kiválasztása"
-      },
-      "actions": {
-        "ingest": "Adatok betöltése forrástáblába",
-        "cook": "Ikrek főzési grafikonja",
-        "pushTwinsGraph": "Ikereszközök gráfjának leküldése a céladatbázisba"
-      },
-      "title": "Adatleküldő"
-    },
-    "verificationStep": {
-      "title": "Felderített ikrek ellenőrzése",
-      "models": "Modellek",
-      "twins": "Ikrek",
-      "properties": "Kellékek"
-    },
-    "StoreListPage": {
-      "title": "Üdvözöljük a jövőben",
-      "createStoreButtonText": "Adattár hozzáadása",
-      "Modal": {
-        "title": "Új adattár hozzáadása"
-      }
-    },
-<<<<<<< HEAD
-    "GraphVisualizer": {
-      "ContextMenu": {
-        "addParentLabel": "Szülő hozzáadása"
-      },
-      "ParentForm": {
-        "formTitle": "Szülő hozzáadása"
-      }
-    },
-    "UserDefinedEntityForm": {
-      "formTitle": "Szülői kapcsolat hozzáadása",
-      "actionButtonText": "Megerősít",
-      "optionNew": "Új entitás",
-      "optionExisting": "Meglévő entitás",
-      "Form": {
-        "nameFieldLabel": "Fölérendelt entitás neve",
-        "nameFieldPlaceholder": "Adja meg a fölérendelt entitás nevét",
-        "parentTypeFieldLabel": "Szülő típusa",
-        "parentTypeFieldPlaceholder": "Válassza ki a szülő típusát",
-        "colorFieldLabel": "Szín",
-        "iconFieldLabel": "Ikon",
-        "parentEntityNameFieldLabel": "Fölérendelt entitás neve",
-        "parentEntityNameFieldPlaceholder": "Adja meg a fölérendelt entitás nevét",
-        "relationshipNameFieldLabel": "Kapcsolat neve",
-        "relationshipNameFieldPlaceholder": "Kapcsolatnév kijelölése vagy létrehozása",
-        "existingEntityFieldPlaceholder": "Válasszon ki egy meglévő entitást"
-      }
-=======
-    "dataSourceStep": {
-      "infoText": "Új ikereszközök létrehozása forrástáblából vagy mérnöki diagramból"
-    },
-    "Common": {
-      "clusterLabel": "Fürt URL-címe",
-      "clusterPlaceholder": "Fürt URL-címének kiválasztása",
-      "databaseLabel": "Adatbázis",
-      "databasePlaceholder": "Adatbázis kiválasztása",
-      "tableLabel": "Asztal",
-      "tableIdColumnLabel": "Azonosító mező",
-      "urlLabel": "URL",
-      "urlPlaceholder": "Adja meg az URL-címet",
-      "addOptionFormat": "Add hozzá a következőt: '{{item}}'"
->>>>>>> origin/feature-Legion
-    }
-  }
+  "dismiss": "Elbocsát"
 }

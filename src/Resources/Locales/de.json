@@ -1104,7 +1104,15 @@
       "3dAssetLoadingGenericErrorMessage": "Fehler beim Laden des Modells. Versuchen Sie, den Cache zu leeren, und versuchen Sie es erneut, oder überprüfen Sie Ihren Zugriff auf diese Datei.",
       "3dAssetDimensionError": "Möglicherweise liegt ein Problem mit den Abmessungen Ihres Modells vor, bitte überprüfen Sie, ob keine fehlerhaften Netze vorhanden sind."
     },
-    "missingPermissionsMessage": "Sie haben fehlende Berechtigungen. Sie benötigen Zugriff als Reader (mindestens) und entweder als Storage Blob Data Owner oder Storage Blob Data Contributor."
+    "missingPermissionsMessage": "Sie haben fehlende Berechtigungen. Sie benötigen Zugriff als Reader (mindestens) und entweder als Storage Blob Data Owner oder Storage Blob Data Contributor.",
+    "networkErrorMessage": "Dies kann ein CORS-Problem, eine ungültige URL oder ein Netzwerkfehler sein. Wenden Sie sich an den Besitzer der Ressource oder versuchen Sie es später erneut.",
+    "networkErrorTitle": "Verbindungsfehler",
+    "applyUpdates": "Anwenden von Updates",
+    "setCorsPropertiesNotAuthorizedMessage": "Sie haben keinen Zugriff auf das Speicherkonto, um diese Änderung vorzunehmen. Wenden Sie sich an den Ressourcenbesitzer, um die erforderlichen Änderungen an den CORS-Einstellungen des Speicherkontos vorzunehmen.",
+    "availableCorsUpdateTitle": "CORS-Update verfügbar",
+    "availableCorsUpdateMessage": "Es gibt einige Eigenschaften, die in Ihrem Speicherkonto aktualisiert werden müssen, um 3D-Szenen mit CORS verwenden zu können.",
+    "requiredCorsUpdateTitle": "CORS-Aktualisierung erforderlich",
+    "requiredCorsUpdateMessage": "Um weiterhin 3D-Szenen verwenden zu können, gibt es einige CORS-Regeln, die in Ihrem Speicherkonto aktualisiert werden müssen. Wenden Sie sich an den Ressourcenbesitzer, um diese Regeln hinzuzufügen."
   },
   "fieldRequired": "Dieses Feld ist ein Pflichtfeld",
   "OATGraphViewer": {
@@ -1533,99 +1541,5 @@
   "jobs": {
     "addNew": "Neu hinzufügen"
   },
-  "legionApp": {
-    "dataPusher": {
-      "simulationType": "Art der Simulation",
-      "progress": {
-        "createTable": "Tabelle wird erstellt...",
-        "createTables": "Erstellen von Tabellen...",
-        "ingest": "Aufnehmend...",
-        "createDatabase": "Datenbank wird erstellt..."
-      },
-      "selectSimulationType": "Auswählen des Simulationstyps",
-      "tabs": {
-        "setup": "Einrichtung",
-        "ingest": "Aufnehmen",
-        "cook": "Kochen"
-      },
-      "source": {
-        "database": "Quelldatenbank",
-        "selectDatabase": "Quelldatenbank auswählen",
-        "table": "Quelltabelle",
-        "selectTable": "Quelltabelle auswählen",
-        "tableType": "Typ der Quelltabelle",
-        "selectTableType": "Auswählen des Quelltabellentyps",
-        "twinIDProperty": "Quell-Zwillings-ID-Eigenschaft",
-        "selectTwinIDProperty": "Quell-Zwillings-ID-Eigenschaft auswählen",
-        "type": "Art der Quelle",
-        "typePlaceholder": "Wählen Sie den Quelltyp"
-      },
-      "target": {
-        "database": "Zieldatenbank",
-        "selectDatabase": "Zieldatenbank auswählen"
-      },
-      "actions": {
-        "ingest": "Erfassen von Daten in der Quelltabelle",
-        "cook": "Cook-Zwillings-Diagramm",
-        "pushTwinsGraph": "Übertragen des Zwillingsdiagramms in die Zieldatenbank"
-      },
-      "title": "Daten-Pusher"
-    },
-    "verificationStep": {
-      "title": "Erkannte Zwillinge verifizieren",
-      "models": "Modelle",
-      "twins": "Zwillinge",
-      "properties": "Eigenschaften"
-    },
-    "StoreListPage": {
-      "title": "Willkommen in der Zukunft",
-      "createStoreButtonText": "Hinzufügen eines Datenspeichers",
-      "Modal": {
-        "title": "Hinzufügen eines neuen Datenspeichers"
-      }
-    },
-<<<<<<< HEAD
-    "GraphVisualizer": {
-      "ContextMenu": {
-        "addParentLabel": "Übergeordnetes Element hinzufügen"
-      },
-      "ParentForm": {
-        "formTitle": "Übergeordnetes Element hinzufügen"
-      }
-    },
-    "UserDefinedEntityForm": {
-      "formTitle": "Übergeordnete Beziehung hinzufügen",
-      "actionButtonText": "Bestätigen",
-      "optionNew": "Neue Entität",
-      "optionExisting": "Bestehende Entität",
-      "Form": {
-        "nameFieldLabel": "Name der übergeordneten Entität",
-        "nameFieldPlaceholder": "Geben Sie den Namen der übergeordneten Entität ein",
-        "parentTypeFieldLabel": "Übergeordneter Typ",
-        "parentTypeFieldPlaceholder": "Wählen Sie einen Typ für das übergeordnete Element aus",
-        "colorFieldLabel": "Farbe",
-        "iconFieldLabel": "Ikone",
-        "parentEntityNameFieldLabel": "Name der übergeordneten Entität",
-        "parentEntityNameFieldPlaceholder": "Geben Sie einen Namen für die übergeordnete Entität ein",
-        "relationshipNameFieldLabel": "Name der Beziehung",
-        "relationshipNameFieldPlaceholder": "Auswählen oder Erstellen eines Beziehungsnamens",
-        "existingEntityFieldPlaceholder": "Wählen Sie eine vorhandene Entität aus"
-      }
-=======
-    "dataSourceStep": {
-      "infoText": "Erstellen neuer Zwillinge aus einer Quelltabelle oder einem Konstruktionsdiagramm"
-    },
-    "Common": {
-      "clusterLabel": "Cluster-URL",
-      "clusterPlaceholder": "Wählen Sie die Cluster-URL aus",
-      "databaseLabel": "Datenbank",
-      "databasePlaceholder": "Datenbank auswählen",
-      "tableLabel": "Tisch",
-      "tableIdColumnLabel": "ID-Feld",
-      "urlLabel": "Internetadresse:",
-      "urlPlaceholder": "URL eingeben",
-      "addOptionFormat": "Fügen Sie '{{item}}' hinzu"
->>>>>>> origin/feature-Legion
-    }
-  }
+  "dismiss": "Entlassen"
 }

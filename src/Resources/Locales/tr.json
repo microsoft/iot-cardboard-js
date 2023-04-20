@@ -1104,7 +1104,15 @@
       "3dAssetLoadingGenericErrorMessage": "Model yüklenirken hata oluştu. Önbelleğinizi temizlemeyi deneyin ve yeniden deneyin veya bu dosya için erişiminizi denetleyin.",
       "3dAssetDimensionError": "Model boyutlarınızla ilgili bir sorun olabilir, lütfen hatalı kafes olmadığından emin olun."
     },
-    "missingPermissionsMessage": "Eksik izinleriniz var. Okuyucu (en azından) ve Depolama Blobu Veri Sahibi veya Depolama Blobu Veri Katılımcısı olarak erişime ihtiyacınız olacaktır."
+    "missingPermissionsMessage": "Eksik izinleriniz var. Okuyucu (en azından) ve Depolama Blobu Veri Sahibi veya Depolama Blobu Veri Katılımcısı olarak erişime ihtiyacınız olacaktır.",
+    "networkErrorMessage": "Bu bir CORS sorunu, geçersiz URL veya ağ hatası olabilir. Lütfen kaynağın sahibine başvurun veya daha sonra yeniden deneyin.",
+    "networkErrorTitle": "Bağlantı hatası",
+    "applyUpdates": "Güncellemeleri uygulama",
+    "setCorsPropertiesNotAuthorizedMessage": "Bu değişikliği yapmak için depolama hesabına erişiminiz yok. Depolama hesabının CORS ayarlarında gerekli değişiklikleri yapmak için lütfen kaynak sahibine başvurun.",
+    "availableCorsUpdateTitle": "CORS güncellemesi mevcut",
+    "availableCorsUpdateMessage": "CORS ile 3B sahneleri kullanabilmek için depolama hesabınızda güncelleştirilmesi gereken bazı özellikler vardır.",
+    "requiredCorsUpdateTitle": "CORS güncellemesi gerekli",
+    "requiredCorsUpdateMessage": "3B sahneleri kullanmaya devam etmek için depolama hesabınızda güncellenmesi gereken bazı CORS kuralları vardır. Bu kuralları eklemek için lütfen kaynak sahibine başvurun."
   },
   "fieldRequired": "Bu alan zorunludur",
   "OATGraphViewer": {
@@ -1533,99 +1541,5 @@
   "jobs": {
     "addNew": "Yeni ekle"
   },
-  "legionApp": {
-    "dataPusher": {
-      "simulationType": "Simülasyon türü",
-      "progress": {
-        "createTable": "Tablo oluşturuluyor...",
-        "createTables": "Tablo oluşturma...",
-        "ingest": "Ingesting...",
-        "createDatabase": "Veritabanı oluşturuluyor..."
-      },
-      "selectSimulationType": "Simülasyon türünü seçin",
-      "tabs": {
-        "setup": "Kurulum",
-        "ingest": "Yutmayın",
-        "cook": "Pişirmek"
-      },
-      "source": {
-        "database": "Kaynak veritabanı",
-        "selectDatabase": "Kaynak veritabanını seçme",
-        "table": "Kaynak tablo",
-        "selectTable": "Kaynak tabloyu seç",
-        "tableType": "Kaynak tablo türü",
-        "selectTableType": "Kaynak tablo türünü seçme",
-        "twinIDProperty": "Kaynak ikiz kimlik özelliği",
-        "selectTwinIDProperty": "Kaynak ikiz kimliği özelliğini seçin",
-        "type": "Kaynak türü",
-        "typePlaceholder": "Kaynak türünü seçin"
-      },
-      "target": {
-        "database": "Hedef veritabanı",
-        "selectDatabase": "Hedef veritabanını seç"
-      },
-      "actions": {
-        "ingest": "Kaynak tabloya veri alma",
-        "cook": "Cook ikizleri grafiği",
-        "pushTwinsGraph": "İkizler grafiğini hedef veritabanına gönderme"
-      },
-      "title": "Veri itici"
-    },
-    "verificationStep": {
-      "title": "Bulunan ikizleri doğrulama",
-      "models": "Model",
-      "twins": "İkizler",
-      "properties": "Özellikler"
-    },
-    "StoreListPage": {
-      "title": "Geleceğe hoş geldiniz",
-      "createStoreButtonText": "Veri deposu ekleme",
-      "Modal": {
-        "title": "Yeni veri deposu ekleme"
-      }
-    },
-<<<<<<< HEAD
-    "GraphVisualizer": {
-      "ContextMenu": {
-        "addParentLabel": "Ebeveyn ekle"
-      },
-      "ParentForm": {
-        "formTitle": "Ebeveyn ekle"
-      }
-    },
-    "UserDefinedEntityForm": {
-      "formTitle": "Üst ilişki ekleme",
-      "actionButtonText": "Onaylamak",
-      "optionNew": "Yeni varlık",
-      "optionExisting": "Mevcut varlık",
-      "Form": {
-        "nameFieldLabel": "Üst varlık adı",
-        "nameFieldPlaceholder": "Ana varlık adını girin",
-        "parentTypeFieldLabel": "Üst öğe türü",
-        "parentTypeFieldPlaceholder": "Ebeveyn için bir tür seçin",
-        "colorFieldLabel": "Renk",
-        "iconFieldLabel": "İkon",
-        "parentEntityNameFieldLabel": "Üst varlık adı",
-        "parentEntityNameFieldPlaceholder": "Üst varlık için bir ad girin",
-        "relationshipNameFieldLabel": "İlişki adı",
-        "relationshipNameFieldPlaceholder": "İlişki adı seçme veya oluşturma",
-        "existingEntityFieldPlaceholder": "Mevcut bir varlığı seçme"
-      }
-=======
-    "dataSourceStep": {
-      "infoText": "Kaynak tablodan veya mühendislik diyagramından yeni ikizler oluşturma"
-    },
-    "Common": {
-      "clusterLabel": "Küme URL'si",
-      "clusterPlaceholder": "Küme URL'sini seçin",
-      "databaseLabel": "Veritabanı",
-      "databasePlaceholder": "Veritabanı seç",
-      "tableLabel": "Masa",
-      "tableIdColumnLabel": "Kimlik alanı",
-      "urlLabel": "URL",
-      "urlPlaceholder": "URL girin",
-      "addOptionFormat": "'{{item}}' ekleyin"
->>>>>>> origin/feature-Legion
-    }
-  }
+  "dismiss": "Kapatmak"
 }

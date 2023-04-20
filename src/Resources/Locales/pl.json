@@ -1104,7 +1104,15 @@
       "3dAssetLoadingGenericErrorMessage": "Błąd ładowania modelu. Spróbuj wyczyścić pamięć podręczną i spróbuj ponownie lub sprawdź dostęp do tego pliku.",
       "3dAssetDimensionError": "Może wystąpić problem z wymiarami modelu, sprawdź, czy nie ma błędnych siatek."
     },
-    "missingPermissionsMessage": "Brakuje Ci uprawnień. Będziesz potrzebować dostępu jako czytelnik (co najmniej) i właściciel danych obiektów blob magazynu lub współtwórca danych obiektów blob magazynu."
+    "missingPermissionsMessage": "Brakuje Ci uprawnień. Będziesz potrzebować dostępu jako czytelnik (co najmniej) i właściciel danych obiektów blob magazynu lub współtwórca danych obiektów blob magazynu.",
+    "networkErrorMessage": "Może to być problem z CORS, nieprawidłowy adres URL lub błąd sieci. Skontaktuj się z właścicielem zasobu lub spróbuj ponownie później.",
+    "networkErrorTitle": "Błąd połączenia",
+    "applyUpdates": "Stosowanie aktualizacji",
+    "setCorsPropertiesNotAuthorizedMessage": "Nie masz dostępu do konta magazynu, aby wprowadzić tę zmianę. Skontaktuj się z właścicielem zasobu, aby wprowadzić wymagane zmiany w ustawieniach CORS konta magazynu.",
+    "availableCorsUpdateTitle": "Dostępna aktualizacja CORS",
+    "availableCorsUpdateMessage": "Istnieją pewne właściwości, które należy zaktualizować na koncie magazynu, aby móc używać scen 3D z CORS.",
+    "requiredCorsUpdateTitle": "Wymagana aktualizacja CORS",
+    "requiredCorsUpdateMessage": "Aby nadal korzystać ze scen 3D, istnieją pewne reguły CORS, które należy zaktualizować na koncie magazynu. Skontaktuj się z właścicielem zasobu, aby dodać te reguły."
   },
   "fieldRequired": "To pole jest wymagane",
   "OATGraphViewer": {
@@ -1533,99 +1541,5 @@
   "jobs": {
     "addNew": "Dodaj nowy"
   },
-  "legionApp": {
-    "dataPusher": {
-      "simulationType": "Typ symulacji",
-      "progress": {
-        "createTable": "Tworzenie tabeli...",
-        "createTables": "Tworzenie tabel...",
-        "ingest": "Spożyciu...",
-        "createDatabase": "Tworzenie bazy danych..."
-      },
-      "selectSimulationType": "Wybierz typ symulacji",
-      "tabs": {
-        "setup": "Instalacji",
-        "ingest": "Spożywać",
-        "cook": "Kucharz"
-      },
-      "source": {
-        "database": "Źródłowa baza danych",
-        "selectDatabase": "Wybierz źródłową bazę danych",
-        "table": "Tabela źródłowa",
-        "selectTable": "Wybierz tabelę źródłową",
-        "tableType": "Typ tabeli źródłowej",
-        "selectTableType": "Wybierz typ tabeli źródłowej",
-        "twinIDProperty": "Właściwość identyfikatora bliźniaczej źródła",
-        "selectTwinIDProperty": "Wybierz właściwość źródłowego identyfikatora bliźniaczej",
-        "type": "Typ źródła",
-        "typePlaceholder": "Wybierz typ źródła"
-      },
-      "target": {
-        "database": "Docelowa baza danych",
-        "selectDatabase": "Wybierz docelową bazę danych"
-      },
-      "actions": {
-        "ingest": "Pozyskiwanie danych do tabeli źródłowej",
-        "cook": "Wykres bliźniaków kucharskich",
-        "pushTwinsGraph": "Wypychanie wykresu bliźniaków do docelowej bazy danych"
-      },
-      "title": "Popychacz danych"
-    },
-    "verificationStep": {
-      "title": "Weryfikowanie odnalezionych bliźniąt",
-      "models": "Modele",
-      "twins": "Bliźnięta",
-      "properties": "Właściwości"
-    },
-    "StoreListPage": {
-      "title": "Witamy w przyszłości",
-      "createStoreButtonText": "Dodawanie magazynu danych",
-      "Modal": {
-        "title": "Dodawanie nowego magazynu danych"
-      }
-    },
-<<<<<<< HEAD
-    "GraphVisualizer": {
-      "ContextMenu": {
-        "addParentLabel": "Dodaj rodzica"
-      },
-      "ParentForm": {
-        "formTitle": "Dodaj rodzica"
-      }
-    },
-    "UserDefinedEntityForm": {
-      "formTitle": "Dodawanie relacji nadrzędnej",
-      "actionButtonText": "Potwierdzić",
-      "optionNew": "Nowy podmiot",
-      "optionExisting": "Istniejący podmiot",
-      "Form": {
-        "nameFieldLabel": "Nazwa jednostki nadrzędnej",
-        "nameFieldPlaceholder": "Wprowadź nazwę jednostki nadrzędnej",
-        "parentTypeFieldLabel": "Typ nadrzędny",
-        "parentTypeFieldPlaceholder": "Wybierz typ dla rodzica",
-        "colorFieldLabel": "Kolor",
-        "iconFieldLabel": "Ikona",
-        "parentEntityNameFieldLabel": "Nazwa jednostki nadrzędnej",
-        "parentEntityNameFieldPlaceholder": "Wprowadź nazwę jednostki nadrzędnej",
-        "relationshipNameFieldLabel": "Nazwa związku",
-        "relationshipNameFieldPlaceholder": "Wybieranie lub tworzenie nazwy relacji",
-        "existingEntityFieldPlaceholder": "Wybierz istniejącą encję"
-      }
-=======
-    "dataSourceStep": {
-      "infoText": "Tworzenie nowych bliźniaków na podstawie tabeli źródłowej lub diagramu inżynierskiegoCreate new twins from a source table or engineering diagram"
-    },
-    "Common": {
-      "clusterLabel": "Adres URL klastra",
-      "clusterPlaceholder": "Wybierz adres URL klastra",
-      "databaseLabel": "Baza danych",
-      "databasePlaceholder": "Wybierz bazę danych",
-      "tableLabel": "Stół",
-      "tableIdColumnLabel": "Pole identyfikatora",
-      "urlLabel": "Adres URL",
-      "urlPlaceholder": "Wpisz adres URL",
-      "addOptionFormat": "Dodaj '{{item}}'"
->>>>>>> origin/feature-Legion
-    }
-  }
+  "dismiss": "Zwolnić"
 }

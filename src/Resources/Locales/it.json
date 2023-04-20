@@ -1104,7 +1104,15 @@
       "3dAssetLoadingGenericErrorMessage": "Errore durante il caricamento del modello. Prova a svuotare la cache e riprova o controlla l'accesso per quel file.",
       "3dAssetDimensionError": "Potrebbe esserci un problema con le dimensioni del modello, si prega di verificare che non ci siano maglie errate."
     },
-    "missingPermissionsMessage": "Mancano le autorizzazioni. Sarà necessario accedere come lettore (come minimo) e proprietario dei dati BLOB di archiviazione o collaboratore dei dati BLOB di archiviazione."
+    "missingPermissionsMessage": "Mancano le autorizzazioni. Sarà necessario accedere come lettore (come minimo) e proprietario dei dati BLOB di archiviazione o collaboratore dei dati BLOB di archiviazione.",
+    "networkErrorMessage": "Potrebbe trattarsi di un problema CORS, di un URL non valido o di un errore di rete. Contatta il proprietario della risorsa o riprova più tardi.",
+    "networkErrorTitle": "Errore di connessione",
+    "applyUpdates": "Applicare aggiornamenti",
+    "setCorsPropertiesNotAuthorizedMessage": "Non si dispone dell'accesso all'account di archiviazione per apportare questa modifica. Contattare il proprietario della risorsa per apportare le modifiche necessarie alle impostazioni CORS dell'account di archiviazione.",
+    "availableCorsUpdateTitle": "Aggiornamento CORS disponibile",
+    "availableCorsUpdateMessage": "Alcune proprietà devono essere aggiornate nell'account di archiviazione per poter utilizzare scene 3D con CORS.",
+    "requiredCorsUpdateTitle": "Aggiornamento CORS richiesto",
+    "requiredCorsUpdateMessage": "Per continuare a utilizzare le scene 3D, esistono alcune regole CORS che devono essere aggiornate nell'account di archiviazione. Contatta il proprietario della risorsa per aggiungere tali regole."
   },
   "fieldRequired": "Questo campo è obbligatorio",
   "OATGraphViewer": {
@@ -1533,99 +1541,5 @@
   "jobs": {
     "addNew": "Aggiungi nuovo"
   },
-  "legionApp": {
-    "dataPusher": {
-      "simulationType": "Tipo di simulazione",
-      "progress": {
-        "createTable": "Creazione tabella...",
-        "createTables": "Creazione di tabelle...",
-        "ingest": "Ingestione...",
-        "createDatabase": "Creazione di database..."
-      },
-      "selectSimulationType": "Seleziona il tipo di simulazione",
-      "tabs": {
-        "setup": "Apparecchio",
-        "ingest": "Ingerire",
-        "cook": "Cuoco"
-      },
-      "source": {
-        "database": "Database di origine",
-        "selectDatabase": "Seleziona database di origine",
-        "table": "Tabella di origine",
-        "selectTable": "Seleziona tabella di origine",
-        "tableType": "Tipo di tabella di origine",
-        "selectTableType": "Selezionare il tipo di tabella di origine",
-        "twinIDProperty": "Proprietà ID gemello di origine",
-        "selectTwinIDProperty": "Seleziona la proprietà ID gemello di origine",
-        "type": "Tipo di origine",
-        "typePlaceholder": "Seleziona il tipo di origine"
-      },
-      "target": {
-        "database": "Database di destinazione",
-        "selectDatabase": "Seleziona il database di destinazione"
-      },
-      "actions": {
-        "ingest": "Inserire dati nella tabella di origine",
-        "cook": "Grafico dei gemelli di Cook",
-        "pushTwinsGraph": "Push del grafico dei gemelli al database di destinazione"
-      },
-      "title": "Pusher di dati"
-    },
-    "verificationStep": {
-      "title": "Verificare i gemelli scoperti",
-      "models": "Modelli",
-      "twins": "Gemelli",
-      "properties": "Proprietà"
-    },
-    "StoreListPage": {
-      "title": "Benvenuti nel futuro",
-      "createStoreButtonText": "Aggiungere un archivio dati",
-      "Modal": {
-        "title": "Aggiungere un nuovo archivio dati"
-      }
-    },
-<<<<<<< HEAD
-    "GraphVisualizer": {
-      "ContextMenu": {
-        "addParentLabel": "Aggiungi genitore"
-      },
-      "ParentForm": {
-        "formTitle": "Aggiungi genitore"
-      }
-    },
-    "UserDefinedEntityForm": {
-      "formTitle": "Aggiungere una relazione padre",
-      "actionButtonText": "Confermare",
-      "optionNew": "Nuova entità",
-      "optionExisting": "Entità esistente",
-      "Form": {
-        "nameFieldLabel": "Nome dell'entità padre",
-        "nameFieldPlaceholder": "Immettere il nome dell'entità padre",
-        "parentTypeFieldLabel": "Tipo padre",
-        "parentTypeFieldPlaceholder": "Selezionare un tipo per il padre",
-        "colorFieldLabel": "Colore",
-        "iconFieldLabel": "Icona",
-        "parentEntityNameFieldLabel": "Nome dell'entità padre",
-        "parentEntityNameFieldPlaceholder": "Immettere un nome per l'entità padre",
-        "relationshipNameFieldLabel": "Nome della relazione",
-        "relationshipNameFieldPlaceholder": "Selezionare o creare un nome di relazione",
-        "existingEntityFieldPlaceholder": "Selezionare un'entità esistente"
-      }
-=======
-    "dataSourceStep": {
-      "infoText": "Creare nuovi gemelli da una tabella di origine o da un diagramma tecnico"
-    },
-    "Common": {
-      "clusterLabel": "Cluster URL",
-      "clusterPlaceholder": "Seleziona l'URL del cluster",
-      "databaseLabel": "Banca dati",
-      "databasePlaceholder": "Seleziona database",
-      "tableLabel": "Tavolo",
-      "tableIdColumnLabel": "Campo ID",
-      "urlLabel": "URL",
-      "urlPlaceholder": "Inserisci l'URL",
-      "addOptionFormat": "Aggiungi '{{elemento}}'"
->>>>>>> origin/feature-Legion
-    }
-  }
+  "dismiss": "Licenziare"
 }
