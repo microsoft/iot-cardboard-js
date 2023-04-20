@@ -1634,7 +1634,8 @@
         "parentEntityNameFieldPlaceholder": "Ange ett namn för den överordnade entiteten",
         "relationshipNameFieldLabel": "Relationens namn",
         "relationshipNameFieldPlaceholder": "Välj eller skapa ett relationsnamn",
-        "existingEntityFieldPlaceholder": "Välj en befintlig entitet"
+        "existingEntityFieldPlaceholder": "Välj en befintlig entitet",
+        "parentEntityFieldLabel": "Moderföretag"
       }
     }
   }

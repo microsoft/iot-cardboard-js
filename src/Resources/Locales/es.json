@@ -1634,7 +1634,8 @@
         "parentEntityNameFieldPlaceholder": "Escriba un nombre para la entidad principal",
         "relationshipNameFieldLabel": "Nombre de la relación",
         "relationshipNameFieldPlaceholder": "Seleccionar o crear un nombre de relación",
-        "existingEntityFieldPlaceholder": "Seleccionar una entidad existente"
+        "existingEntityFieldPlaceholder": "Seleccionar una entidad existente",
+        "parentEntityFieldLabel": "Entidad matriz"
       }
     }
   }

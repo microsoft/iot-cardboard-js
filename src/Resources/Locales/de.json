@@ -1634,7 +1634,8 @@
         "parentEntityNameFieldPlaceholder": "Geben Sie einen Namen für die übergeordnete Entität ein",
         "relationshipNameFieldLabel": "Name der Beziehung",
         "relationshipNameFieldPlaceholder": "Auswählen oder Erstellen eines Beziehungsnamens",
-        "existingEntityFieldPlaceholder": "Wählen Sie eine vorhandene Entität aus"
+        "existingEntityFieldPlaceholder": "Wählen Sie eine vorhandene Entität aus",
+        "parentEntityFieldLabel": "Muttergesellschaft"
       }
     }
   }

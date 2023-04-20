@@ -1634,7 +1634,8 @@
         "parentEntityNameFieldPlaceholder": "Entrez un nom pour l’entité parente",
         "relationshipNameFieldLabel": "Nom de la relation",
         "relationshipNameFieldPlaceholder": "Sélectionner ou créer un nom de relation",
-        "existingEntityFieldPlaceholder": "Sélectionner une entité existante"
+        "existingEntityFieldPlaceholder": "Sélectionner une entité existante",
+        "parentEntityFieldLabel": "Entité mère"
       }
     }
   }
