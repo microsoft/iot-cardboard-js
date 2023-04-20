@@ -1609,6 +1609,13 @@
       "urlLabel": "URL",
       "urlPlaceholder": "Adja meg az URL-címet",
       "addOptionFormat": "Add hozzá a következőt: '{{item}}'"
+    },
+    "modifyStep": {
+      "diagram": "Diagram",
+      "entities": "Entitások",
+      "types": "Típusok",
+      "graph": "Gráf",
+      "secondaryButton": "Entitások egyesítése"
     }
   }
 }

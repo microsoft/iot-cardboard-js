@@ -1609,6 +1609,13 @@
       "urlLabel": "URL",
       "urlPlaceholder": "URL girin",
       "addOptionFormat": "'{{item}}' ekleyin"
+    },
+    "modifyStep": {
+      "diagram": "Diyagram",
+      "entities": "Varlık",
+      "types": "Tür",
+      "graph": "Grafik",
+      "secondaryButton": "Varlıkları birleştirme"
     }
   }
 }

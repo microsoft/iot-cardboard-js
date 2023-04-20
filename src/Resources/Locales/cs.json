@@ -1609,6 +1609,13 @@
       "urlLabel": "Adresa URL",
       "urlPlaceholder": "Zadejte adresu URL",
       "addOptionFormat": "Přidat '{{item}}'"
+    },
+    "modifyStep": {
+      "diagram": "Diagram",
+      "entities": "Entity",
+      "types": "Typy",
+      "graph": "Graf",
+      "secondaryButton": "Sloučení entit"
     }
   }
 }

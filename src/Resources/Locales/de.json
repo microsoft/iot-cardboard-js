@@ -1609,6 +1609,13 @@
       "urlLabel": "Internetadresse:",
       "urlPlaceholder": "URL eingeben",
       "addOptionFormat": "Fügen Sie '{{item}}' hinzu"
+    },
+    "modifyStep": {
+      "diagram": "Diagramm",
+      "entities": "Entitäten",
+      "types": "Arten",
+      "graph": "Graph",
+      "secondaryButton": "Zusammenführen von Entitäten"
     }
   }
 }

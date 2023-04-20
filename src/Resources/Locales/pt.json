@@ -1609,6 +1609,13 @@
       "urlLabel": "URL (em inglês)",
       "urlPlaceholder": "Digite o URL",
       "addOptionFormat": "Adicionar '{{item}}'"
+    },
+    "modifyStep": {
+      "diagram": "Diagrama",
+      "entities": "Entidades",
+      "types": "Tipos",
+      "graph": "Gráfico",
+      "secondaryButton": "Mesclar entidades"
     }
   }
 }

@@ -1609,6 +1609,13 @@
       "urlLabel": "URL",
       "urlPlaceholder": "Ange URL",
       "addOptionFormat": "Lägg till '{{item}}'"
+    },
+    "modifyStep": {
+      "diagram": "Diagram",
+      "entities": "Enheter",
+      "types": "Typer",
+      "graph": "Graf",
+      "secondaryButton": "Sammanfoga entiteter"
     }
   }
 }

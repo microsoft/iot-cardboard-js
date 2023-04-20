@@ -1609,6 +1609,13 @@
       "urlLabel": "リンク",
       "urlPlaceholder": "URLを入力",
       "addOptionFormat": "'{{アイテム}}' を追加"
+    },
+    "modifyStep": {
+      "diagram": "ダイアグラム",
+      "entities": "エンティティ",
+      "types": "種類",
+      "graph": "グラフ",
+      "secondaryButton": "エンティティのマージ"
     }
   }
 }
