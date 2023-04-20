@@ -1609,6 +1609,33 @@
       "urlLabel": "Internetadresse:",
       "urlPlaceholder": "URL eingeben",
       "addOptionFormat": "Fügen Sie '{{item}}' hinzu"
+    },
+    "GraphVisualizer": {
+      "ContextMenu": {
+        "addParentLabel": "Übergeordnetes Element hinzufügen"
+      },
+      "ParentForm": {
+        "formTitle": "Übergeordnetes Element hinzufügen"
+      }
+    },
+    "UserDefinedEntityForm": {
+      "formTitle": "Übergeordnete Beziehung hinzufügen",
+      "actionButtonText": "Bestätigen",
+      "optionNew": "Neue Entität",
+      "optionExisting": "Bestehende Entität",
+      "Form": {
+        "nameFieldLabel": "Name der übergeordneten Entität",
+        "nameFieldPlaceholder": "Geben Sie den Namen der übergeordneten Entität ein",
+        "parentTypeFieldLabel": "Übergeordneter Typ",
+        "parentTypeFieldPlaceholder": "Wählen Sie einen Typ für das übergeordnete Element aus",
+        "colorFieldLabel": "Farbe",
+        "iconFieldLabel": "Ikone",
+        "parentEntityNameFieldLabel": "Name der übergeordneten Entität",
+        "parentEntityNameFieldPlaceholder": "Geben Sie einen Namen für die übergeordnete Entität ein",
+        "relationshipNameFieldLabel": "Name der Beziehung",
+        "relationshipNameFieldPlaceholder": "Auswählen oder Erstellen eines Beziehungsnamens",
+        "existingEntityFieldPlaceholder": "Wählen Sie eine vorhandene Entität aus"
+      }
     }
   }
 }
