@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { IModifyStepProps } from './ModifyStep.types';
 import { getStyles } from './ModifyStep.styles';
 import { getDebugLogger } from '../../../../../../Models/Services/Utils';
-import { Pivot, PivotItem, ScrollablePane, Stack } from '@fluentui/react';
+import { Pivot, PivotItem, Stack } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { useCustomNavigation } from '../../../../Hooks/useCustomNavigation';
 import {

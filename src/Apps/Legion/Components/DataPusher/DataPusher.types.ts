@@ -12,6 +12,7 @@ import {
     IDataManagementAdapter,
     ITableColumn
 } from '../../Adapters/Standalone/DataManagement/Models/DataManagementAdapter.types';
+import { IModel, ITwin } from '../../Models/Interfaces';
 
 export interface IDataPusherProps {
     adapter: IDataManagementAdapter;
@@ -101,4 +102,15 @@ export interface IReactSelectOption {
     value: string;
     label: string;
     __isNew__?: boolean;
+}
+
+// Temporary types - will clear when data pusher is updated to new data patterns
+export interface IModelExtended extends IModel {
+    color: string;
+    selectedPropertyIds: Array<string>;
+}
+
+export interface ITwinExtended extends ITwin {
+    model: IModelExtended;
+    isSelected: boolean;
 }

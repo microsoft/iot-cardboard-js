@@ -2,15 +2,13 @@ import { createGUID } from '../../../Models/Services/Utils';
 import { getHighChartColorByIdx } from '../../../Models/SharedUtils/DataHistoryUtils';
 import { ITable } from '../Adapters/Standalone/DataManagement/Models/DataManagementAdapter.types';
 import {
+    IModelExtended,
+    ITwinExtended,
     PROPERTY_COLUMN_NAME,
     TableTypes,
     TIMESTAMP_COLUMN_NAME,
     VALUE_COLUMN_NAME
 } from '../Components/DataPusher/DataPusher.types';
-import {
-    IModelExtended,
-    ITwinExtended
-} from '../Components/WizardShell/Internal/TwinVerificationStep/TwinVerificationStep.types';
 import { IAppData, IModel, IModelProperty, ITwin } from '../Models/Interfaces';
 import { ICookProperty } from '../Models/Types';
 
