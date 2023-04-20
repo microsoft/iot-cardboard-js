@@ -7,8 +7,13 @@ import { WizardNavigationContextProvider } from '../../Contexts/WizardNavigation
 import LegionAdapter from '../../Adapters/Mixin/LegionAdapter';
 import MsalAuthService from '../../../../Models/Services/MsalAuthService';
 import useAuthParams from '../../../../../.storybook/useAuthParams';
-import { WIZARD_NAVIGATION_MOCK_DATA } from './WizardShellMockData';
+import {
+    DEFAULT_MOCK_DATA_MANAGEMENT_STATE,
+    WIZARD_NAVIGATION_MOCK_DATA
+} from './WizardShellMockData';
 import { WizardDataManagementContextProvider } from '../../Contexts/WizardDataManagementContext/WizardDataManagementContext';
+import { AppDataContextProvider } from '../../Contexts/AppDataContext/AppDataContext';
+import { GET_MOCK_APP_DATA_CONTEXT_STATE } from '../../Contexts/AppDataContext/AppDataContext.mock';
 
 const wrapperStyle = { width: '100%', height: '600px', padding: 8 };
 
@@ -25,21 +30,31 @@ const Template: WizardShellStory = (args) => {
     return !authenticationParameters ? (
         <div></div>
     ) : (
-        <WizardDataManagementContextProvider>
-            <WizardNavigationContextProvider
-                initialState={{
-                    ...WIZARD_NAVIGATION_MOCK_DATA,
-                    adapter: new LegionAdapter(
+        <AppDataContextProvider
+            initialState={GET_MOCK_APP_DATA_CONTEXT_STATE()}
+        >
+            <WizardDataManagementContextProvider
+                adapter={
+                    new LegionAdapter(
                         new MsalAuthService(
                             authenticationParameters.adt.aadParameters
                         ),
                         authenticationParameters.adx.clusterUrl
                     )
+                }
+                initialState={{
+                    ...DEFAULT_MOCK_DATA_MANAGEMENT_STATE
                 }}
             >
-                <WizardShell {...args} />
-            </WizardNavigationContextProvider>
-        </WizardDataManagementContextProvider>
+                <WizardNavigationContextProvider
+                    initialState={{
+                        ...WIZARD_NAVIGATION_MOCK_DATA
+                    }}
+                >
+                    <WizardShell {...args} />
+                </WizardNavigationContextProvider>
+            </WizardDataManagementContextProvider>
+        </AppDataContextProvider>
     );
 };
 

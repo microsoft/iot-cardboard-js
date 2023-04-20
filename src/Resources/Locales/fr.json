@@ -1553,7 +1553,9 @@
         "tableType": "Type de table source",
         "selectTableType": "Sélectionner le type de table source",
         "twinIDProperty": "Propriété ID du jumeau source",
-        "selectTwinIDProperty": "Sélectionner la propriété ID du jumeau source"
+        "selectTwinIDProperty": "Sélectionner la propriété ID du jumeau source",
+        "type": "Type de source",
+        "typePlaceholder": "Sélectionner le type de source"
       },
       "target": {
         "database": "Base de données cible",
@@ -1587,17 +1589,26 @@
       "twins": "Jumeaux",
       "properties": "Propriétés"
     },
-    "Common": {},
     "StoreListPage": {
       "title": "Bienvenue dans le futur",
       "createStoreButtonText": "Ajouter un magasin de données",
-      "urlLabel": "URL du cluster",
-      "nameLabel": "Nom de la base de données",
       "Modal": {
-        "title": "Ajouter un nouveau magasin de données",
-        "urlPlaceholder": "http://mycluster.kusto.azure.net",
-        "namePlaceholder": "Entrez un nom de base de données"
+        "title": "Ajouter un nouveau magasin de données"
       }
+    },
+    "dataSourceStep": {
+      "infoText": "Créer de nouveaux jumeaux à partir d’une table source ou d’un diagramme d’ingénierie"
+    },
+    "Common": {
+      "clusterLabel": "Cluster URL",
+      "clusterPlaceholder": "Sélectionner l’URL du cluster",
+      "databaseLabel": "Base de données",
+      "databasePlaceholder": "Sélectionner une base de données",
+      "tableLabel": "Table",
+      "tableIdColumnLabel": "Champ ID",
+      "urlLabel": "URL",
+      "urlPlaceholder": "Entrez l’URL",
+      "addOptionFormat": "Ajouter '{{item}}'"
     }
   }
 }

@@ -9,6 +9,8 @@ import {
     WIZARD_NAVIGATION_MOCK_DATA
 } from './WizardShellMockData';
 import { WizardDataManagementContextProvider } from '../../Contexts/WizardDataManagementContext/WizardDataManagementContext';
+import { AppDataContextProvider } from '../../Contexts/AppDataContext/AppDataContext';
+import { GET_MOCK_APP_DATA_CONTEXT_STATE } from '../../Contexts/AppDataContext/AppDataContext.mock';
 
 const wrapperStyle = { width: '100%', height: '600px' };
 
@@ -22,17 +24,21 @@ type WizardShellStory = ComponentStory<typeof WizardShell>;
 
 const Template: WizardShellStory = (args) => {
     return (
-        <WizardDataManagementContextProvider
-            initialState={{
-                ...DEFAULT_MOCK_DATA_MANAGEMENT_STATE
-            }}
+        <AppDataContextProvider
+            initialState={GET_MOCK_APP_DATA_CONTEXT_STATE()}
         >
-            <WizardNavigationContextProvider
-                initialState={WIZARD_NAVIGATION_MOCK_DATA}
+            <WizardDataManagementContextProvider
+                initialState={{
+                    ...DEFAULT_MOCK_DATA_MANAGEMENT_STATE
+                }}
             >
-                <WizardShell {...args} />
-            </WizardNavigationContextProvider>
-        </WizardDataManagementContextProvider>
+                <WizardNavigationContextProvider
+                    initialState={WIZARD_NAVIGATION_MOCK_DATA}
+                >
+                    <WizardShell {...args} />
+                </WizardNavigationContextProvider>
+            </WizardDataManagementContextProvider>
+        </AppDataContextProvider>
     );
 };
 

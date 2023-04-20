@@ -1526,22 +1526,28 @@
         "addNew": "Add new"
     },
     "legionApp": {
-        "Common": {},
+        "Common": {
+            "clusterLabel": "Cluster URL",
+            "clusterPlaceholder": "Select cluster URL",
+            "databaseLabel": "Database",
+            "databasePlaceholder": "Select database",
+            "tableLabel": "Table",
+            "tableIdColumnLabel": "ID field",
+            "urlLabel": "URL",
+            "urlPlaceholder": "Enter URL",
+            "addOptionFormat": "Add '{{item}}'"
+        },
         "StoreListPage": {
             "title": "Welcome to the future",
             "createStoreButtonText": "Add data store",
-            "urlLabel": "Cluster url",
-            "nameLabel": "Database name",
             "Modal": {
-                "title": "Add a new data store",
-                "urlPlaceholder": "http://mycluster.kusto.azure.net",
-                "namePlaceholder": "Enter a database name"
+                "title": "Add a new data store"
             }
         },
         "dataPusher": {
             "title": "Data pusher",
             "clusterTitle": "Cluster URL",
-            "clusterSelectPlaceholder": "e.g. https://<example>.westus.kusto.windows.net",
+            "clusterSelectPlaceholder": "e.g. https://example.westus.kusto.windows.net",
             "clusterSelectInfo": "Selected Kusto cluster is required to have 'streaming ingestion' policy enabled.",
             "ingestInfo": "You can create a new database or table, and ingest rows to a target table. Please note that if you recently created the table, it may not be ready for ingestion, wait for couple of minutes before ingestion.",
             "cookInfo": "You can extract twins and possible models & properties information by cooking twins graph based on selected source table.",
@@ -1554,6 +1560,8 @@
                 "cook": "Cook"
             },
             "source": {
+                "type": "Source type",
+                "typePlaceholder": "Select source type",
                 "database": "Source database",
                 "selectDatabase": "Select source database",
                 "table": "Source table",
@@ -1584,6 +1592,9 @@
                 "createTables": "Creating tables...",
                 "ingest": "Ingesting..."
             }
+        },
+        "dataSourceStep": {
+            "infoText": "Create new twins from a source table or engineering diagram"
         },
         "verificationStep": {
             "title": "Verify discovered twins",

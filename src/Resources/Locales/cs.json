@@ -1553,7 +1553,9 @@
         "tableType": "Typ zdrojové tabulky",
         "selectTableType": "Vyberte typ zdrojové tabulky",
         "twinIDProperty": "Vlastnost ID zdrojového dvojčete",
-        "selectTwinIDProperty": "Vyberte vlastnost ID dvojčete zdroje"
+        "selectTwinIDProperty": "Vyberte vlastnost ID dvojčete zdroje",
+        "type": "Typ zdroje",
+        "typePlaceholder": "Vyberte typ zdroje"
       },
       "target": {
         "database": "Cílová databáze",
@@ -1587,17 +1589,26 @@
       "twins": "Dvojčata",
       "properties": "Vlastnosti"
     },
-    "Common": {},
     "StoreListPage": {
       "title": "Vítejte v budoucnosti",
       "createStoreButtonText": "Přidání úložiště dat",
-      "urlLabel": "Adresa URL clusteru",
-      "nameLabel": "Název databáze",
       "Modal": {
-        "title": "Přidání nového úložiště dat",
-        "urlPlaceholder": "http://mycluster.kusto.azure.net",
-        "namePlaceholder": "Zadejte název databáze"
+        "title": "Přidání nového úložiště dat"
       }
+    },
+    "dataSourceStep": {
+      "infoText": "Vytvoření nových dvojčat ze zdrojové tabulky nebo inženýrského diagramu"
+    },
+    "Common": {
+      "clusterLabel": "Adresa URL clusteru",
+      "clusterPlaceholder": "Vyberte adresu URL clusteru",
+      "databaseLabel": "Databáze",
+      "databasePlaceholder": "Vybrat databázi",
+      "tableLabel": "Stůl",
+      "tableIdColumnLabel": "Pole ID",
+      "urlLabel": "Adresa URL",
+      "urlPlaceholder": "Zadejte adresu URL",
+      "addOptionFormat": "Přidat '{{item}}'"
     }
   }
 }

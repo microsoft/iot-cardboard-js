@@ -93,7 +93,6 @@ export function WizardNavigationContextProvider(
 }
 
 const emptyState: IWizardNavigationContextState = {
-    adapter: null,
     steps: [],
     currentStep: -1
 };

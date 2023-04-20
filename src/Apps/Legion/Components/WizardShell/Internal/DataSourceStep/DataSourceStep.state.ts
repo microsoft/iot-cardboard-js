@@ -1,5 +1,5 @@
 import produce from 'immer';
-import { TableTypes } from '../../../DataPusher/DataPusher.types';
+import { SourceType, TableTypes } from '../../../DataPusher/DataPusher.types';
 import {
     DataSourceStepAction,
     DataSourceStepActionType,
@@ -11,8 +11,9 @@ export const defaultDataSourceStepState: IDataSourceStepState = {
     targetDatabaseOptions: [],
     sourceTableOptions: [],
     sourceTableColumnOptions: [],
+    selectedSourceType: SourceType.Timeseries,
+    selectedSourceCluster: '',
     selectedSourceDatabase: '',
-    selectedTargetDatabase: undefined,
     selectedSourceTable: '',
     selectedSourceTwinIDColumn: '',
     selectedSourceTableType: TableTypes.Wide,
@@ -42,15 +43,18 @@ export const dateSourceStepReducer = produce(
                     })
                 );
                 break;
+            case DataSourceStepActionType.SET_SELECTED_SOURCE_TYPE:
+                draft.selectedSourceType = action.sourceType;
+                break;
+            case DataSourceStepActionType.SET_SELECTED_SOURCE_CLUSTER:
+                draft.selectedSourceCluster = action.clusterUrl;
+                break;
             case DataSourceStepActionType.SET_SELECTED_SOURCE_DATABASE:
                 draft.selectedSourceDatabase = action.database;
                 draft.selectedSourceTable = '';
                 draft.selectedSourceTwinIDColumn = '';
                 draft.sourceTableData = undefined;
                 draft.cookAssets = undefined;
-                break;
-            case DataSourceStepActionType.SET_SELECTED_TARGET_DATABASE:
-                draft.selectedTargetDatabase = action.database;
                 break;
             case DataSourceStepActionType.SET_SELECTED_SOURCE_TABLE:
                 draft.selectedSourceTable = action.table;

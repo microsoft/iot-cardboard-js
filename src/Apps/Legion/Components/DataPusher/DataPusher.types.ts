@@ -12,6 +12,8 @@ import {
     IDataManagementAdapter,
     ITableColumn
 } from '../../Adapters/Standalone/DataManagement/Models/DataManagementAdapter.types';
+import { IClusterPickerStyles } from '../Pickers/ClusterPicker/ClusterPicker.types';
+import { IADXAdapterTargetContext, IReactSelectOption } from '../../Models';
 
 export interface IDataPusherProps {
     adapter: IDataManagementAdapter;
@@ -37,13 +39,13 @@ export interface IDataPusherStyles {
 }
 
 export interface IDataPusherSubComponentStyles {
+    clusterPicker?: IClusterPickerStyles;
     stack?: IStackStyles;
     button?: IButtonStyles;
     connectionString?: Partial<ITextFieldStyles>;
 }
 
-export interface IDataPusherContext {
-    adapter: IDataManagementAdapter;
+export interface IDataPusherContext extends IADXAdapterTargetContext {
     classNames: IProcessedStyleSet<IDataPusherStyles>;
 }
 
@@ -58,6 +60,11 @@ export enum TableTypes {
     Wide = 'Wide',
     Narrow = 'Narrow',
     Tags = 'Tags'
+}
+
+export enum SourceType {
+    Timeseries = 'Timeseries table',
+    Diagram = 'P&ID diagram'
 }
 
 export const TableColumns: Record<TableTypes, Array<ITableColumn>> = {
@@ -82,23 +89,28 @@ export const TableColumns: Record<TableTypes, Array<ITableColumn>> = {
     ]
 };
 
-export const TableTypeOptions: IDropdownOption[] = [
+export const TableTypeOptions: IReactSelectOption[] = [
     {
-        key: TableTypes.Wide,
-        text: 'Dairy Facility (Wide)'
+        value: TableTypes.Wide,
+        label: 'Dairy Facility (Wide)'
     },
     {
-        key: TableTypes.Narrow,
-        text: 'Dairy Facility (Narrow)'
+        value: TableTypes.Narrow,
+        label: 'Dairy Facility (Narrow)'
     },
     {
-        key: TableTypes.Tags,
-        text: 'Tags only'
+        value: TableTypes.Tags,
+        label: 'Tags only'
     }
 ];
 
-export interface IReactSelectOption {
-    value: string;
-    label: string;
-    __isNew__?: boolean;
-}
+export const SourceTypeOptions: IDropdownOption[] = [
+    {
+        key: SourceType.Timeseries,
+        text: SourceType.Timeseries
+    },
+    {
+        key: SourceType.Diagram,
+        text: SourceType.Diagram
+    }
+];

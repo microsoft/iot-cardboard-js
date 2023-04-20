@@ -1,3 +1,5 @@
+import { IDataManagementAdapter } from '../Adapters/Standalone/DataManagement/Models/DataManagementAdapter.types';
+
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface IBaseAdapter {}
 
@@ -55,14 +57,18 @@ export interface IAppData {
 
 /** to be used for Database ingestion flow */
 export interface IADXConnection {
+    selectedSourceCluster: string;
     selectedSourceDatabase: string;
     selectedSourceTable: string;
     selectedSourceTwinIDColumn: string;
     selectedSourceTableType: string;
-    selectedTargetDatabase: string;
 }
 
 export interface IPIDDocument {
-    url: string;
-    name: string;
+    pidUrl: string;
+}
+
+/** type definition for target context parameter for useADXAdapter hook */
+export interface IADXAdapterTargetContext {
+    adapter: IDataManagementAdapter;
 }

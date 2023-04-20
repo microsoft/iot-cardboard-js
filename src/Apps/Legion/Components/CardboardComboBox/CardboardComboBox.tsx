@@ -5,7 +5,14 @@ import React, {
     useMemo,
     useState
 } from 'react';
-import { Label, Stack, Text } from '@fluentui/react';
+import {
+    Label,
+    Spinner,
+    SpinnerSize,
+    Stack,
+    StackItem,
+    Text
+} from '@fluentui/react';
 import { useId } from '@fluentui/react-hooks';
 import CreatableSelect from 'react-select/creatable';
 import { ActionMeta, MultiValue, SingleValue } from 'react-select';
@@ -30,9 +37,13 @@ const CardboardComboBox = <T extends IReactSelectOption>(
         options: optionsProp,
         onSelectionChange,
         placeholder,
-        required,
+        required = true,
         selectedItem,
-        tooltip
+        tooltip,
+        isCreatable: isCreatableProp = true,
+        formatCreateLabel,
+        isSpinnerVisible = false,
+        spinnerLabel
     } = props;
 
     // contexts
@@ -44,6 +55,10 @@ const CardboardComboBox = <T extends IReactSelectOption>(
     const id = useId('creatable-select');
 
     // callbacks
+    const isCreatable = useCallback(
+        (inputValue) => isCreatableProp && !!inputValue,
+        [isCreatableProp]
+    );
     const onChange = useCallback(
         (
             selection: MultiValue<T> | SingleValue<T>,
@@ -82,20 +97,45 @@ const CardboardComboBox = <T extends IReactSelectOption>(
 
     return (
         <Stack>
-            <Stack horizontal verticalAlign={'center'}>
-                <Label id={id} required={required} className={classNames.label}>
-                    {label}
-                </Label>
-                {tooltip && <TooltipCallout {...tooltip} />}
+            <Stack
+                horizontal
+                verticalAlign={'center'}
+                horizontalAlign="space-between"
+            >
+                <StackItem>
+                    <Stack horizontal>
+                        <Label
+                            id={id}
+                            required={required}
+                            className={classNames.label}
+                        >
+                            {label}
+                        </Label>
+                        {tooltip && <TooltipCallout {...tooltip} />}
+                    </Stack>
+                </StackItem>
+                {isSpinnerVisible && (
+                    <StackItem>
+                        <Spinner
+                            label={spinnerLabel}
+                            size={SpinnerSize.small}
+                            labelPosition={'right'}
+                        />
+                    </StackItem>
+                )}
             </Stack>
             <CreatableSelect
                 {...props}
+                isClearable
+                isSearchable
                 aria-aria-labelledby={id}
                 onChange={onChange}
                 options={options}
                 placeholder={placeholder}
                 styles={selectStyles}
                 value={selectedItem}
+                isValidNewOption={isCreatable}
+                formatCreateLabel={formatCreateLabel}
             />
             {description && (
                 <Text variant={'small'} className={classNames.description}>

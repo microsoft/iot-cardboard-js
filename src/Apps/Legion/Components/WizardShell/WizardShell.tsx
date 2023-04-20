@@ -12,6 +12,7 @@ import SaveStep from './Internal/SaveStep/SaveStep';
 import { Icon, PrimaryButton } from '@fluentui/react';
 import { useExtendedTheme } from '../../../../Models/Hooks/useExtendedTheme';
 import { useTranslation } from 'react-i18next';
+import { useAppDataContext } from '../../Contexts/AppDataContext/AppDataContext';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('WizardShell', debugLogging);
@@ -19,6 +20,7 @@ const logDebugConsole = getDebugLogger('WizardShell', debugLogging);
 const WizardShell: React.FC<IWizardShellProps> = (_props) => {
     // contexts
     const { wizardNavigationContextState } = useWizardNavigationContext();
+    const { appDataState } = useAppDataContext();
 
     // hooks
     const theme = useExtendedTheme();
@@ -33,11 +35,7 @@ const WizardShell: React.FC<IWizardShellProps> = (_props) => {
     const currentPage = useMemo(() => {
         switch (wizardNavigationContextState.currentStep) {
             case 0:
-                return (
-                    <DataSourceStep
-                        adapter={wizardNavigationContextState.adapter}
-                    />
-                );
+                return <DataSourceStep />;
             case 1:
                 return <TwinVerificationStep />;
             case 2:
@@ -45,10 +43,7 @@ const WizardShell: React.FC<IWizardShellProps> = (_props) => {
             case 3:
                 return <SaveStep />;
         }
-    }, [
-        wizardNavigationContextState.adapter,
-        wizardNavigationContextState.currentStep
-    ]);
+    }, [wizardNavigationContextState.currentStep]);
 
     logDebugConsole('debug', 'Render');
 
@@ -66,7 +61,9 @@ const WizardShell: React.FC<IWizardShellProps> = (_props) => {
             <div className={classNames.headerNav}>
                 {/* TODO: CREATE DB HEADER */}
                 <Icon iconName={'Globe'} />
-                <h3 className={classNames.headerText}>DATABASE NAME HERE</h3>
+                <h3 className={classNames.headerText}>
+                    {appDataState?.targetDatabase?.databaseName}
+                </h3>
             </div>
             {/* Content */}
             <div className={classNames.wizardContainer}>{currentPage}</div>

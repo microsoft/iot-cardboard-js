@@ -1553,7 +1553,9 @@
         "tableType": "Forrástábla típusa",
         "selectTableType": "Válassza ki a forrástábla típusát",
         "twinIDProperty": "Forrás ikerazonosító tulajdonsága",
-        "selectTwinIDProperty": "Válassza ki az ikereszköz-azonosító tulajdonságot"
+        "selectTwinIDProperty": "Válassza ki az ikereszköz-azonosító tulajdonságot",
+        "type": "Forrás típusa",
+        "typePlaceholder": "Válassza ki a forrás típusát"
       },
       "target": {
         "database": "Céladatbázis",
@@ -1587,17 +1589,26 @@
       "twins": "Ikrek",
       "properties": "Kellékek"
     },
-    "Common": {},
     "StoreListPage": {
       "title": "Üdvözöljük a jövőben",
       "createStoreButtonText": "Adattár hozzáadása",
-      "urlLabel": "Fürt URL-címe",
-      "nameLabel": "Adatbázis neve",
       "Modal": {
-        "title": "Új adattár hozzáadása",
-        "urlPlaceholder": "http://mycluster.kusto.azure.net",
-        "namePlaceholder": "Adja meg az adatbázis nevét"
+        "title": "Új adattár hozzáadása"
       }
+    },
+    "dataSourceStep": {
+      "infoText": "Új ikereszközök létrehozása forrástáblából vagy mérnöki diagramból"
+    },
+    "Common": {
+      "clusterLabel": "Fürt URL-címe",
+      "clusterPlaceholder": "Fürt URL-címének kiválasztása",
+      "databaseLabel": "Adatbázis",
+      "databasePlaceholder": "Adatbázis kiválasztása",
+      "tableLabel": "Asztal",
+      "tableIdColumnLabel": "Azonosító mező",
+      "urlLabel": "URL",
+      "urlPlaceholder": "Adja meg az URL-címet",
+      "addOptionFormat": "Add hozzá a következőt: '{{item}}'"
     }
   }
 }

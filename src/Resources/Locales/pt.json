@@ -1553,7 +1553,9 @@
         "tableType": "Tipo de tabela de origem",
         "selectTableType": "Selecionar tipo de tabela de origem",
         "twinIDProperty": "Propriedade ID de gêmeo de origem",
-        "selectTwinIDProperty": "Selecionar propriedade de ID de gêmeo de origem"
+        "selectTwinIDProperty": "Selecionar propriedade de ID de gêmeo de origem",
+        "type": "Tipo de origem",
+        "typePlaceholder": "Selecione o tipo de origem"
       },
       "target": {
         "database": "Banco de dados de destino",
@@ -1587,17 +1589,26 @@
       "twins": "Gêmeos",
       "properties": "Propriedades"
     },
-    "Common": {},
     "StoreListPage": {
       "title": "Bem-vindo ao futuro",
       "createStoreButtonText": "Adicionar armazenamento de dados",
-      "urlLabel": "URL do cluster",
-      "nameLabel": "Nome do banco de dados",
       "Modal": {
-        "title": "Adicionar um novo armazenamento de dados",
-        "urlPlaceholder": "http://mycluster.kusto.azure.net",
-        "namePlaceholder": "Insira um nome de banco de dados"
+        "title": "Adicionar um novo armazenamento de dados"
       }
+    },
+    "dataSourceStep": {
+      "infoText": "Criar novos gêmeos a partir de uma tabela de origem ou diagrama de engenharia"
+    },
+    "Common": {
+      "clusterLabel": "Cluster URL",
+      "clusterPlaceholder": "Selecionar URL do cluster",
+      "databaseLabel": "Base de dados",
+      "databasePlaceholder": "Selecionar banco de dados",
+      "tableLabel": "Mesa",
+      "tableIdColumnLabel": "Campo ID",
+      "urlLabel": "URL (em inglês)",
+      "urlPlaceholder": "Digite o URL",
+      "addOptionFormat": "Adicionar '{{item}}'"
     }
   }
 }

@@ -1,6 +1,6 @@
 export interface ITargetDatabaseConnection {
-    databaseName: string;
     clusterUrl: string;
+    databaseName: string;
 }
 export interface IAppDataContextProviderProps {
     initialState?: Partial<IAppDataContextState>;

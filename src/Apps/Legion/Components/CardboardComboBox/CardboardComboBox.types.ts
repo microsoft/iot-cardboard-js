@@ -26,6 +26,14 @@ export interface ICardboardComboBoxProps<T extends IReactSelectOption>
     /** the item to use as the selected item */
     selectedItem: T | undefined;
     tooltip?: ITooltipCalloutProps;
+    /** to decide to render it as combobox or dropdown */
+    isCreatable?: boolean;
+    /** to specify create label if it is creatable */
+    formatCreateLabel?: (inputValue: string) => React.ReactNode;
+    /** to show spinner to show a separate state that combobix is working on like adapter action on create a new option */
+    isSpinnerVisible?: boolean;
+    /** label to show next to spinner if enabled */
+    spinnerLabel?: string;
 }
 
 export interface ICardboardComboBoxStyleProps {
