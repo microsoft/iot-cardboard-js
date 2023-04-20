@@ -3,7 +3,7 @@
  */
 import produce, { current } from 'immer';
 import React, { ReactNode, useContext, useReducer } from 'react';
-import { getDebugLogger } from '../../../../Models/Services/Utils';
+import { deepCopy, getDebugLogger } from '../../../../Models/Services/Utils';
 import {
     IWizardDataStateContext,
     IWizardDataContextProviderProps,
@@ -50,12 +50,12 @@ export const WizardDataContextReducer: (
         );
         switch (action.type) {
             case WizardDataContextActionType.ENTITY_ADD: {
-                const { entity } = action.payload;
+                const { entity } = deepCopy(action.payload);
                 addItem(initializeId(entity), draft.entities);
                 break;
             }
             case WizardDataContextActionType.ENTITY_UPDATE: {
-                const { entity } = action.payload;
+                const { entity } = deepCopy(action.payload);
                 replaceItem(entity, draft.entities);
                 break;
             }
@@ -65,12 +65,12 @@ export const WizardDataContextReducer: (
                 break;
             }
             case WizardDataContextActionType.TYPE_ADD: {
-                const { type } = action.payload;
+                const { type } = deepCopy(action.payload);
                 addItem(initializeId(type), draft.types);
                 break;
             }
             case WizardDataContextActionType.TYPE_UPDATE: {
-                const { type } = action.payload;
+                const { type } = deepCopy(action.payload);
                 replaceItem(type, draft.types);
                 break;
             }
@@ -80,7 +80,9 @@ export const WizardDataContextReducer: (
                 break;
             }
             case WizardDataContextActionType.RELATIONSHIP_ADD: {
-                const { relationship, relationshipType } = action.payload;
+                const { relationship, relationshipType } = deepCopy(
+                    action.payload
+                );
                 addItem(
                     initializeId(relationshipType),
                     draft.relationshipTypes
@@ -89,7 +91,9 @@ export const WizardDataContextReducer: (
                 break;
             }
             case WizardDataContextActionType.RELATIONSHIP_UPDATE: {
-                const { relationship, relationshipType } = action.payload;
+                const { relationship, relationshipType } = deepCopy(
+                    action.payload
+                );
                 replaceItem(relationship, draft.relationships);
                 replaceOrAddItem(
                     initializeId(relationshipType),
@@ -103,12 +107,12 @@ export const WizardDataContextReducer: (
                 break;
             }
             case WizardDataContextActionType.PROPERTY_ADD: {
-                const { property } = action.payload;
+                const { property } = deepCopy(action.payload);
                 addItem(initializeId(property), draft.properties);
                 break;
             }
             case WizardDataContextActionType.PROPERTY_UPDATE: {
-                const { property } = action.payload;
+                const { property } = deepCopy(action.payload);
                 replaceItem(property, draft.properties);
                 break;
             }

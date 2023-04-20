@@ -9,13 +9,12 @@ import { IViewEntity, IViewRelationshipType, IViewType } from '../../Models';
 export type IFormData =
     | {
           type: 'Existing';
-          parentId: string;
+          parentEntity: IViewEntity;
           relationshipType: IViewRelationshipType;
       }
     | {
           type: 'New';
-          parentName: string;
-          parentType: IViewType;
+          parentEntity: IViewEntity;
           relationshipType: IViewRelationshipType;
       };
 

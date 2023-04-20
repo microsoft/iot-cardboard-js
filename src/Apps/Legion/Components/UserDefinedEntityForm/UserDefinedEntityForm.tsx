@@ -19,11 +19,7 @@ import UserDefinedEntityFormView from './UserDefinedEntityForm.view';
 import { useRelationships } from '../../Hooks/useRelationships';
 import { useTypes } from '../../Hooks/useTypes';
 import { useEntities } from '../../Hooks/useEntities';
-import {
-    getNewViewEntity,
-    getNewViewRelationship
-} from '../../Services/WizardTypes.utils';
-import { IViewEntity } from '../../Models';
+import { getNewViewRelationship } from '../../Services/WizardTypes.utils';
 
 const debugLogging = true;
 const logDebugConsole = getDebugLogger('UserDefinedEntityForm', debugLogging);
@@ -68,7 +64,7 @@ const UserDefinedEntityForm: React.FC<IUserDefinedEntityFormProps> = (
     const onFormSubmit = useCallback(() => {
         logDebugConsole('debug', 'Submit click. {data}', formData);
         const relationshipType = formData.relationshipType;
-        let sourceEntity: IViewEntity;
+        const sourceEntity = formData.parentEntity;
 
         // find the right source node
         if (formData.type === 'Existing') {
@@ -77,12 +73,7 @@ const UserDefinedEntityForm: React.FC<IUserDefinedEntityFormProps> = (
                 'Adding relationship to existing entity. {data}',
                 formData
             );
-            sourceEntity = entities.find((x) => x.id === formData.parentId);
         } else if (formData.type === 'New') {
-            sourceEntity = getNewViewEntity({
-                friendlyName: formData.parentName,
-                type: formData.parentType
-            });
             logDebugConsole(
                 'info',
                 'Adding relationship to new entity. {entity, type}',

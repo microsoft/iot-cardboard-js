@@ -34,6 +34,7 @@ import {
 } from '../../Models';
 import { IReactSelectOption } from '../../Models/Types';
 import {
+    getNewViewEntity,
     getNewViewRelationshipType,
     getNewViewType
 } from '../../Services/WizardTypes.utils';
@@ -217,6 +218,10 @@ const UserDefinedEntityFormView: React.FC<IUserDefinedEntityFormViewProps> = (
                       kind: Kind.UserDefined
                   })
                 : existingTypes.find((x) => x.id === parentTypeId);
+            const parentEntity = getNewViewEntity({
+                friendlyName: parentEntityNameValue,
+                type: parentType
+            });
             const relationshipType =
                 existingRelationshipTypes.find(
                     (x) => x.id === newEntityRelationshipNameValue?.value
@@ -226,17 +231,16 @@ const UserDefinedEntityFormView: React.FC<IUserDefinedEntityFormViewProps> = (
                 });
             const isValid =
                 !!parentType?.friendlyName &&
-                !!parentEntityNameValue &&
-                !!relationshipType?.name &&
-                !!selectedColor &&
-                !!selectedIcon;
+                (!isNewParentType ||
+                    (!!parentType?.color && !!parentType?.icon)) &&
+                !!parentEntity?.friendlyName &&
+                !!relationshipType?.name;
 
             onFormChange({
                 isValid: isValid,
                 data: {
                     type: 'New',
-                    parentName: parentEntityNameValue,
-                    parentType: parentType,
+                    parentEntity: parentEntity,
                     relationshipType: relationshipType
                 }
             });
@@ -256,8 +260,10 @@ const UserDefinedEntityFormView: React.FC<IUserDefinedEntityFormViewProps> = (
     ]);
     useEffect(() => {
         if (formMode === 'Existing') {
-            // TODO: make validation more precise??
             const selectedEntityData = selectedExistingEntity?.data;
+            const parentEntity = existingEntities.find(
+                (x) => x.id === selectedEntityData?.id
+            );
             const relationshipType =
                 existingRelationshipTypes.find(
                     (x) => x.id === existingEntityRelationshipNameValue?.value
@@ -265,18 +271,20 @@ const UserDefinedEntityFormView: React.FC<IUserDefinedEntityFormViewProps> = (
                 getNewViewRelationshipType({
                     name: existingEntityRelationshipNameValue?.label
                 });
-            const isValid = !!selectedEntityData && !!relationshipType.name;
+            const isValid =
+                !!parentEntity?.friendlyName && !!relationshipType.name;
 
             onFormChange({
                 isValid: isValid,
                 data: {
                     type: 'Existing',
-                    parentId: selectedEntityData?.id,
+                    parentEntity: parentEntity,
                     relationshipType: relationshipType
                 }
             });
         }
     }, [
+        existingEntities,
         existingEntityRelationshipNameValue?.label,
         existingEntityRelationshipNameValue?.value,
         existingRelationshipTypes,

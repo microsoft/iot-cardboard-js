@@ -24,8 +24,6 @@ export function initializeId<T extends { id: string; isNew: boolean }>(
     if (!item.id) {
         item.id = createGuid();
         item.isNew = true;
-    } else {
-        item.isNew = item.isNew ?? false;
     }
     return item;
 }
@@ -34,6 +32,7 @@ export function initializeId<T extends { id: string; isNew: boolean }>(
 
 function getBase(args: IBase): IBase {
     return {
+        isNew: args?.isNew ?? false,
         ...initializeId(args),
         isDeleted: args?.isDeleted ?? false
     };
