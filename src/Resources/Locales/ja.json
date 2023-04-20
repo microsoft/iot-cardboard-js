@@ -1598,6 +1598,13 @@
         "urlPlaceholder": "http://mycluster.kusto.azure.net",
         "namePlaceholder": "データベース名を入力してください"
       }
+    },
+    "modifyStep": {
+      "diagram": "ダイアグラム",
+      "entities": "エンティティ",
+      "types": "種類",
+      "graph": "グラフ",
+      "secondaryButton": "エンティティのマージ"
     }
   }
 }

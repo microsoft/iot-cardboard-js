@@ -1598,6 +1598,13 @@
         "urlPlaceholder": "http://mycluster.kusto.azure.net",
         "namePlaceholder": "Введите имя базы данных"
       }
+    },
+    "modifyStep": {
+      "diagram": "Диаграмма",
+      "entities": "Объекты",
+      "types": "Типы",
+      "graph": "График",
+      "secondaryButton": "Слияние сущностей"
     }
   }
 }

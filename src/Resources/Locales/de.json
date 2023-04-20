@@ -1598,6 +1598,13 @@
         "urlPlaceholder": "http://mycluster.kusto.azure.net",
         "namePlaceholder": "Geben Sie einen Datenbanknamen ein."
       }
+    },
+    "modifyStep": {
+      "diagram": "Diagramm",
+      "entities": "Entitäten",
+      "types": "Arten",
+      "graph": "Graph",
+      "secondaryButton": "Zusammenführen von Entitäten"
     }
   }
 }

@@ -1598,6 +1598,13 @@
         "urlPlaceholder": "http://mycluster.kusto.azure.net",
         "namePlaceholder": "Een databasenaam invoeren"
       }
+    },
+    "modifyStep": {
+      "diagram": "Diagram",
+      "entities": "Entiteiten",
+      "types": "Typen",
+      "graph": "Grafiek",
+      "secondaryButton": "Entiteiten samenvoegen"
     }
   }
 }
