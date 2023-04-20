@@ -59,6 +59,8 @@ const LOC_KEYS = {
         'legionApp.UserDefinedEntityForm.Form.parentTypeFieldPlaceholder',
     colorFieldLabel: 'legionApp.UserDefinedEntityForm.Form.colorFieldLabel',
     iconFieldLabel: 'legionApp.UserDefinedEntityForm.Form.iconFieldLabel',
+    parentEntityFieldLabel:
+        'legionApp.UserDefinedEntityForm.Form.parentEntityFieldLabel',
     parentEntityNameFieldLabel:
         'legionApp.UserDefinedEntityForm.Form.parentEntityNameFieldLabel',
     parentEntityNameFieldPlaceholder:
@@ -306,11 +308,12 @@ const UserDefinedEntityFormView: React.FC<IUserDefinedEntityFormViewProps> = (
             <>
                 <TextField
                     label={t(LOC_KEYS.parentEntityNameFieldLabel)}
-                    placeholder={t(LOC_KEYS.parentEntityNameFieldPlaceholder)}
-                    value={parentEntityNameValue}
                     onChange={(_ev, value) => {
                         setParentEntityNameValue(value);
                     }}
+                    placeholder={t(LOC_KEYS.parentEntityNameFieldPlaceholder)}
+                    required
+                    value={parentEntityNameValue}
                 />
                 <CardboardComboBox
                     label={t(LOC_KEYS.parentTypeFieldLabel)}
@@ -370,12 +373,13 @@ const UserDefinedEntityFormView: React.FC<IUserDefinedEntityFormViewProps> = (
         return (
             <>
                 <Dropdown
-                    label={t(LOC_KEYS.parentEntityNameFieldLabel)}
+                    label={t(LOC_KEYS.parentEntityFieldLabel)}
                     options={existingEntityOptions}
                     onChange={(_ev, option) => {
                         setSelectedExistingEntity(option);
                     }}
                     placeholder={t(LOC_KEYS.existingEntityFieldPlaceholder)}
+                    required
                     selectedKey={selectedExistingEntity?.key}
                 />
                 <CardboardComboBox

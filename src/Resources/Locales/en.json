@@ -1564,6 +1564,7 @@
                 "parentTypeFieldPlaceholder": "Select a type for the parent",
                 "colorFieldLabel": "Color",
                 "iconFieldLabel": "Icon",
+                "parentEntityFieldLabel": "Parent entity",
                 "parentEntityNameFieldLabel": "Parent entity name",
                 "parentEntityNameFieldPlaceholder": "Enter a name for the parent entity",
                 "relationshipNameFieldLabel": "Relationship name",
