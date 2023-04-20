@@ -69,7 +69,6 @@ export interface IPIDDocument {
 }
 
 /** type definition for target context parameter for useADXAdapter hook */
-export interface IADXAdapterTargetContext
-    extends React.Context<{ adapter: IDataManagementAdapter }> {
-    [key: string]: any;
+export interface IADXAdapterTargetContext {
+    adapter: IDataManagementAdapter;
 }

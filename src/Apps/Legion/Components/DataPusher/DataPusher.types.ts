@@ -13,7 +13,7 @@ import {
     ITableColumn
 } from '../../Adapters/Standalone/DataManagement/Models/DataManagementAdapter.types';
 import { IClusterPickerStyles } from '../Pickers/ClusterPicker/ClusterPicker.types';
-import { IReactSelectOption } from '../../Models';
+import { IADXAdapterTargetContext, IReactSelectOption } from '../../Models';
 
 export interface IDataPusherProps {
     adapter: IDataManagementAdapter;
@@ -45,8 +45,7 @@ export interface IDataPusherSubComponentStyles {
     connectionString?: Partial<ITextFieldStyles>;
 }
 
-export interface IDataPusherContext {
-    adapter: IDataManagementAdapter;
+export interface IDataPusherContext extends IADXAdapterTargetContext {
     classNames: IProcessedStyleSet<IDataPusherStyles>;
 }
 

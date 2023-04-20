@@ -5,7 +5,7 @@ import { IADXAdapterTargetContext } from '../../../Models/Interfaces';
 export interface IClusterPickerProps {
     selectedClusterUrl?: string;
     onClusterUrlChange?: (clusterUrl: string, isNew?: boolean) => void;
-    targetAdapterContext?: IADXAdapterTargetContext;
+    targetAdapterContext?: React.Context<IADXAdapterTargetContext>;
     label?: string;
     placeholder?: string;
     hasTooltip?: boolean;

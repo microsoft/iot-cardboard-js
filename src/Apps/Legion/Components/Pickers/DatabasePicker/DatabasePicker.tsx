@@ -15,6 +15,7 @@ import { useADXAdapter } from '../../../Hooks/useADXAdapter';
 import { ICreateDatabaseAdapterParams } from '../../../Adapters/Standalone/DataManagement/Models/DataManagementAdapter.types';
 import { WizardDataManagementContext } from '../../../Contexts/WizardDataManagementContext/WizardDataManagementContext';
 import CardboardComboBox from '../../CardboardComboBox/CardboardComboBox';
+import { IADXAdapterTargetContext } from '../../../Models/Interfaces';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('DatabasePicker', debugLogging);
@@ -49,7 +50,9 @@ const DatabasePicker: React.FC<IDatabasePickerProps> = (props) => {
     const { t } = useTranslation();
     const theme = useExtendedTheme();
 
-    const adapter = useADXAdapter(targetAdapterContext);
+    const adapter = useADXAdapter(
+        targetAdapterContext as React.Context<IADXAdapterTargetContext>
+    );
     const getDatabasesState = useAdapter({
         adapterMethod: () => adapter.getDatabases(),
         refetchDependencies: [adapter.connectionString]

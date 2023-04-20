@@ -1,12 +1,12 @@
 import { IDataManagementAdapter } from '../../Adapters/Standalone/DataManagement/Models/DataManagementAdapter.types';
 import {
+    IADXAdapterTargetContext,
     IADXConnection,
     IAppData,
     IPIDDocument
 } from '../../Models/Interfaces';
 
-export interface IWizardDataManagementContext {
-    adapter: IDataManagementAdapter;
+export interface IWizardDataManagementContext extends IADXAdapterTargetContext {
     wizardDataManagementContextState: IWizardDataManagementContextState;
     wizardDataManagementContextDispatch: React.Dispatch<WizardDataManagementContextAction>;
 }
