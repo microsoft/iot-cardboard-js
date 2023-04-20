@@ -1,15 +1,7 @@
 import { IDbEntity, IDbProperty, IDbRelationship, IDbType } from '../../Models';
-import { createGuid, findIndexById, findItemById } from '../../Services/Utils';
-
-export function initializeId<T extends { id: string; isNew: boolean }>(
-    item: T
-): T {
-    if (!item.id) {
-        item.id = createGuid();
-        item.isNew = true;
-    }
-    return item;
-}
+import { findIndexById, findItemById } from '../../Services/Utils';
+import { initializeId } from '../../Services/WizardTypes.utils';
+export { initializeId };
 
 /** takes a collection and id and marks the first element in that collection with the matching id */
 export function deleteItemById<T extends { id: string; isDeleted: boolean }>(

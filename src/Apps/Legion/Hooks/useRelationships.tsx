@@ -13,7 +13,7 @@ import {
 } from '../Services/WizardTypes.utils';
 import { getDebugLogger } from '../../../Models/Services/Utils';
 
-const debugLogging = true;
+const debugLogging = false;
 export const logDebugConsole = getDebugLogger('useRelationships', debugLogging);
 export const useRelationships = () => {
     logDebugConsole('debug', '[START] Render');

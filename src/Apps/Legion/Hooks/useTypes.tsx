@@ -82,16 +82,16 @@ export const useTypes = () => {
          * Callback to add an type to the state
          * NOTE: this is not a deep add. It will only add the root level element
          */
-        addProperty: addType,
+        addType: addType,
         /**
          * Callback to update the attributes of the type.
          * NOTE: this is not a deep update. It will only reflect changes on the root level
          */
-        updateProperty: updateType,
+        updateType: updateType,
         /**
          * Callback to delete the type from state.
          * NOTE: this is not a deep update. It will only delete the root level element
          */
-        deleteProperty: deleteType
+        deleteType: deleteType
     };
 };

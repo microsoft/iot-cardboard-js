@@ -51,8 +51,8 @@ const UserDefinedEntityForm: React.FC<IUserDefinedEntityFormProps> = (
     // hooks
     const { t } = useTranslation();
     const { relationshipTypes, addRelationship } = useRelationships();
-    const { types } = useTypes();
-    const { entities } = useEntities();
+    const { types, addType } = useTypes();
+    const { entities, addEntity } = useEntities();
 
     // state
     const [formData, setFormData] = useState<IFormData>(null);
@@ -73,16 +73,24 @@ const UserDefinedEntityForm: React.FC<IUserDefinedEntityFormProps> = (
         // find the right source node
         if (formData.type === 'Existing') {
             logDebugConsole(
-                'debug',
+                'info',
                 'Adding relationship to existing entity. {data}',
                 formData
             );
             sourceEntity = entities.find((x) => x.id === formData.parentId);
-        } else if (formMode === 'New') {
+        } else if (formData.type === 'New') {
             sourceEntity = getNewViewEntity({
                 friendlyName: formData.parentName,
                 type: formData.parentType
             });
+            logDebugConsole(
+                'info',
+                'Adding relationship to new entity. {entity, type}',
+                sourceEntity,
+                sourceEntity.type
+            );
+            addEntity(sourceEntity);
+            addType(sourceEntity.type);
         }
         if (!sourceEntity) {
             console.error(
@@ -117,10 +125,11 @@ const UserDefinedEntityForm: React.FC<IUserDefinedEntityFormProps> = (
             }
         });
     }, [
+        addEntity,
         addRelationship,
+        addType,
         entities,
         formData,
-        formMode,
         graphState.selectedNodeIds
     ]);
 

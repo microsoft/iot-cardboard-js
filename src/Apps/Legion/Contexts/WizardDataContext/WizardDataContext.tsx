@@ -21,7 +21,7 @@ import {
     initializeId
 } from './WizardDataContext.utils';
 
-const debugLogging = true;
+const debugLogging = false;
 export const logDebugConsole = getDebugLogger(
     'WizardDataContext',
     debugLogging

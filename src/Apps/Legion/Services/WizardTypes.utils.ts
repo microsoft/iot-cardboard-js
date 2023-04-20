@@ -13,17 +13,29 @@ import {
     IViewType,
     Kind
 } from '../Models';
+import { createGuid } from './Utils';
 
-const debugLogging = true;
+const debugLogging = false;
 export const logDebugConsole = getDebugLogger('WizardTypeUtils', debugLogging);
+
+export function initializeId<T extends { id: string; isNew: boolean }>(
+    item: T
+): T {
+    if (!item.id) {
+        item.id = createGuid();
+        item.isNew = true;
+    } else {
+        item.isNew = item.isNew ?? false;
+    }
+    return item;
+}
 
 // #region Base
 
 function getBase(args: IBase): IBase {
     return {
-        id: args?.id,
-        isDeleted: args?.isDeleted ?? false,
-        isNew: args?.isNew ?? false
+        ...initializeId(args),
+        isDeleted: args?.isDeleted ?? false
     };
 }
 

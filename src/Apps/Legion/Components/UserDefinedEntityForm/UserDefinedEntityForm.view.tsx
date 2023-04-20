@@ -38,7 +38,7 @@ import {
     getNewViewType
 } from '../../Services/WizardTypes.utils';
 
-const debugLogging = true;
+const debugLogging = false;
 const logDebugConsole = getDebugLogger(
     'UserDefinedEntityFormView',
     debugLogging
@@ -304,6 +304,14 @@ const UserDefinedEntityFormView: React.FC<IUserDefinedEntityFormViewProps> = (
     const newEntityForm = useMemo(() => {
         return (
             <>
+                <TextField
+                    label={t(LOC_KEYS.parentEntityNameFieldLabel)}
+                    placeholder={t(LOC_KEYS.parentEntityNameFieldPlaceholder)}
+                    value={parentEntityNameValue}
+                    onChange={(_ev, value) => {
+                        setParentEntityNameValue(value);
+                    }}
+                />
                 <CardboardComboBox
                     label={t(LOC_KEYS.parentTypeFieldLabel)}
                     onSelectionChange={onParentTypeChange}
@@ -331,14 +339,6 @@ const UserDefinedEntityFormView: React.FC<IUserDefinedEntityFormViewProps> = (
                         />
                     </Stack>
                 )}
-                <TextField
-                    label={t(LOC_KEYS.parentEntityNameFieldLabel)}
-                    placeholder={t(LOC_KEYS.parentEntityNameFieldPlaceholder)}
-                    value={parentEntityNameValue}
-                    onChange={(_ev, value) => {
-                        setParentEntityNameValue(value);
-                    }}
-                />
 
                 <CardboardComboBox
                     label={t(LOC_KEYS.relationshipNameFieldLabel)}
