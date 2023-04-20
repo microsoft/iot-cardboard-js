@@ -1104,15 +1104,7 @@
       "3dAssetLoadingGenericErrorMessage": "모델을 로드하는 중 오류가 발생했습니다. 캐시를 지우고 다시 시도하거나 해당 파일에 대한 액세스 권한을 확인하십시오.",
       "3dAssetDimensionError": "모델 치수에 문제가있을 수 있으므로 잘못된 메쉬가 없는지 확인하십시오."
     },
-    "missingPermissionsMessage": "사용 권한이 누락되었습니다. 최소한 읽기 권한자로, 저장소 Blob 데이터 소유자 또는 저장소 Blob 데이터 기여자로 액세스해야 합니다.",
-    "networkErrorMessage": "CORS 문제, 잘못된 URL 또는 네트워크 오류일 수 있습니다. 리소스 소유자에게 문의하거나 나중에 다시 시도하세요.",
-    "networkErrorTitle": "연결 오류",
-    "applyUpdates": "업데이트 적용",
-    "setCorsPropertiesNotAuthorizedMessage": "이 변경을 수행하기 위해 저장소 계정에 액세스할 수 없습니다. 리소스 소유자에게 문의하여 스토리지 계정의 CORS 설정에 필요한 변경을 수행하세요.",
-    "availableCorsUpdateTitle": "CORS 업데이트 사용 가능",
-    "availableCorsUpdateMessage": "CORS에서 3D 장면을 사용할 수 있도록 저장소 계정에서 업데이트해야 하는 몇 가지 속성이 있습니다.",
-    "requiredCorsUpdateTitle": "CORS 업데이트 필요",
-    "requiredCorsUpdateMessage": "3D 장면을 계속 사용하려면 스토리지 계정에서 업데이트해야 하는 몇 가지 CORS 규칙이 있습니다. 리소스 소유자에게 문의하여 해당 규칙을 추가하세요."
+    "missingPermissionsMessage": "사용 권한이 누락되었습니다. 최소한 읽기 권한자로, 저장소 Blob 데이터 소유자 또는 저장소 Blob 데이터 기여자로 액세스해야 합니다."
   },
   "fieldRequired": "이 필드는 필수입니다.",
   "OATGraphViewer": {
@@ -1541,5 +1533,82 @@
   "jobs": {
     "addNew": "새로 추가"
   },
-  "dismiss": "해고하다"
+  "legionApp": {
+    "dataPusher": {
+      "progress": {
+        "createTable": "테이블 생성 중...",
+        "createTables": "테이블 만들기...",
+        "ingest": "복용...",
+        "createDatabase": "데이터베이스 작성 중..."
+      },
+      "tabs": {
+        "ingest": "섭취",
+        "cook": "요리사"
+      },
+      "source": {
+        "database": "원본 데이터베이스",
+        "selectDatabase": "원본 데이터베이스 선택",
+        "table": "원본 테이블",
+        "selectTable": "원본 테이블 선택",
+        "tableType": "원본 테이블 형식",
+        "selectTableType": "원본 테이블 유형 선택",
+        "twinIDProperty": "원본 쌍 ID 속성",
+        "selectTwinIDProperty": "원본 쌍 ID 속성 선택",
+        "type": "소스 유형",
+        "typePlaceholder": "소스 유형 선택"
+      },
+      "target": {
+        "database": "대상 데이터베이스",
+        "selectDatabase": "대상 데이터베이스 선택",
+        "tableType": "대상 테이블 유형",
+        "tableTypeTooltipContent": "테이블 생성 또는 행 수집에 사용할 테이블 스키마 선택",
+        "selectTableType": "대상 테이블 유형 선택",
+        "table": "대상 테이블",
+        "selectTable": "대상 테이블 선택"
+      },
+      "actions": {
+        "cook": "쌍둥이 그래프 쿡",
+        "pushTwinsGraph": "쌍 그래프를 대상 데이터베이스로 푸시",
+        "startIngest": "수집 시작",
+        "stopIngest": "수집 중지"
+      },
+      "title": "데이터 푸셔",
+      "clusterTitle": "클러스터 URL",
+      "notValidClusterMessage": "유효하지 않은 Kusto 클러스터 URL",
+      "frequency": "빈도",
+      "frequencyInfo": "이 숫자는 시계열 타임스탬프 사이의 시간과 새 행이 테이블에 푸시되는 간격을 모두 나타냅니다.",
+      "clusterSelectPlaceholder": "예: https://<예>.westus.kusto.windows.net",
+      "clusterSelectInfo": "선택한 Kusto 클러스터는 '스트리밍 수집' 정책을 사용하도록 설정해야 합니다.",
+      "tableSelectInfo": "기존에서 선택하는 경우 Kusto 테이블에 '데이터 푸셔매핑' JSON 매핑이 정의된 상태에서 '스트리밍 수집' 정책을 사용하도록 설정되어 있는지 확인합니다.",
+      "ingestInfo": "새 데이터베이스 또는 테이블을 만들고 행을 대상 테이블로 수집할 수 있습니다. 최근에 테이블을 만든 경우 수집 준비가되지 않았을 수 있으므로 수집하기 전에 몇 분 동안 기다리십시오.",
+      "cookInfo": "쌍둥이와 가능한 모델 및 속성 정보를 추출하여 선택한 소스 테이블을 기반으로 쌍둥이 그래프를 요리 할 수 있습니다."
+    },
+    "verificationStep": {
+      "title": "검색된 쌍둥이 확인",
+      "models": "모델",
+      "twins": "쌍둥이자리",
+      "properties": "속성"
+    },
+    "StoreListPage": {
+      "title": "미래에 오신 것을 환영합니다",
+      "createStoreButtonText": "데이터 저장소 추가",
+      "Modal": {
+        "title": "새 데이터 저장소 추가"
+      }
+    },
+    "dataSourceStep": {
+      "infoText": "원본 테이블 또는 엔지니어링 다이어그램에서 새 트윈 만들기Create new twins from a source table or engineering diagram"
+    },
+    "Common": {
+      "clusterLabel": "클러스터 URL",
+      "clusterPlaceholder": "클러스터 URL 선택",
+      "databaseLabel": "데이터베이스",
+      "databasePlaceholder": "데이터베이스 선택",
+      "tableLabel": "테이블",
+      "tableIdColumnLabel": "ID 필드",
+      "urlLabel": "URL (영문)",
+      "urlPlaceholder": "URL 입력",
+      "addOptionFormat": "'{{item}}' 추가"
+    }
+  }
 }

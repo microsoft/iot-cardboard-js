@@ -1104,15 +1104,7 @@
       "3dAssetLoadingGenericErrorMessage": "Model yüklenirken hata oluştu. Önbelleğinizi temizlemeyi deneyin ve yeniden deneyin veya bu dosya için erişiminizi denetleyin.",
       "3dAssetDimensionError": "Model boyutlarınızla ilgili bir sorun olabilir, lütfen hatalı kafes olmadığından emin olun."
     },
-    "missingPermissionsMessage": "Eksik izinleriniz var. Okuyucu (en azından) ve Depolama Blobu Veri Sahibi veya Depolama Blobu Veri Katılımcısı olarak erişime ihtiyacınız olacaktır.",
-    "networkErrorMessage": "Bu bir CORS sorunu, geçersiz URL veya ağ hatası olabilir. Lütfen kaynağın sahibine başvurun veya daha sonra yeniden deneyin.",
-    "networkErrorTitle": "Bağlantı hatası",
-    "applyUpdates": "Güncellemeleri uygulama",
-    "setCorsPropertiesNotAuthorizedMessage": "Bu değişikliği yapmak için depolama hesabına erişiminiz yok. Depolama hesabının CORS ayarlarında gerekli değişiklikleri yapmak için lütfen kaynak sahibine başvurun.",
-    "availableCorsUpdateTitle": "CORS güncellemesi mevcut",
-    "availableCorsUpdateMessage": "CORS ile 3B sahneleri kullanabilmek için depolama hesabınızda güncelleştirilmesi gereken bazı özellikler vardır.",
-    "requiredCorsUpdateTitle": "CORS güncellemesi gerekli",
-    "requiredCorsUpdateMessage": "3B sahneleri kullanmaya devam etmek için depolama hesabınızda güncellenmesi gereken bazı CORS kuralları vardır. Bu kuralları eklemek için lütfen kaynak sahibine başvurun."
+    "missingPermissionsMessage": "Eksik izinleriniz var. Okuyucu (en azından) ve Depolama Blobu Veri Sahibi veya Depolama Blobu Veri Katılımcısı olarak erişime ihtiyacınız olacaktır."
   },
   "fieldRequired": "Bu alan zorunludur",
   "OATGraphViewer": {
@@ -1541,5 +1533,82 @@
   "jobs": {
     "addNew": "Yeni ekle"
   },
-  "dismiss": "Kapatmak"
+  "legionApp": {
+    "dataPusher": {
+      "progress": {
+        "createTable": "Tablo oluşturuluyor...",
+        "createTables": "Tablo oluşturma...",
+        "ingest": "Ingesting...",
+        "createDatabase": "Veritabanı oluşturuluyor..."
+      },
+      "tabs": {
+        "ingest": "Yutmayın",
+        "cook": "Pişirmek"
+      },
+      "source": {
+        "database": "Kaynak veritabanı",
+        "selectDatabase": "Kaynak veritabanını seçme",
+        "table": "Kaynak tablo",
+        "selectTable": "Kaynak tabloyu seç",
+        "tableType": "Kaynak tablo türü",
+        "selectTableType": "Kaynak tablo türünü seçme",
+        "twinIDProperty": "Kaynak ikiz kimlik özelliği",
+        "selectTwinIDProperty": "Kaynak ikiz kimliği özelliğini seçin",
+        "type": "Kaynak türü",
+        "typePlaceholder": "Kaynak türünü seçin"
+      },
+      "target": {
+        "database": "Hedef veritabanı",
+        "selectDatabase": "Hedef veritabanını seç",
+        "tableType": "Hedef tablo türü",
+        "tableTypeTooltipContent": "Tablo oluşturma veya satır alma için kullanılacak tablo şemasını seçme",
+        "selectTableType": "Hedef tablo türünü seçin",
+        "table": "Hedef tablo",
+        "selectTable": "Hedef tabloyu seçin"
+      },
+      "actions": {
+        "cook": "Cook ikizleri grafiği",
+        "pushTwinsGraph": "İkizler grafiğini hedef veritabanına gönderme",
+        "startIngest": "Beslemeye başlayın",
+        "stopIngest": "Yutulmayı durdurma"
+      },
+      "title": "Veri itici",
+      "clusterTitle": "Küme URL'si",
+      "notValidClusterMessage": "Geçerli değil Kusto kümesi URL'si",
+      "frequency": "Frekans",
+      "frequencyInfo": "Bu sayı hem zaman serisi zaman damgaları arasındaki süreyi hem de yeni satırların tabloya itildiği aralığı temsil eder.",
+      "clusterSelectPlaceholder": "örneğin https://<örnek>.westus.kusto.windows.net",
+      "clusterSelectInfo": "Seçili Kusto kümesinde 'akış alımı' ilkesinin etkinleştirilmiş olması gerekir.",
+      "tableSelectInfo": "Var olanlar arasından seçim yapıyorsanız, Kusto tablosunda 'DataPusherMapping' JSON eşlemesi tanımlanmışken 'akış alımı' ilkesinin etkinleştirildiğinden emin olun.",
+      "ingestInfo": "Yeni bir veritabanı veya tablo oluşturabilir ve satırları hedef tabloya alabilirsiniz. Tabloyu yakın zamanda oluşturduysanız, yutulmaya hazır olmayabileceğini lütfen unutmayın, yutmadan önce birkaç dakika bekleyin.",
+      "cookInfo": "Seçilen kaynak tabloya dayalı ikizler grafiğini pişirerek ikizleri ve olası modelleri ve özellikleri bilgilerini ayıklayabilirsiniz."
+    },
+    "verificationStep": {
+      "title": "Bulunan ikizleri doğrulama",
+      "models": "Model",
+      "twins": "İkizler",
+      "properties": "Özellikler"
+    },
+    "StoreListPage": {
+      "title": "Geleceğe hoş geldiniz",
+      "createStoreButtonText": "Veri deposu ekleme",
+      "Modal": {
+        "title": "Yeni veri deposu ekleme"
+      }
+    },
+    "dataSourceStep": {
+      "infoText": "Kaynak tablodan veya mühendislik diyagramından yeni ikizler oluşturma"
+    },
+    "Common": {
+      "clusterLabel": "Küme URL'si",
+      "clusterPlaceholder": "Küme URL'sini seçin",
+      "databaseLabel": "Veritabanı",
+      "databasePlaceholder": "Veritabanı seç",
+      "tableLabel": "Masa",
+      "tableIdColumnLabel": "Kimlik alanı",
+      "urlLabel": "URL",
+      "urlPlaceholder": "URL girin",
+      "addOptionFormat": "'{{item}}' ekleyin"
+    }
+  }
 }

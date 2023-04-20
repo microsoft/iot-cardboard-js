@@ -1104,15 +1104,7 @@
       "3dAssetLoadingGenericErrorMessage": "Modelo de carregamento de erros. Tente limpar seu cache e tente novamente ou verifique seu acesso para esse arquivo.",
       "3dAssetDimensionError": "Pode haver um problema com as dimensões do seu modelo, por favor, verifique se não há malhas errôneas."
     },
-    "missingPermissionsMessage": "Você tem permissões perdidas. Você precisará de acesso como leitor (no mínimo) e ou proprietário de dados do Blob de armazenamento ou colaborador de dados do Blob de armazenamento.",
-    "networkErrorMessage": "Isso pode ser um problema de CORS, URL inválida ou um erro de rede. Entre em contato com o proprietário do recurso ou tente novamente mais tarde.",
-    "networkErrorTitle": "Erro de conexão",
-    "applyUpdates": "Aplicar atualizações",
-    "setCorsPropertiesNotAuthorizedMessage": "Você não tem acesso à conta de armazenamento para fazer essa alteração. Entre em contato com o proprietário do recurso para fazer as alterações necessárias nas configurações de CORS da conta de armazenamento.",
-    "availableCorsUpdateTitle": "Atualização do CORS disponível",
-    "availableCorsUpdateMessage": "Existem algumas propriedades que precisam ser atualizadas em sua conta de armazenamento para poder usar cenas 3D com o CORS.",
-    "requiredCorsUpdateTitle": "Atualização do CORS necessária",
-    "requiredCorsUpdateMessage": "Para continuar usando cenas 3D, existem algumas regras CORS que precisam ser atualizadas em sua conta de armazenamento. Entre em contato com o proprietário do recurso para adicionar essas regras."
+    "missingPermissionsMessage": "Você tem permissões perdidas. Você precisará de acesso como leitor (no mínimo) e ou proprietário de dados do Blob de armazenamento ou colaborador de dados do Blob de armazenamento."
   },
   "fieldRequired": "Este campo é necessário",
   "OATGraphViewer": {
@@ -1541,5 +1533,82 @@
   "jobs": {
     "addNew": "Adicionar novo"
   },
-  "dismiss": "Demitir"
+  "legionApp": {
+    "dataPusher": {
+      "progress": {
+        "createTable": "Criando tabela...",
+        "createTables": "Criando tabelas...",
+        "ingest": "Ingestão...",
+        "createDatabase": "Criando banco de dados..."
+      },
+      "tabs": {
+        "ingest": "Ingerir",
+        "cook": "Cozinhar"
+      },
+      "source": {
+        "database": "Banco de dados de origem",
+        "selectDatabase": "Selecionar banco de dados de origem",
+        "table": "Tabela de origem",
+        "selectTable": "Selecionar tabela de origem",
+        "tableType": "Tipo de tabela de origem",
+        "selectTableType": "Selecionar tipo de tabela de origem",
+        "twinIDProperty": "Propriedade ID de gêmeo de origem",
+        "selectTwinIDProperty": "Selecionar propriedade de ID de gêmeo de origem",
+        "type": "Tipo de origem",
+        "typePlaceholder": "Selecione o tipo de origem"
+      },
+      "target": {
+        "database": "Banco de dados de destino",
+        "selectDatabase": "Selecionar banco de dados de destino",
+        "tableType": "Tipo de tabela de destino",
+        "tableTypeTooltipContent": "Selecione o esquema de tabela a ser usado para criação de tabela ou ingestão de linhas",
+        "selectTableType": "Selecionar tipo de tabela de destino",
+        "table": "Tabela de destino",
+        "selectTable": "Selecionar tabela de destino"
+      },
+      "actions": {
+        "cook": "Gráfico de gêmeos de cozinheiro",
+        "pushTwinsGraph": "Enviar o gráfico de gêmeos para o banco de dados de destino",
+        "startIngest": "Iniciar a ingestão",
+        "stopIngest": "Parar de ingerir"
+      },
+      "title": "Empurrador de dados",
+      "clusterTitle": "Cluster URL",
+      "notValidClusterMessage": "URL de cluster Kusto não válida",
+      "frequency": "Frequência",
+      "frequencyInfo": "Esse número representa o tempo entre os carimbos de data/hora da série temporal e o intervalo no qual novas linhas são enviadas para a tabela.",
+      "clusterSelectPlaceholder": "por exemplo, https://<exemplo>.westus.kusto.windows.net",
+      "clusterSelectInfo": "O cluster Kusto selecionado precisa ter a política de 'ingestão de streaming' habilitada.",
+      "tableSelectInfo": "Se selecionar entre os existentes, verifique se a tabela Kusto tem a política de 'ingestão de streaming' habilitada com o mapeamento JSON 'DataPusherMapping' definido.",
+      "ingestInfo": "Você pode criar um novo banco de dados ou tabela e ingerir linhas em uma tabela de destino. Observe que, se você criou a tabela recentemente, ela pode não estar pronta para ingestão, aguarde alguns minutos antes de ingerir.",
+      "cookInfo": "Você pode extrair gêmeos e possíveis modelos e informações de propriedades cozinhando o gráfico de gêmeos com base na tabela de origem selecionada."
+    },
+    "verificationStep": {
+      "title": "Verificar gêmeos descobertos",
+      "models": "Modelos",
+      "twins": "Gêmeos",
+      "properties": "Propriedades"
+    },
+    "StoreListPage": {
+      "title": "Bem-vindo ao futuro",
+      "createStoreButtonText": "Adicionar armazenamento de dados",
+      "Modal": {
+        "title": "Adicionar um novo armazenamento de dados"
+      }
+    },
+    "dataSourceStep": {
+      "infoText": "Criar novos gêmeos a partir de uma tabela de origem ou diagrama de engenharia"
+    },
+    "Common": {
+      "clusterLabel": "Cluster URL",
+      "clusterPlaceholder": "Selecionar URL do cluster",
+      "databaseLabel": "Base de dados",
+      "databasePlaceholder": "Selecionar banco de dados",
+      "tableLabel": "Mesa",
+      "tableIdColumnLabel": "Campo ID",
+      "urlLabel": "URL (em inglês)",
+      "urlPlaceholder": "Digite o URL",
+      "addOptionFormat": "Adicionar '{{item}}'"
+    }
+  }
 }

@@ -1104,15 +1104,7 @@
       "3dAssetLoadingGenericErrorMessage": "加载模型时出错。请尝试清除缓存，然后重试或检查您对该文件的访问权限。",
       "3dAssetDimensionError": "您的模型尺寸可能存在问题，请检查是否有错误的网格。"
     },
-    "missingPermissionsMessage": "您缺少权限。需要以读取者身份（至少）和存储 Blob 数据所有者或存储 Blob 数据参与者进行访问。",
-    "networkErrorMessage": "这可能是 CORS 问题、无效 URL 或网络错误。请与资源的所有者联系，或稍后重试。",
-    "networkErrorTitle": "连接错误",
-    "applyUpdates": "应用更新",
-    "setCorsPropertiesNotAuthorizedMessage": "你无权访问存储帐户以进行此更改。请联系资源所有者，对存储帐户的 CORS 设置进行所需的更改。",
-    "availableCorsUpdateTitle": "提供 CORS 更新",
-    "availableCorsUpdateMessage": "需要在存储帐户上更新一些属性，以便能够将 3D 场景与 CORS 配合使用。",
-    "requiredCorsUpdateTitle": "需要更新 CORS",
-    "requiredCorsUpdateMessage": "为了继续使用 3D 场景，需要在存储帐户上更新一些 CORS 规则。请联系资源所有者以添加这些规则。"
+    "missingPermissionsMessage": "您缺少权限。需要以读取者身份（至少）和存储 Blob 数据所有者或存储 Blob 数据参与者进行访问。"
   },
   "fieldRequired": "此字段为必填项",
   "OATGraphViewer": {
@@ -1541,5 +1533,82 @@
   "jobs": {
     "addNew": "新增"
   },
-  "dismiss": "解雇"
+  "legionApp": {
+    "dataPusher": {
+      "progress": {
+        "createTable": "正在创建表...",
+        "createTables": "正在创建表...",
+        "ingest": "摄入。。。",
+        "createDatabase": "正在创建数据库..."
+      },
+      "tabs": {
+        "ingest": "摄取",
+        "cook": "煮"
+      },
+      "source": {
+        "database": "源数据库",
+        "selectDatabase": "选择源数据库",
+        "table": "源表",
+        "selectTable": "选择源表",
+        "tableType": "源表类型",
+        "selectTableType": "选择源表类型",
+        "twinIDProperty": "源孪生 ID 属性",
+        "selectTwinIDProperty": "选择源孪生 ID 属性",
+        "type": "源类型",
+        "typePlaceholder": "选择源类型"
+      },
+      "target": {
+        "database": "目标数据库",
+        "selectDatabase": "选择目标数据库",
+        "tableType": "目标表类型",
+        "tableTypeTooltipContent": "选择要用于表创建或行引入的表架构",
+        "selectTableType": "选择目标表类型",
+        "table": "目标表",
+        "selectTable": "选择目标表"
+      },
+      "actions": {
+        "cook": "库克双胞胎图",
+        "pushTwinsGraph": "将孪生体图推送到目标数据库",
+        "startIngest": "开始摄取",
+        "stopIngest": "停止引入"
+      },
+      "title": "数据推送器",
+      "clusterTitle": "群集网址",
+      "notValidClusterMessage": "库斯托群集 URL 无效",
+      "frequency": "频率",
+      "frequencyInfo": "此数字表示时序时间戳之间的时间和将新行推送到表的时间间隔。",
+      "clusterSelectPlaceholder": "例如 https://<例如>.westus.kusto.windows.net",
+      "clusterSelectInfo": "所选 Kusto 群集需要启用“流式引入”策略。",
+      "tableSelectInfo": "如果从现有选项中进行选择，请确保 Kusto 表启用了“流式引入”策略，并定义了“数据推送器映射”JSON 映射。",
+      "ingestInfo": "您可以创建新的数据库或表，并将行引入目标表。请注意，如果您最近创建了表，则它可能尚未准备好进行摄取，请在摄取前等待几分钟。",
+      "cookInfo": "您可以通过基于所选源表的孪生图来提取孪生体以及可能的模型和属性信息。"
+    },
+    "verificationStep": {
+      "title": "验证发现的孪生体",
+      "models": "模型",
+      "twins": "双胞胎",
+      "properties": "性能"
+    },
+    "StoreListPage": {
+      "title": "欢迎来到未来",
+      "createStoreButtonText": "添加数据存储",
+      "Modal": {
+        "title": "添加新数据存储"
+      }
+    },
+    "dataSourceStep": {
+      "infoText": "从源表或工程图创建新的孪生体"
+    },
+    "Common": {
+      "clusterLabel": "群集网址",
+      "clusterPlaceholder": "选择群集网址",
+      "databaseLabel": "数据库",
+      "databasePlaceholder": "选择数据库",
+      "tableLabel": "桌子",
+      "tableIdColumnLabel": "标识字段",
+      "urlLabel": "网址",
+      "urlPlaceholder": "输入网址",
+      "addOptionFormat": "添加“{{项目}}”"
+    }
+  }
 }

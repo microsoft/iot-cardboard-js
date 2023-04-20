@@ -1135,15 +1135,7 @@
       "3dAssetLoadingGenericErrorMessage": "Chyba při načítání modelu. Zkuste vymazat mezipaměť a zkuste to znovu nebo zkontrolujte přístup k tomuto souboru.",
       "3dAssetDimensionError": "Může se jednat o problém s rozměry modelu, zkontrolujte, zda nejsou žádné chybné sítě."
     },
-    "missingPermissionsMessage": "Chybí vám oprávnění. Budete potřebovat přístup jako čtenář (minimálně) a buď vlastník dat objektů BLOB úložiště, nebo přispěvatel dat objektů BLOB úložiště.",
-    "networkErrorMessage": "Může se jednat o problém CORS, neplatnou adresu URL nebo chybu sítě. Obraťte se na vlastníka prostředku nebo akci opakujte později.",
-    "networkErrorTitle": "Chyba připojení",
-    "applyUpdates": "Použití aktualizací",
-    "setCorsPropertiesNotAuthorizedMessage": "K provedení této změny nemáte přístup k účtu úložiště. Obraťte se na vlastníka prostředku a proveďte požadované změny nastavení CORS účtu úložiště.",
-    "availableCorsUpdateTitle": "K dispozici je aktualizace CORS",
-    "availableCorsUpdateMessage": "Existují některé vlastnosti, které je potřeba v účtu úložiště aktualizovat, aby bylo možné používat 3D scény s CORS.",
-    "requiredCorsUpdateTitle": "Je vyžadována aktualizace CORS",
-    "requiredCorsUpdateMessage": "Aby bylo možné dál používat 3D scény, existují některá pravidla CORS, která je potřeba ve vašem účtu úložiště aktualizovat. Obraťte se na vlastníka prostředku a přidejte tato pravidla."
+    "missingPermissionsMessage": "Chybí vám oprávnění. Budete potřebovat přístup jako čtenář (minimálně) a buď vlastník dat objektů BLOB úložiště, nebo přispěvatel dat objektů BLOB úložiště."
   },
   "fieldRequired": "Toto pole je povinné",
   "duration": {
@@ -1541,5 +1533,82 @@
   "jobs": {
     "addNew": "Přidat nový"
   },
-  "dismiss": "Propustit"
+  "legionApp": {
+    "dataPusher": {
+      "progress": {
+        "createTable": "Vytváření tabulky...",
+        "createTables": "Vytváření tabulek...",
+        "ingest": "Požitím...",
+        "createDatabase": "Tvorba databáze..."
+      },
+      "tabs": {
+        "ingest": "Spolknout potravu",
+        "cook": "Kuchař"
+      },
+      "source": {
+        "database": "Zdrojová databáze",
+        "selectDatabase": "Vybrat zdrojovou databázi",
+        "table": "Zdrojová tabulka",
+        "selectTable": "Vybrat zdrojovou tabulku",
+        "tableType": "Typ zdrojové tabulky",
+        "selectTableType": "Vyberte typ zdrojové tabulky",
+        "twinIDProperty": "Vlastnost ID zdrojového dvojčete",
+        "selectTwinIDProperty": "Vyberte vlastnost ID dvojčete zdroje",
+        "type": "Typ zdroje",
+        "typePlaceholder": "Vyberte typ zdroje"
+      },
+      "target": {
+        "database": "Cílová databáze",
+        "selectDatabase": "Vybrat cílovou databázi",
+        "tableType": "Typ cílové tabulky",
+        "tableTypeTooltipContent": "Vyberte schéma tabulky, které se má použít pro vytvoření tabulky nebo příjem řádků",
+        "selectTableType": "Vyberte typ cílové tabulky",
+        "table": "Cílová tabulka",
+        "selectTable": "Vyberte cílovou tabulku"
+      },
+      "actions": {
+        "cook": "Graf Cook dvojčat",
+        "pushTwinsGraph": "Odeslání grafu dvojčat do cílové databáze",
+        "startIngest": "Začněte požití",
+        "stopIngest": "Zastavte požití"
+      },
+      "title": "Posunovač dat",
+      "clusterTitle": "Adresa URL clusteru",
+      "notValidClusterMessage": "Neplatná adresa URL clusteru Kusto",
+      "frequency": "Frekvence",
+      "frequencyInfo": "Toto číslo představuje čas mezi časovými razítky časových řad a interval, ve kterém jsou nové řádky odesílány do tabulky.",
+      "clusterSelectPlaceholder": "např. https://<příklad>.westus.kusto.windows.net",
+      "clusterSelectInfo": "Vybraný cluster Kusto musí mít povolené zásady příjmu streamování.",
+      "tableSelectInfo": "Pokud vybíráte z existujících, ujistěte se, že tabulka Kusto má povolené zásady příjmu streamování s definovaným mapováním JSON DataPusherMapping.",
+      "ingestInfo": "Můžete vytvořit novou databázi nebo tabulku a ingestovat řádky do cílové tabulky. Upozorňujeme, že pokud jste tabulku vytvořili nedávno, nemusí být připravena k požití, před požitím počkejte několik minut.",
+      "cookInfo": "Můžete extrahovat dvojčata a možné modely a vlastnosti grafu vaření dvojčat na základě vybrané zdrojové tabulky."
+    },
+    "verificationStep": {
+      "title": "Ověření zjištěných dvojčat",
+      "models": "Modely",
+      "twins": "Dvojčata",
+      "properties": "Vlastnosti"
+    },
+    "StoreListPage": {
+      "title": "Vítejte v budoucnosti",
+      "createStoreButtonText": "Přidání úložiště dat",
+      "Modal": {
+        "title": "Přidání nového úložiště dat"
+      }
+    },
+    "dataSourceStep": {
+      "infoText": "Vytvoření nových dvojčat ze zdrojové tabulky nebo inženýrského diagramu"
+    },
+    "Common": {
+      "clusterLabel": "Adresa URL clusteru",
+      "clusterPlaceholder": "Vyberte adresu URL clusteru",
+      "databaseLabel": "Databáze",
+      "databasePlaceholder": "Vybrat databázi",
+      "tableLabel": "Stůl",
+      "tableIdColumnLabel": "Pole ID",
+      "urlLabel": "Adresa URL",
+      "urlPlaceholder": "Zadejte adresu URL",
+      "addOptionFormat": "Přidat '{{item}}'"
+    }
+  }
 }

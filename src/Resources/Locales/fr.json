@@ -1104,15 +1104,7 @@
       "3dAssetLoadingGenericErrorMessage": "Erreur de chargement du modèle. Essayez d’effacer votre cache et réessayez ou vérifiez votre accès pour ce fichier.",
       "3dAssetDimensionError": "Il peut y avoir un problème avec les dimensions de votre modèle, veuillez vérifier qu’il n’y a pas de maillages erronés."
     },
-    "missingPermissionsMessage": "Vous avez des autorisations manquantes. Vous aurez besoin d’un accès en tant que lecteur (au minimum) et soit propriétaire des données d’objet blob de stockage, soit contributeur de données d’objets blob de stockage.",
-    "networkErrorMessage": "Il peut s’agir d’un problème CORS, d’une URL non valide ou d’une erreur réseau. Veuillez contacter le propriétaire de la ressource ou réessayer plus tard.",
-    "networkErrorTitle": "Erreur de connexion",
-    "applyUpdates": "Appliquer les mises à jour",
-    "setCorsPropertiesNotAuthorizedMessage": "Vous n’avez pas accès au compte de stockage pour effectuer cette modification. Veuillez contacter le propriétaire de la ressource pour apporter les modifications requises aux paramètres CORS du compte de stockage.",
-    "availableCorsUpdateTitle": "Mise à jour CORS disponible",
-    "availableCorsUpdateMessage": "Certaines propriétés doivent être mises à jour sur votre compte de stockage pour pouvoir utiliser des scènes 3D avec CORS.",
-    "requiredCorsUpdateTitle": "Mise à jour CORS requise",
-    "requiredCorsUpdateMessage": "Afin de continuer à utiliser des scènes 3D, certaines règles CORS doivent être mises à jour sur votre compte de stockage. Veuillez contacter le propriétaire de la ressource pour ajouter ces règles."
+    "missingPermissionsMessage": "Vous avez des autorisations manquantes. Vous aurez besoin d’un accès en tant que lecteur (au minimum) et soit propriétaire des données d’objet blob de stockage, soit contributeur de données d’objets blob de stockage."
   },
   "fieldRequired": "Ce champ est obligatoire",
   "OATGraphViewer": {
@@ -1541,5 +1533,82 @@
   "jobs": {
     "addNew": "Ajouter un nouveau"
   },
-  "dismiss": "Congédier"
+  "legionApp": {
+    "dataPusher": {
+      "progress": {
+        "createTable": "Création d’une table...",
+        "createTables": "Création de tables...",
+        "ingest": "Ingestion...",
+        "createDatabase": "Création d’une base de données..."
+      },
+      "tabs": {
+        "ingest": "Ingérer",
+        "cook": "Cuire"
+      },
+      "source": {
+        "database": "Base de données source",
+        "selectDatabase": "Sélectionner la base de données source",
+        "table": "Table source",
+        "selectTable": "Sélectionner la table source",
+        "tableType": "Type de table source",
+        "selectTableType": "Sélectionner le type de table source",
+        "twinIDProperty": "Propriété ID du jumeau source",
+        "selectTwinIDProperty": "Sélectionner la propriété ID du jumeau source",
+        "type": "Type de source",
+        "typePlaceholder": "Sélectionner le type de source"
+      },
+      "target": {
+        "database": "Base de données cible",
+        "selectDatabase": "Sélectionner la base de données cible",
+        "tableType": "Type de table cible",
+        "tableTypeTooltipContent": "Sélectionner le schéma de table à utiliser pour la création de table ou l’ingestion de lignes",
+        "selectTableType": "Sélectionner le type de table cible",
+        "table": "Tableau cible",
+        "selectTable": "Sélectionner la table cible"
+      },
+      "actions": {
+        "cook": "Graphique des jumeaux cuisiniers",
+        "pushTwinsGraph": "Pousser le graphique des jumeaux vers la base de données cible",
+        "startIngest": "Démarrer l’ingestion",
+        "stopIngest": "Arrêter l’ingestion"
+      },
+      "title": "Pousseur de données",
+      "clusterTitle": "Cluster URL",
+      "notValidClusterMessage": "URL de cluster Kusto non valide",
+      "frequency": "Fréquence",
+      "frequencyInfo": "Ce nombre représente à la fois le temps entre les horodatages de séries chronologiques et l’intervalle auquel les nouvelles lignes sont poussées vers la table.",
+      "clusterSelectPlaceholder": "p. ex. https://<exemple>.westus.kusto.windows.net",
+      "clusterSelectInfo": "Le cluster Kusto sélectionné doit avoir activé la stratégie « ingestion en continu ».",
+      "tableSelectInfo": "Si vous sélectionnez parmi les fichiers existants, assurez-vous que la stratégie « ingestion en continu » de la table Kusto est activée avec le mappage JSON « DataPusherMapping » défini.",
+      "ingestInfo": "Vous pouvez créer une base de données ou une table et ingérer des lignes vers une table cible. Veuillez noter que si vous avez récemment créé le tableau, il se peut qu’il ne soit pas prêt pour l’ingestion, attendez quelques minutes avant l’ingestion.",
+      "cookInfo": "Vous pouvez extraire des jumeaux et des informations sur les modèles et propriétés possibles en cuisinant le graphique des jumeaux basé sur la table source sélectionnée."
+    },
+    "verificationStep": {
+      "title": "Vérifier les jumeaux découverts",
+      "models": "Modèle",
+      "twins": "Jumeaux",
+      "properties": "Propriétés"
+    },
+    "StoreListPage": {
+      "title": "Bienvenue dans le futur",
+      "createStoreButtonText": "Ajouter un magasin de données",
+      "Modal": {
+        "title": "Ajouter un nouveau magasin de données"
+      }
+    },
+    "dataSourceStep": {
+      "infoText": "Créer de nouveaux jumeaux à partir d’une table source ou d’un diagramme d’ingénierie"
+    },
+    "Common": {
+      "clusterLabel": "Cluster URL",
+      "clusterPlaceholder": "Sélectionner l’URL du cluster",
+      "databaseLabel": "Base de données",
+      "databasePlaceholder": "Sélectionner une base de données",
+      "tableLabel": "Table",
+      "tableIdColumnLabel": "Champ ID",
+      "urlLabel": "URL",
+      "urlPlaceholder": "Entrez l’URL",
+      "addOptionFormat": "Ajouter '{{item}}'"
+    }
+  }
 }

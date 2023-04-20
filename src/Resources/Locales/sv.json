@@ -1104,15 +1104,7 @@
       "3dAssetLoadingGenericErrorMessage": "Fel vid laddning av modell. Försök att rensa cacheminnet och försök igen eller kontrollera din åtkomst för den filen.",
       "3dAssetDimensionError": "Det kan finnas ett problem med dina modelldimensioner, kontrollera att det inte finns några felaktiga maskor."
     },
-    "missingPermissionsMessage": "Du saknar behörigheter. Du behöver åtkomst som läsare (minst) och antingen Storage Blob Data-ägare eller Storage Blob Data-deltagare.",
-    "networkErrorMessage": "Detta kan vara ett CORS-problem, ogiltig url eller ett nätverksfel. Kontakta resursens ägare eller försök igen senare.",
-    "networkErrorTitle": "Fel vid anslutning",
-    "applyUpdates": "Tillämpa uppdateringar",
-    "setCorsPropertiesNotAuthorizedMessage": "Du har inte åtkomst till lagringskontot för att göra den här ändringen. Kontakta resursägaren för att göra de ändringar som krävs i CORS-inställningarna för lagringskontot.",
-    "availableCorsUpdateTitle": "CORS-uppdatering tillgänglig",
-    "availableCorsUpdateMessage": "Det finns vissa egenskaper som måste uppdateras på ditt lagringskonto för att kunna använda 3D-scener med CORS.",
-    "requiredCorsUpdateTitle": "CORS-uppdatering krävs",
-    "requiredCorsUpdateMessage": "För att kunna fortsätta använda 3D-scener finns det vissa CORS-regler som måste uppdateras på ditt lagringskonto. Kontakta resursägaren för att lägga till dessa regler."
+    "missingPermissionsMessage": "Du saknar behörigheter. Du behöver åtkomst som läsare (minst) och antingen Storage Blob Data-ägare eller Storage Blob Data-deltagare."
   },
   "fieldRequired": "Det här fältet är obligatoriskt",
   "OATGraphViewer": {
@@ -1541,5 +1533,82 @@
   "jobs": {
     "addNew": "Lägg till nya"
   },
-  "dismiss": "Avskeda"
+  "legionApp": {
+    "dataPusher": {
+      "progress": {
+        "createTable": "Skapa tabell...",
+        "createTables": "Skapa tabeller...",
+        "ingest": "Intag...",
+        "createDatabase": "Skapa databas..."
+      },
+      "tabs": {
+        "ingest": "Äter",
+        "cook": "Kock"
+      },
+      "source": {
+        "database": "Källor",
+        "selectDatabase": "Välj källdatabas",
+        "table": "Källor",
+        "selectTable": "Välj källtabell",
+        "tableType": "Typ av källtabell",
+        "selectTableType": "Välj källtabelltyp",
+        "twinIDProperty": "Egenskapen Källtvilling-ID",
+        "selectTwinIDProperty": "Välj egenskap för källtvilling-ID",
+        "type": "Typ av källa",
+        "typePlaceholder": "Välj källtyp"
+      },
+      "target": {
+        "database": "Måldatabas",
+        "selectDatabase": "Välj måldatabas",
+        "tableType": "Typ av måltabell",
+        "tableTypeTooltipContent": "Välj det tabellschema som ska användas för att skapa tabeller eller radinmatning",
+        "selectTableType": "Välj måltabelltyp",
+        "table": "Måltabell",
+        "selectTable": "Välj måltabell"
+      },
+      "actions": {
+        "cook": "Cook tvillingar graf",
+        "pushTwinsGraph": "Skicka tvillingdiagram till måldatabasen",
+        "startIngest": "Starta intag",
+        "stopIngest": "Stoppa intag"
+      },
+      "title": "Data pusher",
+      "clusterTitle": "URL för kluster",
+      "notValidClusterMessage": "Inte giltig Kusto-kluster-URL",
+      "frequency": "Frekvens",
+      "frequencyInfo": "Det här numret representerar både tiden mellan tidsserietidsstämplar och intervallet med vilket nya rader skickas till tabellen.",
+      "clusterSelectPlaceholder": "t.ex. https://<exempel>.westus.kusto.windows.net",
+      "clusterSelectInfo": "Det valda Kusto-klustret måste ha principen \"strömningsinmatning\" aktiverad.",
+      "tableSelectInfo": "Om du väljer från befintlig kontrollerar du att Kusto-tabellen har principen \"strömningsinmatning\" aktiverad med JSON-mappningen \"DataPusherMapping\" definierad.",
+      "ingestInfo": "Du kan skapa en ny databas eller tabell och mata in rader i en måltabell. Observera att om du nyligen har skapat tabellen kanske den inte är redo för inmatning, vänta några minuter innan den matas in.",
+      "cookInfo": "Du kan extrahera tvillingar och möjliga modeller & egenskapsinformation genom att laga tvillingdiagram baserat på vald källtabell."
+    },
+    "verificationStep": {
+      "title": "Verifiera identifierade tvillingar",
+      "models": "Modeller",
+      "twins": "Tvillingar",
+      "properties": "Egenskaper"
+    },
+    "StoreListPage": {
+      "title": "Välkommen till framtiden",
+      "createStoreButtonText": "Lägg till datalager",
+      "Modal": {
+        "title": "Lägga till ett nytt datalager"
+      }
+    },
+    "dataSourceStep": {
+      "infoText": "Skapa nya tvillingar från en källtabell eller ett teknikdiagram"
+    },
+    "Common": {
+      "clusterLabel": "URL för kluster",
+      "clusterPlaceholder": "Välj kluster-URL",
+      "databaseLabel": "Databas",
+      "databasePlaceholder": "Välj databas",
+      "tableLabel": "Bord",
+      "tableIdColumnLabel": "ID-fält",
+      "urlLabel": "URL",
+      "urlPlaceholder": "Ange URL",
+      "addOptionFormat": "Lägg till '{{item}}'"
+    }
+  }
 }

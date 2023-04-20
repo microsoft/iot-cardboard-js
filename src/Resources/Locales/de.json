@@ -1104,15 +1104,7 @@
       "3dAssetLoadingGenericErrorMessage": "Fehler beim Laden des Modells. Versuchen Sie, den Cache zu leeren, und versuchen Sie es erneut, oder überprüfen Sie Ihren Zugriff auf diese Datei.",
       "3dAssetDimensionError": "Möglicherweise liegt ein Problem mit den Abmessungen Ihres Modells vor, bitte überprüfen Sie, ob keine fehlerhaften Netze vorhanden sind."
     },
-    "missingPermissionsMessage": "Sie haben fehlende Berechtigungen. Sie benötigen Zugriff als Reader (mindestens) und entweder als Storage Blob Data Owner oder Storage Blob Data Contributor.",
-    "networkErrorMessage": "Dies kann ein CORS-Problem, eine ungültige URL oder ein Netzwerkfehler sein. Wenden Sie sich an den Besitzer der Ressource oder versuchen Sie es später erneut.",
-    "networkErrorTitle": "Verbindungsfehler",
-    "applyUpdates": "Anwenden von Updates",
-    "setCorsPropertiesNotAuthorizedMessage": "Sie haben keinen Zugriff auf das Speicherkonto, um diese Änderung vorzunehmen. Wenden Sie sich an den Ressourcenbesitzer, um die erforderlichen Änderungen an den CORS-Einstellungen des Speicherkontos vorzunehmen.",
-    "availableCorsUpdateTitle": "CORS-Update verfügbar",
-    "availableCorsUpdateMessage": "Es gibt einige Eigenschaften, die in Ihrem Speicherkonto aktualisiert werden müssen, um 3D-Szenen mit CORS verwenden zu können.",
-    "requiredCorsUpdateTitle": "CORS-Aktualisierung erforderlich",
-    "requiredCorsUpdateMessage": "Um weiterhin 3D-Szenen verwenden zu können, gibt es einige CORS-Regeln, die in Ihrem Speicherkonto aktualisiert werden müssen. Wenden Sie sich an den Ressourcenbesitzer, um diese Regeln hinzuzufügen."
+    "missingPermissionsMessage": "Sie haben fehlende Berechtigungen. Sie benötigen Zugriff als Reader (mindestens) und entweder als Storage Blob Data Owner oder Storage Blob Data Contributor."
   },
   "fieldRequired": "Dieses Feld ist ein Pflichtfeld",
   "OATGraphViewer": {
@@ -1541,5 +1533,82 @@
   "jobs": {
     "addNew": "Neu hinzufügen"
   },
-  "dismiss": "Entlassen"
+  "legionApp": {
+    "dataPusher": {
+      "progress": {
+        "createTable": "Tabelle wird erstellt...",
+        "createTables": "Erstellen von Tabellen...",
+        "ingest": "Aufnehmend...",
+        "createDatabase": "Datenbank wird erstellt..."
+      },
+      "tabs": {
+        "ingest": "Aufnehmen",
+        "cook": "Kochen"
+      },
+      "source": {
+        "database": "Quelldatenbank",
+        "selectDatabase": "Quelldatenbank auswählen",
+        "table": "Quelltabelle",
+        "selectTable": "Quelltabelle auswählen",
+        "tableType": "Typ der Quelltabelle",
+        "selectTableType": "Auswählen des Quelltabellentyps",
+        "twinIDProperty": "Quell-Zwillings-ID-Eigenschaft",
+        "selectTwinIDProperty": "Quell-Zwillings-ID-Eigenschaft auswählen",
+        "type": "Art der Quelle",
+        "typePlaceholder": "Wählen Sie den Quelltyp"
+      },
+      "target": {
+        "database": "Zieldatenbank",
+        "selectDatabase": "Zieldatenbank auswählen",
+        "tableType": "Typ der Zieltabelle",
+        "tableTypeTooltipContent": "Wählen Sie das Tabellenschema aus, das für die Tabellenerstellung oder die Zeilenaufnahme verwendet werden soll.",
+        "selectTableType": "Wählen Sie den Zieltabellentyp aus",
+        "table": "Zieltabelle",
+        "selectTable": "Zieltabelle auswählen"
+      },
+      "actions": {
+        "cook": "Cook-Zwillings-Diagramm",
+        "pushTwinsGraph": "Übertragen des Zwillingsdiagramms in die Zieldatenbank",
+        "startIngest": "Beginnen Sie mit der Einnahme",
+        "stopIngest": "Stoppen Sie die Einnahme"
+      },
+      "title": "Daten-Pusher",
+      "clusterTitle": "Cluster-URL",
+      "notValidClusterMessage": "Ungültige Kusto-Cluster-URL",
+      "frequency": "Frequenz",
+      "frequencyInfo": "Diese Zahl stellt sowohl die Zeit zwischen Zeitreihenzeitstempeln als auch das Intervall dar, in dem neue Zeilen per Push in die Tabelle verschoben werden.",
+      "clusterSelectPlaceholder": "z.B. https://<Beispiel>.westus.kusto.windows.net",
+      "clusterSelectInfo": "Für den ausgewählten Kusto-Cluster muss die Richtlinie \"Streaming-Aufnahme\" aktiviert sein.",
+      "tableSelectInfo": "Wenn Sie eine vorhandene Option auswählen, stellen Sie sicher, dass in der Kusto-Tabelle die Richtlinie \"Streaming-Aufnahme\" aktiviert ist und die JSON-Zuordnung \"DataPusherMapping\" definiert ist.",
+      "ingestInfo": "Sie können eine neue Datenbank oder Tabelle erstellen und Zeilen in eine Zieltabelle aufnehmen. Bitte beachten Sie, dass, wenn Sie die Tabelle kürzlich erstellt haben, sie möglicherweise nicht für die Aufnahme bereit ist, warten Sie einige Minuten, bevor Sie sie einnehmen.",
+      "cookInfo": "Sie können Zwillinge und mögliche Modell- und Eigenschaftsinformationen extrahieren, indem Sie Zwillinge basierend auf der ausgewählten Quelltabelle in einem Diagramm kochen."
+    },
+    "verificationStep": {
+      "title": "Erkannte Zwillinge verifizieren",
+      "models": "Modelle",
+      "twins": "Zwillinge",
+      "properties": "Eigenschaften"
+    },
+    "StoreListPage": {
+      "title": "Willkommen in der Zukunft",
+      "createStoreButtonText": "Hinzufügen eines Datenspeichers",
+      "Modal": {
+        "title": "Hinzufügen eines neuen Datenspeichers"
+      }
+    },
+    "dataSourceStep": {
+      "infoText": "Erstellen neuer Zwillinge aus einer Quelltabelle oder einem Konstruktionsdiagramm"
+    },
+    "Common": {
+      "clusterLabel": "Cluster-URL",
+      "clusterPlaceholder": "Wählen Sie die Cluster-URL aus",
+      "databaseLabel": "Datenbank",
+      "databasePlaceholder": "Datenbank auswählen",
+      "tableLabel": "Tisch",
+      "tableIdColumnLabel": "ID-Feld",
+      "urlLabel": "Internetadresse:",
+      "urlPlaceholder": "URL eingeben",
+      "addOptionFormat": "Fügen Sie '{{item}}' hinzu"
+    }
+  }
 }

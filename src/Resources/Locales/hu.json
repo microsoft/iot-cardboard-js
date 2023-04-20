@@ -1104,15 +1104,7 @@
       "3dAssetLoadingGenericErrorMessage": "Hiba történt a modell betöltésekor. Próbálja meg törölni a gyorsítótárat, és próbálkozzon újra, vagy ellenőrizze a fájlhoz való hozzáférést.",
       "3dAssetDimensionError": "Probléma lehet a modell méreteivel, kérjük, ellenőrizze, hogy nincsenek-e hibás hálók."
     },
-    "missingPermissionsMessage": "Hiányzó engedélyekkel rendelkezik. Olvasóként (legalább) és Storage Blob Data Contributorként kell hozzáférnie, és Storage Blob Data Contributorként kell hozzáférnie.",
-    "networkErrorMessage": "Ez lehet CORS-probléma, érvénytelen URL vagy hálózati hiba. Lépjen kapcsolatba az erőforrás tulajdonosával, vagy próbálkozzon újra később.",
-    "networkErrorTitle": "Csatlakozási hiba",
-    "applyUpdates": "Frissítések alkalmazása",
-    "setCorsPropertiesNotAuthorizedMessage": "A módosításhoz nincs hozzáférése a tárfiókhoz. Lépjen kapcsolatba az erőforrás tulajdonosával a tárfiók CORS-beállításainak szükséges módosításainak elvégzéséhez.",
-    "availableCorsUpdateTitle": "CORS-frissítés érhető el",
-    "availableCorsUpdateMessage": "Vannak olyan tulajdonságok, amelyeket frissíteni kell a tárfiókban, hogy 3D-jeleneteket használhasson a CORS-szal.",
-    "requiredCorsUpdateTitle": "CORS-frissítés szükséges",
-    "requiredCorsUpdateMessage": "A 3D-jelenetek használatának folytatása érdekében néhány CORS-szabályt frissíteni kell a tárfiókban. A szabályok hozzáadásához lépjen kapcsolatba az erőforrás tulajdonosával."
+    "missingPermissionsMessage": "Hiányzó engedélyekkel rendelkezik. Olvasóként (legalább) és Storage Blob Data Contributorként kell hozzáférnie, és Storage Blob Data Contributorként kell hozzáférnie."
   },
   "fieldRequired": "A mező kitöltése kötelező",
   "OATGraphViewer": {
@@ -1541,5 +1533,82 @@
   "jobs": {
     "addNew": "Új hozzáadása"
   },
-  "dismiss": "Elbocsát"
+  "legionApp": {
+    "dataPusher": {
+      "progress": {
+        "createTable": "Táblázat létrehozása...",
+        "createTables": "Táblázatok létrehozása...",
+        "ingest": "Fogyasztásából...",
+        "createDatabase": "Adatbázis létrehozása..."
+      },
+      "tabs": {
+        "ingest": "Bevesz",
+        "cook": "Szakács"
+      },
+      "source": {
+        "database": "Forrás-adatbázis",
+        "selectDatabase": "Válassza ki a forrásadatbázist",
+        "table": "Forrástábla",
+        "selectTable": "Válassza ki a forrástáblát",
+        "tableType": "Forrástábla típusa",
+        "selectTableType": "Válassza ki a forrástábla típusát",
+        "twinIDProperty": "Forrás ikerazonosító tulajdonsága",
+        "selectTwinIDProperty": "Válassza ki az ikereszköz-azonosító tulajdonságot",
+        "type": "Forrás típusa",
+        "typePlaceholder": "Válassza ki a forrás típusát"
+      },
+      "target": {
+        "database": "Céladatbázis",
+        "selectDatabase": "Céladatbázis kiválasztása",
+        "tableType": "Céltábla típusa",
+        "tableTypeTooltipContent": "Válassza ki a tábla létrehozásához vagy sorbetöltéséhez használni kívánt táblasémát",
+        "selectTableType": "Válassza ki a céltábla típusát",
+        "table": "Céltábla",
+        "selectTable": "Válassza ki a céltáblát"
+      },
+      "actions": {
+        "cook": "Ikrek főzési grafikonja",
+        "pushTwinsGraph": "Ikereszközök gráfjának leküldése a céladatbázisba",
+        "startIngest": "Betöltés indítása",
+        "stopIngest": "A betöltés leállítása"
+      },
+      "title": "Adatleküldő",
+      "clusterTitle": "Fürt URL-címe",
+      "notValidClusterMessage": "Nem érvényes Kusto-fürt URL-címe",
+      "frequency": "Frekvencia",
+      "frequencyInfo": "Ez a szám az idősorozat-időbélyegek közötti időt és az új sorok táblába való leküldésének időközét is jelöli.",
+      "clusterSelectPlaceholder": "pl. https://<példa>.westus.kusto.windows.net",
+      "clusterSelectInfo": "A kiválasztott Kusto-fürtnek engedélyeznie kell a \"streamelési betöltés\" szabályzatot.",
+      "tableSelectInfo": "Ha a meglévő közül választ, győződjön meg arról, hogy a Kusto-táblán engedélyezve van a \"streamelési betöltés\" szabályzat, és meg van határozva a \"DataPusherMapping\" JSON-leképezés.",
+      "ingestInfo": "Létrehozhat egy új adatbázist vagy táblát, és sorokat tölthet be egy céltáblába. Vegye figyelembe, hogy ha nemrég hozta létre a táblát, előfordulhat, hogy nem áll készen a betöltésre, várjon néhány percet a betöltés előtt.",
+      "cookInfo": "Az ikereket és a lehetséges modellek & tulajdonságadatait úgy nyerheti ki, hogy az ikereket a kiválasztott forrástábla alapján főzi."
+    },
+    "verificationStep": {
+      "title": "Felderített ikrek ellenőrzése",
+      "models": "Modellek",
+      "twins": "Ikrek",
+      "properties": "Kellékek"
+    },
+    "StoreListPage": {
+      "title": "Üdvözöljük a jövőben",
+      "createStoreButtonText": "Adattár hozzáadása",
+      "Modal": {
+        "title": "Új adattár hozzáadása"
+      }
+    },
+    "dataSourceStep": {
+      "infoText": "Új ikereszközök létrehozása forrástáblából vagy mérnöki diagramból"
+    },
+    "Common": {
+      "clusterLabel": "Fürt URL-címe",
+      "clusterPlaceholder": "Fürt URL-címének kiválasztása",
+      "databaseLabel": "Adatbázis",
+      "databasePlaceholder": "Adatbázis kiválasztása",
+      "tableLabel": "Asztal",
+      "tableIdColumnLabel": "Azonosító mező",
+      "urlLabel": "URL",
+      "urlPlaceholder": "Adja meg az URL-címet",
+      "addOptionFormat": "Add hozzá a következőt: '{{item}}'"
+    }
+  }
 }
