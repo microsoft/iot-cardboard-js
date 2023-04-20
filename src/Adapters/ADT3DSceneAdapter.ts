@@ -249,28 +249,40 @@ export default class ADT3DSceneAdapter {
         });
     };
 
-    /** Adding provided role definitions to the user's role assignments for the container resource. This method assumes that
-     * containerResourceId is already set in the previous getMissingStorageContainerAccessRoles method and present for assigning roles for.
+    /**
+     * wrapper method to check if the selected adt instance is a private link to force CORS,
+     * if not use the initial useProxy setting
      */
     checkCORSProperties = async (adtUrl: string) => {
-        if (adtUrl) {
-            const adtInstanceResult = await this.getResourceByUrl(
-                adtUrl,
-                AzureResourceTypes.DigitalTwinInstance
-            );
-            const adtInstance: IAzureResource = adtInstanceResult.getData();
-            if (adtInstance.properties.publicNetworkAccess === 'Disabled') {
-                // it means using private with privateEndpointConnections, then force CORS
-                this.useAdtProxy = false;
-                this.useBlobProxy = false;
-            } else {
-                this.useAdtProxy = initialUseProxySettings.adt;
-                this.useBlobProxy = initialUseProxySettings.blob;
+        try {
+            if (adtUrl) {
+                const adtInstanceResult = await this.getResourceByUrl(
+                    adtUrl,
+                    AzureResourceTypes.DigitalTwinInstance
+                );
+                const adtInstance: IAzureResource = adtInstanceResult.getData();
+                if (
+                    adtInstance?.properties?.publicNetworkAccess === 'Disabled'
+                ) {
+                    // it means using private with privateEndpointConnections, then force CORS
+                    this.useAdtProxy = false;
+                    this.useBlobProxy = false;
+                } else {
+                    this.useAdtProxy = initialUseProxySettings.adt;
+                    this.useBlobProxy = initialUseProxySettings.blob;
+                }
             }
+            return this.getBlobServiceCorsProperties() as Promise<
+                AdapterResult<StorageBlobServiceCorsRulesData>
+            >;
+        } catch (error) {
+            console.error(error);
+            this.useAdtProxy = initialUseProxySettings.adt;
+            this.useBlobProxy = initialUseProxySettings.blob;
+            return this.getBlobServiceCorsProperties() as Promise<
+                AdapterResult<StorageBlobServiceCorsRulesData>
+            >;
         }
-        return this.getBlobServiceCorsProperties() as Promise<
-            AdapterResult<StorageBlobServiceCorsRulesData>
-        >;
     };
 }
 
