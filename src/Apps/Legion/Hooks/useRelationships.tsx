@@ -13,9 +13,10 @@ import {
 } from '../Services/WizardTypes.utils';
 import { getDebugLogger } from '../../../Models/Services/Utils';
 
-const debugLogging = false;
+const debugLogging = true;
 export const logDebugConsole = getDebugLogger('useRelationships', debugLogging);
 export const useRelationships = () => {
+    logDebugConsole('debug', '[START] Render');
     // contexts
     const { wizardDataDispatch } = useWizardDataDispatchContext();
     const { wizardDataState } = useWizardDataStateContext();
@@ -86,16 +87,18 @@ export const useRelationships = () => {
     // data
     const relationships: IViewRelationship[] = useMemo(
         () =>
-            wizardDataState.relationships.map((x) =>
-                convertDbRelationshipToView(x, wizardDataState)
-            ),
+            wizardDataState.relationships.map((x) => {
+                logDebugConsole('debug', 'Converting relationship', x);
+                return convertDbRelationshipToView(x, wizardDataState);
+            }),
         [wizardDataState]
     );
     const relationshipTypes: IViewRelationshipType[] = useMemo(
         () =>
-            wizardDataState.relationshipTypes.map((x) =>
-                convertDbRelationshipTypeToView(x)
-            ),
+            wizardDataState.relationshipTypes.map((x) => {
+                logDebugConsole('debug', 'Converting relationship type', x);
+                return convertDbRelationshipTypeToView(x);
+            }),
         [wizardDataState]
     );
 
@@ -120,5 +123,6 @@ export const useRelationships = () => {
          */
         deleteRelationship: deleteRelationship
     };
+    logDebugConsole('debug', '[END] Render', data);
     return data;
 };

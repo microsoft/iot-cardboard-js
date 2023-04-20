@@ -1,9 +1,12 @@
 import { IDbEntity, IDbProperty, IDbRelationship, IDbType } from '../../Models';
 import { createGuid, findIndexById, findItemById } from '../../Services/Utils';
 
-export function initializeId<T extends { id: string }>(item: T): T {
+export function initializeId<T extends { id: string; isNew: boolean }>(
+    item: T
+): T {
     if (!item.id) {
         item.id = createGuid();
+        item.isNew = true;
     }
     return item;
 }

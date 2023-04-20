@@ -1,3 +1,4 @@
+import { getDebugLogger } from '../../../Models/Services/Utils';
 import {
     IBase,
     IDbEntity,
@@ -9,8 +10,12 @@ import {
     IViewProperty,
     IViewRelationship,
     IViewRelationshipType,
-    IViewType
+    IViewType,
+    Kind
 } from '../Models';
+
+const debugLogging = true;
+export const logDebugConsole = getDebugLogger('WizardTypeUtils', debugLogging);
 
 // #region Base
 
@@ -25,7 +30,36 @@ function getBase(args: IBase): IBase {
 // #endregion
 
 // #region Entities
+export function getNewViewEntity(
+    viewModel: {
+        friendlyName: string;
+        type: IViewType;
+    } & Partial<IViewEntity>
+): IViewEntity {
+    return {
+        id: '',
+        isDeleted: false,
+        isNew: true,
+        sourceConnectionString: '',
+        sourceEntityId: '',
+        values: {},
+        ...viewModel
+    };
+}
+
 export function convertViewEntityToDb(viewModel: IViewEntity): IDbEntity {
+    logDebugConsole(
+        'debug',
+        `Converting view entity (${viewModel?.friendlyName}) to db. {model}`,
+        viewModel
+    );
+    if (!viewModel) {
+        logDebugConsole(
+            'warn',
+            'Unable to convert entity because it is undefined'
+        );
+        return undefined;
+    }
     return {
         ...getBase(viewModel),
         friendlyName: viewModel.friendlyName,
@@ -43,6 +77,18 @@ export function convertDbEntityToView(
         properties: IDbProperty[];
     }
 ): IViewEntity {
+    logDebugConsole(
+        'debug',
+        `Converting db entity (${dbModel?.friendlyName}) to view. {model}`,
+        dbModel
+    );
+    if (!dbModel) {
+        logDebugConsole(
+            'warn',
+            'Unable to convert entity because it is undefined'
+        );
+        return undefined;
+    }
     const type = state.types.find((x) => x.id === dbModel.typeId);
     return {
         ...getBase(dbModel),
@@ -56,8 +102,36 @@ export function convertDbEntityToView(
 // #endregion
 
 // #region Types
+export function getNewViewType(
+    viewModel: {
+        friendlyName: string;
+        color: string;
+        icon: string;
+        kind: Kind;
+    } & Partial<IViewType>
+): IViewType {
+    return {
+        id: '',
+        isDeleted: false,
+        isNew: true,
+        properties: [],
+        ...viewModel
+    };
+}
 
 export function convertViewTypeToDb(viewModel: IViewType): IDbType {
+    logDebugConsole(
+        'debug',
+        `Converting view type (${viewModel?.friendlyName}) to db. {model}`,
+        viewModel
+    );
+    if (!viewModel) {
+        logDebugConsole(
+            'warn',
+            'Unable to convert type because it is undefined'
+        );
+        return undefined;
+    }
     return {
         ...getBase(viewModel),
         friendlyName: viewModel.friendlyName,
@@ -69,32 +143,75 @@ export function convertViewTypeToDb(viewModel: IViewType): IDbType {
 }
 
 export function convertDbTypeToView(
-    dbType: IDbType,
+    dbModel: IDbType,
     state: {
         properties: IDbProperty[];
     }
 ): IViewType {
+    logDebugConsole(
+        'debug',
+        `Converting db type (${dbModel?.friendlyName}) to view. {model}`,
+        dbModel
+    );
+    if (!dbModel) {
+        logDebugConsole(
+            'warn',
+            'Unable to convert type because it is undefined'
+        );
+        return undefined;
+    }
     const properties: IViewProperty[] = [];
-    dbType.propertyIds.forEach((id) => {
+    dbModel.propertyIds.forEach((id) => {
         const property = state.properties.find((x) => x.id === id);
         property && properties.push(convertDbPropertyToView(property));
     });
     return {
-        ...getBase(dbType),
-        friendlyName: dbType.friendlyName,
-        color: dbType.color,
-        icon: dbType.icon,
-        kind: dbType.kind,
+        ...getBase(dbModel),
+        friendlyName: dbModel.friendlyName,
+        color: dbModel.color,
+        icon: dbModel.icon,
+        kind: dbModel.kind,
         properties: properties
     };
 }
 // #endregion
 
 // #region Relationships
+export function getNewViewRelationship(
+    viewModel: {
+        type: IViewRelationshipType;
+        sourceEntity: IViewEntity;
+        targetEntity: IViewEntity;
+    } & Partial<IViewRelationship>
+): IViewRelationship {
+    return {
+        id: '',
+        isDeleted: false,
+        isNew: true,
+        ...viewModel
+    };
+}
 
 export function convertViewRelationshipToDb(
     viewModel: IViewRelationship
 ): IDbRelationship {
+    logDebugConsole(
+        'debug',
+        `Converting view relationship (${viewModel?.id}) to db. {model}`,
+        viewModel
+    );
+    if (
+        !viewModel ||
+        !viewModel.targetEntity ||
+        !viewModel.sourceEntity ||
+        !viewModel.type
+    ) {
+        logDebugConsole(
+            'warn',
+            'Unable to convert relationship because a required field is undefined'
+        );
+        return undefined;
+    }
     return {
         ...getBase(viewModel),
         sourceEntityId: viewModel.sourceEntity.id,
@@ -112,6 +229,23 @@ export function convertDbRelationshipToView(
         types: IDbType[];
     }
 ): IViewRelationship {
+    logDebugConsole(
+        'debug',
+        `Converting db relationship (${dbModel?.id}) to view. {model}`,
+        dbModel
+    );
+    if (
+        !dbModel ||
+        !dbModel.sourceEntityId ||
+        !dbModel.targetEntityId ||
+        !dbModel.typeId
+    ) {
+        logDebugConsole(
+            'warn',
+            'Unable to convert relationship because a required field is undefined'
+        );
+        return undefined;
+    }
     const sourceEntity = state.entities.find(
         (x) => x.id === dbModel.sourceEntityId
     );
@@ -137,10 +271,39 @@ export function convertDbRelationshipToView(
 // #endregion
 
 // #region Relationship Type
+export function getNewViewRelationshipType(
+    viewModel: {
+        name: string;
+    } & Partial<IViewRelationshipType>
+): IViewRelationshipType {
+    logDebugConsole(
+        'debug',
+        `Converting db relationship type (${viewModel?.name}) to view. {model}`,
+        viewModel
+    );
+    return {
+        id: '',
+        isDeleted: false,
+        isNew: true,
+        ...viewModel
+    };
+}
 
 export function convertViewRelationshipTypeToDb(
     viewModel: IViewRelationshipType
 ): IDbRelationshipType {
+    logDebugConsole(
+        'debug',
+        `Converting view relationship type (${viewModel?.name}) to view. {model}`,
+        viewModel
+    );
+    if (!viewModel) {
+        logDebugConsole(
+            'warn',
+            'Unable to convert relationship type because it is undefined'
+        );
+        return undefined;
+    }
     return {
         ...getBase(viewModel),
         name: viewModel.name
@@ -150,6 +313,18 @@ export function convertViewRelationshipTypeToDb(
 export function convertDbRelationshipTypeToView(
     dbModel: IDbRelationshipType
 ): IViewRelationshipType {
+    logDebugConsole(
+        'debug',
+        `Converting db relationship type (${dbModel?.name}) to view. {model}`,
+        dbModel
+    );
+    if (!dbModel) {
+        logDebugConsole(
+            'warn',
+            'Unable to convert relationship type because it is undefined'
+        );
+        return undefined;
+    }
     return {
         ...getBase(dbModel),
         name: dbModel.name
@@ -158,8 +333,33 @@ export function convertDbRelationshipTypeToView(
 // #endregion
 
 // #region Properties
+export function getNewViewProperty(
+    viewModel: {
+        friendlyName: string;
+        sourcePropId: string;
+    } & Partial<IViewProperty>
+): IViewProperty {
+    return {
+        id: '',
+        isDeleted: false,
+        isNew: true,
+        ...viewModel
+    };
+}
 
 export function convertViewPropertyToDb(viewModel: IViewProperty): IDbProperty {
+    logDebugConsole(
+        'debug',
+        `Converting view property (${viewModel?.friendlyName}) to db. {model}`,
+        viewModel
+    );
+    if (!viewModel) {
+        logDebugConsole(
+            'warn',
+            'Unable to convert property because it is undefined'
+        );
+        return undefined;
+    }
     return {
         ...getBase(viewModel),
         friendlyName: viewModel.friendlyName,
@@ -168,6 +368,18 @@ export function convertViewPropertyToDb(viewModel: IViewProperty): IDbProperty {
 }
 
 export function convertDbPropertyToView(dbModel: IDbProperty): IViewProperty {
+    logDebugConsole(
+        'debug',
+        `Converting db property (${dbModel?.friendlyName}) to view. {model}`,
+        dbModel
+    );
+    if (!dbModel) {
+        logDebugConsole(
+            'warn',
+            'Unable to convert property because it is undefined'
+        );
+        return undefined;
+    }
     return {
         ...getBase(dbModel),
         friendlyName: dbModel.friendlyName,

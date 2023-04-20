@@ -1,7 +1,7 @@
 /**
  * This context is for managing the state and actions in the Wizard of the Legion app
  */
-import produce from 'immer';
+import produce, { current } from 'immer';
 import React, { ReactNode, useContext, useReducer } from 'react';
 import { getDebugLogger } from '../../../../Models/Services/Utils';
 import {
@@ -21,7 +21,7 @@ import {
     initializeId
 } from './WizardDataContext.utils';
 
-const debugLogging = false;
+const debugLogging = true;
 export const logDebugConsole = getDebugLogger(
     'WizardDataContext',
     debugLogging
@@ -45,7 +45,7 @@ export const WizardDataContextReducer: (
     (draft: IWizardDataContextState, action: WizardDataContextAction) => {
         logDebugConsole(
             'info',
-            `Updating WizardData context ${action.type} with payload: `,
+            `[START] Updating WizardData context ${action.type} with payload: `,
             (action as any).payload // sometimes doesn't have payload
         );
         switch (action.type) {
@@ -81,11 +81,11 @@ export const WizardDataContextReducer: (
             }
             case WizardDataContextActionType.RELATIONSHIP_ADD: {
                 const { relationship, relationshipType } = action.payload;
-                addItem(initializeId(relationship), draft.relationships);
                 addItem(
                     initializeId(relationshipType),
                     draft.relationshipTypes
                 );
+                addItem(initializeId(relationship), draft.relationships);
                 break;
             }
             case WizardDataContextActionType.RELATIONSHIP_UPDATE: {
@@ -118,6 +118,11 @@ export const WizardDataContextReducer: (
                 break;
             }
         }
+        logDebugConsole(
+            'info',
+            `[END] Updating WizardData context ${action.type} with payload: `,
+            current(draft)
+        );
     }
 );
 

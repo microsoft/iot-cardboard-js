@@ -19,6 +19,7 @@ import UserDefinedEntityFormView from './UserDefinedEntityForm.view';
 import { useRelationships } from '../../Hooks/useRelationships';
 import { useTypes } from '../../Hooks/useTypes';
 import { useEntities } from '../../Hooks/useEntities';
+import { getNewViewRelationship } from '../../Services/WizardTypes.utils';
 
 const debugLogging = true;
 const logDebugConsole = getDebugLogger('UserDefinedEntityForm', debugLogging);
@@ -45,7 +46,7 @@ const UserDefinedEntityForm: React.FC<IUserDefinedEntityFormProps> = (
 
     // hooks
     const { t } = useTranslation();
-    const { relationshipTypes } = useRelationships();
+    const { relationshipTypes, addRelationship } = useRelationships();
     const { types } = useTypes();
     const { entities } = useEntities();
 
@@ -63,11 +64,44 @@ const UserDefinedEntityForm: React.FC<IUserDefinedEntityFormProps> = (
     const onFormSubmit = useCallback(() => {
         logDebugConsole('debug', 'Submit click. {data}', formData);
         if (formMode === 'Existing') {
-            //
+            // create relationship
+            const relationshipType = formData.relationshipType;
+            const sourceEntity = formData.parent;
+            graphState.selectedNodeIds.forEach((selectedEntityId) => {
+                // for each node create relationship
+                const targetEntity = entities.find(
+                    (x) => x.id === selectedEntityId
+                );
+                if (targetEntity) {
+                    // create the relationship
+                    addRelationship(
+                        getNewViewRelationship({
+                            sourceEntity: sourceEntity,
+                            targetEntity: targetEntity,
+                            type: relationshipType
+                        })
+                    );
+                    logDebugConsole(
+                        'info',
+                        `Added relationship (type: ${relationshipType.name}) between ${sourceEntity.friendlyName} and ${targetEntity.friendlyName}.`
+                    );
+                } else {
+                    logDebugConsole(
+                        'error',
+                        `Could not find entity with id ${selectedEntityId} to create relationship with`
+                    );
+                }
+            });
         } else if (formMode === 'New') {
             //
         }
-    }, [formData, formMode]);
+    }, [
+        addRelationship,
+        entities,
+        formData,
+        formMode,
+        graphState.selectedNodeIds
+    ]);
 
     // side effects
 

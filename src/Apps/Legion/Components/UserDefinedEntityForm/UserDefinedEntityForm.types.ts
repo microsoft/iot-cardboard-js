@@ -7,11 +7,8 @@ import { IExtendedTheme } from '../../../../Theming/Theme.types';
 import { IViewEntity, IViewRelationshipType, IViewType } from '../../Models';
 
 export interface IFormData {
-    color: string;
-    icon: string;
-    parentName: string;
-    parentType: string;
-    relationshipName: string;
+    parent: IViewEntity;
+    relationshipType: IViewRelationshipType;
 }
 
 export type IFormMode = 'New' | 'Existing';

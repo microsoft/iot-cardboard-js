@@ -50,10 +50,9 @@ const Contents: UserDefinedEntityFormStory = (args) => {
 };
 
 const Template: UserDefinedEntityFormStory = (args) => {
+    const dataContext = GET_DEFAULT_MOCK_WIZARD_DATA_CONTEXT();
     return (
-        <WizardDataContextProvider
-            initialState={GET_DEFAULT_MOCK_WIZARD_DATA_CONTEXT()}
-        >
+        <WizardDataContextProvider initialState={dataContext}>
             <WizardNavigationContextProvider
                 initialState={WIZARD_NAVIGATION_MOCK_DATA}
             >
@@ -61,7 +60,11 @@ const Template: UserDefinedEntityFormStory = (args) => {
                     {...DEFAULT_MOCK_GRAPH_PROVIDER_DATA}
                     initialState={{
                         ...DEFAULT_MOCK_GRAPH_PROVIDER_DATA.initialState,
-                        isParentFormVisible: true
+                        isParentFormVisible: true,
+                        selectedNodeIds: [
+                            dataContext.entities[0].id,
+                            dataContext.entities[1].id
+                        ]
                     }}
                 >
                     <Contents {...args} />

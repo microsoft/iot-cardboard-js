@@ -26,8 +26,17 @@ import {
     WIZARD_GRAPH_NODE_COLOR_OPTIONS,
     WIZARD_GRAPH_NODE_ICON_OPTIONS
 } from '../../Models/Constants';
-import { IViewEntity, IViewRelationshipType, IViewType } from '../../Models';
+import {
+    IViewEntity,
+    IViewRelationshipType,
+    IViewType,
+    Kind
+} from '../../Models';
 import { IReactSelectOption } from '../../Models/Types';
+import {
+    getNewViewEntity,
+    getNewViewRelationshipType
+} from '../../Services/WizardTypes.utils';
 
 const debugLogging = true;
 const logDebugConsole = getDebugLogger(
@@ -212,27 +221,45 @@ const UserDefinedEntityFormView: React.FC<IUserDefinedEntityFormViewProps> = (
     useEffect(() => {
         if (formMode === 'New') {
             const parentType = selectedParentType?.value;
-            const relationshipName = newEntityRelationshipNameValue?.value;
+            const relationshipType =
+                existingRelationshipTypes.find(
+                    (x) => x.id === newEntityRelationshipNameValue?.value
+                ) ??
+                getNewViewRelationshipType({
+                    name: newEntityRelationshipNameValue?.label
+                });
             const isValid =
                 !!parentType &&
                 !!parentEntityNameValue &&
-                !!relationshipName &&
+                !!relationshipType?.name &&
                 !!selectedColor &&
                 !!selectedIcon;
 
             onFormChange({
                 isValid: isValid,
                 data: {
-                    color: selectedColor,
-                    icon: selectedIcon,
-                    parentName: parentEntityNameValue,
-                    parentType: parentType,
-                    relationshipName: relationshipName
+                    parent: getNewViewEntity({
+                        friendlyName: parentEntityNameValue,
+                        type: {
+                            color: selectedColor,
+                            friendlyName: parentType,
+                            icon: selectedIcon,
+                            id: '',
+                            isDeleted: false,
+                            isNew: true,
+                            kind: Kind.UserDefined,
+                            properties: []
+                        },
+                        isNew: true
+                    }),
+                    relationshipType: relationshipType
                 }
             });
         }
     }, [
+        existingRelationshipTypes,
         formMode,
+        newEntityRelationshipNameValue?.label,
         newEntityRelationshipNameValue?.value,
         onFormChange,
         parentEntityNameValue,
@@ -244,22 +271,30 @@ const UserDefinedEntityFormView: React.FC<IUserDefinedEntityFormViewProps> = (
         if (formMode === 'Existing') {
             // TODO: make validation more precise??
             const selectedEntityData = selectedExistingEntity?.data;
-            const relationshipName = existingEntityRelationshipNameValue?.value;
-            const isValid = !!selectedEntityData && !!relationshipName;
+            const relationshipType =
+                existingRelationshipTypes.find(
+                    (x) => x.id === existingEntityRelationshipNameValue?.value
+                ) ??
+                getNewViewRelationshipType({
+                    name: existingEntityRelationshipNameValue?.label
+                });
+            const isValid = !!selectedEntityData && !!relationshipType.name;
 
             onFormChange({
                 isValid: isValid,
                 data: {
-                    color: '', // TODO: get from model
-                    icon: '', // TODO: get from model
-                    parentName: selectedEntityData?.friendlyName || '',
-                    parentType: selectedEntityData?.id || '',
-                    relationshipName: relationshipName
+                    parent: getNewViewEntity({
+                        type: selectedEntityData?.type,
+                        friendlyName: selectedEntityData?.friendlyName
+                    }),
+                    relationshipType: relationshipType
                 }
             });
         }
     }, [
+        existingEntityRelationshipNameValue?.label,
         existingEntityRelationshipNameValue?.value,
+        existingRelationshipTypes,
         existingTypes,
         formMode,
         onFormChange,

@@ -16,6 +16,7 @@ export const logDebugConsole = getDebugLogger('useEntities', debugLogging);
 
 /** hook for getting and operating on the Entity data in the wizard context */
 export const useEntities = () => {
+    logDebugConsole('debug', '[START] Render');
     // contexts
     const { wizardDataDispatch } = useWizardDataDispatchContext();
     const { wizardDataState } = useWizardDataStateContext();
@@ -74,13 +75,13 @@ export const useEntities = () => {
     // data
     const entities: IViewEntity[] = useMemo(
         () =>
-            wizardDataState.entities.map((x) =>
-                convertDbEntityToView(x, wizardDataState)
-            ),
+            wizardDataState.entities.map((x) => {
+                return convertDbEntityToView(x, wizardDataState);
+            }),
         [wizardDataState]
     );
 
-    return {
+    const data = {
         /** the current list of entities in the state */
         entities: entities,
         /**
@@ -99,4 +100,6 @@ export const useEntities = () => {
          */
         deleteEntity: deleteEntity
     };
+    logDebugConsole('debug', '[END] Render', data);
+    return data;
 };
