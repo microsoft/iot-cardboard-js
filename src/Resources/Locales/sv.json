@@ -1556,7 +1556,9 @@
         "tableType": "Typ av källtabell",
         "selectTableType": "Välj källtabelltyp",
         "twinIDProperty": "Egenskapen Källtvilling-ID",
-        "selectTwinIDProperty": "Välj egenskap för källtvilling-ID"
+        "selectTwinIDProperty": "Välj egenskap för källtvilling-ID",
+        "type": "Typ av källa",
+        "typePlaceholder": "Välj källtyp"
       },
       "target": {
         "database": "Måldatabas",
@@ -1575,18 +1577,14 @@
       "twins": "Tvillingar",
       "properties": "Egenskaper"
     },
-    "Common": {},
     "StoreListPage": {
       "title": "Välkommen till framtiden",
       "createStoreButtonText": "Lägg till datalager",
-      "urlLabel": "URL för kluster",
-      "nameLabel": "Databasens namn",
       "Modal": {
-        "title": "Lägga till ett nytt datalager",
-        "urlPlaceholder": "http://mycluster.kusto.azure.net",
-        "namePlaceholder": "Ange ett databasnamn"
+        "title": "Lägga till ett nytt datalager"
       }
     },
+<<<<<<< HEAD
     "GraphVisualizer": {
       "ContextMenu": {
         "addParentLabel": "Lägg till överordnad"
@@ -1613,6 +1611,21 @@
         "relationshipNameFieldPlaceholder": "Välj eller skapa ett relationsnamn",
         "existingEntityFieldPlaceholder": "Välj en befintlig entitet"
       }
+=======
+    "dataSourceStep": {
+      "infoText": "Skapa nya tvillingar från en källtabell eller ett teknikdiagram"
+    },
+    "Common": {
+      "clusterLabel": "URL för kluster",
+      "clusterPlaceholder": "Välj kluster-URL",
+      "databaseLabel": "Databas",
+      "databasePlaceholder": "Välj databas",
+      "tableLabel": "Bord",
+      "tableIdColumnLabel": "ID-fält",
+      "urlLabel": "URL",
+      "urlPlaceholder": "Ange URL",
+      "addOptionFormat": "Lägg till '{{item}}'"
+>>>>>>> origin/feature-Legion
     }
   }
 }

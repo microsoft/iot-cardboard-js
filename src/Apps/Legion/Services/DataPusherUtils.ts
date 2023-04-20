@@ -29,7 +29,7 @@ export const cookSourceTable = (
 ): IAppData => {
     const tableSchema =
         tableType ??
-        table.Columns.findIndex(
+        (table.Columns.findIndex(
             (c) => c.columnName === PROPERTY_COLUMN_NAME
         ) !== -1
             ? TableTypes.Narrow
@@ -37,7 +37,7 @@ export const cookSourceTable = (
                   (c) => c.columnName === VALUE_COLUMN_NAME
               ) !== -1
             ? TableTypes.Tags
-            : TableTypes.Wide;
+            : TableTypes.Wide);
 
     const idxOfTwinIdColumn = table.Columns.findIndex(
         (c) => c.columnName === twinIdPropertyColumn
@@ -210,4 +210,103 @@ export const getViewTwinsFromCookedAssets = (
         isSelected: true
     }));
     return viewTwins;
+};
+
+export const getMockData = (
+    selectedTableType: TableTypes
+): Array<Record<string, any>> => {
+    let mockData = [];
+    switch (selectedTableType) {
+        case TableTypes.Wide:
+            mockData = [
+                {
+                    ID: 'Past_1',
+                    Timestamp: new Date().toISOString(),
+                    Temperature: Math.floor(Math.random() * 100)
+                },
+                {
+                    ID: 'Past_1',
+                    Timestamp: new Date().toISOString(),
+                    Pressure: Math.floor(Math.random() * 100)
+                },
+                {
+                    ID: 'Salt_1',
+                    Timestamp: new Date().toISOString(),
+                    FanSpeed: Math.floor(Math.random() * 100)
+                },
+                {
+                    ID: 'Salt_1',
+                    Timestamp: new Date().toISOString(),
+                    FlowRate: Math.floor(Math.random() * 100)
+                },
+                {
+                    ID: 'Past_2',
+                    Timestamp: new Date().toISOString(),
+                    Temperature: Math.floor(Math.random() * 100),
+                    Pressure: Math.floor(Math.random() * 100)
+                },
+                {
+                    ID: 'Dryer_1',
+                    Timestamp: new Date().toISOString(),
+                    Pressure: Math.floor(Math.random() * 100),
+                    FanSpeed: Math.floor(Math.random() * 100)
+                }
+            ];
+            break;
+        case TableTypes.Narrow:
+            mockData = [
+                {
+                    ID: 'Past_1',
+                    Timestamp: new Date().toISOString(),
+                    PropertyName: 'Temperature',
+                    Value: Math.floor(Math.random() * 100)
+                },
+                {
+                    ID: 'Salt_1',
+                    Timestamp: new Date().toISOString(),
+                    PropertyName: 'FanSpeed',
+                    Value: Math.floor(Math.random() * 100)
+                },
+                {
+                    ID: 'Past_1',
+                    Timestamp: new Date().toISOString(),
+                    PropertyName: 'Pressure',
+                    Value: Math.floor(Math.random() * 100)
+                },
+                {
+                    ID: 'Salt_1',
+                    Timestamp: new Date().toISOString(),
+                    PropertyName: 'FlowRate',
+                    Value: Math.floor(Math.random() * 100)
+                }
+            ];
+            break;
+        case TableTypes.Tags:
+            mockData = [
+                {
+                    ID: 'Past_1',
+                    Timestamp: new Date().toISOString(),
+                    Value: Math.floor(Math.random() * 100)
+                },
+                {
+                    ID: 'Salt_1',
+                    Timestamp: new Date().toISOString(),
+                    Value: Math.floor(Math.random() * 100)
+                },
+                {
+                    ID: 'Past_1',
+                    Timestamp: new Date().toISOString(),
+                    Value: Math.floor(Math.random() * 100)
+                },
+                {
+                    ID: 'Salt_1',
+                    Timestamp: new Date().toISOString(),
+                    Value: Math.floor(Math.random() * 100)
+                }
+            ];
+            break;
+        default:
+            break;
+    }
+    return mockData;
 };

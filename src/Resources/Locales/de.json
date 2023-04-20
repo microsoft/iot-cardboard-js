@@ -1556,7 +1556,9 @@
         "tableType": "Typ der Quelltabelle",
         "selectTableType": "Auswählen des Quelltabellentyps",
         "twinIDProperty": "Quell-Zwillings-ID-Eigenschaft",
-        "selectTwinIDProperty": "Quell-Zwillings-ID-Eigenschaft auswählen"
+        "selectTwinIDProperty": "Quell-Zwillings-ID-Eigenschaft auswählen",
+        "type": "Art der Quelle",
+        "typePlaceholder": "Wählen Sie den Quelltyp"
       },
       "target": {
         "database": "Zieldatenbank",
@@ -1575,18 +1577,14 @@
       "twins": "Zwillinge",
       "properties": "Eigenschaften"
     },
-    "Common": {},
     "StoreListPage": {
       "title": "Willkommen in der Zukunft",
       "createStoreButtonText": "Hinzufügen eines Datenspeichers",
-      "urlLabel": "Cluster-URL",
-      "nameLabel": "Name der Datenbank",
       "Modal": {
-        "title": "Hinzufügen eines neuen Datenspeichers",
-        "urlPlaceholder": "http://mycluster.kusto.azure.net",
-        "namePlaceholder": "Geben Sie einen Datenbanknamen ein."
+        "title": "Hinzufügen eines neuen Datenspeichers"
       }
     },
+<<<<<<< HEAD
     "GraphVisualizer": {
       "ContextMenu": {
         "addParentLabel": "Übergeordnetes Element hinzufügen"
@@ -1613,6 +1611,21 @@
         "relationshipNameFieldPlaceholder": "Auswählen oder Erstellen eines Beziehungsnamens",
         "existingEntityFieldPlaceholder": "Wählen Sie eine vorhandene Entität aus"
       }
+=======
+    "dataSourceStep": {
+      "infoText": "Erstellen neuer Zwillinge aus einer Quelltabelle oder einem Konstruktionsdiagramm"
+    },
+    "Common": {
+      "clusterLabel": "Cluster-URL",
+      "clusterPlaceholder": "Wählen Sie die Cluster-URL aus",
+      "databaseLabel": "Datenbank",
+      "databasePlaceholder": "Datenbank auswählen",
+      "tableLabel": "Tisch",
+      "tableIdColumnLabel": "ID-Feld",
+      "urlLabel": "Internetadresse:",
+      "urlPlaceholder": "URL eingeben",
+      "addOptionFormat": "Fügen Sie '{{item}}' hinzu"
+>>>>>>> origin/feature-Legion
     }
   }
 }

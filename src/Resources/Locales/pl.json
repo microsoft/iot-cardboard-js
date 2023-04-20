@@ -1556,7 +1556,9 @@
         "tableType": "Typ tabeli źródłowej",
         "selectTableType": "Wybierz typ tabeli źródłowej",
         "twinIDProperty": "Właściwość identyfikatora bliźniaczej źródła",
-        "selectTwinIDProperty": "Wybierz właściwość źródłowego identyfikatora bliźniaczej"
+        "selectTwinIDProperty": "Wybierz właściwość źródłowego identyfikatora bliźniaczej",
+        "type": "Typ źródła",
+        "typePlaceholder": "Wybierz typ źródła"
       },
       "target": {
         "database": "Docelowa baza danych",
@@ -1575,18 +1577,14 @@
       "twins": "Bliźnięta",
       "properties": "Właściwości"
     },
-    "Common": {},
     "StoreListPage": {
       "title": "Witamy w przyszłości",
       "createStoreButtonText": "Dodawanie magazynu danych",
-      "urlLabel": "Adres URL klastra",
-      "nameLabel": "Nazwa bazy danych",
       "Modal": {
-        "title": "Dodawanie nowego magazynu danych",
-        "urlPlaceholder": "http://mycluster.kusto.azure.net",
-        "namePlaceholder": "Wprowadź nazwę bazy danych"
+        "title": "Dodawanie nowego magazynu danych"
       }
     },
+<<<<<<< HEAD
     "GraphVisualizer": {
       "ContextMenu": {
         "addParentLabel": "Dodaj rodzica"
@@ -1613,6 +1611,21 @@
         "relationshipNameFieldPlaceholder": "Wybieranie lub tworzenie nazwy relacji",
         "existingEntityFieldPlaceholder": "Wybierz istniejącą encję"
       }
+=======
+    "dataSourceStep": {
+      "infoText": "Tworzenie nowych bliźniaków na podstawie tabeli źródłowej lub diagramu inżynierskiegoCreate new twins from a source table or engineering diagram"
+    },
+    "Common": {
+      "clusterLabel": "Adres URL klastra",
+      "clusterPlaceholder": "Wybierz adres URL klastra",
+      "databaseLabel": "Baza danych",
+      "databasePlaceholder": "Wybierz bazę danych",
+      "tableLabel": "Stół",
+      "tableIdColumnLabel": "Pole identyfikatora",
+      "urlLabel": "Adres URL",
+      "urlPlaceholder": "Wpisz adres URL",
+      "addOptionFormat": "Dodaj '{{item}}'"
+>>>>>>> origin/feature-Legion
     }
   }
 }

@@ -6,15 +6,12 @@ import {
     IStyleFunctionOrObject
 } from '@fluentui/react';
 import { IExtendedTheme } from '../../../../../../Theming/Theme.types';
-import {
-    IDataManagementAdapter,
-    ITable
-} from '../../../../Adapters/Standalone/DataManagement/Models/DataManagementAdapter.types';
+import { ITable } from '../../../../Adapters/Standalone/DataManagement/Models/DataManagementAdapter.types';
+import { IReactSelectOption } from '../../../../Models/Types';
+import { SourceType } from '../../../DataPusher/DataPusher.types';
 import { IAppData } from '../../../../Models/Interfaces';
-import { IReactSelectOption } from '../../../DataPusher/DataPusher.types';
 
 export interface IDataSourceStepProps {
-    adapter: IDataManagementAdapter;
     /**
      * Call to provide customized styling that will layer on top of the variant rules.
      */
@@ -47,8 +44,9 @@ export interface IDataSourceStepState {
     targetDatabaseOptions: Array<IReactSelectOption>;
     sourceTableOptions: Array<IDropdownOption>;
     sourceTableColumnOptions: Array<IDropdownOption>;
+    selectedSourceType: SourceType;
+    selectedSourceCluster: string;
     selectedSourceDatabase: string;
-    selectedTargetDatabase: IReactSelectOption;
     selectedSourceTable: string;
     selectedSourceTwinIDColumn: string;
     selectedSourceTableType: string;
@@ -62,8 +60,9 @@ export enum DataSourceStepActionType {
     SET_TARGET_DATABASE_OPTIONS = 'SET_TARGET_DATABASE_OPTIONS',
     SET_SOURCE_TABLE_OPTIONS = 'SET_SOURCE_TABLE_OPTIONS',
     SET_SOURCE_TABLE_DATA = 'SET_SOURCE_TABLE_DATA',
+    SET_SELECTED_SOURCE_TYPE = 'SET_SELECTED_SOURCE_TYPE',
+    SET_SELECTED_SOURCE_CLUSTER = 'SET_SELECTED_SOURCE_CLUSTER',
     SET_SELECTED_SOURCE_DATABASE = 'SET_SELECTED_SOURCE_DATABASE',
-    SET_SELECTED_TARGET_DATABASE = 'SET_SELECTED_TARGET_DATABASE',
     SET_SELECTED_SOURCE_TABLE = 'SET_SELECTED_SOURCE_TABLE',
     SET_SELECTED_SOURCE_TWIN_ID_COLUMN = 'SET_SELECTED_SOURCE_TWIN_ID_COLUMN',
     SET_SELECTED_SOURCE_TABLE_TYPE = 'SET_SELECTED_SOURCE_TABLE_TYPE',
@@ -89,12 +88,16 @@ export type DataSourceStepAction =
           tableData: ITable;
       }
     | {
-          type: DataSourceStepActionType.SET_SELECTED_SOURCE_DATABASE;
-          database: string;
+          type: DataSourceStepActionType.SET_SELECTED_SOURCE_TYPE;
+          sourceType: SourceType;
       }
     | {
-          type: DataSourceStepActionType.SET_SELECTED_TARGET_DATABASE;
-          database: IReactSelectOption;
+          type: DataSourceStepActionType.SET_SELECTED_SOURCE_CLUSTER;
+          clusterUrl: string;
+      }
+    | {
+          type: DataSourceStepActionType.SET_SELECTED_SOURCE_DATABASE;
+          database: string;
       }
     | {
           type: DataSourceStepActionType.SET_SELECTED_SOURCE_TABLE;

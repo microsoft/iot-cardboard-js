@@ -1556,7 +1556,9 @@
         "tableType": "源表类型",
         "selectTableType": "选择源表类型",
         "twinIDProperty": "源孪生 ID 属性",
-        "selectTwinIDProperty": "选择源孪生 ID 属性"
+        "selectTwinIDProperty": "选择源孪生 ID 属性",
+        "type": "源类型",
+        "typePlaceholder": "选择源类型"
       },
       "target": {
         "database": "目标数据库",
@@ -1575,18 +1577,14 @@
       "twins": "双胞胎",
       "properties": "性能"
     },
-    "Common": {},
     "StoreListPage": {
       "title": "欢迎来到未来",
       "createStoreButtonText": "添加数据存储",
-      "urlLabel": "群集网址",
-      "nameLabel": "数据库名称",
       "Modal": {
-        "title": "添加新数据存储",
-        "urlPlaceholder": "http://mycluster.kusto.azure.net",
-        "namePlaceholder": "输入数据库名称"
+        "title": "添加新数据存储"
       }
     },
+<<<<<<< HEAD
     "GraphVisualizer": {
       "ContextMenu": {
         "addParentLabel": "添加父级"
@@ -1613,6 +1611,21 @@
         "relationshipNameFieldPlaceholder": "选择或创建关系名称",
         "existingEntityFieldPlaceholder": "选择现有实体"
       }
+=======
+    "dataSourceStep": {
+      "infoText": "从源表或工程图创建新的孪生体"
+    },
+    "Common": {
+      "clusterLabel": "群集网址",
+      "clusterPlaceholder": "选择群集网址",
+      "databaseLabel": "数据库",
+      "databasePlaceholder": "选择数据库",
+      "tableLabel": "桌子",
+      "tableIdColumnLabel": "标识字段",
+      "urlLabel": "网址",
+      "urlPlaceholder": "输入网址",
+      "addOptionFormat": "添加“{{项目}}”"
+>>>>>>> origin/feature-Legion
     }
   }
 }

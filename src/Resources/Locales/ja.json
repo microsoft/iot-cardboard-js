@@ -1556,7 +1556,9 @@
         "tableType": "ソース テーブルの種類",
         "selectTableType": "ソース テーブルの種類を選択",
         "twinIDProperty": "ソース ツイン ID プロパティ",
-        "selectTwinIDProperty": "ソース ツイン ID プロパティの選択"
+        "selectTwinIDProperty": "ソース ツイン ID プロパティの選択",
+        "type": "ソースの種類",
+        "typePlaceholder": "ソースの種類を選択"
       },
       "target": {
         "database": "ターゲット データベース",
@@ -1575,18 +1577,14 @@
       "twins": "双子",
       "properties": "プロパティ"
     },
-    "Common": {},
     "StoreListPage": {
       "title": "未来へようこそ",
       "createStoreButtonText": "データ ストアの追加",
-      "urlLabel": "クラスターの URL",
-      "nameLabel": "データベース名",
       "Modal": {
-        "title": "新しいデータ ストアの追加",
-        "urlPlaceholder": "http://mycluster.kusto.azure.net",
-        "namePlaceholder": "データベース名を入力してください"
+        "title": "新しいデータ ストアの追加"
       }
     },
+<<<<<<< HEAD
     "GraphVisualizer": {
       "ContextMenu": {
         "addParentLabel": "親の追加"
@@ -1613,6 +1611,21 @@
         "relationshipNameFieldPlaceholder": "リレーションシップ名を選択または作成する",
         "existingEntityFieldPlaceholder": "既存のエンティティを選択する"
       }
+=======
+    "dataSourceStep": {
+      "infoText": "ソース テーブルまたはエンジニアリング ダイアグラムから新しいツインを作成する"
+    },
+    "Common": {
+      "clusterLabel": "クラスター URL",
+      "clusterPlaceholder": "クラスター URL の選択",
+      "databaseLabel": "データベース",
+      "databasePlaceholder": "データベースの選択",
+      "tableLabel": "テーブル",
+      "tableIdColumnLabel": "ID フィールド",
+      "urlLabel": "リンク",
+      "urlPlaceholder": "URLを入力",
+      "addOptionFormat": "'{{アイテム}}' を追加"
+>>>>>>> origin/feature-Legion
     }
   }
 }

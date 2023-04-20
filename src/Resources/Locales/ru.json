@@ -1556,7 +1556,9 @@
         "tableType": "Тип исходной таблицы",
         "selectTableType": "Выбор типа исходной таблицы",
         "twinIDProperty": "Свойство идентификатора двойного идентификатора источника",
-        "selectTwinIDProperty": "Выберите свойство идентификатора двойного идентификатора источника"
+        "selectTwinIDProperty": "Выберите свойство идентификатора двойного идентификатора источника",
+        "type": "Тип источника",
+        "typePlaceholder": "Выберите тип источника"
       },
       "target": {
         "database": "Целевая база данных",
@@ -1575,18 +1577,14 @@
       "twins": "Близнецы",
       "properties": "Свойства"
     },
-    "Common": {},
     "StoreListPage": {
       "title": "Добро пожаловать в будущее",
       "createStoreButtonText": "Добавление хранилища данных",
-      "urlLabel": "URL-адрес кластера",
-      "nameLabel": "Имя базы данных",
       "Modal": {
-        "title": "Добавление нового хранилища данных",
-        "urlPlaceholder": "http://mycluster.kusto.azure.net",
-        "namePlaceholder": "Введите имя базы данных"
+        "title": "Добавление нового хранилища данных"
       }
     },
+<<<<<<< HEAD
     "GraphVisualizer": {
       "ContextMenu": {
         "addParentLabel": "Добавить родителя"
@@ -1613,6 +1611,21 @@
         "relationshipNameFieldPlaceholder": "Выбор или создание имени связи",
         "existingEntityFieldPlaceholder": "Выберите существующую сущность"
       }
+=======
+    "dataSourceStep": {
+      "infoText": "Создание новых двойников из исходной таблицы или инженерной схемы"
+    },
+    "Common": {
+      "clusterLabel": "URL-адрес кластера",
+      "clusterPlaceholder": "Выбор URL-адреса кластера",
+      "databaseLabel": "База данных",
+      "databasePlaceholder": "Выбор базы данных",
+      "tableLabel": "Стол",
+      "tableIdColumnLabel": "Поле идентификатора",
+      "urlLabel": "URL-адрес",
+      "urlPlaceholder": "Введите URL-адрес",
+      "addOptionFormat": "Добавить '{{item}}'"
+>>>>>>> origin/feature-Legion
     }
   }
 }

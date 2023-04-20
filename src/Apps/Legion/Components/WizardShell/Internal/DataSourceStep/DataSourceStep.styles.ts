@@ -23,7 +23,7 @@ export const getStyles = (
         subComponentStyles: {
             stack: {
                 root: {
-                    width: 300
+                    width: 360
                 }
             },
             button: {

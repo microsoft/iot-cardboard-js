@@ -1556,7 +1556,9 @@
         "tableType": "Kaynak tablo türü",
         "selectTableType": "Kaynak tablo türünü seçme",
         "twinIDProperty": "Kaynak ikiz kimlik özelliği",
-        "selectTwinIDProperty": "Kaynak ikiz kimliği özelliğini seçin"
+        "selectTwinIDProperty": "Kaynak ikiz kimliği özelliğini seçin",
+        "type": "Kaynak türü",
+        "typePlaceholder": "Kaynak türünü seçin"
       },
       "target": {
         "database": "Hedef veritabanı",
@@ -1575,18 +1577,14 @@
       "twins": "İkizler",
       "properties": "Özellikler"
     },
-    "Common": {},
     "StoreListPage": {
       "title": "Geleceğe hoş geldiniz",
       "createStoreButtonText": "Veri deposu ekleme",
-      "urlLabel": "Küme URL'si",
-      "nameLabel": "Veritabanı adı",
       "Modal": {
-        "title": "Yeni veri deposu ekleme",
-        "urlPlaceholder": "http://mycluster.kusto.azure.net",
-        "namePlaceholder": "Veritabanı adı girin"
+        "title": "Yeni veri deposu ekleme"
       }
     },
+<<<<<<< HEAD
     "GraphVisualizer": {
       "ContextMenu": {
         "addParentLabel": "Ebeveyn ekle"
@@ -1613,6 +1611,21 @@
         "relationshipNameFieldPlaceholder": "İlişki adı seçme veya oluşturma",
         "existingEntityFieldPlaceholder": "Mevcut bir varlığı seçme"
       }
+=======
+    "dataSourceStep": {
+      "infoText": "Kaynak tablodan veya mühendislik diyagramından yeni ikizler oluşturma"
+    },
+    "Common": {
+      "clusterLabel": "Küme URL'si",
+      "clusterPlaceholder": "Küme URL'sini seçin",
+      "databaseLabel": "Veritabanı",
+      "databasePlaceholder": "Veritabanı seç",
+      "tableLabel": "Masa",
+      "tableIdColumnLabel": "Kimlik alanı",
+      "urlLabel": "URL",
+      "urlPlaceholder": "URL girin",
+      "addOptionFormat": "'{{item}}' ekleyin"
+>>>>>>> origin/feature-Legion
     }
   }
 }

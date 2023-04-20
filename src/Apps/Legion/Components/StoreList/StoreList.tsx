@@ -34,14 +34,14 @@ const getClassNames = classNamesFunction<
 const columns: IColumn[] = [
     {
         key: 'name',
-        name: i18n.t('legionApp.StoreListPage.nameLabel'),
+        name: i18n.t('legionApp.Common.databaseLabel'),
         fieldName: 'databaseName',
         minWidth: 100,
         maxWidth: 200
     },
     {
         key: 'url',
-        name: i18n.t('legionApp.StoreListPage.urlLabel'),
+        name: i18n.t('legionApp.Common.clusterLabel'),
         fieldName: 'clusterUrl',
         minWidth: 300
     }

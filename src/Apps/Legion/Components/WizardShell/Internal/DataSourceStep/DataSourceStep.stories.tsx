@@ -3,7 +3,6 @@ import { ComponentStory } from '@storybook/react';
 import DataSourceStep from './DataSourceStep';
 import { IDataSourceStepProps } from './DataSourceStep.types';
 import { getDefaultStoryDecorator } from '../../../../../../Models/Services/StoryUtilities';
-import MockDataManagementAdapter from '../../../../Adapters/Standalone/DataManagement/MockDataManagementAdapter';
 import { WizardNavigationContextProvider } from '../../../../Contexts/WizardNavigationContext/WizardNavigationContext';
 import {
     DEFAULT_MOCK_DATA_MANAGEMENT_STATE,
@@ -38,6 +37,4 @@ const Template: DataSourceStepStory = (args) => {
 };
 
 export const Mock = Template.bind({}) as DataSourceStepStory;
-Mock.args = {
-    adapter: new MockDataManagementAdapter()
-} as IDataSourceStepProps;
+Mock.args = {} as IDataSourceStepProps;

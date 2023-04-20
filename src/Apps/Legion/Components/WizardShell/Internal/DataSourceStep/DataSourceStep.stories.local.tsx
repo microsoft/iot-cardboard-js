@@ -29,6 +29,14 @@ const Template: DataSourceStepStory = (args) => {
         <div></div>
     ) : (
         <WizardDataManagementContextProvider
+            adapter={
+                new LegionAdapter(
+                    new MsalAuthService(
+                        authenticationParameters.adt.aadParameters
+                    ),
+                    authenticationParameters.adx.clusterUrl
+                )
+            }
             initialState={{
                 ...DEFAULT_MOCK_DATA_MANAGEMENT_STATE
             }}
@@ -36,17 +44,7 @@ const Template: DataSourceStepStory = (args) => {
             <WizardNavigationContextProvider
                 initialState={WIZARD_NAVIGATION_MOCK_DATA}
             >
-                <DataSourceStep
-                    adapter={
-                        new LegionAdapter(
-                            new MsalAuthService(
-                                authenticationParameters.adt.aadParameters
-                            ),
-                            authenticationParameters.adx.clusterUrl
-                        )
-                    }
-                    {...args}
-                />
+                <DataSourceStep {...args} />
             </WizardNavigationContextProvider>
         </WizardDataManagementContextProvider>
     );
