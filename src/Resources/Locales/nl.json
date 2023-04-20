@@ -1553,7 +1553,9 @@
         "tableType": "Type brontabel",
         "selectTableType": "Type brontabel selecteren",
         "twinIDProperty": "Eigenschap Source twin ID",
-        "selectTwinIDProperty": "Eigenschap brontwee-ID selecteren"
+        "selectTwinIDProperty": "Eigenschap brontwee-ID selecteren",
+        "type": "Brontype",
+        "typePlaceholder": "Selecteer brontype"
       },
       "target": {
         "database": "Doeldatabase",
@@ -1587,24 +1589,35 @@
       "twins": "Tweeling",
       "properties": "Eigenschappen"
     },
-    "Common": {},
     "StoreListPage": {
       "title": "Welkom in de toekomst",
       "createStoreButtonText": "Gegevensarchief toevoegen",
-      "urlLabel": "Cluster-URL",
-      "nameLabel": "Naam database",
       "Modal": {
-        "title": "Een nieuw gegevensarchief toevoegen",
-        "urlPlaceholder": "http://mycluster.kusto.azure.net",
-        "namePlaceholder": "Een databasenaam invoeren"
+        "title": "Een nieuw gegevensarchief toevoegen"
       }
     },
+<<<<<<< HEAD
     "modifyStep": {
       "diagram": "Diagram",
       "entities": "Entiteiten",
       "types": "Typen",
       "graph": "Grafiek",
       "secondaryButton": "Entiteiten samenvoegen"
+=======
+    "dataSourceStep": {
+      "infoText": "Nieuwe tweelingen maken op basis van een brontabel of engineeringdiagram"
+    },
+    "Common": {
+      "clusterLabel": "Cluster-URL",
+      "clusterPlaceholder": "Cluster-URL selecteren",
+      "databaseLabel": "Databank",
+      "databasePlaceholder": "Selecteer database",
+      "tableLabel": "Tafel",
+      "tableIdColumnLabel": "Id-veld",
+      "urlLabel": "Url",
+      "urlPlaceholder": "Voer de URL in",
+      "addOptionFormat": "Voeg '{{item}}' toe"
+>>>>>>> 39af9cf023ea6dd4822a2e030fcf9dd74027044a
     }
   }
 }

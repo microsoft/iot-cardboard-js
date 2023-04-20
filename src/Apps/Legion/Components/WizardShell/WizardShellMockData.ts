@@ -1,5 +1,4 @@
 import { IStepperWizardStep } from '../../../../Components/StepperWizard/StepperWizard.types';
-import MockDataManagementAdapter from '../../Adapters/Standalone/DataManagement/MockDataManagementAdapter';
 import { IGraphContextProviderProps } from '../../Contexts/GraphContext/GraphContext.types';
 import { IWizardDataContextState } from '../../Contexts/WizardDataContext/WizardDataContext.types';
 import { IWizardDataManagementContextState } from '../../Contexts/WizardDataManagementContext/WizardDataManagementContext.types';
@@ -146,7 +145,6 @@ export const steps: IStepperWizardStep[] = [
 ];
 
 export const WIZARD_NAVIGATION_MOCK_DATA: IWizardNavigationContextState = {
-    adapter: new MockDataManagementAdapter(),
     steps: steps,
     currentStep: 0
 };
@@ -164,11 +162,14 @@ export const DEFAULT_MOCK_DATA_MANAGEMENT_STATE: IWizardDataManagementContextSta
     modifiedAssets: mockAppData,
     sources: [
         {
+            selectedSourceCluster: '',
             selectedSourceDatabase: '',
             selectedSourceTable: '',
             selectedSourceTwinIDColumn: '',
-            selectedSourceTableType: TableTypes.Wide,
-            selectedTargetDatabase: ''
+            selectedSourceTableType: TableTypes.Wide
+        },
+        {
+            pidUrl: ''
         }
     ]
 };

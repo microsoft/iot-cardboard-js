@@ -12,6 +12,7 @@ import { useExtendedTheme } from '../../../../Models/Hooks/useExtendedTheme';
 import { useTranslation } from 'react-i18next';
 import ModifyStep from './Internal/ModifyStep/ModifyStep';
 import { WizardStepNumber } from '../../Contexts/WizardNavigationContext/WizardNavigationContext.types';
+import { useAppDataContext } from '../../Contexts/AppDataContext/AppDataContext';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('WizardShell', debugLogging);
@@ -19,6 +20,7 @@ const logDebugConsole = getDebugLogger('WizardShell', debugLogging);
 const WizardShell: React.FC<IWizardShellProps> = (_props) => {
     // contexts
     const { wizardNavigationContextState } = useWizardNavigationContext();
+    const { appDataState } = useAppDataContext();
 
     // hooks
     const theme = useExtendedTheme();
@@ -36,21 +38,14 @@ const WizardShell: React.FC<IWizardShellProps> = (_props) => {
     const currentPage = useMemo(() => {
         switch (wizardNavigationContextState.currentStep) {
             case WizardStepNumber.AddSource:
-                return (
-                    <DataSourceStep
-                        adapter={wizardNavigationContextState.adapter}
-                    />
-                );
+                return <DataSourceStep />;
             case WizardStepNumber.Modify:
                 // TODO: Change show diagram based on type of asset selected
                 return <ModifyStep showDiagram={false} />;
             case WizardStepNumber.Save:
                 return <SaveStep />;
         }
-    }, [
-        wizardNavigationContextState.adapter,
-        wizardNavigationContextState.currentStep
-    ]);
+    }, [wizardNavigationContextState.currentStep]);
 
     logDebugConsole('debug', 'Render');
 
@@ -68,7 +63,9 @@ const WizardShell: React.FC<IWizardShellProps> = (_props) => {
             <div className={classNames.headerNav}>
                 {/* TODO: CREATE DB HEADER */}
                 <Icon iconName={'Globe'} />
-                <h3 className={classNames.headerText}>DATABASE NAME HERE</h3>
+                <h3 className={classNames.headerText}>
+                    {appDataState?.targetDatabase?.databaseName}
+                </h3>
             </div>
             {/* Content */}
             <div className={classNames.wizardContainer}>{currentPage}</div>

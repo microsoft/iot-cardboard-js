@@ -12,7 +12,7 @@ import { getDebugLogger } from '../../../../Models/Services/Utils';
 import { useTranslation } from 'react-i18next';
 import Ingest from './Internal/Ingest';
 import Cook from './Internal/Cook';
-import ConnectionStringPicker from './Internal/ConnectionStringPicker';
+import ClusterPicker from '../Pickers/ClusterPicker/ClusterPicker';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('DataPusher', debugLogging);
@@ -35,8 +35,6 @@ const DataPusher: React.FC<IDataPusherProps> = (props) => {
     const { t } = useTranslation();
     const theme = useExtendedTheme();
 
-    //callbacks
-
     // styles
     const classNames = getClassNames(styles, {
         theme
@@ -52,8 +50,11 @@ const DataPusher: React.FC<IDataPusherProps> = (props) => {
         >
             <div className={classNames.root}>
                 <h3>{t('legionApp.dataPusher.title')}</h3>
-                <ConnectionStringPicker
-                    onConnectionStringChange={setSelectedClusterUrl}
+                <ClusterPicker
+                    onClusterUrlChange={setSelectedClusterUrl}
+                    styles={classNames.subComponentStyles.clusterPicker}
+                    targetAdapterContext={DataPusherContext}
+                    hasTooltip
                 />
                 <Pivot key={selectedClusterUrl}>
                     <PivotItem

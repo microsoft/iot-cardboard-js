@@ -1553,7 +1553,9 @@
         "tableType": "Tipo de tabela de origem",
         "selectTableType": "Selecione o tipo de tabela de origem",
         "twinIDProperty": "Propriedade ID dupla de origem",
-        "selectTwinIDProperty": "Selecione a propriedade ID dupla de origem"
+        "selectTwinIDProperty": "Selecione a propriedade ID dupla de origem",
+        "type": "Tipo de fonte",
+        "typePlaceholder": "Selecionar tipo de fonte"
       },
       "target": {
         "database": "Base de dados de destino",
@@ -1587,24 +1589,35 @@
       "twins": "Gêmeos",
       "properties": "Imóveis"
     },
-    "Common": {},
     "StoreListPage": {
       "title": "Bem-vindo ao futuro",
       "createStoreButtonText": "Adicionar armazenamento de dados",
-      "urlLabel": "URL do cluster",
-      "nameLabel": "Nome do banco de dados",
       "Modal": {
-        "title": "Adicionar um novo armazenamento de dados",
-        "urlPlaceholder": "http://mycluster.kusto.azure.net",
-        "namePlaceholder": "Insira um nome de banco de dados"
+        "title": "Adicionar um novo armazenamento de dados"
       }
     },
+<<<<<<< HEAD
     "modifyStep": {
       "diagram": "Diagrama",
       "entities": "Entidades",
       "types": "Tipos",
       "graph": "Gráfico",
       "secondaryButton": "Mesclar entidades"
+=======
+    "dataSourceStep": {
+      "infoText": "Crie novos gêmeos a partir de uma tabela de origem ou diagrama de engenharia"
+    },
+    "Common": {
+      "clusterLabel": "Cluster URL",
+      "clusterPlaceholder": "Selecionar URL do cluster",
+      "databaseLabel": "Base de dados",
+      "databasePlaceholder": "Selecionar base de dados",
+      "tableLabel": "Tabela",
+      "tableIdColumnLabel": "Campo ID",
+      "urlLabel": "URL",
+      "urlPlaceholder": "Insira o URL",
+      "addOptionFormat": "Adicionar '{{item}}'"
+>>>>>>> 39af9cf023ea6dd4822a2e030fcf9dd74027044a
     }
   }
 }

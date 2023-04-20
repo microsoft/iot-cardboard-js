@@ -88,3 +88,16 @@ DescriptionError.args = {
     description: 'Error message here',
     descriptionIsError: true
 } as ICardboardComboBoxProps<IListItem>;
+
+export const Dropdown = Template.bind({}) as CardboardComboBoxSelectStory;
+Dropdown.args = {
+    ...defaultProps,
+    isCreatable: false
+} as ICardboardComboBoxProps<IListItem>;
+
+export const WithSpinner = Template.bind({}) as CardboardComboBoxSelectStory;
+WithSpinner.args = {
+    ...defaultProps,
+    isSpinnerVisible: true,
+    spinnerLabel: 'Something is in progress...'
+} as ICardboardComboBoxProps<IListItem>;

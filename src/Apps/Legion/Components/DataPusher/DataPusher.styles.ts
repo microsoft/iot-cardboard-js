@@ -23,6 +23,9 @@ export const getStyles = (_props: IDataPusherStyleProps): IDataPusherStyles => {
             { overflow: 'auto', height: 240 }
         ],
         subComponentStyles: {
+            clusterPicker: {
+                root: { width: 380 }
+            },
             stack: {
                 root: {
                     width: 300

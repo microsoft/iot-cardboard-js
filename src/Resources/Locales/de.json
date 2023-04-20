@@ -1553,7 +1553,9 @@
         "tableType": "Typ der Quelltabelle",
         "selectTableType": "Auswählen des Quelltabellentyps",
         "twinIDProperty": "Quell-Zwillings-ID-Eigenschaft",
-        "selectTwinIDProperty": "Quell-Zwillings-ID-Eigenschaft auswählen"
+        "selectTwinIDProperty": "Quell-Zwillings-ID-Eigenschaft auswählen",
+        "type": "Art der Quelle",
+        "typePlaceholder": "Wählen Sie den Quelltyp"
       },
       "target": {
         "database": "Zieldatenbank",
@@ -1587,24 +1589,35 @@
       "twins": "Zwillinge",
       "properties": "Eigenschaften"
     },
-    "Common": {},
     "StoreListPage": {
       "title": "Willkommen in der Zukunft",
       "createStoreButtonText": "Hinzufügen eines Datenspeichers",
-      "urlLabel": "Cluster-URL",
-      "nameLabel": "Name der Datenbank",
       "Modal": {
-        "title": "Hinzufügen eines neuen Datenspeichers",
-        "urlPlaceholder": "http://mycluster.kusto.azure.net",
-        "namePlaceholder": "Geben Sie einen Datenbanknamen ein."
+        "title": "Hinzufügen eines neuen Datenspeichers"
       }
     },
+<<<<<<< HEAD
     "modifyStep": {
       "diagram": "Diagramm",
       "entities": "Entitäten",
       "types": "Arten",
       "graph": "Graph",
       "secondaryButton": "Zusammenführen von Entitäten"
+=======
+    "dataSourceStep": {
+      "infoText": "Erstellen neuer Zwillinge aus einer Quelltabelle oder einem Konstruktionsdiagramm"
+    },
+    "Common": {
+      "clusterLabel": "Cluster-URL",
+      "clusterPlaceholder": "Wählen Sie die Cluster-URL aus",
+      "databaseLabel": "Datenbank",
+      "databasePlaceholder": "Datenbank auswählen",
+      "tableLabel": "Tisch",
+      "tableIdColumnLabel": "ID-Feld",
+      "urlLabel": "Internetadresse:",
+      "urlPlaceholder": "URL eingeben",
+      "addOptionFormat": "Fügen Sie '{{item}}' hinzu"
+>>>>>>> 39af9cf023ea6dd4822a2e030fcf9dd74027044a
     }
   }
 }

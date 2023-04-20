@@ -1553,7 +1553,9 @@
         "tableType": "Тип исходной таблицы",
         "selectTableType": "Выбор типа исходной таблицы",
         "twinIDProperty": "Свойство идентификатора двойного идентификатора источника",
-        "selectTwinIDProperty": "Выберите свойство идентификатора двойного идентификатора источника"
+        "selectTwinIDProperty": "Выберите свойство идентификатора двойного идентификатора источника",
+        "type": "Тип источника",
+        "typePlaceholder": "Выберите тип источника"
       },
       "target": {
         "database": "Целевая база данных",
@@ -1587,24 +1589,35 @@
       "twins": "Близнецы",
       "properties": "Свойства"
     },
-    "Common": {},
     "StoreListPage": {
       "title": "Добро пожаловать в будущее",
       "createStoreButtonText": "Добавление хранилища данных",
-      "urlLabel": "URL-адрес кластера",
-      "nameLabel": "Имя базы данных",
       "Modal": {
-        "title": "Добавление нового хранилища данных",
-        "urlPlaceholder": "http://mycluster.kusto.azure.net",
-        "namePlaceholder": "Введите имя базы данных"
+        "title": "Добавление нового хранилища данных"
       }
     },
+<<<<<<< HEAD
     "modifyStep": {
       "diagram": "Диаграмма",
       "entities": "Объекты",
       "types": "Типы",
       "graph": "График",
       "secondaryButton": "Слияние сущностей"
+=======
+    "dataSourceStep": {
+      "infoText": "Создание новых двойников из исходной таблицы или инженерной схемы"
+    },
+    "Common": {
+      "clusterLabel": "URL-адрес кластера",
+      "clusterPlaceholder": "Выбор URL-адреса кластера",
+      "databaseLabel": "База данных",
+      "databasePlaceholder": "Выбор базы данных",
+      "tableLabel": "Стол",
+      "tableIdColumnLabel": "Поле идентификатора",
+      "urlLabel": "URL-адрес",
+      "urlPlaceholder": "Введите URL-адрес",
+      "addOptionFormat": "Добавить '{{item}}'"
+>>>>>>> 39af9cf023ea6dd4822a2e030fcf9dd74027044a
     }
   }
 }

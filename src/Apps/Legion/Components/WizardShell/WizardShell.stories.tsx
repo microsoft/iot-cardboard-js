@@ -11,6 +11,8 @@ import {
 import { WizardDataContextProvider } from '../../Contexts/WizardDataContext/WizardDataContext';
 import { WizardDataManagementContextProvider } from '../../Contexts/WizardDataManagementContext/WizardDataManagementContext';
 import { DEFAULT_MOCK_DATA_MANAGEMENT_STATE } from './WizardShellMockData';
+import { AppDataContextProvider } from '../../Contexts/AppDataContext/AppDataContext';
+import { GET_MOCK_APP_DATA_CONTEXT_STATE } from '../../Contexts/AppDataContext/AppDataContext.mock';
 
 const wrapperStyle = { width: '100%', height: '600px' };
 
@@ -24,20 +26,25 @@ type WizardShellStory = ComponentStory<typeof WizardShell>;
 
 const Template: WizardShellStory = (args) => {
     return (
-        // DATA MANAGEMENT PROVIDER IS TEMPORARY HERE, WILL REMOVE WHEN DATA SOURCE STEP IS UPDATED
-        <WizardDataManagementContextProvider
-            initialState={DEFAULT_MOCK_DATA_MANAGEMENT_STATE}
+        <AppDataContextProvider
+            initialState={GET_MOCK_APP_DATA_CONTEXT_STATE()}
         >
-            <WizardDataContextProvider
-                initialState={GET_DEFAULT_MOCK_WIZARD_DATA_CONTEXT('Dairy')}
+            // DATA MANAGEMENT PROVIDER IS TEMPORARY HERE, WILL REMOVE WHEN DATA
+            SOURCE STEP IS UPDATED
+            <WizardDataManagementContextProvider
+                initialState={DEFAULT_MOCK_DATA_MANAGEMENT_STATE}
             >
-                <WizardNavigationContextProvider
-                    initialState={WIZARD_NAVIGATION_MOCK_DATA}
+                <WizardDataContextProvider
+                    initialState={GET_DEFAULT_MOCK_WIZARD_DATA_CONTEXT('Dairy')}
                 >
-                    <WizardShell {...args} />
-                </WizardNavigationContextProvider>
-            </WizardDataContextProvider>
-        </WizardDataManagementContextProvider>
+                    <WizardNavigationContextProvider
+                        initialState={WIZARD_NAVIGATION_MOCK_DATA}
+                    >
+                        <WizardShell {...args} />
+                    </WizardNavigationContextProvider>
+                </WizardDataContextProvider>
+            </WizardDataManagementContextProvider>
+        </AppDataContextProvider>
     );
 };
 

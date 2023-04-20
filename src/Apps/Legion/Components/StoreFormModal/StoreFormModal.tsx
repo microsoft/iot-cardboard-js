@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { classNamesFunction, styled, TextField } from '@fluentui/react';
+import React, { useCallback, useState } from 'react';
+import { classNamesFunction, styled } from '@fluentui/react';
 import { useExtendedTheme } from '../../../../Models/Hooks/useExtendedTheme';
 import { getDebugLogger } from '../../../../Models/Services/Utils';
 import {
@@ -12,6 +12,8 @@ import CardboardModal from '../../../../Components/CardboardModal/CardboardModal
 import { ITargetDatabaseConnection } from '../../Contexts/AppDataContext/AppDataContext.types';
 import { useTranslation } from 'react-i18next';
 import produce from 'immer';
+import ClusterPicker from '../Pickers/ClusterPicker/ClusterPicker';
+import DatabasePicker from '../Pickers/DatabasePicker/DatabasePicker';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('StoreFormModal', debugLogging);
@@ -42,11 +44,24 @@ const StoreFormModal: React.FC<IStoreFormModalProps> = (props) => {
 
     // data
     const isFormValid =
-        // TODO: Remove Cluster URL after demo since users should not enter this
-        databaseConnection.databaseName?.trim().length > 0 &&
-        databaseConnection.clusterUrl?.trim().length;
+        databaseConnection.databaseName && databaseConnection.clusterUrl;
 
     // callbacks
+    const handleClusterUrlChange = useCallback((clusterUrl: string) => {
+        setDatabaseConnection(
+            produce((draft) => {
+                draft.clusterUrl = clusterUrl;
+                draft.databaseName = '';
+            })
+        );
+    }, []);
+    const handleDatabaseNameChange = useCallback((databaseName: string) => {
+        setDatabaseConnection(
+            produce((draft) => {
+                draft.databaseName = databaseName;
+            })
+        );
+    }, []);
 
     // side effects
 
@@ -71,31 +86,16 @@ const StoreFormModal: React.FC<IStoreFormModalProps> = (props) => {
             styles={classNames.subComponentStyles?.modal}
             title={t('legionApp.StoreListPage.Modal.title')}
         >
-            <TextField
-                label={t('legionApp.StoreListPage.nameLabel')}
-                onChange={(_ev, value) => {
-                    setDatabaseConnection(
-                        produce((draft) => {
-                            draft.databaseName = value;
-                        })
-                    );
-                }}
-                placeholder={t('legionApp.StoreListPage.Modal.namePlaceholder')}
-                styles={classNames?.subComponentStyles?.formFields}
-                value={databaseConnection.databaseName}
+            <ClusterPicker
+                selectedClusterUrl={databaseConnection.clusterUrl}
+                onClusterUrlChange={handleClusterUrlChange}
+                label={t('legionApp.Common.clusterLabel')}
             />
-            <TextField
-                label={t('legionApp.StoreListPage.urlLabel')}
-                onChange={(_ev, value) => {
-                    setDatabaseConnection(
-                        produce((draft) => {
-                            draft.clusterUrl = value;
-                        })
-                    );
-                }}
-                placeholder={t('legionApp.StoreListPage.Modal.urlPlaceholder')}
-                styles={classNames?.subComponentStyles?.formFields}
-                value={databaseConnection.clusterUrl}
+            <DatabasePicker
+                selectedDatabaseName={databaseConnection.databaseName}
+                onDatabaseNameChange={handleDatabaseNameChange}
+                label={t('legionApp.Common.databaseLabel')}
+                placeholder={t('legionApp.Common.databasePlaceholder')}
             />
         </CardboardModal>
     );

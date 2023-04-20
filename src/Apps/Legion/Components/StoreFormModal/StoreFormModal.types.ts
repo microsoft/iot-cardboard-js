@@ -1,8 +1,4 @@
-import {
-    IStyle,
-    IStyleFunctionOrObject,
-    ITextFieldStyles
-} from '@fluentui/react';
+import { IStyle, IStyleFunctionOrObject } from '@fluentui/react';
 import { ICardboardModalStyles } from '../../../../Components/CardboardModal/CardboardModal.types';
 import { IExtendedTheme } from '../../../../Theming/Theme.types';
 import { ITargetDatabaseConnection } from '../../Contexts/AppDataContext/AppDataContext.types';
@@ -34,5 +30,4 @@ export interface IStoreFormModalStyles {
 
 export interface IStoreFormModalSubComponentStyles {
     modal?: Partial<ICardboardModalStyles>;
-    formFields?: ITextFieldStyles;
 }

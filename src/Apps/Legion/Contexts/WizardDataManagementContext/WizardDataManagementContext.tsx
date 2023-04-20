@@ -8,8 +8,9 @@ import {
 } from './WizardDataManagementContext.types';
 import { getDebugLogger } from '../../../../Models/Services/Utils';
 import produce from 'immer';
+import MockDataManagementAdapter from '../../Adapters/Standalone/DataManagement/MockDataManagementAdapter';
 
-const WizardDataManagementContext = React.createContext<IWizardDataManagementContext>(
+export const WizardDataManagementContext = React.createContext<IWizardDataManagementContext>(
     null
 );
 
@@ -41,9 +42,8 @@ export const WizardDataManagementContextReducer: (
         case WizardDataManagementContextActionType.SET_INITIAL_ASSETS:
             draft.initialAssets = action.payload.data;
             // Copy data into modified assets to initialize in case it contains no data
-            if (!draft.modifiedAssets) {
-                draft.modifiedAssets = action.payload.data;
-            }
+            // TODO: Check if modifiedAssets is not defined, then set it but this is always non-null in draft object
+            draft.modifiedAssets = action.payload.data;
             break;
         case WizardDataManagementContextActionType.SET_MODIFIED_ASSETS:
             draft.modifiedAssets = action.payload.data;
@@ -54,7 +54,11 @@ export const WizardDataManagementContextReducer: (
 export function WizardDataManagementContextProvider(
     props: React.PropsWithChildren<IWizardDataManagementContextProviderProps>
 ) {
-    const { children, initialState } = props;
+    const {
+        children,
+        adapter = new MockDataManagementAdapter(),
+        initialState
+    } = props;
 
     const [
         wizardDataManagementContextState,
@@ -68,6 +72,7 @@ export function WizardDataManagementContextProvider(
     return (
         <WizardDataManagementContext.Provider
             value={{
+                adapter,
                 wizardDataManagementContextState: wizardDataManagementContextState,
                 wizardDataManagementContextDispatch: wizardDataManagementContextDispatch
             }}
