@@ -3,6 +3,7 @@ import {
     IStyle,
     IStyleFunctionOrObject
 } from '@fluentui/react';
+import { ICardboardModalStyles } from '../../../../Components/CardboardModal/CardboardModal.types';
 import { IExtendedTheme } from '../../../../Theming/Theme.types';
 import { IViewEntity, IViewRelationshipType, IViewType } from '../../Models';
 
@@ -44,6 +45,7 @@ export interface IUserDefinedEntityFormStyles {
 }
 
 export interface IUserDefinedEntityFormSubComponentStyles {
+    modal?: Partial<ICardboardModalStyles>;
     choiceGroup?: IChoiceGroupStyles;
 }
 

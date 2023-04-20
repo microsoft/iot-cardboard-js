@@ -147,6 +147,7 @@ const UserDefinedEntityForm: React.FC<IUserDefinedEntityFormProps> = (
                     type: GraphContextActionType.PARENT_FORM_MODAL_HIDE
                 });
             }}
+            styles={classNames.subComponentStyles.modal}
             title={t(LOC_KEYS.formTitle)}
         >
             <ChoiceGroup

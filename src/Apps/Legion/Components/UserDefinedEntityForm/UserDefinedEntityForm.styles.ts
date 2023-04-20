@@ -22,6 +22,22 @@ export const getFormStyles = (
                         marginLeft: 10
                     }
                 }
+            },
+            modal: {
+                subComponentStyles: {
+                    modal: {
+                        main: {
+                            height: 500,
+                            maxWidth: 700
+                        },
+                        scrollableContent: {
+                            overflow: 'visible'
+                        }
+                    }
+                },
+                content: {
+                    overflow: 'visible'
+                }
             }
         }
     };
