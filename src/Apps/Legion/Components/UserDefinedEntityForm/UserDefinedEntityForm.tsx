@@ -19,7 +19,11 @@ import UserDefinedEntityFormView from './UserDefinedEntityForm.view';
 import { useRelationships } from '../../Hooks/useRelationships';
 import { useTypes } from '../../Hooks/useTypes';
 import { useEntities } from '../../Hooks/useEntities';
-import { getNewViewRelationship } from '../../Services/WizardTypes.utils';
+import {
+    getNewViewEntity,
+    getNewViewRelationship
+} from '../../Services/WizardTypes.utils';
+import { IViewEntity } from '../../Models';
 
 const debugLogging = true;
 const logDebugConsole = getDebugLogger('UserDefinedEntityForm', debugLogging);
@@ -63,38 +67,55 @@ const UserDefinedEntityForm: React.FC<IUserDefinedEntityFormProps> = (
     }, []);
     const onFormSubmit = useCallback(() => {
         logDebugConsole('debug', 'Submit click. {data}', formData);
-        if (formMode === 'Existing') {
-            // create relationship
-            const relationshipType = formData.relationshipType;
-            const sourceEntity = formData.parent;
-            graphState.selectedNodeIds.forEach((selectedEntityId) => {
-                // for each node create relationship
-                const targetEntity = entities.find(
-                    (x) => x.id === selectedEntityId
-                );
-                if (targetEntity) {
-                    // create the relationship
-                    addRelationship(
-                        getNewViewRelationship({
-                            sourceEntity: sourceEntity,
-                            targetEntity: targetEntity,
-                            type: relationshipType
-                        })
-                    );
-                    logDebugConsole(
-                        'info',
-                        `Added relationship (type: ${relationshipType.name}) between ${sourceEntity.friendlyName} and ${targetEntity.friendlyName}.`
-                    );
-                } else {
-                    logDebugConsole(
-                        'error',
-                        `Could not find entity with id ${selectedEntityId} to create relationship with`
-                    );
-                }
-            });
+        const relationshipType = formData.relationshipType;
+        let sourceEntity: IViewEntity;
+
+        // find the right source node
+        if (formData.type === 'Existing') {
+            logDebugConsole(
+                'debug',
+                'Adding relationship to existing entity. {data}',
+                formData
+            );
+            sourceEntity = entities.find((x) => x.id === formData.parentId);
         } else if (formMode === 'New') {
-            //
+            sourceEntity = getNewViewEntity({
+                friendlyName: formData.parentName,
+                type: formData.parentType
+            });
         }
+        if (!sourceEntity) {
+            console.error(
+                'Unable to find selected source entity. {formData}',
+                formData
+            );
+            return;
+        }
+
+        // create the relationships
+        graphState.selectedNodeIds.forEach((targetEntityId) => {
+            // for each node create relationship
+            const targetEntity = entities.find((x) => x.id === targetEntityId);
+            if (targetEntity) {
+                // create the relationship
+                addRelationship(
+                    getNewViewRelationship({
+                        sourceEntity: sourceEntity,
+                        targetEntity: targetEntity,
+                        type: relationshipType
+                    })
+                );
+                logDebugConsole(
+                    'info',
+                    `Added relationship (type: ${relationshipType.name}) between ${sourceEntity.friendlyName} and ${targetEntity.friendlyName}.`
+                );
+            } else {
+                logDebugConsole(
+                    'error',
+                    `Could not find entity with id ${targetEntityId} to create relationship with`
+                );
+            }
+        });
     }, [
         addRelationship,
         entities,

@@ -6,10 +6,18 @@ import {
 import { IExtendedTheme } from '../../../../Theming/Theme.types';
 import { IViewEntity, IViewRelationshipType, IViewType } from '../../Models';
 
-export interface IFormData {
-    parent: IViewEntity;
-    relationshipType: IViewRelationshipType;
-}
+export type IFormData =
+    | {
+          type: 'Existing';
+          parentId: string;
+          relationshipType: IViewRelationshipType;
+      }
+    | {
+          type: 'New';
+          parentName: string;
+          parentType: IViewType;
+          relationshipType: IViewRelationshipType;
+      };
 
 export type IFormMode = 'New' | 'Existing';
 

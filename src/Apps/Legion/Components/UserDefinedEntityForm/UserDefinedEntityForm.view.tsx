@@ -34,8 +34,8 @@ import {
 } from '../../Models';
 import { IReactSelectOption } from '../../Models/Types';
 import {
-    getNewViewEntity,
-    getNewViewRelationshipType
+    getNewViewRelationshipType,
+    getNewViewType
 } from '../../Services/WizardTypes.utils';
 
 const debugLogging = true;
@@ -238,19 +238,13 @@ const UserDefinedEntityFormView: React.FC<IUserDefinedEntityFormViewProps> = (
             onFormChange({
                 isValid: isValid,
                 data: {
-                    parent: getNewViewEntity({
-                        friendlyName: parentEntityNameValue,
-                        type: {
-                            color: selectedColor,
-                            friendlyName: parentType,
-                            icon: selectedIcon,
-                            id: '',
-                            isDeleted: false,
-                            isNew: true,
-                            kind: Kind.UserDefined,
-                            properties: []
-                        },
-                        isNew: true
+                    type: 'New',
+                    parentName: parentEntityNameValue,
+                    parentType: getNewViewType({
+                        color: selectedColor,
+                        friendlyName: parentType,
+                        icon: selectedIcon,
+                        kind: Kind.UserDefined
                     }),
                     relationshipType: relationshipType
                 }
@@ -283,10 +277,8 @@ const UserDefinedEntityFormView: React.FC<IUserDefinedEntityFormViewProps> = (
             onFormChange({
                 isValid: isValid,
                 data: {
-                    parent: getNewViewEntity({
-                        type: selectedEntityData?.type,
-                        friendlyName: selectedEntityData?.friendlyName
-                    }),
+                    type: 'Existing',
+                    parentId: selectedEntityData?.id,
                     relationshipType: relationshipType
                 }
             });
