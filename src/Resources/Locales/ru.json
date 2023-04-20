@@ -1634,7 +1634,8 @@
         "parentEntityNameFieldPlaceholder": "Введите имя родительской сущности",
         "relationshipNameFieldLabel": "Имя отношения",
         "relationshipNameFieldPlaceholder": "Выбор или создание имени связи",
-        "existingEntityFieldPlaceholder": "Выберите существующую сущность"
+        "existingEntityFieldPlaceholder": "Выберите существующую сущность",
+        "parentEntityFieldLabel": "Материнская организация"
       }
     }
   }

@@ -1634,7 +1634,8 @@
         "parentEntityNameFieldPlaceholder": "Zadejte název nadřazené entity",
         "relationshipNameFieldLabel": "Název relace",
         "relationshipNameFieldPlaceholder": "Výběr nebo vytvoření názvu relace",
-        "existingEntityFieldPlaceholder": "Vyberte existující entitu"
+        "existingEntityFieldPlaceholder": "Vyberte existující entitu",
+        "parentEntityFieldLabel": "Nadřazený subjekt"
       }
     }
   }

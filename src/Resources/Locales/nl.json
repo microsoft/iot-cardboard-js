@@ -1634,7 +1634,8 @@
         "parentEntityNameFieldPlaceholder": "Voer een naam in voor de bovenliggende entiteit",
         "relationshipNameFieldLabel": "Naam van de relatie",
         "relationshipNameFieldPlaceholder": "Een relatienaam selecteren of maken",
-        "existingEntityFieldPlaceholder": "Een bestaande entiteit selecteren"
+        "existingEntityFieldPlaceholder": "Een bestaande entiteit selecteren",
+        "parentEntityFieldLabel": "Moederentiteit"
       }
     }
   }

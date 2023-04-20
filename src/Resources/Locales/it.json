@@ -1634,7 +1634,8 @@
         "parentEntityNameFieldPlaceholder": "Immettere un nome per l'entità padre",
         "relationshipNameFieldLabel": "Nome della relazione",
         "relationshipNameFieldPlaceholder": "Selezionare o creare un nome di relazione",
-        "existingEntityFieldPlaceholder": "Selezionare un'entità esistente"
+        "existingEntityFieldPlaceholder": "Selezionare un'entità esistente",
+        "parentEntityFieldLabel": "Entità capogruppo"
       }
     }
   }

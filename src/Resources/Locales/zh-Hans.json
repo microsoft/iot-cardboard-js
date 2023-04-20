@@ -1634,7 +1634,8 @@
         "parentEntityNameFieldPlaceholder": "输入父实体的名称",
         "relationshipNameFieldLabel": "关系名称",
         "relationshipNameFieldPlaceholder": "选择或创建关系名称",
-        "existingEntityFieldPlaceholder": "选择现有实体"
+        "existingEntityFieldPlaceholder": "选择现有实体",
+        "parentEntityFieldLabel": "父实体"
       }
     }
   }

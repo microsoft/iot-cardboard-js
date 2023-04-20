@@ -1634,7 +1634,8 @@
         "parentEntityNameFieldPlaceholder": "Wprowadź nazwę jednostki nadrzędnej",
         "relationshipNameFieldLabel": "Nazwa związku",
         "relationshipNameFieldPlaceholder": "Wybieranie lub tworzenie nazwy relacji",
-        "existingEntityFieldPlaceholder": "Wybierz istniejącą encję"
+        "existingEntityFieldPlaceholder": "Wybierz istniejącą encję",
+        "parentEntityFieldLabel": "Jednostka dominująca"
       }
     }
   }

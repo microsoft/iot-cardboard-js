@@ -1634,7 +1634,8 @@
         "parentEntityNameFieldPlaceholder": "親エンティティの名前を入力します。",
         "relationshipNameFieldLabel": "関係名",
         "relationshipNameFieldPlaceholder": "リレーションシップ名を選択または作成する",
-        "existingEntityFieldPlaceholder": "既存のエンティティを選択する"
+        "existingEntityFieldPlaceholder": "既存のエンティティを選択する",
+        "parentEntityFieldLabel": "親エンティティ"
       }
     }
   }

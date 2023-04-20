@@ -1634,7 +1634,8 @@
         "parentEntityNameFieldPlaceholder": "Üst varlık için bir ad girin",
         "relationshipNameFieldLabel": "İlişki adı",
         "relationshipNameFieldPlaceholder": "İlişki adı seçme veya oluşturma",
-        "existingEntityFieldPlaceholder": "Mevcut bir varlığı seçme"
+        "existingEntityFieldPlaceholder": "Mevcut bir varlığı seçme",
+        "parentEntityFieldLabel": "Üst varlık"
       }
     }
   }

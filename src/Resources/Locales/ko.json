@@ -1634,7 +1634,8 @@
         "parentEntityNameFieldPlaceholder": "부모 엔터티의 이름을 입력합니다",
         "relationshipNameFieldLabel": "관계 이름",
         "relationshipNameFieldPlaceholder": "관계 이름 선택 또는 만들기",
-        "existingEntityFieldPlaceholder": "기존 엔터티 선택"
+        "existingEntityFieldPlaceholder": "기존 엔터티 선택",
+        "parentEntityFieldLabel": "부모 엔터티"
       }
     }
   }
