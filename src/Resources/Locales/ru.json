@@ -1596,14 +1596,6 @@
         "title": "Добавление нового хранилища данных"
       }
     },
-<<<<<<< HEAD
-    "modifyStep": {
-      "diagram": "Диаграмма",
-      "entities": "Объекты",
-      "types": "Типы",
-      "graph": "График",
-      "secondaryButton": "Слияние сущностей"
-=======
     "dataSourceStep": {
       "infoText": "Создание новых двойников из исходной таблицы или инженерной схемы"
     },
@@ -1617,7 +1609,6 @@
       "urlLabel": "URL-адрес",
       "urlPlaceholder": "Введите URL-адрес",
       "addOptionFormat": "Добавить '{{item}}'"
->>>>>>> 39af9cf023ea6dd4822a2e030fcf9dd74027044a
     }
   }
 }

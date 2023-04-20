@@ -1596,14 +1596,6 @@
         "title": "新しいデータ ストアの追加"
       }
     },
-<<<<<<< HEAD
-    "modifyStep": {
-      "diagram": "ダイアグラム",
-      "entities": "エンティティ",
-      "types": "種類",
-      "graph": "グラフ",
-      "secondaryButton": "エンティティのマージ"
-=======
     "dataSourceStep": {
       "infoText": "ソース テーブルまたはエンジニアリング ダイアグラムから新しいツインを作成する"
     },
@@ -1617,7 +1609,6 @@
       "urlLabel": "リンク",
       "urlPlaceholder": "URLを入力",
       "addOptionFormat": "'{{アイテム}}' を追加"
->>>>>>> 39af9cf023ea6dd4822a2e030fcf9dd74027044a
     }
   }
 }

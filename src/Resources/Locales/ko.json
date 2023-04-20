@@ -1596,14 +1596,6 @@
         "title": "새 데이터 저장소 추가"
       }
     },
-<<<<<<< HEAD
-    "modifyStep": {
-      "diagram": "다이어그램",
-      "entities": "엔터티",
-      "types": "형식",
-      "graph": "그래프",
-      "secondaryButton": "엔터티 병합"
-=======
     "dataSourceStep": {
       "infoText": "원본 테이블 또는 엔지니어링 다이어그램에서 새 트윈 만들기Create new twins from a source table or engineering diagram"
     },
@@ -1617,7 +1609,6 @@
       "urlLabel": "URL (영문)",
       "urlPlaceholder": "URL 입력",
       "addOptionFormat": "'{{item}}' 추가"
->>>>>>> 39af9cf023ea6dd4822a2e030fcf9dd74027044a
     }
   }
 }

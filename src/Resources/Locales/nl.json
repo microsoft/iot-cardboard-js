@@ -1596,14 +1596,6 @@
         "title": "Een nieuw gegevensarchief toevoegen"
       }
     },
-<<<<<<< HEAD
-    "modifyStep": {
-      "diagram": "Diagram",
-      "entities": "Entiteiten",
-      "types": "Typen",
-      "graph": "Grafiek",
-      "secondaryButton": "Entiteiten samenvoegen"
-=======
     "dataSourceStep": {
       "infoText": "Nieuwe tweelingen maken op basis van een brontabel of engineeringdiagram"
     },
@@ -1617,7 +1609,6 @@
       "urlLabel": "Url",
       "urlPlaceholder": "Voer de URL in",
       "addOptionFormat": "Voeg '{{item}}' toe"
->>>>>>> 39af9cf023ea6dd4822a2e030fcf9dd74027044a
     }
   }
 }

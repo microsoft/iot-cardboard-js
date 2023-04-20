@@ -1596,14 +1596,6 @@
         "title": "Hinzufügen eines neuen Datenspeichers"
       }
     },
-<<<<<<< HEAD
-    "modifyStep": {
-      "diagram": "Diagramm",
-      "entities": "Entitäten",
-      "types": "Arten",
-      "graph": "Graph",
-      "secondaryButton": "Zusammenführen von Entitäten"
-=======
     "dataSourceStep": {
       "infoText": "Erstellen neuer Zwillinge aus einer Quelltabelle oder einem Konstruktionsdiagramm"
     },
@@ -1617,7 +1609,6 @@
       "urlLabel": "Internetadresse:",
       "urlPlaceholder": "URL eingeben",
       "addOptionFormat": "Fügen Sie '{{item}}' hinzu"
->>>>>>> 39af9cf023ea6dd4822a2e030fcf9dd74027044a
     }
   }
 }

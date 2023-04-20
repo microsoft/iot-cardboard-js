@@ -1596,14 +1596,6 @@
         "title": "Agregar un nuevo almacén de datos"
       }
     },
-<<<<<<< HEAD
-    "modifyStep": {
-      "diagram": "Diagrama",
-      "entities": "Entidades",
-      "types": "Tipos",
-      "graph": "Gráfico",
-      "secondaryButton": "Combinar entidades"
-=======
     "dataSourceStep": {
       "infoText": "Crear nuevos gemelos a partir de una tabla de origen o un diagrama de ingeniería"
     },
@@ -1617,7 +1609,6 @@
       "urlLabel": "URL",
       "urlPlaceholder": "Introduzca la URL",
       "addOptionFormat": "Añadir '{{item}}'"
->>>>>>> 39af9cf023ea6dd4822a2e030fcf9dd74027044a
     }
   }
 }

@@ -1596,14 +1596,6 @@
         "title": "Adicionar um novo armazenamento de dados"
       }
     },
-<<<<<<< HEAD
-    "modifyStep": {
-      "diagram": "Diagrama",
-      "entities": "Entidades",
-      "types": "Tipos",
-      "graph": "Gráfico",
-      "secondaryButton": "Mesclar entidades"
-=======
     "dataSourceStep": {
       "infoText": "Crie novos gêmeos a partir de uma tabela de origem ou diagrama de engenharia"
     },
@@ -1617,7 +1609,6 @@
       "urlLabel": "URL",
       "urlPlaceholder": "Insira o URL",
       "addOptionFormat": "Adicionar '{{item}}'"
->>>>>>> 39af9cf023ea6dd4822a2e030fcf9dd74027044a
     }
   }
 }

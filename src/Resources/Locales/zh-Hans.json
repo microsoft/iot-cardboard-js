@@ -1596,14 +1596,6 @@
         "title": "添加新数据存储"
       }
     },
-<<<<<<< HEAD
-    "modifyStep": {
-      "diagram": "图",
-      "entities": "实体",
-      "types": "类型",
-      "graph": "图",
-      "secondaryButton": "合并实体"
-=======
     "dataSourceStep": {
       "infoText": "从源表或工程图创建新的孪生体"
     },
@@ -1617,7 +1609,6 @@
       "urlLabel": "网址",
       "urlPlaceholder": "输入网址",
       "addOptionFormat": "添加“{{项目}}”"
->>>>>>> 39af9cf023ea6dd4822a2e030fcf9dd74027044a
     }
   }
 }

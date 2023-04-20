@@ -1596,14 +1596,6 @@
         "title": "Lägga till ett nytt datalager"
       }
     },
-<<<<<<< HEAD
-    "modifyStep": {
-      "diagram": "Diagram",
-      "entities": "Enheter",
-      "types": "Typer",
-      "graph": "Graf",
-      "secondaryButton": "Sammanfoga entiteter"
-=======
     "dataSourceStep": {
       "infoText": "Skapa nya tvillingar från en källtabell eller ett teknikdiagram"
     },
@@ -1617,7 +1609,6 @@
       "urlLabel": "URL",
       "urlPlaceholder": "Ange URL",
       "addOptionFormat": "Lägg till '{{item}}'"
->>>>>>> 39af9cf023ea6dd4822a2e030fcf9dd74027044a
     }
   }
 }

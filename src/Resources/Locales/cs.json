@@ -1596,14 +1596,6 @@
         "title": "Přidání nového úložiště dat"
       }
     },
-<<<<<<< HEAD
-    "modifyStep": {
-      "diagram": "Diagram",
-      "entities": "Entity",
-      "types": "Typy",
-      "graph": "Graf",
-      "secondaryButton": "Sloučení entit"
-=======
     "dataSourceStep": {
       "infoText": "Vytvoření nových dvojčat ze zdrojové tabulky nebo inženýrského diagramu"
     },
@@ -1617,7 +1609,6 @@
       "urlLabel": "Adresa URL",
       "urlPlaceholder": "Zadejte adresu URL",
       "addOptionFormat": "Přidat '{{item}}'"
->>>>>>> 39af9cf023ea6dd4822a2e030fcf9dd74027044a
     }
   }
 }

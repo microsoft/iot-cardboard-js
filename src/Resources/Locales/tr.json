@@ -1596,14 +1596,6 @@
         "title": "Yeni veri deposu ekleme"
       }
     },
-<<<<<<< HEAD
-    "modifyStep": {
-      "diagram": "Diyagram",
-      "entities": "Varlık",
-      "types": "Tür",
-      "graph": "Grafik",
-      "secondaryButton": "Varlıkları birleştirme"
-=======
     "dataSourceStep": {
       "infoText": "Kaynak tablodan veya mühendislik diyagramından yeni ikizler oluşturma"
     },
@@ -1617,7 +1609,6 @@
       "urlLabel": "URL",
       "urlPlaceholder": "URL girin",
       "addOptionFormat": "'{{item}}' ekleyin"
->>>>>>> 39af9cf023ea6dd4822a2e030fcf9dd74027044a
     }
   }
 }

@@ -1596,14 +1596,6 @@
         "title": "Dodawanie nowego magazynu danych"
       }
     },
-<<<<<<< HEAD
-    "modifyStep": {
-      "diagram": "Diagram",
-      "entities": "Podmioty",
-      "types": "Typy",
-      "graph": "Wykres",
-      "secondaryButton": "Scalanie jednostek"
-=======
     "dataSourceStep": {
       "infoText": "Tworzenie nowych bliźniaków na podstawie tabeli źródłowej lub diagramu inżynierskiegoCreate new twins from a source table or engineering diagram"
     },
@@ -1617,7 +1609,6 @@
       "urlLabel": "Adres URL",
       "urlPlaceholder": "Wpisz adres URL",
       "addOptionFormat": "Dodaj '{{item}}'"
->>>>>>> 39af9cf023ea6dd4822a2e030fcf9dd74027044a
     }
   }
 }

@@ -1596,14 +1596,6 @@
         "title": "Új adattár hozzáadása"
       }
     },
-<<<<<<< HEAD
-    "modifyStep": {
-      "diagram": "Diagram",
-      "entities": "Entitások",
-      "types": "Típusok",
-      "graph": "Gráf",
-      "secondaryButton": "Entitások egyesítése"
-=======
     "dataSourceStep": {
       "infoText": "Új ikereszközök létrehozása forrástáblából vagy mérnöki diagramból"
     },
@@ -1617,7 +1609,6 @@
       "urlLabel": "URL",
       "urlPlaceholder": "Adja meg az URL-címet",
       "addOptionFormat": "Add hozzá a következőt: '{{item}}'"
->>>>>>> 39af9cf023ea6dd4822a2e030fcf9dd74027044a
     }
   }
 }
