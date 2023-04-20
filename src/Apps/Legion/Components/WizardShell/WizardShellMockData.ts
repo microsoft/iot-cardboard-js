@@ -323,35 +323,35 @@ const setDairyData = (data: IWizardDataContextState) => {
     // TYPES
     const typePastTs = getType({
         friendlyName: 'Pasteurizer TS',
-        color: 'C13099',
+        color: '#C13099',
         icon: 'LineChart',
         kind: Kind.TimeSeries,
         propertyIds: [propTemp.id, propPress.id]
     });
     const typeSalterTs = getType({
         friendlyName: 'Salter TS',
-        color: '67C130',
+        color: '#67C130',
         icon: 'LineChart',
         kind: Kind.TimeSeries,
         propertyIds: [propFan.id, propHum.id]
     });
     const typeDryerTs = getType({
         friendlyName: 'Dryer',
-        color: 'FFA113',
+        color: '#FFA113',
         icon: 'LineChart',
         kind: Kind.TimeSeries,
         propertyIds: [propInflow.id, propOutflow.id]
     });
     const typeFactory = getType({
         friendlyName: 'Factory',
-        color: '732A9A',
+        color: '#732A9A',
         icon: 'EMI',
         kind: Kind.UserDefined,
         propertyIds: []
     });
     const typePid = getType({
         friendlyName: 'P&Id Type 1',
-        color: 'DE564E',
+        color: '#DE564E',
         icon: 'SplitObject',
         kind: Kind.PID,
         propertyIds: [propXPos.id, propYPos.id]

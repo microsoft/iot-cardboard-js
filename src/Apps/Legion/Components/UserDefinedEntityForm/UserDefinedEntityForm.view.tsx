@@ -139,7 +139,7 @@ const UserDefinedEntityFormView: React.FC<IUserDefinedEntityFormViewProps> = (
     const [parentTypeOptions, setParentTypeOptions] = useState<
         IReactSelectOption[]
     >(getParentTypeOptions(existingTypes));
-    const [isNewParentType, setIsNewParent] = useState<boolean>(false);
+    const [isNewParentType, setIsNewParentType] = useState<boolean>(false);
 
     const colorOptions = WIZARD_GRAPH_NODE_COLOR_OPTIONS;
     const iconOptions = WIZARD_GRAPH_NODE_ICON_OPTIONS;
@@ -187,23 +187,9 @@ const UserDefinedEntityFormView: React.FC<IUserDefinedEntityFormViewProps> = (
     const onParentTypeChange = useCallback(
         (newValue: IReactSelectOption, isNew: boolean) => {
             setSelectedParentType(newValue);
-            setIsNewParent(isNew);
-            if (isNew) {
-                const selectedType = existingTypes.find(
-                    (x) => x.id === newValue.value
-                );
-                if (selectedType) {
-                    setSelectedColor(selectedType.color);
-                    setSelectedIcon(selectedType.icon);
-                } else {
-                    logDebugConsole(
-                        'warn',
-                        `Could not find a type with id (${newValue.value}). Color and Icon not set`
-                    );
-                }
-            }
+            setIsNewParentType(isNew);
         },
-        [existingTypes]
+        []
     );
 
     // side effects
@@ -222,7 +208,15 @@ const UserDefinedEntityFormView: React.FC<IUserDefinedEntityFormViewProps> = (
     // notify parent when changes are made whether form is valid
     useEffect(() => {
         if (formMode === 'New') {
-            const parentType = selectedParentType?.value;
+            const parentTypeId = selectedParentType?.value;
+            const parentType = isNewParentType
+                ? getNewViewType({
+                      color: selectedColor,
+                      friendlyName: parentTypeId,
+                      icon: selectedIcon,
+                      kind: Kind.UserDefined
+                  })
+                : existingTypes.find((x) => x.id === parentTypeId);
             const relationshipType =
                 existingRelationshipTypes.find(
                     (x) => x.id === newEntityRelationshipNameValue?.value
@@ -231,7 +225,7 @@ const UserDefinedEntityFormView: React.FC<IUserDefinedEntityFormViewProps> = (
                     name: newEntityRelationshipNameValue?.label
                 });
             const isValid =
-                !!parentType &&
+                !!parentType?.friendlyName &&
                 !!parentEntityNameValue &&
                 !!relationshipType?.name &&
                 !!selectedColor &&
@@ -242,19 +236,16 @@ const UserDefinedEntityFormView: React.FC<IUserDefinedEntityFormViewProps> = (
                 data: {
                     type: 'New',
                     parentName: parentEntityNameValue,
-                    parentType: getNewViewType({
-                        color: selectedColor,
-                        friendlyName: parentType,
-                        icon: selectedIcon,
-                        kind: Kind.UserDefined
-                    }),
+                    parentType: parentType,
                     relationshipType: relationshipType
                 }
             });
         }
     }, [
         existingRelationshipTypes,
+        existingTypes,
         formMode,
+        isNewParentType,
         newEntityRelationshipNameValue?.label,
         newEntityRelationshipNameValue?.value,
         onFormChange,
