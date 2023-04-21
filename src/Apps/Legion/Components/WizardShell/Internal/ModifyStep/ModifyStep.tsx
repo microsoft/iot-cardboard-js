@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { IModifyStepProps } from './ModifyStep.types';
+import { IModifyStepProps, ModifyPivotKeys } from './ModifyStep.types';
 import { getStyles } from './ModifyStep.styles';
 import { getDebugLogger } from '../../../../../../Models/Services/Utils';
 import { Pivot, PivotItem, Stack } from '@fluentui/react';
@@ -13,13 +13,6 @@ import EntitiesTab from './Internal/EntitiesTab/EntitiesTab';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('ModifyStep', debugLogging);
-
-enum PivotKeys {
-    Diagram = 'Diagram',
-    Entities = 'Entities',
-    Types = 'Types',
-    Graph = 'Graph'
-}
 
 const ModifyStep: React.FC<IModifyStepProps> = (props) => {
     // hooks
@@ -41,13 +34,13 @@ const ModifyStep: React.FC<IModifyStepProps> = (props) => {
     // contexts
 
     // state
-    const [selectedKey, setSelectedKey] = useState<PivotKeys>(
-        PivotKeys.Entities
+    const [selectedKey, setSelectedKey] = useState<ModifyPivotKeys>(
+        ModifyPivotKeys.Entities
     );
 
     // callbacks
     const onPivotClick = (item: PivotItem) => {
-        const selectedPivot = item.props.itemKey as PivotKeys;
+        const selectedPivot = item.props.itemKey as ModifyPivotKeys;
         if (selectedPivot == selectedKey) {
             return;
         }
@@ -69,7 +62,7 @@ const ModifyStep: React.FC<IModifyStepProps> = (props) => {
                     <PivotItem
                         title={t('legionApp.modifyStep.diagram')}
                         headerText={t('legionApp.modifyStep.diagram')}
-                        itemKey={PivotKeys.Diagram}
+                        itemKey={ModifyPivotKeys.Diagram}
                     >
                         <p>TODO: Insert diagram here</p>
                     </PivotItem>
@@ -78,7 +71,7 @@ const ModifyStep: React.FC<IModifyStepProps> = (props) => {
                 <PivotItem
                     title={t('legionApp.modifyStep.entities')}
                     headerText={t('legionApp.modifyStep.entities')}
-                    itemKey={PivotKeys.Entities}
+                    itemKey={ModifyPivotKeys.Entities}
                 >
                     <EntitiesTab />
                 </PivotItem>
@@ -86,7 +79,7 @@ const ModifyStep: React.FC<IModifyStepProps> = (props) => {
                 <PivotItem
                     title={t('legionApp.modifyStep.types')}
                     headerText={t('legionApp.modifyStep.types')}
-                    itemKey={PivotKeys.Types}
+                    itemKey={ModifyPivotKeys.Types}
                 >
                     <p>TODO: Insert types screen here</p>
                 </PivotItem>
@@ -94,7 +87,7 @@ const ModifyStep: React.FC<IModifyStepProps> = (props) => {
                 <PivotItem
                     title={t('legionApp.modifyStep.graph')}
                     headerText={t('legionApp.modifyStep.graph')}
-                    itemKey={PivotKeys.Graph}
+                    itemKey={ModifyPivotKeys.Graph}
                 >
                     <p>TODO: Insert graph here</p>
                 </PivotItem>

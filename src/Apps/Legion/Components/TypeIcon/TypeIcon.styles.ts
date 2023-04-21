@@ -12,7 +12,7 @@ export const getStyles = memoizeFunction(
                 display: 'inline-flex',
                 width: 32,
                 height: 32,
-                borderRadius: 16,
+                borderRadius: '50%',
                 backgroundColor: `#${color}`,
                 alignItems: 'center',
                 justifyContent: 'center',

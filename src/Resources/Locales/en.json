@@ -1607,7 +1607,10 @@
             "entities": "Entities",
             "types": "Types",
             "graph": "Graph",
-            "secondaryButton": "Merge entities"
+            "secondaryButton": "Merge entities",
+            "idColumnHeader": "Entity ID",
+            "typeColumnHeader": "Type",
+            "exampleColumnHeader": "Example values"
         }
     }
 }
