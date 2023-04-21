@@ -1615,7 +1615,10 @@
       "entities": "Entiteiten",
       "types": "Typen",
       "graph": "Grafiek",
-      "secondaryButton": "Entiteiten samenvoegen"
+      "secondaryButton": "Entiteiten samenvoegen",
+      "idColumnHeader": "Entiteits-ID",
+      "typeColumnHeader": "Type",
+      "exampleColumnHeader": "Voorbeeldwaarden"
     }
   }
 }

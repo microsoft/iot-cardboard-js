@@ -1615,7 +1615,10 @@
       "entities": "Entités",
       "types": "Types",
       "graph": "Graphique",
-      "secondaryButton": "Fusionner des entités"
+      "secondaryButton": "Fusionner des entités",
+      "idColumnHeader": "ID d’entité",
+      "typeColumnHeader": "Type",
+      "exampleColumnHeader": "Exemples de valeurs"
     }
   }
 }

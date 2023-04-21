@@ -1615,7 +1615,10 @@
       "entities": "实体",
       "types": "类型",
       "graph": "图",
-      "secondaryButton": "合并实体"
+      "secondaryButton": "合并实体",
+      "idColumnHeader": "实体标识",
+      "typeColumnHeader": "类型",
+      "exampleColumnHeader": "示例值"
     }
   }
 }

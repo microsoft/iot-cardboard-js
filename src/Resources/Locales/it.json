@@ -1615,7 +1615,10 @@
       "entities": "Entità",
       "types": "Tipi",
       "graph": "Grafico",
-      "secondaryButton": "Unire entità"
+      "secondaryButton": "Unire entità",
+      "idColumnHeader": "ID entità",
+      "typeColumnHeader": "Digitare",
+      "exampleColumnHeader": "Valori di esempio"
     }
   }
 }

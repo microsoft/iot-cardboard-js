@@ -1615,7 +1615,10 @@
       "entities": "Podmioty",
       "types": "Typy",
       "graph": "Wykres",
-      "secondaryButton": "Scalanie jednostek"
+      "secondaryButton": "Scalanie jednostek",
+      "idColumnHeader": "Identyfikator jednostki",
+      "typeColumnHeader": "Typ",
+      "exampleColumnHeader": "Przykładowe wartości"
     }
   }
 }

@@ -1615,7 +1615,10 @@
       "entities": "Entity",
       "types": "Typy",
       "graph": "Graf",
-      "secondaryButton": "Sloučení entit"
+      "secondaryButton": "Sloučení entit",
+      "idColumnHeader": "Entity ID",
+      "typeColumnHeader": "Typ",
+      "exampleColumnHeader": "Příklady hodnot"
     }
   }
 }

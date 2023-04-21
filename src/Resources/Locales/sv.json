@@ -1615,7 +1615,10 @@
       "entities": "Enheter",
       "types": "Typer",
       "graph": "Graf",
-      "secondaryButton": "Sammanfoga entiteter"
+      "secondaryButton": "Sammanfoga entiteter",
+      "idColumnHeader": "Enhets-id",
+      "typeColumnHeader": "Typ",
+      "exampleColumnHeader": "Exempel på värden"
     }
   }
 }

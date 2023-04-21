@@ -1615,7 +1615,10 @@
       "entities": "エンティティ",
       "types": "種類",
       "graph": "グラフ",
-      "secondaryButton": "エンティティのマージ"
+      "secondaryButton": "エンティティのマージ",
+      "idColumnHeader": "エンティティ ID",
+      "typeColumnHeader": "種類",
+      "exampleColumnHeader": "値の例"
     }
   }
 }

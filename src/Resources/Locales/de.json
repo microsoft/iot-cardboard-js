@@ -1615,7 +1615,10 @@
       "entities": "Entitäten",
       "types": "Arten",
       "graph": "Graph",
-      "secondaryButton": "Zusammenführen von Entitäten"
+      "secondaryButton": "Zusammenführen von Entitäten",
+      "idColumnHeader": "Entitäts-ID",
+      "typeColumnHeader": "Art",
+      "exampleColumnHeader": "Beispielwerte"
     }
   }
 }

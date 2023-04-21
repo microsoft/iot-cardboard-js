@@ -1615,7 +1615,10 @@
       "entities": "Объекты",
       "types": "Типы",
       "graph": "График",
-      "secondaryButton": "Слияние сущностей"
+      "secondaryButton": "Слияние сущностей",
+      "idColumnHeader": "Идентификатор сущности",
+      "typeColumnHeader": "Тип",
+      "exampleColumnHeader": "Примеры значений"
     }
   }
 }
