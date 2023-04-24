@@ -1610,35 +1610,6 @@
       "urlPlaceholder": "Adja meg az URL-címet",
       "addOptionFormat": "Add hozzá a következőt: '{{item}}'"
     },
-<<<<<<< HEAD
-    "GraphVisualizer": {
-      "ContextMenu": {
-        "addParentLabel": "Szülő hozzáadása"
-      },
-      "ParentForm": {
-        "formTitle": "Szülő hozzáadása"
-      }
-    },
-    "UserDefinedEntityForm": {
-      "formTitle": "Szülői kapcsolat hozzáadása",
-      "actionButtonText": "Megerősít",
-      "optionNew": "Új entitás",
-      "optionExisting": "Meglévő entitás",
-      "Form": {
-        "nameFieldLabel": "Fölérendelt entitás neve",
-        "nameFieldPlaceholder": "Adja meg a fölérendelt entitás nevét",
-        "parentTypeFieldLabel": "Szülő típusa",
-        "parentTypeFieldPlaceholder": "Válassza ki a szülő típusát",
-        "colorFieldLabel": "Szín",
-        "iconFieldLabel": "Ikon",
-        "parentEntityNameFieldLabel": "Fölérendelt entitás neve",
-        "parentEntityNameFieldPlaceholder": "Adja meg a fölérendelt entitás nevét",
-        "relationshipNameFieldLabel": "Kapcsolat neve",
-        "relationshipNameFieldPlaceholder": "Kapcsolatnév kijelölése vagy létrehozása",
-        "existingEntityFieldPlaceholder": "Válasszon ki egy meglévő entitást",
-        "parentEntityFieldLabel": "Anyavállalat"
-      }
-=======
     "modifyStep": {
       "diagram": "Diagram",
       "entities": "Entitások",
@@ -1648,7 +1619,6 @@
       "idColumnHeader": "Entitás azonosítója",
       "typeColumnHeader": "Típus",
       "exampleColumnHeader": "Példa értékekre"
->>>>>>> origin/feature-Legion
     }
   }
 }

@@ -1610,35 +1610,6 @@
       "urlPlaceholder": "URLを入力",
       "addOptionFormat": "'{{アイテム}}' を追加"
     },
-<<<<<<< HEAD
-    "GraphVisualizer": {
-      "ContextMenu": {
-        "addParentLabel": "親の追加"
-      },
-      "ParentForm": {
-        "formTitle": "親の追加"
-      }
-    },
-    "UserDefinedEntityForm": {
-      "formTitle": "親関係の追加",
-      "actionButtonText": "確認する",
-      "optionNew": "新しいエンティティ",
-      "optionExisting": "既存のエンティティ",
-      "Form": {
-        "nameFieldLabel": "親エンティティ名",
-        "nameFieldPlaceholder": "親エンティティ名を入力",
-        "parentTypeFieldLabel": "親タイプ",
-        "parentTypeFieldPlaceholder": "親のタイプを選択する",
-        "colorFieldLabel": "色",
-        "iconFieldLabel": "アイコン",
-        "parentEntityNameFieldLabel": "親エンティティ名",
-        "parentEntityNameFieldPlaceholder": "親エンティティの名前を入力します。",
-        "relationshipNameFieldLabel": "関係名",
-        "relationshipNameFieldPlaceholder": "リレーションシップ名を選択または作成する",
-        "existingEntityFieldPlaceholder": "既存のエンティティを選択する",
-        "parentEntityFieldLabel": "親エンティティ"
-      }
-=======
     "modifyStep": {
       "diagram": "ダイアグラム",
       "entities": "エンティティ",
@@ -1648,7 +1619,6 @@
       "idColumnHeader": "エンティティ ID",
       "typeColumnHeader": "種類",
       "exampleColumnHeader": "値の例"
->>>>>>> origin/feature-Legion
     }
   }
 }

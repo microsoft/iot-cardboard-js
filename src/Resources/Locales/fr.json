@@ -1610,35 +1610,6 @@
       "urlPlaceholder": "Entrez l’URL",
       "addOptionFormat": "Ajouter '{{item}}'"
     },
-<<<<<<< HEAD
-    "GraphVisualizer": {
-      "ContextMenu": {
-        "addParentLabel": "Ajouter un parent"
-      },
-      "ParentForm": {
-        "formTitle": "Ajouter un parent"
-      }
-    },
-    "UserDefinedEntityForm": {
-      "formTitle": "Ajouter une relation parente",
-      "actionButtonText": "Confirmer",
-      "optionNew": "Nouvelle entité",
-      "optionExisting": "Entité existante",
-      "Form": {
-        "nameFieldLabel": "Nom de l’entité mère",
-        "nameFieldPlaceholder": "Entrez le nom de l’entité parente",
-        "parentTypeFieldLabel": "Type de parent",
-        "parentTypeFieldPlaceholder": "Sélectionner un type pour le parent",
-        "colorFieldLabel": "Couleur",
-        "iconFieldLabel": "Icône",
-        "parentEntityNameFieldLabel": "Nom de l’entité mère",
-        "parentEntityNameFieldPlaceholder": "Entrez un nom pour l’entité parente",
-        "relationshipNameFieldLabel": "Nom de la relation",
-        "relationshipNameFieldPlaceholder": "Sélectionner ou créer un nom de relation",
-        "existingEntityFieldPlaceholder": "Sélectionner une entité existante",
-        "parentEntityFieldLabel": "Entité mère"
-      }
-=======
     "modifyStep": {
       "diagram": "Diagramme",
       "entities": "Entités",
@@ -1648,7 +1619,6 @@
       "idColumnHeader": "ID d’entité",
       "typeColumnHeader": "Type",
       "exampleColumnHeader": "Exemples de valeurs"
->>>>>>> origin/feature-Legion
     }
   }
 }
