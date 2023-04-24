@@ -1610,6 +1610,7 @@
       "urlPlaceholder": "URL girin",
       "addOptionFormat": "'{{item}}' ekleyin"
     },
+<<<<<<< HEAD
     "GraphVisualizer": {
       "ContextMenu": {
         "addParentLabel": "Ebeveyn ekle"
@@ -1637,6 +1638,17 @@
         "existingEntityFieldPlaceholder": "Mevcut bir varlığı seçme",
         "parentEntityFieldLabel": "Üst varlık"
       }
+=======
+    "modifyStep": {
+      "diagram": "Diyagram",
+      "entities": "Varlık",
+      "types": "Tür",
+      "graph": "Grafik",
+      "secondaryButton": "Varlıkları birleştirme",
+      "idColumnHeader": "Varlık Kimliği",
+      "typeColumnHeader": "Tür",
+      "exampleColumnHeader": "Örnek değerler"
+>>>>>>> origin/feature-Legion
     }
   }
 }

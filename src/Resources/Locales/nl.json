@@ -1610,6 +1610,7 @@
       "urlPlaceholder": "Voer de URL in",
       "addOptionFormat": "Voeg '{{item}}' toe"
     },
+<<<<<<< HEAD
     "GraphVisualizer": {
       "ContextMenu": {
         "addParentLabel": "Ouder toevoegen"
@@ -1637,6 +1638,17 @@
         "existingEntityFieldPlaceholder": "Een bestaande entiteit selecteren",
         "parentEntityFieldLabel": "Moederentiteit"
       }
+=======
+    "modifyStep": {
+      "diagram": "Diagram",
+      "entities": "Entiteiten",
+      "types": "Typen",
+      "graph": "Grafiek",
+      "secondaryButton": "Entiteiten samenvoegen",
+      "idColumnHeader": "Entiteits-ID",
+      "typeColumnHeader": "Type",
+      "exampleColumnHeader": "Voorbeeldwaarden"
+>>>>>>> origin/feature-Legion
     }
   }
 }

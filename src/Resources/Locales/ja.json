@@ -1610,6 +1610,7 @@
       "urlPlaceholder": "URLを入力",
       "addOptionFormat": "'{{アイテム}}' を追加"
     },
+<<<<<<< HEAD
     "GraphVisualizer": {
       "ContextMenu": {
         "addParentLabel": "親の追加"
@@ -1637,6 +1638,17 @@
         "existingEntityFieldPlaceholder": "既存のエンティティを選択する",
         "parentEntityFieldLabel": "親エンティティ"
       }
+=======
+    "modifyStep": {
+      "diagram": "ダイアグラム",
+      "entities": "エンティティ",
+      "types": "種類",
+      "graph": "グラフ",
+      "secondaryButton": "エンティティのマージ",
+      "idColumnHeader": "エンティティ ID",
+      "typeColumnHeader": "種類",
+      "exampleColumnHeader": "値の例"
+>>>>>>> origin/feature-Legion
     }
   }
 }

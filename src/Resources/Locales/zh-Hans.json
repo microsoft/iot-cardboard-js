@@ -1610,6 +1610,7 @@
       "urlPlaceholder": "输入网址",
       "addOptionFormat": "添加“{{项目}}”"
     },
+<<<<<<< HEAD
     "GraphVisualizer": {
       "ContextMenu": {
         "addParentLabel": "添加父级"
@@ -1637,6 +1638,17 @@
         "existingEntityFieldPlaceholder": "选择现有实体",
         "parentEntityFieldLabel": "父实体"
       }
+=======
+    "modifyStep": {
+      "diagram": "图",
+      "entities": "实体",
+      "types": "类型",
+      "graph": "图",
+      "secondaryButton": "合并实体",
+      "idColumnHeader": "实体标识",
+      "typeColumnHeader": "类型",
+      "exampleColumnHeader": "示例值"
+>>>>>>> origin/feature-Legion
     }
   }
 }

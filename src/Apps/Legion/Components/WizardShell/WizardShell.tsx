@@ -6,12 +6,12 @@ import { useWizardNavigationContext } from '../../Contexts/WizardNavigationConte
 import StepperWizard from '../StepperWizard/StepperWizard';
 import { StepperWizardType } from '../StepperWizard/StepperWizard.types';
 import DataSourceStep from './Internal/DataSourceStep/DataSourceStep';
-import TwinVerificationStep from './Internal/TwinVerificationStep/TwinVerificationStep';
-import RelationshipBuilderStep from './Internal/RelationshipBuilderStep/RelationshipBuilderStep';
 import SaveStep from './Internal/SaveStep/SaveStep';
-import { Icon, PrimaryButton } from '@fluentui/react';
+import { DefaultButton, Icon, PrimaryButton } from '@fluentui/react';
 import { useExtendedTheme } from '../../../../Models/Hooks/useExtendedTheme';
 import { useTranslation } from 'react-i18next';
+import ModifyStep from './Internal/ModifyStep/ModifyStep';
+import { WizardStepNumber } from '../../Contexts/WizardNavigationContext/WizardNavigationContext.types';
 import { useAppDataContext } from '../../Contexts/AppDataContext/AppDataContext';
 
 const debugLogging = false;
@@ -29,18 +29,20 @@ const WizardShell: React.FC<IWizardShellProps> = (_props) => {
     // callbacks
 
     // styles
-    const classNames = getStyles(theme);
+    const classNames = getStyles(
+        theme,
+        !!wizardNavigationContextState.secondaryActions?.length
+    );
 
     // Memo
     const currentPage = useMemo(() => {
         switch (wizardNavigationContextState.currentStep) {
-            case 0:
+            case WizardStepNumber.AddSource:
                 return <DataSourceStep />;
-            case 1:
-                return <TwinVerificationStep />;
-            case 2:
-                return <RelationshipBuilderStep />;
-            case 3:
+            case WizardStepNumber.Modify:
+                // TODO: Change show diagram based on type of asset selected
+                return <ModifyStep showDiagram={false} />;
+            case WizardStepNumber.Save:
                 return <SaveStep />;
         }
     }, [wizardNavigationContextState.currentStep]);
@@ -69,7 +71,20 @@ const WizardShell: React.FC<IWizardShellProps> = (_props) => {
             <div className={classNames.wizardContainer}>{currentPage}</div>
             {/* Footer */}
             <div className={classNames.footer}>
-                {/* TODO: Container for more that one button */}
+                {wizardNavigationContextState.secondaryActions ? (
+                    <div className={classNames.additionalButtonsContainer}>
+                        {wizardNavigationContextState.secondaryActions.map(
+                            (sa) => (
+                                <DefaultButton
+                                    onClick={sa.onClick}
+                                    disabled={sa.disabled}
+                                    text={sa.text}
+                                    iconProps={{ iconName: sa.iconName }}
+                                />
+                            )
+                        )}
+                    </div>
+                ) : null}
                 <div className={classNames.nextButtonContainer}>
                     <PrimaryButton
                         onClick={

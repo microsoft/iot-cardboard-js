@@ -1610,6 +1610,7 @@
       "urlPlaceholder": "Введите URL-адрес",
       "addOptionFormat": "Добавить '{{item}}'"
     },
+<<<<<<< HEAD
     "GraphVisualizer": {
       "ContextMenu": {
         "addParentLabel": "Добавить родителя"
@@ -1637,6 +1638,17 @@
         "existingEntityFieldPlaceholder": "Выберите существующую сущность",
         "parentEntityFieldLabel": "Материнская организация"
       }
+=======
+    "modifyStep": {
+      "diagram": "Диаграмма",
+      "entities": "Объекты",
+      "types": "Типы",
+      "graph": "График",
+      "secondaryButton": "Слияние сущностей",
+      "idColumnHeader": "Идентификатор сущности",
+      "typeColumnHeader": "Тип",
+      "exampleColumnHeader": "Примеры значений"
+>>>>>>> origin/feature-Legion
     }
   }
 }

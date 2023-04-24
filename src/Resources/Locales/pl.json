@@ -1610,6 +1610,7 @@
       "urlPlaceholder": "Wpisz adres URL",
       "addOptionFormat": "Dodaj '{{item}}'"
     },
+<<<<<<< HEAD
     "GraphVisualizer": {
       "ContextMenu": {
         "addParentLabel": "Dodaj rodzica"
@@ -1637,6 +1638,17 @@
         "existingEntityFieldPlaceholder": "Wybierz istniejącą encję",
         "parentEntityFieldLabel": "Jednostka dominująca"
       }
+=======
+    "modifyStep": {
+      "diagram": "Diagram",
+      "entities": "Podmioty",
+      "types": "Typy",
+      "graph": "Wykres",
+      "secondaryButton": "Scalanie jednostek",
+      "idColumnHeader": "Identyfikator jednostki",
+      "typeColumnHeader": "Typ",
+      "exampleColumnHeader": "Przykładowe wartości"
+>>>>>>> origin/feature-Legion
     }
   }
 }

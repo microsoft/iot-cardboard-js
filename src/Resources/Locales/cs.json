@@ -1610,6 +1610,7 @@
       "urlPlaceholder": "Zadejte adresu URL",
       "addOptionFormat": "Přidat '{{item}}'"
     },
+<<<<<<< HEAD
     "GraphVisualizer": {
       "ContextMenu": {
         "addParentLabel": "Přidat rodiče"
@@ -1637,6 +1638,17 @@
         "existingEntityFieldPlaceholder": "Vyberte existující entitu",
         "parentEntityFieldLabel": "Nadřazený subjekt"
       }
+=======
+    "modifyStep": {
+      "diagram": "Diagram",
+      "entities": "Entity",
+      "types": "Typy",
+      "graph": "Graf",
+      "secondaryButton": "Sloučení entit",
+      "idColumnHeader": "Entity ID",
+      "typeColumnHeader": "Typ",
+      "exampleColumnHeader": "Příklady hodnot"
+>>>>>>> origin/feature-Legion
     }
   }
 }

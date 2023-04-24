@@ -1610,6 +1610,7 @@
       "urlPlaceholder": "Ange URL",
       "addOptionFormat": "Lägg till '{{item}}'"
     },
+<<<<<<< HEAD
     "GraphVisualizer": {
       "ContextMenu": {
         "addParentLabel": "Lägg till överordnad"
@@ -1637,6 +1638,17 @@
         "existingEntityFieldPlaceholder": "Välj en befintlig entitet",
         "parentEntityFieldLabel": "Moderföretag"
       }
+=======
+    "modifyStep": {
+      "diagram": "Diagram",
+      "entities": "Enheter",
+      "types": "Typer",
+      "graph": "Graf",
+      "secondaryButton": "Sammanfoga entiteter",
+      "idColumnHeader": "Enhets-id",
+      "typeColumnHeader": "Typ",
+      "exampleColumnHeader": "Exempel på värden"
+>>>>>>> origin/feature-Legion
     }
   }
 }

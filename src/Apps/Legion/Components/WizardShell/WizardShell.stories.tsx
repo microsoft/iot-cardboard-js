@@ -5,10 +5,12 @@ import { IWizardShellProps } from './WizardShell.types';
 import { getDefaultStoryDecorator } from '../../../../Models/Services/StoryUtilities';
 import { WizardNavigationContextProvider } from '../../Contexts/WizardNavigationContext/WizardNavigationContext';
 import {
-    DEFAULT_MOCK_DATA_MANAGEMENT_STATE,
+    GET_DEFAULT_MOCK_WIZARD_DATA_CONTEXT,
     WIZARD_NAVIGATION_MOCK_DATA
 } from './WizardShellMockData';
+import { WizardDataContextProvider } from '../../Contexts/WizardDataContext/WizardDataContext';
 import { WizardDataManagementContextProvider } from '../../Contexts/WizardDataManagementContext/WizardDataManagementContext';
+import { DEFAULT_MOCK_DATA_MANAGEMENT_STATE } from './WizardShellMockData';
 import { AppDataContextProvider } from '../../Contexts/AppDataContext/AppDataContext';
 import { GET_MOCK_APP_DATA_CONTEXT_STATE } from '../../Contexts/AppDataContext/AppDataContext.mock';
 
@@ -28,15 +30,17 @@ const Template: WizardShellStory = (args) => {
             initialState={GET_MOCK_APP_DATA_CONTEXT_STATE()}
         >
             <WizardDataManagementContextProvider
-                initialState={{
-                    ...DEFAULT_MOCK_DATA_MANAGEMENT_STATE
-                }}
+                initialState={DEFAULT_MOCK_DATA_MANAGEMENT_STATE}
             >
-                <WizardNavigationContextProvider
-                    initialState={WIZARD_NAVIGATION_MOCK_DATA}
+                <WizardDataContextProvider
+                    initialState={GET_DEFAULT_MOCK_WIZARD_DATA_CONTEXT('Dairy')}
                 >
-                    <WizardShell {...args} />
-                </WizardNavigationContextProvider>
+                    <WizardNavigationContextProvider
+                        initialState={WIZARD_NAVIGATION_MOCK_DATA}
+                    >
+                        <WizardShell {...args} />
+                    </WizardNavigationContextProvider>
+                </WizardDataContextProvider>
             </WizardDataManagementContextProvider>
         </AppDataContextProvider>
     );

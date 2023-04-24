@@ -1610,6 +1610,7 @@
       "urlPlaceholder": "URL eingeben",
       "addOptionFormat": "Fügen Sie '{{item}}' hinzu"
     },
+<<<<<<< HEAD
     "GraphVisualizer": {
       "ContextMenu": {
         "addParentLabel": "Übergeordnetes Element hinzufügen"
@@ -1637,6 +1638,17 @@
         "existingEntityFieldPlaceholder": "Wählen Sie eine vorhandene Entität aus",
         "parentEntityFieldLabel": "Muttergesellschaft"
       }
+=======
+    "modifyStep": {
+      "diagram": "Diagramm",
+      "entities": "Entitäten",
+      "types": "Arten",
+      "graph": "Graph",
+      "secondaryButton": "Zusammenführen von Entitäten",
+      "idColumnHeader": "Entitäts-ID",
+      "typeColumnHeader": "Art",
+      "exampleColumnHeader": "Beispielwerte"
+>>>>>>> origin/feature-Legion
     }
   }
 }

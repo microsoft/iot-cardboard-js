@@ -1610,6 +1610,7 @@
       "urlPlaceholder": "Digite o URL",
       "addOptionFormat": "Adicionar '{{item}}'"
     },
+<<<<<<< HEAD
     "GraphVisualizer": {
       "ContextMenu": {
         "addParentLabel": "Adicionar pai"
@@ -1637,6 +1638,17 @@
         "existingEntityFieldPlaceholder": "Selecionar uma entidade existente",
         "parentEntityFieldLabel": "Entidade pai"
       }
+=======
+    "modifyStep": {
+      "diagram": "Diagrama",
+      "entities": "Entidades",
+      "types": "Tipos",
+      "graph": "Gráfico",
+      "secondaryButton": "Mesclar entidades",
+      "idColumnHeader": "ID da entidade",
+      "typeColumnHeader": "Tipo",
+      "exampleColumnHeader": "Valores de exemplo"
+>>>>>>> origin/feature-Legion
     }
   }
 }
