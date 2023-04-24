@@ -12,6 +12,7 @@ import {
     IDataManagementAdapter,
     ITableColumn
 } from '../../Adapters/Standalone/DataManagement/Models/DataManagementAdapter.types';
+import { IModel, ITwin } from '../../Models/Interfaces';
 import { IClusterPickerStyles } from '../Pickers/ClusterPicker/ClusterPicker.types';
 import { IADXAdapterTargetContext, IReactSelectOption } from '../../Models';
 
@@ -103,6 +104,17 @@ export const TableTypeOptions: IReactSelectOption[] = [
         label: 'Tags only'
     }
 ];
+
+// Temporary types - will clear when data pusher is updated to new data patterns
+export interface IModelExtended extends IModel {
+    color: string;
+    selectedPropertyIds: Array<string>;
+}
+
+export interface ITwinExtended extends ITwin {
+    model: IModelExtended;
+    isSelected: boolean;
+}
 
 export const SourceTypeOptions: IDropdownOption[] = [
     {

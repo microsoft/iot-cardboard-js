@@ -1609,6 +1609,16 @@
       "urlLabel": "Adres URL",
       "urlPlaceholder": "Wpisz adres URL",
       "addOptionFormat": "Dodaj '{{item}}'"
+    },
+    "modifyStep": {
+      "diagram": "Diagram",
+      "entities": "Podmioty",
+      "types": "Typy",
+      "graph": "Wykres",
+      "secondaryButton": "Scalanie jednostek",
+      "idColumnHeader": "Identyfikator jednostki",
+      "typeColumnHeader": "Typ",
+      "exampleColumnHeader": "Przykładowe wartości"
     }
   }
 }

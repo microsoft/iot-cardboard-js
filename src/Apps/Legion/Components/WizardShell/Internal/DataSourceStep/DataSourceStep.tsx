@@ -34,7 +34,10 @@ import {
     defaultDataSourceStepState
 } from './DataSourceStep.state';
 import { useWizardNavigationContext } from '../../../../Contexts/WizardNavigationContext/WizardNavigationContext';
-import { WizardNavigationContextActionType } from '../../../../Contexts/WizardNavigationContext/WizardNavigationContext.types';
+import {
+    WizardNavigationContextActionType,
+    WizardStepNumber
+} from '../../../../Contexts/WizardNavigationContext/WizardNavigationContext.types';
 import { useWizardDataManagementContext } from '../../../../Contexts/WizardDataManagementContext/WizardDataManagementContext';
 import { IAppData } from '../../../../Models/Interfaces';
 import { WizardDataManagementContextActionType } from '../../../../Contexts/WizardDataManagementContext/WizardDataManagementContext.types';
@@ -192,7 +195,7 @@ const DataSourceStep: React.FC<IDataSourceStepProps> = (props) => {
         wizardNavigationContextDispatch({
             type: WizardNavigationContextActionType.NAVIGATE_TO,
             payload: {
-                stepNumber: 1
+                stepNumber: WizardStepNumber.Modify
             }
         });
     }, [

@@ -1609,6 +1609,16 @@
       "urlLabel": "URL (영문)",
       "urlPlaceholder": "URL 입력",
       "addOptionFormat": "'{{item}}' 추가"
+    },
+    "modifyStep": {
+      "diagram": "다이어그램",
+      "entities": "엔터티",
+      "types": "형식",
+      "graph": "그래프",
+      "secondaryButton": "엔터티 병합",
+      "idColumnHeader": "엔티티 ID",
+      "typeColumnHeader": "형",
+      "exampleColumnHeader": "예제 값"
     }
   }
 }

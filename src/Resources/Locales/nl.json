@@ -1609,6 +1609,16 @@
       "urlLabel": "Url",
       "urlPlaceholder": "Voer de URL in",
       "addOptionFormat": "Voeg '{{item}}' toe"
+    },
+    "modifyStep": {
+      "diagram": "Diagram",
+      "entities": "Entiteiten",
+      "types": "Typen",
+      "graph": "Grafiek",
+      "secondaryButton": "Entiteiten samenvoegen",
+      "idColumnHeader": "Entiteits-ID",
+      "typeColumnHeader": "Type",
+      "exampleColumnHeader": "Voorbeeldwaarden"
     }
   }
 }

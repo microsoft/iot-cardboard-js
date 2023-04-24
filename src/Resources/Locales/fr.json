@@ -1609,6 +1609,16 @@
       "urlLabel": "URL",
       "urlPlaceholder": "Entrez l’URL",
       "addOptionFormat": "Ajouter '{{item}}'"
+    },
+    "modifyStep": {
+      "diagram": "Diagramme",
+      "entities": "Entités",
+      "types": "Types",
+      "graph": "Graphique",
+      "secondaryButton": "Fusionner des entités",
+      "idColumnHeader": "ID d’entité",
+      "typeColumnHeader": "Type",
+      "exampleColumnHeader": "Exemples de valeurs"
     }
   }
 }

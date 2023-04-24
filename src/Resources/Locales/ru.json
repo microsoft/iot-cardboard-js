@@ -1609,6 +1609,16 @@
       "urlLabel": "URL-адрес",
       "urlPlaceholder": "Введите URL-адрес",
       "addOptionFormat": "Добавить '{{item}}'"
+    },
+    "modifyStep": {
+      "diagram": "Диаграмма",
+      "entities": "Объекты",
+      "types": "Типы",
+      "graph": "График",
+      "secondaryButton": "Слияние сущностей",
+      "idColumnHeader": "Идентификатор сущности",
+      "typeColumnHeader": "Тип",
+      "exampleColumnHeader": "Примеры значений"
     }
   }
 }

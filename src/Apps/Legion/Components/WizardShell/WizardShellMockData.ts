@@ -134,16 +134,13 @@ const RELATIONSHIP_MODELS_MOCK_DATA: IRelationshipModel[] = [
 ];
 export const steps: IStepperWizardStep[] = [
     {
-        label: 'Connect'
+        label: 'Source'
     },
     {
-        label: 'Verify'
+        label: 'Modify'
     },
     {
-        label: 'Build'
-    },
-    {
-        label: 'Finish'
+        label: 'Save'
     }
 ];
 
