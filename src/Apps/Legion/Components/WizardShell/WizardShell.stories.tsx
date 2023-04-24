@@ -29,8 +29,6 @@ const Template: WizardShellStory = (args) => {
         <AppDataContextProvider
             initialState={GET_MOCK_APP_DATA_CONTEXT_STATE()}
         >
-            // DATA MANAGEMENT PROVIDER IS TEMPORARY HERE, WILL REMOVE WHEN DATA
-            SOURCE STEP IS UPDATED
             <WizardDataManagementContextProvider
                 initialState={DEFAULT_MOCK_DATA_MANAGEMENT_STATE}
             >
