@@ -1619,6 +1619,34 @@
       "idColumnHeader": "Entity ID",
       "typeColumnHeader": "Typ",
       "exampleColumnHeader": "Příklady hodnot"
+    },
+    "GraphVisualizer": {
+      "ContextMenu": {
+        "addParentLabel": "Přidat rodiče"
+      },
+      "ParentForm": {
+        "formTitle": "Přidat rodiče"
+      }
+    },
+    "UserDefinedEntityForm": {
+      "formTitle": "Přidání nadřazeného vztahu",
+      "actionButtonText": "Potvrdit",
+      "optionNew": "Nová entita",
+      "optionExisting": "Existující entita",
+      "Form": {
+        "nameFieldLabel": "Název nadřazené entity",
+        "nameFieldPlaceholder": "Zadejte název nadřazené entity",
+        "parentTypeFieldLabel": "Nadřazený typ",
+        "parentTypeFieldPlaceholder": "Vyberte typ pro nadřazený",
+        "colorFieldLabel": "Barva",
+        "iconFieldLabel": "Ikona",
+        "parentEntityFieldLabel": "Nadřazený subjekt",
+        "parentEntityNameFieldLabel": "Název nadřazené entity",
+        "parentEntityNameFieldPlaceholder": "Zadejte název nadřazené entity",
+        "relationshipNameFieldLabel": "Název relace",
+        "relationshipNameFieldPlaceholder": "Výběr nebo vytvoření názvu relace",
+        "existingEntityFieldPlaceholder": "Vyberte existující entitu"
+      }
     }
   }
 }
