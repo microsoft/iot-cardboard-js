@@ -24,6 +24,7 @@ export interface IExtensionClient {
     closeDialog: (config: CloseUIConfig) => Promise<CloseUIResult>;
     openPanel: (config: OpenPanelConfig) => Promise<OpenUIResult>;
     closePanel: (config: CloseUIConfig) => Promise<CloseUIResult>;
+    getTheme: () => Promise<ThemeConfiguration>;
 }
 export interface CloseUIResult {
     success: boolean;
@@ -126,4 +127,8 @@ export interface IUserProfile {
     principalName: string;
     objectId: string;
     tenantId: string;
+}
+
+export interface ThemeConfiguration {
+    name: string;
 }
