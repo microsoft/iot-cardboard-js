@@ -1,3 +1,16 @@
 {
-    "extends": "./.eslintrc.json"
+    "extends": "./.eslintrc.json",
+    "rules": {
+        "iot-cardboard-js/debug-logging-disabled": "error",
+        "no-console": "off",
+        "no-debugger": "error",
+        "no-multiple-empty-lines": "error",
+        "react-hooks/exhaustive-deps": "off",
+        "@typescript-eslint/no-unused-vars": [
+            "error",
+            {
+                "argsIgnorePattern": "^_"
+            }
+        ]
+    }
 }
