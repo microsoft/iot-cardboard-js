@@ -1,4 +1,4 @@
-import { IExtensionClient } from '../../EntryPoints/LegionApp/LegionApp.types';
+import { IExtensionClient } from '../../EntryPoints/LegionApp/ShellTypes';
 
 export interface ITargetDatabaseConnection {
     clusterUrl: string;
