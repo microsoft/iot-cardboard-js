@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { IModifyStepProps, ModifyPivotKeys } from './ModifyStep.types';
 import { getStyles } from './ModifyStep.styles';
 import { getDebugLogger } from '../../../../../../Models/Services/Utils';
-import { Pivot, PivotItem, Stack } from '@fluentui/react';
+import { Pivot, PivotItem, PrimaryButton, Stack } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { useCustomNavigation } from '../../../../Hooks/useCustomNavigation';
 import {
@@ -10,6 +10,8 @@ import {
     WizardStepNumber
 } from '../../../../Contexts/WizardNavigationContext/WizardNavigationContext.types';
 import EntitiesTab from './Internal/EntitiesTab/EntitiesTab';
+import UserDefinedEntityForm from '../../../UserDefinedEntityForm/UserDefinedEntityForm';
+import GraphTab from './Internal/GraphTab';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('ModifyStep', debugLogging);
@@ -89,7 +91,7 @@ const ModifyStep: React.FC<IModifyStepProps> = (props) => {
                     headerText={t('legionApp.modifyStep.graph')}
                     itemKey={ModifyPivotKeys.Graph}
                 >
-                    <p>TODO: Insert graph here</p>
+                    <GraphTab />
                 </PivotItem>
             </Pivot>
         </Stack>
