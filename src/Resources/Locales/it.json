@@ -1618,7 +1618,12 @@
       "secondaryButton": "Unire entità",
       "idColumnHeader": "ID entità",
       "typeColumnHeader": "Digitare",
-      "exampleColumnHeader": "Valori di esempio"
+      "exampleColumnHeader": "Valori di esempio",
+      "typeFieldLabel": "Nome del tipo",
+      "kind": "Gentile",
+      "discoveredEntities": "{{entityCount}} entità individuate",
+      "deletedEntities": "{{entityCount}} entità eliminate",
+      "existingEntities": "{{entityCount}} entità esistenti"
     }
   }
 }

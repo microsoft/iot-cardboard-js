@@ -1618,7 +1618,12 @@
       "secondaryButton": "Varlıkları birleştirme",
       "idColumnHeader": "Varlık Kimliği",
       "typeColumnHeader": "Tür",
-      "exampleColumnHeader": "Örnek değerler"
+      "exampleColumnHeader": "Örnek değerler",
+      "typeFieldLabel": "Tür adı",
+      "kind": "Tür",
+      "discoveredEntities": "{{entityCount}} bulunan varlıklar",
+      "deletedEntities": "{{entityCount}} silinmiş varlıklar",
+      "existingEntities": "{{entityCount}} mevcut varlıklar"
     }
   }
 }

@@ -1618,7 +1618,12 @@
       "secondaryButton": "Zusammenführen von Entitäten",
       "idColumnHeader": "Entitäts-ID",
       "typeColumnHeader": "Art",
-      "exampleColumnHeader": "Beispielwerte"
+      "exampleColumnHeader": "Beispielwerte",
+      "typeFieldLabel": "Typname",
+      "kind": "Art",
+      "discoveredEntities": "{{entityCount}} entdeckte Entitäten",
+      "deletedEntities": "{{entityCount}} gelöschte Entitäten",
+      "existingEntities": "{{entityCount}} vorhandene Entitäten"
     }
   }
 }

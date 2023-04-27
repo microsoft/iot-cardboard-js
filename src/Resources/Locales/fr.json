@@ -1618,7 +1618,12 @@
       "secondaryButton": "Fusionner des entités",
       "idColumnHeader": "ID d’entité",
       "typeColumnHeader": "Type",
-      "exampleColumnHeader": "Exemples de valeurs"
+      "exampleColumnHeader": "Exemples de valeurs",
+      "typeFieldLabel": "Nom du type",
+      "kind": "Gentil",
+      "discoveredEntities": "{{entityCount}} entités découvertes",
+      "deletedEntities": "{{entityCount}} entités supprimées",
+      "existingEntities": "{{entityCount}} entités existantes"
     }
   }
 }

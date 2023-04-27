@@ -1618,7 +1618,12 @@
       "secondaryButton": "Mesclar entidades",
       "idColumnHeader": "ID da entidade",
       "typeColumnHeader": "Tipo",
-      "exampleColumnHeader": "Valores de exemplo"
+      "exampleColumnHeader": "Valores de exemplo",
+      "typeFieldLabel": "Digite o nome",
+      "kind": "Tipo",
+      "discoveredEntities": "{{entityCount}} entidades descobertas",
+      "deletedEntities": "{{entityCount}} entidades excluídas",
+      "existingEntities": "{{entityCount}} entidades existentes"
     }
   }
 }

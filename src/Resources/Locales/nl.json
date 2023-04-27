@@ -1618,7 +1618,12 @@
       "secondaryButton": "Entiteiten samenvoegen",
       "idColumnHeader": "Entiteits-ID",
       "typeColumnHeader": "Type",
-      "exampleColumnHeader": "Voorbeeldwaarden"
+      "exampleColumnHeader": "Voorbeeldwaarden",
+      "typeFieldLabel": "Naam van type",
+      "kind": "Soort",
+      "discoveredEntities": "{{entityCount}} gedetecteerde entiteiten",
+      "deletedEntities": "{{entityCount}} verwijderde entiteiten",
+      "existingEntities": "{{entityCount}} bestaande entiteiten"
     }
   }
 }

@@ -1618,7 +1618,12 @@
       "secondaryButton": "Scalanie jednostek",
       "idColumnHeader": "Identyfikator jednostki",
       "typeColumnHeader": "Typ",
-      "exampleColumnHeader": "Przykładowe wartości"
+      "exampleColumnHeader": "Przykładowe wartości",
+      "typeFieldLabel": "Nazwa typu",
+      "kind": "Rodzaj",
+      "discoveredEntities": "{{entityCount}} odkryte jednostki",
+      "deletedEntities": "{{entityCount}} usunięte encje",
+      "existingEntities": "{{entityCount}} istniejące encje"
     }
   }
 }

@@ -1618,7 +1618,12 @@
       "secondaryButton": "Sammanfoga entiteter",
       "idColumnHeader": "Enhets-id",
       "typeColumnHeader": "Typ",
-      "exampleColumnHeader": "Exempel på värden"
+      "exampleColumnHeader": "Exempel på värden",
+      "typeFieldLabel": "Typ namn",
+      "kind": "Sort",
+      "discoveredEntities": "{{entityCount}} identifierade entiteter",
+      "deletedEntities": "{{entityCount}} borttagna entiteter",
+      "existingEntities": "{{entityCount}} befintliga entiteter"
     }
   }
 }

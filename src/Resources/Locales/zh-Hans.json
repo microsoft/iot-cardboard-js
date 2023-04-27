@@ -1618,7 +1618,12 @@
       "secondaryButton": "合并实体",
       "idColumnHeader": "实体标识",
       "typeColumnHeader": "类型",
-      "exampleColumnHeader": "示例值"
+      "exampleColumnHeader": "示例值",
+      "typeFieldLabel": "类型名称",
+      "kind": "类",
+      "discoveredEntities": "{{实体计数}} 发现的实体",
+      "deletedEntities": "{{实体计数}} 已删除的实体",
+      "existingEntities": "{{entityCount}} 现有实体"
     }
   }
 }
