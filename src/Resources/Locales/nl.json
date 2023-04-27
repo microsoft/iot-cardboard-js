@@ -1625,7 +1625,10 @@
       "deletedEntities": "{{entityCount}} verwijderde entiteiten",
       "existingEntities": "{{entityCount}} bestaande entiteiten",
       "sourceColumnHeader": "Naam van de eigenschap source",
-      "friendlyNameColumnHeader": "Beschrijvende naam"
+      "friendlyNameColumnHeader": "Beschrijvende naam",
+      "discoveredEntity": "{{entityCount}} gedetecteerde entiteit",
+      "deletedEntity": "{{entityCount}} verwijderde entiteit",
+      "existingEntity": "{{entityCount}} bestaande entiteit"
     }
   }
 }

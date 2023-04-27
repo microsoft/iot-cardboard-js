@@ -1625,7 +1625,10 @@
       "deletedEntities": "{{entityCount}} 삭제된 엔터티",
       "existingEntities": "{{entityCount}} 기존 엔터티",
       "sourceColumnHeader": "원본 속성 이름",
-      "friendlyNameColumnHeader": "친근한 이름"
+      "friendlyNameColumnHeader": "친근한 이름",
+      "discoveredEntity": "{{entityCount}} 검색된 엔터티",
+      "deletedEntity": "{{entityCount}} 삭제된 엔터티",
+      "existingEntity": "{{entityCount}} 기존 엔터티"
     }
   }
 }

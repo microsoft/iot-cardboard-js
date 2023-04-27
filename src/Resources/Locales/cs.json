@@ -1625,7 +1625,10 @@
       "deletedEntities": "{{entityCount}} odstraněné entity",
       "existingEntities": "{{entityCount}} existující entity",
       "sourceColumnHeader": "Název zdrojové vlastnosti",
-      "friendlyNameColumnHeader": "Popisný název"
+      "friendlyNameColumnHeader": "Popisný název",
+      "discoveredEntity": "{{entityCount}} objevená entita",
+      "deletedEntity": "{{entityCount}} odstraněná entita",
+      "existingEntity": "{{entityCount}} existující entita"
     }
   }
 }

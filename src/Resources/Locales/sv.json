@@ -1625,7 +1625,10 @@
       "deletedEntities": "{{entityCount}} borttagna entiteter",
       "existingEntities": "{{entityCount}} befintliga entiteter",
       "sourceColumnHeader": "Namn på källegendom",
-      "friendlyNameColumnHeader": "Eget namn"
+      "friendlyNameColumnHeader": "Eget namn",
+      "discoveredEntity": "{{entityCount}} identifierad entitet",
+      "deletedEntity": "{{entityCount}} borttagen entitet",
+      "existingEntity": "{{entityCount}} befintlig entitet"
     }
   }
 }

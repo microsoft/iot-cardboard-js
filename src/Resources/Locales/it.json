@@ -1625,7 +1625,10 @@
       "deletedEntities": "{{entityCount}} entità eliminate",
       "existingEntities": "{{entityCount}} entità esistenti",
       "sourceColumnHeader": "Nome della proprietà di origine",
-      "friendlyNameColumnHeader": "Nome descrittivo"
+      "friendlyNameColumnHeader": "Nome descrittivo",
+      "discoveredEntity": "{{entityCount}} entità scoperta",
+      "deletedEntity": "{{entityCount}} entità eliminata",
+      "existingEntity": "{{entityCount}} entità esistente"
     }
   }
 }

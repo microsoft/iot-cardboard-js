@@ -1625,7 +1625,10 @@
       "deletedEntities": "{{entityCount}} gelöschte Entitäten",
       "existingEntities": "{{entityCount}} vorhandene Entitäten",
       "sourceColumnHeader": "Name der Quelleigenschaft",
-      "friendlyNameColumnHeader": "Anzeigename"
+      "friendlyNameColumnHeader": "Anzeigename",
+      "discoveredEntity": "{{entityCount}} entdeckte Entität",
+      "deletedEntity": "{{entityCount}} gelöschte Entität",
+      "existingEntity": "{{entityCount}} vorhandene Entität"
     }
   }
 }

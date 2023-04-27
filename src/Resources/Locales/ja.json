@@ -1625,7 +1625,10 @@
       "deletedEntities": "{{エンティティ数}} 削除されたエンティティ",
       "existingEntities": "{{エンティティ数}} 既存のエンティティ",
       "sourceColumnHeader": "ソース プロパティ名",
-      "friendlyNameColumnHeader": "フレンドリ名"
+      "friendlyNameColumnHeader": "フレンドリ名",
+      "discoveredEntity": "{{エンティティカウント}} 検出されたエンティティ",
+      "deletedEntity": "{{エンティティカウント}} 削除されたエンティティ",
+      "existingEntity": "{{エンティティ数}} 既存のエンティティ"
     }
   }
 }

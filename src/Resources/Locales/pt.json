@@ -1625,7 +1625,10 @@
       "deletedEntities": "{{entityCount}} entidades excluídas",
       "existingEntities": "{{entityCount}} entidades existentes",
       "sourceColumnHeader": "Nome da propriedade de origem",
-      "friendlyNameColumnHeader": "Nome amigável"
+      "friendlyNameColumnHeader": "Nome amigável",
+      "discoveredEntity": "{{entityCount}} entidade descoberta",
+      "deletedEntity": "{{entityCount}} entidade excluída",
+      "existingEntity": "{{entityCount}} entidade existente"
     }
   }
 }
