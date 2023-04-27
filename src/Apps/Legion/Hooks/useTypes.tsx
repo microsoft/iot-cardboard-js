@@ -76,9 +76,12 @@ export const useTypes = () => {
     );
 
     // Single item
-    const getTypeById = (typeId: string): IViewType => {
-        return types?.find((t) => t.id === typeId);
-    };
+    const getTypeById = useCallback(
+        (typeId: string): IViewType => {
+            return types?.find((t) => t.id === typeId);
+        },
+        [types]
+    );
 
     return {
         /** the current list of types in the state */

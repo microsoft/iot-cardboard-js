@@ -83,7 +83,7 @@ export const useEntities = () => {
     const getEntityCount = useCallback(
         (typeId: string): IEntityCounters => {
             const counters: IEntityCounters = {
-                discovered: 0,
+                new: 0,
                 existing: 0,
                 deleted: 0
             };
@@ -92,7 +92,7 @@ export const useEntities = () => {
                     if (x.isDeleted) {
                         counters.deleted += 1;
                     } else if (x.isNew) {
-                        counters.discovered += 1;
+                        counters.new += 1;
                     } else {
                         counters.existing += 1;
                     }

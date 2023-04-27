@@ -1615,8 +1615,11 @@
             "friendlyNameColumnHeader": "Friendly name",
             "typeFieldLabel": "Type name",
             "kind": "Kind",
+            "discoveredEntity": "{{entityCount}} discovered entity",
             "discoveredEntities": "{{entityCount}} discovered entities",
+            "deletedEntity": "{{entityCount}} deleted entity",
             "deletedEntities": "{{entityCount}} deleted entities",
+            "existingEntity": "{{entityCount}} existing entity",
             "existingEntities": "{{entityCount}} existing entities"
         }
     }

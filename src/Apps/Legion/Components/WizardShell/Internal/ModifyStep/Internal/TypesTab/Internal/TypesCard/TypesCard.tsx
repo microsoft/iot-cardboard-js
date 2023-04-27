@@ -104,19 +104,31 @@ const TypesCard: React.FC<ITypesCardProps> = (props) => {
                     <p className={classNames.kindText}>{type.kind}</p>
                 </div>
                 <i>
-                    {t('legionApp.modifyStep.existingEntities', {
-                        entityCount: entityCount.existing
-                    })}
+                    {entityCount.existing === 1
+                        ? t('legionApp.modifyStep.existingEntity', {
+                              entityCount: entityCount.existing
+                          })
+                        : t('legionApp.modifyStep.existingEntities', {
+                              entityCount: entityCount.existing
+                          })}
                 </i>
                 <i>
-                    {t('legionApp.modifyStep.discoveredEntities', {
-                        entityCount: entityCount.discovered
-                    })}
+                    {entityCount.new === 1
+                        ? t('legionApp.modifyStep.discoveredEntity', {
+                              entityCount: entityCount.new
+                          })
+                        : t('legionApp.modifyStep.discoveredEntities', {
+                              entityCount: entityCount.new
+                          })}
                 </i>
                 <i>
-                    {t('legionApp.modifyStep.deletedEntities', {
-                        entityCount: entityCount.deleted
-                    })}
+                    {entityCount.deleted === 1
+                        ? t('legionApp.modifyStep.deletedEntity', {
+                              entityCount: entityCount.deleted
+                          })
+                        : t('legionApp.modifyStep.deletedEntities', {
+                              entityCount: entityCount.deleted
+                          })}
                 </i>
             </div>
             <div className={classNames.rightSide}>
