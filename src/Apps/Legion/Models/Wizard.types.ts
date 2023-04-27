@@ -114,13 +114,16 @@ export interface IViewRelationship extends IBaseRelationship {
 }
 
 /** the base attributes common to all representations of a `RelationshipType` */
-export interface IBaseRelationshipType extends IBase {
+export interface IBaseRelationshipType<
+    T = 'DbRelationshipType' | 'ViewRelationshipType'
+> extends IBase {
+    relationshipType: T;
     /** the display friendly name of the property. Uniqueness is not required. */
     name: string;
 }
 
 /** The database representation of a property of a `RelationshipType` */
-export type { IBaseRelationshipType as IDbRelationshipType };
+export type IDbRelationshipType = IBaseRelationshipType<'DbRelationshipType'>;
 /** The view model representation of a property of a `RelationshipType` */
-export type IViewRelationshipType = IBaseRelationshipType;
+export type IViewRelationshipType = IBaseRelationshipType<'ViewRelationshipType'>;
 // #endregion
