@@ -21,7 +21,7 @@ import { useTypes } from '../../Hooks/useTypes';
 import { useEntities } from '../../Hooks/useEntities';
 import { getNewViewRelationship } from '../../Services/WizardTypes.utils';
 
-const debugLogging = true;
+const debugLogging = false;
 const logDebugConsole = getDebugLogger('UserDefinedEntityForm', debugLogging);
 
 const getClassNames = classNamesFunction<
