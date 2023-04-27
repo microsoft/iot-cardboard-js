@@ -1623,7 +1623,9 @@
       "kind": "Sort",
       "discoveredEntities": "{{entityCount}} identifierade entiteter",
       "deletedEntities": "{{entityCount}} borttagna entiteter",
-      "existingEntities": "{{entityCount}} befintliga entiteter"
+      "existingEntities": "{{entityCount}} befintliga entiteter",
+      "sourceColumnHeader": "Namn på källegendom",
+      "friendlyNameColumnHeader": "Eget namn"
     }
   }
 }

@@ -1623,7 +1623,9 @@
       "kind": "Fajta",
       "discoveredEntities": "{{entityCount}} felderített entitások",
       "deletedEntities": "{{entityCount}} törölt entitások",
-      "existingEntities": "{{entityCount}} meglévő entitások"
+      "existingEntities": "{{entityCount}} meglévő entitások",
+      "sourceColumnHeader": "Forrástulajdonság neve",
+      "friendlyNameColumnHeader": "Rövid név"
     }
   }
 }

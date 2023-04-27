@@ -1623,7 +1623,9 @@
       "kind": "Tür",
       "discoveredEntities": "{{entityCount}} bulunan varlıklar",
       "deletedEntities": "{{entityCount}} silinmiş varlıklar",
-      "existingEntities": "{{entityCount}} mevcut varlıklar"
+      "existingEntities": "{{entityCount}} mevcut varlıklar",
+      "sourceColumnHeader": "Kaynak özellik adı",
+      "friendlyNameColumnHeader": "Kolay ad"
     }
   }
 }

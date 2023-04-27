@@ -1623,7 +1623,9 @@
       "kind": "Gentil",
       "discoveredEntities": "{{entityCount}} entités découvertes",
       "deletedEntities": "{{entityCount}} entités supprimées",
-      "existingEntities": "{{entityCount}} entités existantes"
+      "existingEntities": "{{entityCount}} entités existantes",
+      "sourceColumnHeader": "Nom de la propriété source",
+      "friendlyNameColumnHeader": "Nom convivial"
     }
   }
 }

@@ -1623,7 +1623,9 @@
       "kind": "Soort",
       "discoveredEntities": "{{entityCount}} gedetecteerde entiteiten",
       "deletedEntities": "{{entityCount}} verwijderde entiteiten",
-      "existingEntities": "{{entityCount}} bestaande entiteiten"
+      "existingEntities": "{{entityCount}} bestaande entiteiten",
+      "sourceColumnHeader": "Naam van de eigenschap source",
+      "friendlyNameColumnHeader": "Beschrijvende naam"
     }
   }
 }

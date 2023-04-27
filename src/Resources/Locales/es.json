@@ -1623,7 +1623,9 @@
       "kind": "Amable",
       "discoveredEntities": "{{entityCount}} entidades descubiertas",
       "deletedEntities": "{{entityCount}} entidades eliminadas",
-      "existingEntities": "{{entityCount}} entidades existentes"
+      "existingEntities": "{{entityCount}} entidades existentes",
+      "sourceColumnHeader": "Nombre de la propiedad de origen",
+      "friendlyNameColumnHeader": "Nombre descriptivo"
     }
   }
 }

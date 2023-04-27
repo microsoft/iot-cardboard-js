@@ -1623,7 +1623,9 @@
       "kind": "Tipo",
       "discoveredEntities": "{{entityCount}} entidades descobertas",
       "deletedEntities": "{{entityCount}} entidades excluídas",
-      "existingEntities": "{{entityCount}} entidades existentes"
+      "existingEntities": "{{entityCount}} entidades existentes",
+      "sourceColumnHeader": "Nome da propriedade de origem",
+      "friendlyNameColumnHeader": "Nome amigável"
     }
   }
 }

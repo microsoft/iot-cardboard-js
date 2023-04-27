@@ -1623,7 +1623,9 @@
       "kind": "Rodzaj",
       "discoveredEntities": "{{entityCount}} odkryte jednostki",
       "deletedEntities": "{{entityCount}} usunięte encje",
-      "existingEntities": "{{entityCount}} istniejące encje"
+      "existingEntities": "{{entityCount}} istniejące encje",
+      "sourceColumnHeader": "Nazwa właściwości źródłowej",
+      "friendlyNameColumnHeader": "Przyjazna nazwa"
     }
   }
 }

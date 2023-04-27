@@ -1623,7 +1623,9 @@
       "kind": "Добрый",
       "discoveredEntities": "{{entityCount}} обнаруженные сущности",
       "deletedEntities": "{{entityCount}} удаленные сущности",
-      "existingEntities": "{{entityCount}} существующие сущности"
+      "existingEntities": "{{entityCount}} существующие сущности",
+      "sourceColumnHeader": "Имя исходного свойства",
+      "friendlyNameColumnHeader": "Понятное имя"
     }
   }
 }
