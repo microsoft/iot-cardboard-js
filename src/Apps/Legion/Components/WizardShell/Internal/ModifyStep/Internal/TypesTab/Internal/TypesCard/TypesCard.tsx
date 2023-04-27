@@ -8,18 +8,20 @@ import {
     IColumn,
     TextField,
     SelectionMode,
-    Checkbox
+    Checkbox,
+    memoizeFunction
 } from '@fluentui/react';
 import { useEntities } from '../../../../../../../../Hooks/useEntities';
 import TypeIcon from '../../../../../../../TypeIcon/TypeIcon';
 import { IViewProperty } from '../../../../../../../../Models';
 import { useExtendedTheme } from '../../../../../../../../../../Models/Hooks/useExtendedTheme';
 import { useTranslation } from 'react-i18next';
+import i18n from '../../../../../../../../../../i18n';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('TypesCard', debugLogging);
 
-const getColumns = (): IColumn[] => [
+const getColumns = memoizeFunction((): IColumn[] => [
     {
         key: 'check-box-column',
         name: '',
@@ -41,17 +43,17 @@ const getColumns = (): IColumn[] => [
     },
     {
         key: 'source-name-column',
-        name: 'Source property name',
+        name: i18n.t('legionApp.modifyStep.sourceColumnHeader'),
         minWidth: 100,
         fieldName: 'sourcePropId'
     },
     {
         key: 'friendly-name-column',
-        name: 'Friendly name',
+        name: i18n.t('legionApp.modifyStep.friendlyNameColumnHeader'),
         minWidth: 200,
         fieldName: 'friendlyName'
     }
-];
+]);
 
 const TypesCard: React.FC<ITypesCardProps> = (props) => {
     const { typeId } = props;
@@ -62,7 +64,7 @@ const TypesCard: React.FC<ITypesCardProps> = (props) => {
     // hooks
     const { getTypeById, updateType } = useTypes();
     const type = useMemo(() => getTypeById(typeId), [getTypeById, typeId]);
-    const { getEntityStateCount } = useEntities();
+    const { getEntityCount } = useEntities();
     const theme = useExtendedTheme();
     const { t } = useTranslation();
 
@@ -84,7 +86,7 @@ const TypesCard: React.FC<ITypesCardProps> = (props) => {
 
     logDebugConsole('debug', 'Render');
 
-    const entityCount = getEntityStateCount(type.id);
+    const entityCount = getEntityCount(type.id);
 
     return (
         <div className={classNames.root}>

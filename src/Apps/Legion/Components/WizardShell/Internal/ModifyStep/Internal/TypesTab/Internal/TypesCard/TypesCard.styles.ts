@@ -3,7 +3,8 @@ import { ITypesCardStyles } from './TypesCard.types';
 import {
     IProcessedStyleSet,
     mergeStyleSets,
-    memoizeFunction
+    memoizeFunction,
+    FontWeights
 } from '@fluentui/react';
 
 export const getStyles = memoizeFunction(
@@ -29,7 +30,7 @@ export const getStyles = memoizeFunction(
             leftSideTitle: {
                 marginBottom: 0,
                 marginTop: 4,
-                fontWeight: 600
+                fontWeight: FontWeights.semibold
             },
             kindContainer: {
                 display: 'inline-flex',

@@ -1611,6 +1611,8 @@
             "idColumnHeader": "Entity ID",
             "typeColumnHeader": "Type",
             "exampleColumnHeader": "Example values",
+            "sourceColumnHeader": "Source property name",
+            "friendlyNameColumnHeader": "Friendly name",
             "typeFieldLabel": "Type name",
             "kind": "Kind",
             "discoveredEntities": "{{entityCount}} discovered entities",
