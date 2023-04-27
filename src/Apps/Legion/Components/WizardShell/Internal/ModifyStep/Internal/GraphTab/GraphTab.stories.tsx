@@ -33,7 +33,7 @@ const Template: GraphTabStory = (args) => {
                     {...DEFAULT_MOCK_GRAPH_PROVIDER_DATA}
                     initialState={{
                         ...DEFAULT_MOCK_GRAPH_PROVIDER_DATA.initialState,
-                        isParentFormVisible: true,
+                        isParentFormVisible: false,
                         selectedNodeIds: [
                             dataContext.entities[0].id,
                             dataContext.entities[1].id
