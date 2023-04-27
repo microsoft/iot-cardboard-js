@@ -120,7 +120,7 @@ export interface IBaseRelationshipType extends IBase {
 }
 
 /** The database representation of a property of a `RelationshipType` */
-export type IDbRelationshipType = IBaseRelationshipType;
+export type { IBaseRelationshipType as IDbRelationshipType };
 /** The view model representation of a property of a `RelationshipType` */
 export type IViewRelationshipType = IBaseRelationshipType;
 // #endregion
