@@ -3,7 +3,7 @@ import {
     useWizardDataDispatchContext,
     useWizardDataStateContext
 } from '../Contexts/WizardDataContext/WizardDataContext';
-import { IViewEntity } from '../Models';
+import { IEntityCounters, IViewEntity } from '../Models';
 import {
     convertViewEntityToDb,
     convertDbEntityToView
@@ -80,6 +80,26 @@ export const useEntities = () => {
         [wizardDataState]
     );
 
+    const getEntityStateCount = (typeId: string): IEntityCounters => {
+        const counters: IEntityCounters = {
+            discovered: 0,
+            existing: 0,
+            deleted: 0
+        };
+        wizardDataState.entities.forEach((x) => {
+            if (x.typeId === typeId) {
+                if (x.isDeleted) {
+                    counters.deleted += 1;
+                } else if (x.isNew) {
+                    counters.discovered += 1;
+                } else {
+                    counters.existing += 1;
+                }
+            }
+        });
+        return counters;
+    };
+
     return {
         /** the current list of entities in the state */
         entities: entities,
@@ -97,6 +117,8 @@ export const useEntities = () => {
          * Callback to delete the entity from state.
          * NOTE: this is not a deep update. It will only delete the root level element
          */
-        deleteEntity: deleteEntity
+        deleteEntity: deleteEntity,
+        /** Callback to get entity count per state based on Type */
+        getEntityStateCount: getEntityStateCount
     };
 };

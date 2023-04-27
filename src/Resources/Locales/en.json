@@ -1610,7 +1610,12 @@
             "secondaryButton": "Merge entities",
             "idColumnHeader": "Entity ID",
             "typeColumnHeader": "Type",
-            "exampleColumnHeader": "Example values"
+            "exampleColumnHeader": "Example values",
+            "typeFieldLabel": "Type name",
+            "kind": "Kind",
+            "discoveredEntities": "{{entityCount}} discovered entities",
+            "deletedEntities": "{{entityCount}} deleted entities",
+            "existingEntities": "{{entityCount}} existing entities"
         }
     }
 }
