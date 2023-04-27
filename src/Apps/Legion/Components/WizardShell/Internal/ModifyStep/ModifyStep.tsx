@@ -24,7 +24,8 @@ const ModifyStep: React.FC<IModifyStepProps> = (props) => {
         {
             disabled: false,
             onClick: () => {
-                console.log('Open modal here');
+                alert('open modal');
+                // console.log('Open modal here');
             },
             iconName: 'AutoEnhanceOn',
             text: t('legionApp.modifyStep.secondaryButton')
