@@ -36,17 +36,21 @@ const OATEditorPageContent: React.FC<IOATEditorPageProps> = (props) => {
     // hooks
     const { sendEventTelemetry } = useTelemetry();
     useEffect(() => {
-        if (!isMounted.current) {
-            sendEventTelemetry({
-                name: TelemetryEvents.init,
-                triggerType: TelemetryTrigger.SystemAction,
-                appRegion: AppRegion.OAT,
-                componentName: ComponentName.OAT,
-                customProperties: getOatGlobalMetrics(
-                    oatPageState.ontologyFiles
-                )
-            });
-            isMounted.current = true;
+        try {
+            if (!isMounted.current) {
+                isMounted.current = true;
+                sendEventTelemetry({
+                    name: TelemetryEvents.init,
+                    triggerType: TelemetryTrigger.SystemAction,
+                    appRegion: AppRegion.OAT,
+                    componentName: ComponentName.OAT,
+                    customProperties: getOatGlobalMetrics(
+                        oatPageState.ontologyFiles
+                    )
+                });
+            }
+        } catch (e) {
+            console.warn('OAT telemetry error', e);
         }
     }, [oatPageState.ontologyFiles, sendEventTelemetry]);
 
