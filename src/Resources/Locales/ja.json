@@ -1618,37 +1618,6 @@
       "secondaryButton": "エンティティのマージ",
       "idColumnHeader": "エンティティ ID",
       "typeColumnHeader": "種類",
-<<<<<<< HEAD
-      "exampleColumnHeader": "値の例"
-    },
-    "GraphVisualizer": {
-      "ContextMenu": {
-        "addParentLabel": "親の追加"
-      },
-      "ParentForm": {
-        "formTitle": "親の追加"
-      }
-    },
-    "UserDefinedEntityForm": {
-      "formTitle": "親関係の追加",
-      "actionButtonText": "確認する",
-      "optionNew": "新しいエンティティ",
-      "optionExisting": "既存のエンティティ",
-      "Form": {
-        "nameFieldLabel": "親エンティティ名",
-        "nameFieldPlaceholder": "親エンティティ名を入力",
-        "parentTypeFieldLabel": "親タイプ",
-        "parentTypeFieldPlaceholder": "親のタイプを選択する",
-        "colorFieldLabel": "色",
-        "iconFieldLabel": "アイコン",
-        "parentEntityFieldLabel": "親エンティティ",
-        "parentEntityNameFieldLabel": "親エンティティ名",
-        "parentEntityNameFieldPlaceholder": "親エンティティの名前を入力します。",
-        "relationshipNameFieldLabel": "関係名",
-        "relationshipNameFieldPlaceholder": "リレーションシップ名を選択または作成する",
-        "existingEntityFieldPlaceholder": "既存のエンティティを選択する"
-      }
-=======
       "exampleColumnHeader": "値の例",
       "typeFieldLabel": "型名",
       "kind": "種類",
@@ -1660,7 +1629,6 @@
       "discoveredEntity": "{{エンティティカウント}} 検出されたエンティティ",
       "deletedEntity": "{{エンティティカウント}} 削除されたエンティティ",
       "existingEntity": "{{エンティティ数}} 既存のエンティティ"
->>>>>>> origin/feature-Legion
     }
   }
 }

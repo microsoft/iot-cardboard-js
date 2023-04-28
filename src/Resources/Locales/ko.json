@@ -1618,37 +1618,6 @@
       "secondaryButton": "엔터티 병합",
       "idColumnHeader": "엔티티 ID",
       "typeColumnHeader": "형",
-<<<<<<< HEAD
-      "exampleColumnHeader": "예제 값"
-    },
-    "GraphVisualizer": {
-      "ContextMenu": {
-        "addParentLabel": "부모 추가"
-      },
-      "ParentForm": {
-        "formTitle": "부모 추가"
-      }
-    },
-    "UserDefinedEntityForm": {
-      "formTitle": "부모 관계 추가",
-      "actionButtonText": "확인하다",
-      "optionNew": "새 엔터티",
-      "optionExisting": "기존 법인",
-      "Form": {
-        "nameFieldLabel": "부모 엔터티 이름",
-        "nameFieldPlaceholder": "부모 엔티티 이름 입력",
-        "parentTypeFieldLabel": "부모 유형",
-        "parentTypeFieldPlaceholder": "부모의 유형을 선택합니다",
-        "colorFieldLabel": "색",
-        "iconFieldLabel": "아이콘",
-        "parentEntityFieldLabel": "부모 엔터티",
-        "parentEntityNameFieldLabel": "부모 엔터티 이름",
-        "parentEntityNameFieldPlaceholder": "부모 엔터티의 이름을 입력합니다",
-        "relationshipNameFieldLabel": "관계 이름",
-        "relationshipNameFieldPlaceholder": "관계 이름 선택 또는 만들기",
-        "existingEntityFieldPlaceholder": "기존 엔터티 선택"
-      }
-=======
       "exampleColumnHeader": "예제 값",
       "typeFieldLabel": "유형 이름",
       "kind": "종류",
@@ -1660,7 +1629,6 @@
       "discoveredEntity": "{{entityCount}} 검색된 엔터티",
       "deletedEntity": "{{entityCount}} 삭제된 엔터티",
       "existingEntity": "{{entityCount}} 기존 엔터티"
->>>>>>> origin/feature-Legion
     }
   }
 }

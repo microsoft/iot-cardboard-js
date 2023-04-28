@@ -1618,37 +1618,6 @@
       "secondaryButton": "Entitások egyesítése",
       "idColumnHeader": "Entitás azonosítója",
       "typeColumnHeader": "Típus",
-<<<<<<< HEAD
-      "exampleColumnHeader": "Példa értékekre"
-    },
-    "GraphVisualizer": {
-      "ContextMenu": {
-        "addParentLabel": "Szülő hozzáadása"
-      },
-      "ParentForm": {
-        "formTitle": "Szülő hozzáadása"
-      }
-    },
-    "UserDefinedEntityForm": {
-      "formTitle": "Szülői kapcsolat hozzáadása",
-      "actionButtonText": "Megerősít",
-      "optionNew": "Új entitás",
-      "optionExisting": "Meglévő entitás",
-      "Form": {
-        "nameFieldLabel": "Fölérendelt entitás neve",
-        "nameFieldPlaceholder": "Adja meg a fölérendelt entitás nevét",
-        "parentTypeFieldLabel": "Szülő típusa",
-        "parentTypeFieldPlaceholder": "Válassza ki a szülő típusát",
-        "colorFieldLabel": "Szín",
-        "iconFieldLabel": "Ikon",
-        "parentEntityFieldLabel": "Anyavállalat",
-        "parentEntityNameFieldLabel": "Fölérendelt entitás neve",
-        "parentEntityNameFieldPlaceholder": "Adja meg a fölérendelt entitás nevét",
-        "relationshipNameFieldLabel": "Kapcsolat neve",
-        "relationshipNameFieldPlaceholder": "Kapcsolatnév kijelölése vagy létrehozása",
-        "existingEntityFieldPlaceholder": "Válasszon ki egy meglévő entitást"
-      }
-=======
       "exampleColumnHeader": "Példa értékekre",
       "typeFieldLabel": "Típus neve",
       "kind": "Fajta",
@@ -1660,7 +1629,6 @@
       "discoveredEntity": "{{entityCount}} felderített entitás",
       "deletedEntity": "{{entityCount}} törölt entitás",
       "existingEntity": "{{entityCount}} meglévő entitás"
->>>>>>> origin/feature-Legion
     }
   }
 }
