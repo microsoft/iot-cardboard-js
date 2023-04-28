@@ -420,20 +420,28 @@ export const getModelMetricsForTelemetry = (
     let v2ModelCount = 0;
     let v3ModelCount = 0;
 
-    models.forEach((m) => {
-        // Calculate relationships & components
-        m.contents.forEach((content) => {
-            if (isDTDLRelationshipReference(content)) {
-                relationshipCount += 1;
-            } else if (isDTDLComponentReference(content)) {
-                componentCount += 1;
+    if (models && models.length) {
+        models.forEach((m) => {
+            // Calculate relationships & components
+            if (m) {
+                if (m.contents && m.contents.length) {
+                    m.contents.forEach((content) => {
+                        if (isDTDLRelationshipReference(content)) {
+                            relationshipCount += 1;
+                        } else if (isDTDLComponentReference(content)) {
+                            componentCount += 1;
+                        }
+                    });
+                }
+                // Calculate inheritance
+                inheritanceCount += ensureIsArray(m.extends).length;
+                // Calculate model versions
+                modelHasVersion3Context(m)
+                    ? (v3ModelCount += 1)
+                    : (v2ModelCount += 1);
             }
         });
-        // Calculate inheritance
-        inheritanceCount += ensureIsArray(m.extends).length;
-        // Calculate model versions
-        modelHasVersion3Context(m) ? (v3ModelCount += 1) : (v2ModelCount += 1);
-    });
+    }
 
     return {
         relationshipCount: relationshipCount,

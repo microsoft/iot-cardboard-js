@@ -130,7 +130,7 @@ const EditorPropertiesTab: React.FC<IEditorPropertiesTabProps> = (props) => {
                         appRegion: AppRegion.OAT,
                         componentName: ComponentName.OAT,
                         customProperties: {
-                            type: data.schema
+                            type: data?.schema
                         }
                     });
                 };
@@ -164,7 +164,7 @@ const EditorPropertiesTab: React.FC<IEditorPropertiesTabProps> = (props) => {
                         appRegion: AppRegion.OAT,
                         componentName: ComponentName.OAT,
                         customProperties: {
-                            type: data.schema
+                            type: data?.schema
                         }
                     });
                 };
