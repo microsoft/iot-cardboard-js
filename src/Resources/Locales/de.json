@@ -1618,7 +1618,17 @@
       "secondaryButton": "Zusammenführen von Entitäten",
       "idColumnHeader": "Entitäts-ID",
       "typeColumnHeader": "Art",
-      "exampleColumnHeader": "Beispielwerte"
+      "exampleColumnHeader": "Beispielwerte",
+      "typeFieldLabel": "Typname",
+      "kind": "Art",
+      "discoveredEntities": "{{entityCount}} entdeckte Entitäten",
+      "deletedEntities": "{{entityCount}} gelöschte Entitäten",
+      "existingEntities": "{{entityCount}} vorhandene Entitäten",
+      "sourceColumnHeader": "Name der Quelleigenschaft",
+      "friendlyNameColumnHeader": "Anzeigename",
+      "discoveredEntity": "{{entityCount}} entdeckte Entität",
+      "deletedEntity": "{{entityCount}} gelöschte Entität",
+      "existingEntity": "{{entityCount}} vorhandene Entität"
     }
   }
 }

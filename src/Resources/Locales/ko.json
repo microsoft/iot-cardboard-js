@@ -1618,7 +1618,17 @@
       "secondaryButton": "엔터티 병합",
       "idColumnHeader": "엔티티 ID",
       "typeColumnHeader": "형",
-      "exampleColumnHeader": "예제 값"
+      "exampleColumnHeader": "예제 값",
+      "typeFieldLabel": "유형 이름",
+      "kind": "종류",
+      "discoveredEntities": "{{entityCount}} 검색된 엔터티",
+      "deletedEntities": "{{entityCount}} 삭제된 엔터티",
+      "existingEntities": "{{entityCount}} 기존 엔터티",
+      "sourceColumnHeader": "원본 속성 이름",
+      "friendlyNameColumnHeader": "친근한 이름",
+      "discoveredEntity": "{{entityCount}} 검색된 엔터티",
+      "deletedEntity": "{{entityCount}} 삭제된 엔터티",
+      "existingEntity": "{{entityCount}} 기존 엔터티"
     }
   }
 }

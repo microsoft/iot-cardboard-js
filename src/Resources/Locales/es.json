@@ -1618,7 +1618,17 @@
       "secondaryButton": "Combinar entidades",
       "idColumnHeader": "ID de entidad",
       "typeColumnHeader": "Tipo",
-      "exampleColumnHeader": "Valores de ejemplo"
+      "exampleColumnHeader": "Valores de ejemplo",
+      "typeFieldLabel": "Nombre del tipo",
+      "kind": "Amable",
+      "discoveredEntities": "{{entityCount}} entidades descubiertas",
+      "deletedEntities": "{{entityCount}} entidades eliminadas",
+      "existingEntities": "{{entityCount}} entidades existentes",
+      "sourceColumnHeader": "Nombre de la propiedad de origen",
+      "friendlyNameColumnHeader": "Nombre descriptivo",
+      "discoveredEntity": "{{entityCount}} entidad descubierta",
+      "deletedEntity": "{{entityCount}} entidad eliminada",
+      "existingEntity": "{{entityCount}} entidad existente"
     }
   }
 }

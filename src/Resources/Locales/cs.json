@@ -1618,7 +1618,17 @@
       "secondaryButton": "Sloučení entit",
       "idColumnHeader": "Entity ID",
       "typeColumnHeader": "Typ",
-      "exampleColumnHeader": "Příklady hodnot"
+      "exampleColumnHeader": "Příklady hodnot",
+      "typeFieldLabel": "Zadejte název",
+      "kind": "Laskavý",
+      "discoveredEntities": "{{entityCount}} objevené entity",
+      "deletedEntities": "{{entityCount}} odstraněné entity",
+      "existingEntities": "{{entityCount}} existující entity",
+      "sourceColumnHeader": "Název zdrojové vlastnosti",
+      "friendlyNameColumnHeader": "Popisný název",
+      "discoveredEntity": "{{entityCount}} objevená entita",
+      "deletedEntity": "{{entityCount}} odstraněná entita",
+      "existingEntity": "{{entityCount}} existující entita"
     }
   }
 }
