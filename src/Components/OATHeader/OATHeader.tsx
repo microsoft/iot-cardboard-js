@@ -132,18 +132,23 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
                         })
                     }
                 ];
+
                 // Log limit exceeded
-                sendEventTelemetry({
-                    name: TelemetryEvents.import,
-                    triggerType: TelemetryTrigger.UserAction,
-                    appRegion: TELEMETRY_APP_REGION,
-                    componentName: TELEMETRY_COMPONENT_NAME,
-                    customProperties: {
-                        success: false,
-                        reason: 'Limit exceeded',
-                        ...getOatMetricsForModels(result.data)
-                    }
-                });
+                try {
+                    sendEventTelemetry({
+                        name: TelemetryEvents.import,
+                        triggerType: TelemetryTrigger.UserAction,
+                        appRegion: TELEMETRY_APP_REGION,
+                        componentName: TELEMETRY_COMPONENT_NAME,
+                        customProperties: {
+                            success: false,
+                            reason: 'Limit exceeded',
+                            ...getOatMetricsForModels(result.data)
+                        }
+                    });
+                } catch (e) {
+                    console.warn('OAT telemetry error', e);
+                }
             }
             if (result.status === 'Success') {
                 oatPageDispatch({
@@ -158,16 +163,20 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
                     payload: { models: result.data }
                 });
                 // Log success
-                sendEventTelemetry({
-                    name: TelemetryEvents.import,
-                    triggerType: TelemetryTrigger.UserAction,
-                    appRegion: TELEMETRY_APP_REGION,
-                    componentName: TELEMETRY_COMPONENT_NAME,
-                    customProperties: {
-                        success: true,
-                        ...getOatMetricsForModels(result.data)
-                    }
-                });
+                try {
+                    sendEventTelemetry({
+                        name: TelemetryEvents.import,
+                        triggerType: TelemetryTrigger.UserAction,
+                        appRegion: TELEMETRY_APP_REGION,
+                        componentName: TELEMETRY_COMPONENT_NAME,
+                        customProperties: {
+                            success: true,
+                            ...getOatMetricsForModels(result.data)
+                        }
+                    });
+                } catch (e) {
+                    console.warn('OAT telemetry error', e);
+                }
             } else if (result.status === 'Failed') {
                 // show error
                 const error =
@@ -244,18 +253,22 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
                 }
                 downloadFile(content, fileName);
                 // Log success
-                sendEventTelemetry({
-                    name: TelemetryEvents.export,
-                    triggerType: TelemetryTrigger.UserAction,
-                    appRegion: TELEMETRY_APP_REGION,
-                    componentName: TELEMETRY_COMPONENT_NAME,
-                    customProperties: {
-                        success: true,
-                        ...getOatMetricsForModels(
-                            oatPageState.currentOntologyModels
-                        )
-                    }
-                });
+                try {
+                    sendEventTelemetry({
+                        name: TelemetryEvents.export,
+                        triggerType: TelemetryTrigger.UserAction,
+                        appRegion: TELEMETRY_APP_REGION,
+                        componentName: TELEMETRY_COMPONENT_NAME,
+                        customProperties: {
+                            success: true,
+                            ...getOatMetricsForModels(
+                                oatPageState.currentOntologyModels
+                            )
+                        }
+                    });
+                } catch (e) {
+                    console.warn('OAT telemetry error', e);
+                }
             });
         } else {
             // show error
@@ -274,19 +287,23 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
                 }
             });
             // Log error
-            sendEventTelemetry({
-                name: TelemetryEvents.export,
-                triggerType: TelemetryTrigger.UserAction,
-                appRegion: TELEMETRY_APP_REGION,
-                componentName: TELEMETRY_COMPONENT_NAME,
-                customProperties: {
-                    success: false,
-                    reason: 'Unhandled exception',
-                    ...getOatMetricsForModels(
-                        oatPageState.currentOntologyModels
-                    )
-                }
-            });
+            try {
+                sendEventTelemetry({
+                    name: TelemetryEvents.export,
+                    triggerType: TelemetryTrigger.UserAction,
+                    appRegion: TELEMETRY_APP_REGION,
+                    componentName: TELEMETRY_COMPONENT_NAME,
+                    customProperties: {
+                        success: false,
+                        reason: 'Unhandled exception',
+                        ...getOatMetricsForModels(
+                            oatPageState.currentOntologyModels
+                        )
+                    }
+                });
+            } catch (e) {
+                console.warn('OAT telemetry error', e);
+            }
         }
     }, [
         oatPageState.currentOntologyModels,
