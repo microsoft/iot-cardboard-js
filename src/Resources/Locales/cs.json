@@ -1618,6 +1618,7 @@
       "secondaryButton": "Sloučení entit",
       "idColumnHeader": "Entity ID",
       "typeColumnHeader": "Typ",
+<<<<<<< HEAD
       "exampleColumnHeader": "Příklady hodnot"
     },
     "GraphVisualizer": {
@@ -1647,6 +1648,19 @@
         "relationshipNameFieldPlaceholder": "Výběr nebo vytvoření názvu relace",
         "existingEntityFieldPlaceholder": "Vyberte existující entitu"
       }
+=======
+      "exampleColumnHeader": "Příklady hodnot",
+      "typeFieldLabel": "Zadejte název",
+      "kind": "Laskavý",
+      "discoveredEntities": "{{entityCount}} objevené entity",
+      "deletedEntities": "{{entityCount}} odstraněné entity",
+      "existingEntities": "{{entityCount}} existující entity",
+      "sourceColumnHeader": "Název zdrojové vlastnosti",
+      "friendlyNameColumnHeader": "Popisný název",
+      "discoveredEntity": "{{entityCount}} objevená entita",
+      "deletedEntity": "{{entityCount}} odstraněná entita",
+      "existingEntity": "{{entityCount}} existující entita"
+>>>>>>> origin/feature-Legion
     }
   }
 }

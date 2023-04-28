@@ -3,7 +3,7 @@ import {
     useWizardDataDispatchContext,
     useWizardDataStateContext
 } from '../Contexts/WizardDataContext/WizardDataContext';
-import { IViewEntity } from '../Models';
+import { IEntityCounters, IViewEntity } from '../Models';
 import {
     convertViewEntityToDb,
     convertDbEntityToView
@@ -81,25 +81,52 @@ export const useEntities = () => {
         [wizardDataState]
     );
 
-    const data = {
-        /** the current list of entities in the state */
-        entities: entities,
-        /**
-         * Callback to add an entity to the state
-         * NOTE: this is not a deep add. It will only add the root level element
-         */
-        addEntity: addEntity,
-        /**
-         * Callback to update the attributes of the entity.
-         * NOTE: this is not a deep update. It will only reflect changes on the root level
-         */
-        updateEntity: updateEntity,
-        /**
-         * Callback to delete the entity from state.
-         * NOTE: this is not a deep update. It will only delete the root level element
-         */
-        deleteEntity: deleteEntity
-    };
+    const getEntityCount = useCallback(
+        (typeId: string): IEntityCounters => {
+            const counters: IEntityCounters = {
+                new: 0,
+                existing: 0,
+                deleted: 0
+            };
+            wizardDataState.entities.forEach((x) => {
+                if (x.typeId === typeId) {
+                    if (x.isDeleted) {
+                        counters.deleted += 1;
+                    } else if (x.isNew) {
+                        counters.new += 1;
+                    } else {
+                        counters.existing += 1;
+                    }
+                }
+            });
+            return counters;
+        },
+        [wizardDataState.entities]
+    );
+
+    const data = useMemo(() => {
+        return {
+            /** the current list of entities in the state */
+            entities: entities,
+            /**
+             * Callback to add an entity to the state
+             * NOTE: this is not a deep add. It will only add the root level element
+             */
+            addEntity: addEntity,
+            /**
+             * Callback to update the attributes of the entity.
+             * NOTE: this is not a deep update. It will only reflect changes on the root level
+             */
+            updateEntity: updateEntity,
+            /**
+             * Callback to delete the entity from state.
+             * NOTE: this is not a deep update. It will only delete the root level element
+             */
+            deleteEntity: deleteEntity,
+            /** Callback to get entity count per state based on Type */
+            getEntityCount
+        };
+    }, []);
     logDebugConsole('debug', '[END] Render', data);
     return data;
 };

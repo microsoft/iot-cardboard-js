@@ -1618,6 +1618,7 @@
       "secondaryButton": "Scalanie jednostek",
       "idColumnHeader": "Identyfikator jednostki",
       "typeColumnHeader": "Typ",
+<<<<<<< HEAD
       "exampleColumnHeader": "Przykładowe wartości"
     },
     "GraphVisualizer": {
@@ -1647,6 +1648,19 @@
         "relationshipNameFieldPlaceholder": "Wybieranie lub tworzenie nazwy relacji",
         "existingEntityFieldPlaceholder": "Wybierz istniejącą encję"
       }
+=======
+      "exampleColumnHeader": "Przykładowe wartości",
+      "typeFieldLabel": "Nazwa typu",
+      "kind": "Rodzaj",
+      "discoveredEntities": "{{entityCount}} odkryte jednostki",
+      "deletedEntities": "{{entityCount}} usunięte encje",
+      "existingEntities": "{{entityCount}} istniejące encje",
+      "sourceColumnHeader": "Nazwa właściwości źródłowej",
+      "friendlyNameColumnHeader": "Przyjazna nazwa",
+      "discoveredEntity": "{{entityCount}} wykryta jednostka",
+      "deletedEntity": "{{entityCount}} usunięty podmiot",
+      "existingEntity": "{{entityCount}} istniejąca encja"
+>>>>>>> origin/feature-Legion
     }
   }
 }

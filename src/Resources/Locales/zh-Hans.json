@@ -1618,6 +1618,7 @@
       "secondaryButton": "合并实体",
       "idColumnHeader": "实体标识",
       "typeColumnHeader": "类型",
+<<<<<<< HEAD
       "exampleColumnHeader": "示例值"
     },
     "GraphVisualizer": {
@@ -1647,6 +1648,19 @@
         "relationshipNameFieldPlaceholder": "选择或创建关系名称",
         "existingEntityFieldPlaceholder": "选择现有实体"
       }
+=======
+      "exampleColumnHeader": "示例值",
+      "typeFieldLabel": "类型名称",
+      "kind": "类",
+      "discoveredEntities": "{{实体计数}} 发现的实体",
+      "deletedEntities": "{{实体计数}} 已删除的实体",
+      "existingEntities": "{{entityCount}} 现有实体",
+      "sourceColumnHeader": "源属性名称",
+      "friendlyNameColumnHeader": "友好名称",
+      "discoveredEntity": "{{entityCount}} 发现的实体",
+      "deletedEntity": "{{实体计数}} 已删除的实体",
+      "existingEntity": "{{实体计数}} 现有实体"
+>>>>>>> origin/feature-Legion
     }
   }
 }

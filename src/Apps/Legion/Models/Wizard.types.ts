@@ -44,6 +44,12 @@ export interface IViewEntity extends IBaseEntity {
     /** the resolved view model of the `Type` the entity has */
     type: IViewType;
 }
+
+export interface IEntityCounters {
+    new: number;
+    existing: number;
+    deleted: number;
+}
 // #endregion
 
 // #region Types

@@ -1618,6 +1618,7 @@
       "secondaryButton": "Fusionner des entités",
       "idColumnHeader": "ID d’entité",
       "typeColumnHeader": "Type",
+<<<<<<< HEAD
       "exampleColumnHeader": "Exemples de valeurs"
     },
     "GraphVisualizer": {
@@ -1647,6 +1648,19 @@
         "relationshipNameFieldPlaceholder": "Sélectionner ou créer un nom de relation",
         "existingEntityFieldPlaceholder": "Sélectionner une entité existante"
       }
+=======
+      "exampleColumnHeader": "Exemples de valeurs",
+      "typeFieldLabel": "Nom du type",
+      "kind": "Gentil",
+      "discoveredEntities": "{{entityCount}} entités découvertes",
+      "deletedEntities": "{{entityCount}} entités supprimées",
+      "existingEntities": "{{entityCount}} entités existantes",
+      "sourceColumnHeader": "Nom de la propriété source",
+      "friendlyNameColumnHeader": "Nom convivial",
+      "discoveredEntity": "{{entityCount}} entité découverte",
+      "deletedEntity": "{{entityCount}} entité supprimée",
+      "existingEntity": "{{entityCount}} entité existante"
+>>>>>>> origin/feature-Legion
     }
   }
 }

@@ -29,9 +29,9 @@ const PageManager: React.FC = () => {
     return page;
 };
 
-const LegionApp: React.FC<ILegionAppProps> = (_props) => {
+const LegionApp: React.FC<ILegionAppProps> = (props) => {
     return (
-        <AppDataContextProvider>
+        <AppDataContextProvider extensionClient={props?.extensionClient}>
             <AppNavigationContextProvider>
                 <PageManager />
             </AppNavigationContextProvider>

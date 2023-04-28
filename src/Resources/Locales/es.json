@@ -1618,6 +1618,7 @@
       "secondaryButton": "Combinar entidades",
       "idColumnHeader": "ID de entidad",
       "typeColumnHeader": "Tipo",
+<<<<<<< HEAD
       "exampleColumnHeader": "Valores de ejemplo"
     },
     "GraphVisualizer": {
@@ -1647,6 +1648,19 @@
         "relationshipNameFieldPlaceholder": "Seleccionar o crear un nombre de relación",
         "existingEntityFieldPlaceholder": "Seleccionar una entidad existente"
       }
+=======
+      "exampleColumnHeader": "Valores de ejemplo",
+      "typeFieldLabel": "Nombre del tipo",
+      "kind": "Amable",
+      "discoveredEntities": "{{entityCount}} entidades descubiertas",
+      "deletedEntities": "{{entityCount}} entidades eliminadas",
+      "existingEntities": "{{entityCount}} entidades existentes",
+      "sourceColumnHeader": "Nombre de la propiedad de origen",
+      "friendlyNameColumnHeader": "Nombre descriptivo",
+      "discoveredEntity": "{{entityCount}} entidad descubierta",
+      "deletedEntity": "{{entityCount}} entidad eliminada",
+      "existingEntity": "{{entityCount}} entidad existente"
+>>>>>>> origin/feature-Legion
     }
   }
 }

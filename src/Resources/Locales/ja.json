@@ -1618,6 +1618,7 @@
       "secondaryButton": "エンティティのマージ",
       "idColumnHeader": "エンティティ ID",
       "typeColumnHeader": "種類",
+<<<<<<< HEAD
       "exampleColumnHeader": "値の例"
     },
     "GraphVisualizer": {
@@ -1647,6 +1648,19 @@
         "relationshipNameFieldPlaceholder": "リレーションシップ名を選択または作成する",
         "existingEntityFieldPlaceholder": "既存のエンティティを選択する"
       }
+=======
+      "exampleColumnHeader": "値の例",
+      "typeFieldLabel": "型名",
+      "kind": "種類",
+      "discoveredEntities": "{{エンティティ数}} 検出されたエンティティ",
+      "deletedEntities": "{{エンティティ数}} 削除されたエンティティ",
+      "existingEntities": "{{エンティティ数}} 既存のエンティティ",
+      "sourceColumnHeader": "ソース プロパティ名",
+      "friendlyNameColumnHeader": "フレンドリ名",
+      "discoveredEntity": "{{エンティティカウント}} 検出されたエンティティ",
+      "deletedEntity": "{{エンティティカウント}} 削除されたエンティティ",
+      "existingEntity": "{{エンティティ数}} 既存のエンティティ"
+>>>>>>> origin/feature-Legion
     }
   }
 }

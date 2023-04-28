@@ -1618,6 +1618,7 @@
       "secondaryButton": "Entitások egyesítése",
       "idColumnHeader": "Entitás azonosítója",
       "typeColumnHeader": "Típus",
+<<<<<<< HEAD
       "exampleColumnHeader": "Példa értékekre"
     },
     "GraphVisualizer": {
@@ -1647,6 +1648,19 @@
         "relationshipNameFieldPlaceholder": "Kapcsolatnév kijelölése vagy létrehozása",
         "existingEntityFieldPlaceholder": "Válasszon ki egy meglévő entitást"
       }
+=======
+      "exampleColumnHeader": "Példa értékekre",
+      "typeFieldLabel": "Típus neve",
+      "kind": "Fajta",
+      "discoveredEntities": "{{entityCount}} felderített entitások",
+      "deletedEntities": "{{entityCount}} törölt entitások",
+      "existingEntities": "{{entityCount}} meglévő entitások",
+      "sourceColumnHeader": "Forrástulajdonság neve",
+      "friendlyNameColumnHeader": "Rövid név",
+      "discoveredEntity": "{{entityCount}} felderített entitás",
+      "deletedEntity": "{{entityCount}} törölt entitás",
+      "existingEntity": "{{entityCount}} meglévő entitás"
+>>>>>>> origin/feature-Legion
     }
   }
 }

@@ -11,6 +11,7 @@ import {
 } from '../../../../Contexts/WizardNavigationContext/WizardNavigationContext.types';
 import EntitiesTab from './Internal/EntitiesTab/EntitiesTab';
 import GraphTab from './Internal/GraphTab';
+import TypesTab from './Internal/TypesTab/TypesTab';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('ModifyStep', debugLogging);
@@ -83,7 +84,7 @@ const ModifyStep: React.FC<IModifyStepProps> = (props) => {
                     headerText={t('legionApp.modifyStep.types')}
                     itemKey={ModifyPivotKeys.Types}
                 >
-                    <p>TODO: Insert types screen here</p>
+                    <TypesTab />
                 </PivotItem>
                 {/* Graph */}
                 <PivotItem

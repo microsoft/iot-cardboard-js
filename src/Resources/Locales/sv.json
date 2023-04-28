@@ -1618,6 +1618,7 @@
       "secondaryButton": "Sammanfoga entiteter",
       "idColumnHeader": "Enhets-id",
       "typeColumnHeader": "Typ",
+<<<<<<< HEAD
       "exampleColumnHeader": "Exempel på värden"
     },
     "GraphVisualizer": {
@@ -1647,6 +1648,19 @@
         "relationshipNameFieldPlaceholder": "Välj eller skapa ett relationsnamn",
         "existingEntityFieldPlaceholder": "Välj en befintlig entitet"
       }
+=======
+      "exampleColumnHeader": "Exempel på värden",
+      "typeFieldLabel": "Typ namn",
+      "kind": "Sort",
+      "discoveredEntities": "{{entityCount}} identifierade entiteter",
+      "deletedEntities": "{{entityCount}} borttagna entiteter",
+      "existingEntities": "{{entityCount}} befintliga entiteter",
+      "sourceColumnHeader": "Namn på källegendom",
+      "friendlyNameColumnHeader": "Eget namn",
+      "discoveredEntity": "{{entityCount}} identifierad entitet",
+      "deletedEntity": "{{entityCount}} borttagen entitet",
+      "existingEntity": "{{entityCount}} befintlig entitet"
+>>>>>>> origin/feature-Legion
     }
   }
 }

@@ -1618,6 +1618,7 @@
       "secondaryButton": "Varlıkları birleştirme",
       "idColumnHeader": "Varlık Kimliği",
       "typeColumnHeader": "Tür",
+<<<<<<< HEAD
       "exampleColumnHeader": "Örnek değerler"
     },
     "GraphVisualizer": {
@@ -1647,6 +1648,19 @@
         "relationshipNameFieldPlaceholder": "İlişki adı seçme veya oluşturma",
         "existingEntityFieldPlaceholder": "Mevcut bir varlığı seçme"
       }
+=======
+      "exampleColumnHeader": "Örnek değerler",
+      "typeFieldLabel": "Tür adı",
+      "kind": "Tür",
+      "discoveredEntities": "{{entityCount}} bulunan varlıklar",
+      "deletedEntities": "{{entityCount}} silinmiş varlıklar",
+      "existingEntities": "{{entityCount}} mevcut varlıklar",
+      "sourceColumnHeader": "Kaynak özellik adı",
+      "friendlyNameColumnHeader": "Kolay ad",
+      "discoveredEntity": "{{entityCount}} keşfedilen varlık",
+      "deletedEntity": "{{entityCount}} silinmiş varlık",
+      "existingEntity": "{{entityCount}} mevcut varlık"
+>>>>>>> origin/feature-Legion
     }
   }
 }

@@ -1618,6 +1618,7 @@
       "secondaryButton": "Entiteiten samenvoegen",
       "idColumnHeader": "Entiteits-ID",
       "typeColumnHeader": "Type",
+<<<<<<< HEAD
       "exampleColumnHeader": "Voorbeeldwaarden"
     },
     "GraphVisualizer": {
@@ -1647,6 +1648,19 @@
         "relationshipNameFieldPlaceholder": "Een relatienaam selecteren of maken",
         "existingEntityFieldPlaceholder": "Een bestaande entiteit selecteren"
       }
+=======
+      "exampleColumnHeader": "Voorbeeldwaarden",
+      "typeFieldLabel": "Naam van type",
+      "kind": "Soort",
+      "discoveredEntities": "{{entityCount}} gedetecteerde entiteiten",
+      "deletedEntities": "{{entityCount}} verwijderde entiteiten",
+      "existingEntities": "{{entityCount}} bestaande entiteiten",
+      "sourceColumnHeader": "Naam van de eigenschap source",
+      "friendlyNameColumnHeader": "Beschrijvende naam",
+      "discoveredEntity": "{{entityCount}} gedetecteerde entiteit",
+      "deletedEntity": "{{entityCount}} verwijderde entiteit",
+      "existingEntity": "{{entityCount}} bestaande entiteit"
+>>>>>>> origin/feature-Legion
     }
   }
 }

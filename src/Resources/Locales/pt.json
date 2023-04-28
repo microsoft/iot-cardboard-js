@@ -1618,6 +1618,7 @@
       "secondaryButton": "Mesclar entidades",
       "idColumnHeader": "ID da entidade",
       "typeColumnHeader": "Tipo",
+<<<<<<< HEAD
       "exampleColumnHeader": "Valores de exemplo"
     },
     "GraphVisualizer": {
@@ -1647,6 +1648,19 @@
         "relationshipNameFieldPlaceholder": "Selecionar ou criar um nome de relacionamento",
         "existingEntityFieldPlaceholder": "Selecionar uma entidade existente"
       }
+=======
+      "exampleColumnHeader": "Valores de exemplo",
+      "typeFieldLabel": "Digite o nome",
+      "kind": "Tipo",
+      "discoveredEntities": "{{entityCount}} entidades descobertas",
+      "deletedEntities": "{{entityCount}} entidades excluídas",
+      "existingEntities": "{{entityCount}} entidades existentes",
+      "sourceColumnHeader": "Nome da propriedade de origem",
+      "friendlyNameColumnHeader": "Nome amigável",
+      "discoveredEntity": "{{entityCount}} entidade descoberta",
+      "deletedEntity": "{{entityCount}} entidade excluída",
+      "existingEntity": "{{entityCount}} entidade existente"
+>>>>>>> origin/feature-Legion
     }
   }
 }
