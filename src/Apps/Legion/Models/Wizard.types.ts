@@ -5,7 +5,7 @@ export enum Kind {
     UserDefined = 'UserDefined',
     PID = 'PID',
     TimeSeries = 'TimeSeries',
-    Asset = 'Asset'
+    Asset = 'Asset '
 }
 
 /** the base class for all models */
