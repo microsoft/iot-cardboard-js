@@ -81,14 +81,15 @@ export const useEntities = () => {
     );
 
     const getEntityCount = useCallback(
-        (typeId: string): IEntityCounters => {
+        (typeId?: string): IEntityCounters => {
             const counters: IEntityCounters = {
                 new: 0,
                 existing: 0,
                 deleted: 0
             };
             wizardDataState.entities.forEach((x) => {
-                if (x.typeId === typeId) {
+                // If no typeId was specified, give us total counts
+                if (!typeId || (typeId !== undefined && x.typeId === typeId)) {
                     if (x.isDeleted) {
                         counters.deleted += 1;
                     } else if (x.isNew) {
@@ -102,6 +103,10 @@ export const useEntities = () => {
         },
         [wizardDataState.entities]
     );
+
+    const getTotalEntityCount = useCallback((): number => {
+        return entities.length;
+    }, [entities]);
 
     return useMemo(() => {
         return {
@@ -123,7 +128,16 @@ export const useEntities = () => {
              */
             deleteEntity,
             /** Callback to get entity count per state based on Type */
-            getEntityCount
+            getEntityCount,
+            /** Callback to get total entity count */
+            getTotalEntityCount
         };
-    }, [addEntity, deleteEntity, entities, getEntityCount, updateEntity]);
+    }, [
+        addEntity,
+        deleteEntity,
+        entities,
+        getEntityCount,
+        getTotalEntityCount,
+        updateEntity
+    ]);
 };

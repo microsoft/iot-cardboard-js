@@ -4,7 +4,7 @@ import {
     useWizardDataStateContext
 } from '../Contexts/WizardDataContext/WizardDataContext';
 import { WizardDataContextActionType } from '../Contexts/WizardDataContext/WizardDataContext.types';
-import { IViewType } from '../Models';
+import { ITypeCounters, IViewType, Kind } from '../Models';
 import {
     convertViewTypeToDb,
     convertDbTypeToView
@@ -83,6 +83,33 @@ export const useTypes = () => {
         [types]
     );
 
+    const getTypeCountsByKind = useCallback((): ITypeCounters => {
+        const counters: ITypeCounters = {
+            userDefined: 0,
+            pid: 0,
+            timeSeries: 0,
+            asset: 0
+        };
+        wizardDataState.types.forEach((x) => {
+            {
+                if (x.kind === Kind.UserDefined) {
+                    counters.userDefined += 1;
+                } else if (x.kind === Kind.PID) {
+                    counters.pid += 1;
+                } else if (x.kind === Kind.TimeSeries) {
+                    counters.timeSeries += 1;
+                } else {
+                    counters.asset += 1;
+                }
+            }
+        });
+        return counters;
+    }, [wizardDataState.types]);
+
+    const getTotalTypeCount = useCallback((): number => {
+        return wizardDataState.types.length;
+    }, [wizardDataState.types]);
+
     return {
         /** the current list of types in the state */
         types: types,
@@ -104,6 +131,10 @@ export const useTypes = () => {
         /**
          * Callback to get a type from an id
          */
-        getTypeById: getTypeById
+        getTypeById: getTypeById,
+        /** Callback to get type count by kind */
+        getTypeCountsByKind: getTypeCountsByKind,
+        /** Callback to get total type count */
+        getTotalTypeCount: getTotalTypeCount
     };
 };
