@@ -75,6 +75,14 @@ export const useTypes = () => {
         [wizardDataState]
     );
 
+    // Single item
+    const getTypeById = useCallback(
+        (typeId: string): IViewType => {
+            return types?.find((t) => t.id === typeId);
+        },
+        [types]
+    );
+
     return {
         /** the current list of types in the state */
         types: types,
@@ -82,16 +90,20 @@ export const useTypes = () => {
          * Callback to add an type to the state
          * NOTE: this is not a deep add. It will only add the root level element
          */
-        addProperty: addType,
+        addType: addType,
         /**
          * Callback to update the attributes of the type.
          * NOTE: this is not a deep update. It will only reflect changes on the root level
          */
-        updateProperty: updateType,
+        updateType: updateType,
         /**
          * Callback to delete the type from state.
          * NOTE: this is not a deep update. It will only delete the root level element
          */
-        deleteProperty: deleteType
+        deleteType: deleteType,
+        /**
+         * Callback to get a type from an id
+         */
+        getTypeById: getTypeById
     };
 };

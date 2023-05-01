@@ -1618,7 +1618,17 @@
       "secondaryButton": "Слияние сущностей",
       "idColumnHeader": "Идентификатор сущности",
       "typeColumnHeader": "Тип",
-      "exampleColumnHeader": "Примеры значений"
+      "exampleColumnHeader": "Примеры значений",
+      "typeFieldLabel": "Имя типа",
+      "kind": "Добрый",
+      "discoveredEntities": "{{entityCount}} обнаруженные сущности",
+      "deletedEntities": "{{entityCount}} удаленные сущности",
+      "existingEntities": "{{entityCount}} существующие сущности",
+      "sourceColumnHeader": "Имя исходного свойства",
+      "friendlyNameColumnHeader": "Понятное имя",
+      "discoveredEntity": "Обнаруженная сущность {{entityCount}}",
+      "deletedEntity": "{{entityCount}} удаленная сущность",
+      "existingEntity": "{{entityCount}} существующая сущность"
     }
   }
 }
