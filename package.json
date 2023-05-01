@@ -28,6 +28,7 @@
         "post-build": "npm run copy-theme-sheet && npm run copy-package && npm run copy-readme && npm run pack",
         "prettier:check": "prettier --check src/**/*.{js,ts,tsx,scss}",
         "prettier:fix": "prettier --write src/**/*.{js,ts,tsx,scss}",
+        "start": "npm run storybook",
         "storybook:export": "build-storybook",
         "storybook:noSSL": "start-storybook -p 3001",
         "storybook": "npm run generateCerts && start-storybook -p 443 --https --ssl-ca certificates/ca.crt --ssl-cert certificates/cert.crt --ssl-key certificates/cert.key",

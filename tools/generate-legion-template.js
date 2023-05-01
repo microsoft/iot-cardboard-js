@@ -1,6 +1,7 @@
 require('colors');
 const fs = require('fs');
 const legionTemplates = require('./templates/legion-component');
+const legionIndexTemplate = require('./templates/legion-component/component.index');
 const { exec } = require('child_process');
 
 // Grab and validate componentName from script args
@@ -48,6 +49,12 @@ generatedTemplates.forEach((template) => {
         template.content
     );
 });
+const indexTemplateContents = legionIndexTemplate(componentName);
+fs.writeFileSync(
+    `${componentDirectory}/index.ts`,
+    indexTemplateContents.content
+);
+
 
 console.log(
     `${componentName} component created successfully under: `.cyan,

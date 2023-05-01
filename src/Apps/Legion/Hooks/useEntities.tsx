@@ -16,6 +16,7 @@ export const logDebugConsole = getDebugLogger('useEntities', debugLogging);
 
 /** hook for getting and operating on the Entity data in the wizard context */
 export const useEntities = () => {
+    logDebugConsole('debug', '[START] Render');
     // contexts
     const { wizardDataDispatch } = useWizardDataDispatchContext();
     const { wizardDataState } = useWizardDataStateContext();
@@ -74,9 +75,9 @@ export const useEntities = () => {
     // data
     const entities: IViewEntity[] = useMemo(
         () =>
-            wizardDataState.entities.map((x) =>
-                convertDbEntityToView(x, wizardDataState)
-            ),
+            wizardDataState.entities.map((x) => {
+                return convertDbEntityToView(x, wizardDataState);
+            }),
         [wizardDataState]
     );
 
@@ -103,27 +104,29 @@ export const useEntities = () => {
         [wizardDataState.entities]
     );
 
-    return useMemo(() => {
+    const data = useMemo(() => {
         return {
             /** the current list of entities in the state */
-            entities,
+            entities: entities,
             /**
              * Callback to add an entity to the state
              * NOTE: this is not a deep add. It will only add the root level element
              */
-            addEntity,
+            addEntity: addEntity,
             /**
              * Callback to update the attributes of the entity.
              * NOTE: this is not a deep update. It will only reflect changes on the root level
              */
-            updateEntity,
+            updateEntity: updateEntity,
             /**
              * Callback to delete the entity from state.
              * NOTE: this is not a deep update. It will only delete the root level element
              */
-            deleteEntity,
+            deleteEntity: deleteEntity,
             /** Callback to get entity count per state based on Type */
             getEntityCount
         };
-    }, [addEntity, deleteEntity, entities, getEntityCount, updateEntity]);
+    }, []);
+    logDebugConsole('debug', '[END] Render', data);
+    return data;
 };

@@ -1629,6 +1629,34 @@
       "discoveredEntity": "{{entityCount}} 发现的实体",
       "deletedEntity": "{{实体计数}} 已删除的实体",
       "existingEntity": "{{实体计数}} 现有实体"
+    },
+    "GraphVisualizer": {
+      "ContextMenu": {
+        "addParentLabel": "添加父级"
+      },
+      "ParentForm": {
+        "formTitle": "添加父级"
+      }
+    },
+    "UserDefinedEntityForm": {
+      "formTitle": "添加父关系",
+      "actionButtonText": "确认",
+      "optionNew": "新实体",
+      "optionExisting": "现有实体",
+      "Form": {
+        "nameFieldLabel": "父实体名称",
+        "nameFieldPlaceholder": "输入父实体名称",
+        "parentTypeFieldLabel": "父类型",
+        "parentTypeFieldPlaceholder": "为父项选择类型",
+        "colorFieldLabel": "颜色",
+        "iconFieldLabel": "图标",
+        "parentEntityFieldLabel": "父实体",
+        "parentEntityNameFieldLabel": "父实体名称",
+        "parentEntityNameFieldPlaceholder": "输入父实体的名称",
+        "relationshipNameFieldLabel": "关系名称",
+        "relationshipNameFieldPlaceholder": "选择或创建关系名称",
+        "existingEntityFieldPlaceholder": "选择现有实体"
+      }
     }
   }
 }

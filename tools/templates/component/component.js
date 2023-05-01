@@ -1,6 +1,7 @@
 module.exports = (componentName) => ({
     content: `import React from 'react';
     import { classNamesFunction, styled } from '@fluentui/react';
+    import { useTranslation } from 'react-i18next';
     import { useExtendedTheme } from '../../Models/Hooks/useExtendedTheme';
     import { getDebugLogger } from '../../Models/Services/Utils';
     import {
@@ -17,6 +18,10 @@ module.exports = (componentName) => ({
         I${componentName}StyleProps,
         I${componentName}Styles
     >();
+
+    const LOC_KEYS = {
+        key: 'Hello ${componentName}'
+    };
     
     const ${componentName}: React.FC<I${componentName}Props> = (props) => {
         const { styles } = props;
@@ -26,6 +31,7 @@ module.exports = (componentName) => ({
         // state
 
         // hooks
+        const { t } = useTranslation();
 
         // callbacks
 
@@ -38,7 +44,7 @@ module.exports = (componentName) => ({
     
         logDebugConsole('debug', 'Render');
 
-        return <div className={classNames.root}>Hello ${componentName}!</div>;
+        return <div className={classNames.root}>{t(LOC_KEYS.key)}!</div>;
     };
     
     export default styled<
