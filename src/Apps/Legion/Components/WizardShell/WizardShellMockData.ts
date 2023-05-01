@@ -355,7 +355,7 @@ const setDairyData = (data: IWizardDataContextState) => {
     });
     const typePastAsset = getType({
         friendlyName: 'Pasteurizer',
-        color: '3AA0EB',
+        color: '#3AA0EB',
         icon: 'Manufacturing',
         kind: Kind.Asset,
         propertyIds: [propTemp.id, propPress.id]

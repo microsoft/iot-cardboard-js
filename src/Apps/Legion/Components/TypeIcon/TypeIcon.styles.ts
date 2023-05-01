@@ -13,7 +13,7 @@ export const getStyles = memoizeFunction(
                 width: 32,
                 height: 32,
                 borderRadius: '50%',
-                backgroundColor: `#${color}`,
+                backgroundColor: color,
                 alignItems: 'center',
                 justifyContent: 'center',
                 marginRight: 8
