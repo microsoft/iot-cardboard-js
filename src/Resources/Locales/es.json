@@ -1545,27 +1545,6 @@
         "ingest": "Ingerir",
         "cook": "Cocinar"
       },
-      "source": {
-        "database": "Base de datos de origen",
-        "selectDatabase": "Seleccionar base de datos de origen",
-        "table": "Tabla de origen",
-        "selectTable": "Seleccionar tabla de origen",
-        "tableType": "Tipo de tabla de origen",
-        "selectTableType": "Seleccione el tipo de tabla de origen",
-        "twinIDProperty": "Propiedad Source twin ID",
-        "selectTwinIDProperty": "Seleccionar la propiedad de ID gemelo de origen",
-        "type": "Tipo de fuente",
-        "typePlaceholder": "Seleccione el tipo de fuente"
-      },
-      "target": {
-        "database": "Base de datos de destino",
-        "selectDatabase": "Seleccionar base de datos de destino",
-        "tableType": "Tipo de tabla de destino",
-        "tableTypeTooltipContent": "Seleccione el esquema de tabla que se utilizará para la creación de tablas o la ingesta de filas",
-        "selectTableType": "Seleccionar el tipo de tabla de destino",
-        "table": "Tabla de destino",
-        "selectTable": "Seleccionar tabla de destino"
-      },
       "actions": {
         "cook": "Gráfico de gemelos cocinados",
         "pushTwinsGraph": "Insertar gráfico de gemelos a la base de datos de destino",
@@ -1581,7 +1560,8 @@
       "clusterSelectInfo": "Se requiere que el clúster de Kusto seleccionado tenga habilitada la política de 'ingesta de streaming'.",
       "tableSelectInfo": "Si selecciona entre los existentes, asegúrese de que la tabla Kusto tenga habilitada la política 'streaming ingestion' con la asignación JSON 'DataPusherMapping' definida.",
       "ingestInfo": "Puede crear una nueva base de datos o tabla e ingerir filas en una tabla de destino. Tenga en cuenta que si creó recientemente la tabla, es posible que no esté lista para la ingestión, espere un par de minutos antes de la ingestión.",
-      "cookInfo": "Puede extraer gemelos y posibles modelos e información de propiedades cocinando gemelos gráfico basado en la tabla de fuentes seleccionada."
+      "cookInfo": "Puede extraer gemelos y posibles modelos e información de propiedades cocinando gemelos gráfico basado en la tabla de fuentes seleccionada.",
+      "tableTypeTooltipContent": "Seleccione el esquema de tabla que se utilizará para la creación de tablas o la ingesta de filas"
     },
     "verificationStep": {
       "title": "Verificar gemelos descubiertos",
@@ -1608,7 +1588,13 @@
       "tableIdColumnLabel": "Campo ID",
       "urlLabel": "URL",
       "urlPlaceholder": "Introduzca la URL",
-      "addOptionFormat": "Añadir '{{item}}'"
+      "addOptionFormat": "Añadir '{{item}}'",
+      "typeLabel": "Tipo de fuente",
+      "typePlaceholder": "Seleccione el tipo de fuente",
+      "tablePlaceholder": "Seleccionar tabla",
+      "tableIdColumnPlaceholder": "Seleccione el campo ID",
+      "tableTypeLabel": "Tipo de tabla",
+      "tableTypePlaceholder": "Seleccione el tipo de tabla"
     },
     "modifyStep": {
       "diagram": "Diagrama",

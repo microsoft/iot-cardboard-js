@@ -1545,27 +1545,6 @@
         "ingest": "섭취",
         "cook": "요리사"
       },
-      "source": {
-        "database": "원본 데이터베이스",
-        "selectDatabase": "원본 데이터베이스 선택",
-        "table": "원본 테이블",
-        "selectTable": "원본 테이블 선택",
-        "tableType": "원본 테이블 형식",
-        "selectTableType": "원본 테이블 유형 선택",
-        "twinIDProperty": "원본 쌍 ID 속성",
-        "selectTwinIDProperty": "원본 쌍 ID 속성 선택",
-        "type": "소스 유형",
-        "typePlaceholder": "소스 유형 선택"
-      },
-      "target": {
-        "database": "대상 데이터베이스",
-        "selectDatabase": "대상 데이터베이스 선택",
-        "tableType": "대상 테이블 유형",
-        "tableTypeTooltipContent": "테이블 생성 또는 행 수집에 사용할 테이블 스키마 선택",
-        "selectTableType": "대상 테이블 유형 선택",
-        "table": "대상 테이블",
-        "selectTable": "대상 테이블 선택"
-      },
       "actions": {
         "cook": "쌍둥이 그래프 쿡",
         "pushTwinsGraph": "쌍 그래프를 대상 데이터베이스로 푸시",
@@ -1581,7 +1560,8 @@
       "clusterSelectInfo": "선택한 Kusto 클러스터는 '스트리밍 수집' 정책을 사용하도록 설정해야 합니다.",
       "tableSelectInfo": "기존에서 선택하는 경우 Kusto 테이블에 '데이터 푸셔매핑' JSON 매핑이 정의된 상태에서 '스트리밍 수집' 정책을 사용하도록 설정되어 있는지 확인합니다.",
       "ingestInfo": "새 데이터베이스 또는 테이블을 만들고 행을 대상 테이블로 수집할 수 있습니다. 최근에 테이블을 만든 경우 수집 준비가되지 않았을 수 있으므로 수집하기 전에 몇 분 동안 기다리십시오.",
-      "cookInfo": "쌍둥이와 가능한 모델 및 속성 정보를 추출하여 선택한 소스 테이블을 기반으로 쌍둥이 그래프를 요리 할 수 있습니다."
+      "cookInfo": "쌍둥이와 가능한 모델 및 속성 정보를 추출하여 선택한 소스 테이블을 기반으로 쌍둥이 그래프를 요리 할 수 있습니다.",
+      "tableTypeTooltipContent": "테이블 생성 또는 행 수집에 사용할 테이블 스키마를 선택합니다"
     },
     "verificationStep": {
       "title": "검색된 쌍둥이 확인",
@@ -1608,7 +1588,13 @@
       "tableIdColumnLabel": "ID 필드",
       "urlLabel": "URL (영문)",
       "urlPlaceholder": "URL 입력",
-      "addOptionFormat": "'{{item}}' 추가"
+      "addOptionFormat": "'{{item}}' 추가",
+      "typeLabel": "소스 유형",
+      "typePlaceholder": "소스 유형 선택",
+      "tablePlaceholder": "테이블 선택",
+      "tableIdColumnPlaceholder": "ID 필드 선택",
+      "tableTypeLabel": "테이블 유형",
+      "tableTypePlaceholder": "테이블 유형 선택"
     },
     "modifyStep": {
       "diagram": "다이어그램",
