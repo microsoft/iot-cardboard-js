@@ -1,5 +1,2 @@
-import { IExtensionClient } from './ShellTypes';
-
-export interface ILegionAppProps {
-    extensionClient?: IExtensionClient;
-}
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface ILegionAppProps {}
