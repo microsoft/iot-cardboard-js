@@ -1544,6 +1544,34 @@
                 "title": "Add a new data store"
             }
         },
+        "GraphVisualizer": {
+            "ContextMenu": {
+                "addParentLabel": "Add parent"
+            },
+            "ParentForm": {
+                "formTitle": "Add parent"
+            }
+        },
+        "UserDefinedEntityForm": {
+            "formTitle": "Add parent relationship",
+            "actionButtonText": "Confirm",
+            "optionNew": "New entity",
+            "optionExisting": "Existing entity",
+            "Form": {
+                "nameFieldLabel": "Parent entity name",
+                "nameFieldPlaceholder": "Enter parent entity name",
+                "parentTypeFieldLabel": "Parent type",
+                "parentTypeFieldPlaceholder": "Select a type for the parent",
+                "colorFieldLabel": "Color",
+                "iconFieldLabel": "Icon",
+                "parentEntityFieldLabel": "Parent entity",
+                "parentEntityNameFieldLabel": "Parent entity name",
+                "parentEntityNameFieldPlaceholder": "Enter a name for the parent entity",
+                "relationshipNameFieldLabel": "Relationship name",
+                "relationshipNameFieldPlaceholder": "Select or create a relationship name",
+                "existingEntityFieldPlaceholder": "Select an existing entity"
+            }
+        },
         "dataPusher": {
             "title": "Data pusher",
             "clusterTitle": "Cluster URL",

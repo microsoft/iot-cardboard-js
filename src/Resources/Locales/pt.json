@@ -1629,6 +1629,34 @@
       "discoveredEntity": "{{entityCount}} entidade descoberta",
       "deletedEntity": "{{entityCount}} entidade excluída",
       "existingEntity": "{{entityCount}} entidade existente"
+    },
+    "GraphVisualizer": {
+      "ContextMenu": {
+        "addParentLabel": "Adicionar pai"
+      },
+      "ParentForm": {
+        "formTitle": "Adicionar pai"
+      }
+    },
+    "UserDefinedEntityForm": {
+      "formTitle": "Adicionar relação pai",
+      "actionButtonText": "Confirmar",
+      "optionNew": "Nova entidade",
+      "optionExisting": "Entidade existente",
+      "Form": {
+        "nameFieldLabel": "Nome da entidade pai",
+        "nameFieldPlaceholder": "Insira o nome da entidade pai",
+        "parentTypeFieldLabel": "Tipo pai",
+        "parentTypeFieldPlaceholder": "Selecione um tipo para o pai",
+        "colorFieldLabel": "Cor",
+        "iconFieldLabel": "Ícone",
+        "parentEntityFieldLabel": "Entidade pai",
+        "parentEntityNameFieldLabel": "Nome da entidade pai",
+        "parentEntityNameFieldPlaceholder": "Insira um nome para a entidade pai",
+        "relationshipNameFieldLabel": "Nome do relacionamento",
+        "relationshipNameFieldPlaceholder": "Selecionar ou criar um nome de relacionamento",
+        "existingEntityFieldPlaceholder": "Selecionar uma entidade existente"
+      }
     }
   }
 }

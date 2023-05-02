@@ -35,6 +35,17 @@ export const GraphContextReducer: (
             case GraphContextActionType.SET_SELECTED_NODES:
                 draft.selectedNodeIds = action.payload.nodeIds;
                 break;
+            case GraphContextActionType.PARENT_FORM_MODAL_SHOW:
+                // if no selected nodes, use the one that triggered the action
+                if (draft.selectedNodeIds?.length === 0) {
+                    draft.selectedNodeIds = [action.payload.nodeId];
+                }
+                draft.isParentFormVisible = true;
+                break;
+            case GraphContextActionType.PARENT_FORM_MODAL_HIDE:
+                draft.isParentFormVisible = false;
+                draft.selectedNodeIds = [];
+                break;
             case GraphContextActionType.ADD_PARENT:
                 const { nodeId } = action.payload;
                 const newId = createGUID();
@@ -101,6 +112,7 @@ export const GraphContextProvider = React.memo(
 );
 
 const emptyState: IGraphContextState = {
+    isParentFormVisible: false,
     graphData: {
         edges: [],
         nodes: []

@@ -14,6 +14,7 @@ import { CardboardList } from '../../../../../../Components/CardboardList';
 import { ICardboardListItem } from '../../../../../../Components/CardboardList/CardboardList.types';
 import { useGraphContext } from '../../../../Contexts/GraphContext/GraphContext';
 import { GraphContextActionType } from '../../../../Contexts/GraphContext/GraphContext.types';
+import { useTranslation } from 'react-i18next';
 
 const { ContextMenu } = Components;
 
@@ -25,8 +26,17 @@ const getClassNames = classNamesFunction<
     ICustomContextMenuStyles
 >();
 
-const CustomMenu = (props: ContextMenuProps) => {
+const LOC_KEYS = {
+    ContextMenu: {
+        addParentLabel: 'legionApp.GraphVisualizer.ContextMenu.addParentLabel'
+    }
+};
+
+const CustomMenu: React.FC<ContextMenuProps> = (props) => {
     const { onClose, item } = props;
+
+    // hooks
+    const { t } = useTranslation();
 
     // context
     const { graphDispatch } = useGraphContext();
@@ -53,11 +63,9 @@ const CustomMenu = (props: ContextMenuProps) => {
     const menuItems: ICardboardListItem<string>[] = [
         {
             item: '',
-            textPrimary: 'Add parent',
-            ariaLabel: 'Add parent',
-            onClick: () => {
-                handleClick();
-            }
+            textPrimary: t(LOC_KEYS.ContextMenu.addParentLabel),
+            ariaLabel: t(LOC_KEYS.ContextMenu.addParentLabel),
+            onClick: handleClick
         }
     ];
 
@@ -71,22 +79,9 @@ const CustomMenu = (props: ContextMenuProps) => {
 };
 
 const CustomContextMenu: React.FC<ICustomContextMenuProps> = () => {
-    // contexts
-
-    // state
-
-    // hooks
-
-    // callbacks
-
-    // side effects
-
-    // styles
-
     logDebugConsole('debug', 'Render');
-
     return (
-        <ContextMenu style={{ background: '#fff' }} bindType="node">
+        <ContextMenu bindType="node">
             {(value) => {
                 return <CustomMenu {...value} />;
             }}

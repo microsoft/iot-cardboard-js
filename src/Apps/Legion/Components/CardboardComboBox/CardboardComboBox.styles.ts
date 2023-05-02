@@ -5,9 +5,7 @@ export const getStyles = memoizeFunction(
     (props: ICardboardComboBoxStyleProps) => {
         const { isDescriptionError, theme } = props;
         return mergeStyleSets({
-            label: {
-                marginLeft: 4
-            },
+            label: {},
             description: [
                 isDescriptionError
                     ? {
