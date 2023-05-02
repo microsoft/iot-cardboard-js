@@ -61,41 +61,41 @@ const SaveStep: React.FC<ISaveStepProps> = (props) => {
 
     logDebugConsole('debug', 'Render');
 
-    const { new: newEntities } = getEntityCounts();
-    const { new: newTypes } = getTypeCounts();
-    const { new: newRelationships } = getRelationshipCounts();
+    const { created: createdEntities } = getEntityCounts();
+    const { created: createdTypes } = getTypeCounts();
+    const { created: createdRelationships } = getRelationshipCounts();
 
     return (
         <div className={classNames.root}>
             <Stack>
                 <p>
-                    {newEntities > 0 &&
-                        (newEntities === 1
+                    {createdEntities > 0 &&
+                        (createdEntities === 1
                             ? t('legionApp.saveStep.entityCreated', {
-                                  entityCount: newEntities
+                                  entityCount: createdEntities
                               })
                             : t('legionApp.saveStep.entitiesCreated', {
-                                  entityCount: newEntities
+                                  entityCount: createdEntities
                               }))}
                 </p>
                 <p>
-                    {newTypes > 0 &&
-                        (newTypes === 1
+                    {createdTypes > 0 &&
+                        (createdTypes === 1
                             ? t('legionApp.saveStep.typeCreated', {
-                                  typeCount: newTypes
+                                  typeCount: createdTypes
                               })
                             : t('legionApp.saveStep.typesCreated', {
-                                  typeCount: newTypes
+                                  typeCount: createdTypes
                               }))}
                 </p>
                 <p>
-                    {newRelationships > 0 &&
-                        (newRelationships === 1
+                    {createdRelationships > 0 &&
+                        (createdRelationships === 1
                             ? t('legionApp.saveStep.relationshipCreated', {
-                                  relationshipCount: newRelationships
+                                  relationshipCount: createdRelationships
                               })
-                            : t('legionApp.saveStep.relationshipCreated', {
-                                  relationshipCount: newRelationships
+                            : t('legionApp.saveStep.relationshipsCreated', {
+                                  relationshipCount: createdRelationships
                               }))}
                 </p>
             </Stack>

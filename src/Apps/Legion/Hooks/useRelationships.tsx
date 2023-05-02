@@ -107,7 +107,7 @@ export const useRelationships = () => {
     );
     const getRelationshipCounts = useCallback((): IGenericCounters => {
         const counters: IGenericCounters = {
-            new: 0,
+            created: 0,
             existing: 0,
             deleted: 0
         };
@@ -116,7 +116,7 @@ export const useRelationships = () => {
                 if (x.isDeleted) {
                     counters.deleted += 1;
                 } else if (x.isNew) {
-                    counters.new += 1;
+                    counters.created += 1;
                 } else {
                     counters.existing += 1;
                 }

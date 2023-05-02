@@ -113,12 +113,12 @@ const TypesCard: React.FC<ITypesCardProps> = (props) => {
                           })}
                 </i>
                 <i>
-                    {entityCount.new === 1
+                    {entityCount.created === 1
                         ? t('legionApp.modifyStep.discoveredEntity', {
-                              entityCount: entityCount.new
+                              entityCount: entityCount.created
                           })
                         : t('legionApp.modifyStep.discoveredEntities', {
-                              entityCount: entityCount.new
+                              entityCount: entityCount.created
                           })}
                 </i>
                 <i>
