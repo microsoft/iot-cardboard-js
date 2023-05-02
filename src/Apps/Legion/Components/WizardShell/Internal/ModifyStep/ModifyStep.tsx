@@ -10,6 +10,7 @@ import {
     WizardStepNumber
 } from '../../../../Contexts/WizardNavigationContext/WizardNavigationContext.types';
 import EntitiesTab from './Internal/EntitiesTab/EntitiesTab';
+import GraphTab from './Internal/GraphTab';
 import TypesTab from './Internal/TypesTab/TypesTab';
 
 const debugLogging = false;
@@ -24,7 +25,7 @@ const ModifyStep: React.FC<IModifyStepProps> = (props) => {
         {
             disabled: false,
             onClick: () => {
-                console.log('Open modal here');
+                alert('open modal');
             },
             iconName: 'AutoEnhanceOn',
             text: t('legionApp.modifyStep.secondaryButton')
@@ -90,7 +91,7 @@ const ModifyStep: React.FC<IModifyStepProps> = (props) => {
                     headerText={t('legionApp.modifyStep.graph')}
                     itemKey={ModifyPivotKeys.Graph}
                 >
-                    <p>TODO: Insert graph here</p>
+                    <GraphTab />
                 </PivotItem>
             </Pivot>
         </Stack>

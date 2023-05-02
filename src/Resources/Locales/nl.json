@@ -1629,6 +1629,34 @@
       "discoveredEntity": "{{entityCount}} gedetecteerde entiteit",
       "deletedEntity": "{{entityCount}} verwijderde entiteit",
       "existingEntity": "{{entityCount}} bestaande entiteit"
+    },
+    "GraphVisualizer": {
+      "ContextMenu": {
+        "addParentLabel": "Ouder toevoegen"
+      },
+      "ParentForm": {
+        "formTitle": "Ouder toevoegen"
+      }
+    },
+    "UserDefinedEntityForm": {
+      "formTitle": "Bovenliggende relatie toevoegen",
+      "actionButtonText": "Bevestigen",
+      "optionNew": "Nieuwe entiteit",
+      "optionExisting": "Bestaande entiteit",
+      "Form": {
+        "nameFieldLabel": "Naam van bovenliggende entiteit",
+        "nameFieldPlaceholder": "Voer de naam van de bovenliggende entiteit in",
+        "parentTypeFieldLabel": "Hoofdtype",
+        "parentTypeFieldPlaceholder": "Selecteer een type voor de bovenliggende persoon",
+        "colorFieldLabel": "Kleur",
+        "iconFieldLabel": "Pictogram",
+        "parentEntityFieldLabel": "Moederentiteit",
+        "parentEntityNameFieldLabel": "Naam van bovenliggende entiteit",
+        "parentEntityNameFieldPlaceholder": "Voer een naam in voor de bovenliggende entiteit",
+        "relationshipNameFieldLabel": "Naam van de relatie",
+        "relationshipNameFieldPlaceholder": "Een relatienaam selecteren of maken",
+        "existingEntityFieldPlaceholder": "Een bestaande entiteit selecteren"
+      }
     }
   }
 }
