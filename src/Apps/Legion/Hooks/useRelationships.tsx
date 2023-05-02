@@ -101,6 +101,12 @@ export const useRelationships = () => {
             }),
         [wizardDataState]
     );
+    const getNewRelationshipCount = useCallback((): number => {
+        const newRelationships = wizardDataState.relationships.filter(
+            (r) => r.isNew
+        );
+        return newRelationships.length;
+    }, [wizardDataState.relationships]);
 
     const data = {
         /** the current list of relationships in the state */
@@ -121,7 +127,9 @@ export const useRelationships = () => {
          * Callback to delete the relationship from state.
          * NOTE: this is not a deep update. It will only delete the root level element
          */
-        deleteRelationship: deleteRelationship
+        deleteRelationship: deleteRelationship,
+        /** Callback to get new relationship count */
+        getNewRelationshipCount: getNewRelationshipCount
     };
     logDebugConsole('debug', '[END] Render', data);
     return data;

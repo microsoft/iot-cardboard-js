@@ -106,8 +106,9 @@ export const useTypes = () => {
         return counters;
     }, [wizardDataState.types]);
 
-    const getTotalTypeCount = useCallback((): number => {
-        return wizardDataState.types.length;
+    const getNewTypeCount = useCallback((): number => {
+        const newTypes = wizardDataState.types.filter((t) => t.isNew);
+        return newTypes.length;
     }, [wizardDataState.types]);
 
     return {
@@ -134,7 +135,7 @@ export const useTypes = () => {
         getTypeById: getTypeById,
         /** Callback to get type count by kind */
         getTypeCountsByKind: getTypeCountsByKind,
-        /** Callback to get total type count */
-        getTotalTypeCount: getTotalTypeCount
+        /** Callback to get new type count */
+        getNewTypeCount: getNewTypeCount
     };
 };

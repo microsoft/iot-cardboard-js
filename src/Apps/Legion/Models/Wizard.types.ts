@@ -50,13 +50,6 @@ export interface IEntityCounters {
     existing: number;
     deleted: number;
 }
-
-export interface ITypeCounters {
-    userDefined: number;
-    pid: number;
-    timeSeries: number;
-    asset: number;
-}
 // #endregion
 
 // #region Types

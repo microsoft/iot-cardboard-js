@@ -16,6 +16,7 @@ import {
 import { useCustomNavigation } from '../../../../Hooks/useCustomNavigation';
 import { useEntities } from '../../../../Hooks/useEntities';
 import { useTypes } from '../../../../Hooks/useTypes';
+import { useRelationships } from '../../../../Hooks/useRelationships';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('SaveStep', debugLogging);
@@ -33,15 +34,16 @@ const SaveStep: React.FC<ISaveStepProps> = (props) => {
     // state
 
     // hooks
-    const { getTypeCountsByKind, getTotalTypeCount } = useTypes();
-    const { getEntityCount, getTotalEntityCount } = useEntities();
+    const { getNewTypeCount } = useTypes();
+    const { getNewEntityCount } = useEntities();
+    const { getNewRelationshipCount } = useRelationships();
     const { t } = useTranslation();
 
     /** Register wizard buttons */
     const primaryAction: IWizardAction = {
         disabled: false,
         onClick: () => {
-            console.log('Save clicked');
+            logDebugConsole('debug', 'Save clicked');
         },
         iconName: 'Save',
         text: t('save')
@@ -59,70 +61,43 @@ const SaveStep: React.FC<ISaveStepProps> = (props) => {
 
     logDebugConsole('debug', 'Render');
 
-    // TODO Ambika: Do we need deletedEntities?
-    const { new: newEntities, existing: existingEntities } = getEntityCount();
-    const totalEntities = getTotalEntityCount();
-    const {
-        userDefined: userDefinedTypes,
-        timeSeries: timeSeriesTypes
-    } = getTypeCountsByKind();
-    const totalTypes = getTotalTypeCount();
+    const totalEntities = getNewEntityCount();
+    const totalTypes = getNewTypeCount();
+    const totalRelationships = getNewRelationshipCount();
 
     return (
         <div className={classNames.root}>
             <Stack>
                 <p>
-                    {totalEntities === 1
-                        ? t('legionApp.saveStep.entityCreated', {
-                              entityCount: totalEntities
-                          })
-                        : t('legionApp.saveStep.entitiesCreated', {
-                              entityCount: totalEntities
-                          })}
+                    {totalEntities > 0 &&
+                        (totalEntities === 1
+                            ? t('legionApp.saveStep.entityCreated', {
+                                  entityCount: totalEntities
+                              })
+                            : t('legionApp.saveStep.entitiesCreated', {
+                                  entityCount: totalEntities
+                              }))}
                 </p>
-                <Stack>
-                    <p>
-                        {newEntities === 1
-                            ? t('legionApp.saveStep.newEntity', {
-                                  entityCount: newEntities
-                              })
-                            : t('legionApp.saveStep.newEntities', {
-                                  entityCount: newEntities
-                              })}
-                    </p>
-                    <p>
-                        {existingEntities === 1
-                            ? t('legionApp.saveStep.existingEntity', {
-                                  entityCount: existingEntities
-                              })
-                            : t('legionApp.saveStep.existingEntities', {
-                                  entityCount: existingEntities
-                              })}
-                    </p>
-                </Stack>
                 <p>
-                    {totalTypes === 1
-                        ? t('legionApp.saveStep.typeCreated', {
-                              typeCount: totalTypes
-                          })
-                        : t('legionApp.saveStep.typesCreated', {
-                              typeCount: totalTypes
-                          })}
+                    {totalTypes > 0 &&
+                        (totalTypes === 1
+                            ? t('legionApp.saveStep.typeCreated', {
+                                  typeCount: totalTypes
+                              })
+                            : t('legionApp.saveStep.typesCreated', {
+                                  typeCount: totalTypes
+                              }))}
                 </p>
-                <Stack>
-                    <p>
-                        {userDefinedTypes > 0 &&
-                            t('legionApp.saveStep.userDefined', {
-                                typeCount: userDefinedTypes
-                            })}
-                    </p>
-                    <p>
-                        {timeSeriesTypes > 0 &&
-                            t('legionApp.saveStep.timeSeries', {
-                                typeCount: timeSeriesTypes
-                            })}
-                    </p>
-                </Stack>
+                <p>
+                    {totalRelationships > 0 &&
+                        (totalRelationships === 1
+                            ? t('legionApp.saveStep.relationshipCreated', {
+                                  relationshipCount: totalRelationships
+                              })
+                            : t('legionApp.saveStep.relationshipCreated', {
+                                  relationshipCount: totalRelationships
+                              }))}
+                </p>
             </Stack>
         </div>
     );

@@ -1653,14 +1653,10 @@
         "saveStep": {
             "entityCreated": "{{entityCount}} entity created",
             "entitiesCreated": "{{entityCount}} entities created",
-            "existingEntity": "{{entityCount}} existing entity",
-            "existingEntities": "{{entityCount}} existing entities",
-            "newEntity": "{{entityCount}} new entity",
-            "newEntities": "{{entityCount}} new entities",
+            "relationshipCreated": "{{relationshipCount}} relationship created",
+            "relationshipsCreated": "{{relationshipCount}} relationships created",
             "typeCreated": "{{typeCount}} type created",
-            "typesCreated": "{{typeCount}} types created",
-            "timeSeries": "{{typeCount}} time series",
-            "userDefined": "{{typeCount}} user-defined"
+            "typesCreated": "{{typeCount}} types created"
         }
     }
 }
