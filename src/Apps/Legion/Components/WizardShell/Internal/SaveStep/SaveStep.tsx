@@ -34,9 +34,9 @@ const SaveStep: React.FC<ISaveStepProps> = (props) => {
     // state
 
     // hooks
-    const { getNewTypeCount } = useTypes();
-    const { getNewEntityCount } = useEntities();
-    const { getNewRelationshipCount } = useRelationships();
+    const { getTypeCounts } = useTypes();
+    const { getEntityCounts } = useEntities();
+    const { getRelationshipCounts } = useRelationships();
     const { t } = useTranslation();
 
     /** Register wizard buttons */
@@ -61,41 +61,41 @@ const SaveStep: React.FC<ISaveStepProps> = (props) => {
 
     logDebugConsole('debug', 'Render');
 
-    const totalEntities = getNewEntityCount();
-    const totalTypes = getNewTypeCount();
-    const totalRelationships = getNewRelationshipCount();
+    const { new: newEntities } = getEntityCounts();
+    const { new: newTypes } = getTypeCounts();
+    const { new: newRelationships } = getRelationshipCounts();
 
     return (
         <div className={classNames.root}>
             <Stack>
                 <p>
-                    {totalEntities > 0 &&
-                        (totalEntities === 1
+                    {newEntities > 0 &&
+                        (newEntities === 1
                             ? t('legionApp.saveStep.entityCreated', {
-                                  entityCount: totalEntities
+                                  entityCount: newEntities
                               })
                             : t('legionApp.saveStep.entitiesCreated', {
-                                  entityCount: totalEntities
+                                  entityCount: newEntities
                               }))}
                 </p>
                 <p>
-                    {totalTypes > 0 &&
-                        (totalTypes === 1
+                    {newTypes > 0 &&
+                        (newTypes === 1
                             ? t('legionApp.saveStep.typeCreated', {
-                                  typeCount: totalTypes
+                                  typeCount: newTypes
                               })
                             : t('legionApp.saveStep.typesCreated', {
-                                  typeCount: totalTypes
+                                  typeCount: newTypes
                               }))}
                 </p>
                 <p>
-                    {totalRelationships > 0 &&
-                        (totalRelationships === 1
+                    {newRelationships > 0 &&
+                        (newRelationships === 1
                             ? t('legionApp.saveStep.relationshipCreated', {
-                                  relationshipCount: totalRelationships
+                                  relationshipCount: newRelationships
                               })
                             : t('legionApp.saveStep.relationshipCreated', {
-                                  relationshipCount: totalRelationships
+                                  relationshipCount: newRelationships
                               }))}
                 </p>
             </Stack>

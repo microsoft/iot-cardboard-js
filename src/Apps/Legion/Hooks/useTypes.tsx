@@ -4,7 +4,7 @@ import {
     useWizardDataStateContext
 } from '../Contexts/WizardDataContext/WizardDataContext';
 import { WizardDataContextActionType } from '../Contexts/WizardDataContext/WizardDataContext.types';
-import { ITypeCounters, IViewType, Kind } from '../Models';
+import { IGenericCounters, IViewType } from '../Models';
 import {
     convertViewTypeToDb,
     convertDbTypeToView
@@ -83,32 +83,24 @@ export const useTypes = () => {
         [types]
     );
 
-    const getTypeCountsByKind = useCallback((): ITypeCounters => {
-        const counters: ITypeCounters = {
-            userDefined: 0,
-            pid: 0,
-            timeSeries: 0,
-            asset: 0
+    const getTypeCounts = useCallback((): IGenericCounters => {
+        const counters: IGenericCounters = {
+            new: 0,
+            existing: 0,
+            deleted: 0
         };
         wizardDataState.types.forEach((x) => {
             {
-                if (x.kind === Kind.UserDefined) {
-                    counters.userDefined += 1;
-                } else if (x.kind === Kind.PID) {
-                    counters.pid += 1;
-                } else if (x.kind === Kind.TimeSeries) {
-                    counters.timeSeries += 1;
+                if (x.isDeleted) {
+                    counters.deleted += 1;
+                } else if (x.isNew) {
+                    counters.new += 1;
                 } else {
-                    counters.asset += 1;
+                    counters.existing += 1;
                 }
             }
         });
         return counters;
-    }, [wizardDataState.types]);
-
-    const getNewTypeCount = useCallback((): number => {
-        const newTypes = wizardDataState.types.filter((t) => t.isNew);
-        return newTypes.length;
     }, [wizardDataState.types]);
 
     return {
@@ -133,9 +125,7 @@ export const useTypes = () => {
          * Callback to get a type from an id
          */
         getTypeById: getTypeById,
-        /** Callback to get type count by kind */
-        getTypeCountsByKind: getTypeCountsByKind,
-        /** Callback to get new type count */
-        getNewTypeCount: getNewTypeCount
+        /** Callback to get type counts */
+        getTypeCounts: getTypeCounts
     };
 };

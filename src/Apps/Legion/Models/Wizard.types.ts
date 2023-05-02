@@ -45,7 +45,7 @@ export interface IViewEntity extends IBaseEntity {
     type: IViewType;
 }
 
-export interface IEntityCounters {
+export interface IGenericCounters {
     new: number;
     existing: number;
     deleted: number;

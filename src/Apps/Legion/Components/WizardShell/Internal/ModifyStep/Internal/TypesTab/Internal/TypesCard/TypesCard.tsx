@@ -64,7 +64,7 @@ const TypesCard: React.FC<ITypesCardProps> = (props) => {
     // hooks
     const { getTypeById, updateType } = useTypes();
     const type = useMemo(() => getTypeById(typeId), [getTypeById, typeId]);
-    const { getEntityCount } = useEntities();
+    const { getEntityCounts } = useEntities();
     const theme = useExtendedTheme();
     const { t } = useTranslation();
 
@@ -86,7 +86,7 @@ const TypesCard: React.FC<ITypesCardProps> = (props) => {
 
     logDebugConsole('debug', 'Render');
 
-    const entityCount = getEntityCount(type.id);
+    const entityCount = getEntityCounts(type.id);
 
     return (
         <div className={classNames.root}>

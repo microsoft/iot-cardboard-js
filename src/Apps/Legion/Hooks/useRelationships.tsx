@@ -4,7 +4,11 @@ import {
     useWizardDataStateContext
 } from '../Contexts/WizardDataContext/WizardDataContext';
 import { WizardDataContextActionType } from '../Contexts/WizardDataContext/WizardDataContext.types';
-import { IViewRelationship, IViewRelationshipType } from '../Models';
+import {
+    IGenericCounters,
+    IViewRelationship,
+    IViewRelationshipType
+} from '../Models';
 import {
     convertViewRelationshipToDb,
     convertDbRelationshipToView,
@@ -101,11 +105,24 @@ export const useRelationships = () => {
             }),
         [wizardDataState]
     );
-    const getNewRelationshipCount = useCallback((): number => {
-        const newRelationships = wizardDataState.relationships.filter(
-            (r) => r.isNew
-        );
-        return newRelationships.length;
+    const getRelationshipCounts = useCallback((): IGenericCounters => {
+        const counters: IGenericCounters = {
+            new: 0,
+            existing: 0,
+            deleted: 0
+        };
+        wizardDataState.relationships.forEach((x) => {
+            {
+                if (x.isDeleted) {
+                    counters.deleted += 1;
+                } else if (x.isNew) {
+                    counters.new += 1;
+                } else {
+                    counters.existing += 1;
+                }
+            }
+        });
+        return counters;
     }, [wizardDataState.relationships]);
 
     const data = {
@@ -128,8 +145,8 @@ export const useRelationships = () => {
          * NOTE: this is not a deep update. It will only delete the root level element
          */
         deleteRelationship: deleteRelationship,
-        /** Callback to get new relationship count */
-        getNewRelationshipCount: getNewRelationshipCount
+        /** Callback to get relationship counts */
+        getRelationshipCounts: getRelationshipCounts
     };
     logDebugConsole('debug', '[END] Render', data);
     return data;
