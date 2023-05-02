@@ -1,12 +1,17 @@
 import { IExtendedTheme } from '../../../../Theming/Theme.types';
 import { CreatableProps } from 'react-select/creatable';
-import { GroupBase } from 'react-select';
+import { ActionMeta, GroupBase } from 'react-select';
 import { IReactSelectOption } from '../../Models';
 import { ITooltipCalloutProps } from '../../../../Components/TooltipCallout/TooltipCallout.types';
 
 export type CreatableInternalProps<T> = Omit<
     CreatableProps<T, boolean, GroupBase<T>>,
-    'options' | 'styles'
+    | 'aria-labeledby'
+    | 'onChange'
+    | 'options'
+    | 'placeholder'
+    | 'styles'
+    | 'value'
 >;
 export interface ICardboardComboBoxProps<T extends IReactSelectOption>
     extends CreatableInternalProps<T> {
@@ -17,7 +22,11 @@ export interface ICardboardComboBoxProps<T extends IReactSelectOption>
     /** text above the dropdown */
     label: string;
     /** callback when selection changes */
-    onSelectionChange: (item: T, isNew: boolean) => void;
+    onSelectionChange: (
+        item: T,
+        isNew: boolean,
+        actionMeta: ActionMeta<T>
+    ) => void;
     options: T[];
     /** placeholder text inside the control before a selection is made */
     placeholder: string;

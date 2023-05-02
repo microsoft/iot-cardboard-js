@@ -1618,7 +1618,45 @@
       "secondaryButton": "Scalanie jednostek",
       "idColumnHeader": "Identyfikator jednostki",
       "typeColumnHeader": "Typ",
-      "exampleColumnHeader": "Przykładowe wartości"
+      "exampleColumnHeader": "Przykładowe wartości",
+      "typeFieldLabel": "Nazwa typu",
+      "kind": "Rodzaj",
+      "discoveredEntities": "{{entityCount}} odkryte jednostki",
+      "deletedEntities": "{{entityCount}} usunięte encje",
+      "existingEntities": "{{entityCount}} istniejące encje",
+      "sourceColumnHeader": "Nazwa właściwości źródłowej",
+      "friendlyNameColumnHeader": "Przyjazna nazwa",
+      "discoveredEntity": "{{entityCount}} wykryta jednostka",
+      "deletedEntity": "{{entityCount}} usunięty podmiot",
+      "existingEntity": "{{entityCount}} istniejąca encja"
+    },
+    "GraphVisualizer": {
+      "ContextMenu": {
+        "addParentLabel": "Dodaj rodzica"
+      },
+      "ParentForm": {
+        "formTitle": "Dodaj rodzica"
+      }
+    },
+    "UserDefinedEntityForm": {
+      "formTitle": "Dodawanie relacji nadrzędnej",
+      "actionButtonText": "Potwierdzić",
+      "optionNew": "Nowy podmiot",
+      "optionExisting": "Istniejący podmiot",
+      "Form": {
+        "nameFieldLabel": "Nazwa jednostki nadrzędnej",
+        "nameFieldPlaceholder": "Wprowadź nazwę jednostki nadrzędnej",
+        "parentTypeFieldLabel": "Typ nadrzędny",
+        "parentTypeFieldPlaceholder": "Wybierz typ dla rodzica",
+        "colorFieldLabel": "Kolor",
+        "iconFieldLabel": "Ikona",
+        "parentEntityFieldLabel": "Jednostka dominująca",
+        "parentEntityNameFieldLabel": "Nazwa jednostki nadrzędnej",
+        "parentEntityNameFieldPlaceholder": "Wprowadź nazwę jednostki nadrzędnej",
+        "relationshipNameFieldLabel": "Nazwa związku",
+        "relationshipNameFieldPlaceholder": "Wybieranie lub tworzenie nazwy relacji",
+        "existingEntityFieldPlaceholder": "Wybierz istniejącą encję"
+      }
     }
   }
 }

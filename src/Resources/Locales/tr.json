@@ -1618,7 +1618,45 @@
       "secondaryButton": "Varlıkları birleştirme",
       "idColumnHeader": "Varlık Kimliği",
       "typeColumnHeader": "Tür",
-      "exampleColumnHeader": "Örnek değerler"
+      "exampleColumnHeader": "Örnek değerler",
+      "typeFieldLabel": "Tür adı",
+      "kind": "Tür",
+      "discoveredEntities": "{{entityCount}} bulunan varlıklar",
+      "deletedEntities": "{{entityCount}} silinmiş varlıklar",
+      "existingEntities": "{{entityCount}} mevcut varlıklar",
+      "sourceColumnHeader": "Kaynak özellik adı",
+      "friendlyNameColumnHeader": "Kolay ad",
+      "discoveredEntity": "{{entityCount}} keşfedilen varlık",
+      "deletedEntity": "{{entityCount}} silinmiş varlık",
+      "existingEntity": "{{entityCount}} mevcut varlık"
+    },
+    "GraphVisualizer": {
+      "ContextMenu": {
+        "addParentLabel": "Ebeveyn ekle"
+      },
+      "ParentForm": {
+        "formTitle": "Ebeveyn ekle"
+      }
+    },
+    "UserDefinedEntityForm": {
+      "formTitle": "Üst ilişki ekleme",
+      "actionButtonText": "Onaylamak",
+      "optionNew": "Yeni varlık",
+      "optionExisting": "Mevcut varlık",
+      "Form": {
+        "nameFieldLabel": "Üst varlık adı",
+        "nameFieldPlaceholder": "Ana varlık adını girin",
+        "parentTypeFieldLabel": "Üst öğe türü",
+        "parentTypeFieldPlaceholder": "Ebeveyn için bir tür seçin",
+        "colorFieldLabel": "Renk",
+        "iconFieldLabel": "İkon",
+        "parentEntityFieldLabel": "Üst varlık",
+        "parentEntityNameFieldLabel": "Üst varlık adı",
+        "parentEntityNameFieldPlaceholder": "Üst varlık için bir ad girin",
+        "relationshipNameFieldLabel": "İlişki adı",
+        "relationshipNameFieldPlaceholder": "İlişki adı seçme veya oluşturma",
+        "existingEntityFieldPlaceholder": "Mevcut bir varlığı seçme"
+      }
     }
   }
 }
