@@ -1,12 +1,9 @@
-import { IExtensionClient } from '../../../Types/ShellTypes';
-
 export interface ITargetDatabaseConnection {
     clusterUrl: string;
     databaseName: string;
 }
 export interface IAppDataContextProviderProps {
     initialState?: Partial<IAppDataContextState>;
-    extensionClient?: IExtensionClient;
 }
 
 /**
