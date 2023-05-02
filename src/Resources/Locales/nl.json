@@ -1657,6 +1657,14 @@
         "relationshipNameFieldPlaceholder": "Een relatienaam selecteren of maken",
         "existingEntityFieldPlaceholder": "Een bestaande entiteit selecteren"
       }
+    },
+    "saveStep": {
+      "entityCreated": "{{entityCount}} entiteit gemaakt",
+      "entitiesCreated": "{{entityCount}} entiteiten die zijn gemaakt",
+      "relationshipCreated": "{{relationshipCount}} relatie gemaakt",
+      "relationshipsCreated": "{{relationshipCount}} gemaakte relaties",
+      "typeCreated": "{{typeCount}} type aangemaakt",
+      "typesCreated": "{{typeCount}} typen gemaakt"
     }
   }
 }
