@@ -1,4 +1,8 @@
-import { IDataManagementAdapter } from '../Adapters/Standalone/DataManagement/Models/DataManagementAdapter.types';
+import {
+    IDataManagementAdapter,
+    ITable
+} from '../Adapters/Standalone/DataManagement/Models/DataManagementAdapter.types';
+import { TableTypes } from '../Components/DataPusher/DataPusher.types';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface IBaseAdapter {}
@@ -57,11 +61,12 @@ export interface IAppData {
 
 /** to be used for Database ingestion flow */
 export interface IADXConnection {
-    selectedSourceCluster: string;
-    selectedSourceDatabase: string;
-    selectedSourceTable: string;
-    selectedSourceTwinIDColumn: string;
-    selectedSourceTableType: string;
+    cluster: string;
+    database: string;
+    table: string;
+    twinIdColumn: string;
+    tableType: TableTypes;
+    tableData?: ITable;
 }
 
 export interface IPIDDocument {

@@ -126,3 +126,24 @@ export const SourceTypeOptions: IDropdownOption[] = [
         text: SourceType.Diagram
     }
 ];
+
+export enum PIDSources {
+    CoffeeRoastery = 'Coffee Roastery',
+    WasteWater = 'Waste Water'
+}
+
+export enum PIDSourceUrls {
+    CoffeeRoastery = 'https://myPIDblob.com/CoffeeRoastery',
+    WasteWater = 'https://myPIDblob.com/WasteWater'
+}
+
+export const PIDSourceOptions: IDropdownOption[] = [
+    {
+        key: PIDSources.CoffeeRoastery,
+        text: PIDSourceUrls.CoffeeRoastery
+    },
+    {
+        key: PIDSources.WasteWater,
+        text: PIDSourceUrls.WasteWater
+    }
+];

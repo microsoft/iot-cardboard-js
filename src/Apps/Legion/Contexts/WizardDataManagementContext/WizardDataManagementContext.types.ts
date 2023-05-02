@@ -5,6 +5,7 @@ import {
     IAppData,
     IPIDDocument
 } from '../../Models/Interfaces';
+import { ICookSource } from '../../Models/Types';
 
 export interface IWizardDataManagementContext extends IADXAdapterTargetContext {
     wizardDataManagementContextState: IWizardDataManagementContextState;
@@ -31,7 +32,7 @@ export type WizardDataManagementContextAction =
     | {
           type: WizardDataManagementContextActionType.SET_SOURCE_INFORMATION;
           payload: {
-              data: Array<IADXConnection | IPIDDocument>;
+              data: Array<ICookSource>;
           };
       }
     | {

@@ -35,6 +35,7 @@ const ClusterPicker: React.FC<IClusterPickerProps> = (props) => {
         hasTooltip = false,
         isCreatable = true,
         isRequired = true,
+        isDisabled = false,
         styles
     } = props;
 
@@ -119,7 +120,7 @@ const ClusterPicker: React.FC<IClusterPickerProps> = (props) => {
                 isLoading={getClustersState.isLoading}
                 required={isRequired}
                 isCreatable={isCreatable}
-                label={label || t('legionApp.dataPusher.clusterTitle')}
+                label={label || t('legionApp.Common.clusterLabel')}
                 tooltip={
                     hasTooltip
                         ? {
@@ -149,6 +150,7 @@ const ClusterPicker: React.FC<IClusterPickerProps> = (props) => {
                         : undefined
                 }
                 descriptionIsError={true}
+                isDisabled={isDisabled}
             />
         </div>
     );

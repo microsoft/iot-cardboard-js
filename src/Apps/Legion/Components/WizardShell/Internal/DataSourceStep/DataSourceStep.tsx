@@ -9,25 +9,12 @@ import { getStyles } from './DataSourceStep.styles';
 import {
     classNamesFunction,
     DefaultButton,
-    Dropdown,
-    IDropdownOption,
     Stack,
-    styled,
-    TextField
+    styled
 } from '@fluentui/react';
 import { getDebugLogger } from '../../../../../../Models/Services/Utils';
 import { useExtendedTheme } from '../../../../../../Models/Hooks/useExtendedTheme';
-import {
-    SourceType,
-    SourceTypeOptions,
-    TableTypes
-} from '../../../DataPusher/DataPusher.types';
-import {
-    IGetTableAdapterParams,
-    IGetTablesAdapterParams,
-    ITable
-} from '../../../../Adapters/Standalone/DataManagement/Models/DataManagementAdapter.types';
-import useAdapter from '../../../../../../Models/Hooks/useAdapter';
+import { SourceType } from '../../../DataPusher/DataPusher.types';
 import { useTranslation } from 'react-i18next';
 import {
     dateSourceStepReducer,
@@ -39,11 +26,15 @@ import {
     WizardStepNumber
 } from '../../../../Contexts/WizardNavigationContext/WizardNavigationContext.types';
 import { useWizardDataManagementContext } from '../../../../Contexts/WizardDataManagementContext/WizardDataManagementContext';
-import { IAppData } from '../../../../Models/Interfaces';
+import {
+    IADXConnection,
+    IAppData,
+    IPIDDocument
+} from '../../../../Models/Interfaces';
 import { WizardDataManagementContextActionType } from '../../../../Contexts/WizardDataManagementContext/WizardDataManagementContext.types';
-import { cookSourceTable } from '../../../../Services/DataPusherUtils';
-import DatabasePicker from '../../../Pickers/DatabasePicker/DatabasePicker';
-import ClusterPicker from '../../../Pickers/ClusterPicker/ClusterPicker';
+import { cookSource } from '../../../../Services/DataPusherUtils';
+import CookSource from '../../../CookSource/CookSource';
+import { ICookSource } from '../../../../Models/Types';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('DataSourceStep', debugLogging);
@@ -66,7 +57,6 @@ const DataSourceStep: React.FC<IDataSourceStepProps> = (props) => {
     // contexts
     const { wizardNavigationContextDispatch } = useWizardNavigationContext();
     const {
-        adapter,
         wizardDataManagementContextDispatch
     } = useWizardDataManagementContext();
 
@@ -74,95 +64,34 @@ const DataSourceStep: React.FC<IDataSourceStepProps> = (props) => {
     const { t } = useTranslation();
     const theme = useExtendedTheme();
 
-    const getTablesState = useAdapter({
-        adapterMethod: (param: IGetTablesAdapterParams) =>
-            adapter.getTables(param.databaseName),
-        isAdapterCalledOnMount: false,
-        refetchDependencies: [adapter]
-    });
-    const getTableState = useAdapter({
-        adapterMethod: (params: IGetTableAdapterParams) =>
-            adapter.getTable(params.databaseName, params.tableName),
-        isAdapterCalledOnMount: false,
-        refetchDependencies: [adapter]
-    });
-
     // callbacks
     const handleSourceTypeChange = useCallback(
-        (_event, option: IDropdownOption) => {
+        (sourceType: SourceType) =>
             dispatch({
                 type: DataSourceStepActionType.SET_SELECTED_SOURCE_TYPE,
-                sourceType: option.key as SourceType
-            });
-        },
+                sourceType
+            }),
         []
     );
-    const handleSourceClusterChange = useCallback((clusterUrl: string) => {
-        dispatch({
-            type: DataSourceStepActionType.SET_SELECTED_SOURCE_CLUSTER,
-            clusterUrl
-        });
-        dispatch({
-            type: DataSourceStepActionType.SET_SELECTED_SOURCE_DATABASE,
-            database: ''
-        });
-    }, []);
-    const handleSourceDatabaseChange = useCallback(
-        (databaseName: string) => {
+    const handleSourceChange = useCallback(
+        (source: ICookSource) =>
             dispatch({
-                type: DataSourceStepActionType.SET_SELECTED_SOURCE_DATABASE,
-                database: databaseName
-            });
-            // fetch tables of selected database
-            getTablesState.callAdapter({
-                databaseName: databaseName
-            });
-        },
-        [getTablesState]
-    );
-    const handleSourceTableChange = useCallback(
-        (_event, option: IDropdownOption) => {
-            dispatch({
-                type: DataSourceStepActionType.SET_SELECTED_SOURCE_TABLE,
-                table: option.text
-            });
-            getTableState.callAdapter({
-                databaseName: state.selectedSourceDatabase,
-                tableName: option.text
-            });
-        },
-        [getTableState, state.selectedSourceDatabase]
-    );
-    const handleSourceTwinIDColumnChange = useCallback(
-        (_event, option: IDropdownOption) => {
-            dispatch({
-                type:
-                    DataSourceStepActionType.SET_SELECTED_SOURCE_TWIN_ID_COLUMN,
-                columnName: option.text
-            });
-        },
+                type: DataSourceStepActionType.SET_SELECTED_SOURCE,
+                source
+            }),
         []
     );
     const handleCookButtonClick = useCallback(() => {
-        const cookAssets = cookSourceTable(
-            `${adapter.connectionString}/${state.selectedSourceDatabase}/${state.selectedSourceTable}`,
-            state.sourceTableData,
-            state.selectedSourceTwinIDColumn,
-            state.selectedSourceTableType as TableTypes
+        const cookAssets = cookSource(
+            state.selectedSourceType,
+            state.selectedSource
         );
         setAppData(cookAssets);
         dispatch({
             type: DataSourceStepActionType.SET_COOK_ASSETS,
             cookAssets
         });
-    }, [
-        adapter.connectionString,
-        state.selectedSourceDatabase,
-        state.selectedSourceTable,
-        state.sourceTableData,
-        state.selectedSourceTwinIDColumn,
-        state.selectedSourceTableType
-    ]);
+    }, [state.selectedSource, state.selectedSourceType]);
 
     const handleNextClick = useCallback(() => {
         // Temporary: commit of data into global store in this part until this component's
@@ -170,16 +99,7 @@ const DataSourceStep: React.FC<IDataSourceStepProps> = (props) => {
         wizardDataManagementContextDispatch({
             type: WizardDataManagementContextActionType.SET_SOURCE_INFORMATION,
             payload: {
-                data: [
-                    {
-                        selectedSourceCluster: state.selectedSourceCluster,
-                        selectedSourceDatabase: state.selectedSourceDatabase,
-                        selectedSourceTable: state.selectedSourceTable,
-                        selectedSourceTableType: state.selectedSourceTableType,
-                        selectedSourceTwinIDColumn:
-                            state.selectedSourceTwinIDColumn
-                    }
-                ]
+                data: [state.selectedSource]
             }
         });
 
@@ -200,37 +120,12 @@ const DataSourceStep: React.FC<IDataSourceStepProps> = (props) => {
         });
     }, [
         state.cookAssets,
-        state.selectedSourceCluster,
-        state.selectedSourceDatabase,
-        state.selectedSourceTable,
-        state.selectedSourceTableType,
-        state.selectedSourceTwinIDColumn,
+        state.selectedSource,
         wizardDataManagementContextDispatch,
         wizardNavigationContextDispatch
     ]);
 
-    // side effects
-    useEffect(() => {
-        if (getTablesState?.adapterResult?.result) {
-            const data = getTablesState.adapterResult.getData();
-            dispatch({
-                type: DataSourceStepActionType.SET_SOURCE_TABLE_OPTIONS,
-                options: data.map((d) => ({ key: d, text: d }))
-            });
-        }
-    }, [getTablesState?.adapterResult]);
-
-    useEffect(() => {
-        if (getTableState?.adapterResult?.result) {
-            const data = getTableState.adapterResult.getData() as ITable;
-            dispatch({
-                type: DataSourceStepActionType.SET_SOURCE_TABLE_DATA,
-                tableData: data
-            });
-        }
-    }, [getTableState?.adapterResult]);
-
-    // effects
+    // side-effects
     useEffect(() => {
         wizardNavigationContextDispatch({
             type: WizardNavigationContextActionType.SET_PRIMARY_ACTION,
@@ -259,74 +154,17 @@ const DataSourceStep: React.FC<IDataSourceStepProps> = (props) => {
                 tokens={{ childrenGap: 8 }}
                 styles={classNames.subComponentStyles.stack}
             >
-                <Dropdown
-                    label={t('legionApp.dataPusher.source.type')}
-                    onChange={handleSourceTypeChange}
-                    options={SourceTypeOptions}
-                    placeholder={t(
-                        'legionApp.dataPusher.source.typePlaceholder'
-                    )}
-                    defaultSelectedKey={state.selectedSourceType}
+                <CookSource
+                    onSourceTypeChange={handleSourceTypeChange}
+                    onSourceChange={handleSourceChange}
                 />
-                {state.selectedSourceType === SourceType.Timeseries ? (
-                    <>
-                        <ClusterPicker
-                            isCreatable={false}
-                            onClusterUrlChange={handleSourceClusterChange}
-                            label={t('legionApp.Common.clusterLabel')}
-                            selectedClusterUrl={state.selectedSourceCluster}
-                        />
-                        <DatabasePicker
-                            isCreatable={false}
-                            onDatabaseNameChange={handleSourceDatabaseChange}
-                            label={t('legionApp.Common.databaseLabel')}
-                            placeholder={t(
-                                'legionApp.dataPusher.source.selectDatabase'
-                            )}
-                            selectedDatabaseName={state.selectedSourceDatabase}
-                        />
-                        <Dropdown
-                            required
-                            label={t('legionApp.Common.tableLabel')}
-                            onChange={handleSourceTableChange}
-                            options={state.sourceTableOptions}
-                            placeholder={
-                                getTablesState.isLoading
-                                    ? t('loading')
-                                    : t(
-                                          'legionApp.dataPusher.source.selectTable'
-                                      )
-                            }
-                            selectedKey={state.selectedSourceTable}
-                        />
-                        <Dropdown
-                            required
-                            label={t('legionApp.Common.tableIdColumnLabel')}
-                            onChange={handleSourceTwinIDColumnChange}
-                            options={state.sourceTableColumnOptions}
-                            placeholder={
-                                getTableState.isLoading
-                                    ? t('loading')
-                                    : t(
-                                          'legionApp.dataPusher.source.selectTwinIDProperty'
-                                      )
-                            }
-                            selectedKey={state.selectedSourceTwinIDColumn}
-                        />
-                    </>
-                ) : (
-                    <TextField
-                        label={t('legionApp.Common.urlLabel')}
-                        placeholder={t('legionApp.Common.urlPlaceholder')}
-                    />
-                )}
                 <DefaultButton
                     text={t('legionApp.dataPusher.actions.cook')}
                     disabled={
-                        !(
-                            state.selectedSourceTable &&
-                            state.selectedSourceTwinIDColumn
-                        )
+                        state.selectedSourceType === SourceType.Timeseries
+                            ? !(state.selectedSource as IADXConnection)
+                                  .twinIdColumn
+                            : !(state.selectedSource as IPIDDocument).pidUrl
                     }
                     onClick={handleCookButtonClick}
                 />

@@ -1527,12 +1527,18 @@
     },
     "legionApp": {
         "Common": {
+            "typeLabel": "Source type",
+            "typePlaceholder": "Select source type",
             "clusterLabel": "Cluster URL",
             "clusterPlaceholder": "Select cluster URL",
             "databaseLabel": "Database",
             "databasePlaceholder": "Select database",
             "tableLabel": "Table",
+            "tablePlaceholder": "Select table",
             "tableIdColumnLabel": "ID field",
+            "tableIdColumnPlaceholder": "Select ID field",
+            "tableTypeLabel": "Table type",
+            "tableTypePlaceholder": "Select table type",
             "urlLabel": "URL",
             "urlPlaceholder": "Enter URL",
             "addOptionFormat": "Add '{{item}}'"
@@ -1551,6 +1557,7 @@
             "clusterSelectInfo": "Selected Kusto cluster is required to have 'streaming ingestion' policy enabled.",
             "ingestInfo": "You can create a new database or table, and ingest rows to a target table. Please note that if you recently created the table, it may not be ready for ingestion, wait for couple of minutes before ingestion.",
             "cookInfo": "You can extract twins and possible models & properties information by cooking twins graph based on selected source table.",
+            "tableTypeTooltipContent": "Select the table schema to be used for table creation or row ingestion",
             "tableSelectInfo": "If selecting from existing, make sure Kusto table has 'streaming ingestion' policy enabled with '{{ingestionMapping}}' JSON mapping defined.",
             "notValidClusterMessage": "Not valid Kusto cluster URL",
             "frequency": "Frequency",
@@ -1558,27 +1565,6 @@
             "tabs": {
                 "ingest": "Create & Ingest",
                 "cook": "Cook"
-            },
-            "source": {
-                "type": "Source type",
-                "typePlaceholder": "Select source type",
-                "database": "Source database",
-                "selectDatabase": "Select source database",
-                "table": "Source table",
-                "selectTable": "Select source table",
-                "tableType": "Source table type",
-                "selectTableType": "Select source table type",
-                "twinIDProperty": "Source twin ID property",
-                "selectTwinIDProperty": "Select source twin ID property"
-            },
-            "target": {
-                "database": "Target database",
-                "selectDatabase": "Select target database",
-                "tableType": "Target table type",
-                "tableTypeTooltipContent": "Select the table schema to be used for table creation or row ingestion",
-                "selectTableType": "Select target table type",
-                "table": "Target table",
-                "selectTable": "Select target table"
             },
             "actions": {
                 "startIngest": "Start ingestion",

@@ -17,7 +17,7 @@ export default class MockDataManagementAdapter
 
     constructor() {
         super();
-        this.networkTimeoutMillis = 2000;
+        this.networkTimeoutMillis = 1000;
         this.connectionString = 'mockConnectionString';
     }
 

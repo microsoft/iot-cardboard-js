@@ -1,0 +1,1091 @@
+[
+    {
+        "PID Filename": "wastewater.jpg",
+        "Detected Text": "CITY WATER",
+        "X": 1530,
+        "Y": 34,
+        "Width": 134,
+        "Height": 24,
+        "Confidence": 0.991
+    },
+    {
+        "PID Filename": "wastewater.jpg",
+        "Detected Text": "1/2\" ID",
+        "X": 1013,
+        "Y": 52,
+        "Width": 87,
+        "Height": 25,
+        "Confidence": 0.995
+    },
+    {
+        "PID Filename": "wastewater.jpg",
+        "Detected Text": "TUBING",
+        "X": 1018,
+        "Y": 77,
+        "Width": 79,
+        "Height": 23,
+        "Confidence": 0.994
+    },
+    {
+        "PID Filename": "wastewater.jpg",
+        "Detected Text": "LC13",
+        "X": 857,
+        "Y": 89,
+        "Width": 55,
+        "Height": 22,
+        "Confidence": 0.988
+    },
+    {
+        "PID Filename": "wastewater.jpg",
+        "Detected Text": "M13",
+        "X": 936,
+        "Y": 122,
+        "Width": 43,
+        "Height": 20,
+        "Confidence": 0.993
+    },
+    {
+        "PID Filename": "wastewater.jpg",
+        "Detected Text": "__ OCP13",
+        "X": 993,
+        "Y": 130,
+        "Width": 89,
+        "Height": 24,
+        "Confidence": 0.001
+    },
+    {
+        "PID Filename": "wastewater.jpg",
+        "Detected Text": "ILC11",
+        "X": 1395,
+        "Y": 68,
+        "Width": 51,
+        "Height": 22,
+        "Confidence": 0.757
+    },
+    {
+        "PID Filename": "wastewater.jpg",
+        "Detected Text": "ROTO",
+        "X": 1488,
+        "Y": 69,
+        "Width": 61,
+        "Height": 22,
+        "Confidence": 0.988
+    },
+    {
+        "PID Filename": "wastewater.jpg",
+        "Detected Text": "METER",
+        "X": 1481,
+        "Y": 92,
+        "Width": 75,
+        "Height": 22,
+        "Confidence": 0.997
+    },
+    {
+        "PID Filename": "wastewater.jpg",
+        "Detected Text": "M11",
+        "X": 1354,
+        "Y": 118,
+        "Width": 39,
+        "Height": 21,
+        "Confidence": 0.997
+    },
+    {
+        "PID Filename": "wastewater.jpg",
+        "Detected Text": "LC14",
+        "X": 1954,
+        "Y": 68,
+        "Width": 55,
+        "Height": 23,
+        "Confidence": 0.988
+    },
+    {
+        "PID Filename": "wastewater.jpg",
+        "Detected Text": "CITY WATER",
+        "X": 2085,
+        "Y": 34,
+        "Width": 133,
+        "Height": 23,
+        "Confidence": 0.991
+    },
+    {
+        "PID Filename": "wastewater.jpg",
+        "Detected Text": "1/2\"",
+        "X": 2035,
+        "Y": 59,
+        "Width": 53,
+        "Height": 21,
+        "Confidence": 0.986
+    },
+    {
+        "PID Filename": "wastewater.jpg",
+        "Detected Text": "1/2\" ID",
+        "X": 1788,
+        "Y": 77,
+        "Width": 84,
+        "Height": 26,
+        "Confidence": 0.958
+    },
+    {
+        "PID Filename": "wastewater.jpg",
+        "Detected Text": "TUBING",
+        "X": 1793,
+        "Y": 103,
+        "Width": 77,
+        "Height": 23,
+        "Confidence": 0.993
+    },
+    {
+        "PID Filename": "wastewater.jpg",
+        "Detected Text": "M14",
+        "X": 1915,
+        "Y": 124,
+        "Width": 47,
+        "Height": 20,
+        "Confidence": 0.997
+    },
+    {
+        "PID Filename": "wastewater.jpg",
+        "Detected Text": "CP14020",
+        "X": 1806,
+        "Y": 158,
+        "Width": 91,
+        "Height": 23,
+        "Confidence": 0.3
+    },
+    {
+        "PID Filename": "wastewater.jpg",
+        "Detected Text": "CP11",
+        "X": 1649,
+        "Y": 198,
+        "Width": 51,
+        "Height": 22,
+        "Confidence": 0.98
+    },
+    {
+        "PID Filename": "wastewater.jpg",
+        "Detected Text": "3/4\"",
+        "X": 1512,
+        "Y": 241,
+        "Width": 57,
+        "Height": 24,
+        "Confidence": 0.861
+    },
+    {
+        "PID Filename": "wastewater.jpg",
+        "Detected Text": "A",
+        "X": 988,
+        "Y": 278,
+        "Width": 12,
+        "Height": 10,
+        "Confidence": 0.884
+    },
+    {
+        "PID Filename": "wastewater.jpg",
+        "Detected Text": "DRY CHEM",
+        "X": 1175,
+        "Y": 283,
+        "Width": 119,
+        "Height": 23,
+        "Confidence": 0.997
+    },
+    {
+        "PID Filename": "wastewater.jpg",
+        "Detected Text": "FEED SYSTEM",
+        "X": 1160,
+        "Y": 306,
+        "Width": 150,
+        "Height": 25,
+        "Confidence": 0.991
+    },
+    {
+        "PID Filename": "wastewater.jpg",
+        "Detected Text": "M7",
+        "X": 742,
+        "Y": 375,
+        "Width": 34,
+        "Height": 19,
+        "Confidence": 0.96
+    },
+    {
+        "PID Filename": "wastewater.jpg",
+        "Detected Text": "7",
+        "X": 651,
+        "Y": 397,
+        "Width": 24,
+        "Height": 55,
+        "Confidence": 0.985
+    },
+    {
+        "PID Filename": "wastewater.jpg",
+        "Detected Text": "LC7",
+        "X": 843,
+        "Y": 399,
+        "Width": 42,
+        "Height": 24,
+        "Confidence": 0.997
+    },
+    {
+        "PID Filename": "wastewater.jpg",
+        "Detected Text": "ALUMINUM",
+        "X": 895,
+        "Y": 309,
+        "Width": 113,
+        "Height": 22,
+        "Confidence": 0.993
+    },
+    {
+        "PID Filename": "wastewater.jpg",
+        "Detected Text": "SULFATE",
+        "X": 901,
+        "Y": 332,
+        "Width": 103,
+        "Height": 23,
+        "Confidence": 0.993
+    },
+    {
+        "PID Filename": "wastewater.jpg",
+        "Detected Text": "TANK T13",
+        "X": 896,
+        "Y": 356,
+        "Width": 109,
+        "Height": 22,
+        "Confidence": 0.996
+    },
+    {
+        "PID Filename": "wastewater.jpg",
+        "Detected Text": "LIME SLURRY",
+        "X": 1329,
+        "Y": 281,
+        "Width": 153,
+        "Height": 23,
+        "Confidence": 0.986
+    },
+    {
+        "PID Filename": "wastewater.jpg",
+        "Detected Text": "TANK T11",
+        "X": 1357,
+        "Y": 305,
+        "Width": 108,
+        "Height": 23,
+        "Confidence": 0.988
+    },
+    {
+        "PID Filename": "wastewater.jpg",
+        "Detected Text": "1/2\"",
+        "X": 1354,
+        "Y": 368,
+        "Width": 53,
+        "Height": 22,
+        "Confidence": 0.979
+    },
+    {
+        "PID Filename": "wastewater.jpg",
+        "Detected Text": "EOV11 0%",
+        "X": 1438,
+        "Y": 382,
+        "Width": 112,
+        "Height": 25,
+        "Confidence": 0.993
+    },
+    {
+        "PID Filename": "wastewater.jpg",
+        "Detected Text": "PH9",
+        "X": 1420,
+        "Y": 457,
+        "Width": 47,
+        "Height": 20,
+        "Confidence": 0.997
+    },
+    {
+        "PID Filename": "wastewater.jpg",
+        "Detected Text": "M8",
+        "X": 1348,
+        "Y": 493,
+        "Width": 34,
+        "Height": 20,
+        "Confidence": 0.996
+    },
+    {
+        "PID Filename": "wastewater.jpg",
+        "Detected Text": "M9",
+        "X": 1472,
+        "Y": 492,
+        "Width": 30,
+        "Height": 21,
+        "Confidence": 0.992
+    },
+    {
+        "PID Filename": "wastewater.jpg",
+        "Detected Text": "--",
+        "X": 678,
+        "Y": 481,
+        "Width": 0,
+        "Height": 64,
+        "Confidence": 0.588
+    },
+    {
+        "PID Filename": "wastewater.jpg",
+        "Detected Text": "3Âª",
+        "X": 1276,
+        "Y": 540,
+        "Width": 24,
+        "Height": 17,
+        "Confidence": 0.081
+    },
+    {
+        "PID Filename": "wastewater.jpg",
+        "Detected Text": "ILCP",
+        "X": 136,
+        "Y": 707,
+        "Width": 43,
+        "Height": 21,
+        "Confidence": 0.467
+    },
+    {
+        "PID Filename": "wastewater.jpg",
+        "Detected Text": "P6",
+        "X": 424,
+        "Y": 709,
+        "Width": 32,
+        "Height": 20,
+        "Confidence": 0.997
+    },
+    {
+        "PID Filename": "wastewater.jpg",
+        "Detected Text": "1-1/2\"",
+        "X": 560,
+        "Y": 701,
+        "Width": 82,
+        "Height": 23,
+        "Confidence": 0.929
+    },
+    {
+        "PID Filename": "wastewater.jpg",
+        "Detected Text": "MP",
+        "X": 188,
+        "Y": 737,
+        "Width": 36,
+        "Height": 22,
+        "Confidence": 0.997
+    },
+    {
+        "PID Filename": "wastewater.jpg",
+        "Detected Text": "PIT",
+        "X": 195,
+        "Y": 948,
+        "Width": 36,
+        "Height": 21,
+        "Confidence": 0.993
+    },
+    {
+        "PID Filename": "wastewater.jpg",
+        "Detected Text": "2\"",
+        "X": 304,
+        "Y": 731,
+        "Width": 12,
+        "Height": 26,
+        "Confidence": 0.32
+    },
+    {
+        "PID Filename": "wastewater.jpg",
+        "Detected Text": "1",
+        "X": 266,
+        "Y": 784,
+        "Width": 13,
+        "Height": 19,
+        "Confidence": 0.477
+    },
+    {
+        "PID Filename": "wastewater.jpg",
+        "Detected Text": "DE",
+        "X": 420,
+        "Y": 752,
+        "Width": 24,
+        "Height": 18,
+        "Confidence": 0.832
+    },
+    {
+        "PID Filename": "wastewater.jpg",
+        "Detected Text": "EQUALIZATION",
+        "X": 679,
+        "Y": 792,
+        "Width": 155,
+        "Height": 22,
+        "Confidence": 0.991
+    },
+    {
+        "PID Filename": "wastewater.jpg",
+        "Detected Text": "TANK T-7",
+        "X": 699,
+        "Y": 816,
+        "Width": 116,
+        "Height": 20,
+        "Confidence": 0.988
+    },
+    {
+        "PID Filename": "wastewater.jpg",
+        "Detected Text": "1-1/2\"",
+        "X": 801,
+        "Y": 979,
+        "Width": 79,
+        "Height": 21,
+        "Confidence": 0.638
+    },
+    {
+        "PID Filename": "wastewater.jpg",
+        "Detected Text": "2\"",
+        "X": 935,
+        "Y": 734,
+        "Width": 27,
+        "Height": 18,
+        "Confidence": 0.932
+    },
+    {
+        "PID Filename": "wastewater.jpg",
+        "Detected Text": "DE",
+        "X": 897,
+        "Y": 753,
+        "Width": 30,
+        "Height": 17,
+        "Confidence": 0.42
+    },
+    {
+        "PID Filename": "wastewater.jpg",
+        "Detected Text": "1-1/2\"",
+        "X": 1106,
+        "Y": 709,
+        "Width": 80,
+        "Height": 24,
+        "Confidence": 0.991
+    },
+    {
+        "PID Filename": "wastewater.jpg",
+        "Detected Text": "P7",
+        "X": 1006,
+        "Y": 796,
+        "Width": 35,
+        "Height": 19,
+        "Confidence": 0.94
+    },
+    {
+        "PID Filename": "wastewater.jpg",
+        "Detected Text": "0",
+        "X": 1351,
+        "Y": 696,
+        "Width": 39,
+        "Height": 19,
+        "Confidence": 0.549
+    },
+    {
+        "PID Filename": "wastewater.jpg",
+        "Detected Text": "COAGULANT pH ADJUST",
+        "X": 1287,
+        "Y": 774,
+        "Width": 273,
+        "Height": 25,
+        "Confidence": 0.993
+    },
+    {
+        "PID Filename": "wastewater.jpg",
+        "Detected Text": "TANK T8",
+        "X": 1306,
+        "Y": 800,
+        "Width": 105,
+        "Height": 23,
+        "Confidence": 0.987
+    },
+    {
+        "PID Filename": "wastewater.jpg",
+        "Detected Text": "TANK T9",
+        "X": 1443,
+        "Y": 800,
+        "Width": 103,
+        "Height": 21,
+        "Confidence": 0.988
+    },
+    {
+        "PID Filename": "wastewater.jpg",
+        "Detected Text": "LC16",
+        "X": 1228,
+        "Y": 1009,
+        "Width": 53,
+        "Height": 24,
+        "Confidence": 0.993
+    },
+    {
+        "PID Filename": "wastewater.jpg",
+        "Detected Text": "-",
+        "X": 63,
+        "Y": 1071,
+        "Width": 1,
+        "Height": 39,
+        "Confidence": 0.97
+    },
+    {
+        "PID Filename": "wastewater.jpg",
+        "Detected Text": "1-1/2\"",
+        "X": 80,
+        "Y": 1096,
+        "Width": 82,
+        "Height": 22,
+        "Confidence": 0.676
+    },
+    {
+        "PID Filename": "wastewater.jpg",
+        "Detected Text": "PDP",
+        "X": 297,
+        "Y": 1100,
+        "Width": 46,
+        "Height": 20,
+        "Confidence": 0.993
+    },
+    {
+        "PID Filename": "wastewater.jpg",
+        "Detected Text": "pHDP",
+        "X": 546,
+        "Y": 1111,
+        "Width": 59,
+        "Height": 20,
+        "Confidence": 0.689
+    },
+    {
+        "PID Filename": "wastewater.jpg",
+        "Detected Text": "2\"",
+        "X": 415,
+        "Y": 1123,
+        "Width": 24,
+        "Height": 23,
+        "Confidence": 0.93
+    },
+    {
+        "PID Filename": "wastewater.jpg",
+        "Detected Text": "LCDPI",
+        "X": 467,
+        "Y": 1205,
+        "Width": 61,
+        "Height": 21,
+        "Confidence": 0.658
+    },
+    {
+        "PID Filename": "wastewater.jpg",
+        "Detected Text": "1",
+        "X": 716,
+        "Y": 1079,
+        "Width": 10,
+        "Height": 31,
+        "Confidence": 0.831
+    },
+    {
+        "PID Filename": "wastewater.jpg",
+        "Detected Text": "F",
+        "X": 711,
+        "Y": 1107,
+        "Width": 12,
+        "Height": 20,
+        "Confidence": 0.384
+    },
+    {
+        "PID Filename": "wastewater.jpg",
+        "Detected Text": "1-",
+        "X": 653,
+        "Y": 1122,
+        "Width": 1,
+        "Height": 45,
+        "Confidence": 0.854
+    },
+    {
+        "PID Filename": "wastewater.jpg",
+        "Detected Text": "I",
+        "X": 644,
+        "Y": 1169,
+        "Width": 10,
+        "Height": 21,
+        "Confidence": 0.396
+    },
+    {
+        "PID Filename": "wastewater.jpg",
+        "Detected Text": "FILTER PRESS",
+        "X": 746,
+        "Y": 1193,
+        "Width": 157,
+        "Height": 23,
+        "Confidence": 0.992
+    },
+    {
+        "PID Filename": "wastewater.jpg",
+        "Detected Text": "TO CITY",
+        "X": 230,
+        "Y": 1280,
+        "Width": 89,
+        "Height": 23,
+        "Confidence": 0.997
+    },
+    {
+        "PID Filename": "wastewater.jpg",
+        "Detected Text": "SEWER",
+        "X": 234,
+        "Y": 1306,
+        "Width": 78,
+        "Height": 21,
+        "Confidence": 0.993
+    },
+    {
+        "PID Filename": "wastewater.jpg",
+        "Detected Text": "DFM",
+        "X": 366,
+        "Y": 1246,
+        "Width": 46,
+        "Height": 23,
+        "Confidence": 0.993
+    },
+    {
+        "PID Filename": "wastewater.jpg",
+        "Detected Text": "1-1/2\",",
+        "X": 408,
+        "Y": 1277,
+        "Width": 88,
+        "Height": 24,
+        "Confidence": 0.768
+    },
+    {
+        "PID Filename": "wastewater.jpg",
+        "Detected Text": "=========",
+        "X": 495,
+        "Y": 1286,
+        "Width": 2,
+        "Height": 120,
+        "Confidence": 0.144
+    },
+    {
+        "PID Filename": "wastewater.jpg",
+        "Detected Text": "4",
+        "X": 643,
+        "Y": 1229,
+        "Width": 18,
+        "Height": 18,
+        "Confidence": 0.361
+    },
+    {
+        "PID Filename": "wastewater.jpg",
+        "Detected Text": "CHART",
+        "X": 687,
+        "Y": 1309,
+        "Width": 80,
+        "Height": 23,
+        "Confidence": 0.995
+    },
+    {
+        "PID Filename": "wastewater.jpg",
+        "Detected Text": "RECORDER",
+        "X": 669,
+        "Y": 1334,
+        "Width": 117,
+        "Height": 21,
+        "Confidence": 0.994
+    },
+    {
+        "PID Filename": "wastewater.jpg",
+        "Detected Text": "---",
+        "X": 655,
+        "Y": 1284,
+        "Width": -2,
+        "Height": 87,
+        "Confidence": 0.849
+    },
+    {
+        "PID Filename": "wastewater.jpg",
+        "Detected Text": "-",
+        "X": 653,
+        "Y": 1375,
+        "Width": 0,
+        "Height": 23,
+        "Confidence": 0.685
+    },
+    {
+        "PID Filename": "wastewater.jpg",
+        "Detected Text": "--",
+        "X": 654,
+        "Y": 1399,
+        "Width": 0,
+        "Height": 49,
+        "Confidence": 0.966
+    },
+    {
+        "PID Filename": "wastewater.jpg",
+        "Detected Text": "DISCHARGE",
+        "X": 496,
+        "Y": 1449,
+        "Width": 123,
+        "Height": 22,
+        "Confidence": 0.991
+    },
+    {
+        "PID Filename": "wastewater.jpg",
+        "Detected Text": "PIT",
+        "X": 536,
+        "Y": 1473,
+        "Width": 38,
+        "Height": 22,
+        "Confidence": 0.957
+    },
+    {
+        "PID Filename": "wastewater.jpg",
+        "Detected Text": "2\"",
+        "X": 1070,
+        "Y": 1121,
+        "Width": 25,
+        "Height": 20,
+        "Confidence": 0.954
+    },
+    {
+        "PID Filename": "wastewater.jpg",
+        "Detected Text": "5-Jul",
+        "X": 1180,
+        "Y": 1269,
+        "Width": 45,
+        "Height": 14,
+        "Confidence": 0.403
+    },
+    {
+        "PID Filename": "wastewater.jpg",
+        "Detected Text": "P16",
+        "X": 1153,
+        "Y": 1334,
+        "Width": 42,
+        "Height": 21,
+        "Confidence": 0.998
+    },
+    {
+        "PID Filename": "wastewater.jpg",
+        "Detected Text": "SLUDGE",
+        "X": 1396,
+        "Y": 1124,
+        "Width": 87,
+        "Height": 23,
+        "Confidence": 0.997
+    },
+    {
+        "PID Filename": "wastewater.jpg",
+        "Detected Text": "HOLDING",
+        "X": 1393,
+        "Y": 1148,
+        "Width": 95,
+        "Height": 21,
+        "Confidence": 0.993
+    },
+    {
+        "PID Filename": "wastewater.jpg",
+        "Detected Text": "TANK T16",
+        "X": 1385,
+        "Y": 1172,
+        "Width": 109,
+        "Height": 21,
+        "Confidence": 0.988
+    },
+    {
+        "PID Filename": "wastewater.jpg",
+        "Detected Text": "3'",
+        "X": 1245,
+        "Y": 1245,
+        "Width": 13,
+        "Height": 27,
+        "Confidence": 0.712
+    },
+    {
+        "PID Filename": "wastewater.jpg",
+        "Detected Text": "1-1/2\"",
+        "X": 1396,
+        "Y": 1367,
+        "Width": 82,
+        "Height": 27,
+        "Confidence": 0.993
+    },
+    {
+        "PID Filename": "wastewater.jpg",
+        "Detected Text": "EOV15 0%",
+        "X": 1435,
+        "Y": 1427,
+        "Width": 118,
+        "Height": 26,
+        "Confidence": 0.98
+    },
+    {
+        "PID Filename": "wastewater.jpg",
+        "Detected Text": "/2\"",
+        "X": 1666,
+        "Y": 251,
+        "Width": 41,
+        "Height": 33,
+        "Confidence": 0.951
+    },
+    {
+        "PID Filename": "wastewater.jpg",
+        "Detected Text": "ANIONIC",
+        "X": 1906,
+        "Y": 281,
+        "Width": 86,
+        "Height": 23,
+        "Confidence": 0.995
+    },
+    {
+        "PID Filename": "wastewater.jpg",
+        "Detected Text": "TANK T-14",
+        "X": 1884,
+        "Y": 305,
+        "Width": 130,
+        "Height": 24,
+        "Confidence": 0.988
+    },
+    {
+        "PID Filename": "wastewater.jpg",
+        "Detected Text": "M10",
+        "X": 1591,
+        "Y": 492,
+        "Width": 46,
+        "Height": 22,
+        "Confidence": 0.991
+    },
+    {
+        "PID Filename": "wastewater.jpg",
+        "Detected Text": "T12",
+        "X": 1902,
+        "Y": 496,
+        "Width": 43,
+        "Height": 22,
+        "Confidence": 0.997
+    },
+    {
+        "PID Filename": "wastewater.jpg",
+        "Detected Text": "EPS CLARIFIER",
+        "X": 1840,
+        "Y": 520,
+        "Width": 164,
+        "Height": 23,
+        "Confidence": 0.997
+    },
+    {
+        "PID Filename": "wastewater.jpg",
+        "Detected Text": "3\"",
+        "X": 1744,
+        "Y": 571,
+        "Width": 26,
+        "Height": 16,
+        "Confidence": 0.661
+    },
+    {
+        "PID Filename": "wastewater.jpg",
+        "Detected Text": "3\"",
+        "X": 2170,
+        "Y": 572,
+        "Width": 26,
+        "Height": 16,
+        "Confidence": 0.677
+    },
+    {
+        "PID Filename": "wastewater.jpg",
+        "Detected Text": "FLOC",
+        "X": 1600,
+        "Y": 775,
+        "Width": 60,
+        "Height": 23,
+        "Confidence": 0.985
+    },
+    {
+        "PID Filename": "wastewater.jpg",
+        "Detected Text": "TANK T10",
+        "X": 1574,
+        "Y": 800,
+        "Width": 111,
+        "Height": 22,
+        "Confidence": 0.993
+    },
+    {
+        "PID Filename": "wastewater.jpg",
+        "Detected Text": "P12A",
+        "X": 1789,
+        "Y": 808,
+        "Width": 59,
+        "Height": 20,
+        "Confidence": 0.986
+    },
+    {
+        "PID Filename": "wastewater.jpg",
+        "Detected Text": "$",
+        "X": 1820,
+        "Y": 838,
+        "Width": 11,
+        "Height": 17,
+        "Confidence": 0.985
+    },
+    {
+        "PID Filename": "wastewater.jpg",
+        "Detected Text": "2\"",
+        "X": 1892,
+        "Y": 783,
+        "Width": 27,
+        "Height": 17,
+        "Confidence": 0.961
+    },
+    {
+        "PID Filename": "wastewater.jpg",
+        "Detected Text": "P12B",
+        "X": 1960,
+        "Y": 812,
+        "Width": 54,
+        "Height": 22,
+        "Confidence": 0.991
+    },
+    {
+        "PID Filename": "wastewater.jpg",
+        "Detected Text": "1-1/2\"",
+        "X": 1654,
+        "Y": 902,
+        "Width": 84,
+        "Height": 23,
+        "Confidence": 0.655
+    },
+    {
+        "PID Filename": "wastewater.jpg",
+        "Detected Text": "Z",
+        "X": 1927,
+        "Y": 903,
+        "Width": 16,
+        "Height": 23,
+        "Confidence": 0.903
+    },
+    {
+        "PID Filename": "wastewater.jpg",
+        "Detected Text": "LC15",
+        "X": 1699,
+        "Y": 954,
+        "Width": 55,
+        "Height": 24,
+        "Confidence": 0.983
+    },
+    {
+        "PID Filename": "wastewater.jpg",
+        "Detected Text": "pH15",
+        "X": 1801,
+        "Y": 958,
+        "Width": 56,
+        "Height": 33,
+        "Confidence": 0.98
+    },
+    {
+        "PID Filename": "wastewater.jpg",
+        "Detected Text": "--",
+        "X": 1838,
+        "Y": 1099,
+        "Width": -1,
+        "Height": 38,
+        "Confidence": 0.901
+    },
+    {
+        "PID Filename": "wastewater.jpg",
+        "Detected Text": "CLEARWELL",
+        "X": 1720,
+        "Y": 1199,
+        "Width": 125,
+        "Height": 23,
+        "Confidence": 0.994
+    },
+    {
+        "PID Filename": "wastewater.jpg",
+        "Detected Text": "TANK T15",
+        "X": 1727,
+        "Y": 1223,
+        "Width": 113,
+        "Height": 22,
+        "Confidence": 0.988
+    },
+    {
+        "PID Filename": "wastewater.jpg",
+        "Detected Text": "P15",
+        "X": 1592,
+        "Y": 1230,
+        "Width": 41,
+        "Height": 22,
+        "Confidence": 0.994
+    },
+    {
+        "PID Filename": "wastewater.jpg",
+        "Detected Text": "1-1/2\"",
+        "X": 1581,
+        "Y": 1452,
+        "Width": 83,
+        "Height": 24,
+        "Confidence": 0.812
+    },
+    {
+        "PID Filename": "wastewater.jpg",
+        "Detected Text": "PLANT AIR LINE",
+        "X": 1881,
+        "Y": 1367,
+        "Width": 144,
+        "Height": 20,
+        "Confidence": 0.994
+    },
+    {
+        "PID Filename": "wastewater.jpg",
+        "Detected Text": "PROCESS FLOW",
+        "X": 1886,
+        "Y": 1386,
+        "Width": 137,
+        "Height": 19,
+        "Confidence": 0.993
+    },
+    {
+        "PID Filename": "wastewater.jpg",
+        "Detected Text": "SUPPLIED BY OTHERS",
+        "X": 1828,
+        "Y": 1405,
+        "Width": 197,
+        "Height": 21,
+        "Confidence": 0.991
+    },
+    {
+        "PID Filename": "wastewater.jpg",
+        "Detected Text": "CHEMICAL ADDITION",
+        "X": 1849,
+        "Y": 1426,
+        "Width": 174,
+        "Height": 20,
+        "Confidence": 0.993
+    },
+    {
+        "PID Filename": "wastewater.jpg",
+        "Detected Text": "PROCESS CONTROL",
+        "X": 1850,
+        "Y": 1447,
+        "Width": 171,
+        "Height": 20,
+        "Confidence": 0.995
+    },
+    {
+        "PID Filename": "wastewater.jpg",
+        "Detected Text": "SLUDGE",
+        "X": 1957,
+        "Y": 1468,
+        "Width": 65,
+        "Height": 19,
+        "Confidence": 0.994
+    },
+    {
+        "PID Filename": "wastewater.jpg",
+        "Detected Text": "FILTRATE",
+        "X": 1944,
+        "Y": 1486,
+        "Width": 80,
+        "Height": 19,
+        "Confidence": 0.993
+    },
+    {
+        "PID Filename": "wastewater.jpg",
+        "Detected Text": "RECYCLE",
+        "X": 1946,
+        "Y": 1507,
+        "Width": 77,
+        "Height": 18,
+        "Confidence": 0.995
+    }
+]

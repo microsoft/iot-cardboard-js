@@ -32,6 +32,7 @@ const DatabasePicker: React.FC<IDatabasePickerProps> = (props) => {
         targetAdapterContext = WizardDataManagementContext,
         isCreatable = true,
         isRequired = true,
+        isDisabled = false,
         label,
         placeholder,
         styles
@@ -113,16 +114,16 @@ const DatabasePicker: React.FC<IDatabasePickerProps> = (props) => {
                 isLoading={getDatabasesState.isLoading}
                 required={isRequired}
                 isCreatable={isCreatable}
-                label={label || t('legionApp.dataPusher.target.database')}
+                label={label || t('legionApp.Common.databaseLabel')}
                 onSelectionChange={handleDatabaseNameChange}
                 options={databaseOptions}
                 placeholder={
-                    placeholder ||
-                    t('legionApp.dataPusher.target.selectDatabase')
+                    placeholder || t('legionApp.Common.databasePlaceholder')
                 }
                 selectedItem={selectedDatabaseOption}
                 isSpinnerVisible={isCreatable && createDatabaseState.isLoading}
                 spinnerLabel={t('legionApp.dataPusher.progress.createDatabase')}
+                isDisabled={isDisabled}
             />
         </div>
     );
