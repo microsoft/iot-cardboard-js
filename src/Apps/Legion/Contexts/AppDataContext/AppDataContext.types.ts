@@ -1,8 +1,11 @@
+import { IDataManagementAdapter } from '../../Adapters/Standalone/DataManagement/Models/DataManagementAdapter.types';
+
 export interface ITargetDatabaseConnection {
     clusterUrl: string;
     databaseName: string;
 }
 export interface IAppDataContextProviderProps {
+    adapter?: IDataManagementAdapter;
     initialState?: Partial<IAppDataContextState>;
 }
 
@@ -10,6 +13,7 @@ export interface IAppDataContextProviderProps {
  * A context used for capturing the current state of the app and restoring it to a new instance of the app
  */
 export interface IAppDataContext {
+    adapter: IDataManagementAdapter;
     appDataState: IAppDataContextState;
     appDataDispatch: React.Dispatch<AppDataContextAction>;
 }

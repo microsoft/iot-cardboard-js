@@ -20,6 +20,7 @@ import {
     deletePropertyById,
     initializeId
 } from './WizardDataContext.utils';
+import { getHighChartColorByIdx } from '../../../../Models/SharedUtils/DataHistoryUtils';
 
 const debugLogging = false;
 export const logDebugConsole = getDebugLogger(
@@ -119,6 +120,21 @@ export const WizardDataContextReducer: (
             case WizardDataContextActionType.PROPERTY_REMOVE: {
                 const { propertyId } = action.payload;
                 deletePropertyById(propertyId, draft);
+                break;
+            }
+            case WizardDataContextActionType.ADD_SOURCE_ASSETS: {
+                const { data } = action.payload;
+                draft.properties = draft.properties.concat(data.properties);
+                const types = deepCopy(data.types);
+                draft.types = draft.types.concat(
+                    types.map((t, idx) => {
+                        t.color = getHighChartColorByIdx(
+                            draft.types.length + idx
+                        );
+                        return t;
+                    })
+                );
+                draft.entities = draft.entities.concat(data.entities);
                 break;
             }
         }

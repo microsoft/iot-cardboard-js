@@ -19,7 +19,7 @@ export const defaultDataSourceStepState: IDataSourceStepState = {
     cookAssets: undefined
 };
 
-export const dateSourceStepReducer = produce(
+export const DataSourceStepReducer = produce(
     (draft: IDataSourceStepState, action: DataSourceStepAction) => {
         switch (action.type) {
             case DataSourceStepActionType.SET_SELECTED_SOURCE_TYPE:

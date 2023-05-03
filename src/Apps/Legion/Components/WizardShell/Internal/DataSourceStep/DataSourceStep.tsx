@@ -6,18 +6,13 @@ import {
     IDataSourceStepStyles
 } from './DataSourceStep.types';
 import { getStyles } from './DataSourceStep.styles';
-import {
-    classNamesFunction,
-    DefaultButton,
-    Stack,
-    styled
-} from '@fluentui/react';
+import { classNamesFunction, Stack, styled } from '@fluentui/react';
 import { getDebugLogger } from '../../../../../../Models/Services/Utils';
 import { useExtendedTheme } from '../../../../../../Models/Hooks/useExtendedTheme';
 import { SourceType } from '../../../DataPusher/DataPusher.types';
 import { useTranslation } from 'react-i18next';
 import {
-    dateSourceStepReducer,
+    DataSourceStepReducer,
     defaultDataSourceStepState
 } from './DataSourceStep.state';
 import { useWizardNavigationContext } from '../../../../Contexts/WizardNavigationContext/WizardNavigationContext';
@@ -25,16 +20,17 @@ import {
     WizardNavigationContextActionType,
     WizardStepNumber
 } from '../../../../Contexts/WizardNavigationContext/WizardNavigationContext.types';
-import { useWizardDataManagementContext } from '../../../../Contexts/WizardDataManagementContext/WizardDataManagementContext';
 import {
     IADXConnection,
-    IAppData,
+    ICookedSource,
     IPIDDocument
 } from '../../../../Models/Interfaces';
-import { WizardDataManagementContextActionType } from '../../../../Contexts/WizardDataManagementContext/WizardDataManagementContext.types';
 import { cookSource } from '../../../../Services/DataPusherUtils';
 import CookSource from '../../../CookSource/CookSource';
 import { ICookSource } from '../../../../Models/Types';
+import { useWizardDataDispatchContext } from '../../../../Contexts/WizardDataContext/WizardDataContext';
+import { WizardDataContextActionType } from '../../../../Contexts/WizardDataContext/WizardDataContext.types';
+import { getWizardDataFromCookedData } from '../../WizardShellMockData';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('DataSourceStep', debugLogging);
@@ -48,69 +44,48 @@ const DataSourceStep: React.FC<IDataSourceStepProps> = (props) => {
     const { styles } = props;
     // state
     const [state, dispatch] = useReducer(
-        dateSourceStepReducer,
+        DataSourceStepReducer,
         defaultDataSourceStepState
     );
 
-    const [appData, setAppData] = useState<IAppData>(null);
+    const [appData, setAppData] = useState<ICookedSource>(null);
 
     // contexts
     const { wizardNavigationContextDispatch } = useWizardNavigationContext();
-    const {
-        wizardDataManagementContextDispatch
-    } = useWizardDataManagementContext();
+    const { wizardDataDispatch } = useWizardDataDispatchContext();
 
     // hooks
     const { t } = useTranslation();
     const theme = useExtendedTheme();
 
     // callbacks
-    const handleSourceTypeChange = useCallback(
-        (sourceType: SourceType) =>
-            dispatch({
-                type: DataSourceStepActionType.SET_SELECTED_SOURCE_TYPE,
-                sourceType
-            }),
-        []
-    );
-    const handleSourceChange = useCallback(
-        (source: ICookSource) =>
-            dispatch({
-                type: DataSourceStepActionType.SET_SELECTED_SOURCE,
-                source
-            }),
-        []
-    );
-    const handleCookButtonClick = useCallback(() => {
-        const cookAssets = cookSource(
+    const handleSourceTypeChange = useCallback((sourceType: SourceType) => {
+        dispatch({
+            type: DataSourceStepActionType.SET_SELECTED_SOURCE_TYPE,
+            sourceType
+        });
+    }, []);
+    const handleSourceChange = useCallback((source: ICookSource) => {
+        dispatch({
+            type: DataSourceStepActionType.SET_SELECTED_SOURCE,
+            source
+        });
+    }, []);
+
+    const handleNextClick = useCallback(() => {
+        const cookedSource = cookSource(
             state.selectedSourceType,
             state.selectedSource
         );
-        setAppData(cookAssets);
-        dispatch({
-            type: DataSourceStepActionType.SET_COOK_ASSETS,
-            cookAssets
-        });
-    }, [state.selectedSource, state.selectedSourceType]);
-
-    const handleNextClick = useCallback(() => {
-        // Temporary: commit of data into global store in this part until this component's
-        // reducer gets merged into global data context
-        wizardDataManagementContextDispatch({
-            type: WizardDataManagementContextActionType.SET_SOURCE_INFORMATION,
+        wizardDataDispatch({
+            type: WizardDataContextActionType.ADD_SOURCE_ASSETS,
             payload: {
-                data: [state.selectedSource]
+                data: getWizardDataFromCookedData(
+                    cookedSource,
+                    state.selectedSourceType
+                )
             }
         });
-
-        wizardDataManagementContextDispatch({
-            type: WizardDataManagementContextActionType.SET_INITIAL_ASSETS,
-            payload: {
-                data: state.cookAssets
-            }
-        });
-        // End of temporary section
-
         // Navigation only, since all data is updated through other handlers
         wizardNavigationContextDispatch({
             type: WizardNavigationContextActionType.NAVIGATE_TO,
@@ -119,9 +94,9 @@ const DataSourceStep: React.FC<IDataSourceStepProps> = (props) => {
             }
         });
     }, [
-        state.cookAssets,
         state.selectedSource,
-        wizardDataManagementContextDispatch,
+        state.selectedSourceType,
+        wizardDataDispatch,
         wizardNavigationContextDispatch
     ]);
 
@@ -137,6 +112,23 @@ const DataSourceStep: React.FC<IDataSourceStepProps> = (props) => {
             }
         });
     }, [appData, handleNextClick, wizardNavigationContextDispatch]);
+
+    useEffect(() => {
+        wizardNavigationContextDispatch({
+            type:
+                WizardNavigationContextActionType.SET_PRIMARY_ACTION_IS_DISABLED,
+            payload: {
+                isDisabled:
+                    state.selectedSourceType === SourceType.Timeseries
+                        ? !(state.selectedSource as IADXConnection).twinIdColumn
+                        : !(state.selectedSource as IPIDDocument).pidUrl
+            }
+        });
+    }, [
+        state.selectedSource,
+        state.selectedSourceType,
+        wizardNavigationContextDispatch
+    ]);
 
     // styles
     const classNames = getClassNames(styles, {
@@ -158,45 +150,7 @@ const DataSourceStep: React.FC<IDataSourceStepProps> = (props) => {
                     onSourceTypeChange={handleSourceTypeChange}
                     onSourceChange={handleSourceChange}
                 />
-                <DefaultButton
-                    text={t('legionApp.dataPusher.actions.cook')}
-                    disabled={
-                        state.selectedSourceType === SourceType.Timeseries
-                            ? !(state.selectedSource as IADXConnection)
-                                  .twinIdColumn
-                            : !(state.selectedSource as IPIDDocument).pidUrl
-                    }
-                    onClick={handleCookButtonClick}
-                />
             </Stack>
-            {appData && (
-                <div className={classNames.informationText}>
-                    <p>{`${
-                        appData.models.length
-                    } possible models found with properties ${appData.models
-                        .map((model) => {
-                            return `[${model.propertyIds
-                                .map(
-                                    (propId) =>
-                                        appData.properties.find(
-                                            (p) => p.id === propId
-                                        ).name
-                                )
-                                .join(',')}]`;
-                        })
-                        .join(',')}`}</p>
-                    <p>{`${
-                        appData.properties.length
-                    } unique properties found: ${appData.properties
-                        .map((p) => p.name)
-                        .join(',')}`}</p>
-                    <p>{`${
-                        appData.twins.length
-                    } unique twins found: ${appData.twins
-                        .map((t) => t.id)
-                        .join(',')}`}</p>
-                </div>
-            )}
         </div>
     );
 };

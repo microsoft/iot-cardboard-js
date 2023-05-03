@@ -45,7 +45,7 @@ const getColumns = memoizeFunction((): IColumn[] => [
         key: 'source-name-column',
         name: i18n.t('legionApp.modifyStep.sourceColumnHeader'),
         minWidth: 100,
-        fieldName: 'sourcePropId'
+        fieldName: 'sourcePropName'
     },
     {
         key: 'friendly-name-column',

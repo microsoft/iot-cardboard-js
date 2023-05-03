@@ -45,7 +45,7 @@ const DEFAULT_INGESTION_FREQUENCY_IN_SEC = 5;
 const MIN_INGESTION_FREQUENCY_IN_SEC = 1;
 
 const Ingest: React.FC = () => {
-    const { adapter, classNames } = useDataPusherContext();
+    const { adapter, selectedClusterUrl, classNames } = useDataPusherContext();
 
     // state
     const [tableOptions, setTableOptions] = useState<Array<IReactSelectOption>>(
@@ -273,6 +273,7 @@ const Ingest: React.FC = () => {
                     {t('legionApp.dataPusher.ingestInfo')}
                 </p>
                 <DatabasePicker
+                    isDisabled={!selectedClusterUrl}
                     onDatabaseNameChange={handleDatabaseChange}
                     targetAdapterContext={DataPusherContext}
                     isCreatable={true}

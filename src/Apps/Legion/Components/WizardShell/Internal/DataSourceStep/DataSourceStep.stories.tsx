@@ -5,10 +5,10 @@ import { IDataSourceStepProps } from './DataSourceStep.types';
 import { getDefaultStoryDecorator } from '../../../../../../Models/Services/StoryUtilities';
 import { WizardNavigationContextProvider } from '../../../../Contexts/WizardNavigationContext/WizardNavigationContext';
 import {
-    DEFAULT_MOCK_DATA_MANAGEMENT_STATE,
+    GET_DEFAULT_MOCK_WIZARD_DATA_CONTEXT,
     WIZARD_NAVIGATION_MOCK_DATA
 } from '../../WizardShellMockData';
-import { WizardDataManagementContextProvider } from '../../../../Contexts/WizardDataManagementContext/WizardDataManagementContext';
+import { WizardDataContextProvider } from '../../../../Contexts/WizardDataContext/WizardDataContext';
 
 const wrapperStyle = { width: '100%', height: '600px', padding: 8 };
 
@@ -22,17 +22,15 @@ type DataSourceStepStory = ComponentStory<typeof DataSourceStep>;
 
 const Template: DataSourceStepStory = (args) => {
     return (
-        <WizardDataManagementContextProvider
-            initialState={{
-                ...DEFAULT_MOCK_DATA_MANAGEMENT_STATE
-            }}
+        <WizardDataContextProvider
+            initialState={GET_DEFAULT_MOCK_WIZARD_DATA_CONTEXT('Dairy')}
         >
             <WizardNavigationContextProvider
                 initialState={WIZARD_NAVIGATION_MOCK_DATA}
             >
                 <DataSourceStep {...args} />
             </WizardNavigationContextProvider>
-        </WizardDataManagementContextProvider>
+        </WizardDataContextProvider>
     );
 };
 

@@ -13,7 +13,7 @@ import {
 } from '../Components/DataPusher/DataPusher.types';
 import {
     IADXConnection,
-    IAppData,
+    ICookedSource,
     IModel,
     IModelProperty,
     IPIDDocument,
@@ -46,12 +46,12 @@ export const getTableSchemaTypeFromTable = (table: ITable) => {
  * (2) if diagram type, it returns the extracted texts from diagram as twin ids along with other properties like x, y and width, height.
  * @param sourceType the type of the source
  * @param source the source to be cooked
- * @returns IAppData which includes models, properties and twins objects
+ * @returns ICookedSource which includes models, properties and twins objects
  */
 export const cookSource = (
     sourceType: SourceType,
     source: ICookSource
-): IAppData => {
+): ICookedSource => {
     switch (sourceType) {
         case SourceType.Timeseries: {
             const sourceToCook: IADXConnection = source as IADXConnection;
@@ -199,34 +199,32 @@ export const cookSource = (
             return {
                 models,
                 twins,
-                properties,
-                relationshipModels: [],
-                relationships: []
+                properties
             };
         }
         case SourceType.Diagram: {
             const sourceToCook: IPIDDocument = source as IPIDDocument;
             const properties: Array<IModelProperty> = [
                 {
-                    id: 'Property-X',
+                    id: createGUID(),
                     name: 'X',
                     dataType: 'string',
                     sourcePropName: 'X'
                 },
                 {
-                    id: 'Property-Y',
+                    id: createGUID(),
                     name: 'Y',
                     dataType: 'string',
                     sourcePropName: 'Y'
                 },
                 {
-                    id: 'Property-Width',
+                    id: createGUID(),
                     name: 'Width',
                     dataType: 'string',
                     sourcePropName: 'Width'
                 },
                 {
-                    id: 'Property-Height',
+                    id: createGUID(),
                     name: 'Height',
                     dataType: 'string',
                     sourcePropName: 'Height'
@@ -235,66 +233,40 @@ export const cookSource = (
 
             const models: Array<IModel> = [
                 {
-                    id: 'MockModel',
-                    name: 'MockModel',
+                    id: createGUID(),
+                    name: 'PIDModel',
                     propertyIds: [
-                        'Property-X',
-                        'Property-Y',
-                        'Property-Width',
-                        'Property-Height'
+                        properties[0].id,
+                        properties[1].id,
+                        properties[2].id,
+                        properties[3].id
                     ]
                 }
             ];
 
-            let twins: Array<ITwin> = [];
-            switch (sourceToCook.pidUrl) {
-                case PIDSourceUrls.CoffeeRoastery: {
-                    twins = CoffeeRoasteryPIDData.reduce((acc, data) => {
-                        // to prevent duplicate twin ids
-                        if (
-                            acc?.findIndex(
-                                (a) => a.id === data['Detected Text']
-                            ) === -1
-                        ) {
-                            acc.push({
-                                id: data['Detected Text'],
-                                name: data['Detected Text'],
-                                modelId: 'MockModel',
-                                sourceConnectionString: sourceToCook.pidUrl
-                            });
-                        }
-                        return acc;
-                    }, []);
-                    break;
+            const twins: Array<ITwin> = (sourceToCook.pidUrl ===
+            PIDSourceUrls.CoffeeRoastery
+                ? CoffeeRoasteryPIDData
+                : WasteWaterPIDData
+            ).reduce((acc, data) => {
+                // to prevent duplicate twin ids
+                if (
+                    acc?.findIndex((a) => a.id === data['Detected Text']) === -1
+                ) {
+                    acc.push({
+                        id: data['Detected Text'],
+                        name: data['Detected Text'],
+                        modelId: models[0].id,
+                        sourceConnectionString: sourceToCook.pidUrl
+                    });
                 }
-                case PIDSourceUrls.WasteWater: {
-                    twins = WasteWaterPIDData.reduce((acc, data) => {
-                        // to prevent duplicate twin ids
-                        if (
-                            acc?.findIndex(
-                                (a) => a.id === data['Detected Text']
-                            ) === -1
-                        ) {
-                            acc.push({
-                                id: data['Detected Text'],
-                                name: data['Detected Text'],
-                                modelId: 'MockModel',
-                                sourceConnectionString: sourceToCook.pidUrl
-                            });
-                        }
-                        return acc;
-                    }, []);
-                    break;
-                }
-                default:
-                    break;
-            }
+                return acc;
+            }, []);
+
             return {
                 models,
                 twins,
-                properties,
-                relationshipModels: [],
-                relationships: []
+                properties
             };
         }
         default:

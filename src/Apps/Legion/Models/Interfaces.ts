@@ -38,25 +38,11 @@ export interface ITwin {
     sourceConnectionString: string;
 }
 
-export interface IRelationshipModel {
-    id: string;
-    name: string;
-}
-
-export interface IRelationship {
-    id: string;
-    relationshipModelId: string; // FK for IRelationshipModel
-    sourceTwinId: string; // FK for ITwin
-    targetTwinId: string; // FK for ITwin
-}
-
 // TBD on the name
-export interface IAppData {
+export interface ICookedSource {
     models: Array<IModel>;
     properties: Array<IModelProperty>;
     twins: Array<ITwin>;
-    relationshipModels: Array<IRelationshipModel>;
-    relationships: Array<IRelationship>;
 }
 
 /** to be used for Database ingestion flow */

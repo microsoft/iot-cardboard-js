@@ -7,7 +7,6 @@ import {
 import { IExtendedTheme } from '../../../../../../Theming/Theme.types';
 import { ICookSource } from '../../../../Models/Types';
 import { SourceType } from '../../../DataPusher/DataPusher.types';
-import { IAppData } from '../../../../Models/Interfaces';
 
 export interface IDataSourceStepProps {
     /**
@@ -41,14 +40,12 @@ export interface IDataSourceStepState {
     selectedSourceType: SourceType;
     selectedSource: ICookSource;
     adapterResult: boolean;
-    cookAssets: IAppData;
 }
 
 export enum DataSourceStepActionType {
     SET_SELECTED_SOURCE_TYPE = 'SET_SELECTED_SOURCE_TYPE',
     SET_SELECTED_SOURCE = 'SET_SELECTED_SOURCE',
-    SET_ADAPTER_RESULT = 'SET_ADAPTER_RESULT',
-    SET_COOK_ASSETS = 'SET_COOK_ASSETS'
+    SET_ADAPTER_RESULT = 'SET_ADAPTER_RESULT'
 }
 
 export type DataSourceStepAction =
@@ -63,8 +60,4 @@ export type DataSourceStepAction =
     | {
           type: DataSourceStepActionType.SET_ADAPTER_RESULT;
           adapterResult: boolean;
-      }
-    | {
-          type: DataSourceStepActionType.SET_COOK_ASSETS;
-          cookAssets: IAppData;
       };

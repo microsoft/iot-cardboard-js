@@ -47,6 +47,7 @@ export interface IDataPusherSubComponentStyles {
 }
 
 export interface IDataPusherContext extends IADXAdapterTargetContext {
+    selectedClusterUrl: string;
     classNames: IProcessedStyleSet<IDataPusherStyles>;
 }
 

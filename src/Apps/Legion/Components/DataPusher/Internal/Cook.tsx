@@ -7,30 +7,30 @@ import {
     Stack
 } from '@fluentui/react';
 import { ITable } from '../../../Adapters/Standalone/DataManagement/Models/DataManagementAdapter.types';
-import { useDataPusherContext } from '../DataPusher';
+import { DataPusherContext, useDataPusherContext } from '../DataPusher';
 import { useTranslation } from 'react-i18next';
 import { cookSource } from '../../../Services/DataPusherUtils';
-import { IAppData } from '../../../Models/Interfaces';
+import { ICookedSource } from '../../../Models/Interfaces';
 import { SourceType } from '../DataPusher.types';
 import CookSource from '../../CookSource/CookSource';
 import { IADXConnection, ICookSource, IPIDDocument } from '../../../Models';
 
 const Cook: React.FC = () => {
-    const { classNames } = useDataPusherContext();
+    const { selectedClusterUrl, classNames } = useDataPusherContext();
 
     // state
     const [selectedSourceType, setSelectedSourceType] = useState<SourceType>(
         SourceType.Timeseries
     );
     const [selectedSource, setSelectedSource] = useState<ICookSource>({
-        cluster: null,
+        cluster: selectedClusterUrl,
         database: null,
         table: null,
         twinIdColumn: null,
         tableType: null
     });
     const [sourceTableData, setSourceTableData] = useState<ITable>(null);
-    const [cookAssets, setCookAssets] = useState<IAppData>(null);
+    const [cookAssets, setCookAssets] = useState<ICookedSource>(null);
 
     // hooks
     const { t } = useTranslation();
@@ -69,6 +69,8 @@ const Cook: React.FC = () => {
                     onGetTableData={(tableData: ITable) => {
                         setSourceTableData(tableData);
                     }}
+                    isClusterVisible={false}
+                    targetAdapterContext={DataPusherContext}
                 />
                 <PrimaryButton
                     styles={classNames.subComponentStyles.button()}

@@ -12,6 +12,7 @@ export interface ICookSourceProps {
     onSourceChange: (source: IADXConnection | IPIDDocument) => void;
     onGetTableData?: (table: ITable) => void;
     targetAdapterContext?: React.Context<IADXAdapterTargetContext>;
+    isClusterVisible?: boolean;
 }
 
 export interface ICookSourceStyles {
