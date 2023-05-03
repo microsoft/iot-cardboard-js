@@ -50,7 +50,7 @@ const CookSource: React.FC<ICookSourceProps> = (props) => {
         onSourceTypeChange,
         onSourceChange,
         onGetTableData,
-        targetAdapterContext = AppDataContext as React.Context<IADXAdapterTargetContext>,
+        targetAdapterContext = AppDataContext,
         isClusterVisible = true
     } = props;
 
@@ -223,7 +223,9 @@ const CookSource: React.FC<ICookSourceProps> = (props) => {
                             selectedClusterUrl={
                                 (selectedSource as IADXConnection).cluster
                             }
-                            targetAdapterContext={targetAdapterContext}
+                            targetAdapterContext={
+                                targetAdapterContext as React.Context<IADXAdapterTargetContext>
+                            }
                         />
                     )}
                     <DatabasePicker
@@ -232,7 +234,9 @@ const CookSource: React.FC<ICookSourceProps> = (props) => {
                         onDatabaseNameChange={handleSourceDatabaseChange}
                         label={t('legionApp.Common.databaseLabel')}
                         placeholder={t('legionApp.Common.databasePlaceholder')}
-                        targetAdapterContext={targetAdapterContext}
+                        targetAdapterContext={
+                            targetAdapterContext as React.Context<IADXAdapterTargetContext>
+                        }
                     />
                     <TablePicker
                         isDisabled={
@@ -242,7 +246,9 @@ const CookSource: React.FC<ICookSourceProps> = (props) => {
                             (selectedSource as IADXConnection).database
                         }
                         onTableNameChange={handleSourceTableChange}
-                        targetAdapterContext={targetAdapterContext}
+                        targetAdapterContext={
+                            targetAdapterContext as React.Context<IADXAdapterTargetContext>
+                        }
                     />
                     <Dropdown
                         disabled={!(selectedSource as IADXConnection).table}
