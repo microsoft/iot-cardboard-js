@@ -1,4 +1,5 @@
 import { IDataManagementAdapter } from '../../Adapters/Standalone/DataManagement/Models/DataManagementAdapter.types';
+import { IADXAdapterTargetContext } from '../../Models/Interfaces';
 
 export interface ITargetDatabaseConnection {
     clusterUrl: string;
@@ -12,8 +13,7 @@ export interface IAppDataContextProviderProps {
 /**
  * A context used for capturing the current state of the app and restoring it to a new instance of the app
  */
-export interface IAppDataContext {
-    adapter: IDataManagementAdapter;
+export interface IAppDataContext extends IADXAdapterTargetContext {
     appDataState: IAppDataContextState;
     appDataDispatch: React.Dispatch<AppDataContextAction>;
 }
