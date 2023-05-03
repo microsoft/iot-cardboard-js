@@ -6,10 +6,10 @@ const AppSourceDir = path.join(__dirname, '..', 'src');
 module.exports = {
     stories:
         process.env.NODE_ENV === 'production'
-            ? ['../src/Apps/**/*.stories.tsx']
+            ? ['../src/Experiences/**/*.stories.tsx']
             : [
-                  '../src/Apps/**/*.stories.tsx',
-                  '../src/Apps/**/*.stories.local.tsx'
+                  '../src/Experiences/**/*.stories.tsx',
+                  '../src/Experiences/**/*.stories.local.tsx'
               ],
     // Add any Storybook addons you want here: https://storybook.js.org/addons/
     addons: [

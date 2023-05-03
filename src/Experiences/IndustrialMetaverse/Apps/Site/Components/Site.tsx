@@ -12,7 +12,7 @@ const Site: React.FC<ISiteProps> = ({ extensionClient }) => {
         const location = useLocation();
         return (
             <div className={styles.root}>
-                <header className={styles.header}></header>
+                <header className={styles.header}>Command bar here</header>
                 <Nav className={styles.nav} />
                 <main className={styles.main}>
                     {location.pathname === '/'
