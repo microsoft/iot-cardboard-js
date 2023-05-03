@@ -57,9 +57,7 @@ const DataPusher: React.FC<IDataPusherProps> = (props) => {
             <div className={classNames.root}>
                 <h3>{t('legionApp.dataPusher.title')}</h3>
                 <ClusterPicker
-                    onClusterUrlChange={(clusterUrl: string) =>
-                        setSelectedClusterUrl(clusterUrl)
-                    }
+                    onClusterUrlChange={setSelectedClusterUrl}
                     styles={classNames.subComponentStyles.clusterPicker}
                     targetAdapterContext={DataPusherContext}
                     hasTooltip
