@@ -1,5 +1,4 @@
 import { createGUID } from '../../../Models/Services/Utils';
-import { getHighChartColorByIdx } from '../../../Models/SharedUtils/DataHistoryUtils';
 import { ITable } from '../Adapters/Standalone/DataManagement/Models/DataManagementAdapter.types';
 import {
     IModelExtended,
@@ -22,6 +21,7 @@ import {
 import { ICookProperty, ICookSource } from '../Models/Types';
 import CoffeeRoasteryPIDData from '../Adapters/__mockData__/PID/CoffeeRoastery.json';
 import WasteWaterPIDData from '../Adapters/__mockData__/PID/WasteWater.json';
+import { getColorByIdx } from './Utils';
 
 /**
  * Returns the schema type of a given table
@@ -289,7 +289,7 @@ export const getViewModelsFromCookedAssets = (
     const viewModels: Array<IModelExtended> = models.map((m, idx) => ({
         id: m.id,
         name: m.name,
-        color: getHighChartColorByIdx(idx),
+        color: getColorByIdx(idx),
         propertyIds: m.propertyIds,
         selectedPropertyIds: m.propertyIds
     }));

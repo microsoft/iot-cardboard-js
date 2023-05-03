@@ -1,5 +1,4 @@
 import { IStepperWizardStep } from '../../../../Components/StepperWizard/StepperWizard.types';
-import { getHighChartColorByIdx } from '../../../../Models/SharedUtils/DataHistoryUtils';
 import { IGraphContextProviderProps } from '../../Contexts/GraphContext/GraphContext.types';
 import { IWizardDataContextState } from '../../Contexts/WizardDataContext/WizardDataContext.types';
 import { IWizardNavigationContextState } from '../../Contexts/WizardNavigationContext/WizardNavigationContext.types';
@@ -12,6 +11,7 @@ import {
     IDbRelationshipType,
     ICookedSource
 } from '../../Models';
+import { getColorByIdx } from '../../Services/Utils';
 import { SourceType } from '../DataPusher/DataPusher.types';
 
 export const steps: IStepperWizardStep[] = [
@@ -407,7 +407,7 @@ export const getWizardDataFromCookedData = (
         getType({
             id: m.id,
             friendlyName: m.name,
-            color: getHighChartColorByIdx(idx),
+            color: getColorByIdx(idx),
             icon:
                 sourceType === SourceType.Timeseries
                     ? 'LineChart'
