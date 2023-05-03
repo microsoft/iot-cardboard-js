@@ -15,8 +15,7 @@ export const defaultDataSourceStepState: IDataSourceStepState = {
         twinIdColumn: null,
         tableType: null
     },
-    adapterResult: false,
-    cookAssets: undefined
+    adapterResult: false
 };
 
 export const DataSourceStepReducer = produce(
@@ -30,9 +29,6 @@ export const DataSourceStepReducer = produce(
                 break;
             case DataSourceStepActionType.SET_ADAPTER_RESULT:
                 draft.adapterResult = action.adapterResult;
-                break;
-            case DataSourceStepActionType.SET_COOK_ASSETS:
-                draft.cookAssets = action.cookAssets;
                 break;
             default:
                 return;
