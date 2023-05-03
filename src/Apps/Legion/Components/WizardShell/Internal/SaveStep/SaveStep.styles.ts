@@ -9,7 +9,12 @@ const classNames = {
 // export const SAVESTEP_CLASS_NAMES = classNames;
 export const getStyles = (_props: ISaveStepStyleProps): ISaveStepStyles => {
     return {
-        root: [classNames.root],
+        root: [
+            classNames.root,
+            {
+                height: '440px'
+            }
+        ],
         subComponentStyles: {}
     };
 };

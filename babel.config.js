@@ -1,5 +1,5 @@
 module.exports = {
-    presets: ['@babel/preset-env'],
+    presets: ['@babel/preset-env', '@griffel'],
     plugins: [
         [
             '@babel/plugin-transform-runtime',
