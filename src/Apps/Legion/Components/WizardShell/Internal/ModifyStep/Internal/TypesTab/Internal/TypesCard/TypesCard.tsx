@@ -64,7 +64,7 @@ const TypesCard: React.FC<ITypesCardProps> = (props) => {
     // hooks
     const { getTypeById, updateType } = useTypes();
     const type = useMemo(() => getTypeById(typeId), [getTypeById, typeId]);
-    const { getEntityCount } = useEntities();
+    const { getEntityCounts } = useEntities();
     const theme = useExtendedTheme();
     const { t } = useTranslation();
 
@@ -86,7 +86,7 @@ const TypesCard: React.FC<ITypesCardProps> = (props) => {
 
     logDebugConsole('debug', 'Render');
 
-    const entityCount = getEntityCount(type.id);
+    const entityCount = getEntityCounts(type.id);
 
     return (
         <div className={classNames.root}>
@@ -113,12 +113,12 @@ const TypesCard: React.FC<ITypesCardProps> = (props) => {
                           })}
                 </i>
                 <i>
-                    {entityCount.new === 1
+                    {entityCount.created === 1
                         ? t('legionApp.modifyStep.discoveredEntity', {
-                              entityCount: entityCount.new
+                              entityCount: entityCount.created
                           })
                         : t('legionApp.modifyStep.discoveredEntities', {
-                              entityCount: entityCount.new
+                              entityCount: entityCount.created
                           })}
                 </i>
                 <i>

@@ -1649,6 +1649,14 @@
             "deletedEntities": "{{entityCount}} deleted entities",
             "existingEntity": "{{entityCount}} existing entity",
             "existingEntities": "{{entityCount}} existing entities"
+        },
+        "saveStep": {
+            "entityCreated": "{{entityCount}} entity created",
+            "entitiesCreated": "{{entityCount}} entities created",
+            "relationshipCreated": "{{relationshipCount}} relationship created",
+            "relationshipsCreated": "{{relationshipCount}} relationships created",
+            "typeCreated": "{{typeCount}} type created",
+            "typesCreated": "{{typeCount}} types created"
         }
     }
 }

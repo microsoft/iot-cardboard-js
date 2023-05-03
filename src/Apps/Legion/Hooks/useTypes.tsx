@@ -4,7 +4,7 @@ import {
     useWizardDataStateContext
 } from '../Contexts/WizardDataContext/WizardDataContext';
 import { WizardDataContextActionType } from '../Contexts/WizardDataContext/WizardDataContext.types';
-import { IViewType } from '../Models';
+import { IGenericCounters, IViewType } from '../Models';
 import {
     convertViewTypeToDb,
     convertDbTypeToView
@@ -83,6 +83,26 @@ export const useTypes = () => {
         [types]
     );
 
+    const getTypeCounts = useCallback((): IGenericCounters => {
+        const counters: IGenericCounters = {
+            created: 0,
+            existing: 0,
+            deleted: 0
+        };
+        wizardDataState.types.forEach((x) => {
+            {
+                if (x.isDeleted) {
+                    counters.deleted += 1;
+                } else if (x.isNew) {
+                    counters.created += 1;
+                } else {
+                    counters.existing += 1;
+                }
+            }
+        });
+        return counters;
+    }, [wizardDataState.types]);
+
     return {
         /** the current list of types in the state */
         types: types,
@@ -104,6 +124,8 @@ export const useTypes = () => {
         /**
          * Callback to get a type from an id
          */
-        getTypeById: getTypeById
+        getTypeById: getTypeById,
+        /** Callback to get type counts */
+        getTypeCounts: getTypeCounts
     };
 };

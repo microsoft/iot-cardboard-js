@@ -27,7 +27,15 @@ export const useCustomNavigation = (
                     : { onClick: onClick, disabled: disabled }
             }
         });
-    }, [disabled, onClick, primaryAction, wizardNavigationContextDispatch]);
+        // Stringify avoids infinite loop
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [
+        disabled,
+        onClick,
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        JSON.stringify(primaryAction),
+        wizardNavigationContextDispatch
+    ]);
 
     useEffect(() => {
         wizardNavigationContextDispatch({

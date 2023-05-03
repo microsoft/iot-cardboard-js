@@ -1657,6 +1657,14 @@
         "relationshipNameFieldPlaceholder": "选择或创建关系名称",
         "existingEntityFieldPlaceholder": "选择现有实体"
       }
+    },
+    "saveStep": {
+      "entityCreated": "{{实体计数}} 已创建实体",
+      "entitiesCreated": "{{实体计数}} 创建的实体",
+      "relationshipCreated": "{{关系计数}} 关系已创建",
+      "relationshipsCreated": "{{关系计数}} 已创建的关系",
+      "typeCreated": "{{类型计数}} 类型已创建",
+      "typesCreated": "{{类型计数}} 已创建类型"
     }
   }
 }
