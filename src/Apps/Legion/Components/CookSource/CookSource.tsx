@@ -50,7 +50,7 @@ const CookSource: React.FC<ICookSourceProps> = (props) => {
         onSourceTypeChange,
         onSourceChange,
         onGetTableData,
-        targetAdapterContext = AppDataContext,
+        targetAdapterContext = AppDataContext as React.Context<IADXAdapterTargetContext>,
         isClusterVisible = true
     } = props;
 
@@ -67,9 +67,7 @@ const CookSource: React.FC<ICookSourceProps> = (props) => {
 
     // hooks
     const { t } = useTranslation();
-    const adapter = useADXAdapter(
-        targetAdapterContext as React.Context<IADXAdapterTargetContext>
-    );
+    const adapter = useADXAdapter(targetAdapterContext);
 
     const getTableState = useAdapter({
         adapterMethod: (params: IGetTableAdapterParams) =>
