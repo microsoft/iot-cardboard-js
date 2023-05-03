@@ -83,6 +83,17 @@ const CookSource: React.FC<ICookSourceProps> = (props) => {
     });
 
     // callbacks
+    const setSource = useCallback(
+        (source: ICookSource, resetTable = true) => {
+            setSelectedSource(source);
+            onSourceChange?.(source);
+            if (resetTable) {
+                onGetTableData?.(null);
+            }
+        },
+        [onGetTableData, onSourceChange]
+    );
+
     const handleSourceTypeChange = useCallback(
         (_event, option: IDropdownOption) => {
             setSelectedSourceType(option.key as SourceType);
@@ -96,16 +107,13 @@ const CookSource: React.FC<ICookSourceProps> = (props) => {
                               : null
                       }
                     : defaultPIDSource;
-            setSelectedSource(newSource);
-            onSourceChange?.(newSource);
-            onGetTableData?.(null);
+            setSource(newSource);
         },
         [
             adapter.connectionString,
             isClusterVisible,
-            onGetTableData,
-            onSourceChange,
-            onSourceTypeChange
+            onSourceTypeChange,
+            setSource
         ]
     );
     const handleSourceClusterChange = useCallback(
@@ -118,11 +126,9 @@ const CookSource: React.FC<ICookSourceProps> = (props) => {
                 twinIdColumn: null,
                 tableData: null
             };
-            setSelectedSource(newSource);
-            onSourceChange?.(newSource);
-            onGetTableData?.(null);
+            setSource(newSource);
         },
-        [onGetTableData, onSourceChange, selectedSource]
+        [selectedSource, setSource]
     );
     const handleSourceDatabaseChange = useCallback(
         (databaseName: string) => {
@@ -133,11 +139,9 @@ const CookSource: React.FC<ICookSourceProps> = (props) => {
                 twinIdColumn: null,
                 tableData: null
             };
-            setSelectedSource(newSource);
-            onSourceChange?.(newSource);
-            onGetTableData?.(null);
+            setSource(newSource);
         },
-        [onGetTableData, onSourceChange, selectedSource]
+        [selectedSource, setSource]
     );
     const handleSourceTableChange = useCallback(
         (tableName: string) => {
@@ -147,16 +151,14 @@ const CookSource: React.FC<ICookSourceProps> = (props) => {
                 twinIdColumn: null,
                 tableData: null
             };
-            setSelectedSource(newSource);
-            onSourceChange?.(newSource);
-            onGetTableData?.(null);
+            setSource(newSource);
 
             getTableState.callAdapter({
                 databaseName: (selectedSource as IADXConnection).database,
                 tableName: tableName
             });
         },
-        [getTableState, onGetTableData, onSourceChange, selectedSource]
+        [getTableState, selectedSource, setSource]
     );
     const handleSourceTwinIDColumnChange = useCallback(
         (_event, option: IDropdownOption) => {
@@ -164,10 +166,9 @@ const CookSource: React.FC<ICookSourceProps> = (props) => {
                 ...(selectedSource as IADXConnection),
                 twinIdColumn: option.text
             };
-            setSelectedSource(newSource);
-            onSourceChange?.(newSource);
+            setSource(newSource, false);
         },
-        [onSourceChange, selectedSource]
+        [selectedSource, setSource]
     );
 
     const handlePIDUrlChange = useCallback(
@@ -176,10 +177,9 @@ const CookSource: React.FC<ICookSourceProps> = (props) => {
                 ...(selectedSource as IPIDDocument),
                 pidUrl: option.text
             };
-            setSelectedSource(newSource);
-            onSourceChange?.(newSource);
+            setSource(newSource);
         },
-        [onSourceChange, selectedSource]
+        [selectedSource, setSource]
     );
 
     // side effects

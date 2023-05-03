@@ -49,6 +49,17 @@ const Cook: React.FC = () => {
     );
 
     // callbacks
+    const handleSourceTypeChange = useCallback((sourceType: SourceType) => {
+        setSelectedSourceType(sourceType);
+        setCookAssets(null);
+    }, []);
+    const handleSourceChange = useCallback((source: ICookSource) => {
+        setSelectedSource(source);
+        setCookAssets(null);
+    }, []);
+    const handleTableDataChange = useCallback((tableData: ITable) => {
+        setSourceTableData(tableData);
+    }, []);
     const handleCookButtonClick = useCallback(() => {
         setCookAssets(cookSource(selectedSourceType, selectedSource));
     }, [selectedSource, selectedSourceType]);
@@ -60,16 +71,9 @@ const Cook: React.FC = () => {
                 styles={classNames.subComponentStyles.stack}
             >
                 <CookSource
-                    onSourceTypeChange={(sourceType: SourceType) => {
-                        setSelectedSourceType(sourceType);
-                        setCookAssets(null);
-                    }}
-                    onSourceChange={(source: ICookSource) =>
-                        setSelectedSource(source)
-                    }
-                    onGetTableData={(tableData: ITable) => {
-                        setSourceTableData(tableData);
-                    }}
+                    onSourceTypeChange={handleSourceTypeChange}
+                    onSourceChange={handleSourceChange}
+                    onGetTableData={handleTableDataChange}
                     isClusterVisible={false}
                     targetAdapterContext={DataPusherContext}
                 />
