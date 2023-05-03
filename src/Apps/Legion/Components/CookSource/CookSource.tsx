@@ -200,8 +200,7 @@ const CookSource: React.FC<ICookSourceProps> = (props) => {
             );
             onGetTableData?.(data);
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [getTableState?.adapterResult]);
+    }, [getTableState.adapterResult, onGetTableData]);
 
     useEffect(() => {
         if (!isClusterVisible) {
