@@ -1643,6 +1643,14 @@
         "relationshipNameFieldPlaceholder": "リレーションシップ名を選択または作成する",
         "existingEntityFieldPlaceholder": "既存のエンティティを選択する"
       }
+    },
+    "saveStep": {
+      "entityCreated": "{{エンティティカウント}} エンティティが作成されました",
+      "entitiesCreated": "{{エンティティカウント}} エンティティが作成されました",
+      "relationshipCreated": "{{リレーションシップカウント}} リレーションシップが作成されました",
+      "relationshipsCreated": "{{リレーションシップカウント}} リレーションシップが作成されました",
+      "typeCreated": "{{タイプカウント}} 型が作成されました",
+      "typesCreated": "{{タイプカウント}} 型が作成されました"
     }
   }
 }

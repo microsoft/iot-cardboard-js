@@ -1643,6 +1643,14 @@
         "relationshipNameFieldPlaceholder": "관계 이름 선택 또는 만들기",
         "existingEntityFieldPlaceholder": "기존 엔터티 선택"
       }
+    },
+    "saveStep": {
+      "entityCreated": "{{entityCount}} 엔터티가 생성됨",
+      "entitiesCreated": "{{entityCount}} 엔터티가 생성됨",
+      "relationshipCreated": "{{relationshipCount}} 관계가 생성됨",
+      "relationshipsCreated": "{{relationshipCount}} 관계가 생성됨",
+      "typeCreated": "{{typeCount}} 유형이 생성됨",
+      "typesCreated": "{{typeCount}} 유형이 생성됨"
     }
   }
 }

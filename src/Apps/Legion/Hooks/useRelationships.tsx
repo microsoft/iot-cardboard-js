@@ -4,7 +4,11 @@ import {
     useWizardDataStateContext
 } from '../Contexts/WizardDataContext/WizardDataContext';
 import { WizardDataContextActionType } from '../Contexts/WizardDataContext/WizardDataContext.types';
-import { IViewRelationship, IViewRelationshipType } from '../Models';
+import {
+    IGenericCounters,
+    IViewRelationship,
+    IViewRelationshipType
+} from '../Models';
 import {
     convertViewRelationshipToDb,
     convertDbRelationshipToView,
@@ -101,6 +105,25 @@ export const useRelationships = () => {
             }),
         [wizardDataState]
     );
+    const getRelationshipCounts = useCallback((): IGenericCounters => {
+        const counters: IGenericCounters = {
+            created: 0,
+            existing: 0,
+            deleted: 0
+        };
+        wizardDataState.relationships.forEach((x) => {
+            {
+                if (x.isDeleted) {
+                    counters.deleted += 1;
+                } else if (x.isNew) {
+                    counters.created += 1;
+                } else {
+                    counters.existing += 1;
+                }
+            }
+        });
+        return counters;
+    }, [wizardDataState.relationships]);
 
     const data = {
         /** the current list of relationships in the state */
@@ -121,7 +144,9 @@ export const useRelationships = () => {
          * Callback to delete the relationship from state.
          * NOTE: this is not a deep update. It will only delete the root level element
          */
-        deleteRelationship: deleteRelationship
+        deleteRelationship: deleteRelationship,
+        /** Callback to get relationship counts */
+        getRelationshipCounts: getRelationshipCounts
     };
     logDebugConsole('debug', '[END] Render', data);
     return data;

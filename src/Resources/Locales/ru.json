@@ -1643,6 +1643,14 @@
         "relationshipNameFieldPlaceholder": "Выбор или создание имени связи",
         "existingEntityFieldPlaceholder": "Выберите существующую сущность"
       }
+    },
+    "saveStep": {
+      "entityCreated": "Создана сущность {{entityCount}}",
+      "entitiesCreated": "Созданные сущности {{entityCount}}",
+      "relationshipCreated": "Создана связь {{relationshipCount}}",
+      "relationshipsCreated": "Созданные связи {{relationshipCount}}",
+      "typeCreated": "Создан тип {{typeCount}}",
+      "typesCreated": "Созданы типы {{typeCount}}"
     }
   }
 }

@@ -1643,6 +1643,14 @@
         "relationshipNameFieldPlaceholder": "Kapcsolatnév kijelölése vagy létrehozása",
         "existingEntityFieldPlaceholder": "Válasszon ki egy meglévő entitást"
       }
+    },
+    "saveStep": {
+      "entityCreated": "{{entityCount}} entitás létrehozva",
+      "entitiesCreated": "{{entityCount}} entitások létrehozva",
+      "relationshipCreated": "{{relationshipCount}} kapcsolat létrehozva",
+      "relationshipsCreated": "{{relationshipCount}} létrehozott kapcsolatok",
+      "typeCreated": "{{typeCount}} típus létrehozva",
+      "typesCreated": "{{typeCount}} létrehozott típusok"
     }
   }
 }

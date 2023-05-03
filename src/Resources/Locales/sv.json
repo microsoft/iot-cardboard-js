@@ -1643,6 +1643,14 @@
         "relationshipNameFieldPlaceholder": "Välj eller skapa ett relationsnamn",
         "existingEntityFieldPlaceholder": "Välj en befintlig entitet"
       }
+    },
+    "saveStep": {
+      "entityCreated": "{{entityCount}} entitet skapad",
+      "entitiesCreated": "{{entityCount}} entiteter skapade",
+      "relationshipCreated": "{{relationshipCount}} relation skapad",
+      "relationshipsCreated": "{{relationshipCount}} skapade relationer",
+      "typeCreated": "{{typeCount}} typ skapad",
+      "typesCreated": "{{typeCount}} skapade typer"
     }
   }
 }

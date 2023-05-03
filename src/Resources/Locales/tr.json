@@ -1643,6 +1643,14 @@
         "relationshipNameFieldPlaceholder": "İlişki adı seçme veya oluşturma",
         "existingEntityFieldPlaceholder": "Mevcut bir varlığı seçme"
       }
+    },
+    "saveStep": {
+      "entityCreated": "{{entityCount}} varlık oluşturuldu",
+      "entitiesCreated": "{{entityCount}} varlıkları oluşturuldu",
+      "relationshipCreated": "{{relationshipCount}} ilişkisi oluşturuldu",
+      "relationshipsCreated": "{{relationshipCount}} oluşturulan ilişkiler",
+      "typeCreated": "{{typeCount}} türü oluşturuldu",
+      "typesCreated": "{{typeCount}} türleri oluşturuldu"
     }
   }
 }

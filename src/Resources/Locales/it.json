@@ -1643,6 +1643,14 @@
         "relationshipNameFieldPlaceholder": "Selezionare o creare un nome di relazione",
         "existingEntityFieldPlaceholder": "Selezionare un'entità esistente"
       }
+    },
+    "saveStep": {
+      "entityCreated": "Entità {{entityCount}} creata",
+      "entitiesCreated": "{{entityCount}} entità create",
+      "relationshipCreated": "Relazione {{relationshipCount}} creata",
+      "relationshipsCreated": "{{relationshipCount}} relazioni create",
+      "typeCreated": "Tipo {{typeCount}} creato",
+      "typesCreated": "Tipi {{typeCount}} creati"
     }
   }
 }

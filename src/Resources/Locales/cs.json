@@ -1643,6 +1643,14 @@
         "relationshipNameFieldPlaceholder": "Výběr nebo vytvoření názvu relace",
         "existingEntityFieldPlaceholder": "Vyberte existující entitu"
       }
+    },
+    "saveStep": {
+      "entityCreated": "{{entityCount}} vytvořená entita",
+      "entitiesCreated": "{{entityCount}} vytvořené entity",
+      "relationshipCreated": "{{relationshipCount}} vytvořený vztah",
+      "relationshipsCreated": "{{relationshipCount}} vytvořené relace",
+      "typeCreated": "{{typeCount}} typ vytvořen",
+      "typesCreated": "{{typeCount}} vytvořené typy"
     }
   }
 }

@@ -180,7 +180,8 @@ const setDairyData = (data: IWizardDataContextState) => {
         color: '#C13099',
         icon: 'LineChart',
         kind: Kind.TimeSeries,
-        propertyIds: [propTemp.id, propPress.id]
+        propertyIds: [propTemp.id, propPress.id],
+        isNew: true
     });
     const typeSalterTs = getType({
         friendlyName: 'Salter TS',
@@ -239,14 +240,16 @@ const setDairyData = (data: IWizardDataContextState) => {
         sourceEntityId: 'Pasteurizer_A2',
         typeId: typePastTs.id,
         sourceConnectionString: 'cluster:c1;db:db1;table:t1',
-        values: {}
+        values: {},
+        isNew: true
     });
     const entSaltB1 = getEntity({
         friendlyName: 'Salter B1',
         sourceEntityId: 'Salter_B1',
         typeId: typeSalterTs.id,
         sourceConnectionString: 'cluster:c1;db:db1;table:t1',
-        values: {}
+        values: {},
+        isNew: true
     });
     const entSaltB3 = getEntity({
         friendlyName: 'Salter B3',
@@ -328,7 +331,8 @@ const setDairyData = (data: IWizardDataContextState) => {
     const relFactoryPastA1Asset = getMockRelationship({
         sourceEntityId: entRedmondFactory.id,
         targetEntityId: entPastA1Asset.id,
-        typeId: relTypeContains.id
+        typeId: relTypeContains.id,
+        isNew: true
     });
     const relFactoryPastA2Ts = getMockRelationship({
         sourceEntityId: entRedmondFactory.id,
