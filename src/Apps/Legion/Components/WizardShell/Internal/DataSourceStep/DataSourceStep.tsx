@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useReducer, useState } from 'react';
+import React, { useCallback, useEffect, useReducer } from 'react';
 import {
     DataSourceStepActionType,
     IDataSourceStepProps,
@@ -20,11 +20,7 @@ import {
     WizardNavigationContextActionType,
     WizardStepNumber
 } from '../../../../Contexts/WizardNavigationContext/WizardNavigationContext.types';
-import {
-    IADXConnection,
-    ICookedSource,
-    IPIDDocument
-} from '../../../../Models/Interfaces';
+import { IADXConnection, IPIDDocument } from '../../../../Models/Interfaces';
 import { cookSource } from '../../../../Services/DataPusherUtils';
 import CookSource from '../../../CookSource/CookSource';
 import { ICookSource } from '../../../../Models/Types';
@@ -47,8 +43,6 @@ const DataSourceStep: React.FC<IDataSourceStepProps> = (props) => {
         DataSourceStepReducer,
         defaultDataSourceStepState
     );
-
-    const [appData, setAppData] = useState<ICookedSource>(null);
 
     // contexts
     const { wizardNavigationContextDispatch } = useWizardNavigationContext();
@@ -78,7 +72,7 @@ const DataSourceStep: React.FC<IDataSourceStepProps> = (props) => {
             state.selectedSource
         );
         wizardDataDispatch({
-            type: WizardDataContextActionType.ADD_SOURCE_ASSETS,
+            type: WizardDataContextActionType.ADD_COOKED_SOURCE_ASSETS,
             payload: {
                 data: getWizardDataFromCookedData(
                     cookedSource,
@@ -107,11 +101,11 @@ const DataSourceStep: React.FC<IDataSourceStepProps> = (props) => {
             payload: {
                 buttonProps: {
                     onClick: handleNextClick,
-                    disabled: !appData
+                    disabled: true
                 }
             }
         });
-    }, [appData, handleNextClick, wizardNavigationContextDispatch]);
+    }, [handleNextClick, wizardNavigationContextDispatch]);
 
     useEffect(() => {
         wizardNavigationContextDispatch({

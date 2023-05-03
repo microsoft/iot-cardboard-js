@@ -122,7 +122,7 @@ export const WizardDataContextReducer: (
                 deletePropertyById(propertyId, draft);
                 break;
             }
-            case WizardDataContextActionType.ADD_SOURCE_ASSETS: {
+            case WizardDataContextActionType.ADD_COOKED_SOURCE_ASSETS: {
                 const { data } = action.payload;
                 draft.properties = draft.properties.concat(data.properties);
                 const types = deepCopy(data.types);

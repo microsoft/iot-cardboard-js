@@ -1,8 +1,5 @@
 import { IStepperWizardStep } from '../../../../Components/StepperWizard/StepperWizard.types';
-import {
-    getHighChartColor,
-    getHighChartColorByIdx
-} from '../../../../Models/SharedUtils/DataHistoryUtils';
+import { getHighChartColorByIdx } from '../../../../Models/SharedUtils/DataHistoryUtils';
 import { IGraphContextProviderProps } from '../../Contexts/GraphContext/GraphContext.types';
 import { IWizardDataContextState } from '../../Contexts/WizardDataContext/WizardDataContext.types';
 import { IWizardNavigationContextState } from '../../Contexts/WizardNavigationContext/WizardNavigationContext.types';

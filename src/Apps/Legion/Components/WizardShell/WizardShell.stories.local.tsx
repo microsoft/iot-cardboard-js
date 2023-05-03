@@ -7,10 +7,7 @@ import { WizardNavigationContextProvider } from '../../Contexts/WizardNavigation
 import LegionAdapter from '../../Adapters/Mixin/LegionAdapter';
 import MsalAuthService from '../../../../Models/Services/MsalAuthService';
 import useAuthParams from '../../../../../.storybook/useAuthParams';
-import {
-    GET_DEFAULT_MOCK_WIZARD_DATA_CONTEXT,
-    WIZARD_NAVIGATION_MOCK_DATA
-} from './WizardShellMockData';
+import { WIZARD_NAVIGATION_MOCK_DATA } from './WizardShellMockData';
 import { AppDataContextProvider } from '../../Contexts/AppDataContext/AppDataContext';
 import { WizardDataContextProvider } from '../../Contexts/WizardDataContext/WizardDataContext';
 

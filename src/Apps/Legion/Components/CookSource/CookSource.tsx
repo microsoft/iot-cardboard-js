@@ -90,7 +90,7 @@ const CookSource: React.FC<ICookSourceProps> = (props) => {
             const newSource =
                 option.key === SourceType.Timeseries
                     ? defaultTimeSeriesSource
-                    : defaultTimeSeriesSource;
+                    : defaultPIDSource;
             setSelectedSource(newSource);
             onSourceChange?.(newSource);
         },

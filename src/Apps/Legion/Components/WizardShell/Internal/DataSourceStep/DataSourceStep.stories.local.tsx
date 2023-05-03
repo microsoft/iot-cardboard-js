@@ -5,10 +5,7 @@ import { IDataSourceStepProps } from './DataSourceStep.types';
 import { getDefaultStoryDecorator } from '../../../../../../Models/Services/StoryUtilities';
 import useAuthParams from '../../../../../../../.storybook/useAuthParams';
 import { WizardNavigationContextProvider } from '../../../../Contexts/WizardNavigationContext/WizardNavigationContext';
-import {
-    GET_DEFAULT_MOCK_WIZARD_DATA_CONTEXT,
-    WIZARD_NAVIGATION_MOCK_DATA
-} from '../../WizardShellMockData';
+import { WIZARD_NAVIGATION_MOCK_DATA } from '../../WizardShellMockData';
 import { WizardDataContextProvider } from '../../../../Contexts/WizardDataContext/WizardDataContext';
 import { AppDataContextProvider } from '../../../../Contexts/AppDataContext/AppDataContext';
 import LegionAdapter from '../../../../Adapters/Mixin/LegionAdapter';

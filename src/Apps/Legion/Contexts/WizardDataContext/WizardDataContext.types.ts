@@ -64,13 +64,13 @@ export enum WizardDataContextActionType {
     PROPERTY_ADD = 'PROPERTY_ADD',
     PROPERTY_REMOVE = 'PROPERTY_REMOVE',
     PROPERTY_UPDATE = 'PROPERTY_UPDATE',
-    ADD_SOURCE_ASSETS = 'ADD_SOURCE_ASSETS'
+    ADD_COOKED_SOURCE_ASSETS = 'ADD_COOKED_SOURCE_ASSETS'
 }
 
 /** The actions to update the state */
 export type WizardDataContextAction =
     | {
-          type: WizardDataContextActionType.ADD_SOURCE_ASSETS;
+          type: WizardDataContextActionType.ADD_COOKED_SOURCE_ASSETS;
           payload: {
               data: ISourceAssets;
           };
