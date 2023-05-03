@@ -67,7 +67,9 @@ const CookSource: React.FC<ICookSourceProps> = (props) => {
 
     // hooks
     const { t } = useTranslation();
-    const adapter = useADXAdapter(targetAdapterContext);
+    const adapter = useADXAdapter(
+        targetAdapterContext as React.Context<IADXAdapterTargetContext>
+    );
 
     const getTableState = useAdapter({
         adapterMethod: (params: IGetTableAdapterParams) =>
