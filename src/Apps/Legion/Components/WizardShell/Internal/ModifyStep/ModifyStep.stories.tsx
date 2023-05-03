@@ -23,7 +23,7 @@ type ModifyStepStory = ComponentStory<typeof ModifyStep>;
 const Template: ModifyStepStory = (args) => {
     return (
         <WizardDataContextProvider
-            initialState={GET_DEFAULT_MOCK_WIZARD_DATA_CONTEXT('Dairy')}
+            initialState={GET_DEFAULT_MOCK_WIZARD_DATA_CONTEXT()}
         >
             <WizardNavigationContextProvider
                 initialState={WIZARD_NAVIGATION_MOCK_DATA}

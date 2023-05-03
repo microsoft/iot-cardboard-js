@@ -45,9 +45,7 @@ const Template: WizardShellStory = (args) => {
                 }
             }}
         >
-            <WizardDataContextProvider
-                initialState={GET_DEFAULT_MOCK_WIZARD_DATA_CONTEXT()}
-            >
+            <WizardDataContextProvider>
                 <WizardNavigationContextProvider
                     initialState={{
                         ...WIZARD_NAVIGATION_MOCK_DATA

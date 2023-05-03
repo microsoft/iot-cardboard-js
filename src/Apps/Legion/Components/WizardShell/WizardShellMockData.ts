@@ -371,6 +371,9 @@ const setDairyData = (data: IWizardDataContextState) => {
 export const GET_DEFAULT_MOCK_WIZARD_DATA_CONTEXT = (
     scenario?: 'Dairy'
 ): IWizardDataContextState => {
+    // default to dairy
+    scenario = scenario ?? 'Dairy';
+
     const data: IWizardDataContextState = {
         entities: [],
         properties: [],

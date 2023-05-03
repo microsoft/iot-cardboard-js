@@ -19,7 +19,7 @@ export const getStyles: IProcessedStyleSet<IEntitiesTabStyles> = mergeStyleSets(
         },
         newEntityIcon: {
             minWidth: 10,
-            marginTop: -16
+            margin: '-16px 0 0 2px'
         }
     }
 );

@@ -20,7 +20,7 @@ const logDebugConsole = getDebugLogger('GraphTab', debugLogging);
 const GraphTab: React.FC<IGraphTabProps> = (_props) => {
     // contexts
     // need to add selected state to the data context
-    const dataContext = GET_DEFAULT_MOCK_WIZARD_DATA_CONTEXT('Dairy');
+    const dataContext = GET_DEFAULT_MOCK_WIZARD_DATA_CONTEXT();
 
     // state
 

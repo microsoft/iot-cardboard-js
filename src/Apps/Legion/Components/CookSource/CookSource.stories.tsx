@@ -4,7 +4,7 @@ import { getDefaultStoryDecorator } from '../../../../Models/Services/StoryUtili
 import CookSource from './CookSource';
 import { ICookSourceProps } from './CookSource.types';
 
-const wrapperStyle = { width: '100%', height: '600px', padding: 8 };
+const wrapperStyle = { width: '400px', height: '600px', padding: 8 };
 
 export default {
     title: 'Apps/Legion/Components/CookSource',
