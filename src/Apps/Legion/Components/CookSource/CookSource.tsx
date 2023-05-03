@@ -188,7 +188,8 @@ const CookSource: React.FC<ICookSourceProps> = (props) => {
             );
             onGetTableData?.(data);
         }
-    }, [getTableState?.adapterResult]); // keep the dependency list as is
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [getTableState?.adapterResult]);
 
     useEffect(() => {
         if (!isClusterVisible) {
@@ -197,7 +198,8 @@ const CookSource: React.FC<ICookSourceProps> = (props) => {
                 cluster: adapter.connectionString
             });
         }
-    }, [adapter]); // keep the dependency list as is
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [adapter]);
 
     // styles
     const classNames = getStyles();
