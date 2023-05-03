@@ -60,9 +60,10 @@ const Cook: React.FC = () => {
                 styles={classNames.subComponentStyles.stack}
             >
                 <CookSource
-                    onSourceTypeChange={(sourceType: SourceType) =>
-                        setSelectedSourceType(sourceType)
-                    }
+                    onSourceTypeChange={(sourceType: SourceType) => {
+                        setSelectedSourceType(sourceType);
+                        setCookAssets(null);
+                    }}
                     onSourceChange={(source: ICookSource) =>
                         setSelectedSource(source)
                     }

@@ -54,224 +54,223 @@ export const cookSource = (
 ): ICookedSource => {
     switch (sourceType) {
         case SourceType.Timeseries: {
-            const sourceToCook: IADXConnection = source as IADXConnection;
-            const tableData: ITable = sourceToCook.tableData;
-            const twinIdPropertyColumn = sourceToCook.twinIdColumn;
-            const tableSchema = getTableSchemaTypeFromTable(tableData);
-
-            const idxOfTwinIdColumn = tableData.Columns.findIndex(
-                (c) => c.columnName === sourceToCook.twinIdColumn
-            );
-
-            //trace the rows to exteact unique twin id to properties dictionary
-            let twinIdToPropertiesMapping: Record<
-                string,
-                Array<ICookProperty>
-            > = {};
-            tableData.Rows.forEach((r) => {
-                const twinId = r[idxOfTwinIdColumn];
-                if (!twinIdToPropertiesMapping?.[twinId]) {
-                    twinIdToPropertiesMapping = {
-                        ...twinIdToPropertiesMapping,
-                        [twinId]: []
-                    };
-                }
-                switch (tableSchema) {
-                    case TableTypes.Wide:
-                        {
-                            const nonNullPropertiesInRow = tableData.Columns.filter(
-                                (c, idx) =>
-                                    c.columnName !== twinIdPropertyColumn &&
-                                    c.columnName !== TIMESTAMP_COLUMN_NAME &&
-                                    r[idx] !== null // filter non-null columns
-                            );
-                            nonNullPropertiesInRow.forEach((newProp) => {
-                                // append non null property to existing property bag
-                                if (
-                                    twinIdToPropertiesMapping[twinId].findIndex(
-                                        (prop) =>
-                                            prop.name === newProp.columnName
-                                    ) === -1
-                                ) {
-                                    twinIdToPropertiesMapping[twinId].push({
-                                        name: newProp.columnName,
-                                        dataType: newProp.columnDataType
-                                    });
-                                }
-                            });
-                        }
-                        break;
-                    case TableTypes.Narrow:
-                        {
-                            const idxOfValueColumn = tableData.Columns.findIndex(
-                                (c) => c.columnName === VALUE_COLUMN_NAME
-                            );
-                            const idxOfPropertyColumn = tableData.Columns.findIndex(
-                                (c) => c.columnName === PROPERTY_COLUMN_NAME
-                            );
-                            if (r[idxOfValueColumn] !== null) {
-                                // append non null property to existing property bag
-                                if (
-                                    twinIdToPropertiesMapping[twinId].findIndex(
-                                        (prop) =>
-                                            prop.name === r[idxOfPropertyColumn]
-                                    ) === -1
-                                ) {
-                                    twinIdToPropertiesMapping[twinId].push({
-                                        name: r[idxOfPropertyColumn],
-                                        dataType: tableData.Columns.find(
-                                            (c) =>
-                                                c.columnName ===
-                                                PROPERTY_COLUMN_NAME
-                                        ).columnDataType
-                                    });
-                                }
-                            }
-                        }
-                        break;
-
-                    case TableTypes.Tags:
-                        break;
-
-                    default:
-                        break;
-                }
-            });
-
-            const models: Array<IModel> = [];
-            const twins: Array<ITwin> = [];
-            const properties: Array<IModelProperty> = [];
-
-            const uniquePropertySets: Array<Array<ICookProperty>> = []; // property sets for potential models
-            const propertySets = Object.values(twinIdToPropertiesMapping); // collected property sets for each twin
-            Object.keys(twinIdToPropertiesMapping).forEach((twinId, idx) => {
-                // loop through unique twin ids and check its property bags to extract models and propperties and twins
-                let modelId;
-                const modelIdx = uniquePropertySets.findIndex((existing) =>
-                    isSameSet(
-                        existing.map((e) => e.name),
-                        propertySets[idx].map((e) => e.name)
-                    )
-                );
-                if (modelIdx === -1) {
-                    // it means this propertySets is potentially new model
-                    uniquePropertySets.push(propertySets[idx]);
-                    const modelPropertyIds = [];
-                    propertySets[idx].forEach((prop) => {
-                        // trace properties and create one if not exists
-                        const modelProperty = properties.find(
-                            (mP) => prop.name === mP.sourcePropName
-                        );
-                        if (!modelProperty) {
-                            // create model properties if not exists
-                            const newPropertyId = createGUID();
-                            const modelProperty: IModelProperty = {
-                                id: newPropertyId,
-                                name: prop.name,
-                                sourcePropName: prop.name,
-                                dataType: prop.dataType
-                            };
-                            properties.push(modelProperty);
-                            modelPropertyIds.push(newPropertyId);
-                        } else {
-                            modelPropertyIds.push(modelProperty.id);
-                        }
-                    });
-                    modelId = createGUID();
-                    const model: IModel = {
-                        id: modelId,
-                        name: `Model-${models.length + 1}`,
-                        propertyIds: modelPropertyIds
-                    };
-                    models.push(model);
-                } else {
-                    modelId = models[modelIdx].id;
-                }
-                const twin: ITwin = {
-                    id: twinId,
-                    name: twinId,
-                    modelId: modelId,
-                    sourceConnectionString: `${sourceToCook.cluster}/${sourceToCook.database}/${sourceToCook.table}`
-                };
-                twins.push(twin);
-            });
-
-            return {
-                models,
-                twins,
-                properties
-            };
+            return cookTimeSeries(source);
         }
         case SourceType.Diagram: {
-            const sourceToCook: IPIDDocument = source as IPIDDocument;
-            const properties: Array<IModelProperty> = [
-                {
-                    id: createGUID(),
-                    name: 'X',
-                    dataType: 'string',
-                    sourcePropName: 'X'
-                },
-                {
-                    id: createGUID(),
-                    name: 'Y',
-                    dataType: 'string',
-                    sourcePropName: 'Y'
-                },
-                {
-                    id: createGUID(),
-                    name: 'Width',
-                    dataType: 'string',
-                    sourcePropName: 'Width'
-                },
-                {
-                    id: createGUID(),
-                    name: 'Height',
-                    dataType: 'string',
-                    sourcePropName: 'Height'
-                }
-            ];
-
-            const models: Array<IModel> = [
-                {
-                    id: createGUID(),
-                    name: 'PIDModel',
-                    propertyIds: [
-                        properties[0].id,
-                        properties[1].id,
-                        properties[2].id,
-                        properties[3].id
-                    ]
-                }
-            ];
-
-            const twins: Array<ITwin> = (sourceToCook.pidUrl ===
-            PIDSourceUrls.CoffeeRoastery
-                ? CoffeeRoasteryPIDData
-                : WasteWaterPIDData
-            ).reduce((acc, data) => {
-                // to prevent duplicate twin ids
-                if (
-                    acc?.findIndex((a) => a.id === data['Detected Text']) === -1
-                ) {
-                    acc.push({
-                        id: data['Detected Text'],
-                        name: data['Detected Text'],
-                        modelId: models[0].id,
-                        sourceConnectionString: sourceToCook.pidUrl
-                    });
-                }
-                return acc;
-            }, []);
-
-            return {
-                models,
-                twins,
-                properties
-            };
+            return cookDiagram(source);
         }
         default:
-            break;
+            return null;
     }
+};
+
+const cookTimeSeries = (source: ICookSource): ICookedSource => {
+    const sourceToCook: IADXConnection = source as IADXConnection;
+    const tableData: ITable = sourceToCook.tableData;
+    const twinIdPropertyColumn = sourceToCook.twinIdColumn;
+    const tableSchema = getTableSchemaTypeFromTable(tableData);
+
+    const idxOfTwinIdColumn = tableData.Columns.findIndex(
+        (c) => c.columnName === sourceToCook.twinIdColumn
+    );
+
+    //trace the rows to exteact unique twin id to properties dictionary
+    let twinIdToPropertiesMapping: Record<string, Array<ICookProperty>> = {};
+    tableData.Rows.forEach((r) => {
+        const twinId = r[idxOfTwinIdColumn];
+        if (!twinIdToPropertiesMapping?.[twinId]) {
+            twinIdToPropertiesMapping = {
+                ...twinIdToPropertiesMapping,
+                [twinId]: []
+            };
+        }
+        switch (tableSchema) {
+            case TableTypes.Wide:
+                {
+                    const nonNullPropertiesInRow = tableData.Columns.filter(
+                        (c, idx) =>
+                            c.columnName !== twinIdPropertyColumn &&
+                            c.columnName !== TIMESTAMP_COLUMN_NAME &&
+                            r[idx] !== null // filter non-null columns
+                    );
+                    nonNullPropertiesInRow.forEach((newProp) => {
+                        // append non null property to existing property bag
+                        if (
+                            twinIdToPropertiesMapping[twinId].findIndex(
+                                (prop) => prop.name === newProp.columnName
+                            ) === -1
+                        ) {
+                            twinIdToPropertiesMapping[twinId].push({
+                                name: newProp.columnName,
+                                dataType: newProp.columnDataType
+                            });
+                        }
+                    });
+                }
+                break;
+            case TableTypes.Narrow:
+                {
+                    const idxOfValueColumn = tableData.Columns.findIndex(
+                        (c) => c.columnName === VALUE_COLUMN_NAME
+                    );
+                    const idxOfPropertyColumn = tableData.Columns.findIndex(
+                        (c) => c.columnName === PROPERTY_COLUMN_NAME
+                    );
+                    if (r[idxOfValueColumn] !== null) {
+                        // append non null property to existing property bag
+                        if (
+                            twinIdToPropertiesMapping[twinId].findIndex(
+                                (prop) => prop.name === r[idxOfPropertyColumn]
+                            ) === -1
+                        ) {
+                            twinIdToPropertiesMapping[twinId].push({
+                                name: r[idxOfPropertyColumn],
+                                dataType: tableData.Columns.find(
+                                    (c) => c.columnName === PROPERTY_COLUMN_NAME
+                                ).columnDataType
+                            });
+                        }
+                    }
+                }
+                break;
+
+            case TableTypes.Tags:
+                break;
+
+            default:
+                break;
+        }
+    });
+
+    const models: Array<IModel> = [];
+    const twins: Array<ITwin> = [];
+    const properties: Array<IModelProperty> = [];
+
+    const uniquePropertySets: Array<Array<ICookProperty>> = []; // property sets for potential models
+    const propertySets = Object.values(twinIdToPropertiesMapping); // collected property sets for each twin
+    Object.keys(twinIdToPropertiesMapping).forEach((twinId, idx) => {
+        // loop through unique twin ids and check its property bags to extract models and propperties and twins
+        let modelId;
+        const modelIdx = uniquePropertySets.findIndex((existing) =>
+            isSameSet(
+                existing.map((e) => e.name),
+                propertySets[idx].map((e) => e.name)
+            )
+        );
+        if (modelIdx === -1) {
+            // it means this propertySets is potentially new model
+            uniquePropertySets.push(propertySets[idx]);
+            const modelPropertyIds = [];
+            propertySets[idx].forEach((prop) => {
+                // trace properties and create one if not exists
+                const modelProperty = properties.find(
+                    (mP) => prop.name === mP.sourcePropName
+                );
+                if (!modelProperty) {
+                    // create model properties if not exists
+                    const newPropertyId = createGUID();
+                    const modelProperty: IModelProperty = {
+                        id: newPropertyId,
+                        name: prop.name,
+                        sourcePropName: prop.name,
+                        dataType: prop.dataType
+                    };
+                    properties.push(modelProperty);
+                    modelPropertyIds.push(newPropertyId);
+                } else {
+                    modelPropertyIds.push(modelProperty.id);
+                }
+            });
+            modelId = createGUID();
+            const model: IModel = {
+                id: modelId,
+                name: `Model-${models.length + 1}`,
+                propertyIds: modelPropertyIds
+            };
+            models.push(model);
+        } else {
+            modelId = models[modelIdx].id;
+        }
+        const twin: ITwin = {
+            id: twinId,
+            name: twinId,
+            modelId: modelId,
+            sourceConnectionString: `${sourceToCook.cluster}/${sourceToCook.database}/${sourceToCook.table}`
+        };
+        twins.push(twin);
+    });
+
+    return {
+        models,
+        twins,
+        properties
+    };
+};
+
+const cookDiagram = (source: ICookSource): ICookedSource => {
+    const sourceToCook: IPIDDocument = source as IPIDDocument;
+    const properties: Array<IModelProperty> = [
+        {
+            id: createGUID(),
+            name: 'X',
+            dataType: 'string',
+            sourcePropName: 'X'
+        },
+        {
+            id: createGUID(),
+            name: 'Y',
+            dataType: 'string',
+            sourcePropName: 'Y'
+        },
+        {
+            id: createGUID(),
+            name: 'Width',
+            dataType: 'string',
+            sourcePropName: 'Width'
+        },
+        {
+            id: createGUID(),
+            name: 'Height',
+            dataType: 'string',
+            sourcePropName: 'Height'
+        }
+    ];
+
+    const models: Array<IModel> = [
+        {
+            id: createGUID(),
+            name: 'PIDModel',
+            propertyIds: [
+                properties[0].id,
+                properties[1].id,
+                properties[2].id,
+                properties[3].id
+            ]
+        }
+    ];
+
+    const twins: Array<ITwin> = (sourceToCook.pidUrl ===
+    PIDSourceUrls.CoffeeRoastery
+        ? CoffeeRoasteryPIDData
+        : WasteWaterPIDData
+    ).reduce((acc, data) => {
+        // to prevent duplicate twin ids
+        if (acc?.findIndex((a) => a.id === data['Detected Text']) === -1) {
+            acc.push({
+                id: data['Detected Text'],
+                name: data['Detected Text'],
+                modelId: models[0].id,
+                sourceConnectionString: sourceToCook.pidUrl
+            });
+        }
+        return acc;
+    }, []);
+
+    return {
+        models,
+        twins,
+        properties
+    };
 };
 
 /**

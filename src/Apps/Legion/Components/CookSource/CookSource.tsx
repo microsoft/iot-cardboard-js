@@ -89,12 +89,24 @@ const CookSource: React.FC<ICookSourceProps> = (props) => {
             onSourceTypeChange?.(option.key as SourceType);
             const newSource =
                 option.key === SourceType.Timeseries
-                    ? defaultTimeSeriesSource
+                    ? {
+                          ...defaultTimeSeriesSource,
+                          cluster: !isClusterVisible
+                              ? adapter.connectionString
+                              : null
+                      }
                     : defaultPIDSource;
             setSelectedSource(newSource);
             onSourceChange?.(newSource);
+            onGetTableData?.(null);
         },
-        [onSourceChange, onSourceTypeChange]
+        [
+            adapter.connectionString,
+            isClusterVisible,
+            onGetTableData,
+            onSourceChange,
+            onSourceTypeChange
+        ]
     );
     const handleSourceClusterChange = useCallback(
         (clusterUrl: string) => {
@@ -193,13 +205,13 @@ const CookSource: React.FC<ICookSourceProps> = (props) => {
 
     useEffect(() => {
         if (!isClusterVisible) {
-            setSelectedSource({
-                ...selectedSource,
-                cluster: adapter.connectionString
-            });
+            setSelectedSource(
+                produce((draft: WritableDraft<IADXConnection>) => {
+                    draft.cluster = adapter.connectionString;
+                })
+            );
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [adapter]);
+    }, [adapter, isClusterVisible]);
 
     // styles
     const classNames = getStyles();
