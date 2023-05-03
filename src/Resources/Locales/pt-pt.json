@@ -1545,27 +1545,6 @@
         "ingest": "Ingerir",
         "cook": "Cozinheiro"
       },
-      "source": {
-        "database": "Base de dados de origem",
-        "selectDatabase": "Selecionar banco de dados de origem",
-        "table": "Tabela de origem",
-        "selectTable": "Selecionar tabela de origem",
-        "tableType": "Tipo de tabela de origem",
-        "selectTableType": "Selecione o tipo de tabela de origem",
-        "twinIDProperty": "Propriedade ID dupla de origem",
-        "selectTwinIDProperty": "Selecione a propriedade ID dupla de origem",
-        "type": "Tipo de fonte",
-        "typePlaceholder": "Selecionar tipo de fonte"
-      },
-      "target": {
-        "database": "Base de dados de destino",
-        "selectDatabase": "Selecionar banco de dados de destino",
-        "tableType": "Tipo de tabela de destino",
-        "tableTypeTooltipContent": "Selecione o esquema de tabela a ser usado para criação de tabela ou ingestão de linha",
-        "selectTableType": "Selecionar tipo de tabela de destino",
-        "table": "Tabela de destino",
-        "selectTable": "Selecionar tabela de destino"
-      },
       "actions": {
         "cook": "Gráfico de gêmeos Cook",
         "pushTwinsGraph": "Empurre o gráfico de gêmeos para o banco de dados de destino",
@@ -1581,7 +1560,8 @@
       "clusterSelectInfo": "O cluster Kusto selecionado deve ter a política de \"ingestão de streaming\" ativada.",
       "tableSelectInfo": "Se selecionar entre os existentes, certifique-se de que a tabela Kusto tem a política de 'ingestão de streaming' ativada com o mapeamento JSON 'DataPusherMapping' definido.",
       "ingestInfo": "Você pode criar um novo banco de dados ou tabela e ingerir linhas em uma tabela de destino. Por favor, note que se você criou recentemente a tabela, ela pode não estar pronta para ingestão, aguarde alguns minutos antes da ingestão.",
-      "cookInfo": "Você pode extrair gêmeos e possíveis modelos e informações de propriedades cozinhando o gráfico de gêmeos com base na tabela de fontes selecionada."
+      "cookInfo": "Você pode extrair gêmeos e possíveis modelos e informações de propriedades cozinhando o gráfico de gêmeos com base na tabela de fontes selecionada.",
+      "tableTypeTooltipContent": "Selecione o esquema de tabela a ser usado para criação de tabela ou ingestão de linha"
     },
     "verificationStep": {
       "title": "Verificar gêmeos descobertos",
@@ -1608,7 +1588,13 @@
       "tableIdColumnLabel": "Campo ID",
       "urlLabel": "URL",
       "urlPlaceholder": "Insira o URL",
-      "addOptionFormat": "Adicionar '{{item}}'"
+      "addOptionFormat": "Adicionar '{{item}}'",
+      "typeLabel": "Tipo de fonte",
+      "typePlaceholder": "Selecionar tipo de fonte",
+      "tablePlaceholder": "Selecionar tabela",
+      "tableIdColumnPlaceholder": "Selecionar campo ID",
+      "tableTypeLabel": "Tipo de tabela",
+      "tableTypePlaceholder": "Selecionar tipo de tabela"
     },
     "modifyStep": {
       "diagram": "Diagrama",

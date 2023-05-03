@@ -1545,27 +1545,6 @@
         "ingest": "Äter",
         "cook": "Kock"
       },
-      "source": {
-        "database": "Källor",
-        "selectDatabase": "Välj källdatabas",
-        "table": "Källor",
-        "selectTable": "Välj källtabell",
-        "tableType": "Typ av källtabell",
-        "selectTableType": "Välj källtabelltyp",
-        "twinIDProperty": "Egenskapen Källtvilling-ID",
-        "selectTwinIDProperty": "Välj egenskap för källtvilling-ID",
-        "type": "Typ av källa",
-        "typePlaceholder": "Välj källtyp"
-      },
-      "target": {
-        "database": "Måldatabas",
-        "selectDatabase": "Välj måldatabas",
-        "tableType": "Typ av måltabell",
-        "tableTypeTooltipContent": "Välj det tabellschema som ska användas för att skapa tabeller eller radinmatning",
-        "selectTableType": "Välj måltabelltyp",
-        "table": "Måltabell",
-        "selectTable": "Välj måltabell"
-      },
       "actions": {
         "cook": "Cook tvillingar graf",
         "pushTwinsGraph": "Skicka tvillingdiagram till måldatabasen",
@@ -1581,7 +1560,8 @@
       "clusterSelectInfo": "Det valda Kusto-klustret måste ha principen \"strömningsinmatning\" aktiverad.",
       "tableSelectInfo": "Om du väljer från befintlig kontrollerar du att Kusto-tabellen har principen \"strömningsinmatning\" aktiverad med JSON-mappningen \"DataPusherMapping\" definierad.",
       "ingestInfo": "Du kan skapa en ny databas eller tabell och mata in rader i en måltabell. Observera att om du nyligen har skapat tabellen kanske den inte är redo för inmatning, vänta några minuter innan den matas in.",
-      "cookInfo": "Du kan extrahera tvillingar och möjliga modeller & egenskapsinformation genom att laga tvillingdiagram baserat på vald källtabell."
+      "cookInfo": "Du kan extrahera tvillingar och möjliga modeller & egenskapsinformation genom att laga tvillingdiagram baserat på vald källtabell.",
+      "tableTypeTooltipContent": "Välj det tabellschema som ska användas för att skapa tabeller eller radinmatning"
     },
     "verificationStep": {
       "title": "Verifiera identifierade tvillingar",
@@ -1608,7 +1588,13 @@
       "tableIdColumnLabel": "ID-fält",
       "urlLabel": "URL",
       "urlPlaceholder": "Ange URL",
-      "addOptionFormat": "Lägg till '{{item}}'"
+      "addOptionFormat": "Lägg till '{{item}}'",
+      "typeLabel": "Typ av källa",
+      "typePlaceholder": "Välj källtyp",
+      "tablePlaceholder": "Välj tabell",
+      "tableIdColumnPlaceholder": "Välj ID-fält",
+      "tableTypeLabel": "Typ av tabell",
+      "tableTypePlaceholder": "Välj tabelltyp"
     },
     "modifyStep": {
       "diagram": "Diagram",

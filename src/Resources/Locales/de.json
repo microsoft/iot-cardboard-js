@@ -1545,27 +1545,6 @@
         "ingest": "Aufnehmen",
         "cook": "Kochen"
       },
-      "source": {
-        "database": "Quelldatenbank",
-        "selectDatabase": "Quelldatenbank auswählen",
-        "table": "Quelltabelle",
-        "selectTable": "Quelltabelle auswählen",
-        "tableType": "Typ der Quelltabelle",
-        "selectTableType": "Auswählen des Quelltabellentyps",
-        "twinIDProperty": "Quell-Zwillings-ID-Eigenschaft",
-        "selectTwinIDProperty": "Quell-Zwillings-ID-Eigenschaft auswählen",
-        "type": "Art der Quelle",
-        "typePlaceholder": "Wählen Sie den Quelltyp"
-      },
-      "target": {
-        "database": "Zieldatenbank",
-        "selectDatabase": "Zieldatenbank auswählen",
-        "tableType": "Typ der Zieltabelle",
-        "tableTypeTooltipContent": "Wählen Sie das Tabellenschema aus, das für die Tabellenerstellung oder die Zeilenaufnahme verwendet werden soll.",
-        "selectTableType": "Wählen Sie den Zieltabellentyp aus",
-        "table": "Zieltabelle",
-        "selectTable": "Zieltabelle auswählen"
-      },
       "actions": {
         "cook": "Cook-Zwillings-Diagramm",
         "pushTwinsGraph": "Übertragen des Zwillingsdiagramms in die Zieldatenbank",
@@ -1581,7 +1560,8 @@
       "clusterSelectInfo": "Für den ausgewählten Kusto-Cluster muss die Richtlinie \"Streaming-Aufnahme\" aktiviert sein.",
       "tableSelectInfo": "Wenn Sie eine vorhandene Option auswählen, stellen Sie sicher, dass in der Kusto-Tabelle die Richtlinie \"Streaming-Aufnahme\" aktiviert ist und die JSON-Zuordnung \"DataPusherMapping\" definiert ist.",
       "ingestInfo": "Sie können eine neue Datenbank oder Tabelle erstellen und Zeilen in eine Zieltabelle aufnehmen. Bitte beachten Sie, dass, wenn Sie die Tabelle kürzlich erstellt haben, sie möglicherweise nicht für die Aufnahme bereit ist, warten Sie einige Minuten, bevor Sie sie einnehmen.",
-      "cookInfo": "Sie können Zwillinge und mögliche Modell- und Eigenschaftsinformationen extrahieren, indem Sie Zwillinge basierend auf der ausgewählten Quelltabelle in einem Diagramm kochen."
+      "cookInfo": "Sie können Zwillinge und mögliche Modell- und Eigenschaftsinformationen extrahieren, indem Sie Zwillinge basierend auf der ausgewählten Quelltabelle in einem Diagramm kochen.",
+      "tableTypeTooltipContent": "Wählen Sie das Tabellenschema aus, das für die Tabellenerstellung oder die Zeilenerfassung verwendet werden soll"
     },
     "verificationStep": {
       "title": "Erkannte Zwillinge verifizieren",
@@ -1608,7 +1588,13 @@
       "tableIdColumnLabel": "ID-Feld",
       "urlLabel": "Internetadresse:",
       "urlPlaceholder": "URL eingeben",
-      "addOptionFormat": "Fügen Sie '{{item}}' hinzu"
+      "addOptionFormat": "Fügen Sie '{{item}}' hinzu",
+      "typeLabel": "Art der Quelle",
+      "typePlaceholder": "Wählen Sie den Quelltyp",
+      "tablePlaceholder": "Tabelle auswählen",
+      "tableIdColumnPlaceholder": "Wählen Sie das ID-Feld aus",
+      "tableTypeLabel": "Tabellentyp",
+      "tableTypePlaceholder": "Wählen Sie den Tabellentyp"
     },
     "modifyStep": {
       "diagram": "Diagramm",
