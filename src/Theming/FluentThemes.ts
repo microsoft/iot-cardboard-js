@@ -1,5 +1,9 @@
 import { createTheme, ITheme, Theme as FluentTheme } from '@fluentui/react';
 import {
+    PartialTheme as Fluent9Theme,
+    webLightTheme
+} from '@fluentui/react-components';
+import {
     fluentDarkThemePalette,
     fluentExplorerThemePalette,
     fluentKrakenThemePalette,
@@ -14,6 +18,9 @@ import {
     fluentLightThemeSemanticColors
 } from './SemanticColors';
 import { IExtendedPartialTheme } from './Theme.types';
+import { Fluent9KrakenTheme } from './Fluent9KrakenTheme';
+import { Fluent9ExplorerTheme } from './Fluent9ExplorerTheme';
+import { Fluent9DarkTheme } from './Fluent9DarkTheme';
 
 export const getFluentTheme = (theme: Theme): ITheme => {
     switch (theme) {
@@ -27,6 +34,21 @@ export const getFluentTheme = (theme: Theme): ITheme => {
             return fluentKrakenTheme;
         default:
             return fluentLightTheme;
+    }
+};
+
+export const getVNextTheme = (theme: Theme): Fluent9Theme => {
+    switch (theme) {
+        case Theme.Dark:
+            return Fluent9DarkTheme;
+        case Theme.Light:
+            return webLightTheme;
+        case Theme.Explorer:
+            return Fluent9ExplorerTheme;
+        case Theme.Kraken:
+            return Fluent9KrakenTheme;
+        default:
+            return webLightTheme;
     }
 };
 

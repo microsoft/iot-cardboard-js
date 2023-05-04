@@ -1,10 +1,11 @@
 import React, { CSSProperties, useContext, useMemo } from 'react';
 import { Theme as LibThemes } from '../Models/Constants/Enums';
-import { getFluentTheme } from './FluentThemes';
+import { getFluentTheme, getVNextTheme } from './FluentThemes';
 import {
     initializeIcons,
     ThemeProvider as FluentThemeProvider
 } from '@fluentui/react';
+import { FluentProvider } from '@fluentui/react-provider';
 
 export const Theme = React.createContext(null);
 export const useLibTheme = () => useContext(Theme);
@@ -14,6 +15,7 @@ initializeIcons();
 
 export const ThemeProvider = ({ children, theme = LibThemes.Light }) => {
     const fluentTheme = useMemo(() => getFluentTheme(theme), [theme]);
+    const fluent9Theme = useMemo(() => getVNextTheme(theme), [theme]);
     const unsetStyles: CSSProperties = { all: 'unset', minHeight: 'inherit' };
 
     return (
@@ -23,9 +25,11 @@ export const ThemeProvider = ({ children, theme = LibThemes.Light }) => {
                 applyTo={'none'}
                 style={unsetStyles}
             >
-                <div style={unsetStyles} cardboard-data-theme={theme}>
-                    {children}
-                </div>
+                <FluentProvider theme={fluent9Theme}>
+                    <div style={unsetStyles} cardboard-data-theme={theme}>
+                        {children}
+                    </div>
+                </FluentProvider>
             </FluentThemeProvider>
         </Theme.Provider>
     );
