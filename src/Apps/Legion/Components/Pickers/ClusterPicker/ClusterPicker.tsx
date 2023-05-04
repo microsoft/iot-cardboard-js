@@ -13,9 +13,9 @@ import { useTranslation } from 'react-i18next';
 import { useAdapter } from '../../../../../Models/Hooks';
 import { IReactSelectOption } from '../../../Models/Types';
 import { useADXAdapter } from '../../../Hooks/useADXAdapter';
-import { WizardDataManagementContext } from '../../../Contexts/WizardDataManagementContext/WizardDataManagementContext';
 import CardboardComboBox from '../../CardboardComboBox/CardboardComboBox';
 import { IADXAdapterTargetContext } from '../../../Models/Interfaces';
+import { AppDataContext } from '../../../Contexts/AppDataContext/AppDataContext';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('ClusterPicker', debugLogging);
@@ -29,12 +29,13 @@ const ClusterPicker: React.FC<IClusterPickerProps> = (props) => {
     const {
         selectedClusterUrl,
         onClusterUrlChange,
-        targetAdapterContext = WizardDataManagementContext,
+        targetAdapterContext = AppDataContext,
         label,
         placeholder,
         hasTooltip = false,
         isCreatable = true,
         isRequired = true,
+        isDisabled = false,
         styles
     } = props;
 
@@ -92,9 +93,16 @@ const ClusterPicker: React.FC<IClusterPickerProps> = (props) => {
     useEffect(() => {
         if (getClustersState?.adapterResult?.result) {
             const data = getClustersState.adapterResult.getData();
-            setClusterOptions(data.map((d) => ({ value: d, label: d })));
+            const clusterOptions = data.map((d) => ({ value: d, label: d }));
+            if (!data.includes(selectedClusterUrl)) {
+                clusterOptions.push({
+                    value: selectedClusterUrl,
+                    label: selectedClusterUrl
+                });
+            }
+            setClusterOptions(clusterOptions);
         }
-    }, [getClustersState?.adapterResult]);
+    }, [getClustersState.adapterResult, selectedClusterUrl]);
     useEffect(() => {
         setSelectedClusterOption(
             selectedClusterUrl
@@ -119,7 +127,7 @@ const ClusterPicker: React.FC<IClusterPickerProps> = (props) => {
                 isLoading={getClustersState.isLoading}
                 required={isRequired}
                 isCreatable={isCreatable}
-                label={label || t('legionApp.dataPusher.clusterTitle')}
+                label={label || t('legionApp.Common.clusterLabel')}
                 tooltip={
                     hasTooltip
                         ? {
@@ -149,6 +157,7 @@ const ClusterPicker: React.FC<IClusterPickerProps> = (props) => {
                         : undefined
                 }
                 descriptionIsError={true}
+                isDisabled={isDisabled}
             />
         </div>
     );

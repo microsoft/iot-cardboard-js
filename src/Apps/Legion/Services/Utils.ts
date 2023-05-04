@@ -88,3 +88,19 @@ export const createGuid = (isWithDashes = false) => {
     }
     return id;
 };
+
+export const getColorByIdx = (idx: number): string => {
+    const colors = [
+        '#2caffe',
+        '#544fc5',
+        '#00e272',
+        '#fe6a35',
+        '#6b8abc',
+        '#d568fb',
+        '#2ee0ca',
+        '#fa4b42',
+        '#feb56a',
+        '#91e8e12'
+    ];
+    return colors[idx % colors.length];
+};

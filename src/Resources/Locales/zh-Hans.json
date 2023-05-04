@@ -1545,27 +1545,6 @@
         "ingest": "摄取",
         "cook": "煮"
       },
-      "source": {
-        "database": "源数据库",
-        "selectDatabase": "选择源数据库",
-        "table": "源表",
-        "selectTable": "选择源表",
-        "tableType": "源表类型",
-        "selectTableType": "选择源表类型",
-        "twinIDProperty": "源孪生 ID 属性",
-        "selectTwinIDProperty": "选择源孪生 ID 属性",
-        "type": "源类型",
-        "typePlaceholder": "选择源类型"
-      },
-      "target": {
-        "database": "目标数据库",
-        "selectDatabase": "选择目标数据库",
-        "tableType": "目标表类型",
-        "tableTypeTooltipContent": "选择要用于表创建或行引入的表架构",
-        "selectTableType": "选择目标表类型",
-        "table": "目标表",
-        "selectTable": "选择目标表"
-      },
       "actions": {
         "cook": "库克双胞胎图",
         "pushTwinsGraph": "将孪生体图推送到目标数据库",
@@ -1581,7 +1560,8 @@
       "clusterSelectInfo": "所选 Kusto 群集需要启用“流式引入”策略。",
       "tableSelectInfo": "如果从现有选项中进行选择，请确保 Kusto 表启用了“流式引入”策略，并定义了“数据推送器映射”JSON 映射。",
       "ingestInfo": "您可以创建新的数据库或表，并将行引入目标表。请注意，如果您最近创建了表，则它可能尚未准备好进行摄取，请在摄取前等待几分钟。",
-      "cookInfo": "您可以通过基于所选源表的孪生图来提取孪生体以及可能的模型和属性信息。"
+      "cookInfo": "您可以通过基于所选源表的孪生图来提取孪生体以及可能的模型和属性信息。",
+      "tableTypeTooltipContent": "选择要用于表创建或行引入的表架构"
     },
     "verificationStep": {
       "title": "验证发现的孪生体",
@@ -1608,7 +1588,13 @@
       "tableIdColumnLabel": "标识字段",
       "urlLabel": "网址",
       "urlPlaceholder": "输入网址",
-      "addOptionFormat": "添加“{{项目}}”"
+      "addOptionFormat": "添加“{{项目}}”",
+      "typeLabel": "源类型",
+      "typePlaceholder": "选择源类型",
+      "tablePlaceholder": "选择表格",
+      "tableIdColumnPlaceholder": "选择标识字段",
+      "tableTypeLabel": "表类型",
+      "tableTypePlaceholder": "选择表类型"
     },
     "modifyStep": {
       "diagram": "图",

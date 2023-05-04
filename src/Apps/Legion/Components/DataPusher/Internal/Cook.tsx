@@ -1,56 +1,36 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import {
     DetailsList,
-    Dropdown,
     IColumn,
-    IDropdownOption,
     PrimaryButton,
     SelectionMode,
-    Spinner,
-    SpinnerSize,
-    Stack,
-    StackItem
+    Stack
 } from '@fluentui/react';
-import useAdapter from '../../../../../Models/Hooks/useAdapter';
-import {
-    ICreateDatabaseAdapterParams,
-    IGetTableAdapterParams,
-    IGetTablesAdapterParams,
-    ITable
-} from '../../../Adapters/Standalone/DataManagement/Models/DataManagementAdapter.types';
-import { useDataPusherContext } from '../DataPusher';
+import { ITable } from '../../../Adapters/Standalone/DataManagement/Models/DataManagementAdapter.types';
+import { DataPusherContext, useDataPusherContext } from '../DataPusher';
 import { useTranslation } from 'react-i18next';
-import { cookSourceTable } from '../../../Services/DataPusherUtils';
-import { IAppData } from '../../../Models/Interfaces';
-import { TIMESTAMP_COLUMN_NAME } from '../DataPusher.types';
+import { cookSource } from '../../../Services/DataPusherUtils';
+import { ICookedSource } from '../../../Models/Interfaces';
+import { SourceType } from '../DataPusher.types';
+import CookSource from '../../CookSource/CookSource';
+import { IADXConnection, ICookSource, IPIDDocument } from '../../../Models';
 
 const Cook: React.FC = () => {
-    const { adapter, classNames } = useDataPusherContext();
+    const { selectedClusterUrl, classNames } = useDataPusherContext();
 
     // state
-    const [sourceDatabaseOptions, setSourceDatabaseOptions] = useState<
-        Array<IDropdownOption>
-    >([]);
-    const [sourceTableOptions, setSourceTableOptions] = useState<
-        Array<IDropdownOption>
-    >([]);
-    const [sourceTableColumnOptions, setSourceTableColumnOptions] = useState<
-        Array<IDropdownOption>
-    >([]);
-    const [
-        selectedSourceDatabase,
-        setSelectedSourceDatabase
-    ] = useState<string>(null);
-    const [selectedSourceTable, setSelectedSourceTable] = useState<string>(
-        null
+    const [selectedSourceType, setSelectedSourceType] = useState<SourceType>(
+        SourceType.Timeseries
     );
-    const [
-        selectedSourceTwinIDColumn,
-        setSelectedSourceTwinIDColumn
-    ] = useState<string>(null);
+    const [selectedSource, setSelectedSource] = useState<ICookSource>({
+        cluster: selectedClusterUrl,
+        database: null,
+        table: null,
+        twinIdColumn: null,
+        tableType: null
+    });
     const [sourceTableData, setSourceTableData] = useState<ITable>(null);
-    const [adapterResult, setAdapterResult] = useState(null);
-    const [cookAssets, setCookAssets] = useState<IAppData>(null);
+    const [cookAssets, setCookAssets] = useState<ICookedSource>(null);
 
     // hooks
     const { t } = useTranslation();
@@ -68,123 +48,21 @@ const Cook: React.FC = () => {
         [sourceTableData]
     );
 
-    const getDatabasesState = useAdapter({
-        adapterMethod: () => adapter.getDatabases(),
-        refetchDependencies: [adapter]
-    });
-
-    const createDatabaseState = useAdapter({
-        adapterMethod: (param: ICreateDatabaseAdapterParams) =>
-            adapter.createDatabase(param.databaseName),
-        isAdapterCalledOnMount: false,
-        refetchDependencies: [adapter]
-    });
-
-    const getTablesState = useAdapter({
-        adapterMethod: (param: IGetTablesAdapterParams) =>
-            adapter.getTables(param.databaseName),
-        isAdapterCalledOnMount: false,
-        refetchDependencies: [adapter]
-    });
-
-    const getTableState = useAdapter({
-        adapterMethod: (params: IGetTableAdapterParams) =>
-            adapter.getTable(
-                params.databaseName,
-                params.tableName,
-                TIMESTAMP_COLUMN_NAME
-            ),
-        isAdapterCalledOnMount: false,
-        refetchDependencies: [adapter]
-    });
-
     // callbacks
-    const handleSourceDatabaseChange = useCallback(
-        (_event, option: IDropdownOption) => {
-            setSelectedSourceDatabase(option.text);
-            setSelectedSourceTable(null);
-            setSelectedSourceTwinIDColumn(null);
-            setSourceTableData(null);
-            setCookAssets(null);
-            // fetch tables of selected database
-            getTablesState.callAdapter({
-                databaseName: option.text
-            });
-        },
-        [getTablesState]
-    );
-
-    const handleSourceTableChange = useCallback(
-        (_event, option: IDropdownOption) => {
-            setSelectedSourceTable(option.text);
-            setSelectedSourceTwinIDColumn(null);
-            setSourceTableData(null);
-            setCookAssets(null);
-            getTableState.callAdapter({
-                databaseName: selectedSourceDatabase,
-                tableName: option.text
-            });
-        },
-        [getTableState, selectedSourceDatabase]
-    );
-
-    const handleSourceTwinIDColumnChange = useCallback(
-        (_event, option: IDropdownOption) => {
-            setSelectedSourceTwinIDColumn(option.text);
-        },
-        []
-    );
-
+    const handleSourceTypeChange = useCallback((sourceType: SourceType) => {
+        setSelectedSourceType(sourceType);
+        setCookAssets(null);
+    }, []);
+    const handleSourceChange = useCallback((source: ICookSource) => {
+        setSelectedSource(source);
+        setCookAssets(null);
+    }, []);
+    const handleTableDataChange = useCallback((tableData: ITable) => {
+        setSourceTableData(tableData);
+    }, []);
     const handleCookButtonClick = useCallback(() => {
-        setCookAssets(
-            cookSourceTable(
-                `${adapter.connectionString}/${selectedSourceDatabase}/${selectedSourceTable}`,
-                sourceTableData,
-                selectedSourceTwinIDColumn
-            )
-        );
-    }, [
-        adapter.connectionString,
-        selectedSourceDatabase,
-        selectedSourceTable,
-        selectedSourceTwinIDColumn,
-        sourceTableData
-    ]);
-
-    // side effects
-    useEffect(() => {
-        if (getDatabasesState?.adapterResult?.result) {
-            const data = getDatabasesState.adapterResult.getData();
-            setSourceDatabaseOptions(data?.map((d) => ({ key: d, text: d })));
-        }
-    }, [getDatabasesState?.adapterResult]);
-
-    useEffect(() => {
-        if (getTablesState?.adapterResult?.result) {
-            const data = getTablesState.adapterResult.getData();
-            setSourceTableOptions(data.map((d) => ({ key: d, text: d })));
-        }
-    }, [getTablesState?.adapterResult]);
-
-    useEffect(() => {
-        if (getTableState?.adapterResult?.result) {
-            const data = getTableState.adapterResult.getData() as ITable;
-            setSourceTableData(data);
-            setSourceTableColumnOptions(
-                data.Columns.map((d) => ({
-                    key: d.columnName,
-                    text: d.columnName
-                }))
-            );
-        }
-    }, [getTableState?.adapterResult]);
-
-    useEffect(() => {
-        if (createDatabaseState?.adapterResult?.result) {
-            const data = createDatabaseState.adapterResult.getData();
-            setAdapterResult(data);
-        }
-    }, [createDatabaseState?.adapterResult]);
+        setCookAssets(cookSource(selectedSourceType, selectedSource));
+    }, [selectedSource, selectedSourceType]);
 
     return (
         <div>
@@ -192,70 +70,23 @@ const Cook: React.FC = () => {
                 tokens={{ childrenGap: 8 }}
                 styles={classNames.subComponentStyles.stack}
             >
-                <p className={classNames.informationText}>
-                    {t('legionApp.dataPusher.cookInfo')}
-                </p>
-                <Dropdown
-                    required
-                    label={t('legionApp.dataPusher.source.database')}
-                    onChange={handleSourceDatabaseChange}
-                    options={sourceDatabaseOptions}
-                    placeholder={
-                        getDatabasesState.isLoading
-                            ? t('loading')
-                            : t('legionApp.dataPusher.source.selectDatabase')
-                    }
-                    selectedKey={selectedSourceDatabase}
+                <CookSource
+                    onSourceTypeChange={handleSourceTypeChange}
+                    onSourceChange={handleSourceChange}
+                    onGetTableData={handleTableDataChange}
+                    isClusterVisible={false}
+                    targetAdapterContext={DataPusherContext}
                 />
-                <Dropdown
-                    required
-                    label={t('legionApp.dataPusher.source.table')}
-                    onChange={handleSourceTableChange}
-                    options={sourceTableOptions}
-                    placeholder={
-                        getTablesState.isLoading
-                            ? t('loading')
-                            : t('legionApp.dataPusher.source.selectTable')
+                <PrimaryButton
+                    styles={classNames.subComponentStyles.button()}
+                    text={t('legionApp.dataPusher.actions.cook')}
+                    disabled={
+                        selectedSourceType === SourceType.Timeseries
+                            ? !(selectedSource as IADXConnection).twinIdColumn
+                            : !(selectedSource as IPIDDocument).pidUrl
                     }
-                    selectedKey={selectedSourceTable}
+                    onClick={handleCookButtonClick}
                 />
-                <Dropdown
-                    required
-                    label={t('legionApp.dataPusher.source.twinIDProperty')}
-                    onChange={handleSourceTwinIDColumnChange}
-                    options={sourceTableColumnOptions}
-                    placeholder={
-                        getTableState.isLoading
-                            ? t('loading')
-                            : t(
-                                  'legionApp.dataPusher.source.selectTwinIDProperty'
-                              )
-                    }
-                    selectedKey={selectedSourceTwinIDColumn}
-                />
-                <StackItem>
-                    <PrimaryButton
-                        styles={classNames.subComponentStyles.button()}
-                        text={t('legionApp.dataPusher.actions.cook')}
-                        disabled={
-                            !(selectedSourceTable && selectedSourceTwinIDColumn)
-                        }
-                        onClick={handleCookButtonClick}
-                    />
-                </StackItem>
-                <StackItem>
-                    {createDatabaseState.isLoading && (
-                        <Spinner
-                            label={t(
-                                'legionApp.dataPusher.progress.createDatabase'
-                            )}
-                            size={SpinnerSize.small}
-                        />
-                    )}
-                    <p className={classNames.informationText}>
-                        {adapterResult ? t('success') : ''}
-                    </p>
-                </StackItem>
             </Stack>
             {cookAssets && (
                 <div className={classNames.informationText}>

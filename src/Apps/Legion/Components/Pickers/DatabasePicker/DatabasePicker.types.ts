@@ -8,6 +8,7 @@ export interface IDatabasePickerProps {
     targetAdapterContext?: React.Context<IADXAdapterTargetContext>;
     isCreatable?: boolean;
     isRequired?: boolean;
+    isDisabled?: boolean;
     label?: string;
     placeholder?: string;
     /**

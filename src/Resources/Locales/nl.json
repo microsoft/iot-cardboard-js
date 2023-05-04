@@ -1545,27 +1545,6 @@
         "ingest": "Inslikken",
         "cook": "Koken"
       },
-      "source": {
-        "database": "Brondatabase",
-        "selectDatabase": "Selecteer brondatabase",
-        "table": "Brontabel",
-        "selectTable": "Brontabel selecteren",
-        "tableType": "Type brontabel",
-        "selectTableType": "Type brontabel selecteren",
-        "twinIDProperty": "Eigenschap Source twin ID",
-        "selectTwinIDProperty": "Eigenschap brontwee-ID selecteren",
-        "type": "Brontype",
-        "typePlaceholder": "Selecteer brontype"
-      },
-      "target": {
-        "database": "Doeldatabase",
-        "selectDatabase": "Selecteer doeldatabase",
-        "tableType": "Type doeltabel",
-        "tableTypeTooltipContent": "Selecteer het tabelschema dat moet worden gebruikt voor het maken van tabellen of het opnemen van rijen",
-        "selectTableType": "Doeltabeltype selecteren",
-        "table": "Doeltabel",
-        "selectTable": "Doeltabel selecteren"
-      },
       "actions": {
         "cook": "Cook twins grafiek",
         "pushTwinsGraph": "Push twins graph naar doeldatabase",
@@ -1581,7 +1560,8 @@
       "clusterSelectInfo": "Geselecteerd Kusto-cluster is vereist om het beleid 'streamingopname' in te schakelen.",
       "tableSelectInfo": "Als u een keuze maakt uit bestaande, zorg er dan voor dat de Kusto-tabel het beleid 'streamingopname' heeft ingeschakeld met 'DataPusherMapping' JSON-toewijzing gedefinieerd.",
       "ingestInfo": "U kunt een nieuwe database of tabel maken en rijen opnemen in een doeltabel. Houd er rekening mee dat als u de tabel onlangs hebt gemaakt, deze mogelijk niet klaar is voor inname, wacht dan een paar minuten voor inname.",
-      "cookInfo": "U kunt tweelingen en mogelijke modellen en eigenschappen informatie extraheren door tweelingen grafiek te koken op basis van geselecteerde bron tabel."
+      "cookInfo": "U kunt tweelingen en mogelijke modellen en eigenschappen informatie extraheren door tweelingen grafiek te koken op basis van geselecteerde bron tabel.",
+      "tableTypeTooltipContent": "Selecteer het tabelschema dat moet worden gebruikt voor het maken van tabellen of het opnemen van rijen"
     },
     "verificationStep": {
       "title": "Geverifieerde tweelingen verifiëren",
@@ -1608,7 +1588,13 @@
       "tableIdColumnLabel": "Id-veld",
       "urlLabel": "Url",
       "urlPlaceholder": "Voer de URL in",
-      "addOptionFormat": "Voeg '{{item}}' toe"
+      "addOptionFormat": "Voeg '{{item}}' toe",
+      "typeLabel": "Brontype",
+      "typePlaceholder": "Selecteer brontype",
+      "tablePlaceholder": "Tabel selecteren",
+      "tableIdColumnPlaceholder": "Selecteer id-veld",
+      "tableTypeLabel": "Type tabel",
+      "tableTypePlaceholder": "Selecteer tabeltype"
     },
     "modifyStep": {
       "diagram": "Diagram",

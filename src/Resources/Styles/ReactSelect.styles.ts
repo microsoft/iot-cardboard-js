@@ -59,9 +59,13 @@ export function getReactSelectStyles<T>(
         ...getBaseReactSelectStyles<T>(theme),
         control: (provided, state) => ({
             ...provided,
-            backgroundColor: theme.semanticColors.inputBackground,
+            backgroundColor: state.isDisabled
+                ? theme.semanticColors.buttonBackgroundDisabled
+                : theme.semanticColors.inputBackground,
             border: `1px solid ${
-                state.isFocused
+                state.isDisabled
+                    ? theme.semanticColors.buttonBorderDisabled
+                    : state.isFocused
                     ? theme.semanticColors.inputBackgroundCheckedHovered
                     : theme.semanticColors.inputBorder
             } !important`,
