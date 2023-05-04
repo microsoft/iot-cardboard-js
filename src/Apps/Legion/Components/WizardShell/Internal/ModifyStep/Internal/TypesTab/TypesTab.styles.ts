@@ -1,3 +1,4 @@
+import { CONTENT_HEIGHT } from '../../../../WizardShell.styles';
 import { ITypesTabStyles } from './TypesTab.types';
 import {
     IProcessedStyleSet,
@@ -9,7 +10,7 @@ export const getStyles = memoizeFunction(
     (): IProcessedStyleSet<ITypesTabStyles> => {
         return mergeStyleSets({
             root: {
-                maxHeight: 400,
+                maxHeight: CONTENT_HEIGHT - 44, // Height - (pivot + extra padding)
                 overflowY: 'auto',
                 display: 'flex',
                 flexDirection: 'column',

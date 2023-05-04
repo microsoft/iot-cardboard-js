@@ -1,6 +1,6 @@
 import { createTheme, ITheme, Theme as FluentTheme } from '@fluentui/react';
 import {
-    Theme as Fluent9Theme,
+    PartialTheme as Fluent9Theme,
     webLightTheme
 } from '@fluentui/react-components';
 import {
