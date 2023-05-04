@@ -1545,27 +1545,6 @@
         "ingest": "Bevesz",
         "cook": "Szakács"
       },
-      "source": {
-        "database": "Forrás-adatbázis",
-        "selectDatabase": "Válassza ki a forrásadatbázist",
-        "table": "Forrástábla",
-        "selectTable": "Válassza ki a forrástáblát",
-        "tableType": "Forrástábla típusa",
-        "selectTableType": "Válassza ki a forrástábla típusát",
-        "twinIDProperty": "Forrás ikerazonosító tulajdonsága",
-        "selectTwinIDProperty": "Válassza ki az ikereszköz-azonosító tulajdonságot",
-        "type": "Forrás típusa",
-        "typePlaceholder": "Válassza ki a forrás típusát"
-      },
-      "target": {
-        "database": "Céladatbázis",
-        "selectDatabase": "Céladatbázis kiválasztása",
-        "tableType": "Céltábla típusa",
-        "tableTypeTooltipContent": "Válassza ki a tábla létrehozásához vagy sorbetöltéséhez használni kívánt táblasémát",
-        "selectTableType": "Válassza ki a céltábla típusát",
-        "table": "Céltábla",
-        "selectTable": "Válassza ki a céltáblát"
-      },
       "actions": {
         "cook": "Ikrek főzési grafikonja",
         "pushTwinsGraph": "Ikereszközök gráfjának leküldése a céladatbázisba",
@@ -1581,7 +1560,8 @@
       "clusterSelectInfo": "A kiválasztott Kusto-fürtnek engedélyeznie kell a \"streamelési betöltés\" szabályzatot.",
       "tableSelectInfo": "Ha a meglévő közül választ, győződjön meg arról, hogy a Kusto-táblán engedélyezve van a \"streamelési betöltés\" szabályzat, és meg van határozva a \"DataPusherMapping\" JSON-leképezés.",
       "ingestInfo": "Létrehozhat egy új adatbázist vagy táblát, és sorokat tölthet be egy céltáblába. Vegye figyelembe, hogy ha nemrég hozta létre a táblát, előfordulhat, hogy nem áll készen a betöltésre, várjon néhány percet a betöltés előtt.",
-      "cookInfo": "Az ikereket és a lehetséges modellek & tulajdonságadatait úgy nyerheti ki, hogy az ikereket a kiválasztott forrástábla alapján főzi."
+      "cookInfo": "Az ikereket és a lehetséges modellek & tulajdonságadatait úgy nyerheti ki, hogy az ikereket a kiválasztott forrástábla alapján főzi.",
+      "tableTypeTooltipContent": "Válassza ki a tábla létrehozásához vagy sorbetöltéséhez használni kívánt táblasémát"
     },
     "verificationStep": {
       "title": "Felderített ikrek ellenőrzése",
@@ -1608,7 +1588,13 @@
       "tableIdColumnLabel": "Azonosító mező",
       "urlLabel": "URL",
       "urlPlaceholder": "Adja meg az URL-címet",
-      "addOptionFormat": "Add hozzá a következőt: '{{item}}'"
+      "addOptionFormat": "Add hozzá a következőt: '{{item}}'",
+      "typeLabel": "Forrás típusa",
+      "typePlaceholder": "Válassza ki a forrás típusát",
+      "tablePlaceholder": "Asztal kiválasztása",
+      "tableIdColumnPlaceholder": "Válassza ki az azonosító mezőt",
+      "tableTypeLabel": "Tábla típusa",
+      "tableTypePlaceholder": "Válassza ki a táblázat típusát"
     },
     "modifyStep": {
       "diagram": "Diagram",
@@ -1657,6 +1643,14 @@
         "relationshipNameFieldPlaceholder": "Kapcsolatnév kijelölése vagy létrehozása",
         "existingEntityFieldPlaceholder": "Válasszon ki egy meglévő entitást"
       }
+    },
+    "saveStep": {
+      "entityCreated": "{{entityCount}} entitás létrehozva",
+      "entitiesCreated": "{{entityCount}} entitások létrehozva",
+      "relationshipCreated": "{{relationshipCount}} kapcsolat létrehozva",
+      "relationshipsCreated": "{{relationshipCount}} létrehozott kapcsolatok",
+      "typeCreated": "{{typeCount}} típus létrehozva",
+      "typesCreated": "{{typeCount}} létrehozott típusok"
     }
   }
 }

@@ -93,7 +93,15 @@ const WizardShell: React.FC<IWizardShellProps> = (_props) => {
                         disabled={
                             wizardNavigationContextState.primaryAction?.disabled
                         }
-                        text={t('next')}
+                        text={
+                            wizardNavigationContextState.primaryAction?.text ??
+                            t('next')
+                        }
+                        iconProps={{
+                            iconName:
+                                wizardNavigationContextState.primaryAction
+                                    ?.iconName
+                        }}
                     />
                 </div>
             </div>

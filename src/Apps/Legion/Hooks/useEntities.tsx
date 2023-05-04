@@ -3,12 +3,12 @@ import {
     useWizardDataDispatchContext,
     useWizardDataStateContext
 } from '../Contexts/WizardDataContext/WizardDataContext';
-import { IEntityCounters, IViewEntity } from '../Models';
+import { IGenericCounters, IViewEntity } from '../Models';
 import {
     convertViewEntityToDb,
     convertDbEntityToView
 } from '../Services/WizardTypes.utils';
-import { getDebugLogger } from '../../../Models/Services/Utils';
+import { getDebugLogger, isDefined } from '../../../Models/Services/Utils';
 import { WizardDataContextActionType } from '../Contexts/WizardDataContext/WizardDataContext.types';
 
 const debugLogging = false;
@@ -81,19 +81,23 @@ export const useEntities = () => {
         [wizardDataState]
     );
 
-    const getEntityCount = useCallback(
-        (typeId: string): IEntityCounters => {
-            const counters: IEntityCounters = {
-                new: 0,
+    const getEntityCounts = useCallback(
+        (typeId?: string): IGenericCounters => {
+            const counters: IGenericCounters = {
+                created: 0,
                 existing: 0,
                 deleted: 0
             };
             wizardDataState.entities.forEach((x) => {
-                if (x.typeId === typeId) {
+                // If no typeId is specified, return total counts
+                if (
+                    !isDefined(typeId) ||
+                    (isDefined(typeId) && x.typeId === typeId)
+                ) {
                     if (x.isDeleted) {
                         counters.deleted += 1;
                     } else if (x.isNew) {
-                        counters.new += 1;
+                        counters.created += 1;
                     } else {
                         counters.existing += 1;
                     }
@@ -123,10 +127,10 @@ export const useEntities = () => {
              * NOTE: this is not a deep update. It will only delete the root level element
              */
             deleteEntity: deleteEntity,
-            /** Callback to get entity count per state based on Type */
-            getEntityCount
+            /** Callback to get entity counts optionally filtered by Type */
+            getEntityCounts: getEntityCounts
         };
-    }, []);
+    }, [addEntity, deleteEntity, entities, getEntityCounts, updateEntity]);
     logDebugConsole('debug', '[END] Render', data);
     return data;
 };

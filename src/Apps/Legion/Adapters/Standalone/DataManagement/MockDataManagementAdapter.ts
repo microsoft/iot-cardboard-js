@@ -17,8 +17,9 @@ export default class MockDataManagementAdapter
 
     constructor() {
         super();
-        this.networkTimeoutMillis = 2000;
-        this.connectionString = 'mockConnectionString';
+        this.networkTimeoutMillis = 1000;
+        this.connectionString =
+            'https://mockConnectionString.westus.kusto.windows.net';
     }
 
     async mockNetwork() {

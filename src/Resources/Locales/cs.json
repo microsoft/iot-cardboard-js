@@ -1545,27 +1545,6 @@
         "ingest": "Spolknout potravu",
         "cook": "Kuchař"
       },
-      "source": {
-        "database": "Zdrojová databáze",
-        "selectDatabase": "Vybrat zdrojovou databázi",
-        "table": "Zdrojová tabulka",
-        "selectTable": "Vybrat zdrojovou tabulku",
-        "tableType": "Typ zdrojové tabulky",
-        "selectTableType": "Vyberte typ zdrojové tabulky",
-        "twinIDProperty": "Vlastnost ID zdrojového dvojčete",
-        "selectTwinIDProperty": "Vyberte vlastnost ID dvojčete zdroje",
-        "type": "Typ zdroje",
-        "typePlaceholder": "Vyberte typ zdroje"
-      },
-      "target": {
-        "database": "Cílová databáze",
-        "selectDatabase": "Vybrat cílovou databázi",
-        "tableType": "Typ cílové tabulky",
-        "tableTypeTooltipContent": "Vyberte schéma tabulky, které se má použít pro vytvoření tabulky nebo příjem řádků",
-        "selectTableType": "Vyberte typ cílové tabulky",
-        "table": "Cílová tabulka",
-        "selectTable": "Vyberte cílovou tabulku"
-      },
       "actions": {
         "cook": "Graf Cook dvojčat",
         "pushTwinsGraph": "Odeslání grafu dvojčat do cílové databáze",
@@ -1581,7 +1560,8 @@
       "clusterSelectInfo": "Vybraný cluster Kusto musí mít povolené zásady příjmu streamování.",
       "tableSelectInfo": "Pokud vybíráte z existujících, ujistěte se, že tabulka Kusto má povolené zásady příjmu streamování s definovaným mapováním JSON DataPusherMapping.",
       "ingestInfo": "Můžete vytvořit novou databázi nebo tabulku a ingestovat řádky do cílové tabulky. Upozorňujeme, že pokud jste tabulku vytvořili nedávno, nemusí být připravena k požití, před požitím počkejte několik minut.",
-      "cookInfo": "Můžete extrahovat dvojčata a možné modely a vlastnosti grafu vaření dvojčat na základě vybrané zdrojové tabulky."
+      "cookInfo": "Můžete extrahovat dvojčata a možné modely a vlastnosti grafu vaření dvojčat na základě vybrané zdrojové tabulky.",
+      "tableTypeTooltipContent": "Vyberte schéma tabulky, které se má použít pro vytvoření tabulky nebo příjem řádků"
     },
     "verificationStep": {
       "title": "Ověření zjištěných dvojčat",
@@ -1608,7 +1588,13 @@
       "tableIdColumnLabel": "Pole ID",
       "urlLabel": "Adresa URL",
       "urlPlaceholder": "Zadejte adresu URL",
-      "addOptionFormat": "Přidat '{{item}}'"
+      "addOptionFormat": "Přidat '{{item}}'",
+      "typeLabel": "Typ zdroje",
+      "typePlaceholder": "Vyberte typ zdroje",
+      "tablePlaceholder": "Vybrat tabulku",
+      "tableIdColumnPlaceholder": "Vyberte pole ID",
+      "tableTypeLabel": "Typ tabulky",
+      "tableTypePlaceholder": "Vyberte typ tabulky"
     },
     "modifyStep": {
       "diagram": "Diagram",
@@ -1657,6 +1643,14 @@
         "relationshipNameFieldPlaceholder": "Výběr nebo vytvoření názvu relace",
         "existingEntityFieldPlaceholder": "Vyberte existující entitu"
       }
+    },
+    "saveStep": {
+      "entityCreated": "{{entityCount}} vytvořená entita",
+      "entitiesCreated": "{{entityCount}} vytvořené entity",
+      "relationshipCreated": "{{relationshipCount}} vytvořený vztah",
+      "relationshipsCreated": "{{relationshipCount}} vytvořené relace",
+      "typeCreated": "{{typeCount}} typ vytvořen",
+      "typesCreated": "{{typeCount}} vytvořené typy"
     }
   }
 }

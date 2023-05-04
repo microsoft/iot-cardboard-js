@@ -1545,27 +1545,6 @@
         "ingest": "摂取する",
         "cook": "料理する"
       },
-      "source": {
-        "database": "ソース データベース",
-        "selectDatabase": "ソース データベースの選択",
-        "table": "ソース テーブル",
-        "selectTable": "ソース テーブルの選択",
-        "tableType": "ソース テーブルの種類",
-        "selectTableType": "ソース テーブルの種類を選択",
-        "twinIDProperty": "ソース ツイン ID プロパティ",
-        "selectTwinIDProperty": "ソース ツイン ID プロパティの選択",
-        "type": "ソースの種類",
-        "typePlaceholder": "ソースの種類を選択"
-      },
-      "target": {
-        "database": "ターゲット データベース",
-        "selectDatabase": "ターゲット・データベースの選択",
-        "tableType": "ターゲット テーブルの種類",
-        "tableTypeTooltipContent": "テーブルの作成または行の取り込みに使用するテーブル スキーマを選択する",
-        "selectTableType": "ターゲット テーブルの種類の選択",
-        "table": "ターゲット表",
-        "selectTable": "ターゲット表の選択"
-      },
       "actions": {
         "cook": "クック双子グラフ",
         "pushTwinsGraph": "ツイン グラフをターゲット データベースにプッシュする",
@@ -1581,7 +1560,8 @@
       "clusterSelectInfo": "選択した Kusto クラスターでは、\"ストリーミング インジェスト\" ポリシーを有効にする必要があります。",
       "tableSelectInfo": "既存のものから選択する場合は、Kusto テーブルに \"ストリーミング インジェスト\" ポリシーが有効になっており、\"DataPusherMapping\" JSON マッピングが定義されていることを確認してください。",
       "ingestInfo": "新しいデータベースまたはテーブルを作成し、ターゲット テーブルに行を取り込むことができます。最近テーブルを作成した場合は、インジェストの準備ができていない可能性があるため、インジェストの前に数分待ってください。",
-      "cookInfo": "ツインと可能なモデルとプロパティ情報を抽出できます 選択したソーステーブルに基づいてツイングラフをクックします。"
+      "cookInfo": "ツインと可能なモデルとプロパティ情報を抽出できます 選択したソーステーブルに基づいてツイングラフをクックします。",
+      "tableTypeTooltipContent": "テーブルの作成または行の取り込みに使用するテーブル スキーマを選択する"
     },
     "verificationStep": {
       "title": "検出されたツインを確認する",
@@ -1608,7 +1588,13 @@
       "tableIdColumnLabel": "ID フィールド",
       "urlLabel": "リンク",
       "urlPlaceholder": "URLを入力",
-      "addOptionFormat": "'{{アイテム}}' を追加"
+      "addOptionFormat": "'{{アイテム}}' を追加",
+      "typeLabel": "ソースの種類",
+      "typePlaceholder": "ソースの種類を選択",
+      "tablePlaceholder": "テーブルを選択",
+      "tableIdColumnPlaceholder": "ID フィールドの選択",
+      "tableTypeLabel": "テーブルの種類",
+      "tableTypePlaceholder": "テーブルの種類を選択"
     },
     "modifyStep": {
       "diagram": "ダイアグラム",
@@ -1657,6 +1643,14 @@
         "relationshipNameFieldPlaceholder": "リレーションシップ名を選択または作成する",
         "existingEntityFieldPlaceholder": "既存のエンティティを選択する"
       }
+    },
+    "saveStep": {
+      "entityCreated": "{{エンティティカウント}} エンティティが作成されました",
+      "entitiesCreated": "{{エンティティカウント}} エンティティが作成されました",
+      "relationshipCreated": "{{リレーションシップカウント}} リレーションシップが作成されました",
+      "relationshipsCreated": "{{リレーションシップカウント}} リレーションシップが作成されました",
+      "typeCreated": "{{タイプカウント}} 型が作成されました",
+      "typesCreated": "{{タイプカウント}} 型が作成されました"
     }
   }
 }

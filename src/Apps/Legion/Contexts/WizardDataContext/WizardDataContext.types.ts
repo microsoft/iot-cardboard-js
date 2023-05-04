@@ -41,6 +41,14 @@ export interface IWizardDataContextState {
 }
 
 /**
+ * The state of the context
+ */
+export type ISourceAssets = Omit<
+    IWizardDataContextState,
+    'relationships' | 'relationshipTypes'
+>;
+
+/**
  * The actions to update the state
  */
 export enum WizardDataContextActionType {
@@ -55,11 +63,18 @@ export enum WizardDataContextActionType {
     RELATIONSHIP_UPDATE = 'RELATIONSHIP_UPDATE',
     PROPERTY_ADD = 'PROPERTY_ADD',
     PROPERTY_REMOVE = 'PROPERTY_REMOVE',
-    PROPERTY_UPDATE = 'PROPERTY_UPDATE'
+    PROPERTY_UPDATE = 'PROPERTY_UPDATE',
+    ADD_COOKED_SOURCE_ASSETS = 'ADD_COOKED_SOURCE_ASSETS'
 }
 
 /** The actions to update the state */
 export type WizardDataContextAction =
+    | {
+          type: WizardDataContextActionType.ADD_COOKED_SOURCE_ASSETS;
+          payload: {
+              data: ISourceAssets;
+          };
+      }
     | {
           type: WizardDataContextActionType.ENTITY_ADD;
           payload: {

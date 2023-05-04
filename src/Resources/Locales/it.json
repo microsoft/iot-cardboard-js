@@ -1545,27 +1545,6 @@
         "ingest": "Ingerire",
         "cook": "Cuoco"
       },
-      "source": {
-        "database": "Database di origine",
-        "selectDatabase": "Seleziona database di origine",
-        "table": "Tabella di origine",
-        "selectTable": "Seleziona tabella di origine",
-        "tableType": "Tipo di tabella di origine",
-        "selectTableType": "Selezionare il tipo di tabella di origine",
-        "twinIDProperty": "Proprietà ID gemello di origine",
-        "selectTwinIDProperty": "Seleziona la proprietà ID gemello di origine",
-        "type": "Tipo di origine",
-        "typePlaceholder": "Seleziona il tipo di origine"
-      },
-      "target": {
-        "database": "Database di destinazione",
-        "selectDatabase": "Seleziona il database di destinazione",
-        "tableType": "Tipo di tabella di destinazione",
-        "tableTypeTooltipContent": "Selezionare lo schema della tabella da utilizzare per la creazione di tabelle o l'inserimento di righe",
-        "selectTableType": "Selezionare il tipo di tabella di destinazione",
-        "table": "Tabella di destinazione",
-        "selectTable": "Seleziona tabella di destinazione"
-      },
       "actions": {
         "cook": "Grafico dei gemelli di Cook",
         "pushTwinsGraph": "Push del grafico dei gemelli al database di destinazione",
@@ -1581,7 +1560,8 @@
       "clusterSelectInfo": "Il cluster Kusto selezionato deve avere abilitato il criterio di \"acquisizione in streaming\".",
       "tableSelectInfo": "Se si seleziona da esistente, assicurarsi che la tabella Kusto abbia il criterio di \"inserimento in streaming\" abilitato con il mapping JSON \"DataPusherMapping\" definito.",
       "ingestInfo": "È possibile creare un nuovo database o una nuova tabella e inserire righe in una tabella di destinazione. Tieni presente che se hai creato di recente la tabella, potrebbe non essere pronta per l'inserimento, attendi un paio di minuti prima dell'inserimento.",
-      "cookInfo": "È possibile estrarre i gemelli e le possibili informazioni sui modelli e sulle proprietà cucinando il grafico dei gemelli in base alla tabella di origine selezionata."
+      "cookInfo": "È possibile estrarre i gemelli e le possibili informazioni sui modelli e sulle proprietà cucinando il grafico dei gemelli in base alla tabella di origine selezionata.",
+      "tableTypeTooltipContent": "Selezionare lo schema della tabella da utilizzare per la creazione di tabelle o l'inserimento di righe"
     },
     "verificationStep": {
       "title": "Verificare i gemelli scoperti",
@@ -1608,7 +1588,13 @@
       "tableIdColumnLabel": "Campo ID",
       "urlLabel": "URL",
       "urlPlaceholder": "Inserisci l'URL",
-      "addOptionFormat": "Aggiungi '{{elemento}}'"
+      "addOptionFormat": "Aggiungi '{{elemento}}'",
+      "typeLabel": "Tipo di origine",
+      "typePlaceholder": "Seleziona il tipo di origine",
+      "tablePlaceholder": "Seleziona tabella",
+      "tableIdColumnPlaceholder": "Seleziona campo ID",
+      "tableTypeLabel": "Tipo di tabella",
+      "tableTypePlaceholder": "Seleziona il tipo di tabella"
     },
     "modifyStep": {
       "diagram": "Diagramma",
@@ -1657,6 +1643,14 @@
         "relationshipNameFieldPlaceholder": "Selezionare o creare un nome di relazione",
         "existingEntityFieldPlaceholder": "Selezionare un'entità esistente"
       }
+    },
+    "saveStep": {
+      "entityCreated": "Entità {{entityCount}} creata",
+      "entitiesCreated": "{{entityCount}} entità create",
+      "relationshipCreated": "Relazione {{relationshipCount}} creata",
+      "relationshipsCreated": "{{relationshipCount}} relazioni create",
+      "typeCreated": "Tipo {{typeCount}} creato",
+      "typesCreated": "Tipi {{typeCount}} creati"
     }
   }
 }

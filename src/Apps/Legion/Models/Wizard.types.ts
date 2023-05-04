@@ -45,8 +45,8 @@ export interface IViewEntity extends IBaseEntity {
     type: IViewType;
 }
 
-export interface IEntityCounters {
-    new: number;
+export interface IGenericCounters {
+    created: number;
     existing: number;
     deleted: number;
 }
@@ -79,8 +79,8 @@ export interface IViewType extends IBaseType {
 interface IBaseProperty extends IBase {
     /** the display friendly name of the property. Uniqueness is not required. */
     friendlyName: string;
-    /** the id or name of the property in the source system. Uniqueness is not guaranteed */
-    sourcePropId: string;
+    /** the name of the property in the source system. Uniqueness is not guaranteed */
+    sourcePropName: string;
 }
 
 /** The database representation of a property for a `Type` */

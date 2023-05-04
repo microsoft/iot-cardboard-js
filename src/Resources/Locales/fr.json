@@ -1545,27 +1545,6 @@
         "ingest": "Ingérer",
         "cook": "Cuire"
       },
-      "source": {
-        "database": "Base de données source",
-        "selectDatabase": "Sélectionner la base de données source",
-        "table": "Table source",
-        "selectTable": "Sélectionner la table source",
-        "tableType": "Type de table source",
-        "selectTableType": "Sélectionner le type de table source",
-        "twinIDProperty": "Propriété ID du jumeau source",
-        "selectTwinIDProperty": "Sélectionner la propriété ID du jumeau source",
-        "type": "Type de source",
-        "typePlaceholder": "Sélectionner le type de source"
-      },
-      "target": {
-        "database": "Base de données cible",
-        "selectDatabase": "Sélectionner la base de données cible",
-        "tableType": "Type de table cible",
-        "tableTypeTooltipContent": "Sélectionner le schéma de table à utiliser pour la création de table ou l’ingestion de lignes",
-        "selectTableType": "Sélectionner le type de table cible",
-        "table": "Tableau cible",
-        "selectTable": "Sélectionner la table cible"
-      },
       "actions": {
         "cook": "Graphique des jumeaux cuisiniers",
         "pushTwinsGraph": "Pousser le graphique des jumeaux vers la base de données cible",
@@ -1581,7 +1560,8 @@
       "clusterSelectInfo": "Le cluster Kusto sélectionné doit avoir activé la stratégie « ingestion en continu ».",
       "tableSelectInfo": "Si vous sélectionnez parmi les fichiers existants, assurez-vous que la stratégie « ingestion en continu » de la table Kusto est activée avec le mappage JSON « DataPusherMapping » défini.",
       "ingestInfo": "Vous pouvez créer une base de données ou une table et ingérer des lignes vers une table cible. Veuillez noter que si vous avez récemment créé le tableau, il se peut qu’il ne soit pas prêt pour l’ingestion, attendez quelques minutes avant l’ingestion.",
-      "cookInfo": "Vous pouvez extraire des jumeaux et des informations sur les modèles et propriétés possibles en cuisinant le graphique des jumeaux basé sur la table source sélectionnée."
+      "cookInfo": "Vous pouvez extraire des jumeaux et des informations sur les modèles et propriétés possibles en cuisinant le graphique des jumeaux basé sur la table source sélectionnée.",
+      "tableTypeTooltipContent": "Sélectionner le schéma de table à utiliser pour la création de table ou l’ingestion de lignes"
     },
     "verificationStep": {
       "title": "Vérifier les jumeaux découverts",
@@ -1608,7 +1588,13 @@
       "tableIdColumnLabel": "Champ ID",
       "urlLabel": "URL",
       "urlPlaceholder": "Entrez l’URL",
-      "addOptionFormat": "Ajouter '{{item}}'"
+      "addOptionFormat": "Ajouter '{{item}}'",
+      "typeLabel": "Type de source",
+      "typePlaceholder": "Sélectionner le type de source",
+      "tablePlaceholder": "Sélectionner une table",
+      "tableIdColumnPlaceholder": "Sélectionner le champ ID",
+      "tableTypeLabel": "Type de table",
+      "tableTypePlaceholder": "Sélectionner le type de table"
     },
     "modifyStep": {
       "diagram": "Diagramme",
@@ -1657,6 +1643,14 @@
         "relationshipNameFieldPlaceholder": "Sélectionner ou créer un nom de relation",
         "existingEntityFieldPlaceholder": "Sélectionner une entité existante"
       }
+    },
+    "saveStep": {
+      "entityCreated": "{{entityCount}} entité créée",
+      "entitiesCreated": "{{entityCount}} entités créées",
+      "relationshipCreated": "Création de la relation {{relationshipCount}}",
+      "relationshipsCreated": "{{relationshipCount}} relations créées",
+      "typeCreated": "{{typeCount}} type créé",
+      "typesCreated": "Types {{typeCount}} créés"
     }
   }
 }
