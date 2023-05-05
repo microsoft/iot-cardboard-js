@@ -1,19 +1,28 @@
 import React from 'react';
-import { IEntitiesTabProps } from './EntitiesTab.types';
+import { IEntitiesTabProps, IEntitiesTabStyles } from './EntitiesTab.types';
 import { getStyles } from './EntitiesTab.styles';
 import { getDebugLogger } from '../../../../../../../../Models/Services/Utils';
-import { Checkbox, DetailsList, IColumn, SelectionMode } from '@fluentui/react';
+import {
+    Checkbox,
+    DetailsList,
+    IColumn,
+    IProcessedStyleSet,
+    Image,
+    SelectionMode
+} from '@fluentui/react';
 import { useEntities } from '../../../../../../Hooks/useEntities';
 import { IViewEntity } from '../../../../../../Models/Wizard.types';
 import TypeIcon from '../../../../../TypeIcon/TypeIcon';
 import i18n from '../../../../../../../../i18n';
+import NewIcon from '../../../../../../../../Resources/Static/new.svg';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('EntitiesTab', debugLogging);
 
 const getColumns = (
     addEntity: (entity: IViewEntity) => void,
-    deleteEntity: (entityId: string) => void
+    deleteEntity: (entityId: string) => void,
+    classNames: IProcessedStyleSet<IEntitiesTabStyles>
 ): IColumn[] => [
     {
         key: 'selection-column',
@@ -22,12 +31,14 @@ const getColumns = (
         name: '',
         onRender: (item: IViewEntity) => {
             return (
-                <Checkbox
-                    onChange={(_ev, checked) => {
-                        checked ? deleteEntity(item.id) : addEntity(item);
-                    }}
-                    defaultChecked={!item.isDeleted}
-                />
+                <div className={classNames.columnWrapper}>
+                    <Checkbox
+                        onChange={(_ev, checked) => {
+                            checked ? deleteEntity(item.id) : addEntity(item);
+                        }}
+                        defaultChecked={!item.isDeleted}
+                    />
+                </div>
             );
         }
     },
@@ -36,7 +47,19 @@ const getColumns = (
         minWidth: 100,
         maxWidth: 100,
         name: i18n.t('legionApp.modifyStep.idColumnHeader'),
-        fieldName: 'id'
+        onRender: (item: IViewEntity) => {
+            return (
+                <div className={classNames.columnWrapper}>
+                    <span className={classNames.idColumn}>{item.id}</span>
+                    {item.isNew && (
+                        <Image
+                            src={NewIcon}
+                            className={classNames.newEntityIcon}
+                        />
+                    )}
+                </div>
+            );
+        }
     },
     {
         key: 'type-column',
@@ -65,7 +88,11 @@ const getColumns = (
                         return `${key}: ${item.values[key]}`;
                     })
                     .join(', ');
-                return <span>{valuesString}</span>;
+                return (
+                    <div className={classNames.columnWrapper}>
+                        {valuesString}
+                    </div>
+                );
             } else {
                 return <></>;
             }
@@ -94,7 +121,7 @@ const EntitiesTab: React.FC<IEntitiesTabProps> = (_props) => {
         <div className={classNames.root}>
             <DetailsList
                 items={entities}
-                columns={getColumns(addEntity, deleteEntity)}
+                columns={getColumns(addEntity, deleteEntity, classNames)}
                 selectionMode={SelectionMode.none}
             />
         </div>

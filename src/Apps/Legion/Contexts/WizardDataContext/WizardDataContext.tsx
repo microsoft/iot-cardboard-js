@@ -12,7 +12,12 @@ import {
     WizardDataContextActionType,
     IWizardDataDispatchContext
 } from './WizardDataContext.types';
-import { addItem, replaceItem, replaceOrAddItem } from '../../Services/Utils';
+import {
+    addItem,
+    getColorByIdx,
+    replaceItem,
+    replaceOrAddItem
+} from '../../Services/Utils';
 import {
     removeEntityById,
     deleteRelationshipById,
@@ -119,6 +124,19 @@ export const WizardDataContextReducer: (
             case WizardDataContextActionType.PROPERTY_REMOVE: {
                 const { propertyId } = action.payload;
                 deletePropertyById(propertyId, draft);
+                break;
+            }
+            case WizardDataContextActionType.ADD_COOKED_SOURCE_ASSETS: {
+                const { data } = action.payload;
+                draft.properties = draft.properties.concat(data.properties);
+                const types = deepCopy(data.types);
+                draft.types = draft.types.concat(
+                    types.map((t, idx) => {
+                        t.color = getColorByIdx(draft.types.length + idx);
+                        return t;
+                    })
+                );
+                draft.entities = draft.entities.concat(data.entities);
                 break;
             }
         }

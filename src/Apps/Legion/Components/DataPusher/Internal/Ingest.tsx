@@ -45,7 +45,7 @@ const DEFAULT_INGESTION_FREQUENCY_IN_SEC = 5;
 const MIN_INGESTION_FREQUENCY_IN_SEC = 1;
 
 const Ingest: React.FC = () => {
-    const { adapter, classNames } = useDataPusherContext();
+    const { adapter, selectedClusterUrl, classNames } = useDataPusherContext();
 
     // state
     const [tableOptions, setTableOptions] = useState<Array<IReactSelectOption>>(
@@ -273,36 +273,35 @@ const Ingest: React.FC = () => {
                     {t('legionApp.dataPusher.ingestInfo')}
                 </p>
                 <DatabasePicker
+                    isDisabled={!selectedClusterUrl}
                     onDatabaseNameChange={handleDatabaseChange}
                     targetAdapterContext={DataPusherContext}
                     isCreatable={true}
                 />
                 <CardboardComboBox
                     isCreatable={false}
-                    label={t('legionApp.dataPusher.target.tableType')}
+                    label={t('legionApp.Common.tableTypeLabel')}
                     onSelectionChange={handleTableTypeChange}
                     options={TableTypeOptions}
-                    placeholder={t(
-                        'legionApp.dataPusher.target.selectTableType'
-                    )}
+                    placeholder={t('legionApp.Common.tableTypePlaceholder')}
                     selectedItem={selectedTableTypeOption}
                     tooltip={{
                         content: {
                             buttonAriaLabel: t(
-                                'legionApp.dataPusher.target.tableTypeTooltipContent'
+                                'legionApp.dataPusher.tableTypeTooltipContent'
                             ),
                             calloutContent: t(
-                                'legionApp.dataPusher.target.tableTypeTooltipContent'
+                                'legionApp.dataPusher.tableTypeTooltipContent'
                             )
                         }
                     }}
                 />
                 <CardboardComboBox
                     isLoading={getTablesState.isLoading}
-                    label={t('legionApp.dataPusher.target.table')}
+                    label={t('legionApp.Common.tableLabel')}
                     onSelectionChange={handleTableChange}
                     options={tableOptions}
-                    placeholder={t('legionApp.dataPusher.target.selectTable')}
+                    placeholder={t('legionApp.Common.tablePlaceholder')}
                     selectedItem={selectedTable}
                     isSpinnerVisible={createTableState.isLoading}
                     spinnerLabel={t(
@@ -350,22 +349,20 @@ const Ingest: React.FC = () => {
                         onChange={handleFrequencyChange}
                     />
                 </StackItem>
-                <StackItem>
-                    <PrimaryButton
-                        styles={classNames.subComponentStyles.button()}
-                        text={
-                            isIngesting
-                                ? t('legionApp.dataPusher.actions.stopIngest')
-                                : t('legionApp.dataPusher.actions.startIngest')
-                        }
-                        disabled={
-                            !selectedTable ||
-                            createTableState.isLoading ||
-                            !selectedTableTypeOption
-                        }
-                        onClick={handleIngestRowsButtonClick}
-                    />
-                </StackItem>
+                <PrimaryButton
+                    styles={classNames.subComponentStyles.button()}
+                    text={
+                        isIngesting
+                            ? t('legionApp.dataPusher.actions.stopIngest')
+                            : t('legionApp.dataPusher.actions.startIngest')
+                    }
+                    disabled={
+                        !selectedTable ||
+                        createTableState.isLoading ||
+                        !selectedTableTypeOption
+                    }
+                    onClick={handleIngestRowsButtonClick}
+                />
             </Stack>
 
             {isIngesting && (

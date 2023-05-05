@@ -1,4 +1,8 @@
-import { IDataManagementAdapter } from '../Adapters/Standalone/DataManagement/Models/DataManagementAdapter.types';
+import {
+    IDataManagementAdapter,
+    ITable
+} from '../Adapters/Standalone/DataManagement/Models/DataManagementAdapter.types';
+import { TableTypes } from '../Components/DataPusher/DataPusher.types';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface IBaseAdapter {}
@@ -34,34 +38,21 @@ export interface ITwin {
     sourceConnectionString: string;
 }
 
-export interface IRelationshipModel {
-    id: string;
-    name: string;
-}
-
-export interface IRelationship {
-    id: string;
-    relationshipModelId: string; // FK for IRelationshipModel
-    sourceTwinId: string; // FK for ITwin
-    targetTwinId: string; // FK for ITwin
-}
-
 // TBD on the name
-export interface IAppData {
+export interface ICookedSource {
     models: Array<IModel>;
     properties: Array<IModelProperty>;
     twins: Array<ITwin>;
-    relationshipModels: Array<IRelationshipModel>;
-    relationships: Array<IRelationship>;
 }
 
 /** to be used for Database ingestion flow */
 export interface IADXConnection {
-    selectedSourceCluster: string;
-    selectedSourceDatabase: string;
-    selectedSourceTable: string;
-    selectedSourceTwinIDColumn: string;
-    selectedSourceTableType: string;
+    cluster: string;
+    database: string;
+    table: string;
+    twinIdColumn: string;
+    tableType: TableTypes;
+    tableData?: ITable;
 }
 
 export interface IPIDDocument {

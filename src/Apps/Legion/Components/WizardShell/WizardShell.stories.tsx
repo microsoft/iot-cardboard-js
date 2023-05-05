@@ -9,8 +9,6 @@ import {
     WIZARD_NAVIGATION_MOCK_DATA
 } from './WizardShellMockData';
 import { WizardDataContextProvider } from '../../Contexts/WizardDataContext/WizardDataContext';
-import { WizardDataManagementContextProvider } from '../../Contexts/WizardDataManagementContext/WizardDataManagementContext';
-import { DEFAULT_MOCK_DATA_MANAGEMENT_STATE } from './WizardShellMockData';
 import { AppDataContextProvider } from '../../Contexts/AppDataContext/AppDataContext';
 import { GET_MOCK_APP_DATA_CONTEXT_STATE } from '../../Contexts/AppDataContext/AppDataContext.mock';
 
@@ -29,19 +27,15 @@ const Template: WizardShellStory = (args) => {
         <AppDataContextProvider
             initialState={GET_MOCK_APP_DATA_CONTEXT_STATE()}
         >
-            <WizardDataManagementContextProvider
-                initialState={DEFAULT_MOCK_DATA_MANAGEMENT_STATE}
+            <WizardDataContextProvider
+                initialState={GET_DEFAULT_MOCK_WIZARD_DATA_CONTEXT()}
             >
-                <WizardDataContextProvider
-                    initialState={GET_DEFAULT_MOCK_WIZARD_DATA_CONTEXT('Dairy')}
+                <WizardNavigationContextProvider
+                    initialState={WIZARD_NAVIGATION_MOCK_DATA}
                 >
-                    <WizardNavigationContextProvider
-                        initialState={WIZARD_NAVIGATION_MOCK_DATA}
-                    >
-                        <WizardShell {...args} />
-                    </WizardNavigationContextProvider>
-                </WizardDataContextProvider>
-            </WizardDataManagementContextProvider>
+                    <WizardShell {...args} />
+                </WizardNavigationContextProvider>
+            </WizardDataContextProvider>
         </AppDataContextProvider>
     );
 };

@@ -3,15 +3,13 @@ import { ComponentStory } from '@storybook/react';
 import DataSourceStep from './DataSourceStep';
 import { IDataSourceStepProps } from './DataSourceStep.types';
 import { getDefaultStoryDecorator } from '../../../../../../Models/Services/StoryUtilities';
-import LegionAdapter from '../../../../Adapters/Mixin/LegionAdapter';
-import MsalAuthService from '../../../../../../Models/Services/MsalAuthService';
 import useAuthParams from '../../../../../../../.storybook/useAuthParams';
 import { WizardNavigationContextProvider } from '../../../../Contexts/WizardNavigationContext/WizardNavigationContext';
-import {
-    DEFAULT_MOCK_DATA_MANAGEMENT_STATE,
-    WIZARD_NAVIGATION_MOCK_DATA
-} from '../../WizardShellMockData';
-import { WizardDataManagementContextProvider } from '../../../../Contexts/WizardDataManagementContext/WizardDataManagementContext';
+import { WIZARD_NAVIGATION_MOCK_DATA } from '../../WizardShellMockData';
+import { WizardDataContextProvider } from '../../../../Contexts/WizardDataContext/WizardDataContext';
+import { AppDataContextProvider } from '../../../../Contexts/AppDataContext/AppDataContext';
+import LegionAdapter from '../../../../Adapters/Mixin/LegionAdapter';
+import MsalAuthService from '../../../../../../Models/Services/MsalAuthService';
 
 const wrapperStyle = { width: '100%', height: '600px', padding: 8 };
 
@@ -28,7 +26,7 @@ const Template: DataSourceStepStory = (args) => {
     return !authenticationParameters ? (
         <div></div>
     ) : (
-        <WizardDataManagementContextProvider
+        <AppDataContextProvider
             adapter={
                 new LegionAdapter(
                     new MsalAuthService(
@@ -37,16 +35,15 @@ const Template: DataSourceStepStory = (args) => {
                     authenticationParameters.adx.clusterUrl
                 )
             }
-            initialState={{
-                ...DEFAULT_MOCK_DATA_MANAGEMENT_STATE
-            }}
         >
-            <WizardNavigationContextProvider
-                initialState={WIZARD_NAVIGATION_MOCK_DATA}
-            >
-                <DataSourceStep {...args} />
-            </WizardNavigationContextProvider>
-        </WizardDataManagementContextProvider>
+            <WizardDataContextProvider>
+                <WizardNavigationContextProvider
+                    initialState={WIZARD_NAVIGATION_MOCK_DATA}
+                >
+                    <DataSourceStep {...args} />
+                </WizardNavigationContextProvider>
+            </WizardDataContextProvider>
+        </AppDataContextProvider>
     );
 };
 

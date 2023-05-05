@@ -11,6 +11,7 @@ import {
     AppDataContextAction,
     AppDataContextActionType
 } from './AppDataContext.types';
+import MockDataManagementAdapter from '../../Adapters/Standalone/DataManagement/MockDataManagementAdapter';
 
 const debugLogging = false;
 export const logDebugConsole = getDebugLogger('AppDataContext', debugLogging);
@@ -39,7 +40,11 @@ export const AppDataContextReducer: (
 export const AppDataContextProvider: React.FC<IAppDataContextProviderProps> = (
     props
 ) => {
-    const { children, initialState } = props;
+    const {
+        children,
+        adapter = new MockDataManagementAdapter(),
+        initialState
+    } = props;
 
     // skip wrapping if the context already exists
     const existingContext = useAppDataContext();
@@ -57,6 +62,7 @@ export const AppDataContextProvider: React.FC<IAppDataContextProviderProps> = (
     return (
         <AppDataContext.Provider
             value={{
+                adapter,
                 appDataDispatch: dispatch,
                 appDataState: state
             }}

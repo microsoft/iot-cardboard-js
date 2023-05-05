@@ -11,6 +11,7 @@ export interface IClusterPickerProps {
     hasTooltip?: boolean;
     isCreatable?: boolean;
     isRequired?: boolean;
+    isDisabled?: boolean;
     /**
      * Call to provide customized styling that will layer on top of the variant rules.
      */

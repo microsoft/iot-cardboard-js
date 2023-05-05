@@ -1545,27 +1545,6 @@
         "ingest": "Yutmayın",
         "cook": "Pişirmek"
       },
-      "source": {
-        "database": "Kaynak veritabanı",
-        "selectDatabase": "Kaynak veritabanını seçme",
-        "table": "Kaynak tablo",
-        "selectTable": "Kaynak tabloyu seç",
-        "tableType": "Kaynak tablo türü",
-        "selectTableType": "Kaynak tablo türünü seçme",
-        "twinIDProperty": "Kaynak ikiz kimlik özelliği",
-        "selectTwinIDProperty": "Kaynak ikiz kimliği özelliğini seçin",
-        "type": "Kaynak türü",
-        "typePlaceholder": "Kaynak türünü seçin"
-      },
-      "target": {
-        "database": "Hedef veritabanı",
-        "selectDatabase": "Hedef veritabanını seç",
-        "tableType": "Hedef tablo türü",
-        "tableTypeTooltipContent": "Tablo oluşturma veya satır alma için kullanılacak tablo şemasını seçme",
-        "selectTableType": "Hedef tablo türünü seçin",
-        "table": "Hedef tablo",
-        "selectTable": "Hedef tabloyu seçin"
-      },
       "actions": {
         "cook": "Cook ikizleri grafiği",
         "pushTwinsGraph": "İkizler grafiğini hedef veritabanına gönderme",
@@ -1581,7 +1560,8 @@
       "clusterSelectInfo": "Seçili Kusto kümesinde 'akış alımı' ilkesinin etkinleştirilmiş olması gerekir.",
       "tableSelectInfo": "Var olanlar arasından seçim yapıyorsanız, Kusto tablosunda 'DataPusherMapping' JSON eşlemesi tanımlanmışken 'akış alımı' ilkesinin etkinleştirildiğinden emin olun.",
       "ingestInfo": "Yeni bir veritabanı veya tablo oluşturabilir ve satırları hedef tabloya alabilirsiniz. Tabloyu yakın zamanda oluşturduysanız, yutulmaya hazır olmayabileceğini lütfen unutmayın, yutmadan önce birkaç dakika bekleyin.",
-      "cookInfo": "Seçilen kaynak tabloya dayalı ikizler grafiğini pişirerek ikizleri ve olası modelleri ve özellikleri bilgilerini ayıklayabilirsiniz."
+      "cookInfo": "Seçilen kaynak tabloya dayalı ikizler grafiğini pişirerek ikizleri ve olası modelleri ve özellikleri bilgilerini ayıklayabilirsiniz.",
+      "tableTypeTooltipContent": "Tablo oluşturma veya satır alımı için kullanılacak tablo şemasını seçme"
     },
     "verificationStep": {
       "title": "Bulunan ikizleri doğrulama",
@@ -1608,7 +1588,13 @@
       "tableIdColumnLabel": "Kimlik alanı",
       "urlLabel": "URL",
       "urlPlaceholder": "URL girin",
-      "addOptionFormat": "'{{item}}' ekleyin"
+      "addOptionFormat": "'{{item}}' ekleyin",
+      "typeLabel": "Kaynak türü",
+      "typePlaceholder": "Kaynak türünü seçin",
+      "tablePlaceholder": "Tablo seç",
+      "tableIdColumnPlaceholder": "Kimlik alanını seçin",
+      "tableTypeLabel": "Tablo türü",
+      "tableTypePlaceholder": "Tablo türünü seçin"
     },
     "modifyStep": {
       "diagram": "Diyagram",

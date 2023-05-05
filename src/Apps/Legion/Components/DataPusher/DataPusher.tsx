@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {
     IDataPusherContext,
     IDataPusherProps,
@@ -40,11 +40,17 @@ const DataPusher: React.FC<IDataPusherProps> = (props) => {
         theme
     });
 
+    //side-effects
+    useEffect(() => {
+        setSelectedClusterUrl(adapter.connectionString);
+    }, [adapter]); // keep the dependency list as is
+
     logDebugConsole('debug', 'Render');
     return (
         <DataPusherContext.Provider
             value={{
                 adapter,
+                selectedClusterUrl,
                 classNames
             }}
         >
@@ -55,6 +61,7 @@ const DataPusher: React.FC<IDataPusherProps> = (props) => {
                     styles={classNames.subComponentStyles.clusterPicker}
                     targetAdapterContext={DataPusherContext}
                     hasTooltip
+                    selectedClusterUrl={selectedClusterUrl}
                 />
                 <Pivot key={selectedClusterUrl}>
                     <PivotItem

@@ -347,7 +347,7 @@ export function convertDbRelationshipTypeToView(
 export function getNewViewProperty(
     viewModel: {
         friendlyName: string;
-        sourcePropId: string;
+        sourcePropName: string;
     } & Partial<IViewProperty>
 ): IViewProperty {
     return {
@@ -374,7 +374,7 @@ export function convertViewPropertyToDb(viewModel: IViewProperty): IDbProperty {
     return {
         ...getBase(viewModel),
         friendlyName: viewModel.friendlyName,
-        sourcePropId: viewModel.sourcePropId
+        sourcePropName: viewModel.sourcePropName
     };
 }
 
@@ -394,7 +394,7 @@ export function convertDbPropertyToView(dbModel: IDbProperty): IViewProperty {
     return {
         ...getBase(dbModel),
         friendlyName: dbModel.friendlyName,
-        sourcePropId: dbModel.sourcePropId
+        sourcePropName: dbModel.sourcePropName
     };
 }
 

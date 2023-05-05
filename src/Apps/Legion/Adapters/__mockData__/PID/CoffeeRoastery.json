@@ -1,0 +1,308 @@
+[
+    {
+        "PID Filename": "esterocoffeeroastery-pid-singlepipeline.jpg",
+        "Detected Text": "SILO_1",
+        "X": 64,
+        "Y": 16,
+        "Width": 45,
+        "Height": 14,
+        "Confidence": 0.884
+    },
+    {
+        "PID Filename": "esterocoffeeroastery-pid-singlepipeline.jpg",
+        "Detected Text": "SILO_2",
+        "X": 138,
+        "Y": 15,
+        "Width": 45,
+        "Height": 16,
+        "Confidence": 0.958
+    },
+    {
+        "PID Filename": "esterocoffeeroastery-pid-singlepipeline.jpg",
+        "Detected Text": "U",
+        "X": 12,
+        "Y": 39,
+        "Width": 19,
+        "Height": 17,
+        "Confidence": 0.809
+    },
+    {
+        "PID Filename": "esterocoffeeroastery-pid-singlepipeline.jpg",
+        "Detected Text": "GIE",
+        "X": 76,
+        "Y": 34,
+        "Width": 29,
+        "Height": 13,
+        "Confidence": 0.994
+    },
+    {
+        "PID Filename": "esterocoffeeroastery-pid-singlepipeline.jpg",
+        "Detected Text": "sc1",
+        "X": 74,
+        "Y": 131,
+        "Width": 20,
+        "Height": 12,
+        "Confidence": 0.633
+    },
+    {
+        "PID Filename": "esterocoffeeroastery-pid-singlepipeline.jpg",
+        "Detected Text": "GIE",
+        "X": 151,
+        "Y": 34,
+        "Width": 28,
+        "Height": 13,
+        "Confidence": 0.994
+    },
+    {
+        "PID Filename": "esterocoffeeroastery-pid-singlepipeline.jpg",
+        "Detected Text": "SC2",
+        "X": 150,
+        "Y": 132,
+        "Width": 18,
+        "Height": 12,
+        "Confidence": 0.662
+    },
+    {
+        "PID Filename": "esterocoffeeroastery-pid-singlepipeline.jpg",
+        "Detected Text": "CV01",
+        "X": 276,
+        "Y": 214,
+        "Width": 31,
+        "Height": 12,
+        "Confidence": 0.983
+    },
+    {
+        "PID Filename": "esterocoffeeroastery-pid-singlepipeline.jpg",
+        "Detected Text": "FE",
+        "X": 257,
+        "Y": 234,
+        "Width": 13,
+        "Height": 10,
+        "Confidence": 0.997
+    },
+    {
+        "PID Filename": "esterocoffeeroastery-pid-singlepipeline.jpg",
+        "Detected Text": "FE",
+        "X": 378,
+        "Y": 131,
+        "Width": 10,
+        "Height": 8,
+        "Confidence": 0.997
+    },
+    {
+        "PID Filename": "esterocoffeeroastery-pid-singlepipeline.jpg",
+        "Detected Text": "CV02",
+        "X": 346,
+        "Y": 178,
+        "Width": 27,
+        "Height": 11,
+        "Confidence": 0.972
+    },
+    {
+        "PID Filename": "esterocoffeeroastery-pid-singlepipeline.jpg",
+        "Detected Text": "DA-",
+        "X": 477,
+        "Y": 225,
+        "Width": -1,
+        "Height": 35,
+        "Confidence": 0.602
+    },
+    {
+        "PID Filename": "esterocoffeeroastery-pid-singlepipeline.jpg",
+        "Detected Text": "PR",
+        "X": 636,
+        "Y": 275,
+        "Width": 11,
+        "Height": 7,
+        "Confidence": 0.884
+    },
+    {
+        "PID Filename": "esterocoffeeroastery-pid-singlepipeline.jpg",
+        "Detected Text": "55",
+        "X": 636,
+        "Y": 286,
+        "Width": 15,
+        "Height": 11,
+        "Confidence": 0.997
+    },
+    {
+        "PID Filename": "esterocoffeeroastery-pid-singlepipeline.jpg",
+        "Detected Text": "TC",
+        "X": 666,
+        "Y": 287,
+        "Width": 13,
+        "Height": 10,
+        "Confidence": 0.94
+    },
+    {
+        "PID Filename": "esterocoffeeroastery-pid-singlepipeline.jpg",
+        "Detected Text": "P",
+        "X": 375,
+        "Y": 306,
+        "Width": 10,
+        "Height": 8,
+        "Confidence": 0.464
+    },
+    {
+        "PID Filename": "esterocoffeeroastery-pid-singlepipeline.jpg",
+        "Detected Text": "55",
+        "X": 376,
+        "Y": 316,
+        "Width": 10,
+        "Height": 8,
+        "Confidence": 0.98
+    },
+    {
+        "PID Filename": "esterocoffeeroastery-pid-singlepipeline.jpg",
+        "Detected Text": "55",
+        "X": 376,
+        "Y": 345,
+        "Width": 10,
+        "Height": 8,
+        "Confidence": 0.971
+    },
+    {
+        "PID Filename": "esterocoffeeroastery-pid-singlepipeline.jpg",
+        "Detected Text": "TC",
+        "X": 375,
+        "Y": 367,
+        "Width": 13,
+        "Height": 9,
+        "Confidence": 0.993
+    },
+    {
+        "PID Filename": "esterocoffeeroastery-pid-singlepipeline.jpg",
+        "Detected Text": "CO 01",
+        "X": 638,
+        "Y": 396,
+        "Width": 37,
+        "Height": 13,
+        "Confidence": 0.992
+    },
+    {
+        "PID Filename": "esterocoffeeroastery-pid-singlepipeline.jpg",
+        "Detected Text": "R_01_GIEW30A",
+        "X": 419,
+        "Y": 439,
+        "Width": 100,
+        "Height": 15,
+        "Confidence": 0.902
+    },
+    {
+        "PID Filename": "esterocoffeeroastery-pid-singlepipeline.jpg",
+        "Detected Text": "FE",
+        "X": 814,
+        "Y": 308,
+        "Width": 12,
+        "Height": 9,
+        "Confidence": 0.996
+    },
+    {
+        "PID Filename": "esterocoffeeroastery-pid-singlepipeline.jpg",
+        "Detected Text": "CV03",
+        "X": 789,
+        "Y": 360,
+        "Width": 31,
+        "Height": 12,
+        "Confidence": 0.965
+    },
+    {
+        "PID Filename": "esterocoffeeroastery-pid-singlepipeline.jpg",
+        "Detected Text": "0",
+        "X": 634,
+        "Y": 365,
+        "Width": 42,
+        "Height": 15,
+        "Confidence": 0.979
+    },
+    {
+        "PID Filename": "esterocoffeeroastery-pid-singlepipeline.jpg",
+        "Detected Text": "FE",
+        "X": 895,
+        "Y": 256,
+        "Width": 12,
+        "Height": 11,
+        "Confidence": 0.992
+    },
+    {
+        "PID Filename": "esterocoffeeroastery-pid-singlepipeline.jpg",
+        "Detected Text": "DES_01 (GIE)",
+        "X": 928,
+        "Y": 386,
+        "Width": 73,
+        "Height": 16,
+        "Confidence": 0.991
+    },
+    {
+        "PID Filename": "esterocoffeeroastery-pid-singlepipeline.jpg",
+        "Detected Text": "FE",
+        "X": 1126,
+        "Y": 339,
+        "Width": 12,
+        "Height": 9,
+        "Confidence": 0.997
+    },
+    {
+        "PID Filename": "esterocoffeeroastery-pid-singlepipeline.jpg",
+        "Detected Text": "FE",
+        "X": 1178,
+        "Y": 202,
+        "Width": 10,
+        "Height": 8,
+        "Confidence": 0.997
+    },
+    {
+        "PID Filename": "esterocoffeeroastery-pid-singlepipeline.jpg",
+        "Detected Text": "CV04",
+        "X": 1146,
+        "Y": 252,
+        "Width": 29,
+        "Height": 13,
+        "Confidence": 0.938
+    },
+    {
+        "PID Filename": "esterocoffeeroastery-pid-singlepipeline.jpg",
+        "Detected Text": "CV05",
+        "X": 1146,
+        "Y": 323,
+        "Width": 31,
+        "Height": 12,
+        "Confidence": 0.955
+    },
+    {
+        "PID Filename": "esterocoffeeroastery-pid-singlepipeline.jpg",
+        "Detected Text": "M",
+        "X": 1271,
+        "Y": 220,
+        "Width": 31,
+        "Height": 23,
+        "Confidence": 0.641
+    },
+    {
+        "PID Filename": "esterocoffeeroastery-pid-singlepipeline.jpg",
+        "Detected Text": "1",
+        "X": 1303,
+        "Y": 224,
+        "Width": 20,
+        "Height": 20,
+        "Confidence": 0.9
+    },
+    {
+        "PID Filename": "esterocoffeeroastery-pid-singlepipeline.jpg",
+        "Detected Text": "P-01-G21",
+        "X": 1277,
+        "Y": 255,
+        "Width": 51,
+        "Height": 13,
+        "Confidence": 0.995
+    },
+    {
+        "PID Filename": "esterocoffeeroastery-pid-singlepipeline.jpg",
+        "Detected Text": "P-02-G21",
+        "X": 1275,
+        "Y": 326,
+        "Width": 52,
+        "Height": 14,
+        "Confidence": 0.995
+    }
+]
