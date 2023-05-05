@@ -46,7 +46,12 @@ const sampleData = [
             },
             {
                 name: 'Child asset 2',
-                childAssets: []
+                childAssets: [
+                    {
+                        name: 'Grandchild asset 1',
+                        childAssets: []
+                    }
+                ]
             },
             {
                 name: 'Child asset 3',
