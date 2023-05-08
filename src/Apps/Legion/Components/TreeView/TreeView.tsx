@@ -7,7 +7,6 @@ import {
     TreeItem,
     TreeItemLayout
 } from '@fluentui/react-components/unstable';
-import { isDefined } from '../../Services/Utils';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('TreeView', debugLogging);
@@ -28,26 +27,54 @@ const TreeView: React.FC<ITreeViewProps> = (_props) => {
 
     logDebugConsole('debug', 'Render');
 
-    const constructTree = (asset: Asset): JSX.Element => {
-        if (isDefined(asset)) {
-            return (
-                <TreeItem>
-                    <TreeItemLayout>{asset.name}</TreeItemLayout>
-                    {asset.childAssets.length > 0 && (
-                        <Tree>
-                            {asset.childAssets.map((c) => constructTree(c))}
-                        </Tree>
-                    )}
-                </TreeItem>
-            );
-        }
-    };
+    // NOTE: Commented example is directly from the docs:
+    // https://react.fluentui.dev/?path=/docs/preview-components-tree-tree--default
 
-    return (
+    // return (
+    //     <Tree aria-label="Tree">
+    //         <TreeItem>
+    //             <TreeItemLayout>level 1, item 1</TreeItemLayout>
+    //             <Tree>
+    //                 <TreeItem>
+    //                     <TreeItemLayout>level 2, item 1</TreeItemLayout>
+    //                 </TreeItem>
+    //                 <TreeItem>
+    //                     <TreeItemLayout>level 2, item 2</TreeItemLayout>
+    //                 </TreeItem>
+    //                 <TreeItem>
+    //                     <TreeItemLayout>level 2, item 3</TreeItemLayout>
+    //                 </TreeItem>
+    //             </Tree>
+    //         </TreeItem>
+    //         <TreeItem>
+    //             <TreeItemLayout>level 1, item 2</TreeItemLayout>
+    //             <Tree>
+    //                 <TreeItem>
+    //                     <TreeItemLayout>level 2, item 1</TreeItemLayout>
+    //                     <Tree>
+    //                         <TreeItem>
+    //                             <TreeItemLayout>level 3, item 1</TreeItemLayout>
+    //                         </TreeItem>
+    //                     </Tree>
+    //                 </TreeItem>
+    //             </Tree>
+    //         </TreeItem>
+    //     </Tree>
+    // );
+
+    const generateTree = (data: Asset[]) => (
         <Tree aria-label="Tree">
-            {_props.sampleData.map((x) => constructTree(x))}
+            {data.map((asset, idx) => (
+                <TreeItem key={`${asset.name}_${idx}`}>
+                    <TreeItemLayout>{asset.name}</TreeItemLayout>
+                    {asset.childAssets.length > 0 &&
+                        generateTree(asset.childAssets)}
+                </TreeItem>
+            ))}
         </Tree>
     );
+
+    return generateTree(_props.sampleData);
 };
 
 export default TreeView;
