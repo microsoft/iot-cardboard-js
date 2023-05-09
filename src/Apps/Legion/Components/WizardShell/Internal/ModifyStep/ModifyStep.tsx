@@ -12,6 +12,7 @@ import {
 import EntitiesTab from './Internal/EntitiesTab/EntitiesTab';
 import GraphTab from './Internal/GraphTab';
 import TypesTab from './Internal/TypesTab/TypesTab';
+import DiagramTab from './Internal/DiagramTab/DiagramTab';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('ModifyStep', debugLogging);
@@ -37,7 +38,7 @@ const ModifyStep: React.FC<IModifyStepProps> = (props) => {
 
     // state
     const [selectedKey, setSelectedKey] = useState<ModifyPivotKeys>(
-        ModifyPivotKeys.Entities
+        props.selectedPivotKey || ModifyPivotKeys.Entities
     );
 
     // callbacks
@@ -66,7 +67,7 @@ const ModifyStep: React.FC<IModifyStepProps> = (props) => {
                         headerText={t('legionApp.modifyStep.diagram')}
                         itemKey={ModifyPivotKeys.Diagram}
                     >
-                        <p>TODO: Insert diagram here</p>
+                        <DiagramTab />
                     </PivotItem>
                 )}
                 {/* Entities */}

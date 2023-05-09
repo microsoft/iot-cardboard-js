@@ -50,7 +50,9 @@ const getColumns = (
         onRender: (item: IViewEntity) => {
             return (
                 <div className={classNames.columnWrapper}>
-                    <span className={classNames.idColumn}>{item.id}</span>
+                    <span className={classNames.idColumn}>
+                        {item.sourceEntityId}
+                    </span>
                     {item.isNew && (
                         <Image
                             src={NewIcon}

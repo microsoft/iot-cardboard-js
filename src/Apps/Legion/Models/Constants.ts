@@ -61,3 +61,13 @@ export const WIZARD_GRAPH_NODE_ICON_OPTIONS: IPickerOption[] = [
         item: 'Lightbulb'
     }
 ];
+
+export enum PID_TABLE_COLUMNS {
+    PIDFilename = 'PID Filename',
+    DetectedText = 'Detected Text',
+    X = 'X',
+    Y = 'Y',
+    Width = 'Width',
+    Height = 'Height',
+    Confidence = 'Confidence'
+}

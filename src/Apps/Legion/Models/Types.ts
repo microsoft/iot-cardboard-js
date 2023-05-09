@@ -1,6 +1,9 @@
-import { IADXConnection, IModelProperty, IPIDDocument } from './Interfaces';
+import { IADXConnection, IPIDDocument } from './Interfaces';
+import { IDbProperty } from './Wizard.types';
 
-export type ICookProperty = Pick<IModelProperty, 'name' | 'dataType'>;
+export type ICookProperty = Pick<IDbProperty, 'sourcePropName'> & {
+    lastKnownValue: any;
+};
 
 export type ICookSource = IADXConnection | IPIDDocument;
 

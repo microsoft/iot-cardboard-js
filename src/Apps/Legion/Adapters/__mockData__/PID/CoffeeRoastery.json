@@ -1,6 +1,6 @@
 [
     {
-        "PID Filename": "esterocoffeeroastery-pid-singlepipeline.jpg",
+        "PID Filename": "CoffeeRoastery.jpg",
         "Detected Text": "SILO_1",
         "X": 64,
         "Y": 16,
@@ -9,7 +9,7 @@
         "Confidence": 0.884
     },
     {
-        "PID Filename": "esterocoffeeroastery-pid-singlepipeline.jpg",
+        "PID Filename": "CoffeeRoastery.jpg",
         "Detected Text": "SILO_2",
         "X": 138,
         "Y": 15,
@@ -18,7 +18,7 @@
         "Confidence": 0.958
     },
     {
-        "PID Filename": "esterocoffeeroastery-pid-singlepipeline.jpg",
+        "PID Filename": "CoffeeRoastery.jpg",
         "Detected Text": "U",
         "X": 12,
         "Y": 39,
@@ -27,7 +27,7 @@
         "Confidence": 0.809
     },
     {
-        "PID Filename": "esterocoffeeroastery-pid-singlepipeline.jpg",
+        "PID Filename": "CoffeeRoastery.jpg",
         "Detected Text": "GIE",
         "X": 76,
         "Y": 34,
@@ -36,7 +36,7 @@
         "Confidence": 0.994
     },
     {
-        "PID Filename": "esterocoffeeroastery-pid-singlepipeline.jpg",
+        "PID Filename": "CoffeeRoastery.jpg",
         "Detected Text": "sc1",
         "X": 74,
         "Y": 131,
@@ -45,7 +45,7 @@
         "Confidence": 0.633
     },
     {
-        "PID Filename": "esterocoffeeroastery-pid-singlepipeline.jpg",
+        "PID Filename": "CoffeeRoastery.jpg",
         "Detected Text": "GIE",
         "X": 151,
         "Y": 34,
@@ -54,7 +54,7 @@
         "Confidence": 0.994
     },
     {
-        "PID Filename": "esterocoffeeroastery-pid-singlepipeline.jpg",
+        "PID Filename": "CoffeeRoastery.jpg",
         "Detected Text": "SC2",
         "X": 150,
         "Y": 132,
@@ -63,7 +63,7 @@
         "Confidence": 0.662
     },
     {
-        "PID Filename": "esterocoffeeroastery-pid-singlepipeline.jpg",
+        "PID Filename": "CoffeeRoastery.jpg",
         "Detected Text": "CV01",
         "X": 276,
         "Y": 214,
@@ -72,7 +72,7 @@
         "Confidence": 0.983
     },
     {
-        "PID Filename": "esterocoffeeroastery-pid-singlepipeline.jpg",
+        "PID Filename": "CoffeeRoastery.jpg",
         "Detected Text": "FE",
         "X": 257,
         "Y": 234,
@@ -81,7 +81,7 @@
         "Confidence": 0.997
     },
     {
-        "PID Filename": "esterocoffeeroastery-pid-singlepipeline.jpg",
+        "PID Filename": "CoffeeRoastery.jpg",
         "Detected Text": "FE",
         "X": 378,
         "Y": 131,
@@ -90,7 +90,7 @@
         "Confidence": 0.997
     },
     {
-        "PID Filename": "esterocoffeeroastery-pid-singlepipeline.jpg",
+        "PID Filename": "CoffeeRoastery.jpg",
         "Detected Text": "CV02",
         "X": 346,
         "Y": 178,
@@ -99,7 +99,7 @@
         "Confidence": 0.972
     },
     {
-        "PID Filename": "esterocoffeeroastery-pid-singlepipeline.jpg",
+        "PID Filename": "CoffeeRoastery.jpg",
         "Detected Text": "DA-",
         "X": 477,
         "Y": 225,
@@ -108,7 +108,7 @@
         "Confidence": 0.602
     },
     {
-        "PID Filename": "esterocoffeeroastery-pid-singlepipeline.jpg",
+        "PID Filename": "CoffeeRoastery.jpg",
         "Detected Text": "PR",
         "X": 636,
         "Y": 275,
@@ -117,7 +117,7 @@
         "Confidence": 0.884
     },
     {
-        "PID Filename": "esterocoffeeroastery-pid-singlepipeline.jpg",
+        "PID Filename": "CoffeeRoastery.jpg",
         "Detected Text": "55",
         "X": 636,
         "Y": 286,
@@ -126,7 +126,7 @@
         "Confidence": 0.997
     },
     {
-        "PID Filename": "esterocoffeeroastery-pid-singlepipeline.jpg",
+        "PID Filename": "CoffeeRoastery.jpg",
         "Detected Text": "TC",
         "X": 666,
         "Y": 287,
@@ -135,7 +135,7 @@
         "Confidence": 0.94
     },
     {
-        "PID Filename": "esterocoffeeroastery-pid-singlepipeline.jpg",
+        "PID Filename": "CoffeeRoastery.jpg",
         "Detected Text": "P",
         "X": 375,
         "Y": 306,
@@ -144,7 +144,7 @@
         "Confidence": 0.464
     },
     {
-        "PID Filename": "esterocoffeeroastery-pid-singlepipeline.jpg",
+        "PID Filename": "CoffeeRoastery.jpg",
         "Detected Text": "55",
         "X": 376,
         "Y": 316,
@@ -153,7 +153,7 @@
         "Confidence": 0.98
     },
     {
-        "PID Filename": "esterocoffeeroastery-pid-singlepipeline.jpg",
+        "PID Filename": "CoffeeRoastery.jpg",
         "Detected Text": "55",
         "X": 376,
         "Y": 345,
@@ -162,7 +162,7 @@
         "Confidence": 0.971
     },
     {
-        "PID Filename": "esterocoffeeroastery-pid-singlepipeline.jpg",
+        "PID Filename": "CoffeeRoastery.jpg",
         "Detected Text": "TC",
         "X": 375,
         "Y": 367,
@@ -171,7 +171,7 @@
         "Confidence": 0.993
     },
     {
-        "PID Filename": "esterocoffeeroastery-pid-singlepipeline.jpg",
+        "PID Filename": "CoffeeRoastery.jpg",
         "Detected Text": "CO 01",
         "X": 638,
         "Y": 396,
@@ -180,7 +180,7 @@
         "Confidence": 0.992
     },
     {
-        "PID Filename": "esterocoffeeroastery-pid-singlepipeline.jpg",
+        "PID Filename": "CoffeeRoastery.jpg",
         "Detected Text": "R_01_GIEW30A",
         "X": 419,
         "Y": 439,
@@ -189,7 +189,7 @@
         "Confidence": 0.902
     },
     {
-        "PID Filename": "esterocoffeeroastery-pid-singlepipeline.jpg",
+        "PID Filename": "CoffeeRoastery.jpg",
         "Detected Text": "FE",
         "X": 814,
         "Y": 308,
@@ -198,7 +198,7 @@
         "Confidence": 0.996
     },
     {
-        "PID Filename": "esterocoffeeroastery-pid-singlepipeline.jpg",
+        "PID Filename": "CoffeeRoastery.jpg",
         "Detected Text": "CV03",
         "X": 789,
         "Y": 360,
@@ -207,7 +207,7 @@
         "Confidence": 0.965
     },
     {
-        "PID Filename": "esterocoffeeroastery-pid-singlepipeline.jpg",
+        "PID Filename": "CoffeeRoastery.jpg",
         "Detected Text": "0",
         "X": 634,
         "Y": 365,
@@ -216,7 +216,7 @@
         "Confidence": 0.979
     },
     {
-        "PID Filename": "esterocoffeeroastery-pid-singlepipeline.jpg",
+        "PID Filename": "CoffeeRoastery.jpg",
         "Detected Text": "FE",
         "X": 895,
         "Y": 256,
@@ -225,7 +225,7 @@
         "Confidence": 0.992
     },
     {
-        "PID Filename": "esterocoffeeroastery-pid-singlepipeline.jpg",
+        "PID Filename": "CoffeeRoastery.jpg",
         "Detected Text": "DES_01 (GIE)",
         "X": 928,
         "Y": 386,
@@ -234,7 +234,7 @@
         "Confidence": 0.991
     },
     {
-        "PID Filename": "esterocoffeeroastery-pid-singlepipeline.jpg",
+        "PID Filename": "CoffeeRoastery.jpg",
         "Detected Text": "FE",
         "X": 1126,
         "Y": 339,
@@ -243,7 +243,7 @@
         "Confidence": 0.997
     },
     {
-        "PID Filename": "esterocoffeeroastery-pid-singlepipeline.jpg",
+        "PID Filename": "CoffeeRoastery.jpg",
         "Detected Text": "FE",
         "X": 1178,
         "Y": 202,
@@ -252,7 +252,7 @@
         "Confidence": 0.997
     },
     {
-        "PID Filename": "esterocoffeeroastery-pid-singlepipeline.jpg",
+        "PID Filename": "CoffeeRoastery.jpg",
         "Detected Text": "CV04",
         "X": 1146,
         "Y": 252,
@@ -261,7 +261,7 @@
         "Confidence": 0.938
     },
     {
-        "PID Filename": "esterocoffeeroastery-pid-singlepipeline.jpg",
+        "PID Filename": "CoffeeRoastery.jpg",
         "Detected Text": "CV05",
         "X": 1146,
         "Y": 323,
@@ -270,7 +270,7 @@
         "Confidence": 0.955
     },
     {
-        "PID Filename": "esterocoffeeroastery-pid-singlepipeline.jpg",
+        "PID Filename": "CoffeeRoastery.jpg",
         "Detected Text": "M",
         "X": 1271,
         "Y": 220,
@@ -279,7 +279,7 @@
         "Confidence": 0.641
     },
     {
-        "PID Filename": "esterocoffeeroastery-pid-singlepipeline.jpg",
+        "PID Filename": "CoffeeRoastery.jpg",
         "Detected Text": "1",
         "X": 1303,
         "Y": 224,
@@ -288,7 +288,7 @@
         "Confidence": 0.9
     },
     {
-        "PID Filename": "esterocoffeeroastery-pid-singlepipeline.jpg",
+        "PID Filename": "CoffeeRoastery.jpg",
         "Detected Text": "P-01-G21",
         "X": 1277,
         "Y": 255,
@@ -297,7 +297,7 @@
         "Confidence": 0.995
     },
     {
-        "PID Filename": "esterocoffeeroastery-pid-singlepipeline.jpg",
+        "PID Filename": "CoffeeRoastery.jpg",
         "Detected Text": "P-02-G21",
         "X": 1275,
         "Y": 326,

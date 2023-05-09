@@ -8,11 +8,8 @@ import {
     IDbRelationship,
     IDbType,
     Kind,
-    IDbRelationshipType,
-    ICookedSource
+    IDbRelationshipType
 } from '../../Models';
-import { getColorByIdx } from '../../Services/Utils';
-import { SourceType } from '../DataPusher/DataPusher.types';
 
 export const steps: IStepperWizardStep[] = [
     {
@@ -267,7 +264,7 @@ const setDairyData = (data: IWizardDataContextState) => {
     });
     const entRedmondFactory = getEntity({
         friendlyName: 'Redmond Factory',
-        sourceEntityId: undefined,
+        sourceEntityId: 'Factory_F1',
         typeId: typeFactory.id,
         sourceConnectionString: undefined,
         values: {}
@@ -276,14 +273,14 @@ const setDairyData = (data: IWizardDataContextState) => {
         friendlyName: 'past_a1',
         sourceEntityId: 'past_a1',
         typeId: typePid.id,
-        sourceConnectionString: 'https://myblob.co/P&ID.jpg',
+        sourceConnectionString: 'https://myblob.com/P&ID.jpg',
         values: { xPos: '12', yPos: '25' }
     });
     const entPastA2Pid = getEntity({
         friendlyName: 'past_a2',
         sourceEntityId: 'past_a2',
         typeId: typePid.id,
-        sourceConnectionString: 'https://myblob.co/P&ID.jpg',
+        sourceConnectionString: 'https://myblob.com/P&ID.jpg',
         values: { xPos: '35', yPos: '12' }
     });
     const entPastA1Asset = getEntity({
@@ -388,54 +385,5 @@ export const GET_DEFAULT_MOCK_WIZARD_DATA_CONTEXT = (
         }
     }
 
-    return data;
-};
-
-export const getWizardDataFromCookedData = (
-    cookedData: ICookedSource,
-    sourceType: SourceType
-) => {
-    const properties = cookedData.properties.map((c) =>
-        getProperty({
-            id: c.id,
-            friendlyName: c.name,
-            sourcePropName: c.sourcePropName,
-            isNew: true
-        })
-    );
-    const types = cookedData.models.map((m, idx) =>
-        getType({
-            id: m.id,
-            friendlyName: m.name,
-            color: getColorByIdx(idx),
-            icon:
-                sourceType === SourceType.Timeseries
-                    ? 'LineChart'
-                    : 'SplitObject',
-            kind:
-                sourceType === SourceType.Timeseries
-                    ? Kind.TimeSeries
-                    : Kind.PID,
-            propertyIds: m.propertyIds,
-            isNew: true
-        })
-    );
-    const entities = cookedData.twins.map((t) =>
-        getEntity({
-            id: t.id,
-            friendlyName: t.name,
-            sourceEntityId: t.name,
-            typeId: t.modelId,
-            sourceConnectionString: t.sourceConnectionString,
-            isNew: true
-        })
-    );
-    const data: IWizardDataContextState = {
-        properties: properties,
-        types: types,
-        entities: entities,
-        relationshipTypes: [],
-        relationships: []
-    };
     return data;
 };

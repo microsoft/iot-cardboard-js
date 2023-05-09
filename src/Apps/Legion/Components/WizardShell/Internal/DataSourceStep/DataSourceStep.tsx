@@ -26,7 +26,7 @@ import CookSource from '../../../CookSource/CookSource';
 import { ICookSource } from '../../../../Models/Types';
 import { useWizardDataDispatchContext } from '../../../../Contexts/WizardDataContext/WizardDataContext';
 import { WizardDataContextActionType } from '../../../../Contexts/WizardDataContext/WizardDataContext.types';
-import { getWizardDataFromCookedData } from '../../WizardShellMockData';
+import { ModifyPivotKeys } from '../ModifyStep/ModifyStep.types';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('DataSourceStep', debugLogging);
@@ -74,17 +74,19 @@ const DataSourceStep: React.FC<IDataSourceStepProps> = (props) => {
         wizardDataDispatch({
             type: WizardDataContextActionType.ADD_COOKED_SOURCE_ASSETS,
             payload: {
-                data: getWizardDataFromCookedData(
-                    cookedSource,
-                    state.selectedSourceType
-                )
+                data: cookedSource
             }
         });
         // Navigation only, since all data is updated through other handlers
         wizardNavigationContextDispatch({
             type: WizardNavigationContextActionType.NAVIGATE_TO,
             payload: {
-                stepNumber: WizardStepNumber.Modify
+                stepNumber: WizardStepNumber.Modify,
+                initialProps: {
+                    showDiagram:
+                        state.selectedSourceType === SourceType.Diagram,
+                    selectedPivotKey: ModifyPivotKeys.Diagram
+                }
             }
         });
     }, [
