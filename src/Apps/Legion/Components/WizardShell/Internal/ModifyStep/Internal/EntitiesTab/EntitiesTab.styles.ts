@@ -1,26 +1,28 @@
-import { IProcessedStyleSet, mergeStyleSets } from '@fluentui/react';
-import { IEntitiesTabStyles } from './EntitiesTab.types';
-import { CONTENT_HEIGHT } from '../../../../WizardShell.styles';
+import { makeStyles, shorthands } from '@fluentui/react-components';
+import { TEntitiesTabStyles } from './EntitiesTab.types';
 
-export const getStyles: IProcessedStyleSet<IEntitiesTabStyles> = mergeStyleSets(
-    {
-        root: {
-            maxHeight: CONTENT_HEIGHT - 40, // Height - pivot
-            overflowY: 'auto'
-        },
-        columnWrapper: {
-            display: 'flex',
-            alignItems: 'center',
-            height: '100%'
-        },
-        idColumn: {
-            overflow: 'hidden',
-            textOverflow: 'ellipsis',
-            whiteSpace: 'nowrap'
-        },
-        newEntityIcon: {
-            minWidth: 10,
-            margin: '-16px 0 0 2px'
-        }
+export const EntityTabCSSVar = '--legion-entity-root-max-height';
+
+export const useEntitiesTabClassNames = makeStyles<TEntitiesTabStyles>({
+    root: {
+        maxHeight: `var(${EntityTabCSSVar})`, // Height - pivot
+        overflowY: 'auto'
+    },
+    columnWrapper: {
+        display: 'flex',
+        alignItems: 'center',
+        height: '100%'
+    },
+    idColumn: {
+        ...shorthands.overflow('hidden'),
+        textOverflow: 'ellipsis',
+        whiteSpace: 'nowrap'
+    },
+    newEntityIcon: {
+        minWidth: '10px',
+        ...shorthands.margin('-16px', '0px', '0px', '2px')
+    },
+    columnHeader: {
+        fontWeight: '600'
     }
-);
+});

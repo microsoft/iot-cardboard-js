@@ -1,6 +1,8 @@
 import { PartialTheme } from '@fluentui/react-components';
+import { Fluent9BaseTheme } from './Fluent9BaseTheme';
 
 export const Fluent9DarkTheme: PartialTheme = {
+    ...Fluent9BaseTheme,
     colorNeutralForeground2BrandHover: '#60aaff',
     colorNeutralForeground2BrandPressed: '#71b3ff',
     colorNeutralForeground2BrandSelected: '#60aaff',
