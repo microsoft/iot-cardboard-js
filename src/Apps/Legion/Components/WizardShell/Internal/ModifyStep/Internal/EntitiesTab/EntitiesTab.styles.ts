@@ -5,8 +5,9 @@ export const EntityTabCSSVar = '--legion-entity-root-max-height';
 
 export const useEntitiesTabClassNames = makeStyles<TEntitiesTabStyles>({
     root: {
-        maxHeight: `var(${EntityTabCSSVar})`, // Height - pivot
-        overflowY: 'auto'
+        maxHeight: `var(${EntityTabCSSVar})`,
+        overflowY: 'auto',
+        overflowX: 'hidden'
     },
     columnWrapper: {
         display: 'flex',
