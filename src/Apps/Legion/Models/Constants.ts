@@ -1,4 +1,6 @@
 import { IPickerOption } from '../../../Components/Pickers/Internal/Picker.base.types';
+import CoffeeRoasteryImgSrc from '../Components/Diagram/__mockData__/CoffeeRoastery.png';
+import WasteWaterImgSrc from '../Components/Diagram/__mockData__/WasteWater.jpg';
 
 // lets only keep constants that very high up level here, others can live in below their own component's types file
 export const LOCAL_STORAGE_KEYS = {
@@ -71,3 +73,23 @@ export enum PID_EXTRACTED_PROPERTIES {
     Height = 'Height',
     Confidence = 'Confidence'
 }
+
+export enum SourceType {
+    Timeseries = 'Timeseries table',
+    Diagram = 'P&ID diagram'
+}
+
+export enum PIDSources {
+    CoffeeRoastery = 'Coffee Roastery',
+    WasteWater = 'Waste Water'
+}
+
+export enum PIDSourceUrls {
+    CoffeeRoastery = 'https://myPIDblob.com/CoffeeRoastery.jpg',
+    WasteWater = 'https://myPIDblob.com/WasteWater.jpg'
+}
+
+export const PIDSourceUrlsToImgUrlMapping: Record<PIDSourceUrls, string> = {
+    [PIDSourceUrls.CoffeeRoastery]: CoffeeRoasteryImgSrc,
+    [PIDSourceUrls.WasteWater]: WasteWaterImgSrc
+};

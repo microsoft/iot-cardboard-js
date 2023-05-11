@@ -9,7 +9,6 @@ import { getStyles } from './DataSourceStep.styles';
 import { classNamesFunction, Stack, styled } from '@fluentui/react';
 import { getDebugLogger } from '../../../../../../Models/Services/Utils';
 import { useExtendedTheme } from '../../../../../../Models/Hooks/useExtendedTheme';
-import { SourceType } from '../../../DataPusher/DataPusher.types';
 import { useTranslation } from 'react-i18next';
 import {
     DataSourceStepReducer,
@@ -27,6 +26,7 @@ import { ICookSource } from '../../../../Models/Types';
 import { useWizardDataDispatchContext } from '../../../../Contexts/WizardDataContext/WizardDataContext';
 import { WizardDataContextActionType } from '../../../../Contexts/WizardDataContext/WizardDataContext.types';
 import { ModifyPivotKeys } from '../ModifyStep/ModifyStep.types';
+import { SourceType } from '../../../../Models/Constants';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('DataSourceStep', debugLogging);

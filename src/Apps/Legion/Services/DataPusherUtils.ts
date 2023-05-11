@@ -1,9 +1,7 @@
 import { createGUID } from '../../../Models/Services/Utils';
 import { ITable } from '../Adapters/Standalone/DataManagement/Models/DataManagementAdapter.types';
 import {
-    PIDSourceUrls,
     PROPERTY_COLUMN_NAME,
-    SourceType,
     TableTypes,
     TIMESTAMP_COLUMN_NAME,
     VALUE_COLUMN_NAME
@@ -18,7 +16,11 @@ import CoffeeRoasteryPIDData from '../Adapters/__mockData__/PID/CoffeeRoastery.j
 import WasteWaterPIDData from '../Adapters/__mockData__/PID/WasteWater.json';
 import { getColorByIdx } from './Utils';
 import { IDbEntity, IDbProperty, IDbType, Kind } from '../Models';
-import { PID_EXTRACTED_PROPERTIES } from '../Models/Constants';
+import {
+    PID_EXTRACTED_PROPERTIES,
+    PIDSourceUrls,
+    SourceType
+} from '../Models/Constants';
 
 /**
  * Returns the schema type of a given table

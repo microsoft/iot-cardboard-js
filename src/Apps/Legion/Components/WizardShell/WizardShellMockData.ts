@@ -10,6 +10,7 @@ import {
     Kind,
     IDbRelationshipType
 } from '../../Models';
+import { PIDSourceUrls } from '../../Models/Constants';
 
 export const steps: IStepperWizardStep[] = [
     {
@@ -270,18 +271,18 @@ const setDairyData = (data: IWizardDataContextState) => {
         values: {}
     });
     const entPastA1Pid = getEntity({
-        friendlyName: 'past_a1',
-        sourceEntityId: 'past_a1',
+        friendlyName: 'SILO_1',
+        sourceEntityId: 'SILO_1',
         typeId: typePid.id,
-        sourceConnectionString: 'https://myblob.com/P&ID.jpg',
-        values: { xPos: '12', yPos: '25' }
+        sourceConnectionString: PIDSourceUrls.CoffeeRoastery,
+        values: { X: 64, Y: 16 }
     });
     const entPastA2Pid = getEntity({
-        friendlyName: 'past_a2',
-        sourceEntityId: 'past_a2',
+        friendlyName: 'SILO_2',
+        sourceEntityId: 'SILO_2',
         typeId: typePid.id,
-        sourceConnectionString: 'https://myblob.com/P&ID.jpg',
-        values: { xPos: '35', yPos: '12' }
+        sourceConnectionString: PIDSourceUrls.CoffeeRoastery,
+        values: { X: 138, Y: 15 }
     });
     const entPastA1Asset = getEntity({
         friendlyName: 'Pasteurizer A1',

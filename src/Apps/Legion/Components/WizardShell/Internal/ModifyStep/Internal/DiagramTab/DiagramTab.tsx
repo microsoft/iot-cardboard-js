@@ -4,6 +4,9 @@ import { IDiagramTabProps } from './DiagramTab.types';
 import { useClassNames } from './DiagramTab.styles';
 import { useEntities } from '../../../../../../Hooks/useEntities';
 import { Kind } from '../../../../../../Models';
+import Diagram from '../../../../../Diagram/Diagram';
+import { IDiagramAnnotations } from '../../../../../Diagram/Diagram.types';
+import { PIDSourceUrlsToImgUrlMapping } from '../../../../../../Models/Constants';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('DiagramTab', debugLogging);
@@ -15,9 +18,19 @@ const DiagramTab: React.FC<IDiagramTabProps> = (_props) => {
 
     // hooks
     const { entities } = useEntities();
-    const diagrams = useMemo(
+    const newDiagramEntities = useMemo(
         () => entities.filter((e) => e.type.kind === Kind.PID),
         [entities]
+    );
+    const annotations: Array<IDiagramAnnotations> = useMemo(
+        () =>
+            newDiagramEntities.map((e) => ({
+                friendlyName: e.friendlyName,
+                type: e.type,
+                values: e.values,
+                isNew: e.isNew
+            })),
+        [newDiagramEntities]
     );
 
     // callbacks
@@ -31,10 +44,14 @@ const DiagramTab: React.FC<IDiagramTabProps> = (_props) => {
 
     return (
         <div className={classNames.root}>
-            <ul></ul>
-            {diagrams.map((d) => (
-                <li>{JSON.stringify(d.values)}</li>
-            ))}
+            <Diagram
+                imageUrl={
+                    PIDSourceUrlsToImgUrlMapping[
+                        newDiagramEntities[0].sourceConnectionString
+                    ]
+                }
+                annotations={annotations}
+            />
         </div>
     );
 };

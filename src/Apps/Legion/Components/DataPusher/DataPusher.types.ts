@@ -1,6 +1,5 @@
 import {
     IButtonStyles,
-    IDropdownOption,
     IProcessedStyleSet,
     IStackStyles,
     IStyle,
@@ -63,11 +62,6 @@ export enum TableTypes {
     Tags = 'Tags'
 }
 
-export enum SourceType {
-    Timeseries = 'Timeseries table',
-    Diagram = 'P&ID diagram'
-}
-
 export const TableColumns: Record<TableTypes, Array<ITableColumn>> = {
     Wide: [
         { columnName: ID_COLUMN_NAME, columnDataType: 'string' },
@@ -102,37 +96,5 @@ export const TableTypeOptions: IReactSelectOption[] = [
     {
         value: TableTypes.Tags,
         label: 'Tags only'
-    }
-];
-
-export const SourceTypeOptions: IDropdownOption[] = [
-    {
-        key: SourceType.Timeseries,
-        text: SourceType.Timeseries
-    },
-    {
-        key: SourceType.Diagram,
-        text: SourceType.Diagram
-    }
-];
-
-export enum PIDSources {
-    CoffeeRoastery = 'Coffee Roastery',
-    WasteWater = 'Waste Water'
-}
-
-export enum PIDSourceUrls {
-    CoffeeRoastery = 'https://myPIDblob.com/CoffeeRoastery.jpg',
-    WasteWater = 'https://myPIDblob.com/WasteWater.jpg'
-}
-
-export const PIDSourceOptions: IDropdownOption[] = [
-    {
-        key: PIDSources.CoffeeRoastery,
-        text: PIDSourceUrls.CoffeeRoastery
-    },
-    {
-        key: PIDSources.WasteWater,
-        text: PIDSourceUrls.WasteWater
     }
 ];
