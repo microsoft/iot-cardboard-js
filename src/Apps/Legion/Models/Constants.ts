@@ -62,7 +62,7 @@ export const WIZARD_GRAPH_NODE_ICON_OPTIONS: IPickerOption[] = [
     }
 ];
 
-export enum PID_TABLE_COLUMNS {
+export enum PID_EXTRACTED_PROPERTIES {
     PIDFilename = 'PID Filename',
     DetectedText = 'Detected Text',
     X = 'X',

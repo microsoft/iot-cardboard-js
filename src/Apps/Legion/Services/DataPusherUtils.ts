@@ -18,7 +18,7 @@ import CoffeeRoasteryPIDData from '../Adapters/__mockData__/PID/CoffeeRoastery.j
 import WasteWaterPIDData from '../Adapters/__mockData__/PID/WasteWater.json';
 import { getColorByIdx } from './Utils';
 import { IDbEntity, IDbProperty, IDbType, Kind } from '../Models';
-import { PID_TABLE_COLUMNS } from '../Models/Constants';
+import { PID_EXTRACTED_PROPERTIES } from '../Models/Constants';
 
 /**
  * Returns the schema type of a given table
@@ -295,16 +295,16 @@ const cookDiagram = (source: ICookSource): ICookedSource => {
         : WasteWaterPIDData
     ).map((item) => ({
         id: createGUID(),
-        friendlyName: item[PID_TABLE_COLUMNS.DetectedText],
-        sourceEntityId: item[PID_TABLE_COLUMNS.DetectedText],
+        friendlyName: item[PID_EXTRACTED_PROPERTIES.DetectedText],
+        sourceEntityId: item[PID_EXTRACTED_PROPERTIES.DetectedText],
         typeId: types[0].id,
         sourceConnectionString: sourceToCook.pidUrl,
         isDeleted: false,
         isNew: true,
         values: {
-            X: item[PID_TABLE_COLUMNS.X],
-            Y: item[PID_TABLE_COLUMNS.Y],
-            Confidence: item[PID_TABLE_COLUMNS.Confidence]
+            X: item[PID_EXTRACTED_PROPERTIES.X],
+            Y: item[PID_EXTRACTED_PROPERTIES.Y],
+            Confidence: item[PID_EXTRACTED_PROPERTIES.Confidence]
         }
     }));
 

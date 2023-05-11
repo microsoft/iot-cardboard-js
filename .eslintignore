@@ -8,3 +8,7 @@ coverage
 **/*.scss
 # don't lint SVG
 **/*.svg
+# don't lint PNG
+**/*.png
+# don't lint JPG
+**/*.jpg
