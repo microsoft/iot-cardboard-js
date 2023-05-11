@@ -10,7 +10,7 @@ const debugLogging = false;
 const logDebugConsole = getDebugLogger('Diagram', debugLogging);
 
 const CONFIDENCE_TRESHOLD = 0.8;
-const ANNOTATION_X_PADDING = 32;
+const ANNOTATION_X_PADDING = 42;
 
 const Diagram: React.FC<IDiagramProps> = (props) => {
     const { imageUrl, annotations } = props;

@@ -32,14 +32,6 @@ module.exports = {
             'test.svg'.match(rule.test)
         );
         svgRule.exclude = [AppSourceDir];
-        const pngRule = config.module.rules.find((rule) =>
-            'test.png'.match(rule.test)
-        );
-        pngRule.exclude = [AppSourceDir];
-        const jpgRule = config.module.rules.find((rule) =>
-            'test.jpg'.match(rule.test)
-        );
-        jpgRule.exclude = [AppSourceDir];
 
         // Add custom storybook SVG loader
         config.module.rules.push({
@@ -51,15 +43,7 @@ module.exports = {
         config.module.rules.push({
             test: /\.(png|jpe?g)$/i,
             include: [AppSourceDir],
-            use: [
-                {
-                    loader: 'file-loader',
-                    options: {
-                        emitFile: false,
-                        esModule: false
-                    }
-                }
-            ]
+            use: 'url-loader'
         });
 
         config.module.rules.push({
