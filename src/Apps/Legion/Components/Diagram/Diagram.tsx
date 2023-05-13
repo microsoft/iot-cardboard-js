@@ -11,7 +11,7 @@ const debugLogging = false;
 const logDebugConsole = getDebugLogger('Diagram', debugLogging);
 
 const CONFIDENCE_TRESHOLD = 0.8;
-const ANNOTATION_X_PADDING = 42;
+const ANNOTATION_X_PADDING = 38;
 
 const Diagram: React.FC<IDiagramProps> = (props) => {
     const { parentRef, imageUrl, annotations } = props;
@@ -42,10 +42,10 @@ const Diagram: React.FC<IDiagramProps> = (props) => {
                 parentRef.current.clientHeight /
                     imageOriginalDimensionRef.current.height
             ) {
-                setImgHeight(parentRef.current.clientHeight);
+                setImgHeight('100%');
                 setImgWidth('fit-content');
             } else {
-                setImgWidth(parentRef.current.clientWidth);
+                setImgWidth('100%');
                 setImgHeight('fit-content');
             }
 

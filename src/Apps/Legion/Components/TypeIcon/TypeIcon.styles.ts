@@ -2,7 +2,8 @@ import { ITypeIconStyles } from './TypeIcon.types';
 import {
     IProcessedStyleSet,
     mergeStyleSets,
-    memoizeFunction
+    memoizeFunction,
+    FontSizes
 } from '@fluentui/react';
 
 export const getStyles = memoizeFunction(
@@ -10,8 +11,8 @@ export const getStyles = memoizeFunction(
         return mergeStyleSets({
             root: {
                 display: 'inline-flex',
-                width: 32,
-                height: 32,
+                width: 28,
+                height: 28,
                 borderRadius: '50%',
                 backgroundColor: color,
                 alignItems: 'center',
@@ -19,7 +20,8 @@ export const getStyles = memoizeFunction(
                 marginRight: 8
             },
             icon: {
-                color: 'white'
+                color: 'white',
+                fontSize: FontSizes.size12
             }
         });
     }

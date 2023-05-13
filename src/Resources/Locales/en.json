@@ -1541,7 +1541,8 @@
             "tableTypePlaceholder": "Select table type",
             "urlLabel": "URL",
             "urlPlaceholder": "Enter URL",
-            "addOptionFormat": "Add '{{item}}'"
+            "addOptionFormat": "Add '{{item}}'",
+            "PIDSourcePlaceholder": "Select PID source"
         },
         "StoreListPage": {
             "title": "Welcome to the future",

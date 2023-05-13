@@ -18,18 +18,23 @@ import {
     PID_EXTRACTED_PROPERTIES
 } from '../../../../../../Models/Constants';
 import { Dropdown, IDropdownOption } from '@fluentui/react';
+import { useTranslation } from 'react-i18next';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('DiagramTab', debugLogging);
 
 const DiagramTab: React.FC<IDiagramTabProps> = (_props) => {
     // state
+    const [diagramOptions, setDiagramOptions] = useState<
+        Array<IDropdownOption>
+    >([]);
     const [selectedDiagramUrl, setSelectedDiagramUrl] = useState<string>(null);
     const [selectedAnnotations, setSelectedAnnotations] = useState<
         Array<TDiagramAnnotation>
     >([]);
 
     // hooks
+    const { t } = useTranslation();
     const diagramWrapperRef = useRef(null);
     const { entities } = useEntities();
     const urlToEntitiesMapping = useMemo(
@@ -44,14 +49,6 @@ const DiagramTab: React.FC<IDiagramTabProps> = (_props) => {
                     return acc;
                 }, {}),
         [entities]
-    );
-    const diagramOptions: Array<IDropdownOption> = useMemo(
-        () =>
-            Object.keys(urlToEntitiesMapping).map((url) => ({
-                key: url,
-                text: url
-            })),
-        [urlToEntitiesMapping]
     );
 
     // callbacks
@@ -74,6 +71,12 @@ const DiagramTab: React.FC<IDiagramTabProps> = (_props) => {
     // side effects
     useEffect(() => {
         const diagramUrls = Object.keys(urlToEntitiesMapping);
+        setDiagramOptions(
+            diagramUrls.map((url) => ({
+                key: url,
+                text: url
+            }))
+        );
         setSelectedDiagramUrl(
             diagramUrls.length ? diagramUrls[diagramUrls.length - 1] : null
         );
@@ -116,10 +119,12 @@ const DiagramTab: React.FC<IDiagramTabProps> = (_props) => {
     return (
         <div className={classNames.root}>
             <Dropdown
+                label={t('legionApp.Common.PIDSourcePlaceholder')}
                 className={classNames.diagramSelector}
                 options={diagramOptions}
                 onChange={handleDiagramUrlChange}
                 selectedKey={selectedDiagramUrl}
+                placeholder={t('loading')}
             />
             <div ref={diagramWrapperRef} className={classNames.diagramWrapper}>
                 <Diagram

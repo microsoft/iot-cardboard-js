@@ -4,11 +4,11 @@ import { makeStyles, shorthands } from '@fluentui/react-components';
 export const useClassNames = makeStyles<TDiagramTabClassNames>({
     root: {},
     diagramSelector: {
-        width: 'fit-content',
+        width: '308px',
         ...shorthands.padding('20px', '0')
     },
     diagramWrapper: {
-        width: '1000px',
-        height: '540px'
+        width: '100%',
+        height: '500px'
     }
 });

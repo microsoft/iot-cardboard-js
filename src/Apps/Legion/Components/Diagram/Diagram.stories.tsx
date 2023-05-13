@@ -11,7 +11,7 @@ import { Kind } from '../../Models/Wizard.types';
 import CoffeeRoasteryImg from './__mockData__/CoffeeRoastery.png';
 import WasteWaterImg from './__mockData__/WasteWater.jpg';
 
-const wrapperStyle = { width: '1200px', height: '600px', overflow: 'visible' };
+const wrapperStyle = { width: '100%', height: '100%', overflow: 'visible' };
 
 export default {
     title: 'Apps/Legion/Diagram',
@@ -24,7 +24,7 @@ type DiagramStory = ComponentStory<typeof Diagram>;
 const Template: DiagramStory = (args) => {
     const containerRef = useRef(null);
     return (
-        <div style={{ width: '1200px', height: '600px' }} ref={containerRef}>
+        <div style={{ width: '100%', height: '800px' }} ref={containerRef}>
             <Diagram {...args} parentRef={containerRef} />
         </div>
     );

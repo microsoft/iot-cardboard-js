@@ -44,7 +44,8 @@ export const getStyles = (
         },
         wizardContainer: {
             gridArea: 'wizard',
-            padding: 16
+            padding: 16,
+            overflow: 'hidden'
         },
         footer: {
             gridArea: 'footer',

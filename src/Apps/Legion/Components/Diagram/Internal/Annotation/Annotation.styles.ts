@@ -15,6 +15,6 @@ export const useClassNames = makeStyles<TAnnotationClassNames>({
         ...shorthands.padding('4px')
     },
     type: {},
-    text: { fontSize: '14px' },
+    text: { fontSize: '12px' },
     newIcon: { ...shorthands.padding('4px'), marginTop: '-12px' }
 });
