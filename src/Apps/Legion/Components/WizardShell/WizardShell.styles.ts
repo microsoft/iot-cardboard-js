@@ -7,7 +7,7 @@ import { IWizardShellStyles } from './WizardShell.types';
 import { IExtendedTheme } from '../../../../Theming/Theme.types';
 
 // export const WIZARDSHELL_CLASS_NAMES = classNames;
-export const CONTENT_HEIGHT = 440;
+export const CONTENT_HEIGHT = 640;
 
 export const getStyles = (
     theme: IExtendedTheme,

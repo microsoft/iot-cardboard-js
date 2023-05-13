@@ -11,7 +11,7 @@ import { WIZARD_NAVIGATION_MOCK_DATA } from './WizardShellMockData';
 import { AppDataContextProvider } from '../../Contexts/AppDataContext/AppDataContext';
 import { WizardDataContextProvider } from '../../Contexts/WizardDataContext/WizardDataContext';
 
-const wrapperStyle = { width: '100%', height: '600px', padding: 8 };
+const wrapperStyle = { width: '100%', height: '800px' };
 
 export default {
     title: 'Apps/Legion/WizardShell',

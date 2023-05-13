@@ -10,7 +10,7 @@ import {
     WIZARD_NAVIGATION_MOCK_DATA
 } from '../../WizardShellMockData';
 
-const wrapperStyle = { width: '100%', height: '600px', padding: 8 };
+const wrapperStyle = { width: '100%', height: '800px', padding: 8 };
 
 export default {
     title: 'Apps/Legion/WizardShell/ModifyStep',

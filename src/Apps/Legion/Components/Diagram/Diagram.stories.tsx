@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { ComponentStory } from '@storybook/react';
 import { getDefaultStoryDecorator } from '../../../../Models/Services/StoryUtilities';
 import Diagram from './Diagram';
@@ -11,7 +11,7 @@ import { Kind } from '../../Models/Wizard.types';
 import CoffeeRoasteryImg from './__mockData__/CoffeeRoastery.png';
 import WasteWaterImg from './__mockData__/WasteWater.jpg';
 
-const wrapperStyle = { width: '100%' };
+const wrapperStyle = { width: '1200px', height: '600px', overflow: 'visible' };
 
 export default {
     title: 'Apps/Legion/Diagram',
@@ -22,7 +22,12 @@ export default {
 type DiagramStory = ComponentStory<typeof Diagram>;
 
 const Template: DiagramStory = (args) => {
-    return <Diagram {...args} />;
+    const containerRef = useRef(null);
+    return (
+        <div style={{ width: '1200px', height: '600px' }} ref={containerRef}>
+            <Diagram {...args} parentRef={containerRef} />
+        </div>
+    );
 };
 
 const mockType = {
@@ -38,6 +43,7 @@ const mockType = {
 
 export const CoffeeRoastery = Template.bind({}) as DiagramStory;
 CoffeeRoastery.args = {
+    parentRef: null,
     imageUrl: CoffeeRoasteryImg,
     annotations: CoffeeRoasteryPIDData.map((d) => ({
         friendlyName: d['Detected Text'],
@@ -53,6 +59,7 @@ CoffeeRoastery.args = {
 
 export const WasteWater = Template.bind({}) as DiagramStory;
 WasteWater.args = {
+    parentRef: null,
     imageUrl: WasteWaterImg,
     annotations: WasteWaterPIDData.map((d) => ({
         friendlyName: d['Detected Text'],

@@ -1,13 +1,22 @@
 import { IViewEntity } from '../../Models';
 
 export interface IDiagramProps {
+    parentRef: React.MutableRefObject<any>;
     imageUrl: string;
-    annotations: Array<IDiagramAnnotations>;
+    annotations: Array<TDiagramAnnotation>;
 }
 
-export type IDiagramAnnotations = Pick<
+export type TDiagramAnnotation = Pick<
     IViewEntity,
     'friendlyName' | 'isNew' | 'values' | 'type'
 >;
 
-export type TDiagramClassNames = 'root' | 'annotationWrapper';
+export type TDiagramAnnotationPlacement = TDiagramAnnotation & {
+    left: string;
+    top: string;
+};
+
+export type TDiagramClassNames =
+    | 'root'
+    | 'spinnerWrapper'
+    | 'annotationWrapper';
