@@ -1594,7 +1594,8 @@
       "tablePlaceholder": "Выберите таблицу",
       "tableIdColumnPlaceholder": "Выберите поле ID",
       "tableTypeLabel": "Тип таблицы",
-      "tableTypePlaceholder": "Выберите тип таблицы"
+      "tableTypePlaceholder": "Выберите тип таблицы",
+      "PIDSourcePlaceholder": "Выберите источник PID"
     },
     "modifyStep": {
       "diagram": "Диаграмма",
