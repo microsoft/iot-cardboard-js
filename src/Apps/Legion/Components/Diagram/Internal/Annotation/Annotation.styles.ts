@@ -3,10 +3,12 @@ import { TAnnotationClassNames } from './Annotation.types';
 import { makeStyles } from '@fluentui/react-components';
 import { shorthands } from '@griffel/react';
 
+export const annotationColorVar = '--legion-diagram-annotation-color';
+
 export const useClassNames = makeStyles<TAnnotationClassNames>({
     root: {
         width: 'fit-content',
-        color: 'black',
+        color: `var(${annotationColorVar})`,
         fontWeight: FontWeights.semibold,
         display: 'flex',
         alignItems: 'center',

@@ -6,6 +6,7 @@ import { Image, Spinner, SpinnerSize } from '@fluentui/react';
 import Annotation from './Internal/Annotation/Annotation';
 import { PID_EXTRACTED_PROPERTIES } from '../../Models/Constants';
 import { useTranslation } from 'react-i18next';
+import { useId } from '@fluentui/react-components';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('Diagram', debugLogging);
@@ -27,10 +28,10 @@ const Diagram: React.FC<IDiagramProps> = (props) => {
 
     // hooks
     const { t } = useTranslation();
-    const imageRef = useRef(null);
     const imageOriginalDimensionRef = useRef<{ width: number; height: number }>(
         null
     );
+    const annotationContainerId = useId('annotation-container');
 
     // side-effects
     useEffect(() => {
@@ -107,7 +108,6 @@ const Diagram: React.FC<IDiagramProps> = (props) => {
                 />
             )}
             <Image
-                ref={imageRef}
                 width={imgWidth}
                 height={imgHeight}
                 onLoad={handleOnImgLoad}
@@ -115,7 +115,7 @@ const Diagram: React.FC<IDiagramProps> = (props) => {
             />
             {annotationPlacements.map((a, idx) => (
                 <div
-                    key={imageUrl + idx}
+                    key={`${annotationContainerId}-${idx}`}
                     className={classNames.annotationWrapper}
                     style={{
                         left: a.left,

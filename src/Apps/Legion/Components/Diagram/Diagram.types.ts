@@ -1,7 +1,7 @@
 import { IViewEntity } from '../../Models';
 
 export interface IDiagramProps {
-    parentRef: React.MutableRefObject<any>;
+    parentRef: React.MutableRefObject<HTMLDivElement>;
     imageUrl: string;
     annotations: Array<TDiagramAnnotation>;
 }
