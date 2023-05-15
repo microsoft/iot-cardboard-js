@@ -75,7 +75,6 @@ const WizardShell: React.FC<IWizardShellProps> = (_props) => {
             </div>
             {/* Top nav */}
             <div className={classNames.headerNav}>
-                {/* TODO: CREATE DB HEADER */}
                 <Icon iconName={'Globe'} />
                 <h3 className={classNames.headerText}>
                     {appDataState?.targetDatabase?.databaseName}
@@ -88,8 +87,9 @@ const WizardShell: React.FC<IWizardShellProps> = (_props) => {
                 {wizardNavigationContextState.secondaryActions ? (
                     <div className={classNames.additionalButtonsContainer}>
                         {wizardNavigationContextState.secondaryActions.map(
-                            (sa) => (
+                            (sa, idx) => (
                                 <DefaultButton
+                                    key={`${sa.text}-button-${idx}`}
                                     onClick={sa.onClick}
                                     disabled={sa.disabled}
                                     text={sa.text}
