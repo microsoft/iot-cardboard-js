@@ -16,11 +16,11 @@ jobs:
             - uses: actions/setup-node@v2
               with:
                   node-version: '14'
-                  cache: 'npm'
-                  registry-url: 'https://registry.npmjs.org'
+                  cache: 'yarn'
+                  registry-url: 'https://registry.yarnpkg.com'
 
             - name: Install dependencies
-              run: npm install
+              run: yarn install
 
             - name: Publish to chromatic
               uses: chromaui/action@v1

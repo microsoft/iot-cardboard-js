@@ -12,15 +12,15 @@ jobs:
             - uses: actions/setup-node@v2
               with:
                   node-version: '14'
-                  cache: 'npm'
-                  registry-url: 'https://registry.npmjs.org'
+                  cache: 'yarn '
+                  registry-url: 'https://registry.yarnpkg.com'
 
             - name: Install dependencies
-              run: npm install
+              run: yarn  install
 
             # todo - lint only file deltas, not entire codebase (speeds up workflow)
             - name: Check code formatting and quality
-              run: npm run lint:check
+              run: yarn  run lint:check
     build:
         runs-on: ubuntu-latest
         steps:
@@ -28,17 +28,17 @@ jobs:
             - uses: actions/setup-node@v2
               with:
                   node-version: '14'
-                  cache: 'npm'
-                  registry-url: 'https://registry.npmjs.org'
+                  cache: 'yarn '
+                  registry-url: 'https://registry.yarnpkg.com'
 
             - name: Install dependencies
-              run: npm install
+              run: yarn  install
 
             - name: Verify rollup build succeeds
-              run: npm run build
+              run: yarn  run build
 
             - name: Verify storybook static build succeeds
-              run: npm run storybook:export
+              run: yarn  run storybook:export
     test:
         runs-on: ubuntu-latest
         steps:
@@ -46,10 +46,10 @@ jobs:
             - uses: actions/setup-node@v1
               with:
                   node-version: '14'
-                  cache: 'npm'
+                  cache: 'yarn '
 
             - name: Install dependencies
-              run: npm install
+              run: yarn  install
 
             - name: Verify all unit tests pass
-              run: npm run test:ci
+              run: yarn  run test:ci
