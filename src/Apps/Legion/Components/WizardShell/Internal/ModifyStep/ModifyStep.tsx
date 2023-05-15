@@ -62,6 +62,7 @@ const ModifyStep: React.FC<IModifyStepProps> = (props) => {
                 {/* Diagram */}
                 {props.showDiagram && (
                     <PivotItem
+                        key={'diagram-pivot-item'}
                         title={t('legionApp.modifyStep.diagram')}
                         headerText={t('legionApp.modifyStep.diagram')}
                         itemKey={ModifyPivotKeys.Diagram}
@@ -71,6 +72,7 @@ const ModifyStep: React.FC<IModifyStepProps> = (props) => {
                 )}
                 {/* Entities */}
                 <PivotItem
+                    key={'entities-pivot-item'}
                     title={t('legionApp.modifyStep.entities')}
                     headerText={t('legionApp.modifyStep.entities')}
                     itemKey={ModifyPivotKeys.Entities}
@@ -79,6 +81,7 @@ const ModifyStep: React.FC<IModifyStepProps> = (props) => {
                 </PivotItem>
                 {/* Types */}
                 <PivotItem
+                    key={'types-pivot-item'}
                     title={t('legionApp.modifyStep.types')}
                     headerText={t('legionApp.modifyStep.types')}
                     itemKey={ModifyPivotKeys.Types}
@@ -87,6 +90,7 @@ const ModifyStep: React.FC<IModifyStepProps> = (props) => {
                 </PivotItem>
                 {/* Graph */}
                 <PivotItem
+                    key={'graph-pivot-item'}
                     title={t('legionApp.modifyStep.graph')}
                     headerText={t('legionApp.modifyStep.graph')}
                     itemKey={ModifyPivotKeys.Graph}
