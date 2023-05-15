@@ -54,18 +54,23 @@ const Diagram: React.FC<IDiagramProps> = (props) => {
                 annotations.reduce((acc, a) => {
                     if (
                         !a.values[PID_EXTRACTED_PROPERTIES.Confidence] ||
-                        a.values[PID_EXTRACTED_PROPERTIES.Confidence] >=
-                            CONFIDENCE_TRESHOLD
+                        (a.values[
+                            PID_EXTRACTED_PROPERTIES.Confidence
+                        ] as number) >= CONFIDENCE_TRESHOLD
                     ) {
                         acc.push({
                             ...a,
                             left: `calc(${
-                                (a.values[PID_EXTRACTED_PROPERTIES.X] /
+                                ((a.values[
+                                    PID_EXTRACTED_PROPERTIES.X
+                                ] as number) /
                                     imageOriginalDimensionRef.current.width) *
                                 100
                             }% - ${ANNOTATION_X_PADDING}px)`,
                             top: `${
-                                (a.values[PID_EXTRACTED_PROPERTIES.Y] /
+                                ((a.values[
+                                    PID_EXTRACTED_PROPERTIES.Y
+                                ] as number) /
                                     imageOriginalDimensionRef.current.height) *
                                 100
                             }%`
