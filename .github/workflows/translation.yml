@@ -15,7 +15,7 @@ jobs:
               uses: actions/checkout@v2
 
             - name: Install localization package
-              run: yarn install -g i18n-auto-translation-msnyder
+              run: yarn global add i18n-auto-translation-msnyder
 
             - name: Translate files
               id: translate
