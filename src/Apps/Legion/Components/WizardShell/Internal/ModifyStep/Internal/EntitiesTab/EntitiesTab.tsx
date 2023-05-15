@@ -8,7 +8,6 @@ import { getDebugLogger } from '../../../../../../../../Models/Services/Utils';
 import { useEntities } from '../../../../../../Hooks/useEntities';
 import { IViewEntity } from '../../../../../../Models/Wizard.types';
 import TypeIcon from '../../../../../TypeIcon/TypeIcon';
-import NewIcon from '../../../../../../../../Resources/Static/new.svg';
 import {
     DataGrid,
     DataGridCell,
@@ -18,9 +17,10 @@ import {
     TableColumnDefinition,
     createTableColumn
 } from '@fluentui/react-table';
-import { DataGridBody, Checkbox, Image } from '@fluentui/react-components';
+import { DataGridBody, Checkbox } from '@fluentui/react-components';
 import { CONTENT_HEIGHT } from '../../../../WizardShell.styles';
 import i18n from '../../../../../../../../i18n';
+import NewIndicator from '../../../../../NewIndicator/NewIndicator';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('EntitiesTab', debugLogging);
@@ -63,12 +63,7 @@ const getColumns = (
                 return (
                     <div className={classNames.columnWrapper}>
                         <span className={classNames.idColumn}>{item.id}</span>
-                        {item.isNew && (
-                            <Image
-                                src={NewIcon}
-                                className={classNames.newEntityIcon}
-                            />
-                        )}
+                        {item.isNew && <NewIndicator />}
                     </div>
                 );
             }

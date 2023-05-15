@@ -3,9 +3,8 @@ import { getDebugLogger } from '../../../../../../Models/Services/Utils';
 import { IAnnotationProps } from './Annotation.types';
 import { annotationColorVar, useClassNames } from './Annotation.styles';
 import TypeIcon from '../../../TypeIcon/TypeIcon';
-import NewIcon from '../../../../../../Resources/Static/new.svg';
-import { Image } from '@fluentui/react';
 import { useExtendedTheme } from '../../../../../../Models/Hooks/useExtendedTheme';
+import NewIndicator from '../../../NewIndicator/NewIndicator';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('Annotation', debugLogging);
@@ -32,7 +31,7 @@ const Annotation: React.FC<IAnnotationProps> = (props) => {
                 <TypeIcon icon={icon} color={color} />
             </div>
             <span className={classNames.text}>{text}</span>
-            {isNew && <Image className={classNames.newIcon} src={NewIcon} />}
+            {isNew && <NewIndicator />}
         </div>
     );
 };

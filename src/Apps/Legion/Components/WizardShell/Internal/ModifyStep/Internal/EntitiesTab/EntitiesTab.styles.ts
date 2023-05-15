@@ -19,10 +19,6 @@ export const useEntitiesTabClassNames = makeStyles<TEntitiesTabStyles>({
         textOverflow: 'ellipsis',
         whiteSpace: 'nowrap'
     },
-    newEntityIcon: {
-        minWidth: '10px',
-        ...shorthands.margin('-16px', '0px', '0px', '2px')
-    },
     columnHeader: {
         fontWeight: '600'
     }

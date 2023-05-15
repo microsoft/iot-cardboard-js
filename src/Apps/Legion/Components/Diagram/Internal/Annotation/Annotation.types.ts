@@ -5,4 +5,4 @@ export interface IAnnotationProps {
     isNew?: boolean;
 }
 
-export type TAnnotationClassNames = 'root' | 'type' | 'text' | 'newIcon';
+export type TAnnotationClassNames = 'root' | 'type' | 'text';
