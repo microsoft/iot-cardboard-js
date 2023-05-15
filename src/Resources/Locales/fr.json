@@ -1594,7 +1594,8 @@
       "tablePlaceholder": "Sélectionner une table",
       "tableIdColumnPlaceholder": "Sélectionner le champ ID",
       "tableTypeLabel": "Type de table",
-      "tableTypePlaceholder": "Sélectionner le type de table"
+      "tableTypePlaceholder": "Sélectionner le type de table",
+      "PIDSourcePlaceholder": "Sélectionnez la source PID"
     },
     "modifyStep": {
       "diagram": "Diagramme",

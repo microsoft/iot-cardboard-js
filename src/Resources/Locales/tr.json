@@ -1594,7 +1594,8 @@
       "tablePlaceholder": "Tablo seç",
       "tableIdColumnPlaceholder": "Kimlik alanını seçin",
       "tableTypeLabel": "Tablo türü",
-      "tableTypePlaceholder": "Tablo türünü seçin"
+      "tableTypePlaceholder": "Tablo türünü seçin",
+      "PIDSourcePlaceholder": "PID kaynağını seçin"
     },
     "modifyStep": {
       "diagram": "Diyagram",

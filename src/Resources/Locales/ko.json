@@ -1594,7 +1594,8 @@
       "tablePlaceholder": "테이블 선택",
       "tableIdColumnPlaceholder": "ID 필드 선택",
       "tableTypeLabel": "테이블 유형",
-      "tableTypePlaceholder": "테이블 유형 선택"
+      "tableTypePlaceholder": "테이블 유형 선택",
+      "PIDSourcePlaceholder": "PID 소스 선택"
     },
     "modifyStep": {
       "diagram": "다이어그램",
