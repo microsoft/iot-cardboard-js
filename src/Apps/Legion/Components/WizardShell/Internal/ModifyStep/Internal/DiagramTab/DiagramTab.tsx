@@ -29,9 +29,6 @@ const DiagramTab: React.FC<IDiagramTabProps> = (_props) => {
         Array<IDropdownOption>
     >([]);
     const [selectedDiagramUrl, setSelectedDiagramUrl] = useState<string>(null);
-    const [selectedAnnotations, setSelectedAnnotations] = useState<
-        Array<TDiagramAnnotation>
-    >([]);
 
     // hooks
     const { t } = useTranslation();
@@ -49,6 +46,34 @@ const DiagramTab: React.FC<IDiagramTabProps> = (_props) => {
                     return acc;
                 }, {}),
         [entities]
+    );
+    const selectedAnnotations: Array<TDiagramAnnotation> = useMemo(
+        () =>
+            entities
+                .filter((e) => e.sourceConnectionString === selectedDiagramUrl)
+                .map((e) => ({
+                    friendlyName: e.friendlyName,
+                    type: e.type,
+                    values: e.values,
+                    isNew: e.isNew
+                }))
+                .reduce((acc: Array<TDiagramAnnotation>, e) => {
+                    // filter out duplicate annotations
+                    if (
+                        acc.findIndex(
+                            (a) =>
+                                a.friendlyName === e.friendlyName &&
+                                a.values[PID_EXTRACTED_PROPERTIES.X] ===
+                                    e.values[PID_EXTRACTED_PROPERTIES.X] &&
+                                a.values[PID_EXTRACTED_PROPERTIES.Y] ===
+                                    e.values[PID_EXTRACTED_PROPERTIES.Y]
+                        ) === -1
+                    ) {
+                        acc.push(e);
+                    }
+                    return acc;
+                }, []),
+        [entities, selectedDiagramUrl]
     );
 
     // callbacks
@@ -81,35 +106,6 @@ const DiagramTab: React.FC<IDiagramTabProps> = (_props) => {
             diagramUrls.length ? diagramUrls[diagramUrls.length - 1] : null
         );
     }, [urlToEntitiesMapping]);
-
-    useEffect(() => {
-        setSelectedAnnotations(
-            entities
-                .filter((e) => e.sourceConnectionString === selectedDiagramUrl)
-                .map((e) => ({
-                    friendlyName: e.friendlyName,
-                    type: e.type,
-                    values: e.values,
-                    isNew: e.isNew
-                }))
-                .reduce((acc: Array<TDiagramAnnotation>, e) => {
-                    // filter out duplicate annotations
-                    if (
-                        acc.findIndex(
-                            (a) =>
-                                a.friendlyName === e.friendlyName &&
-                                a.values[PID_EXTRACTED_PROPERTIES.X] ===
-                                    e.values[PID_EXTRACTED_PROPERTIES.X] &&
-                                a.values[PID_EXTRACTED_PROPERTIES.Y] ===
-                                    e.values[PID_EXTRACTED_PROPERTIES.Y]
-                        ) === -1
-                    ) {
-                        acc.push(e);
-                    }
-                    return acc;
-                }, [])
-        );
-    }, [entities, selectedDiagramUrl]);
 
     // styles
     const classNames = useClassNames();

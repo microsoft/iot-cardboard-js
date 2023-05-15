@@ -46,8 +46,8 @@ const Diagram: React.FC<IDiagramProps> = (props) => {
                 setImgHeight('100%');
                 setImgWidth('fit-content');
             } else {
-                setImgWidth('100%');
                 setImgHeight('fit-content');
+                setImgWidth('100%');
             }
 
             setAnnotationPlacements(
