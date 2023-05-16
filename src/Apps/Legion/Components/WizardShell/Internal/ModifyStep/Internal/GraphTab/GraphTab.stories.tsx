@@ -15,7 +15,7 @@ import {
 const wrapperStyle = { width: '100%', height: '600px', padding: 8 };
 
 export default {
-    title: 'Apps/Legion/GraphTab',
+    title: 'Apps/Legion/WizardShell/ModifyStep/GraphTab',
     component: GraphTab,
     decorators: [getDefaultStoryDecorator<IGraphTabProps>(wrapperStyle)]
 };

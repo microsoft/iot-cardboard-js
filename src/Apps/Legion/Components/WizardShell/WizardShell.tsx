@@ -41,11 +41,25 @@ const WizardShell: React.FC<IWizardShellProps> = (_props) => {
                 return <DataSourceStep />;
             case WizardStepNumber.Modify:
                 // TODO: Change show diagram based on type of asset selected
-                return <ModifyStep showDiagram={false} />;
+                return (
+                    <ModifyStep
+                        showDiagram={
+                            wizardNavigationContextState.currentStepProps
+                                ?.showDiagram
+                        }
+                        selectedPivotKey={
+                            wizardNavigationContextState.currentStepProps
+                                ?.selectedPivotKey
+                        }
+                    />
+                );
             case WizardStepNumber.Save:
                 return <SaveStep />;
         }
-    }, [wizardNavigationContextState.currentStep]);
+    }, [
+        wizardNavigationContextState.currentStep,
+        wizardNavigationContextState.currentStepProps
+    ]);
 
     logDebugConsole('debug', 'Render');
 

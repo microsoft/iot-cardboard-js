@@ -1,6 +1,5 @@
 import {
     IButtonStyles,
-    IDropdownOption,
     IProcessedStyleSet,
     IStackStyles,
     IStyle,
@@ -12,7 +11,6 @@ import {
     IDataManagementAdapter,
     ITableColumn
 } from '../../Adapters/Standalone/DataManagement/Models/DataManagementAdapter.types';
-import { IModel, ITwin } from '../../Models/Interfaces';
 import { IClusterPickerStyles } from '../Pickers/ClusterPicker/ClusterPicker.types';
 import { IADXAdapterTargetContext, IReactSelectOption } from '../../Models';
 
@@ -64,11 +62,6 @@ export enum TableTypes {
     Tags = 'Tags'
 }
 
-export enum SourceType {
-    Timeseries = 'Timeseries table',
-    Diagram = 'P&ID diagram'
-}
-
 export const TableColumns: Record<TableTypes, Array<ITableColumn>> = {
     Wide: [
         { columnName: ID_COLUMN_NAME, columnDataType: 'string' },
@@ -103,48 +96,5 @@ export const TableTypeOptions: IReactSelectOption[] = [
     {
         value: TableTypes.Tags,
         label: 'Tags only'
-    }
-];
-
-// Temporary types - will clear when data pusher is updated to new data patterns
-export interface IModelExtended extends IModel {
-    color: string;
-    selectedPropertyIds: Array<string>;
-}
-
-export interface ITwinExtended extends ITwin {
-    model: IModelExtended;
-    isSelected: boolean;
-}
-
-export const SourceTypeOptions: IDropdownOption[] = [
-    {
-        key: SourceType.Timeseries,
-        text: SourceType.Timeseries
-    },
-    {
-        key: SourceType.Diagram,
-        text: SourceType.Diagram
-    }
-];
-
-export enum PIDSources {
-    CoffeeRoastery = 'Coffee Roastery',
-    WasteWater = 'Waste Water'
-}
-
-export enum PIDSourceUrls {
-    CoffeeRoastery = 'https://myPIDblob.com/CoffeeRoastery',
-    WasteWater = 'https://myPIDblob.com/WasteWater'
-}
-
-export const PIDSourceOptions: IDropdownOption[] = [
-    {
-        key: PIDSources.CoffeeRoastery,
-        text: PIDSourceUrls.CoffeeRoastery
-    },
-    {
-        key: PIDSources.WasteWater,
-        text: PIDSourceUrls.WasteWater
     }
 ];

@@ -1,11 +1,7 @@
 import { createGUID } from '../../../Models/Services/Utils';
 import { ITable } from '../Adapters/Standalone/DataManagement/Models/DataManagementAdapter.types';
 import {
-    IModelExtended,
-    ITwinExtended,
-    PIDSourceUrls,
     PROPERTY_COLUMN_NAME,
-    SourceType,
     TableTypes,
     TIMESTAMP_COLUMN_NAME,
     VALUE_COLUMN_NAME
@@ -13,15 +9,18 @@ import {
 import {
     IADXConnection,
     ICookedSource,
-    IModel,
-    IModelProperty,
-    IPIDDocument,
-    ITwin
+    IPIDDocument
 } from '../Models/Interfaces';
 import { ICookProperty, ICookSource } from '../Models/Types';
 import CoffeeRoasteryPIDData from '../Adapters/__mockData__/PID/CoffeeRoastery.json';
 import WasteWaterPIDData from '../Adapters/__mockData__/PID/WasteWater.json';
 import { getColorByIdx } from './Utils';
+import { IDbEntity, IDbProperty, IDbType, Kind } from '../Models';
+import {
+    PID_EXTRACTED_PROPERTIES,
+    PIDSourceUrls,
+    SourceType
+} from '../Models/Constants';
 
 /**
  * Returns the schema type of a given table
@@ -46,7 +45,7 @@ export const getTableSchemaTypeFromTable = (table: ITable) => {
  * (2) if diagram type, it returns the extracted texts from diagram as twin ids along with other properties like x, y and width, height.
  * @param sourceType the type of the source
  * @param source the source to be cooked
- * @returns ICookedSource which includes models, properties and twins objects
+ * @returns ICookedSource which includes properties, types and entities objects
  */
 export const cookSource = (
     sourceType: SourceType,
@@ -74,7 +73,7 @@ const cookTimeSeries = (source: ICookSource): ICookedSource => {
         (c) => c.columnName === sourceToCook.twinIdColumn
     );
 
-    //trace the rows to exteact unique twin id to properties dictionary
+    //trace the rows to extract unique twin id to properties dictionary
     let twinIdToPropertiesMapping: Record<string, Array<ICookProperty>> = {};
     tableData.Rows.forEach((r) => {
         const twinId = r[idxOfTwinIdColumn];
@@ -97,12 +96,20 @@ const cookTimeSeries = (source: ICookSource): ICookedSource => {
                         // append non null property to existing property bag
                         if (
                             twinIdToPropertiesMapping[twinId].findIndex(
-                                (prop) => prop.name === newProp.columnName
+                                (prop) =>
+                                    prop.sourcePropName === newProp.columnName
                             ) === -1
                         ) {
                             twinIdToPropertiesMapping[twinId].push({
-                                name: newProp.columnName,
-                                dataType: newProp.columnDataType
+                                sourcePropName: newProp.columnName,
+                                lastKnownValue:
+                                    r[
+                                        tableData.Columns.findIndex(
+                                            (c) =>
+                                                c.columnName ===
+                                                newProp.columnName
+                                        )
+                                    ]
                             });
                         }
                     });
@@ -120,14 +127,14 @@ const cookTimeSeries = (source: ICookSource): ICookedSource => {
                         // append non null property to existing property bag
                         if (
                             twinIdToPropertiesMapping[twinId].findIndex(
-                                (prop) => prop.name === r[idxOfPropertyColumn]
+                                (prop) =>
+                                    prop.sourcePropName ===
+                                    r[idxOfPropertyColumn]
                             ) === -1
                         ) {
                             twinIdToPropertiesMapping[twinId].push({
-                                name: r[idxOfPropertyColumn],
-                                dataType: tableData.Columns.find(
-                                    (c) => c.columnName === PROPERTY_COLUMN_NAME
-                                ).columnDataType
+                                sourcePropName: r[idxOfPropertyColumn],
+                                lastKnownValue: r[idxOfValueColumn]
                             });
                         }
                     }
@@ -135,6 +142,18 @@ const cookTimeSeries = (source: ICookSource): ICookedSource => {
                 break;
 
             case TableTypes.Tags:
+                {
+                    const idxOfValueColumn = tableData.Columns.findIndex(
+                        (c) => c.columnName === VALUE_COLUMN_NAME
+                    );
+                    if (r[idxOfValueColumn] !== null) {
+                        // append non null property to existing property bag
+                        twinIdToPropertiesMapping[twinId].push({
+                            sourcePropName: '',
+                            lastKnownValue: r[idxOfValueColumn]
+                        });
+                    }
+                }
                 break;
 
             default:
@@ -142,9 +161,9 @@ const cookTimeSeries = (source: ICookSource): ICookedSource => {
         }
     });
 
-    const models: Array<IModel> = [];
-    const twins: Array<ITwin> = [];
-    const properties: Array<IModelProperty> = [];
+    const properties: Array<IDbProperty> = [];
+    const types: Array<IDbType> = [];
+    const entities: Array<IDbEntity> = [];
 
     const uniquePropertySets: Array<Array<ICookProperty>> = []; // property sets for potential models
     const propertySets = Object.values(twinIdToPropertiesMapping); // collected property sets for each twin
@@ -153,8 +172,8 @@ const cookTimeSeries = (source: ICookSource): ICookedSource => {
         let modelId;
         const modelIdx = uniquePropertySets.findIndex((existing) =>
             isSameSet(
-                existing.map((e) => e.name),
-                propertySets[idx].map((e) => e.name)
+                existing.map((e) => e.sourcePropName),
+                propertySets[idx].map((e) => e.sourcePropName)
             )
         );
         if (modelIdx === -1) {
@@ -164,16 +183,17 @@ const cookTimeSeries = (source: ICookSource): ICookedSource => {
             propertySets[idx].forEach((prop) => {
                 // trace properties and create one if not exists
                 const modelProperty = properties.find(
-                    (mP) => prop.name === mP.sourcePropName
+                    (mP) => prop.sourcePropName === mP.sourcePropName
                 );
                 if (!modelProperty) {
                     // create model properties if not exists
                     const newPropertyId = createGUID();
-                    const modelProperty: IModelProperty = {
+                    const modelProperty: IDbProperty = {
                         id: newPropertyId,
-                        name: prop.name,
-                        sourcePropName: prop.name,
-                        dataType: prop.dataType
+                        sourcePropName: prop.sourcePropName,
+                        friendlyName: prop.sourcePropName,
+                        isDeleted: false,
+                        isNew: true
                     };
                     properties.push(modelProperty);
                     modelPropertyIds.push(newPropertyId);
@@ -182,94 +202,118 @@ const cookTimeSeries = (source: ICookSource): ICookedSource => {
                 }
             });
             modelId = createGUID();
-            const model: IModel = {
+            const model: IDbType = {
                 id: modelId,
-                name: `Model-${models.length + 1}`,
-                propertyIds: modelPropertyIds
+                friendlyName: `Model-${types.length + 1}`,
+                propertyIds: modelPropertyIds,
+                color: getColorByIdx(types.length),
+                icon: 'LineChart',
+                kind: Kind.TimeSeries,
+                isNew: true,
+                isDeleted: false
             };
-            models.push(model);
+            types.push(model);
         } else {
-            modelId = models[modelIdx].id;
+            modelId = types[modelIdx].id;
         }
-        const twin: ITwin = {
-            id: twinId,
-            name: twinId,
-            modelId: modelId,
-            sourceConnectionString: `${sourceToCook.cluster}/${sourceToCook.database}/${sourceToCook.table}`
+        const twin: IDbEntity = {
+            id: createGUID(),
+            friendlyName: twinId,
+            sourceEntityId: twinId,
+            isDeleted: false,
+            isNew: true,
+            typeId: modelId,
+            sourceConnectionString: `${sourceToCook.cluster}/${sourceToCook.database}/${sourceToCook.table}`,
+            values: twinIdToPropertiesMapping[twinId].reduce((acc, curr) => {
+                acc[curr.sourcePropName] = curr.lastKnownValue;
+                return acc;
+            }, {})
         };
-        twins.push(twin);
+        entities.push(twin);
     });
 
     return {
-        models,
-        twins,
-        properties
+        properties,
+        types,
+        entities
     };
 };
 
 const cookDiagram = (source: ICookSource): ICookedSource => {
     const sourceToCook: IPIDDocument = source as IPIDDocument;
-    const properties: Array<IModelProperty> = [
+    const properties: Array<IDbProperty> = [
         {
             id: createGUID(),
-            name: 'X',
-            dataType: 'string',
-            sourcePropName: 'X'
+            friendlyName: 'X',
+            sourcePropName: 'X',
+            isDeleted: false,
+            isNew: true
         },
         {
             id: createGUID(),
-            name: 'Y',
-            dataType: 'string',
-            sourcePropName: 'Y'
+            friendlyName: 'Y',
+            sourcePropName: 'Y',
+            isDeleted: false,
+            isNew: true
         },
         {
             id: createGUID(),
-            name: 'Width',
-            dataType: 'string',
-            sourcePropName: 'Width'
+            friendlyName: 'Width',
+            sourcePropName: 'Width',
+            isDeleted: false,
+            isNew: true
         },
         {
             id: createGUID(),
-            name: 'Height',
-            dataType: 'string',
-            sourcePropName: 'Height'
+            friendlyName: 'Height',
+            sourcePropName: 'Height',
+            isDeleted: false,
+            isNew: true
         }
     ];
 
-    const models: Array<IModel> = [
+    const typeId = createGUID();
+    const types: Array<IDbType> = [
         {
-            id: createGUID(),
-            name: 'PIDModel',
+            id: typeId,
+            friendlyName: 'PIDModel',
+            kind: Kind.PID,
             propertyIds: [
                 properties[0].id,
                 properties[1].id,
                 properties[2].id,
                 properties[3].id
-            ]
+            ],
+            color: getColorByIdx(0),
+            icon: 'SplitObject',
+            isDeleted: false,
+            isNew: true
         }
     ];
 
-    const twins: Array<ITwin> = (sourceToCook.pidUrl ===
+    const entities: Array<IDbEntity> = (sourceToCook.pidUrl ===
     PIDSourceUrls.CoffeeRoastery
         ? CoffeeRoasteryPIDData
         : WasteWaterPIDData
-    ).reduce((acc, data) => {
-        // to prevent duplicate twin ids
-        if (acc?.findIndex((a) => a.id === data['Detected Text']) === -1) {
-            acc.push({
-                id: data['Detected Text'],
-                name: data['Detected Text'],
-                modelId: models[0].id,
-                sourceConnectionString: sourceToCook.pidUrl
-            });
+    ).map((item) => ({
+        id: createGUID(),
+        friendlyName: item[PID_EXTRACTED_PROPERTIES.DetectedText],
+        sourceEntityId: item[PID_EXTRACTED_PROPERTIES.DetectedText],
+        typeId: types[0].id,
+        sourceConnectionString: sourceToCook.pidUrl,
+        isDeleted: false,
+        isNew: true,
+        values: {
+            X: item[PID_EXTRACTED_PROPERTIES.X],
+            Y: item[PID_EXTRACTED_PROPERTIES.Y],
+            Confidence: item[PID_EXTRACTED_PROPERTIES.Confidence]
         }
-        return acc;
-    }, []);
+    }));
 
     return {
-        models,
-        twins,
-        properties
+        properties,
+        types,
+        entities
     };
 };
 
@@ -281,31 +325,6 @@ const cookDiagram = (source: ICookSource): ICookedSource => {
 export const isSameSet = (array1: Array<string>, array2: Array<string>) =>
     array1.length === array2.length &&
     array1.every((e1) => array2.includes(e1));
-
-export const getViewModelsFromCookedAssets = (
-    models: Array<IModel>
-): Array<IModelExtended> => {
-    const viewModels: Array<IModelExtended> = models.map((m, idx) => ({
-        id: m.id,
-        name: m.name,
-        color: getColorByIdx(idx),
-        propertyIds: m.propertyIds,
-        selectedPropertyIds: m.propertyIds
-    }));
-    return viewModels;
-};
-
-export const getViewTwinsFromCookedAssets = (
-    twins: Array<ITwin>,
-    viewModels: Array<IModelExtended>
-): Array<ITwinExtended> => {
-    const viewTwins: Array<ITwinExtended> = twins.map((t) => ({
-        ...t,
-        model: viewModels.find((vM) => vM.id === t.modelId),
-        isSelected: true
-    }));
-    return viewTwins;
-};
 
 export const getMockData = (
     selectedTableType: TableTypes

@@ -1,7 +1,7 @@
 import React from 'react';
 import { ComponentStory } from '@storybook/react';
 import ModifyStep from './ModifyStep';
-import { IModifyStepProps } from './ModifyStep.types';
+import { IModifyStepProps, ModifyPivotKeys } from './ModifyStep.types';
 import { getDefaultStoryDecorator } from '../../../../../../Models/Services/StoryUtilities';
 import { WizardNavigationContextProvider } from '../../../../Contexts/WizardNavigationContext/WizardNavigationContext';
 import { WizardDataContextProvider } from '../../../../Contexts/WizardDataContext/WizardDataContext';
@@ -10,7 +10,7 @@ import {
     WIZARD_NAVIGATION_MOCK_DATA
 } from '../../WizardShellMockData';
 
-const wrapperStyle = { width: '100%', height: '600px', padding: 8 };
+const wrapperStyle = { width: '100%', height: '800px', padding: 8 };
 
 export default {
     title: 'Apps/Legion/WizardShell/ModifyStep',
@@ -36,3 +36,9 @@ const Template: ModifyStepStory = (args) => {
 
 export const Base = Template.bind({}) as ModifyStepStory;
 Base.args = {} as IModifyStepProps;
+
+export const WithDiagram = Template.bind({}) as ModifyStepStory;
+WithDiagram.args = {
+    showDiagram: true,
+    selectedPivotKey: ModifyPivotKeys.Diagram
+} as IModifyStepProps;

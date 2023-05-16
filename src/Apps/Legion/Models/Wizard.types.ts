@@ -32,7 +32,7 @@ interface IBaseEntity extends IBase {
      * a property bag of the values that correspond to the properties on the `Type`.
      * Note: the names of the properties here should match the names of the properties on the `Type`.
      */
-    values: Record<string, string>;
+    values: Record<string, string | number>;
 }
 /** The database representation of an item in the graph */
 export interface IDbEntity extends IBaseEntity {

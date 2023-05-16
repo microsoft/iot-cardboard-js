@@ -32,8 +32,13 @@ export const NavigationContextReducer: (
             draft.steps = action.payload.steps;
             break;
         case WizardNavigationContextActionType.NAVIGATE_TO:
-            draft.currentStep = action.payload.stepNumber;
+            {
+                const { stepNumber, ...rest } = action.payload;
+                draft.currentStep = stepNumber;
+                draft.currentStepProps = rest;
+            }
             break;
+
         case WizardNavigationContextActionType.SET_PRIMARY_ACTION:
             draft.primaryAction = action.payload.buttonProps;
             break;

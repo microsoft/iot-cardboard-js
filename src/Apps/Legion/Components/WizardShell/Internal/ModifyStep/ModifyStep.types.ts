@@ -1,6 +1,7 @@
 import { IStyle } from '@fluentui/react';
 
 export interface IModifyStepProps {
+    selectedPivotKey?: ModifyPivotKeys;
     showDiagram: boolean;
 }
 

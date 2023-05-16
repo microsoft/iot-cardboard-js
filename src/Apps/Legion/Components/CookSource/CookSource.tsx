@@ -1,15 +1,14 @@
 import React, { FormEvent, useCallback, useEffect, useState } from 'react';
 import { getDebugLogger } from '../../../../Models/Services/Utils';
-import { ICookSourceProps } from './CookSource.types';
+import {
+    ICookSourceProps,
+    PIDSourceOptions,
+    SourceTypeOptions
+} from './CookSource.types';
 import { getStyles } from './CookSource.styles';
 import { Dropdown, IDropdownOption, Stack } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
-import {
-    PIDSourceOptions,
-    SourceType,
-    SourceTypeOptions,
-    TIMESTAMP_COLUMN_NAME
-} from '../DataPusher/DataPusher.types';
+import { TIMESTAMP_COLUMN_NAME } from '../DataPusher/DataPusher.types';
 import ClusterPicker from '../Pickers/ClusterPicker/ClusterPicker';
 import DatabasePicker from '../Pickers/DatabasePicker/DatabasePicker';
 import TablePicker from '../Pickers/TablePicker/TablePicker';
@@ -29,6 +28,7 @@ import produce from 'immer';
 import { WritableDraft } from 'immer/dist/internal';
 import { getTableSchemaTypeFromTable } from '../../Services/DataPusherUtils';
 import { AppDataContext } from '../../Contexts/AppDataContext/AppDataContext';
+import { SourceType } from '../../Models/Constants';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('CookSource', debugLogging);

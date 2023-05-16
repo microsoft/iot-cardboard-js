@@ -1,5 +1,6 @@
 import React from 'react';
 import { IStepperWizardStep } from '../../../../Components/StepperWizard/StepperWizard.types';
+import { ModifyPivotKeys } from '../../Components/WizardShell/Internal/ModifyStep/ModifyStep.types';
 
 /** mapping of step to index for external components to deep link to the right step */
 export enum WizardStepNumber {
@@ -21,8 +22,19 @@ export interface IWizardNavigationContext {
     wizardNavigationContextDispatch: React.Dispatch<WizardNavigationContextAction>;
 }
 
+// Additional properties to set the initial values for the current step in navigation
+export type NavigateToPayload = {
+    stepNumber: WizardStepNumber;
+};
+export type NavigateToModifyPayload = {
+    stepNumber: WizardStepNumber.Modify;
+    showDiagram: boolean;
+    selectedPivotKey: ModifyPivotKeys;
+};
+
 export interface IWizardNavigationContextState {
     currentStep: number;
+    currentStepProps?: Record<string, any>;
     steps: Array<IStepperWizardStep>;
     primaryAction?: IWizardAction;
     secondaryActions?: IWizardAction[];
@@ -44,9 +56,7 @@ export type WizardNavigationContextAction =
     // General setters
     | {
           type: WizardNavigationContextActionType.NAVIGATE_TO;
-          payload: {
-              stepNumber: number;
-          };
+          payload: NavigateToPayload | NavigateToModifyPayload;
       }
     | {
           type: WizardNavigationContextActionType.SET_STEPS;

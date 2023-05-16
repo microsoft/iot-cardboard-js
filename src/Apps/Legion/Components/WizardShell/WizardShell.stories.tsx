@@ -12,7 +12,7 @@ import { WizardDataContextProvider } from '../../Contexts/WizardDataContext/Wiza
 import { AppDataContextProvider } from '../../Contexts/AppDataContext/AppDataContext';
 import { GET_MOCK_APP_DATA_CONTEXT_STATE } from '../../Contexts/AppDataContext/AppDataContext.mock';
 
-const wrapperStyle = { width: '100%', height: '600px' };
+const wrapperStyle = { width: '100%', height: '800px' };
 
 export default {
     title: 'Apps/Legion/WizardShell',

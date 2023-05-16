@@ -1,6 +1,6 @@
 [
     {
-        "PID Filename": "wastewater.jpg",
+        "PID Filename": "WasteWater.jpg",
         "Detected Text": "CITY WATER",
         "X": 1530,
         "Y": 34,
@@ -9,7 +9,7 @@
         "Confidence": 0.991
     },
     {
-        "PID Filename": "wastewater.jpg",
+        "PID Filename": "WasteWater.jpg",
         "Detected Text": "1/2\" ID",
         "X": 1013,
         "Y": 52,
@@ -18,7 +18,7 @@
         "Confidence": 0.995
     },
     {
-        "PID Filename": "wastewater.jpg",
+        "PID Filename": "WasteWater.jpg",
         "Detected Text": "TUBING",
         "X": 1018,
         "Y": 77,
@@ -27,7 +27,7 @@
         "Confidence": 0.994
     },
     {
-        "PID Filename": "wastewater.jpg",
+        "PID Filename": "WasteWater.jpg",
         "Detected Text": "LC13",
         "X": 857,
         "Y": 89,
@@ -36,7 +36,7 @@
         "Confidence": 0.988
     },
     {
-        "PID Filename": "wastewater.jpg",
+        "PID Filename": "WasteWater.jpg",
         "Detected Text": "M13",
         "X": 936,
         "Y": 122,
@@ -45,7 +45,7 @@
         "Confidence": 0.993
     },
     {
-        "PID Filename": "wastewater.jpg",
+        "PID Filename": "WasteWater.jpg",
         "Detected Text": "__ OCP13",
         "X": 993,
         "Y": 130,
@@ -54,7 +54,7 @@
         "Confidence": 0.001
     },
     {
-        "PID Filename": "wastewater.jpg",
+        "PID Filename": "WasteWater.jpg",
         "Detected Text": "ILC11",
         "X": 1395,
         "Y": 68,
@@ -63,7 +63,7 @@
         "Confidence": 0.757
     },
     {
-        "PID Filename": "wastewater.jpg",
+        "PID Filename": "WasteWater.jpg",
         "Detected Text": "ROTO",
         "X": 1488,
         "Y": 69,
@@ -72,7 +72,7 @@
         "Confidence": 0.988
     },
     {
-        "PID Filename": "wastewater.jpg",
+        "PID Filename": "WasteWater.jpg",
         "Detected Text": "METER",
         "X": 1481,
         "Y": 92,
@@ -81,7 +81,7 @@
         "Confidence": 0.997
     },
     {
-        "PID Filename": "wastewater.jpg",
+        "PID Filename": "WasteWater.jpg",
         "Detected Text": "M11",
         "X": 1354,
         "Y": 118,
@@ -90,7 +90,7 @@
         "Confidence": 0.997
     },
     {
-        "PID Filename": "wastewater.jpg",
+        "PID Filename": "WasteWater.jpg",
         "Detected Text": "LC14",
         "X": 1954,
         "Y": 68,
@@ -99,7 +99,7 @@
         "Confidence": 0.988
     },
     {
-        "PID Filename": "wastewater.jpg",
+        "PID Filename": "WasteWater.jpg",
         "Detected Text": "CITY WATER",
         "X": 2085,
         "Y": 34,
@@ -108,7 +108,7 @@
         "Confidence": 0.991
     },
     {
-        "PID Filename": "wastewater.jpg",
+        "PID Filename": "WasteWater.jpg",
         "Detected Text": "1/2\"",
         "X": 2035,
         "Y": 59,
@@ -117,7 +117,7 @@
         "Confidence": 0.986
     },
     {
-        "PID Filename": "wastewater.jpg",
+        "PID Filename": "WasteWater.jpg",
         "Detected Text": "1/2\" ID",
         "X": 1788,
         "Y": 77,
@@ -126,7 +126,7 @@
         "Confidence": 0.958
     },
     {
-        "PID Filename": "wastewater.jpg",
+        "PID Filename": "WasteWater.jpg",
         "Detected Text": "TUBING",
         "X": 1793,
         "Y": 103,
@@ -135,7 +135,7 @@
         "Confidence": 0.993
     },
     {
-        "PID Filename": "wastewater.jpg",
+        "PID Filename": "WasteWater.jpg",
         "Detected Text": "M14",
         "X": 1915,
         "Y": 124,
@@ -144,7 +144,7 @@
         "Confidence": 0.997
     },
     {
-        "PID Filename": "wastewater.jpg",
+        "PID Filename": "WasteWater.jpg",
         "Detected Text": "CP14020",
         "X": 1806,
         "Y": 158,
@@ -153,7 +153,7 @@
         "Confidence": 0.3
     },
     {
-        "PID Filename": "wastewater.jpg",
+        "PID Filename": "WasteWater.jpg",
         "Detected Text": "CP11",
         "X": 1649,
         "Y": 198,
@@ -162,7 +162,7 @@
         "Confidence": 0.98
     },
     {
-        "PID Filename": "wastewater.jpg",
+        "PID Filename": "WasteWater.jpg",
         "Detected Text": "3/4\"",
         "X": 1512,
         "Y": 241,
@@ -171,7 +171,7 @@
         "Confidence": 0.861
     },
     {
-        "PID Filename": "wastewater.jpg",
+        "PID Filename": "WasteWater.jpg",
         "Detected Text": "A",
         "X": 988,
         "Y": 278,
@@ -180,7 +180,7 @@
         "Confidence": 0.884
     },
     {
-        "PID Filename": "wastewater.jpg",
+        "PID Filename": "WasteWater.jpg",
         "Detected Text": "DRY CHEM",
         "X": 1175,
         "Y": 283,
@@ -189,7 +189,7 @@
         "Confidence": 0.997
     },
     {
-        "PID Filename": "wastewater.jpg",
+        "PID Filename": "WasteWater.jpg",
         "Detected Text": "FEED SYSTEM",
         "X": 1160,
         "Y": 306,
@@ -198,7 +198,7 @@
         "Confidence": 0.991
     },
     {
-        "PID Filename": "wastewater.jpg",
+        "PID Filename": "WasteWater.jpg",
         "Detected Text": "M7",
         "X": 742,
         "Y": 375,
@@ -207,7 +207,7 @@
         "Confidence": 0.96
     },
     {
-        "PID Filename": "wastewater.jpg",
+        "PID Filename": "WasteWater.jpg",
         "Detected Text": "7",
         "X": 651,
         "Y": 397,
@@ -216,7 +216,7 @@
         "Confidence": 0.985
     },
     {
-        "PID Filename": "wastewater.jpg",
+        "PID Filename": "WasteWater.jpg",
         "Detected Text": "LC7",
         "X": 843,
         "Y": 399,
@@ -225,7 +225,7 @@
         "Confidence": 0.997
     },
     {
-        "PID Filename": "wastewater.jpg",
+        "PID Filename": "WasteWater.jpg",
         "Detected Text": "ALUMINUM",
         "X": 895,
         "Y": 309,
@@ -234,7 +234,7 @@
         "Confidence": 0.993
     },
     {
-        "PID Filename": "wastewater.jpg",
+        "PID Filename": "WasteWater.jpg",
         "Detected Text": "SULFATE",
         "X": 901,
         "Y": 332,
@@ -243,7 +243,7 @@
         "Confidence": 0.993
     },
     {
-        "PID Filename": "wastewater.jpg",
+        "PID Filename": "WasteWater.jpg",
         "Detected Text": "TANK T13",
         "X": 896,
         "Y": 356,
@@ -252,7 +252,7 @@
         "Confidence": 0.996
     },
     {
-        "PID Filename": "wastewater.jpg",
+        "PID Filename": "WasteWater.jpg",
         "Detected Text": "LIME SLURRY",
         "X": 1329,
         "Y": 281,
@@ -261,7 +261,7 @@
         "Confidence": 0.986
     },
     {
-        "PID Filename": "wastewater.jpg",
+        "PID Filename": "WasteWater.jpg",
         "Detected Text": "TANK T11",
         "X": 1357,
         "Y": 305,
@@ -270,7 +270,7 @@
         "Confidence": 0.988
     },
     {
-        "PID Filename": "wastewater.jpg",
+        "PID Filename": "WasteWater.jpg",
         "Detected Text": "1/2\"",
         "X": 1354,
         "Y": 368,
@@ -279,7 +279,7 @@
         "Confidence": 0.979
     },
     {
-        "PID Filename": "wastewater.jpg",
+        "PID Filename": "WasteWater.jpg",
         "Detected Text": "EOV11 0%",
         "X": 1438,
         "Y": 382,
@@ -288,7 +288,7 @@
         "Confidence": 0.993
     },
     {
-        "PID Filename": "wastewater.jpg",
+        "PID Filename": "WasteWater.jpg",
         "Detected Text": "PH9",
         "X": 1420,
         "Y": 457,
@@ -297,7 +297,7 @@
         "Confidence": 0.997
     },
     {
-        "PID Filename": "wastewater.jpg",
+        "PID Filename": "WasteWater.jpg",
         "Detected Text": "M8",
         "X": 1348,
         "Y": 493,
@@ -306,7 +306,7 @@
         "Confidence": 0.996
     },
     {
-        "PID Filename": "wastewater.jpg",
+        "PID Filename": "WasteWater.jpg",
         "Detected Text": "M9",
         "X": 1472,
         "Y": 492,
@@ -315,7 +315,7 @@
         "Confidence": 0.992
     },
     {
-        "PID Filename": "wastewater.jpg",
+        "PID Filename": "WasteWater.jpg",
         "Detected Text": "--",
         "X": 678,
         "Y": 481,
@@ -324,7 +324,7 @@
         "Confidence": 0.588
     },
     {
-        "PID Filename": "wastewater.jpg",
+        "PID Filename": "WasteWater.jpg",
         "Detected Text": "3Âª",
         "X": 1276,
         "Y": 540,
@@ -333,7 +333,7 @@
         "Confidence": 0.081
     },
     {
-        "PID Filename": "wastewater.jpg",
+        "PID Filename": "WasteWater.jpg",
         "Detected Text": "ILCP",
         "X": 136,
         "Y": 707,
@@ -342,7 +342,7 @@
         "Confidence": 0.467
     },
     {
-        "PID Filename": "wastewater.jpg",
+        "PID Filename": "WasteWater.jpg",
         "Detected Text": "P6",
         "X": 424,
         "Y": 709,
@@ -351,7 +351,7 @@
         "Confidence": 0.997
     },
     {
-        "PID Filename": "wastewater.jpg",
+        "PID Filename": "WasteWater.jpg",
         "Detected Text": "1-1/2\"",
         "X": 560,
         "Y": 701,
@@ -360,7 +360,7 @@
         "Confidence": 0.929
     },
     {
-        "PID Filename": "wastewater.jpg",
+        "PID Filename": "WasteWater.jpg",
         "Detected Text": "MP",
         "X": 188,
         "Y": 737,
@@ -369,7 +369,7 @@
         "Confidence": 0.997
     },
     {
-        "PID Filename": "wastewater.jpg",
+        "PID Filename": "WasteWater.jpg",
         "Detected Text": "PIT",
         "X": 195,
         "Y": 948,
@@ -378,7 +378,7 @@
         "Confidence": 0.993
     },
     {
-        "PID Filename": "wastewater.jpg",
+        "PID Filename": "WasteWater.jpg",
         "Detected Text": "2\"",
         "X": 304,
         "Y": 731,
@@ -387,7 +387,7 @@
         "Confidence": 0.32
     },
     {
-        "PID Filename": "wastewater.jpg",
+        "PID Filename": "WasteWater.jpg",
         "Detected Text": "1",
         "X": 266,
         "Y": 784,
@@ -396,7 +396,7 @@
         "Confidence": 0.477
     },
     {
-        "PID Filename": "wastewater.jpg",
+        "PID Filename": "WasteWater.jpg",
         "Detected Text": "DE",
         "X": 420,
         "Y": 752,
@@ -405,7 +405,7 @@
         "Confidence": 0.832
     },
     {
-        "PID Filename": "wastewater.jpg",
+        "PID Filename": "WasteWater.jpg",
         "Detected Text": "EQUALIZATION",
         "X": 679,
         "Y": 792,
@@ -414,7 +414,7 @@
         "Confidence": 0.991
     },
     {
-        "PID Filename": "wastewater.jpg",
+        "PID Filename": "WasteWater.jpg",
         "Detected Text": "TANK T-7",
         "X": 699,
         "Y": 816,
@@ -423,7 +423,7 @@
         "Confidence": 0.988
     },
     {
-        "PID Filename": "wastewater.jpg",
+        "PID Filename": "WasteWater.jpg",
         "Detected Text": "1-1/2\"",
         "X": 801,
         "Y": 979,
@@ -432,7 +432,7 @@
         "Confidence": 0.638
     },
     {
-        "PID Filename": "wastewater.jpg",
+        "PID Filename": "WasteWater.jpg",
         "Detected Text": "2\"",
         "X": 935,
         "Y": 734,
@@ -441,7 +441,7 @@
         "Confidence": 0.932
     },
     {
-        "PID Filename": "wastewater.jpg",
+        "PID Filename": "WasteWater.jpg",
         "Detected Text": "DE",
         "X": 897,
         "Y": 753,
@@ -450,7 +450,7 @@
         "Confidence": 0.42
     },
     {
-        "PID Filename": "wastewater.jpg",
+        "PID Filename": "WasteWater.jpg",
         "Detected Text": "1-1/2\"",
         "X": 1106,
         "Y": 709,
@@ -459,7 +459,7 @@
         "Confidence": 0.991
     },
     {
-        "PID Filename": "wastewater.jpg",
+        "PID Filename": "WasteWater.jpg",
         "Detected Text": "P7",
         "X": 1006,
         "Y": 796,
@@ -468,7 +468,7 @@
         "Confidence": 0.94
     },
     {
-        "PID Filename": "wastewater.jpg",
+        "PID Filename": "WasteWater.jpg",
         "Detected Text": "0",
         "X": 1351,
         "Y": 696,
@@ -477,7 +477,7 @@
         "Confidence": 0.549
     },
     {
-        "PID Filename": "wastewater.jpg",
+        "PID Filename": "WasteWater.jpg",
         "Detected Text": "COAGULANT pH ADJUST",
         "X": 1287,
         "Y": 774,
@@ -486,7 +486,7 @@
         "Confidence": 0.993
     },
     {
-        "PID Filename": "wastewater.jpg",
+        "PID Filename": "WasteWater.jpg",
         "Detected Text": "TANK T8",
         "X": 1306,
         "Y": 800,
@@ -495,7 +495,7 @@
         "Confidence": 0.987
     },
     {
-        "PID Filename": "wastewater.jpg",
+        "PID Filename": "WasteWater.jpg",
         "Detected Text": "TANK T9",
         "X": 1443,
         "Y": 800,
@@ -504,7 +504,7 @@
         "Confidence": 0.988
     },
     {
-        "PID Filename": "wastewater.jpg",
+        "PID Filename": "WasteWater.jpg",
         "Detected Text": "LC16",
         "X": 1228,
         "Y": 1009,
@@ -513,7 +513,7 @@
         "Confidence": 0.993
     },
     {
-        "PID Filename": "wastewater.jpg",
+        "PID Filename": "WasteWater.jpg",
         "Detected Text": "-",
         "X": 63,
         "Y": 1071,
@@ -522,7 +522,7 @@
         "Confidence": 0.97
     },
     {
-        "PID Filename": "wastewater.jpg",
+        "PID Filename": "WasteWater.jpg",
         "Detected Text": "1-1/2\"",
         "X": 80,
         "Y": 1096,
@@ -531,7 +531,7 @@
         "Confidence": 0.676
     },
     {
-        "PID Filename": "wastewater.jpg",
+        "PID Filename": "WasteWater.jpg",
         "Detected Text": "PDP",
         "X": 297,
         "Y": 1100,
@@ -540,7 +540,7 @@
         "Confidence": 0.993
     },
     {
-        "PID Filename": "wastewater.jpg",
+        "PID Filename": "WasteWater.jpg",
         "Detected Text": "pHDP",
         "X": 546,
         "Y": 1111,
@@ -549,7 +549,7 @@
         "Confidence": 0.689
     },
     {
-        "PID Filename": "wastewater.jpg",
+        "PID Filename": "WasteWater.jpg",
         "Detected Text": "2\"",
         "X": 415,
         "Y": 1123,
@@ -558,7 +558,7 @@
         "Confidence": 0.93
     },
     {
-        "PID Filename": "wastewater.jpg",
+        "PID Filename": "WasteWater.jpg",
         "Detected Text": "LCDPI",
         "X": 467,
         "Y": 1205,
@@ -567,7 +567,7 @@
         "Confidence": 0.658
     },
     {
-        "PID Filename": "wastewater.jpg",
+        "PID Filename": "WasteWater.jpg",
         "Detected Text": "1",
         "X": 716,
         "Y": 1079,
@@ -576,7 +576,7 @@
         "Confidence": 0.831
     },
     {
-        "PID Filename": "wastewater.jpg",
+        "PID Filename": "WasteWater.jpg",
         "Detected Text": "F",
         "X": 711,
         "Y": 1107,
@@ -585,7 +585,7 @@
         "Confidence": 0.384
     },
     {
-        "PID Filename": "wastewater.jpg",
+        "PID Filename": "WasteWater.jpg",
         "Detected Text": "1-",
         "X": 653,
         "Y": 1122,
@@ -594,7 +594,7 @@
         "Confidence": 0.854
     },
     {
-        "PID Filename": "wastewater.jpg",
+        "PID Filename": "WasteWater.jpg",
         "Detected Text": "I",
         "X": 644,
         "Y": 1169,
@@ -603,7 +603,7 @@
         "Confidence": 0.396
     },
     {
-        "PID Filename": "wastewater.jpg",
+        "PID Filename": "WasteWater.jpg",
         "Detected Text": "FILTER PRESS",
         "X": 746,
         "Y": 1193,
@@ -612,7 +612,7 @@
         "Confidence": 0.992
     },
     {
-        "PID Filename": "wastewater.jpg",
+        "PID Filename": "WasteWater.jpg",
         "Detected Text": "TO CITY",
         "X": 230,
         "Y": 1280,
@@ -621,7 +621,7 @@
         "Confidence": 0.997
     },
     {
-        "PID Filename": "wastewater.jpg",
+        "PID Filename": "WasteWater.jpg",
         "Detected Text": "SEWER",
         "X": 234,
         "Y": 1306,
@@ -630,7 +630,7 @@
         "Confidence": 0.993
     },
     {
-        "PID Filename": "wastewater.jpg",
+        "PID Filename": "WasteWater.jpg",
         "Detected Text": "DFM",
         "X": 366,
         "Y": 1246,
@@ -639,7 +639,7 @@
         "Confidence": 0.993
     },
     {
-        "PID Filename": "wastewater.jpg",
+        "PID Filename": "WasteWater.jpg",
         "Detected Text": "1-1/2\",",
         "X": 408,
         "Y": 1277,
@@ -648,7 +648,7 @@
         "Confidence": 0.768
     },
     {
-        "PID Filename": "wastewater.jpg",
+        "PID Filename": "WasteWater.jpg",
         "Detected Text": "=========",
         "X": 495,
         "Y": 1286,
@@ -657,7 +657,7 @@
         "Confidence": 0.144
     },
     {
-        "PID Filename": "wastewater.jpg",
+        "PID Filename": "WasteWater.jpg",
         "Detected Text": "4",
         "X": 643,
         "Y": 1229,
@@ -666,7 +666,7 @@
         "Confidence": 0.361
     },
     {
-        "PID Filename": "wastewater.jpg",
+        "PID Filename": "WasteWater.jpg",
         "Detected Text": "CHART",
         "X": 687,
         "Y": 1309,
@@ -675,7 +675,7 @@
         "Confidence": 0.995
     },
     {
-        "PID Filename": "wastewater.jpg",
+        "PID Filename": "WasteWater.jpg",
         "Detected Text": "RECORDER",
         "X": 669,
         "Y": 1334,
@@ -684,7 +684,7 @@
         "Confidence": 0.994
     },
     {
-        "PID Filename": "wastewater.jpg",
+        "PID Filename": "WasteWater.jpg",
         "Detected Text": "---",
         "X": 655,
         "Y": 1284,
@@ -693,7 +693,7 @@
         "Confidence": 0.849
     },
     {
-        "PID Filename": "wastewater.jpg",
+        "PID Filename": "WasteWater.jpg",
         "Detected Text": "-",
         "X": 653,
         "Y": 1375,
@@ -702,7 +702,7 @@
         "Confidence": 0.685
     },
     {
-        "PID Filename": "wastewater.jpg",
+        "PID Filename": "WasteWater.jpg",
         "Detected Text": "--",
         "X": 654,
         "Y": 1399,
@@ -711,7 +711,7 @@
         "Confidence": 0.966
     },
     {
-        "PID Filename": "wastewater.jpg",
+        "PID Filename": "WasteWater.jpg",
         "Detected Text": "DISCHARGE",
         "X": 496,
         "Y": 1449,
@@ -720,7 +720,7 @@
         "Confidence": 0.991
     },
     {
-        "PID Filename": "wastewater.jpg",
+        "PID Filename": "WasteWater.jpg",
         "Detected Text": "PIT",
         "X": 536,
         "Y": 1473,
@@ -729,7 +729,7 @@
         "Confidence": 0.957
     },
     {
-        "PID Filename": "wastewater.jpg",
+        "PID Filename": "WasteWater.jpg",
         "Detected Text": "2\"",
         "X": 1070,
         "Y": 1121,
@@ -738,7 +738,7 @@
         "Confidence": 0.954
     },
     {
-        "PID Filename": "wastewater.jpg",
+        "PID Filename": "WasteWater.jpg",
         "Detected Text": "5-Jul",
         "X": 1180,
         "Y": 1269,
@@ -747,7 +747,7 @@
         "Confidence": 0.403
     },
     {
-        "PID Filename": "wastewater.jpg",
+        "PID Filename": "WasteWater.jpg",
         "Detected Text": "P16",
         "X": 1153,
         "Y": 1334,
@@ -756,7 +756,7 @@
         "Confidence": 0.998
     },
     {
-        "PID Filename": "wastewater.jpg",
+        "PID Filename": "WasteWater.jpg",
         "Detected Text": "SLUDGE",
         "X": 1396,
         "Y": 1124,
@@ -765,7 +765,7 @@
         "Confidence": 0.997
     },
     {
-        "PID Filename": "wastewater.jpg",
+        "PID Filename": "WasteWater.jpg",
         "Detected Text": "HOLDING",
         "X": 1393,
         "Y": 1148,
@@ -774,7 +774,7 @@
         "Confidence": 0.993
     },
     {
-        "PID Filename": "wastewater.jpg",
+        "PID Filename": "WasteWater.jpg",
         "Detected Text": "TANK T16",
         "X": 1385,
         "Y": 1172,
@@ -783,7 +783,7 @@
         "Confidence": 0.988
     },
     {
-        "PID Filename": "wastewater.jpg",
+        "PID Filename": "WasteWater.jpg",
         "Detected Text": "3'",
         "X": 1245,
         "Y": 1245,
@@ -792,7 +792,7 @@
         "Confidence": 0.712
     },
     {
-        "PID Filename": "wastewater.jpg",
+        "PID Filename": "WasteWater.jpg",
         "Detected Text": "1-1/2\"",
         "X": 1396,
         "Y": 1367,
@@ -801,7 +801,7 @@
         "Confidence": 0.993
     },
     {
-        "PID Filename": "wastewater.jpg",
+        "PID Filename": "WasteWater.jpg",
         "Detected Text": "EOV15 0%",
         "X": 1435,
         "Y": 1427,
@@ -810,7 +810,7 @@
         "Confidence": 0.98
     },
     {
-        "PID Filename": "wastewater.jpg",
+        "PID Filename": "WasteWater.jpg",
         "Detected Text": "/2\"",
         "X": 1666,
         "Y": 251,
@@ -819,7 +819,7 @@
         "Confidence": 0.951
     },
     {
-        "PID Filename": "wastewater.jpg",
+        "PID Filename": "WasteWater.jpg",
         "Detected Text": "ANIONIC",
         "X": 1906,
         "Y": 281,
@@ -828,7 +828,7 @@
         "Confidence": 0.995
     },
     {
-        "PID Filename": "wastewater.jpg",
+        "PID Filename": "WasteWater.jpg",
         "Detected Text": "TANK T-14",
         "X": 1884,
         "Y": 305,
@@ -837,7 +837,7 @@
         "Confidence": 0.988
     },
     {
-        "PID Filename": "wastewater.jpg",
+        "PID Filename": "WasteWater.jpg",
         "Detected Text": "M10",
         "X": 1591,
         "Y": 492,
@@ -846,7 +846,7 @@
         "Confidence": 0.991
     },
     {
-        "PID Filename": "wastewater.jpg",
+        "PID Filename": "WasteWater.jpg",
         "Detected Text": "T12",
         "X": 1902,
         "Y": 496,
@@ -855,7 +855,7 @@
         "Confidence": 0.997
     },
     {
-        "PID Filename": "wastewater.jpg",
+        "PID Filename": "WasteWater.jpg",
         "Detected Text": "EPS CLARIFIER",
         "X": 1840,
         "Y": 520,
@@ -864,7 +864,7 @@
         "Confidence": 0.997
     },
     {
-        "PID Filename": "wastewater.jpg",
+        "PID Filename": "WasteWater.jpg",
         "Detected Text": "3\"",
         "X": 1744,
         "Y": 571,
@@ -873,7 +873,7 @@
         "Confidence": 0.661
     },
     {
-        "PID Filename": "wastewater.jpg",
+        "PID Filename": "WasteWater.jpg",
         "Detected Text": "3\"",
         "X": 2170,
         "Y": 572,
@@ -882,7 +882,7 @@
         "Confidence": 0.677
     },
     {
-        "PID Filename": "wastewater.jpg",
+        "PID Filename": "WasteWater.jpg",
         "Detected Text": "FLOC",
         "X": 1600,
         "Y": 775,
@@ -891,7 +891,7 @@
         "Confidence": 0.985
     },
     {
-        "PID Filename": "wastewater.jpg",
+        "PID Filename": "WasteWater.jpg",
         "Detected Text": "TANK T10",
         "X": 1574,
         "Y": 800,
@@ -900,7 +900,7 @@
         "Confidence": 0.993
     },
     {
-        "PID Filename": "wastewater.jpg",
+        "PID Filename": "WasteWater.jpg",
         "Detected Text": "P12A",
         "X": 1789,
         "Y": 808,
@@ -909,7 +909,7 @@
         "Confidence": 0.986
     },
     {
-        "PID Filename": "wastewater.jpg",
+        "PID Filename": "WasteWater.jpg",
         "Detected Text": "$",
         "X": 1820,
         "Y": 838,
@@ -918,7 +918,7 @@
         "Confidence": 0.985
     },
     {
-        "PID Filename": "wastewater.jpg",
+        "PID Filename": "WasteWater.jpg",
         "Detected Text": "2\"",
         "X": 1892,
         "Y": 783,
@@ -927,7 +927,7 @@
         "Confidence": 0.961
     },
     {
-        "PID Filename": "wastewater.jpg",
+        "PID Filename": "WasteWater.jpg",
         "Detected Text": "P12B",
         "X": 1960,
         "Y": 812,
@@ -936,7 +936,7 @@
         "Confidence": 0.991
     },
     {
-        "PID Filename": "wastewater.jpg",
+        "PID Filename": "WasteWater.jpg",
         "Detected Text": "1-1/2\"",
         "X": 1654,
         "Y": 902,
@@ -945,7 +945,7 @@
         "Confidence": 0.655
     },
     {
-        "PID Filename": "wastewater.jpg",
+        "PID Filename": "WasteWater.jpg",
         "Detected Text": "Z",
         "X": 1927,
         "Y": 903,
@@ -954,7 +954,7 @@
         "Confidence": 0.903
     },
     {
-        "PID Filename": "wastewater.jpg",
+        "PID Filename": "WasteWater.jpg",
         "Detected Text": "LC15",
         "X": 1699,
         "Y": 954,
@@ -963,7 +963,7 @@
         "Confidence": 0.983
     },
     {
-        "PID Filename": "wastewater.jpg",
+        "PID Filename": "WasteWater.jpg",
         "Detected Text": "pH15",
         "X": 1801,
         "Y": 958,
@@ -972,7 +972,7 @@
         "Confidence": 0.98
     },
     {
-        "PID Filename": "wastewater.jpg",
+        "PID Filename": "WasteWater.jpg",
         "Detected Text": "--",
         "X": 1838,
         "Y": 1099,
@@ -981,7 +981,7 @@
         "Confidence": 0.901
     },
     {
-        "PID Filename": "wastewater.jpg",
+        "PID Filename": "WasteWater.jpg",
         "Detected Text": "CLEARWELL",
         "X": 1720,
         "Y": 1199,
@@ -990,7 +990,7 @@
         "Confidence": 0.994
     },
     {
-        "PID Filename": "wastewater.jpg",
+        "PID Filename": "WasteWater.jpg",
         "Detected Text": "TANK T15",
         "X": 1727,
         "Y": 1223,
@@ -999,7 +999,7 @@
         "Confidence": 0.988
     },
     {
-        "PID Filename": "wastewater.jpg",
+        "PID Filename": "WasteWater.jpg",
         "Detected Text": "P15",
         "X": 1592,
         "Y": 1230,
@@ -1008,7 +1008,7 @@
         "Confidence": 0.994
     },
     {
-        "PID Filename": "wastewater.jpg",
+        "PID Filename": "WasteWater.jpg",
         "Detected Text": "1-1/2\"",
         "X": 1581,
         "Y": 1452,
@@ -1017,7 +1017,7 @@
         "Confidence": 0.812
     },
     {
-        "PID Filename": "wastewater.jpg",
+        "PID Filename": "WasteWater.jpg",
         "Detected Text": "PLANT AIR LINE",
         "X": 1881,
         "Y": 1367,
@@ -1026,7 +1026,7 @@
         "Confidence": 0.994
     },
     {
-        "PID Filename": "wastewater.jpg",
+        "PID Filename": "WasteWater.jpg",
         "Detected Text": "PROCESS FLOW",
         "X": 1886,
         "Y": 1386,
@@ -1035,7 +1035,7 @@
         "Confidence": 0.993
     },
     {
-        "PID Filename": "wastewater.jpg",
+        "PID Filename": "WasteWater.jpg",
         "Detected Text": "SUPPLIED BY OTHERS",
         "X": 1828,
         "Y": 1405,
@@ -1044,7 +1044,7 @@
         "Confidence": 0.991
     },
     {
-        "PID Filename": "wastewater.jpg",
+        "PID Filename": "WasteWater.jpg",
         "Detected Text": "CHEMICAL ADDITION",
         "X": 1849,
         "Y": 1426,
@@ -1053,7 +1053,7 @@
         "Confidence": 0.993
     },
     {
-        "PID Filename": "wastewater.jpg",
+        "PID Filename": "WasteWater.jpg",
         "Detected Text": "PROCESS CONTROL",
         "X": 1850,
         "Y": 1447,
@@ -1062,7 +1062,7 @@
         "Confidence": 0.995
     },
     {
-        "PID Filename": "wastewater.jpg",
+        "PID Filename": "WasteWater.jpg",
         "Detected Text": "SLUDGE",
         "X": 1957,
         "Y": 1468,
@@ -1071,7 +1071,7 @@
         "Confidence": 0.994
     },
     {
-        "PID Filename": "wastewater.jpg",
+        "PID Filename": "WasteWater.jpg",
         "Detected Text": "FILTRATE",
         "X": 1944,
         "Y": 1486,
@@ -1080,7 +1080,7 @@
         "Confidence": 0.993
     },
     {
-        "PID Filename": "wastewater.jpg",
+        "PID Filename": "WasteWater.jpg",
         "Detected Text": "RECYCLE",
         "X": 1946,
         "Y": 1507,

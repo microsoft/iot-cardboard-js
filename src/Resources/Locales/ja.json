@@ -1594,7 +1594,8 @@
       "tablePlaceholder": "テーブルを選択",
       "tableIdColumnPlaceholder": "ID フィールドの選択",
       "tableTypeLabel": "テーブルの種類",
-      "tableTypePlaceholder": "テーブルの種類を選択"
+      "tableTypePlaceholder": "テーブルの種類を選択",
+      "PIDSourcePlaceholder": "PID ソースの選択"
     },
     "modifyStep": {
       "diagram": "ダイアグラム",

@@ -1594,7 +1594,8 @@
       "tablePlaceholder": "选择表格",
       "tableIdColumnPlaceholder": "选择标识字段",
       "tableTypeLabel": "表类型",
-      "tableTypePlaceholder": "选择表类型"
+      "tableTypePlaceholder": "选择表类型",
+      "PIDSourcePlaceholder": "选择 PID 源"
     },
     "modifyStep": {
       "diagram": "图",

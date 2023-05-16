@@ -1,10 +1,10 @@
 import produce from 'immer';
-import { SourceType } from '../../../DataPusher/DataPusher.types';
 import {
     DataSourceStepAction,
     DataSourceStepActionType,
     IDataSourceStepState
 } from './DataSourceStep.types';
+import { SourceType } from '../../../../Models/Constants';
 
 export const defaultDataSourceStepState: IDataSourceStepState = {
     selectedSourceType: SourceType.Timeseries,

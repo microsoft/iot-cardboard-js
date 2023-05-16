@@ -1594,7 +1594,8 @@
       "tablePlaceholder": "Tabel selecteren",
       "tableIdColumnPlaceholder": "Selecteer id-veld",
       "tableTypeLabel": "Type tabel",
-      "tableTypePlaceholder": "Selecteer tabeltype"
+      "tableTypePlaceholder": "Selecteer tabeltype",
+      "PIDSourcePlaceholder": "Selecteer PID-bron"
     },
     "modifyStep": {
       "diagram": "Diagram",

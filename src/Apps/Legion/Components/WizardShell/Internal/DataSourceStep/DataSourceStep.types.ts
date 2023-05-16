@@ -6,7 +6,7 @@ import {
 } from '@fluentui/react';
 import { IExtendedTheme } from '../../../../../../Theming/Theme.types';
 import { ICookSource } from '../../../../Models/Types';
-import { SourceType } from '../../../DataPusher/DataPusher.types';
+import { SourceType } from '../../../../Models/Constants';
 
 export interface IDataSourceStepProps {
     /**

@@ -45,7 +45,7 @@ const commonPlugins = [
     commonjs(),
     eslint({
         throwOnError: true,
-        configFile: '.eslintrc.prod.json',
+        configFile: '.eslintrc.prod.json'
     }),
     typescript(),
     json(),
@@ -57,7 +57,7 @@ const commonPlugins = [
         ]
     }),
     url({
-        exclude: ['**/*.svg']
+        exclude: ['**/*.svg', '**/*.png', '**/*.jpg']
     }),
     image(),
     svgr()

@@ -1594,7 +1594,8 @@
       "tablePlaceholder": "Asztal kiválasztása",
       "tableIdColumnPlaceholder": "Válassza ki az azonosító mezőt",
       "tableTypeLabel": "Tábla típusa",
-      "tableTypePlaceholder": "Válassza ki a táblázat típusát"
+      "tableTypePlaceholder": "Válassza ki a táblázat típusát",
+      "PIDSourcePlaceholder": "Válassza ki a PID forrást"
     },
     "modifyStep": {
       "diagram": "Diagram",

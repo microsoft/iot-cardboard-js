@@ -1594,7 +1594,8 @@
       "tablePlaceholder": "Välj tabell",
       "tableIdColumnPlaceholder": "Välj ID-fält",
       "tableTypeLabel": "Typ av tabell",
-      "tableTypePlaceholder": "Välj tabelltyp"
+      "tableTypePlaceholder": "Välj tabelltyp",
+      "PIDSourcePlaceholder": "Välj PID-källa"
     },
     "modifyStep": {
       "diagram": "Diagram",

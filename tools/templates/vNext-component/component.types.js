@@ -5,7 +5,7 @@ module.exports = (componentName) => ({
     export interface I${componentName}Props {
     }
     
-    export type T${componentName}Classes = 'root';
+    export type T${componentName}ClassNames = 'root';
     
 `,
     extension: `.types.ts`

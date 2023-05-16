@@ -41,6 +41,19 @@ module.exports = {
         });
 
         config.module.rules.push({
+            test: /\.(png|jpe?g)$/i,
+            include: [AppSourceDir],
+            use: [
+                {
+                    loader: 'url-loader',
+                    options: {
+                        limit: 8000 // Convert images < 8kb to base64 strings
+                    }
+                }
+            ]
+        });
+
+        config.module.rules.push({
             test: /\.scss$/,
             use: [
                 'style-loader',

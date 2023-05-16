@@ -91,15 +91,15 @@ const Cook: React.FC = () => {
             {cookAssets && (
                 <div className={classNames.informationText}>
                     <p>{`${
-                        cookAssets.models.length
-                    } possible models found with properties ${cookAssets.models
+                        cookAssets.types.length
+                    } possible models found with properties ${cookAssets.types
                         .map((model) => {
                             return `[${model.propertyIds
                                 .map(
                                     (propId) =>
                                         cookAssets.properties.find(
                                             (p) => p.id === propId
-                                        ).name
+                                        ).sourcePropName
                                 )
                                 .join(',')}]`;
                         })
@@ -107,12 +107,12 @@ const Cook: React.FC = () => {
                     <p>{`${
                         cookAssets.properties.length
                     } unique properties found: ${cookAssets.properties
-                        .map((p) => p.name)
+                        .map((p) => p.sourcePropName)
                         .join(',')}`}</p>
                     <p>{`${
-                        cookAssets.twins.length
-                    } unique twins found: ${cookAssets.twins
-                        .map((t) => t.id)
+                        cookAssets.entities.length
+                    } unique twins found: ${cookAssets.entities
+                        .map((t) => t.sourceEntityId)
                         .join(',')}`}</p>
                 </div>
             )}
