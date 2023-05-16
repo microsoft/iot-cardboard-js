@@ -17,22 +17,21 @@ import {
     PIDSourceUrlsToImgUrlMapping,
     PID_EXTRACTED_PROPERTIES
 } from '../../../../../../Models/Constants';
-import { Dropdown, IDropdownOption } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
+import { Dropdown, Label, Option, useId } from '@fluentui/react-components';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('DiagramTab', debugLogging);
 
 const DiagramTab: React.FC<IDiagramTabProps> = (_props) => {
     // state
-    const [diagramOptions, setDiagramOptions] = useState<
-        Array<IDropdownOption>
-    >([]);
+    const [diagramOptions, setDiagramOptions] = useState<Array<string>>([]);
     const [selectedDiagramUrl, setSelectedDiagramUrl] = useState<string>(null);
 
     // hooks
     const { t } = useTranslation();
     const diagramWrapperRef = useRef(null);
+    const dropdownId = useId('diagram-selector');
     const { entities } = useEntities();
     const urlToEntitiesMapping = useMemo(
         () =>
@@ -77,12 +76,9 @@ const DiagramTab: React.FC<IDiagramTabProps> = (_props) => {
     );
 
     // callbacks
-    const handleDiagramUrlChange = useCallback(
-        (_event, option: IDropdownOption) => {
-            setSelectedDiagramUrl(option.text);
-        },
-        []
-    );
+    const handleDiagramUrlChange = useCallback((_event, data) => {
+        setSelectedDiagramUrl(data.optionText);
+    }, []);
     const getImageUrl = useCallback((diagramUrl: string) => {
         if (
             Object.values(PIDSourceUrls).includes(diagramUrl as PIDSourceUrls)
@@ -96,12 +92,7 @@ const DiagramTab: React.FC<IDiagramTabProps> = (_props) => {
     // side effects
     useEffect(() => {
         const diagramUrls = Object.keys(urlToEntitiesMapping);
-        setDiagramOptions(
-            diagramUrls.map((url) => ({
-                key: url,
-                text: url
-            }))
-        );
+        setDiagramOptions(diagramUrls);
         setSelectedDiagramUrl(
             diagramUrls.length ? diagramUrls[diagramUrls.length - 1] : null
         );
@@ -114,14 +105,26 @@ const DiagramTab: React.FC<IDiagramTabProps> = (_props) => {
 
     return (
         <div className={classNames.root}>
-            <Dropdown
-                label={t('legionApp.Common.PIDSourcePlaceholder')}
-                className={classNames.diagramSelector}
-                options={diagramOptions}
-                onChange={handleDiagramUrlChange}
-                selectedKey={selectedDiagramUrl}
-                placeholder={t('loading')}
-            />
+            <div className={classNames.diagramSelectorWrapper}>
+                <Label id={dropdownId}>
+                    {t('legionApp.Common.PIDSourcePlaceholder')}
+                </Label>
+                <Dropdown
+                    className={classNames.diagramSelector}
+                    aria-labelledby={dropdownId}
+                    onOptionSelect={handleDiagramUrlChange}
+                    value={selectedDiagramUrl}
+                    defaultSelectedOptions={
+                        selectedDiagramUrl ? [selectedDiagramUrl] : undefined
+                    }
+                    defaultValue={selectedDiagramUrl}
+                    placeholder={t('loading')}
+                >
+                    {diagramOptions.map((option) => (
+                        <Option key={option}>{option}</Option>
+                    ))}
+                </Dropdown>
+            </div>
             <div ref={diagramWrapperRef} className={classNames.diagramWrapper}>
                 <Diagram
                     key={selectedDiagramUrl}

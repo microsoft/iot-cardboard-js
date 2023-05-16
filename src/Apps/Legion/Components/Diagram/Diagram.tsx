@@ -2,11 +2,11 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { getDebugLogger } from '../../../../Models/Services/Utils';
 import { IDiagramProps, TDiagramAnnotationPlacement } from './Diagram.types';
 import { useClassNames } from './Diagram.styles';
-import { Image, Spinner, SpinnerSize } from '@fluentui/react';
 import Annotation from './Internal/Annotation/Annotation';
 import { PID_EXTRACTED_PROPERTIES } from '../../Models/Constants';
 import { useTranslation } from 'react-i18next';
-import { useId } from '@fluentui/react-components';
+import { Spinner, useId } from '@fluentui/react-components';
+import { Image } from '@fluentui/react-components';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('Diagram', debugLogging);
@@ -108,7 +108,7 @@ const Diagram: React.FC<IDiagramProps> = (props) => {
             {!isReady && (
                 <Spinner
                     className={classNames.spinnerWrapper}
-                    size={SpinnerSize.medium}
+                    size={'medium'}
                     label={t('loading')}
                 />
             )}

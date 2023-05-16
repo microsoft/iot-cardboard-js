@@ -4,4 +4,5 @@ export interface IDiagramTabProps {}
 export type TDiagramTabClassNames =
     | 'root'
     | 'diagramSelector'
+    | 'diagramSelectorWrapper'
     | 'diagramWrapper';
