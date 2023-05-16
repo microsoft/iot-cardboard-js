@@ -1,14 +1,12 @@
 export interface ITreeViewProps {
-    sampleData: Asset[];
+    data: Node[];
 }
 
-export interface Asset {
-    /** Temporary interface for assets. Will be updated */
-
-    /** Display name */
-    name: string;
-    /** Nested child assets */
-    childAssets: Asset[];
+export interface Node {
+    /** Display text */
+    text: string;
+    /** Nested child nodes */
+    children: Node[];
 }
 
 export type TTreeViewClasses = 'root';

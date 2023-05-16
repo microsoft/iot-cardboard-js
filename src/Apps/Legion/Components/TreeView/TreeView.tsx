@@ -1,6 +1,6 @@
 import React from 'react';
 import { getDebugLogger } from '../../../../Models/Services/Utils';
-import { Asset, ITreeViewProps } from './TreeView.types';
+import { Node, ITreeViewProps } from './TreeView.types';
 import {
     Tree,
     TreeItem,
@@ -25,19 +25,18 @@ const TreeView: React.FC<ITreeViewProps> = (_props) => {
 
     logDebugConsole('debug', 'Render');
 
-    const generateTree = (data: Asset[]) => (
+    const generateTree = (data: Node[]) => (
         <Tree aria-label="Tree">
-            {data.map((asset, idx) => (
-                <TreeItem key={`${asset.name}_${idx}`}>
-                    <TreeItemLayout>{asset.name}</TreeItemLayout>
-                    {asset.childAssets.length > 0 &&
-                        generateTree(asset.childAssets)}
+            {data.map((node, idx) => (
+                <TreeItem key={`${node.text}_${idx}`}>
+                    <TreeItemLayout>{node.text}</TreeItemLayout>
+                    {node.children.length > 0 && generateTree(node.children)}
                 </TreeItem>
             ))}
         </Tree>
     );
 
-    return generateTree(_props.sampleData);
+    return generateTree(_props.data);
 };
 
 export default TreeView;

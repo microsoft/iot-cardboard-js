@@ -14,48 +14,48 @@ export default {
 
 type TreeViewStory = ComponentStory<typeof TreeView>;
 
-const sampleData = [
+const data = [
     {
-        name: 'First asset',
-        childAssets: [
+        text: 'First asset',
+        children: [
             {
-                name: 'Child asset 1',
-                childAssets: []
+                text: 'Child asset 1',
+                children: []
             },
             {
-                name: 'Child asset 2',
-                childAssets: []
+                text: 'Child asset 2',
+                children: []
             }
         ]
     },
     {
-        name: 'Second asset',
-        childAssets: [
+        text: 'Second asset',
+        children: [
             {
-                name: 'Child asset 1',
-                childAssets: []
+                text: 'Child asset 1',
+                children: []
             }
         ]
     },
     {
-        name: 'Third asset',
-        childAssets: [
+        text: 'Third asset',
+        children: [
             {
-                name: 'Child asset 1',
-                childAssets: []
+                text: 'Child asset 1',
+                children: []
             },
             {
-                name: 'Child asset 2',
-                childAssets: [
+                text: 'Child asset 2',
+                children: [
                     {
-                        name: 'Grandchild asset 1',
-                        childAssets: []
+                        text: 'Grandchild asset 1',
+                        children: []
                     }
                 ]
             },
             {
-                name: 'Child asset 3',
-                childAssets: []
+                text: 'Child asset 3',
+                children: []
             }
         ]
     }
@@ -66,4 +66,4 @@ const Template: TreeViewStory = (args) => {
 };
 
 export const Base = Template.bind({}) as TreeViewStory;
-Base.args = { sampleData } as ITreeViewProps;
+Base.args = { data } as ITreeViewProps;
