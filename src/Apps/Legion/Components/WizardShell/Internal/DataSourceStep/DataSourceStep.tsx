@@ -82,11 +82,8 @@ const DataSourceStep: React.FC<IDataSourceStepProps> = (props) => {
             type: WizardNavigationContextActionType.NAVIGATE_TO,
             payload: {
                 stepNumber: WizardStepNumber.Modify,
-                initialProps: {
-                    showDiagram:
-                        state.selectedSourceType === SourceType.Diagram,
-                    selectedPivotKey: ModifyPivotKeys.Diagram
-                }
+                showDiagram: state.selectedSourceType === SourceType.Diagram,
+                selectedPivotKey: ModifyPivotKeys.Diagram
             }
         });
     }, [

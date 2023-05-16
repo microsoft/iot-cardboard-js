@@ -12,7 +12,9 @@ export const useEntitiesTabClassNames = makeStyles<TEntitiesTabStyles>({
     columnWrapper: {
         display: 'flex',
         alignItems: 'center',
-        height: '100%'
+        height: '100%',
+        minHeight: 'inherit',
+        ...shorthands.overflow('hidden')
     },
     idColumn: {
         ...shorthands.overflow('hidden'),

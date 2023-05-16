@@ -23,14 +23,18 @@ export interface IWizardNavigationContext {
 }
 
 // Additional properties to set the initial values for the current step in navigation
-export interface IAdditionalStepProps {
-    showDiagram?: boolean;
-    selectedPivotKey?: ModifyPivotKeys;
-}
+export type NavigateToPayload = {
+    stepNumber: WizardStepNumber;
+};
+export type NavigateToModifyPayload = {
+    stepNumber: WizardStepNumber.Modify;
+    showDiagram: boolean;
+    selectedPivotKey: ModifyPivotKeys;
+};
 
 export interface IWizardNavigationContextState {
     currentStep: number;
-    currentStepProps?: IAdditionalStepProps;
+    currentStepProps?: Record<string, any>;
     steps: Array<IStepperWizardStep>;
     primaryAction?: IWizardAction;
     secondaryActions?: IWizardAction[];
@@ -52,10 +56,7 @@ export type WizardNavigationContextAction =
     // General setters
     | {
           type: WizardNavigationContextActionType.NAVIGATE_TO;
-          payload: {
-              stepNumber: number;
-              initialProps?: IAdditionalStepProps;
-          };
+          payload: NavigateToPayload | NavigateToModifyPayload;
       }
     | {
           type: WizardNavigationContextActionType.SET_STEPS;

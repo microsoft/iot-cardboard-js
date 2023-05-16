@@ -1,7 +1,6 @@
 import { FontWeights } from '@fluentui/react';
 import { TAnnotationClassNames } from './Annotation.types';
-import { makeStyles } from '@fluentui/react-components';
-import { shorthands } from '@griffel/react';
+import { makeStyles, shorthands } from '@fluentui/react-components';
 
 export const annotationColorVar = '--legion-diagram-annotation-color';
 
