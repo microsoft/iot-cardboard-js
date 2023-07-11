@@ -157,7 +157,7 @@
         "semantic-release": "^17.3.7",
         "shx": "^0.3.3",
         "strip-comments": "^2.0.1",
-        "stylelint": "^13.8.0",
+        "stylelint": "^15.10.1",
         "stylelint-config-prettier": "^8.0.2",
         "stylelint-config-recommended": "^3.0.0",
         "stylelint-config-sass-guidelines": "^7.1.0",
