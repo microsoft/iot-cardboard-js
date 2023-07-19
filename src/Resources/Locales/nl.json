@@ -651,7 +651,8 @@
             "label": "Aggregatiemethode",
             "information": "Wanneer er te veel gegevenspunten zijn om weer te geven, worden waarden gegroepeerd in de grafiek. Kies de aggregatiemethode voor deze groeperingen."
           }
-        }
+        },
+        "connectionStringInvalid": "Verbindingsreeks is ongeldig"
       },
       "headerMenu": "Widgetmenu gegevensgeschiedenis",
       "openQuery": "Query openen in Azure Data Explorer"

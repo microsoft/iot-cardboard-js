@@ -651,7 +651,8 @@
             "label": "Aggregationsmethode",
             "information": "Wenn zu viele Datenpunkte angezeigt werden müssen, werden die Werte im Diagramm gruppiert. Wählen Sie die Aggregationsmethode für diese Gruppierungen aus."
           }
-        }
+        },
+        "connectionStringInvalid": "Verbindungszeichenfolge ist ungültig"
       },
       "headerMenu": "Menü des Widgets \"Datenverlauf\"",
       "openQuery": "Abfrage im Azure-Daten-Explorer öffnen"

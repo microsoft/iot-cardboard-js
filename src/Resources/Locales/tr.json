@@ -651,7 +651,8 @@
             "label": "Toplama yöntemi",
             "information": "Görüntülenemeyecek kadar çok veri noktası olduğunda, değerler grafikte gruplandırılır. Bu gruplandırmalar için toplama yöntemini seçin."
           }
-        }
+        },
+        "connectionStringInvalid": "Bağlantı dizesi geçersiz"
       },
       "headerMenu": "Veri geçmişi widget menüsü",
       "openQuery": "Azure Veri Gezgini'nde sorgu açma"

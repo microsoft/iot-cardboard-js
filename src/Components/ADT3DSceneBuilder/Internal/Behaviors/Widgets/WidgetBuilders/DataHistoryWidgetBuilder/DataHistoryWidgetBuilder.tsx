@@ -60,6 +60,7 @@ const LOC_KEYS = {
     aggregationMethodInformation: `${ROOT_LOC}.chartOptions.aggregationMethod.information`,
     connectionStringPlaceholder: `${ROOT_LOC}.connectionStringPlaceholder`,
     connectionStringTitle: `${ROOT_LOC}.connectionStringTitle`,
+    connectionStringInvalid: `${ROOT_LOC}.connectionStringInvalid`,
     displayNamePlaceholder: `${ROOT_LOC}.displayNamePlaceholder`,
     addTimeSeriesLabel: `${ROOT_LOC}.timeSeries.add`,
     yAxisTypeLabel: `${ROOT_LOC}.chartOptions.yAxisType.label`,
@@ -121,7 +122,8 @@ const DataHistoryWidgetBuilder: React.FC<IDataHistoryWidgetBuilderProps> = ({
             const connection = adxConnectionInformation.connection;
             updateWidgetData(
                 produce(formData, (draft) => {
-                    draft.widgetConfiguration.connection = {
+                    draft.widgetConfiguration.connection = formData
+                        .widgetConfiguration.connection ?? {
                         adxClusterUrl: connection.kustoClusterUrl,
                         adxDatabaseName: connection.kustoDatabaseName,
                         adxTableName: connection.kustoTableName
@@ -132,7 +134,8 @@ const DataHistoryWidgetBuilder: React.FC<IDataHistoryWidgetBuilderProps> = ({
     }, [adxConnectionInformation]);
 
     const connectionString = formData.widgetConfiguration.connection
-        ? generateConnectionString(formData.widgetConfiguration.connection)
+        ? generateConnectionString(formData.widgetConfiguration.connection) ||
+          t(LOC_KEYS.connectionStringInvalid)
         : adxConnectionInformation.loadingState ===
           ADXConnectionInformationLoadingState.LOADING
         ? t(LOC_KEYS.connectionLoadingText)

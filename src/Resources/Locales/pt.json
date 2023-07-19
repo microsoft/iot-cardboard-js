@@ -651,7 +651,8 @@
             "label": "Método de agregação",
             "information": "Quando houver muitos pontos de dados para exibir, os valores serão agrupados no gráfico. Escolha o método de agregação desses agrupamentos."
           }
-        }
+        },
+        "connectionStringInvalid": "A cadeia de conexão é inválida"
       },
       "headerMenu": "Menu de widget do histórico de dados",
       "openQuery": "Consulta aberta no Azure Data Explorer"
