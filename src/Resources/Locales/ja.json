@@ -652,7 +652,7 @@
             "information": "表示するデータポイントが多すぎる場合、値はグラフにグループ化されます。これらのグループの集計方法を選択します。"
           }
         },
-        "connectionStringInvalid": "接続文字列が無効です。"
+        "connectionStringInvali": "接続文字列が無効です"
       },
       "headerMenu": "データ履歴ウィジェットメニュー",
       "openQuery": "Azure データ エクスプローラーでクエリを開く"

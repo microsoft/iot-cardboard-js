@@ -652,7 +652,7 @@
             "information": "Cuando hay demasiados puntos de datos para mostrar, los valores se agruparán en el gráfico. Elija el método de agregación para estas agrupaciones."
           }
         },
-        "connectionStringInvalid": "¡Cadena de conexión no válida!"
+        "connectionStringInvali": "La cadena de conexión no es válida"
       },
       "headerMenu": "Menú del widget Historial de datos",
       "openQuery": "Abrir consulta en el Explorador de datos de Azure"

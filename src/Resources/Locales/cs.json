@@ -652,7 +652,7 @@
             "information": "Pokud je k dispozici příliš mnoho datových bodů k zobrazení, budou hodnoty seskupeny v grafu. Zvolte metodu agregace pro tato seskupení."
           }
         },
-        "connectionStringInvalid": "Neplatný připojovací řetězec!"
+        "connectionStringInvali": "Připojovací řetězec je neplatný"
       },
       "headerMenu": "Nabídka widgetu Historie dat",
       "openQuery": "Otevřený dotaz v Azure Průzkumník dat"

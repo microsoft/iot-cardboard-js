@@ -652,7 +652,7 @@
             "information": "Ha túl sok adatpont jelenik meg, az értékek csoportosítva lesznek a diagramon. Válassza ki a csoportosítások összesítési módszerét."
           }
         },
-        "connectionStringInvalid": "Érvénytelen kapcsolati sztring!"
+        "connectionStringInvali": "A kapcsolati sztring érvénytelen"
       },
       "headerMenu": "Adatelőzmények widget menü",
       "openQuery": "Lekérdezés megnyitása a Azure Data Explorer"
