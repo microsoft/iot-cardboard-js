@@ -652,7 +652,7 @@
             "information": "표시할 데이터 포인트가 너무 많으면 차트에 값이 그룹화됩니다. 이러한 그룹화에 대한 집계 방법을 선택합니다."
           }
         },
-        "connectionStringInvali": "연결 문자열이 잘못되었습니다."
+        "connectionStringInvalid": "연결 문자열이 잘못되었습니다."
       },
       "headerMenu": "데이터 기록 위젯 메뉴",
       "openQuery": "Azure 데이터 탐색기에서 쿼리 열기"

@@ -652,7 +652,7 @@
             "information": "Quando há demasiados pontos de dados para exibir, os valores serão agrupados na tabela. Escolha o método de agregação para estes agrupamentos."
           }
         },
-        "connectionStringInvali": "A cadeia de conexão é inválida"
+        "connectionStringInvalid": "A cadeia de conexão é inválida"
       },
       "headerMenu": "Menu widget de histórico de dados",
       "openQuery": "Consulta aberta no Azure Data Explorer"

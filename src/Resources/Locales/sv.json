@@ -652,7 +652,7 @@
             "information": "När det finns för många datapunkter att visa grupperas värdena i diagrammet. Välj aggregeringsmetod för dessa grupperingar."
           }
         },
-        "connectionStringInvali": "Anslutningssträngen är ogiltig"
+        "connectionStringInvalid": "Anslutningssträngen är ogiltig"
       },
       "headerMenu": "Widgetmenyn Datahistorik",
       "openQuery": "Öppna frågan i Azure Data Explorer"

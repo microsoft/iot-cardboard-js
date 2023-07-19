@@ -652,7 +652,7 @@
             "information": "Jeśli istnieje zbyt wiele punktów danych do wyświetlenia, wartości zostaną zgrupowane na wykresie. Wybierz metodę agregacji dla tych grup."
           }
         },
-        "connectionStringInvali": "Parametry połączenia są nieprawidłowe"
+        "connectionStringInvalid": "Parametry połączenia są nieprawidłowe"
       },
       "headerMenu": "Menu widżetu Historia danych",
       "openQuery": "Otwieranie zapytania w usłudze Azure Data Explorer"

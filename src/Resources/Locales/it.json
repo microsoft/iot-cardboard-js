@@ -652,7 +652,7 @@
             "information": "Quando ci sono troppi punti dati da visualizzare, i valori verranno raggruppati nel grafico. Scegliere il metodo di aggregazione per questi raggruppamenti."
           }
         },
-        "connectionStringInvali": "La stringa di connessione non è valida"
+        "connectionStringInvalid": "La stringa di connessione non è valida"
       },
       "headerMenu": "Menu widget Cronologia dati",
       "openQuery": "Aprire query in Esplora dati di Azure"
