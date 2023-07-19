@@ -46,15 +46,14 @@ export default class ADXAdapter implements IADXAdapter {
                 : this.adxConnectionInformation.kustoClusterUrl;
 
             if (!isValidADXClusterUrl(clusterUrl)) {
-                adapterMethodSandbox.pushError({
-                    type: ComponentErrorType.DataFetchFailed,
-                    isCatastrophic: true
-                });
                 logDebugConsole(
                     'error',
                     'Error(s) thrown: Cluster url is not valid!'
                 );
-                return new ADXTimeSeriesData(null);
+                adapterMethodSandbox.pushError({
+                    type: ComponentErrorType.DataFetchFailed,
+                    isCatastrophic: true
+                });
             }
 
             const getDataHistoryFromADX = () => {

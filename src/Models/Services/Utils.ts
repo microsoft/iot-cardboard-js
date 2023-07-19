@@ -921,7 +921,7 @@ export const getUrlFromString = (urlString: string): URL => {
 /** Checking if a given ADX cluster url is a safe url following a certain regex and hostname */
 export const isValidADXClusterUrl = (clusterUrl: string): boolean => {
     const isValidADXClusterHostUrl = (urlPrefix) =>
-        /^[a-zA-Z0-9]{4,22}.[a-zA-Z0-9]{1,}\b$/.test(urlPrefix);
+        /^[a-z][a-z0-9-]{3,21}.[a-zA-Z0-9]{1,}\b$/.test(urlPrefix);
 
     if (clusterUrl) {
         try {
@@ -937,6 +937,8 @@ export const isValidADXClusterUrl = (clusterUrl: string): boolean => {
                 )
             ) {
                 return true;
+            } else {
+                console.error('ADX cluster url is not valid!', clusterUrl);
             }
         } catch (error) {
             console.error(
