@@ -673,7 +673,7 @@
                 "connectionStringInformation": "Data history widgets target data in the Azure Data Explorer instance already connected to this Azure Digital Twins instance.",
                 "connectionLoadingText": "Loading connection information...",
                 "noConnectionInformationText": "No connection information found",
-                "connectionStringInvali": "Connection string is invalid",
+                "connectionStringInvalid": "Connection string is invalid",
                 "displayNamePlaceholder": "Enter display name",
                 "timeSeries": {
                     "timeSeriesDescription": "Add up to {{maxTimeSeriesCount}} time series for this widget",
