@@ -651,7 +651,8 @@
             "label": "聚合方式",
             "information": "当要显示的数据点过多时，值将在图表中分组。为这些分组选择聚合方法。"
           }
-        }
+        },
+        "connectionStringInvalid": "连接字符串无效！"
       },
       "headerMenu": "“数据历史记录”小组件菜单",
       "openQuery": "在 Azure 数据资源管理器中打开查询"

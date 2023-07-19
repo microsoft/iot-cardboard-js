@@ -651,7 +651,8 @@
             "label": "Méthode d’agrégation",
             "information": "Lorsqu’il y a trop de points de données à afficher, les valeurs sont regroupées dans le graphique. Choisissez la méthode d’agrégation pour ces regroupements."
           }
-        }
+        },
+        "connectionStringInvalid": "Chaîne de connexion non valide !"
       },
       "headerMenu": "Menu du widget Historique des données",
       "openQuery": "Ouvrir une requête dans l’Explorateur de données Azure"

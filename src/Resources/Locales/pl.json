@@ -651,7 +651,8 @@
             "label": "Metoda agregacji",
             "information": "Jeśli istnieje zbyt wiele punktów danych do wyświetlenia, wartości zostaną zgrupowane na wykresie. Wybierz metodę agregacji dla tych grup."
           }
-        }
+        },
+        "connectionStringInvalid": "Nieprawidłowe parametry połączenia!"
       },
       "headerMenu": "Menu widżetu Historia danych",
       "openQuery": "Otwieranie zapytania w usłudze Azure Data Explorer"
