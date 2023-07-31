@@ -285,7 +285,7 @@ const getTwinIdPropertyMap = (
                   const [alias, ...propertyPath] = splittedArray;
                   if (twins && alias?.length && propertyPath?.length) {
                       return {
-                          seriesId: createGUID(),
+                          seriesId: ts.id,
                           label: ts.label,
                           twinId: twins[alias]?.$dtId,
                           twinPropertyName: propertyPath.join('.'),
