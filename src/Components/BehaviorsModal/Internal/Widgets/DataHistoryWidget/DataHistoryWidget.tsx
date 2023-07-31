@@ -25,7 +25,6 @@ import {
     TimeSeriesData
 } from '../../../../../Models/Constants';
 import { useTimeSeriesData } from '../../../../../Models/Hooks/useTimeSeriesData';
-import { createGUID } from '../../../../../Models/Services/Utils';
 import {
     getMockTimeSeriesDataArrayInLocalTime,
     getQuickTimeSpanKeyByValue,
@@ -285,7 +284,7 @@ const getTwinIdPropertyMap = (
                   const [alias, ...propertyPath] = splittedArray;
                   if (twins && alias?.length && propertyPath?.length) {
                       return {
-                          seriesId: createGUID(),
+                          seriesId: ts.id,
                           label: ts.label,
                           twinId: twins[alias]?.$dtId,
                           twinPropertyName: propertyPath.join('.'),
