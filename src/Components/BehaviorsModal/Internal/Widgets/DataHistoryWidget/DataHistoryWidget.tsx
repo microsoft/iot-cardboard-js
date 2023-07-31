@@ -25,7 +25,6 @@ import {
     TimeSeriesData
 } from '../../../../../Models/Constants';
 import { useTimeSeriesData } from '../../../../../Models/Hooks/useTimeSeriesData';
-import { createGUID } from '../../../../../Models/Services/Utils';
 import {
     getMockTimeSeriesDataArrayInLocalTime,
     getQuickTimeSpanKeyByValue,
