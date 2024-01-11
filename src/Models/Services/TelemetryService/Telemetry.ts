@@ -33,14 +33,12 @@ export abstract class Telemetry {
  * https://docs.microsoft.com/en-us/azure/azure-monitor/app/data-model-request-telemetry
  */
 export class TelemetryRequest extends Telemetry {
-    type: TelemetryType.request;
-    name: string;
+    declare type: TelemetryType.request;
     url: string;
     success: boolean;
     responseCode: number;
     responseMessage: string;
     requestMethod: string;
-    customProperties: CustomProperties;
     constructor({
         name,
         url,
@@ -65,7 +63,7 @@ export class TelemetryRequest extends Telemetry {
  * https://docs.microsoft.com/en-us/azure/azure-monitor/app/data-model-exception-telemetry
  */
 export class TelemetryException extends Telemetry {
-    type: TelemetryType.exception;
+    declare type: TelemetryType.exception;
     exceptionId: string;
     severityLevel: SeverityLevel;
     message: string;
@@ -92,7 +90,7 @@ export class TelemetryException extends Telemetry {
  * https://docs.microsoft.com/en-us/azure/azure-monitor/app/data-model-trace-telemetry
  */
 export class TelemetryTrace extends Telemetry {
-    type: TelemetryType.trace;
+    declare type: TelemetryType.trace;
     message: string;
     severityLevel: SeverityLevel;
 
@@ -113,7 +111,7 @@ export class TelemetryTrace extends Telemetry {
  * https://docs.microsoft.com/en-us/azure/azure-monitor/app/data-model-event-telemetry
  */
 export class TelemetryEvent extends Telemetry {
-    type: TelemetryType.event;
+    declare type: TelemetryType.event;
     constructor({
         appRegion,
         componentName,
@@ -136,7 +134,7 @@ export class TelemetryEvent extends Telemetry {
  * https://docs.microsoft.com/en-us/azure/azure-monitor/app/data-model-metric-telemetry
  */
 export class TelemetryMetric extends Telemetry {
-    type: TelemetryType.metric;
+    declare type: TelemetryType.metric;
     average: number;
     min?: number;
     max?: number;
