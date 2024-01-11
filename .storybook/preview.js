@@ -1,5 +1,4 @@
 import React from 'react';
-import { addDecorator } from '@storybook/react';
 import { withConsole, setConsoleOptions } from '@storybook/addon-console';
 import '../src/Resources/Styles/BaseThemeVars.scss'; // Import BaseThemeVars to access css theme variables
 import { Locale } from '../src/Models/Constants/Enums';
@@ -144,10 +143,13 @@ const decoratorWithDebug = (Story, context) => {
     );
 };
 
-addDecorator(decoratorWithConsole);
-addDecorator(decoratorWithStableGuid);
-addDecorator(decoratorWithWrapper);
-addDecorator(decoratorWithDebug);
+export let decorators = [
+    decoratorWithConsole,
+    decoratorWithStableGuid,
+    decoratorWithWrapper,
+    decoratorWithDebug
+];
+
 if (isChromatic()) {
-    addDecorator(decoratorWithStableMaxDateInMillis);
+    decorators.push(decoratorWithStableMaxDateInMillis);
 }

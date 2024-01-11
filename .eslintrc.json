@@ -10,7 +10,8 @@
         "eslint:recommended",
         "plugin:@typescript-eslint/recommended",
         "prettier",
-        "plugin:iot-cardboard-js/recommended"
+        "plugin:iot-cardboard-js/recommended",
+        "plugin:storybook/recommended"
     ],
     "rules": {
         "iot-cardboard-js/debug-logging-disabled": "warn",
