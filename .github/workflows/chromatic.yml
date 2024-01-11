@@ -15,12 +15,12 @@ jobs:
                   fetch-depth: 0 # 👈 Required to retrieve git history
             - uses: actions/setup-node@v2
               with:
-                  node-version: '18.16.0'
+                  node-version: '16.10.0'
                   cache: 'npm'
                   registry-url: 'https://registry.npmjs.org'
 
             - name: Install dependencies
-              run: npm ci
+              run: npm install
 
             - name: Publish to chromatic
               uses: chromaui/action@v1
