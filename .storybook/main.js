@@ -7,20 +7,20 @@ module.exports = {
     stories:
         process.env.NODE_ENV === 'production'
             ? // Change below to ['../src/Components/**/*.stories.tsx'] to include Card stories
-              [
-                  '../src/Components/**/*.stories.tsx',
-                  '../src/Models/**/*.stories.tsx',
-                  '../src/Pages/**/*.stories.tsx'
-              ]
+            [
+                '../src/Components/**/*.stories.tsx',
+                '../src/Models/**/*.stories.tsx',
+                '../src/Pages/**/*.stories.tsx'
+            ]
             : // Change below to ['../src/**/*.stories.tsx', '../src/**/*.stories.local.tsx'] to include Card stories
-              [
-                  '../src/Components/**/*.stories.tsx',
-                  '../src/Models/**/*.stories.tsx',
-                  '../src/Pages/**/*.stories.tsx',
-                  '../src/Components/**/*.stories.local.tsx',
-                  '../src/Models/**/*.stories.local.tsx',
-                  '../src/Pages/**/*.stories.local.tsx'
-              ],
+            [
+                '../src/Components/**/*.stories.tsx',
+                '../src/Models/**/*.stories.tsx',
+                '../src/Pages/**/*.stories.tsx',
+                '../src/Components/**/*.stories.local.tsx',
+                '../src/Models/**/*.stories.local.tsx',
+                '../src/Pages/**/*.stories.local.tsx'
+            ],
 
     // Add any Storybook addons you want here: https://storybook.js.org/addons/
     addons: [
@@ -75,6 +75,10 @@ module.exports = {
         });
 
         config.resolve.extensions.push('.ts', '.tsx');
+        config.resolve.fallback = {
+            ...config.resolve.fallback,
+            querystring: require.resolve("querystring-es3")
+        }
 
         config.plugins.push(
             new ESLintPlugin({
