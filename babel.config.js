@@ -7,7 +7,7 @@ module.exports = {
                 regenerator: true
             }
         ],
-        '@babel/plugin-transform-class-properties',
+        '@babel/plugin-proposal-class-properties',
         '@babel/plugin-proposal-private-methods'
     ]
 };
