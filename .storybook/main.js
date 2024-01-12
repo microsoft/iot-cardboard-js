@@ -21,19 +21,16 @@ module.exports = {
                   '../src/Models/**/*.stories.local.tsx',
                   '../src/Pages/**/*.stories.local.tsx'
               ],
-
     // Add any Storybook addons you want here: https://storybook.js.org/addons/
     addons: [
         '@storybook/addon-essentials',
         '@storybook/addon-interactions',
         '@storybook/addon-a11y'
     ],
-
     typescript: {
         check: false,
         reactDocgen: false
     },
-
     webpackFinal: async (config) => {
         // Disable the Storybook internal-`.svg`-rule for components loaded from our app.
         const svgRule = config.module.rules.find((rule) =>
@@ -84,14 +81,5 @@ module.exports = {
         );
 
         return config;
-    },
-
-    framework: {
-        name: '@storybook/react-webpack5',
-        options: {}
-    },
-
-    docs: {
-        autodocs: true
     }
 };
