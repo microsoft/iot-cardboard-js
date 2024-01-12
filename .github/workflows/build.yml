@@ -16,7 +16,7 @@ jobs:
                   registry-url: 'https://registry.npmjs.org'
 
             - name: Install dependencies
-              run: npm install
+              run: npm install --legacy-peer-deps
 
             # todo - lint only file deltas, not entire codebase (speeds up workflow)
             - name: Check code formatting and quality
@@ -32,7 +32,7 @@ jobs:
                   registry-url: 'https://registry.npmjs.org'
 
             - name: Install dependencies
-              run: npm install
+              run: npm install --legacy-peer-deps
 
             - name: Verify rollup build succeeds
               run: npm run build
@@ -49,7 +49,7 @@ jobs:
                   cache: 'npm'
 
             - name: Install dependencies
-              run: npm install
+              run: npm install --legacy-peer-deps
 
             - name: Verify all unit tests pass
               run: npm run test:ci
