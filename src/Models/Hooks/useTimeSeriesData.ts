@@ -170,7 +170,8 @@ const getBulkADXQueryFromTimeSeriesTwins = (
 
     try {
         twins?.forEach((twin, idx) => {
-            query += `${connection.kustoTableName} | where TimeStamp > ago(${agoTimeInMillis}ms)`;
+            /** This allows Kusto to read hypen separated names i.e. twin-table */
+            query += `['${connection.kustoTableName}'] | where TimeStamp > ago(${agoTimeInMillis}ms)`;
             query += ` | where Id == '${twin.twinId}' and Key == '${twin.twinPropertyName}'`;
             query +=
                 queryOptions?.shouldCastToDouble ??
