@@ -37,9 +37,6 @@
         "test:watch": "jest --watch",
         "test": "jest"
     },
-    "resolutions": {
-        "axios": "^1.6.8"
-    },
     "dependencies": {
         "@azure/msal-browser": "2.14.2",
         "@babylonjs/core": "^5.11.0",
