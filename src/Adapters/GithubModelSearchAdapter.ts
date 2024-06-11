@@ -5,7 +5,7 @@ import {
     IModelSearchStringParams,
     IStandardModelSearchAdapter
 } from '../Models/Constants/Interfaces';
-import parse from 'parse-link-header';
+import { parseLinkHeader } from '@web3-storage/parse-link-header';
 
 export default class GithubModelSearchAdapter
     extends BaseStandardModelSearchAdapter
@@ -41,7 +41,7 @@ export default class GithubModelSearchAdapter
 
             const rateLimitReset = Number(res.headers.get('x-ratelimit-reset'));
             const link = res.headers.get('link');
-            const parsedLinkHeader = link ? parse(link) : null;
+            const parsedLinkHeader = link ? parseLinkHeader(link) : null;
             const json = await res.json();
 
             const results = json?.items

@@ -1,34 +1,26 @@
 {
     "root": true,
     "parser": "@typescript-eslint/parser",
-    "plugins": [
-        "@typescript-eslint",
-        "react-hooks",
-        "iot-cardboard-js"
-    ],
+    "plugins": ["@typescript-eslint", "react-hooks", "iot-cardboard-js"],
     "extends": [
         "eslint:recommended",
         "plugin:@typescript-eslint/recommended",
         "prettier",
-        "plugin:iot-cardboard-js/recommended"
+        "plugin:iot-cardboard-js/recommended",
+        "plugin:storybook/recommended"
     ],
     "rules": {
         "iot-cardboard-js/debug-logging-disabled": "warn",
         "no-console": [
             "warn",
             {
-                "allow": [
-                    "warn",
-                    "error"
-                ]
+                "allow": ["warn", "error"]
             }
         ],
         "no-debugger": "warn",
         "no-multiple-empty-lines": "warn",
         "react-hooks/exhaustive-deps": "warn",
-        "@typescript-eslint/explicit-module-boundary-types": [
-            "off"
-        ],
+        "@typescript-eslint/explicit-module-boundary-types": ["off"],
         "@typescript-eslint/no-var-requires": 0,
         "@typescript-eslint/no-explicit-any": 0,
         "@typescript-eslint/no-unused-vars": [

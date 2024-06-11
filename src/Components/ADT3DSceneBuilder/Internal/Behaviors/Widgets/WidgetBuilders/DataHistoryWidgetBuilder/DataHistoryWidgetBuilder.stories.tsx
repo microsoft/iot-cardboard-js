@@ -92,8 +92,8 @@ const Template: SceneBuilderStory = (
 };
 
 export const WidgetsFormCreateDataHistoryEmpty = Template.bind({});
-WidgetsFormCreateDataHistoryEmpty.play = async ({ canvasElement }) => {
-    await WidgetsListAddDialogShow.play({ canvasElement });
+WidgetsFormCreateDataHistoryEmpty.play = async (context) => {
+    await WidgetsListAddDialogShow.play(context);
     const dataHistoryButton = await findCalloutItemByTestId(
         'widget-library-Data history'
     );
@@ -105,8 +105,8 @@ WidgetsFormCreateDataHistoryEmpty.play = async ({ canvasElement }) => {
 };
 
 export const WidgetsFormEditDataHistory = Template.bind({});
-WidgetsFormEditDataHistory.play = async ({ canvasElement }) => {
-    await WidgetsListMore.play({ canvasElement, listItemIndex: 4 });
+WidgetsFormEditDataHistory.play = async (context) => {
+    await WidgetsListMore.play({ ...context, listItemIndex: 4 });
 
     // click the edit button in the overflow
     const editButton = await findOverflowMenuItem('editWidgetOverflow');
@@ -114,11 +114,11 @@ WidgetsFormEditDataHistory.play = async ({ canvasElement }) => {
 };
 
 export const WidgetsFormEditTimeSeriesInDataHistory = Template.bind({});
-WidgetsFormEditTimeSeriesInDataHistory.play = async ({ canvasElement }) => {
-    await WidgetsFormEditDataHistory.play({ canvasElement });
+WidgetsFormEditTimeSeriesInDataHistory.play = async (context) => {
+    await WidgetsFormEditDataHistory.play(context);
 
     // click on the first list item in time series list
-    const canvas = within(canvasElement);
+    const canvas = within(context.canvasElement);
     const timeSeriesListItem1 = await canvas.findByTestId(
         'cardboard-list-item-time-series-in-data-history-widget-0'
     );

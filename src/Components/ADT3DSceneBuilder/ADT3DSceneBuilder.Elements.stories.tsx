@@ -65,9 +65,9 @@ ElementsTab.play = async ({ canvasElement }) => {
 };
 
 export const EmptyElementsTab = Template.bind({});
-EmptyElementsTab.play = async ({ canvasElement }) => {
+EmptyElementsTab.play = async (context) => {
     // switch to the elements tab
-    await ElementsTab.play({ canvasElement });
+    await ElementsTab.play(context);
 };
 const emptyData = deepCopy(trucksMockVConfig) as I3DScenesConfig;
 emptyData.configuration.scenes = [
@@ -81,22 +81,22 @@ EmptyElementsTab.parameters = {
 };
 
 export const Search = Template.bind({});
-Search.play = async ({ canvasElement }) => {
+Search.play = async (context) => {
     // switch to the elements tab
-    await ElementsTab.play({ canvasElement });
+    await ElementsTab.play(context);
 
-    const canvas = within(canvasElement);
+    const canvas = within(context.canvasElement);
     // type in the search box
     const searchBox = canvas.getByTestId('search-header-search-box');
     await userEvent.type(searchBox, 'box');
 };
 
 export const EmptySearch = Template.bind({});
-EmptySearch.play = async ({ canvasElement }) => {
+EmptySearch.play = async (context) => {
     // switch to the elements tab
-    await ElementsTab.play({ canvasElement });
+    await ElementsTab.play(context);
 
-    const canvas = within(canvasElement);
+    const canvas = within(context.canvasElement);
     // type in the search box
     const searchBox = canvas.getByTestId('search-header-search-box');
     await userEvent.type(searchBox, 'unknown value');
@@ -145,20 +145,20 @@ longData.configuration.scenes = [
     }
 ];
 export const Scrolling = Template.bind({});
-Scrolling.play = async ({ canvasElement }) => {
+Scrolling.play = async (context) => {
     // switch to the elements tab
-    await ElementsTab.play({ canvasElement });
+    await ElementsTab.play(context);
 };
 Scrolling.parameters = {
     data: longData
 };
 
 export const MultiSelect = Template.bind({});
-MultiSelect.play = async ({ canvasElement }) => {
+MultiSelect.play = async (context) => {
     // switch to the elements tab
-    await ElementsTab.play({ canvasElement });
+    await ElementsTab.play(context);
 
-    const canvas = within(canvasElement);
+    const canvas = within(context.canvasElement);
     // toggle multi select
     const toggle = canvas.getByTestId('search-header-multi-select');
     await userEvent.click(toggle);
@@ -169,12 +169,12 @@ MultiSelect.play = async ({ canvasElement }) => {
 };
 
 export const MoreMenuShow = Template.bind({});
-MoreMenuShow.play = async ({ canvasElement }) => {
+MoreMenuShow.play = async (context) => {
     // switch to the elements tab
-    await ElementsTab.play({ canvasElement });
+    await ElementsTab.play(context);
 
     // click a list item
-    const canvas = within(canvasElement);
+    const canvas = within(context.canvasElement);
     const moreMenu = await canvas.findByTestId(
         'context-menu-elements-in-scene-1-moreMenu'
     );
@@ -182,12 +182,12 @@ MoreMenuShow.play = async ({ canvasElement }) => {
 };
 
 export const EditItemMeshTab = Template.bind({});
-EditItemMeshTab.play = async ({ canvasElement }) => {
+EditItemMeshTab.play = async (context) => {
     // switch to the elements tab
-    await ElementsTab.play({ canvasElement });
+    await ElementsTab.play(context);
 
     // click a list item
-    const canvas = within(canvasElement);
+    const canvas = within(context.canvasElement);
     const listItem = await canvas.findByTestId(
         'cardboard-list-item-elements-in-scene-1'
     );
@@ -195,12 +195,12 @@ EditItemMeshTab.play = async ({ canvasElement }) => {
 };
 
 export const EditMeshTabDelete = Template.bind({});
-EditMeshTabDelete.play = async ({ canvasElement }) => {
+EditMeshTabDelete.play = async (context) => {
     // switch to the elements tab & edit
-    await EditItemMeshTab.play({ canvasElement });
+    await EditItemMeshTab.play(context);
 
     // click a list item
-    const canvas = within(canvasElement);
+    const canvas = within(context.canvasElement);
     const listItem = await canvas.findByTestId(
         'cardboard-list-item-secondary-action-0'
     );
@@ -208,24 +208,24 @@ EditMeshTabDelete.play = async ({ canvasElement }) => {
 };
 
 export const EditBehaviorsTab = Template.bind({});
-EditBehaviorsTab.play = async ({ canvasElement }) => {
+EditBehaviorsTab.play = async (context) => {
     // switch to the elements tab & edit
-    await EditItemMeshTab.play({ canvasElement });
+    await EditItemMeshTab.play(context);
 
     // click a list item
-    const canvas = within(canvasElement);
+    const canvas = within(context.canvasElement);
     // Finds the tabs and clicks the first one
     const tabs = await canvas.findAllByRole('tab');
     await userEvent.click(tabs[1]);
 };
 
 export const EditBehaviorsTabAddOpenCallout = Template.bind({});
-EditBehaviorsTabAddOpenCallout.play = async ({ canvasElement }) => {
+EditBehaviorsTabAddOpenCallout.play = async (context) => {
     // switch to the elements tab & edit & switch to Behaviors tab
-    await EditBehaviorsTab.play({ canvasElement });
+    await EditBehaviorsTab.play(context);
 
     // click a list item
-    const canvas = within(canvasElement);
+    const canvas = within(context.canvasElement);
     const listItem = await canvas.findByTestId('element-add-behavior');
     await userEvent.click(listItem);
     // let the callout animate
@@ -233,9 +233,9 @@ EditBehaviorsTabAddOpenCallout.play = async ({ canvasElement }) => {
 };
 
 export const EditBehaviorsTabAddSearch = Template.bind({});
-EditBehaviorsTabAddSearch.play = async ({ canvasElement }) => {
+EditBehaviorsTabAddSearch.play = async (context) => {
     // open the add behavior callout
-    await EditBehaviorsTabAddOpenCallout.play({ canvasElement });
+    await EditBehaviorsTabAddOpenCallout.play(context);
 
     // click a list item
     const searchBox = await findCalloutItemByTestId('behavior-callout-search');
@@ -295,12 +295,12 @@ EditBehaviorsTabAddSearch.play = async ({ canvasElement }) => {
 // };
 
 export const EditAliasedTwinsTab = Template.bind({});
-EditAliasedTwinsTab.play = async ({ canvasElement }) => {
+EditAliasedTwinsTab.play = async (context) => {
     // switch to the elements tab & edit
-    await EditItemMeshTab.play({ canvasElement });
+    await EditItemMeshTab.play(context);
 
     // click a list item
-    const canvas = within(canvasElement);
+    const canvas = within(context.canvasElement);
     // Finds the tabs and clicks one
     const tabs = await canvas.findAllByRole('tab');
     await userEvent.click(tabs[2]);

@@ -106,8 +106,8 @@ AddMultipleModels.play = async ({ canvasElement }) => {
 };
 
 export const SelectModel = Template.bind({});
-SelectModel.play = async ({ canvasElement }) => {
-    await AddModel.play({ canvasElement });
+SelectModel.play = async (context) => {
+    await AddModel.play(context);
 
     // Clicks the button
     const menu = await screen.findByTestId('cardboard-list-item-models-list-0');

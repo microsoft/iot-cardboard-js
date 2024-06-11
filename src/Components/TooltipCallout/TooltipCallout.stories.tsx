@@ -35,7 +35,7 @@ Base.play = async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     // type in the search box
     const moreMenu = await canvas.findByTestId('Callout-Id');
-    userEvent.click(moreMenu);
+    await userEvent.click(moreMenu);
     await sleep(1);
 };
 
@@ -62,6 +62,6 @@ Overrides.play = async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     // type in the search box
     const moreMenu = await canvas.findByTestId('Callout-Id');
-    userEvent.click(moreMenu);
+    await userEvent.click(moreMenu);
     await sleep(1);
 };

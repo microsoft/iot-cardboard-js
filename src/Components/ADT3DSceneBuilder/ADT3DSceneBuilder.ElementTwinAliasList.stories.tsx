@@ -87,9 +87,9 @@ EditTwinAliasTabList.play = async ({ canvasElement }) => {
 };
 
 export const EditTwinAliasListTabItemMenu = Template.bind({});
-EditTwinAliasListTabItemMenu.play = async ({ canvasElement }) => {
-    await EditTwinAliasTabList.play({ canvasElement });
-    const canvas = within(canvasElement);
+EditTwinAliasListTabItemMenu.play = async (context) => {
+    await EditTwinAliasTabList.play(context);
+    const canvas = within(context.canvasElement);
 
     // Find overflow menu of the first twin alias
     const twinAliasItem1MoreMenu = await canvas.findByTestId(
@@ -100,8 +100,8 @@ EditTwinAliasListTabItemMenu.play = async ({ canvasElement }) => {
 };
 
 export const EditTwinAliasTabRemove = Template.bind({});
-EditTwinAliasTabRemove.play = async ({ canvasElement }) => {
-    await EditTwinAliasListTabItemMenu.play({ canvasElement });
+EditTwinAliasTabRemove.play = async (context) => {
+    await EditTwinAliasListTabItemMenu.play(context);
     await sleep(1000);
 
     // Find the remove item in the overflow menu in twin alias list item

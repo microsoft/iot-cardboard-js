@@ -64,20 +64,20 @@ NewElementsTab.play = async ({ canvasElement }) => {
 };
 
 export const NewVisualRuleTabNoElements = Template.bind({});
-NewVisualRuleTabNoElements.play = async ({ canvasElement }) => {
-    await NewElementsTab.play({ canvasElement });
+NewVisualRuleTabNoElements.play = async (context) => {
+    await NewElementsTab.play(context);
 
-    const canvas = within(canvasElement);
+    const canvas = within(context.canvasElement);
     const tab = await canvas.findAllByRole('tab');
     await userEvent.click(tab[2]);
 };
 
 export const NewVisualRuleTabWithElements = Template.bind({});
-NewVisualRuleTabWithElements.play = async ({ canvasElement }) => {
-    await NewElementsTab.play({ canvasElement });
+NewVisualRuleTabWithElements.play = async (context) => {
+    await NewElementsTab.play(context);
 
     // select some elements
-    const canvas = within(canvasElement);
+    const canvas = within(context.canvasElement);
     const listItem1 = await canvas.findByTestId(
         'cardboard-list-item-elements-in-scene-0'
     );
@@ -93,10 +93,10 @@ NewVisualRuleTabWithElements.play = async ({ canvasElement }) => {
 };
 
 export const NewWidgetsTab = Template.bind({});
-NewWidgetsTab.play = async ({ canvasElement }) => {
-    await NewElementsTab.play({ canvasElement });
+NewWidgetsTab.play = async (context) => {
+    await NewElementsTab.play(context);
 
-    const canvas = within(canvasElement);
+    const canvas = within(context.canvasElement);
     const tab = await canvas.findAllByRole('tab');
     await userEvent.click(tab[3]);
 };
@@ -117,9 +117,9 @@ EditElementsTab.play = async ({ canvasElement }) => {
 };
 
 export const EditElementsTabSelectItem = Template.bind({});
-EditElementsTabSelectItem.play = async ({ canvasElement }) => {
-    await EditElementsTab.play({ canvasElement });
-    const canvas = within(canvasElement);
+EditElementsTabSelectItem.play = async (context) => {
+    await EditElementsTab.play(context);
+    const canvas = within(context.canvasElement);
 
     // click one of the items in the elements list
     const elementListItem = await canvas.findByText('box1');
@@ -127,18 +127,18 @@ EditElementsTabSelectItem.play = async ({ canvasElement }) => {
 };
 
 export const EditTwinsAliasesTab = Template.bind({});
-EditTwinsAliasesTab.play = async ({ canvasElement }) => {
-    await EditElementsTabSelectItem.play({ canvasElement });
-    const canvas = within(canvasElement);
+EditTwinsAliasesTab.play = async (context) => {
+    await EditElementsTabSelectItem.play(context);
+    const canvas = within(context.canvasElement);
     // Finds the tabs and clicks Twins
     const tab = await canvas.findAllByRole('tab');
     await userEvent.click(tab[1]);
 };
 
 export const EditTwinAliasesTabAddAlias = Template.bind({});
-EditTwinAliasesTabAddAlias.play = async ({ canvasElement }) => {
-    await EditTwinsAliasesTab.play({ canvasElement });
-    const canvas = within(canvasElement);
+EditTwinAliasesTabAddAlias.play = async (context) => {
+    await EditTwinsAliasesTab.play(context);
+    const canvas = within(context.canvasElement);
     const addTwinAliasButton = await canvas.findByTestId(
         'twinsTab-addTwinAlias'
     );
@@ -146,19 +146,19 @@ EditTwinAliasesTabAddAlias.play = async ({ canvasElement }) => {
 };
 
 export const EditVisualRuleTab = Template.bind({});
-EditVisualRuleTab.play = async ({ canvasElement }) => {
-    await EditElementsTabSelectItem.play({ canvasElement });
-    const canvas = within(canvasElement);
+EditVisualRuleTab.play = async (context) => {
+    await EditElementsTabSelectItem.play(context);
+    const canvas = within(context.canvasElement);
     // Finds the tabs and clicks Visual rules
     const tab = await canvas.findAllByRole('tab');
     await userEvent.click(tab[2]);
 };
 
 export const EditVisualRuleTabRemoveRule = Template.bind({});
-EditVisualRuleTabRemoveRule.play = async ({ canvasElement }) => {
-    await EditVisualRuleTab.play({ canvasElement });
+EditVisualRuleTabRemoveRule.play = async (context) => {
+    await EditVisualRuleTab.play(context);
     // Open overflow menu
-    const canvas = within(canvasElement);
+    const canvas = within(context.canvasElement);
     const moreMenu = await canvas.findByTestId(
         'context-menu-visualRules-in-behavior-0-moreMenu'
     );
@@ -170,10 +170,10 @@ EditVisualRuleTabRemoveRule.play = async ({ canvasElement }) => {
 };
 
 export const EditWidgetsTab = Template.bind({});
-EditWidgetsTab.play = async ({ canvasElement }) => {
-    await EditElementsTabSelectItem.play({ canvasElement });
+EditWidgetsTab.play = async (context) => {
+    await EditElementsTabSelectItem.play(context);
     // click one of the items in the list
-    const canvas = within(canvasElement);
+    const canvas = within(context.canvasElement);
     // Finds the tabs and clicks the first one
     const tab = await canvas.findAllByRole('tab');
     await userEvent.click(tab[3]);

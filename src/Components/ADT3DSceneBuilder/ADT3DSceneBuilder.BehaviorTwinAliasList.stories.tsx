@@ -64,9 +64,9 @@ EditTwinAliasTabListEmpty.play = async ({ canvasElement }) => {
 };
 
 export const EditEditTwinAliasTabAddCallout = Template.bind({});
-EditEditTwinAliasTabAddCallout.play = async ({ canvasElement }) => {
-    await EditTwinAliasTabListEmpty.play({ canvasElement });
-    const canvas = within(canvasElement);
+EditEditTwinAliasTabAddCallout.play = async (context) => {
+    await EditTwinAliasTabListEmpty.play(context);
+    const canvas = within(context.canvasElement);
     const addTwinAliasButton = await canvas.findByTestId(
         'twinsTab-addTwinAlias'
     );
