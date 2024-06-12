@@ -34,7 +34,10 @@ const Template: BehaviorsModalStory = (args) => {
         scenesConfig
     );
 
-    if (sceneVisuals.length === 0) return null;
+    if (sceneVisuals.length === 0) {
+        // Story templates cannot return null, this will cause a Babel error
+        return <></>;
+    }
     const { behaviors, element, twins } = sceneVisuals[0];
     return (
         <div style={wrapperStyle}>
