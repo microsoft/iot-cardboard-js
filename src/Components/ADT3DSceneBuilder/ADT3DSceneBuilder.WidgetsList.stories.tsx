@@ -102,13 +102,13 @@ WidgetsListEmpty.play = async (context) => {
 };
 
 export const WidgetsListMore = Template.bind({});
-WidgetsListMore.play = async (context) => {
+WidgetsListMore.play = async ({ listItemIndex = 0, ...context }) => {
     await WidgetsList.play(context);
     // click one of the items in the list
     const canvas = within(context.canvasElement);
     // Finds the tabs and clicks the first one
     const moreButton = await canvas.findByTestId(
-        `context-menu-widgets-in-behavior-${context.listItemIndex}-moreMenu`
+        `context-menu-widgets-in-behavior-${listItemIndex}-moreMenu`
     );
     await userEvent.click(moreButton);
 };
