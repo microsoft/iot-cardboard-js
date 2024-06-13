@@ -18,5 +18,5 @@ const Template: JobsListStory = (args) => {
     return <JobsList {...args} />;
 };
 
-export const jobsList = Template.bind({}) as JobsListStory;
-jobsList.args = {} as IJobsListProps;
+export const Default = Template.bind({}) as JobsListStory;
+Default.args = {} as IJobsListProps;

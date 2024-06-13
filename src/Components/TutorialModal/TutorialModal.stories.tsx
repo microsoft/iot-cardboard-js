@@ -36,8 +36,8 @@ export const FirstRunExperience = Template.bind({}) as TutorialModalStory;
 FirstRunExperience.args = {} as ITutorialModalProps;
 FirstRunExperience.storyName = 'First-run experience';
 
-export const customPageEntry = Template.bind({}) as TutorialModalStory;
-customPageEntry.args = {
+export const CustomPageEntry = Template.bind({}) as TutorialModalStory;
+CustomPageEntry.args = {
     defaultPageKey: TutorialModalPage.CONCEPTS
 } as ITutorialModalProps;
-customPageEntry.storyName = 'Custom page entry';
+CustomPageEntry.storyName = 'Custom page entry';
