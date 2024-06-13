@@ -19,5 +19,5 @@ const Template: JobsContainerStory = (args) => {
     return <JobsContainer {...args} />;
 };
 
-export const Default = Template.bind({}) as JobsContainerStory;
-Default.args = { adapter: new MockAdapter() } as IJobsContainerProps;
+export const Container = Template.bind({}) as JobsContainerStory;
+Container.args = { adapter: new MockAdapter() } as IJobsContainerProps;
