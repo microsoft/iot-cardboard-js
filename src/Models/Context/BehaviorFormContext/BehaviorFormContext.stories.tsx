@@ -253,11 +253,11 @@ export const ResetAfterChanges = Template.bind({});
 ResetAfterChanges.args = {
     initialState: GET_MOCK_BEHAVIOR_FORM_PROVIDER_PROPS()
 } as StoryProps;
-ResetAfterChanges.play = async ({ canvasElement }) => {
-    await UpdateDisplayName.play({ canvasElement });
-    await AddLayer.play({ canvasElement });
+ResetAfterChanges.play = async (context) => {
+    await UpdateDisplayName.play(context);
+    await AddLayer.play(context);
 
-    const canvas = within(canvasElement);
+    const canvas = within(context.canvasElement);
     // Finds the button and clicks it
     const behaviorsTabButton = await canvas.findByTestId(
         'BehaviorFormContext-Reset'

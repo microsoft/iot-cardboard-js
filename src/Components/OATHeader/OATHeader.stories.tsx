@@ -189,8 +189,8 @@ FileMenu.play = async ({ canvasElement }) => {
 };
 
 export const FileNew = Template.bind({});
-FileNew.play = async ({ canvasElement }) => {
-    await FileMenu.play({ canvasElement });
+FileNew.play = async (context) => {
+    await FileMenu.play(context);
 
     // click the sub menu button
     const button = await findCalloutItemByTestId(
@@ -200,8 +200,8 @@ FileNew.play = async ({ canvasElement }) => {
 };
 
 export const FileEdit = Template.bind({});
-FileEdit.play = async ({ canvasElement }) => {
-    await FileMenu.play({ canvasElement });
+FileEdit.play = async (context) => {
+    await FileMenu.play(context);
 
     // click the sub menu button
     const button = await findCalloutItemByTestId(
@@ -211,8 +211,8 @@ FileEdit.play = async ({ canvasElement }) => {
 };
 
 export const FileDuplicate = Template.bind({});
-FileDuplicate.play = async ({ canvasElement }) => {
-    await FileMenu.play({ canvasElement });
+FileDuplicate.play = async (context) => {
+    await FileMenu.play(context);
 
     // click the sub menu button
     const button = await findCalloutItemByTestId(
@@ -222,8 +222,8 @@ FileDuplicate.play = async ({ canvasElement }) => {
 };
 
 export const FileSwitch = Template.bind({});
-FileSwitch.play = async ({ canvasElement }) => {
-    await FileMenu.play({ canvasElement });
+FileSwitch.play = async (context) => {
+    await FileMenu.play(context);
 
     // click the sub menu button
     const button = await findCalloutItemByTestId(

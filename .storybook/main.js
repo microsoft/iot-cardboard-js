@@ -2,6 +2,8 @@ const path = require('path');
 const ESLintPlugin = require('eslint-webpack-plugin');
 const postcssUrl = require('postcss-url');
 const AppSourceDir = path.join(__dirname, '..', 'src');
+import { loadCsf } from '@storybook/csf-tools';
+import { readFile } from 'fs-extra';
 
 module.exports = {
     stories:
@@ -18,19 +20,35 @@ module.exports = {
                   '../src/Models/**/*.stories.tsx',
                   '../src/Pages/**/*.stories.tsx',
                   '../src/Components/**/*.stories.local.tsx',
-                  '../src/Models/**/*.stories.local.tsx',
                   '../src/Pages/**/*.stories.local.tsx'
               ],
+    // Required for .local stories, this just parses the files and includes the stories
+    experimental_indexers: async (existingIndexers) => {
+        const localIndexer = {
+            test: /\.stories\.local\.tsx?$/,
+            createIndex: async (fileName, opts) => {
+                const code = (await readFile(fileName, 'utf-8')).toString();
+                return loadCsf(code, { ...opts, fileName }).parse().indexInputs;
+            }
+        };
+        const indexers =
+            process.env.NODE_ENV === 'production'
+                ? [...existingIndexers]
+                : [...existingIndexers, localIndexer];
+        return indexers;
+    },
     // Add any Storybook addons you want here: https://storybook.js.org/addons/
     addons: [
         '@storybook/addon-essentials',
         '@storybook/addon-interactions',
         '@storybook/addon-a11y'
     ],
+
     typescript: {
         check: false,
         reactDocgen: false
     },
+
     webpackFinal: async (config) => {
         // Disable the Storybook internal-`.svg`-rule for components loaded from our app.
         const svgRule = config.module.rules.find((rule) =>
@@ -81,5 +99,10 @@ module.exports = {
         );
 
         return config;
+    },
+
+    framework: {
+        name: '@storybook/react-webpack5',
+        options: {}
     }
 };

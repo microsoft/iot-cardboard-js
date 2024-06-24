@@ -19,8 +19,8 @@ const Template: JobsDialogStory = (args) => {
     return <JobsDialog {...args} />;
 };
 
-export const jobsDialog = Template.bind({}) as JobsDialogStory;
-jobsDialog.args = {
+export const Dialog = Template.bind({}) as JobsDialogStory;
+Dialog.args = {
     adapter: new MockAdapter(),
     isOpen: true
 } as IJobsDialogProps;

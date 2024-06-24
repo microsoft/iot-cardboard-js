@@ -39,7 +39,7 @@ HideRelationships.play = async ({ canvasElement }) => {
     const menu = await canvas.findByTestId(
         'graph-legend-show-relationships-toggle'
     );
-    userEvent.click(menu);
+    await userEvent.click(menu);
 };
 
 export const ShowInheritances = Template.bind({}) as GraphLegendStory;
@@ -51,7 +51,7 @@ ShowInheritances.play = async ({ canvasElement }) => {
     const menu = await canvas.findByTestId(
         'graph-legend-show-inheritances-toggle'
     );
-    userEvent.click(menu);
+    await userEvent.click(menu);
 };
 
 export const HideComponents = Template.bind({}) as GraphLegendStory;
@@ -63,5 +63,5 @@ HideComponents.play = async ({ canvasElement }) => {
     const menu = await canvas.findByTestId(
         'graph-legend-show-components-toggle'
     );
-    userEvent.click(menu);
+    await userEvent.click(menu);
 };

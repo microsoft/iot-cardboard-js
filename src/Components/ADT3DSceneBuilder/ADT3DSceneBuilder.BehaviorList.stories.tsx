@@ -66,31 +66,31 @@ BehaviorsTab.play = async ({ canvasElement }) => {
 export const EmptyBehaviorsList = Template.bind({});
 const emptyBehaviorsData = deepCopy(trucksMockVConfig);
 emptyBehaviorsData.configuration.behaviors = [];
-EmptyBehaviorsList.play = async ({ canvasElement }) => {
+EmptyBehaviorsList.play = async (context) => {
     // switch to the behaviors tab
-    await BehaviorsTab.play({ canvasElement });
+    await BehaviorsTab.play(context);
 };
 EmptyBehaviorsList.parameters = {
     data: emptyBehaviorsData
 };
 
 export const Search = Template.bind({});
-Search.play = async ({ canvasElement }) => {
+Search.play = async (context) => {
     // switch to the behaviors tab
-    await BehaviorsTab.play({ canvasElement });
+    await BehaviorsTab.play(context);
 
-    const canvas = within(canvasElement);
+    const canvas = within(context.canvasElement);
     // type in the search box
     const searchBox = canvas.getByTestId('search-header-search-box');
     await userEvent.type(searchBox, 'wheels');
 };
 
 export const EmptySearch = Template.bind({});
-EmptySearch.play = async ({ canvasElement }) => {
+EmptySearch.play = async (context) => {
     // switch to the behaviors tab
-    await BehaviorsTab.play({ canvasElement });
+    await BehaviorsTab.play(context);
 
-    const canvas = within(canvasElement);
+    const canvas = within(context.canvasElement);
     // type in the search box
     const searchBox = canvas.getByTestId('search-header-search-box');
     await userEvent.type(searchBox, 'unknown value');
@@ -161,9 +161,9 @@ longData.configuration.behaviors = [
     }
 ];
 export const Scrolling = Template.bind({});
-Scrolling.play = async ({ canvasElement }) => {
+Scrolling.play = async (context) => {
     // switch to the behaviors tab
-    await BehaviorsTab.play({ canvasElement });
+    await BehaviorsTab.play(context);
 };
 Scrolling.parameters = {
     data: longData
@@ -199,20 +199,20 @@ longDataWithRemoved.configuration.behaviors = [
     }
 ];
 export const WithRemoved = Template.bind({});
-WithRemoved.play = async ({ canvasElement }) => {
+WithRemoved.play = async (context) => {
     // switch to the behaviors tab
-    await BehaviorsTab.play({ canvasElement });
+    await BehaviorsTab.play(context);
 };
 WithRemoved.parameters = {
     data: longDataWithRemoved
 };
 
 export const ScrollingWithRemovedExpanded = Template.bind({});
-ScrollingWithRemovedExpanded.play = async ({ canvasElement }) => {
+ScrollingWithRemovedExpanded.play = async (context) => {
     // switch to the behaviors tab
-    await WithRemoved.play({ canvasElement });
+    await WithRemoved.play(context);
     // Click the section header
-    const canvas = within(canvasElement);
+    const canvas = within(context.canvasElement);
     const sectionHeader = await canvas.findByTestId(
         'behaviors-in-other-scenes-button'
     );
@@ -223,11 +223,11 @@ ScrollingWithRemovedExpanded.parameters = {
 };
 
 export const MoreMenuShow = Template.bind({});
-MoreMenuShow.play = async ({ canvasElement }) => {
+MoreMenuShow.play = async (context) => {
     // switch to the behaviors tab
-    await BehaviorsTab.play({ canvasElement });
+    await BehaviorsTab.play(context);
 
-    const canvas = within(canvasElement);
+    const canvas = within(context.canvasElement);
     // type in the search box
     const moreMenu = await canvas.findByTestId(
         'context-menu-behaviors-in-scene-1-moreMenu'
@@ -237,31 +237,31 @@ MoreMenuShow.play = async ({ canvasElement }) => {
 };
 
 export const MoreMenuEdit = Template.bind({});
-MoreMenuEdit.play = async ({ canvasElement }) => {
+MoreMenuEdit.play = async (context) => {
     // switch to the behaviors tab
-    await MoreMenuShow.play({ canvasElement });
+    await MoreMenuShow.play(context);
 
     const moreMenus = await findOverflowMenuItem('editOverflow');
     await clickOverFlowMenuItem(moreMenus);
 };
 
 export const RemoveDialogShow = Template.bind({});
-RemoveDialogShow.play = async ({ canvasElement }) => {
-    await MoreMenuShow.play({ canvasElement });
+RemoveDialogShow.play = async (context) => {
+    await MoreMenuShow.play(context);
     const moreMenus = await findOverflowMenuItem('removeFromSceneOverflow');
     await clickOverFlowMenuItem(moreMenus);
 };
 
 export const RemoveDialogConfirmed = Template.bind({});
-RemoveDialogConfirmed.play = async ({ canvasElement }) => {
-    await RemoveDialogShow.play({ canvasElement });
+RemoveDialogConfirmed.play = async (context) => {
+    await RemoveDialogShow.play(context);
     const button = await findDialogMenuItem('deleteDialog-confirm');
     await userEvent.click(button);
 };
 
 export const RemoveDialogCancel = Template.bind({});
-RemoveDialogCancel.play = async ({ canvasElement }) => {
-    await RemoveDialogShow.play({ canvasElement });
+RemoveDialogCancel.play = async (context) => {
+    await RemoveDialogShow.play(context);
     const button = await findDialogMenuItem('deleteDialog-cancel');
     await userEvent.click(button);
 };

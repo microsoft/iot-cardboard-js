@@ -73,11 +73,11 @@ WidgetsList.play = async ({ canvasElement }) => {
 };
 
 export const WidgetsListEmpty = Template.bind({});
-WidgetsListEmpty.play = async ({ canvasElement }) => {
-    await WidgetsList.play({ canvasElement });
+WidgetsListEmpty.play = async (context) => {
+    await WidgetsList.play(context);
 
     // remove the stock data
-    const canvas = within(canvasElement);
+    const canvas = within(context.canvasElement);
     const moreButton1 = await canvas.findByTestId(
         `context-menu-widgets-in-behavior-0-moreMenu`
     );
@@ -102,10 +102,10 @@ WidgetsListEmpty.play = async ({ canvasElement }) => {
 };
 
 export const WidgetsListMore = Template.bind({});
-WidgetsListMore.play = async ({ canvasElement, listItemIndex = 0 }) => {
-    await WidgetsList.play({ canvasElement });
+WidgetsListMore.play = async ({ listItemIndex = 0, ...context }) => {
+    await WidgetsList.play(context);
     // click one of the items in the list
-    const canvas = within(canvasElement);
+    const canvas = within(context.canvasElement);
     // Finds the tabs and clicks the first one
     const moreButton = await canvas.findByTestId(
         `context-menu-widgets-in-behavior-${listItemIndex}-moreMenu`
@@ -114,18 +114,18 @@ WidgetsListMore.play = async ({ canvasElement, listItemIndex = 0 }) => {
 };
 
 export const WidgetsListMoreRemove = Template.bind({});
-WidgetsListMoreRemove.play = async ({ canvasElement }) => {
-    await WidgetsListMore.play({ canvasElement });
+WidgetsListMoreRemove.play = async (context) => {
+    await WidgetsListMore.play(context);
     // Click the remove button in the overflow
     const removeButton = await findOverflowMenuItem('removeWidgetOverflow');
     await clickOverFlowMenuItem(removeButton);
 };
 
 export const WidgetsListAddDialogShow = Template.bind({});
-WidgetsListAddDialogShow.play = async ({ canvasElement }) => {
-    await WidgetsList.play({ canvasElement });
+WidgetsListAddDialogShow.play = async (context) => {
+    await WidgetsList.play(context);
     // Click the remove button in the overflow
-    const canvas = within(canvasElement);
+    const canvas = within(context.canvasElement);
     const addButton = await canvas.findByTestId('widgetForm-addWidget');
     await userEvent.click(addButton);
 };

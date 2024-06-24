@@ -89,16 +89,16 @@ const Template: SceneBuilderStory = (
 };
 
 export const WidgetsFormEditLink = Template.bind({});
-WidgetsFormEditLink.play = async ({ canvasElement }) => {
-    await WidgetsListMore.play({ canvasElement, listItemIndex: 2 });
+WidgetsFormEditLink.play = async (context) => {
+    await WidgetsListMore.play({ ...context, listItemIndex: 2 });
     // click the edit button in the overflow
     const editButton = await findOverflowMenuItem('editWidgetOverflow');
     await clickOverFlowMenuItem(editButton);
 };
 
 export const WidgetsFormCreateGaugeEmpty = Template.bind({});
-WidgetsFormCreateGaugeEmpty.play = async ({ canvasElement }) => {
-    await WidgetsListAddDialogShow.play({ canvasElement });
+WidgetsFormCreateGaugeEmpty.play = async (context) => {
+    await WidgetsListAddDialogShow.play(context);
     // mock data does not have a gauge so we go through the flow to add one
     const gaugeButton = await findCalloutItemByTestId('widget-library-Gauge');
     await userEvent.click(gaugeButton);
@@ -109,9 +109,9 @@ WidgetsFormCreateGaugeEmpty.play = async ({ canvasElement }) => {
 };
 
 export const WidgetsFormEditGaugeValid = Template.bind({});
-WidgetsFormEditGaugeValid.play = async ({ canvasElement }) => {
-    await WidgetsFormCreateGaugeEmpty.play({ canvasElement });
-    const canvas = within(canvasElement);
+WidgetsFormEditGaugeValid.play = async (context) => {
+    await WidgetsFormCreateGaugeEmpty.play(context);
+    const canvas = within(context.canvasElement);
     const labelInput = await canvas.findByTestId(
         'widget-form-gauge-label-input'
     );
@@ -126,16 +126,16 @@ WidgetsFormEditGaugeValid.play = async ({ canvasElement }) => {
 };
 
 export const WidgetsFormCreateGaugeSave = Template.bind({});
-WidgetsFormCreateGaugeSave.play = async ({ canvasElement }) => {
-    await WidgetsFormEditGaugeValid.play({ canvasElement });
-    const canvas = within(canvasElement);
+WidgetsFormCreateGaugeSave.play = async (context) => {
+    await WidgetsFormEditGaugeValid.play(context);
+    const canvas = within(context.canvasElement);
     const saveButton = await canvas.findByTestId('widget-form-primary-button');
     await userEvent.click(saveButton);
 };
 
 export const WidgetsFormCreateValueEmpty = Template.bind({});
-WidgetsFormCreateValueEmpty.play = async ({ canvasElement }) => {
-    await WidgetsListAddDialogShow.play({ canvasElement });
+WidgetsFormCreateValueEmpty.play = async (context) => {
+    await WidgetsListAddDialogShow.play(context);
     const valueButton = await findCalloutItemByTestId('widget-library-Value');
     await userEvent.click(valueButton);
     const addButton = await findCalloutItemByTestId(
