@@ -174,7 +174,9 @@
         "react-dom": ">=16.8.0"
     },
     "overrides": {
-        "minimist@1.2.5": "1.2.6"
+        "minimist@1.2.5": "1.2.6",
+        "follow-redirects": "1.15.6",
+        "es5-ext": "0.10.53"
     },
     "author": "",
     "license": "ISC"
