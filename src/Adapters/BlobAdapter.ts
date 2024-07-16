@@ -175,7 +175,9 @@ export default class BlobAdapter implements IBlobAdapter {
                         headers: this.generateBlobHeaders(headers)
                     });
                     if (scenesBlob.data) {
-                        config = validate3DConfigWithSchema(scenesBlob.data.data);
+                        config = validate3DConfigWithSchema(
+                            scenesBlob.data.data
+                        );
                     } else {
                         throw new Error('Data not found');
                     }
@@ -254,50 +256,50 @@ export default class BlobAdapter implements IBlobAdapter {
      * and accepts an array of file types to be used to filter those files. It parses XML response into JSON and returns adapter data with array of blobs
      */
     async getContainerBlobs(fileTypes: Array<string>) {
-            const adapterMethodSandbox = new AdapterMethodSandbox(
-                this.blobAuthService
-            );
-    
-            return await adapterMethodSandbox.safelyFetchData(async (token) => {
-                const headers = {
-                    authorization: 'Bearer ' + token,
-                    'Content-Type': 'application/json',
-                    'x-ms-version': '2017-11-09'
-                };
-                try {
-                    const filesData = await axios({
-                        method: 'GET',
-                        url: this.generateBlobUrl(`/${this.containerName}`),
-                        headers: this.generateBlobHeaders(headers),
-                        params: {
-                            restype: 'container',
-                            comp: 'list'
-                        }
-                    });
-                    const filesXML = filesData.data;
-                    const parser = new XMLParser();
-                    let files: Array<IStorageBlob> = parser.parse(filesXML.data)
-                        ?.EnumerationResults?.Blobs?.Blob;
-                    if (fileTypes) {
-                        files = files.filter((f) =>
-                            fileTypes.includes(f.Name?.split('.')?.[1])
-                        );
+        const adapterMethodSandbox = new AdapterMethodSandbox(
+            this.blobAuthService
+        );
+
+        return await adapterMethodSandbox.safelyFetchData(async (token) => {
+            const headers = {
+                authorization: 'Bearer ' + token,
+                'Content-Type': 'application/json',
+                'x-ms-version': '2017-11-09'
+            };
+            try {
+                const filesData = await axios({
+                    method: 'GET',
+                    url: this.generateBlobUrl(`/${this.containerName}`),
+                    headers: this.generateBlobHeaders(headers),
+                    params: {
+                        restype: 'container',
+                        comp: 'list'
                     }
-                    files.map(
-                        (f) =>
-                            (f.Path = `https://${this.storageAccountHostName}/${this.containerName}/${f.Name}`)
+                });
+                const filesXML = filesData.data;
+                const parser = new XMLParser();
+                let files: Array<IStorageBlob> = parser.parse(filesXML.data)
+                    ?.EnumerationResults?.Blobs?.Blob;
+                if (fileTypes) {
+                    files = files.filter((f) =>
+                        fileTypes.includes(f.Name?.split('.')?.[1])
                     );
-    
-                    return new StorageBlobsData(files);
-                } catch (err) {
-                    adapterMethodSandbox.pushError({
-                        type: ComponentErrorType.DataFetchFailed,
-                        isCatastrophic: true,
-                        rawError: err
-                    });
                 }
-            }, 'storage');
-        }
+                files.map(
+                    (f) =>
+                        (f.Path = `https://${this.storageAccountHostName}/${this.containerName}/${f.Name}`)
+                );
+
+                return new StorageBlobsData(files);
+            } catch (err) {
+                adapterMethodSandbox.pushError({
+                    type: ComponentErrorType.DataFetchFailed,
+                    isCatastrophic: true,
+                    rawError: err
+                });
+            }
+        }, 'storage');
+    }
 
     // This method create/update existing blob in the container using Put Blob API (https://docs.microsoft.com/en-us/rest/api/storageservices/put-blob)
     putBlob(file: File) {

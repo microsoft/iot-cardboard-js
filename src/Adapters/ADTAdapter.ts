@@ -583,7 +583,9 @@ export default class ADTAdapter implements IADTAdapter {
                     return null;
                 }
             });
-            return new ADTModelsData(axiosResult?.data as unknown as IADTModel[]);
+            return new ADTModelsData(
+                (axiosResult?.data as unknown) as IADTModel[]
+            );
         });
     }
 
@@ -867,7 +869,8 @@ export default class ADTAdapter implements IADTAdapter {
 
             const parallelFetchModel = async (modelId: string) => {
                 try {
-                    const model = (await fetchFullModel(modelId)).data.data.model;
+                    const model = (await fetchFullModel(modelId)).data.data
+                        .model;
                     expandedModels.push(model);
                 } catch (err) {
                     adapterMethodSandbox.pushError({
