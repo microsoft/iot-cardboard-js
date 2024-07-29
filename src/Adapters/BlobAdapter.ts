@@ -174,7 +174,7 @@ export default class BlobAdapter implements IBlobAdapter {
                         ),
                         headers: this.generateBlobHeaders(headers)
                     });
-                    if (scenesBlob.data) {
+                    if (scenesBlob.data && scenesBlob.data.data) {
                         config = validate3DConfigWithSchema(
                             scenesBlob.data.data
                         );

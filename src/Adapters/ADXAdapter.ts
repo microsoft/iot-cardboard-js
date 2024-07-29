@@ -84,7 +84,7 @@ export default class ADXAdapter implements IADXAdapter {
                 const adxDataHistoryResults = await getDataHistoryFromADX();
                 const resultTimeSeriesData: Array<ADXTimeSeries> = []; // considering there is going to be multiple series to fetch data for
 
-                if (adxDataHistoryResults.data) {
+                if (adxDataHistoryResults.data && adxDataHistoryResults.data.data) {
                     const primaryResultTables: Array<ADXTable> = adxDataHistoryResults.data.data.filter(
                         (frame) => frame.TableKind === 'PrimaryResult'
                     );

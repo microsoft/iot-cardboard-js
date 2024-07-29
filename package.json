@@ -176,7 +176,8 @@
     "overrides": {
         "minimist@1.2.5": "1.2.6",
         "follow-redirects": "1.15.6",
-        "es5-ext": "0.10.63"
+        "es5-ext": "0.10.63",
+        "axios": "^0.28.0"
     },
     "author": "",
     "license": "ISC"
