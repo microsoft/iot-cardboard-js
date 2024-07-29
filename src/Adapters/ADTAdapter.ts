@@ -583,7 +583,9 @@ export default class ADTAdapter implements IADTAdapter {
                     return null;
                 }
             });
-            return new ADTModelsData(axiosResult?.data);
+            return new ADTModelsData(
+                (axiosResult?.data as unknown) as IADTModel[]
+            );
         });
     }
 
@@ -815,7 +817,7 @@ export default class ADTAdapter implements IADTAdapter {
             const recursivelyAddToExpandedModels = async (modelId: string) => {
                 try {
                     // Add root model
-                    const rootModel = (await fetchFullModel(modelId)).data
+                    const rootModel = (await fetchFullModel(modelId)).data.data
                         .model;
                     expandedModels.push(rootModel);
 
@@ -867,7 +869,8 @@ export default class ADTAdapter implements IADTAdapter {
 
             const parallelFetchModel = async (modelId: string) => {
                 try {
-                    const model = (await fetchFullModel(modelId)).data.model;
+                    const model = (await fetchFullModel(modelId)).data.data
+                        .model;
                     expandedModels.push(model);
                 } catch (err) {
                     adapterMethodSandbox.pushError({
@@ -948,7 +951,7 @@ export default class ADTAdapter implements IADTAdapter {
                 }
             });
 
-            return new ADTRelationshipData(axiosResponse.data);
+            return new ADTRelationshipData(axiosResponse.data.data);
         });
     }
 
