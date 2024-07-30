@@ -1,11 +1,11 @@
 import { IStyle, IStyleFunctionOrObject } from '@fluentui/react';
 import { MockAdapter } from '../../../../Adapters';
-import JobsAdapter from '../../../../Adapters/JobsAdapter';
+import JobAdapter from '../../../../Adapters/JobAdapter';
 import { IAdtApiJob } from '../../../../Models/Constants/Interfaces';
 import { IExtendedTheme } from '../../../../Theming/Theme.types';
 
 export interface IJobsDialogProps {
-    adapter: JobsAdapter | MockAdapter;
+    adapter: JobAdapter | MockAdapter;
     isOpen: boolean;
     onClose: () => void;
     onAddJob: (newJob: IAdtApiJob) => void;

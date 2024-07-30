@@ -3,7 +3,7 @@ import { ComponentStory } from '@storybook/react';
 import { getDefaultStoryDecorator } from '../../Models/Services/StoryUtilities';
 import JobsPage from './JobsPage';
 import { IJobsPageProps } from './JobsPage.types';
-import JobsAdapter from '../../Adapters/JobsAdapter';
+import JobAdapter from '../../Adapters/JobAdapter';
 import useAuthParams from '../../../.storybook/useAuthParams';
 import MsalAuthService from '../../Models/Services/MsalAuthService';
 
@@ -25,7 +25,7 @@ const Template: JobsPageStory = (args) => {
     ) : (
         <JobsPage
             adapter={
-                new JobsAdapter(
+                new JobAdapter(
                     authenticationParameters.adt.hostUrl,
                     new MsalAuthService(
                         authenticationParameters.adt.aadParameters
