@@ -12,7 +12,7 @@ const forceCORS = localStorage.getItem(
     LOCAL_STORAGE_KEYS.FeatureFlags.Proxy.forceCORS
 );
 
-export default class JobsAdapter implements IJobsAdapter {
+export default class JobAdapter implements IJobsAdapter {
     public adtHostUrl: string;
     public authService: IAuthService;
     public uniqueObjectId: string;
@@ -64,10 +64,10 @@ export default class JobsAdapter implements IJobsAdapter {
         return null;
     };
 }
-export default interface JobsAdapter extends ADT3DSceneAdapter {
+export default interface JobAdapter extends ADT3DSceneAdapter {
     getAllJobs: () => Promise<any>;
     cancelJob: (params: AdapterMethodParamsForJobs) => Promise<any>;
     deleteJob: (params: AdapterMethodParamsForJobs) => Promise<any>;
     createJob: (params: AdapterCreateJobArgs) => Promise<any>;
 }
-applyMixins(JobsAdapter, [ADT3DSceneAdapter]);
+applyMixins(JobAdapter, [ADT3DSceneAdapter]);
