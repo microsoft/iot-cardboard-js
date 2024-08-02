@@ -174,10 +174,8 @@ export default class BlobAdapter implements IBlobAdapter {
                         ),
                         headers: this.generateBlobHeaders(headers)
                     });
-                    if (scenesBlob.data && scenesBlob.data.data) {
-                        config = validate3DConfigWithSchema(
-                            scenesBlob.data.data
-                        );
+                    if (scenesBlob.data) {
+                        config = validate3DConfigWithSchema(scenesBlob.data);
                     } else {
                         throw new Error('Data not found');
                     }
@@ -278,7 +276,7 @@ export default class BlobAdapter implements IBlobAdapter {
                 });
                 const filesXML = filesData.data;
                 const parser = new XMLParser();
-                let files: Array<IStorageBlob> = parser.parse(filesXML.data)
+                let files: Array<IStorageBlob> = parser.parse(filesXML)
                     ?.EnumerationResults?.Blobs?.Blob;
                 if (fileTypes) {
                     files = files.filter((f) =>
