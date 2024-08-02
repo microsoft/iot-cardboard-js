@@ -867,8 +867,7 @@ export default class ADTAdapter implements IADTAdapter {
 
             const parallelFetchModel = async (modelId: string) => {
                 try {
-                    const model = (await fetchFullModel(modelId)).data
-                        .model;
+                    const model = (await fetchFullModel(modelId)).data.model;
                     expandedModels.push(model);
                 } catch (err) {
                     adapterMethodSandbox.pushError({
