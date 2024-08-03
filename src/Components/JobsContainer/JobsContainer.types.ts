@@ -1,10 +1,10 @@
 import { IStyle, IStyleFunctionOrObject } from '@fluentui/react';
 import { MockAdapter } from '../../Adapters';
-import JobAdapter from '../../Adapters/JobAdapter';
+import JobsAdapter from '../../Adapters/JobsAdapter';
 import { IExtendedTheme } from '../../Theming/Theme.types';
 
 export interface IJobsContainerProps {
-    adapter: JobAdapter | MockAdapter;
+    adapter: JobsAdapter | MockAdapter;
     /**
      * Call to provide customized styling that will layer on top of the variant rules.
      */

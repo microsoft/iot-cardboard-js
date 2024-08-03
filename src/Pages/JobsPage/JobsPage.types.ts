@@ -1,11 +1,11 @@
 import { IStyle, IStyleFunctionOrObject } from '@fluentui/react';
 import { MockAdapter } from '../../Adapters';
-import JobAdapter from '../../Adapters/JobAdapter';
+import JobsAdapter from '../../Adapters/JobsAdapter';
 import { ICardBaseProps } from '../../Models/Constants';
 import { IExtendedTheme } from '../../Theming/Theme.types';
 
 export interface IJobsPageProps extends ICardBaseProps {
-    adapter: JobAdapter | MockAdapter;
+    adapter: JobsAdapter | MockAdapter;
     adtInstanceUrl: string;
     /**
      * Call to provide customized styling that will layer on top of the variant rules.
