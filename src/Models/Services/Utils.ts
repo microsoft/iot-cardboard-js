@@ -926,7 +926,7 @@ export const getSanitizedBlobUrl = (
         try {
             const url = getUrlFromString(storageUrl);
             if (url.hostname.endsWith('.blob.core.windows.net')) {
-                return storageUrl;
+                return url.href;
             } else {
                 console.error(`Invalid model URL domain in scene config`);
             }
@@ -946,12 +946,11 @@ const validAdtHostSuffixes = [
 export const getSanitizedAdtInstanceUrl = (adtInstanceUrl: string): string => {
     if (adtInstanceUrl) {
         // remove any unexpected characters
-        const instanceUrl = adtInstanceUrl.replace(/[^a-zA-Z0-9-:./]|\/$/g, '');
-        const isValidEid = validAdtHostSuffixes.some((suffix) =>
-            instanceUrl.endsWith(suffix)
-        );
-        if (isValidEid) {
-            return getUrlFromString(adtInstanceUrl).href;
+        const url = getUrlFromString(adtInstanceUrl);
+        if (
+            validAdtHostSuffixes.some((suffix) => url.hostname.endsWith(suffix))
+        ) {
+            return url.href;
         } else {
             console.error('Invalid environment URL in query parameter');
         }
