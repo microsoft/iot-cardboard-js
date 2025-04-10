@@ -109,7 +109,6 @@ If you have a question for one of the project maintainers, please post the quest
 - To learn about coding guidelines, check out the [coding guidelines wiki](https://github.com/microsoft/iot-cardboard-js/wiki/Coding-guidelines~Component-templates).
 - For an overview of our CI / CD and semantic versioning systems, check out our [continuous integration and delivery wiki](https://github.com/microsoft/iot-cardboard-js/wiki/Continuous-delivery).
 
-
 ## Contributor License Agreement 📃
 
 This project welcomes contributions and suggestions!  Most contributions require you to agree to a
