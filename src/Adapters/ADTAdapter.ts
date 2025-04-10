@@ -57,7 +57,8 @@ import {
     getModelContentType,
     getUrlFromString,
     parseDTDLModelsAsync,
-    validateExplorerOrigin
+    validateExplorerOrigin,
+    getSanitizedBlobUrl
 } from '../Models/Services/Utils';
 import { DTDLType } from '../Models/Classes/DTDL';
 import ExpandedADTModelData from '../Models/Classes/AdapterDataClasses/ExpandedADTModelData';
@@ -167,7 +168,7 @@ export default class ADTAdapter implements IADTAdapter {
     }
 
     setAdtHostUrl(hostName: string) {
-        if (hostName.startsWith('https://')) {
+        if (hostName?.startsWith('https://')) {
             hostName = hostName.replace('https://', '');
         }
         this.adtHostUrl = hostName;
@@ -1058,14 +1059,14 @@ export default class ADTAdapter implements IADTAdapter {
             const scene = config.configuration?.scenes?.find(
                 (scene) => scene.id === sceneId
             );
-            let modelUrl = null;
+            const modelUrl = getSanitizedBlobUrl(
+                scene?.assets?.find((asset) => asset.url)?.url
+            );
             let sceneVisuals: SceneVisual[] = [];
 
             if (scene) {
                 const twinIds = new Set<string>();
                 const twinIdToDataMap = new Map<string, DTwin>();
-                // get modelUrl
-                modelUrl = scene.assets?.find((asset) => asset.url)?.url;
 
                 if (scene.behaviorIDs) {
                     // get all twins for all behaviors in the scene

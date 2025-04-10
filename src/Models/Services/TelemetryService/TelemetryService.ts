@@ -61,7 +61,7 @@ class TelemetryService {
      * @param adtInstanceUrl
      */
     static setAdtInstance(adtInstanceUrl: string): void {
-        this.adtInstanceHash = Md5.hashStr(adtInstanceUrl);
+        this.adtInstanceHash = Md5.hashStr(adtInstanceUrl || '');
         logDebugConsole(
             'debug',
             `Updating adt instance hash to ${this.adtInstanceHash}. {adtInstance}`,

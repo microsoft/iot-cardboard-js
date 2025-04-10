@@ -17,6 +17,8 @@ import {
     getNameOfResource,
     getResourceId,
     getResourceUrl,
+    getSanitizedAdtInstanceUrl,
+    getSanitizedBlobUrl,
     getUrlFromString
 } from '../../Services/Utils';
 import { useConsumerDeeplinkContext } from '../ConsumerDeeplinkContext/ConsumerDeeplinkContext';
@@ -192,7 +194,7 @@ export const DeeplinkContextProvider: React.FC<IDeeplinkContextProviderProps> = 
     // set the initial state for the Deeplink reducer
     // use the URL values and then fallback to initial state that is provided
     const defaultState: IDeeplinkContextState = {
-        adtUrl: defaultAdtUrl,
+        adtUrl: getSanitizedAdtInstanceUrl(defaultAdtUrl),
         adtResourceId: defaultAdtResourceId,
         mode: parsed.mode || initialState.mode || ADT3DScenePageModes.ViewScene,
         sceneId: parsed.sceneId || initialState.sceneId || '',
@@ -204,11 +206,12 @@ export const DeeplinkContextProvider: React.FC<IDeeplinkContextProviderProps> = 
             parseArrayParam(parsed.selectedLayerIds) ||
             initialState.selectedLayerIds ||
             [],
-        storageUrl:
+        storageUrl: getSanitizedBlobUrl(
             parsed.storageUrl ||
-            initialState.storageUrl ||
-            selectedStorageContainerInLocalStorage?.url ||
-            '',
+                initialState.storageUrl ||
+                selectedStorageContainerInLocalStorage?.url ||
+                ''
+        ),
         isLocalStorageEnabled: {
             adt: initialState.isLocalStorageEnabled?.adt,
             storage: initialState.isLocalStorageEnabled?.storage
