@@ -796,21 +796,25 @@ export default class ADTAdapter implements IADTAdapter {
             const expandedModels: DtdlInterface[] = [];
 
             const fetchFullModel = async (targetModelId: string) => {
-                return axios({
-                    method: 'get',
-                    url: this.generateUrl(
-                        `/models/${encodeURIComponent(
-                            targetModelId
-                        )}?includeModelDefinition=True`
-                    ),
-                    headers: this.generateHeaders({
-                        'Content-Type': 'application/json',
-                        authorization: 'Bearer ' + token
-                    }),
-                    params: {
-                        'api-version': ADT_ApiVersion
-                    }
-                });
+                const url = this.generateUrl(
+                    `/models/${encodeURIComponent(
+                        targetModelId
+                    )}?includeModelDefinition=True`
+                );
+                // handle malformed host name when ADT instance URL is corrupt
+                if (new URL(url).hostname) {
+                    return axios({
+                        method: 'get',
+                        url: url,
+                        headers: this.generateHeaders({
+                            'Content-Type': 'application/json',
+                            authorization: 'Bearer ' + token
+                        }),
+                        params: {
+                            'api-version': ADT_ApiVersion
+                        }
+                    });
+                }
             };
 
             const recursivelyAddToExpandedModels = async (modelId: string) => {
