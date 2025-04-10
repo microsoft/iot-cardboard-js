@@ -945,7 +945,6 @@ const validAdtHostSuffixes = [
 
 export const getSanitizedAdtInstanceUrl = (adtInstanceUrl: string): string => {
     if (adtInstanceUrl) {
-        // remove any unexpected characters
         const url = getUrlFromString(adtInstanceUrl);
         if (
             validAdtHostSuffixes.some((suffix) => url.hostname.endsWith(suffix))
