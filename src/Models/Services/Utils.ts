@@ -925,6 +925,7 @@ export const getSanitizedBlobUrl = (
     if (storageUrl) {
         try {
             const url = getUrlFromString(storageUrl);
+            // validate
             if (url.hostname.endsWith('.blob.core.windows.net')) {
                 return url.href;
             } else {
