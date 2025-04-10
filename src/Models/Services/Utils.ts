@@ -918,6 +918,46 @@ export const getUrlFromString = (urlString: string): URL => {
     }
 };
 
+export const getSanitizedBlobUrl = (
+    storageUrl: string | null
+): string | null => {
+    // validate the URL to make sure it points at blob storage
+    if (storageUrl) {
+        try {
+            const url = getUrlFromString(storageUrl);
+            if (url.hostname.endsWith('.blob.core.windows.net')) {
+                return url.href;
+            } else {
+                console.error(`Invalid model URL domain in scene config`);
+            }
+        } catch (error) {
+            console.error(`Invalid model URL in scene config`);
+        }
+    }
+    return null;
+};
+
+const validAdtHostSuffixes = [
+    '.digitaltwins.azure.net',
+    '.pp.azuredigitaltwins-ppe.net',
+    '.azuredigitaltwins-test.net'
+];
+
+export const getSanitizedAdtInstanceUrl = (adtInstanceUrl: string): string => {
+    if (adtInstanceUrl) {
+        // remove any unexpected characters
+        const url = getUrlFromString(adtInstanceUrl);
+        if (
+            validAdtHostSuffixes.some((suffix) => url.hostname.endsWith(suffix))
+        ) {
+            return url.href;
+        } else {
+            console.error('Invalid environment URL in query parameter');
+        }
+    }
+    return null;
+};
+
 /** Checking if a given ADX cluster url is a safe url following a certain regex and hostname */
 export const isValidADXClusterUrl = (clusterUrl: string): boolean => {
     const isValidADXClusterHostUrl = (urlPrefix) =>

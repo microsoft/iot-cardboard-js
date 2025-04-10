@@ -61,7 +61,7 @@ class TelemetryService {
      * @param adtInstanceUrl
      */
     static setAdtInstance(adtInstanceUrl: string): void {
-        this.adtInstanceHash = Md5.hashStr(adtInstanceUrl);
+        this.adtInstanceHash = Md5.hashStr(adtInstanceUrl || '');
         logDebugConsole(
             'debug',
             `Updating adt instance hash to ${this.adtInstanceHash}. {adtInstance}`,
@@ -74,7 +74,7 @@ class TelemetryService {
      * @param blobStorageContainerUrl the url for the storage container
      */
     static setStorageContainerUrl(blobStorageContainerUrl: string): void {
-        this.storageContainerHash = Md5.hashStr(blobStorageContainerUrl);
+        this.storageContainerHash = Md5.hashStr(blobStorageContainerUrl || '');
         logDebugConsole(
             'debug',
             `Updating storage URL to ${this.storageContainerHash}. {storageUrl}`,

@@ -75,7 +75,8 @@ import ViewerConfigUtility from '../../Models/Classes/ViewerConfigUtility';
 import {
     createGUID,
     deepCopy,
-    getDebugLogger
+    getDebugLogger,
+    getSanitizedBlobUrl
 } from '../../Models/Services/Utils';
 import {
     DatasourceType,
@@ -929,11 +930,11 @@ const ADT3DSceneBuilderBase: React.FC<IADT3DSceneBuilderCardProps> = (
                         <ADT3DBuilder
                             objectColorUpdated={objectColorUpdated}
                             adapter={adapter as IADTAdapter}
-                            modelUrl={
-                                state.config.configuration?.scenes.find(
-                                    (x) => x.id === sceneId
-                                )?.assets[0].url
-                            }
+                            modelUrl={getSanitizedBlobUrl(
+                                state.config.configuration?.scenes
+                                    .find((x) => x.id === sceneId)
+                                    .assets?.find((asset) => asset.url)?.url
+                            )}
                             onMeshClicked={onMeshClicked}
                             onMeshHovered={onMeshHovered}
                             sceneViewProps={sceneViewProps}

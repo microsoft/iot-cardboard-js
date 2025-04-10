@@ -262,48 +262,49 @@ export default class AzureManagementAdapter implements IAzureManagementAdapter {
             let query = '';
             try {
                 const urlObj = getUrlFromString(urlString);
-                switch (type.toLowerCase()) {
-                    case AzureResourceTypes.DigitalTwinInstance.toLowerCase(): {
-                        query = `properties.hostName =~ '${urlObj.hostname}'`;
-                        break;
+                if (urlObj) {
+                    switch (type.toLowerCase()) {
+                        case AzureResourceTypes.DigitalTwinInstance.toLowerCase(): {
+                            query = `properties.hostName =~ '${urlObj.hostname}'`;
+                            break;
+                        }
+                        case AzureResourceTypes.StorageAccount.toLowerCase():
+                            query = `properties.primaryEndpoints.blob == '${urlObj.href}'`;
+                            break;
+                        case AzureResourceTypes.StorageBlobContainer.toLowerCase(): {
+                            /** if it is Storage Container type resource:
+                             * (1) fetch the parent storage account using Resource Graph api,
+                             * (2) fetch containers using Storage Service provider endpoint
+                             * (3) find the container by its name among those containers
+                             *  */
+                            query = `properties.primaryEndpoints.blob == '${urlObj.origin}/'`;
+                            const storageAccounts: Array<IAzureResource> = await this.fetchAllResources(
+                                adapterMethodSandbox,
+                                token,
+                                {
+                                    type: AzureResourceTypes.StorageAccount,
+                                    query: query
+                                }
+                            );
+                            const resourcesResponse = await this.getContainersByStorageAccountId(
+                                storageAccounts[0].id
+                            );
+                            const containers: Array<IAzureResource> = resourcesResponse.getData();
+                            containers.forEach(
+                                (r) =>
+                                    (r.subscriptionName =
+                                        storageAccounts[0].subscriptionName) // add the subscription name from storage account since /containers service call does not include it in response
+                            );
+                            const container = containers.find(
+                                (c) => '/' + c.name === urlObj.pathname
+                            );
+                            resource = container;
+                            break;
+                        }
+                        default:
+                            break;
                     }
-                    case AzureResourceTypes.StorageAccount.toLowerCase():
-                        query = `properties.primaryEndpoints.blob == '${urlObj.href}'`;
-                        break;
-                    case AzureResourceTypes.StorageBlobContainer.toLowerCase(): {
-                        /** if it is Storage Container type resource:
-                         * (1) fetch the parent storage account using Resource Graph api,
-                         * (2) fetch containers using Storage Service provider endpoint
-                         * (3) find the container by its name among those containers
-                         *  */
-                        query = `properties.primaryEndpoints.blob == '${urlObj.origin}/'`;
-                        const storageAccounts: Array<IAzureResource> = await this.fetchAllResources(
-                            adapterMethodSandbox,
-                            token,
-                            {
-                                type: AzureResourceTypes.StorageAccount,
-                                query: query
-                            }
-                        );
-                        const resourcesResponse = await this.getContainersByStorageAccountId(
-                            storageAccounts[0].id
-                        );
-                        const containers: Array<IAzureResource> = resourcesResponse.getData();
-                        containers.forEach(
-                            (r) =>
-                                (r.subscriptionName =
-                                    storageAccounts[0].subscriptionName) // add the subscription name from storage account since /containers service call does not include it in response
-                        );
-                        const container = containers.find(
-                            (c) => '/' + c.name === urlObj.pathname
-                        );
-                        resource = container;
-                        break;
-                    }
-                    default:
-                        break;
                 }
-
                 if (
                     type.toLowerCase() !==
                         AzureResourceTypes.StorageBlobContainer.toLowerCase() &&
