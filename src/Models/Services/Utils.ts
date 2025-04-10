@@ -946,8 +946,7 @@ const validAdtHostSuffixes = [
 export const getSanitizedAdtInstanceUrl = (adtInstanceUrl: string): string => {
     if (adtInstanceUrl) {
         // remove any unexpected characters
-        // eslint-disable-next-line no-useless-escape
-        const instanceUrl = adtInstanceUrl.replace(/[^a-zA-Z0-9-:.\/]/g, '');
+        const instanceUrl = adtInstanceUrl.replace(/[^a-zA-Z0-9-:./]|\/$/g, '');
         const isValidEid = validAdtHostSuffixes.some((suffix) =>
             instanceUrl.endsWith(suffix)
         );
