@@ -74,7 +74,7 @@ class TelemetryService {
      * @param blobStorageContainerUrl the url for the storage container
      */
     static setStorageContainerUrl(blobStorageContainerUrl: string): void {
-        this.storageContainerHash = Md5.hashStr(blobStorageContainerUrl);
+        this.storageContainerHash = Md5.hashStr(blobStorageContainerUrl || '');
         logDebugConsole(
             'debug',
             `Updating storage URL to ${this.storageContainerHash}. {storageUrl}`,
