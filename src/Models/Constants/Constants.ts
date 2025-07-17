@@ -372,6 +372,8 @@ export const CardboardClassNamePrefix = 'cb';
 
 export const globeUrl =
     'https://iotcardboardjsresources.blob.core.windows.net/public/Globe.glb';
+export const devGlobeUrl =
+    'https://cardboardresources.blob.core.windows.net/public/Globe.glb';
 
 export const DTDLPropertyIconographyMap = {
     boolean: {

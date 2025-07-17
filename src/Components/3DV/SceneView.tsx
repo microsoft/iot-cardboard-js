@@ -63,6 +63,7 @@ import {
     CameraInteraction,
     DefaultViewerModeObjectColor,
     globeUrl,
+    devGlobeUrl,
     IADTBackgroundColor,
     TransparentTexture,
     ViewerModeObjectColors,
@@ -244,7 +245,12 @@ function SceneView(props: ISceneViewProps, ref) {
     }
 
     debugLog('debug', 'debug', 'SceneView Render');
-    const url = modelUrl === 'Globe' ? globeUrl : modelUrl;
+    const url =
+        modelUrl === 'Globe'
+            ? process.env.NODE_ENV === 'production'
+                ? globeUrl
+                : devGlobeUrl
+            : modelUrl;
 
     const preProcessMeshesOnLoad = () => {
         let uniqueNumber = 0;
