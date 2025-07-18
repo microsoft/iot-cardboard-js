@@ -67,7 +67,8 @@ import {
     IADTBackgroundColor,
     TransparentTexture,
     ViewerModeObjectColors,
-    ViewerObjectStyle
+    ViewerObjectStyle,
+    ADT_ALLOW_LISTED_URLS
 } from '../../Models/Constants';
 import { getProgressStyles, getSceneViewStyles } from './SceneView.styles';
 import { withErrorBoundary } from '../../Models/Context/ErrorBoundary';
@@ -247,9 +248,9 @@ function SceneView(props: ISceneViewProps, ref) {
     debugLog('debug', 'debug', 'SceneView Render');
     const url =
         modelUrl === 'Globe'
-            ? process.env.NODE_ENV === 'production'
-                ? globeUrl
-                : devGlobeUrl
+            ? window.location.origin === ADT_ALLOW_LISTED_URLS.DEV
+                ? devGlobeUrl
+                : globeUrl
             : modelUrl;
 
     const preProcessMeshesOnLoad = () => {
