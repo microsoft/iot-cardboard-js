@@ -371,7 +371,7 @@ export const intellisenseMultilineBreakpoint = 40;
 export const CardboardClassNamePrefix = 'cb';
 
 export const globeUrl =
-    'https://iotcardboardjsresources.blob.core.windows.net/public/Globe.glb';
+    'https://iotcardboardjsstorage.blob.core.windows.net/public/Globe.glb';
 export const devGlobeUrl =
     'https://cardboardresources.blob.core.windows.net/public/Globe.glb';
 
