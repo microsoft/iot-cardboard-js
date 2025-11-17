@@ -28,7 +28,7 @@ export const LinkWidget: React.FC<IProp> = ({ widget }) => {
               );
 
     const isSafeUrl = (url: string): boolean => {
-        // making sure the provided value is a real URL
+        // making sure the provided value is a real URL and safe to use
         try {
             const parsed = new URL(url);
             return ['http:', 'https:'].includes(parsed.protocol);
