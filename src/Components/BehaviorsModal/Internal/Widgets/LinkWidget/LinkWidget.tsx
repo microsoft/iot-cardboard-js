@@ -26,6 +26,16 @@ export const LinkWidget: React.FC<IProp> = ({ widget }) => {
                   wrapTextInTemplateString(linkExpression),
                   twins
               );
+
+    const isSafeUrl = (url: string): boolean => {
+        try {
+            const parsed = new URL(url);
+            return ['http:', 'https:'].includes(parsed.protocol);
+        } catch {
+            return false;
+        }
+    };
+
     const styles = getStyles();
     return (
         <div className={styles.linkContainer}>
@@ -33,7 +43,11 @@ export const LinkWidget: React.FC<IProp> = ({ widget }) => {
                 {label}
             </span>
             <PrimaryButton
-                onClick={() => window.open(link, '_blank')}
+                onClick={() => {
+                    if (isSafeUrl(link)) {
+                        window.open(link, '_blank');
+                    }
+                }}
                 className={styles.linkButton}
                 title={link}
             >
