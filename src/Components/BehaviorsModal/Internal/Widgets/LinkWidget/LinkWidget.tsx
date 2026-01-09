@@ -4,7 +4,8 @@ import { useTranslation } from 'react-i18next';
 import { BehaviorModalMode } from '../../../../../Models/Constants';
 import {
     wrapTextInTemplateString,
-    parseLinkedTwinExpression
+    parseLinkedTwinExpression,
+    isSafeUrl
 } from '../../../../../Models/Services/Utils';
 import { ILinkWidget } from '../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { BehaviorsModalContext } from '../../../BehaviorsModal';
@@ -26,16 +27,6 @@ export const LinkWidget: React.FC<IProp> = ({ widget }) => {
                   wrapTextInTemplateString(linkExpression),
                   twins
               );
-
-    const isSafeUrl = (url: string): boolean => {
-        // making sure the provided value is a real URL and it parses
-        try {
-            const parsed = new URL(url);
-            return ['http:', 'https:'].includes(parsed.protocol);
-        } catch {
-            return false;
-        }
-    };
 
     const styles = getStyles();
     return (

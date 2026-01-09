@@ -33,7 +33,8 @@ import {
 } from '../../../../../../Models/SharedUtils/DataHistoryUtils';
 import {
     capitalizeFirstLetter,
-    deepCopy
+    deepCopy,
+    isSafeUrl
 } from '../../../../../../Models/Services/Utils';
 import { TelemetryEvents } from '../../../../../../Models/Constants/TelemetryConstants';
 import { TimeSeriesViewerMode } from '../../TimeSeriesViewer.types';
@@ -167,7 +168,9 @@ const TimeSeriesCommandBar: React.FC<ITimeSeriesCommandBarProps> = (props) => {
                       iconOnly: true,
                       iconProps: { iconName: 'OpenInNewWindow' },
                       onClick: () => {
-                          window.open(viewerModeProps.deeplink, '_blank');
+                          if (isSafeUrl(viewerModeProps.deeplink)) {
+                              window.open(viewerModeProps.deeplink, '_blank');
+                          }
                           const telemetry =
                               TelemetryEvents.Tools.DataHistoryExplorer
                                   .UserAction.OpenSeriesInAdx;

@@ -51,6 +51,7 @@ import {
     IDataHistoryWidgetStyles
 } from './DataHistoryWidget.types';
 import useMaxDateInMillis from '../../../../../Models/Hooks/useMaxDateInMillis';
+import { isSafeUrl } from '../../../../../Models/Services/Utils';
 
 export const getDataHistoryWidgetClassNames = classNamesFunction<
     IDataHistoryWidgetStyleProps,
@@ -212,7 +213,9 @@ const DataHistoryWidget: React.FC<IDataHistoryWidgetProps> = ({
                     key: 'open-link',
                     text: t('widgets.dataHistory.openQuery'),
                     onClick: () => {
-                        window.open(deeplink, '_blank');
+                        if (isSafeUrl(deeplink)) {
+                            window.open(deeplink, '_blank');
+                        }
                     },
                     iconProps: { iconName: 'OpenInNewWindow' },
                     className: classNames.menuItem
