@@ -990,6 +990,16 @@ export const isValidADXClusterUrl = (clusterUrl: string): boolean => {
     return false;
 };
 
+export const isSafeUrl = (url: string): boolean => {
+    // making sure the provided value is a real URL and it parses
+    try {
+        const parsed = new URL(url);
+        return ['http:', 'https:'].includes(parsed.protocol);
+    } catch {
+        return false;
+    }
+};
+
 /**
  * Takes a number and returns a string representing the formatted number
  * @param val, number that is to be formatted
