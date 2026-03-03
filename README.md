@@ -3,9 +3,9 @@
 ## What is **iot-cardboard-js**?
 **iot-cardboard-js** or *Cardboard* is an open source React component library for creating internet of things (IoT) web experiences.  
 
-The components in Cardboard are also used for building the experiences in [Azure Digital Twins 3D Scenes Studio](https://explorer.digitaltwins.azure.net/3dscenes/demo), and can be leveraged by Azure Digital Twins customers in their own applications.  Learn more about leveraging Cardboard components for 3D Scenes in the [wiki](https://github.com/microsoft/iot-cardboard-js/wiki/Embedding-3D-Scenes).
+The components in Cardboard are also used for building the experiences in [Azure Digital Twins 3D Scenes Studio](https://explorer.digitaltwins.azure.net/3dscenes/demo), and can be leveraged by Azure Digital Twins customers in their own applications. Learn more about leveraging Cardboard components for 3D Scenes in the [wiki](https://github.com/microsoft/iot-cardboard-js/wiki/Embedding-3D-Scenes).
 
-The 3D visualization components in this library leverage the fantastic [BabylonJS](https://www.babylonjs.com/) library under the hood.  If you haven't used it yet, we can't say enough great things about the library, definitely check it out!
+The 3D visualization components in this library leverage the fantastic [BabylonJS](https://www.babylonjs.com/) library under the hood. If you haven't used it yet, we can't say enough great things about the library, definitely check it out!
 
 Viewer Mode
 ![image](https://user-images.githubusercontent.com/57726991/173465604-844492d1-89c8-4378-8bd7-131ef966002a.png)
@@ -14,7 +14,7 @@ Builder mode
 ![image](https://user-images.githubusercontent.com/57726991/173465578-93eb1b54-e1b5-40a6-944c-9185c5fb14ca.png)
 
 ## Storybook 📖
-This project is developed using Storybook - an open source tool for building UI components in isolation.  Our [hosted storybook](https://main--601c6b2fcd385c002100f14c.chromatic.com) showcases the current library of **iot-cardboard-js** components.  [Learn more about Storybook](https://storybook.js.org/).
+This project is developed using Storybook - an open source tool for building UI components in isolation. Our [hosted storybook](https://main--601c6b2fcd385c002100f14c.chromatic.com) showcases the current library of **iot-cardboard-js** components. [Learn more about Storybook](https://storybook.js.org/).
 > Note: stories which require authentication or API interaction can be found in the local development storybook. 
 
 ## Using **iot-cardboard-js** components 🔥
@@ -90,7 +90,7 @@ import StandalonePropertyInspector from '@microsoft/iot-cardboard-js/Components/
 
 ### Examples
 
-Storybook stories are the best way to learn how to use our components.  Files ending in `*.stories.tsx` showcase components set up with mock data.  While files ending in `*.stories.local.tsx` showcase components which authenticate and communicate with APIs. Stories are a great way to learn about the different ways to consume each of our components.
+Storybook stories are the best way to learn how to use our components. Files ending in `*.stories.tsx` showcase components set up with mock data.  While files ending in `*.stories.local.tsx` showcase components which authenticate and communicate with APIs. Stories are a great way to learn about the different ways to consume each of our components.
 
 Check out the [KeyValuePairCard](https://github.com/microsoft/iot-cardboard-js/blob/main/src/Cards/KeyValuePairCard/KeyValuePairCard.stories.tsx) stories for an example of this.
 
