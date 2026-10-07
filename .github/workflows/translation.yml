@@ -12,14 +12,14 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - name: 'Checkout repo'
-              uses: actions/checkout@v2
+              uses: actions/checkout@0717577d45739eb3c851188b29f50ed6c0b2194e # v2.8.0
 
             - name: Install localization package
               run: npm install -g i18n-auto-translation-msnyder
 
             - name: Translate files
               id: translate
-              uses: msnyder-msft/i18n-auto-translation-action@v1.0.1
+              uses: msnyder-msft/i18n-auto-translation-action@fd29cc76725ad75ed2c8199fe95921b457f7f448 # v1.0.1
               with:
                   provider: 'azure-official'
                   subscriptionKey: '${{ secrets.TRANSLATOR_SUBSCRIPTION_KEY }}'
@@ -34,7 +34,7 @@ jobs:
               run: echo ::set-output name=current_branch::${GITHUB_REF#refs/*/}
 
             - name: Commit changes
-              uses: devops-infra/action-commit-push@master
+              uses: devops-infra/action-commit-push@f066ea8e19660de57d3d3a4a0b9d294ea2612e20 # v1.5.0
               with:
                   github_token: '${{ secrets.GITHUB_TOKEN }}'
                   commit_prefix: '[Auto] '

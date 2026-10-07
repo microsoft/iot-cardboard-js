@@ -10,10 +10,10 @@ jobs:
     chromatic-deployment:
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v2
+            - uses: actions/checkout@0717577d45739eb3c851188b29f50ed6c0b2194e # v2.8.0
               with:
                   fetch-depth: 0 # 👈 Required to retrieve git history
-            - uses: actions/setup-node@v3
+            - uses: actions/setup-node@3235b876344d2a9aa001b8d1453c930bba69e610 # v3.9.1
               with:
                   node-version: '18.18.0'
                   cache: 'npm'
@@ -23,7 +23,7 @@ jobs:
               run: npm install --legacy-peer-deps
 
             - name: Publish to chromatic
-              uses: chromaui/action@v1
+              uses: chromaui/action@c93e0bc3a63aa176e14a75b61a31847cbfdd341c # v11.27.0
               # Chromatic GitHub Action options
               with:
                   token: ${{ secrets.GITHUB_TOKEN }}

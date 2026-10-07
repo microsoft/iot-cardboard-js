@@ -8,8 +8,8 @@ jobs:
     lint:
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v2
-            - uses: actions/setup-node@v3
+            - uses: actions/checkout@0717577d45739eb3c851188b29f50ed6c0b2194e # v2.8.0
+            - uses: actions/setup-node@3235b876344d2a9aa001b8d1453c930bba69e610 # v3.9.1
               with:
                   node-version: '18.18.0'
                   cache: 'npm'
@@ -24,8 +24,8 @@ jobs:
     build:
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v2
-            - uses: actions/setup-node@v3
+            - uses: actions/checkout@0717577d45739eb3c851188b29f50ed6c0b2194e # v2.8.0
+            - uses: actions/setup-node@3235b876344d2a9aa001b8d1453c930bba69e610 # v3.9.1
               with:
                   node-version: '18.18.0'
                   cache: 'npm'
@@ -42,8 +42,8 @@ jobs:
     test:
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v2
-            - uses: actions/setup-node@v3
+            - uses: actions/checkout@0717577d45739eb3c851188b29f50ed6c0b2194e # v2.8.0
+            - uses: actions/setup-node@3235b876344d2a9aa001b8d1453c930bba69e610 # v3.9.1
               with:
                   node-version: '18.18.0'
                   cache: 'npm'
