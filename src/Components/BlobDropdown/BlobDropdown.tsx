@@ -19,9 +19,11 @@ import { SupportedBlobFileTypes } from '../../Models/Constants/Enums';
 import prettyBytes from 'pretty-bytes';
 import { ValidContainerHostSuffixes } from '../../Models/Constants/Constants';
 import {
-    getUrlFromString,
-    removeProtocolPartFromUrl
+    getSupportedFileExtension,
+    getUrlFromString
 } from '../../Models/Services/Utils';
+
+const defaultFileTypes = Object.values(SupportedBlobFileTypes);
 
 const BlobDropdown: React.FC<BlobDropdownProps> = ({
     theme,
@@ -32,7 +34,7 @@ const BlobDropdown: React.FC<BlobDropdownProps> = ({
     hasLabel = true,
     label,
     placeholder,
-    fileTypes = Object.values(SupportedBlobFileTypes),
+    fileTypes = defaultFileTypes,
     isRequired = false,
     onChange,
     onLoad,
@@ -89,6 +91,12 @@ const BlobDropdown: React.FC<BlobDropdownProps> = ({
     const options: Array<IComboBoxOption> = useMemo(
         () =>
             files
+                .filter((f) =>
+                    getSupportedFileExtension(
+                        getUrlFromString(f.Path),
+                        fileTypes
+                    )
+                )
                 .map(
                     (f: IStorageBlob) =>
                         ({
@@ -98,15 +106,22 @@ const BlobDropdown: React.FC<BlobDropdownProps> = ({
                         } as IComboBoxOption)
                 )
                 .concat(
-                    customUrls.map(
-                        (c: string) =>
-                            ({
-                                key: c,
-                                text: c
-                            } as IComboBoxOption)
-                    )
+                    customUrls
+                        .filter((c) =>
+                            getSupportedFileExtension(
+                                getUrlFromString(c),
+                                fileTypes
+                            )
+                        )
+                        .map(
+                            (c: string) =>
+                                ({
+                                    key: c,
+                                    text: c
+                                } as IComboBoxOption)
+                        )
                 ),
-        [files, customUrls]
+        [files, customUrls, fileTypes]
     );
 
     const FileIcon = ({ file }) => {
@@ -197,19 +212,21 @@ const BlobDropdown: React.FC<BlobDropdownProps> = ({
         }
     }, []);
 
-    // this validation can be improved as necessary
-    const isValidUrlStr = useCallback((urlStr: string) => {
-        try {
-            const urlObj = getUrlFromString(urlStr);
-            return (
-                ValidContainerHostSuffixes.some((suffix) =>
-                    urlObj.hostname.endsWith(suffix)
-                ) && fileTypes.some((suffix) => urlObj.href.endsWith(suffix))
-            );
-        } catch (error) {
-            return false;
-        }
-    }, []);
+    const isValidUrlStr = useCallback(
+        (urlStr: string) => {
+            try {
+                const urlObj = getUrlFromString(urlStr);
+                return (
+                    ValidContainerHostSuffixes.some((suffix) =>
+                        urlObj.hostname.endsWith(suffix)
+                    ) && !!getSupportedFileExtension(urlObj, fileTypes)
+                );
+            } catch (error) {
+                return false;
+            }
+        },
+        [fileTypes]
+    );
 
     const handleChange = useCallback(
         (option, value) => {
@@ -217,11 +234,9 @@ const BlobDropdown: React.FC<BlobDropdownProps> = ({
             let newVal = value ?? option?.text;
             if (value && isValidUrlStr(newVal)) {
                 if (!newVal.startsWith('https://')) {
-                    if (newVal.startsWith('http://')) {
-                        // if it starts with an unsecure protocol scheme part of 'http://' instead, remove that part before prepending secure 'https://' part
-                        newVal = removeProtocolPartFromUrl(newVal);
-                    }
-                    newVal = 'https://' + newVal;
+                    const urlObj = getUrlFromString(newVal);
+                    urlObj.protocol = 'https:';
+                    newVal = urlObj.href;
                 }
                 const existingFile = files.find((f) => f.Path === newVal);
                 if (existingFile) {
@@ -240,7 +255,7 @@ const BlobDropdown: React.FC<BlobDropdownProps> = ({
                 onChange(option.data?.Path ?? option.text);
             }
         },
-        [customUrls, files]
+        [customUrls, files, isValidUrlStr, onChange]
     );
 
     const customUrlInputError = useMemo(
@@ -250,7 +265,7 @@ const BlobDropdown: React.FC<BlobDropdownProps> = ({
             !isValidUrlStr(valueToEdit)
                 ? t('blobDropdown.invalidBlobUrlPath')
                 : undefined,
-        [valueToEdit]
+        [valueToEdit, inputOrOption, isValidUrlStr, t]
     );
 
     return (

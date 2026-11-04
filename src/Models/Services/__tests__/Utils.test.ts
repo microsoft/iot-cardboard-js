@@ -14,7 +14,8 @@ import {
     AzureResourceDisplayFields,
     AzureResourceTypes,
     DurationUnits,
-    IAzureResource
+    IAzureResource,
+    Supported3DFileTypes
 } from '../../Constants';
 import {
     areResourceValuesEqual,
@@ -24,6 +25,7 @@ import {
     getNameOfResource,
     getResourceUrl,
     getRoleIdsFromRoleAssignments,
+    getSupportedFileExtension,
     isDefined,
     sortCaseInsensitive
 } from '../Utils';
@@ -31,6 +33,52 @@ import {
 afterEach(cleanup);
 
 describe('Utils', () => {
+    describe('getSupportedFileExtension', () => {
+        test.each([
+            [
+                'https://storage.blob.core.windows.net/scenes/model.glb?sig=value',
+                '.glb'
+            ],
+            [
+                'https://storage.blob.core.windows.net/scenes/MODEL.GLTF#camera',
+                '.gltf'
+            ],
+            [
+                'https://storage.blob.core.windows.net/scenes/model.glb?format=.babylon',
+                '.glb'
+            ],
+            [
+                'https://storage.blob.core.windows.net/scenes/scene.babylon?format=.glb',
+                null
+            ],
+            [
+                'https://storage.blob.core.windows.net/scenes/scene.babylon#format=.glb',
+                null
+            ],
+            [
+                'https://storage.blob.core.windows.net/scenes/scene.glb.babylon',
+                null
+            ],
+            ['https://storage.blob.core.windows.net/scenes/notglb', null]
+        ])('checks the pathname of %s', (url, extension) => {
+            expect(
+                getSupportedFileExtension(
+                    new URL(url),
+                    Object.values(Supported3DFileTypes)
+                )
+            ).toBe(extension);
+        });
+
+        test('rejects an unparseable URL', () => {
+            expect(
+                getSupportedFileExtension(
+                    null,
+                    Object.values(Supported3DFileTypes)
+                )
+            ).toBeNull();
+        });
+    });
+
     describe('formatTimeInRelevantUnits', () => {
         test('invalid input returns 0 milliseconds', () => {
             // ARRANGE
