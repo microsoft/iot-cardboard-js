@@ -43,7 +43,11 @@ afterAll(() => {
 beforeEach(() => {
     jest.clearAllMocks();
     mockAxios.mockResolvedValue({
-        headers: { 'last-modified': 'Tue, 03 Nov 2026 00:00:00 GMT' }
+        data: null,
+        status: 200,
+        statusText: 'OK',
+        headers: { 'last-modified': 'Tue, 03 Nov 2026 00:00:00 GMT' },
+        config: {}
     });
     loadSpy = jest.spyOn(BABYLON.SceneLoader, 'Load').mockReturnValue(null);
 });
