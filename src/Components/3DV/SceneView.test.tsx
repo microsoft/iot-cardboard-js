@@ -42,6 +42,7 @@ afterAll(() => {
 
 beforeEach(() => {
     jest.clearAllMocks();
+    jest.spyOn(console, 'error').mockImplementation(jest.fn());
     mockAxios.mockResolvedValue({
         data: null,
         status: 200,
@@ -72,22 +73,30 @@ test.each(['scene.babylon?format=.glb', 'scene.glb.babylon?format=.glb'])(
         expect(mockAxios).not.toHaveBeenCalled();
         expect(BABYLON.Engine).not.toHaveBeenCalled();
         expect(loadSpy).not.toHaveBeenCalled();
+        expect(console.error).toHaveBeenCalledWith(
+            'Error loading model: unsupported 3D asset file extension.'
+        );
     }
 );
 
 test.each([
     [
-        'https://storage.blob.core.windows.net/scenes/model.glb?sig=keep%2Bvalue&path=/native.babylon',
-        'https://storage.blob.core.windows.net/scenes/model.glb?sig=keep%2Bvalue&path=/native.babylon&2026-11-03T00:00:00.000Z',
+        'https://storage.blob.core.windows.net/scenes/model.glb?sig=keep%2Bvalue%2Fmore%3D&path=/native.babylon#camera',
+        'https://storage.blob.core.windows.net/scenes/model.glb?sig=keep%2Bvalue%2Fmore%3D&path=%2Fnative.babylon&lastModified=2026-11-03T00%3A00%3A00.000Z',
         '.glb'
     ],
     [
         'https://storage.blob.core.windows.net/scenes/MODEL.GLTF#camera',
-        'https://storage.blob.core.windows.net/scenes/MODEL.GLTF?2026-11-03T00:00:00.000Z',
+        'https://storage.blob.core.windows.net/scenes/MODEL.GLTF?lastModified=2026-11-03T00%3A00%3A00.000Z',
         '.gltf'
+    ],
+    [
+        'https://storage.blob.core.windows.net/scenes/model.glb?lastModified=old&sig=keep%2Bvalue',
+        'https://storage.blob.core.windows.net/scenes/model.glb?lastModified=2026-11-03T00%3A00%3A00.000Z&sig=keep%2Bvalue',
+        '.glb'
     ]
 ])(
-    'pins the safe loader for %s and preserves its query',
+    'pins the safe loader for %s and preserves its query values',
     async (url, loadedUrl, extension) => {
         render(<SceneView modelUrl={url} />);
 
@@ -115,10 +124,12 @@ test('fails closed when the glTF loader is unavailable', async () => {
     expect(getToken).not.toHaveBeenCalled();
     expect(mockAxios).not.toHaveBeenCalled();
     expect(loadSpy).not.toHaveBeenCalled();
+    expect(console.error).toHaveBeenCalledWith(
+        'Error loading model: the required glTF loader is unavailable.'
+    );
 });
 
 test('shows a normal loading error when a supported asset fails glTF parsing', async () => {
-    jest.spyOn(console, 'error').mockImplementation(jest.fn());
     render(
         <SceneView modelUrl="https://storage.blob.core.windows.net/scenes/model.glb" />
     );
@@ -135,7 +146,6 @@ test('shows a normal loading error when a supported asset fails glTF parsing', a
 test.each(['glb', 'gltf'])(
     'does not deserialize native Babylon actions in a renamed %s asset',
     async (extension) => {
-        jest.spyOn(console, 'error').mockImplementation(jest.fn());
         const parseActions = jest.spyOn(BABYLON.ActionManager, 'Parse');
         const activatedPlugin = jest.fn();
         const observer = BABYLON.SceneLoader.OnPluginActivatedObservable.add(
