@@ -1,5 +1,5 @@
 import * as BABYLON from '@babylonjs/core/Legacy/legacy';
-import '@babylonjs/loaders';
+import '@babylonjs/loaders/glTF';
 import * as GUI from '@babylonjs/gui';
 import {
     MessageBar,
@@ -20,6 +20,8 @@ import {
     createGUID,
     deepCopy,
     getDebugLogger,
+    getSupportedFileExtension,
+    getUrlFromString,
     hexToColor4
 } from '../../Models/Services/Utils';
 import {
@@ -68,7 +70,8 @@ import {
     TransparentTexture,
     ViewerModeObjectColors,
     ViewerObjectStyle,
-    ADT_ALLOW_LISTED_URLS
+    ADT_ALLOW_LISTED_URLS,
+    Supported3DFileTypes
 } from '../../Models/Constants';
 import { getProgressStyles, getSceneViewStyles } from './SceneView.styles';
 import { withErrorBoundary } from '../../Models/Context/ErrorBoundary';
@@ -127,24 +130,33 @@ async function loadPromise(
     filename: string,
     engine: BABYLON.Engine,
     onProgress: (event: BABYLON.ISceneLoaderProgressEvent) => void,
-    onError: (scene: BABYLON.Scene, message: string, exception?: any) => void
+    onError: (scene: BABYLON.Scene, message: string, exception?: any) => void,
+    pluginExtension: string
 ): Promise<BABYLON.Scene> {
     try {
-        let mod = await getModifiedTime(root + filename);
-        mod = mod ? '?' + mod : '';
+        const assetUrl = new URL(root + filename);
+        assetUrl.hash = '';
+        const modifiedTime = await getModifiedTime(assetUrl.href);
+        if (modifiedTime) {
+            assetUrl.searchParams.set('lastModified', modifiedTime);
+        }
+        const n = assetUrl.pathname.lastIndexOf('/') + 1;
+        const assetFilename = assetUrl.pathname.substring(n) + assetUrl.search;
         return new Promise((resolve) => {
             BABYLON.Database.IDBStorageEnabled = true;
             engine.disableManifestCheck = true;
             BABYLON.SceneLoader.ShowLoadingScreen = false;
+            // Pin the glTF loader so native Babylon actions are never deserialized.
             BABYLON.SceneLoader.Load(
                 root,
-                filename + mod,
+                assetFilename,
                 engine,
                 (scene) => {
                     resolve(scene);
                 },
                 (e) => onProgress(e),
-                (s, m, e) => onError(s, m, e)
+                (s, m, e) => onError(s, m, e),
+                pluginExtension
             );
         });
     } catch (e) {
@@ -828,6 +840,25 @@ function SceneView(props: ISceneViewProps, ref) {
     const init = useCallback(() => {
         debugLog('debug', '**************init');
 
+        const modelUrlObject = getUrlFromString(url);
+        const pluginExtension = getSupportedFileExtension(
+            modelUrlObject,
+            Object.values(Supported3DFileTypes)
+        );
+        if (
+            !pluginExtension ||
+            !BABYLON.SceneLoader.IsPluginForExtensionAvailable(pluginExtension)
+        ) {
+            console.error(
+                !pluginExtension
+                    ? 'Error loading model: unsupported 3D asset file extension.'
+                    : 'Error loading model: the required glTF loader is unavailable.'
+            );
+            setLoadingError('generic');
+            setIsLoading(false);
+            return sceneRef.current;
+        }
+
         async function load(
             getToken: () => Promise<string>,
             root: string,
@@ -858,7 +889,8 @@ function SceneView(props: ISceneViewProps, ref) {
                 engineRef.current,
                 (e: any) => onProgress(e),
                 (s: any, m: any, e: any) => {
-                    if (e.innerError.request?._xhr.status === 0) {
+                    // glTF parsing errors may not include an underlying HTTP request.
+                    if (e?.innerError?.request?._xhr?.status === 0) {
                         // When response is undefined or xhr status is 0 axios call returns as 'Network error', this could be a CORS issue, invalid blob url or a dropped internet connection. It is not possible for us to know.
                         console.error(
                             'Error loading model. This could be a CORS issue, invalid blob url or network error.'
@@ -875,7 +907,8 @@ function SceneView(props: ISceneViewProps, ref) {
                     }
                     success = false;
                     setIsLoading(false);
-                }
+                },
+                pluginExtension
             );
 
             // TODO: Wrap above promise in an AbortController to cancel in case of changing scenes before the promise resolves
@@ -1007,9 +1040,14 @@ function SceneView(props: ISceneViewProps, ref) {
             ) as HTMLCanvasElement; // Get the canvas element
             const engine = new BABYLON.Engine(canvas, true, { stencil: true }); // Generate the BABYLON 3D engine
             engineRef.current = engine;
-            if (modelUrl) {
-                const n = url.lastIndexOf('/') + 1;
-                load(getToken, url.substring(0, n), url.substring(n));
+            if (modelUrlObject) {
+                const n = modelUrlObject.pathname.lastIndexOf('/') + 1;
+                load(
+                    getToken,
+                    modelUrlObject.origin +
+                        modelUrlObject.pathname.substring(0, n),
+                    modelUrlObject.pathname.substring(n) + modelUrlObject.search
+                );
             }
         }
 

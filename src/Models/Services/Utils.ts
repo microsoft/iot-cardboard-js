@@ -918,6 +918,17 @@ export const getUrlFromString = (urlString: string): URL => {
     }
 };
 
+export const getSupportedFileExtension = (
+    url: URL | null,
+    fileTypes: Array<string>
+): string | null => {
+    const pathname = url?.pathname.toLowerCase();
+    const fileType = fileTypes.find((suffix) =>
+        pathname?.endsWith(`.${suffix.toLowerCase()}`)
+    );
+    return fileType ? `.${fileType.toLowerCase()}` : null;
+};
+
 export const getSanitizedBlobUrl = (
     storageUrl: string | null
 ): string | null => {
